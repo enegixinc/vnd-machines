@@ -1,0 +1,51 @@
+{
+  "name": "magex-connector",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/backend/magex-connector/src",
+  "projectType": "library",
+  "release": {
+    "version": {
+      "generatorOptions": {
+        "packageRoot": "dist\\{projectRoot}",
+        "currentVersionResolver": "git-tag"
+      }
+    }
+  },
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/backend/magex-connector",
+        "main": "libs/backend/magex-connector/src/index.ts",
+        "tsConfig": "libs/backend/magex-connector/tsconfig.lib.json",
+        "assets": ["libs/backend/magex-connector/*.md"]
+      }
+    },
+    "nx-release-publish": {
+      "options": {
+        "packageRoot": "dist\\{projectRoot}"
+      }
+    },
+    "convert": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "p2o {projectRoot}/postman-spec.json -f {projectRoot}/openapi-spec.yml",
+        "color": true
+      }
+    },
+    "generate": {
+      "executor": "nx:run-commands",
+      "dependsOn": [
+        {
+          "target": "convert"
+        }
+      ],
+      "options": {
+        "command": "openapi-ts --input {projectRoot}/openapi-spec.yml --output {projectRoot}/gen --name MagexConnector --client axios",
+        "color": true
+      }
+    }
+  }
+}

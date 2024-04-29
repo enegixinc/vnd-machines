@@ -1,0 +1,1298 @@
+openapi: 3.0.0
+info:
+  title: VND API
+  version: 1.0.0
+servers:
+  - url: http://{{baseurl}}
+components:
+  securitySchemes:
+    noauthAuth:
+      type: http
+      scheme: noauth
+tags:
+  - name: Auth
+  - name: Machines
+  - name: Products
+  - name: Categories
+  - name: Reports
+  - name: Orders
+    description: Transactions and order details
+  - name: Users
+  - name: Stocking
+  - name: Brands
+paths:
+  /users/login:
+    post:
+      tags:
+        - Auth
+      summary: Login
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: meshari.alobaidi@tryvnd.com
+                password:
+                  type: string
+                  example: 3d55e04b
+      responses:
+        '200':
+          description: OK
+          headers:
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            ETag:
+              schema:
+                type: string
+                example: W/"988-CusOgnjLO/gyDHRw8HAuxUBn/ik"
+            Vary:
+              schema:
+                type: string
+                example: Origin
+            Server:
+              schema:
+                type: string
+                example: Microsoft-IIS/10.0
+            X-Powered-By:
+              schema:
+                type: string
+                example: ASP.NET
+            Access-Control-Allow-Credentials:
+              schema:
+                type: boolean
+                example: 'true'
+            Set-Cookie:
+              schema:
+                type: string
+                example: >-
+                  refresh-token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1lc2hhcmkuYWxvYmFpZGlAdHJ5dm5kLmNvbSIsImlkIjoiNjU3YzRlN2JiMGYyODkxMjI0ZDVlOWIwIiwiY291bnQiOjAsImlhdCI6MTcxNDQxMDA3NSwiZXhwIjoxNzE1MDE0ODc1fQ.6K6A1lIZrPqZh7YL00RSbwIjzF6bc6uIYbi8ajVCAb0;
+                  Max-Age=315360000; Path=/; Expires=Thu, 27 Apr 2034 17:01:15
+                  GMT; HttpOnly
+            Date:
+              schema:
+                type: string
+                example: Mon, 29 Apr 2024 17:01:15 GMT
+            Content-Length:
+              schema:
+                type: integer
+                example: '2440'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                result:
+                  features:
+                    additionPrice: false
+                    disablePromo: false
+                    disableMR: false
+                    extra: false
+                    disableAudio: true
+                    disablePlanogram: false
+                    disableAlert: false
+                    advanced: false
+                    temperature: true
+                    alertCustomization: false
+                    badges: false
+                    proposal: false
+                  limits:
+                    view_proposal: true
+                    edit_proposal: true
+                    view_stock: true
+                    view_machine: true
+                    edit_machine: true
+                    view_prod: true
+                    edit_prod: true
+                    view_cate: true
+                    edit_cate: true
+                    view_brand: true
+                    edit_brand: true
+                    view_receipt: true
+                    edit_receipt: true
+                    view_ss: true
+                    edit_ss: true
+                    edit_group: true
+                    edit_user: true
+                    view_plano: true
+                    edit_plano: true
+                    view_promo: true
+                    edit_promo: true
+                    view_report: true
+                    view_trans: true
+                  role: User
+                  fullAccess: true
+                  resetLink: ''
+                  count: 0
+                  theme: '0'
+                  group: []
+                  langs: []
+                  lang1: ar
+                  lang2: ''
+                  lang3: ''
+                  mfa: false
+                  currency:
+                    code: KWD
+                    name: Kuwaiti Dinar
+                    symbol: د.ك
+                  _id: 657c4e7bb0f2891224d5e9b0
+                  firstname: Meshari
+                  lastname: Alobaidi
+                  email: meshari.alobaidi@tryvnd.com
+                  password: $2b$10$ze90mcDfXyIGRiGFlP9Y..HFTYNbpEl7sx0rZS5m95etNTvuIfLfO
+                  email2: null
+                  dba: false
+                  stocking: 11715
+                  stocking_write: false
+                  referTo: tryvnd@point24h.com
+                  createdAt: '2023-12-15T13:02:51.488Z'
+                  updatedAt: '2023-12-15T13:02:51.488Z'
+                  __v: 0
+                accessToken: >-
+                  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiTWVzaGFyaSIsInJvbGUiOiJVc2VyIiwiZW1haWwiOiJtZXNoYXJpLmFsb2JhaWRpQHRyeXZuZC5jb20iLCJmdWxsQWNjZXNzIjp0cnVlLCJsaW1pdHMiOnsidmlld19wcm9wb3NhbCI6dHJ1ZSwiZWRpdF9wcm9wb3NhbCI6dHJ1ZSwidmlld19zdG9jayI6dHJ1ZSwidmlld19tYWNoaW5lIjp0cnVlLCJlZGl0X21hY2hpbmUiOnRydWUsInZpZXdfcHJvZCI6dHJ1ZSwiZWRpdF9wcm9kIjp0cnVlLCJ2aWV3X2NhdGUiOnRydWUsImVkaXRfY2F0ZSI6dHJ1ZSwidmlld19icmFuZCI6dHJ1ZSwiZWRpdF9icmFuZCI6dHJ1ZSwidmlld19yZWNlaXB0Ijp0cnVlLCJlZGl0X3JlY2VpcHQiOnRydWUsInZpZXdfc3MiOnRydWUsImVkaXRfc3MiOnRydWUsImVkaXRfZ3JvdXAiOnRydWUsImVkaXRfdXNlciI6dHJ1ZSwidmlld19wbGFubyI6dHJ1ZSwiZWRpdF9wbGFubyI6dHJ1ZSwidmlld19wcm9tbyI6dHJ1ZSwiZWRpdF9wcm9tbyI6dHJ1ZSwidmlld19yZXBvcnQiOnRydWUsInZpZXdfdHJhbnMiOnRydWV9LCJpZCI6IjY1N2M0ZTdiYjBmMjg5MTIyNGQ1ZTliMCIsImlhdCI6MTcxNDQxMDA3NSwiZXhwIjoxNzE0NDEwOTc1fQ.K1Pi5uS0WYoMsVTgb66d34QtPpD63vfi14FzYcRTsfk
+                refreshToken: >-
+                  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1lc2hhcmkuYWxvYmFpZGlAdHJ5dm5kLmNvbSIsImlkIjoiNjU3YzRlN2JiMGYyODkxMjI0ZDVlOWIwIiwiY291bnQiOjAsImlhdCI6MTcxNDQxMDA3NSwiZXhwIjoxNzE1MDE0ODc1fQ.6K6A1lIZrPqZh7YL00RSbwIjzF6bc6uIYbi8ajVCAb0
+                needFullAccessUser: false
+                need_mfa: false
+  /groupsAndMachines/{accountName}:
+    get:
+      tags:
+        - Machines
+      summary: List
+      security:
+        - noauthAuth: []
+      parameters:
+        - name: auth-token
+          in: header
+          schema:
+            type: string
+          example: '{{accessToken}}'
+        - name: accountName
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /machines/edit/657ab833c7201f469894300d:
+    post:
+      tags:
+        - Machines
+      summary: Edit
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                description:
+                  type: string
+                  example: STC 2
+                tax:
+                  type: integer
+                  example: '0'
+                name:
+                  type: integer
+                  example: '5686'
+      parameters:
+        - name: auth-token
+          in: header
+          schema:
+            type: string
+          example: '{{accessToken}}'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /public/machines/{serial}:
+    get:
+      tags:
+        - Machines
+      summary: View
+      parameters:
+        - name: auth-token
+          in: header
+          schema:
+            type: string
+          example: '{{accessToken}}'
+        - name: serial
+          in: path
+          schema:
+            type: integer
+          required: true
+          example: '5686'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /products/{accountName}:
+    get:
+      tags:
+        - Products
+      summary: List
+      parameters:
+        - name: auth-token
+          in: header
+          schema:
+            type: string
+          example: '{{accessToken}}'
+        - name: accountName
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /product/{_id}:
+    get:
+      tags:
+        - Products
+      summary: View
+      parameters:
+        - name: auth-token
+          in: header
+          schema:
+            type: string
+          example: '{{accessToken}}'
+        - name: _id
+          in: path
+          schema:
+            type: string
+          required: true
+          example: 660da97f7ac1611998463602
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /products/edit/660da97f7ac1611998463602:
+    put:
+      tags:
+        - Products
+      summary: Edit
+      description: >-
+        # Edit Product
+
+
+        This endpoint allows you to edit a specific product by making an HTTP
+        PUT request to the specified URL.
+
+
+        ## Request
+
+
+        The request should be made to the following URL:
+
+
+        ```
+
+        {{baseUrl}}/products/edit/660da97f7ac1611998463602
+
+         ```
+
+        ### Body
+
+
+        The request should include a form-data body with the following
+        parameters:
+
+
+        - `name` (text, optional): The name of the product.
+
+        - `description` (text, optional): The description of the product.
+
+        - `additionPrice` (text, optional): Additional price for the product.
+
+        - `upc` (text, optional): The UPC (Universal Product Code) of the
+        product.
+
+        - `price` (text, optional): The price of the product.
+
+        - `barcode` (text, optional): The barcode of the product.
+
+        - `category` (text, optional): The category of the product.
+
+        - `referTo` (text, optional): Reference information for the product.
+
+        - `dimension` (text, optional): The dimensions of the product (length,
+        height, width).
+
+        - `prodType` (text, optional): The type of the product.
+
+        - `pricePerKilo` (text, optional): The price per kilo of the product.
+
+        - `productPictures` (text, optional): Pictures of the product.
+
+        - `costPrice` (text, optional): The cost price of the product.
+
+        - `detail` (text, optional): Detailed information about the product.
+
+        - `keyFeatures` (text, optional): Key features of the product.
+
+        - `include` (text, optional): Inclusions with the product.
+
+        - `specification` (text, optional): Specifications of the product.
+
+        - `sortIndex` (text, optional): Sorting index for the product.
+
+        - `vatIndex` (text, optional): VAT index for the product.
+
+        - `virtualProduct` (text, optional): Indicates if the product is
+        virtual.
+
+        - `ageControl` (text, optional): Age control information for the
+        product.
+
+        - `ingredients` (text, optional): Ingredients used in the product.
+
+        - `allergens` (text, optional): Allergens related to the product.
+
+        - `productVideo` (text, optional): Video link for the product.
+
+        - `brand` (text, optional): The brand of the product.
+            
+
+        ## Response
+
+
+        Upon successful execution, the endpoint will return a status code of 200
+        and a JSON object with the updated details of the product.
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: '{"ar":"Meshari"}'
+                description:
+                  type: string
+                  example: '{"ar":"ساندوتش"}'
+                detail:
+                  type: string
+                  example: '{"ar":"Sandwich"}'
+                ingredients:
+                  type: string
+                  example: '{"ar":"برجر"}'
+                allergens:
+                  type: string
+                  example: '{}'
+                referTo:
+                  type: string
+                  example: tryvnd@point24h.com
+                auto:
+                  type: boolean
+                  example: 'false'
+                upc:
+                  type: integer
+                  example: '07'
+                barcode:
+                  type: string
+                price:
+                  type: integer
+                  example: '2'
+                pricePerKilo:
+                  type: boolean
+                  example: 'false'
+                category:
+                  type: string
+                  example: 6608a4e9e0cde61fd03f1a81
+                brand:
+                  type: string
+                  example: 6608a4cee0cde61fd03f197f
+                pp:
+                  type: string
+                  example: prod
+                length:
+                  type: integer
+                  example: '0'
+                width:
+                  type: integer
+                  example: '0'
+                height:
+                  type: integer
+                  example: '0'
+                preImage1:
+                  type: string
+                  example: gFBBW69Ecud2t9Xv4As8J.png
+                ageControl:
+                  type: integer
+                  example: '0'
+                vatIndex:
+                  type: integer
+                  example: '0'
+                virtualProduct:
+                  type: integer
+                  example: '0'
+                sortIndex:
+                  type: integer
+                  example: '0'
+      parameters:
+        - name: auth-token
+          in: header
+          schema:
+            type: string
+          example: '{{accessToken}}'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /products/create:
+    post:
+      tags:
+        - Products
+      summary: Create
+      description: >+
+
+        ### Create a New Product
+
+
+        This endpoint allows you to create a new product.
+
+
+        #### Request Body
+
+        - The request should be sent as a form-data with the following
+        parameters:
+          - `category` (text)
+          - `productPictures` (file)
+          - `pricePerKilo` (text)
+          - `name` (text)
+          - `upc` (text)
+          - `barcode` (text)
+          - `price` (text)
+          - `description` (text)
+          - `productVideo` (text)
+          - `referTo` (text)
+          - `dimension` (text)
+          - `prodType` (text)
+          - `additionPrice` (text)
+          - `costPrice` (text)
+          - `detail` (text)
+          - `keyFeatures` (text)
+          - `include` (text)
+          - `specification` (text)
+          - `sortIndex` (text)
+          - `vatIndex` (text)
+          - `virtualProduct` (text)
+          - `ageControl` (text)
+          - `ingredients` (text)
+          - `brand` (text)
+          - `createdAt` (text)
+          - `updatedAt` (text)
+          - `__v` (text)
+
+        #### Response
+
+        Upon successful creation, the endpoint returns a status code of 201 and
+        a JSON object with the details of the newly created product, including
+        its ID, name, category, price, and other attributes.
+
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: '{"ar":"برجر دجاج ساندوتش"}'
+                description:
+                  type: string
+                  example: '{"ar":"ساندوتش برجر دجاج"}'
+                referTo:
+                  type: string
+                  example: '{{accountName}}'
+                auto:
+                  type: boolean
+                  example: 'false'
+                upc:
+                  type: integer
+                  example: '019'
+                barcode:
+                  type: integer
+                  example: '12345678'
+                price:
+                  type: number
+                  example: '2.5'
+                costPrice:
+                  type: number
+                  example: '1.5'
+                pricePerKilo:
+                  type: boolean
+                  example: 'false'
+                ingredients:
+                  type: string
+                  example: '{"ar":"دجاج"}'
+                allergens:
+                  type: string
+                  example: '{}'
+                detail:
+                  type: string
+                  example: '{"ar":"ساندوتش برجر دجاج"}'
+                category:
+                  type: string
+                  example: 6608a4e9e0cde61fd03f1a81
+                brand:
+                  type: string
+                  example: 661c2a7345f6ce15dc3df34e
+                pp:
+                  type: string
+                  example: prod
+                length:
+                  type: integer
+                  example: '10'
+                width:
+                  type: integer
+                  example: '10'
+                height:
+                  type: integer
+                  example: '8'
+                ageControl:
+                  type: integer
+                  example: '0'
+                vatIndex:
+                  type: integer
+                  example: '0'
+                virtualProduct:
+                  type: integer
+                  example: '0'
+                sortIndex:
+                  type: integer
+                  example: '0'
+                image1:
+                  type: string
+                  format: binary
+      parameters:
+        - name: auth-token
+          in: header
+          schema:
+            type: string
+          example: '{{accessToken}}'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /products/delete/{_id}:
+    delete:
+      tags:
+        - Products
+      summary: Delete
+      parameters:
+        - name: auth-token
+          in: header
+          schema:
+            type: string
+          example: '{{accessToken}}'
+        - name: _id
+          in: path
+          schema:
+            type: string
+          required: true
+          example: 661c2ee745f6ce15dc3dfafd
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /categories/{accountName}:
+    get:
+      tags:
+        - Categories
+      summary: List
+      parameters:
+        - name: auth-token
+          in: header
+          schema:
+            type: string
+          example: '{{accessToken}}'
+        - name: accountName
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /categories/edit/{_id}:
+    put:
+      tags:
+        - Categories
+      summary: Edit
+      description: >-
+        ### Update Category
+
+
+        This endpoint allows the user to update a specific category by providing
+        the category ID and the updated information.
+
+
+        #### Request
+
+
+        - Method: PUT
+
+        - URL: {{baseUrl}}/categories/edit/:_id
+
+        - Body (form-data):
+            - `name` (text): The updated name of the category.
+            - `referTo` (text): The reference information for the category.
+            - `auto` (text): Indicates if the category is set to auto.
+            - `sortIndex` (text): The updated sort index of the category.
+
+        #### Response
+
+
+        - Status: 200
+
+        - Content-Type: application/json
+
+        - Body:
+            
+            ``` json
+            {
+                "name": {
+                    "ar": ""
+                },
+                "sortIndex": 0
+            }
+            
+             ```
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: '{"ar":"Sandwich"}'
+                referTo:
+                  type: string
+                  example: '{{accountName}}'
+                auto:
+                  type: string
+                  example: undefined
+                sortIndex:
+                  type: integer
+                  example: '0'
+      parameters:
+        - name: auth-token
+          in: header
+          schema:
+            type: string
+          example: '{{accessToken}}'
+        - name: _id
+          in: path
+          schema:
+            type: string
+          required: true
+          example: 6608a4e9e0cde61fd03f1a81
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /categories/create:
+    post:
+      tags:
+        - Categories
+      summary: Create
+      description: >-
+        This endpoint makes an HTTP POST request to create a new category. The
+        request should be sent to {{baseUrl}}/categories/create with a form-data
+        request body type.
+
+
+        ### Request Body
+
+
+        - No specific parameters were provided for the form-data request body.
+            
+
+        ### Response
+
+
+        - **Status**: 201
+
+        - **Content-Type**: application/json
+
+        - The response will contain the newly created category object with the
+        following properties:
+            - `newCategory`: An object representing the new category with properties such as `machines`, `_id`, `name`, `referTo`, `categoryPicture`, `sortIndex`, `createdAt`, `updatedAt`, and `__v`.
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: '{"ar":"Cables"}'
+                referTo:
+                  type: string
+                  example: '{{accountName}}'
+                auto:
+                  type: boolean
+                  example: 'false'
+                sortIndex:
+                  type: integer
+                  example: '0'
+                categoryPicture:
+                  type: string
+                  format: binary
+      parameters:
+        - name: auth-token
+          in: header
+          schema:
+            type: string
+          example: '{{accessToken}}'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /groupsAndMachinesForReport/{accountEmail}:
+    get:
+      tags:
+        - Reports
+      summary: Machines Groups
+      description: >-
+        # Get Groups and Machines for Report
+
+
+        This endpoint retrieves the groups and machines associated with a
+        specific account for reporting purposes.
+
+
+        ## Request
+
+
+        ### URL
+
+
+        - `GET` {{baseUrl}}/groupsAndMachinesForReport/{{accountEmail}}
+            
+
+        ## Response
+
+
+        - Status: 200
+
+        - Content-Type: application/json
+            
+
+        ``` json
+
+        {
+            "groups": [],
+            "machines": [
+                {
+                    "group": [],
+                    "currency": {
+                        "code": "",
+                        "name": "",
+                        "Symbol": ""
+                    },
+                    "stock": 0,
+                    "_id": "",
+                    "name": "",
+                    "description": "",
+                    "product": [
+                        {
+                            "current_stock": 0,
+                            "_id": "",
+                            "id": {
+                                "name": {
+                                    "ar": ""
+                                },
+                                "category": [""],
+                                "productPictures": [""],
+                                "_id": "",
+                                "upc": "",
+                                "price": 0,
+                                "referTo": ""
+                            },
+                            "max_stock": 0,
+                            "upc": "",
+                            "stock": 0,
+                            "floor": 0,
+                            "lane": 0,
+                            "name": "",
+                            "motor": ""
+                        }
+                    ],
+                    "products_min": [],
+                    "diff": true
+                }
+            ]
+        }
+
+         ```
+      parameters:
+        - name: auth-token
+          in: header
+          schema:
+            type: string
+          example: '{{accessToken}}'
+        - name: accountEmail
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /orders:
+    post:
+      tags:
+        - Orders
+      summary: List
+      description: >-
+        ## Add Order
+
+
+        This endpoint allows you to list all orders and transactions for
+        specified mchaine ids.
+
+
+        ### Request Body
+
+
+        - `start` (text): The starting location for the order.
+
+        - `end` (text): The destination location for the order.
+
+        - `id` (text): The ID of the order.
+
+        - `ids` (text): Comma separated Machine IDs.
+            
+
+        ### Response
+
+
+        - Status: 200
+
+        - Content Type: application/json
+
+        - Body:
+            
+            ``` json
+            [
+              {
+                "status": "",
+                "payment_type": "",
+                "lang": "",
+                "_id": "",
+                "machineID": {
+                  "_id": "",
+                  "name": "",
+                  "description": ""
+                },
+                "products": [
+                  {
+                    "quantity": 0,
+                    "discount": 0,
+                    "proposed": true,
+                    "_id": "",
+                    "product": {
+                      "name": {
+                        "ar": ""
+                      },
+                      "category": [""],
+                      "_id": "",
+                      "upc": "",
+                      "price": 0
+                    },
+                    "upc": "",
+                    "name": "",
+                    "lane": "",
+                    "detail": "",
+                    "soldPrice": 0,
+                    "tax_amount": 0,
+                    "retail_price": 0,
+                    "row_number": ""
+                  }
+                ],
+                "referTo": "",
+                "tax": 0,
+                "total": 0,
+                "currency": "",
+                "createdAt": "",
+                "createdAtUtc": "",
+                "utcOffset": 0,
+                "payment_transaction_id": "",
+                "payment_receipt": "",
+                "cart_number": "",
+                "card_number": "",
+                "card_department": "",
+                "email": "",
+                "reservation_code": "",
+                "return_code": "",
+                "__v": 0
+              }
+            ]
+            
+             ```
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                start:
+                  type: string
+                  example: '2024-04-10T00:00:00.000Z'
+                end:
+                  type: string
+                  example: '2024-04-14T23:59:59.999Z'
+                id:
+                  type: string
+                  example: '{{accountName}}'
+                ids:
+                  type: string
+                  description: Comma separated Machine IDs
+                  example: 657ab833c7201f469894300d,657ab86ec7201f469894300f
+      parameters:
+        - name: auth-token
+          in: header
+          schema:
+            type: string
+          example: '{{accessToken}}'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /users/getAllEmployees:
+    post:
+      tags:
+        - Users
+      summary: List
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  example: '{{accountName}}'
+      parameters:
+        - name: auth-token
+          in: header
+          schema:
+            type: string
+          example: '{{accessToken}}'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /users/create:
+    post:
+      tags:
+        - Users
+      summary: Create
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              type: string
+              example: >-
+                "{\n    \"firstname\": \"John\",\n    \"lastname\":
+                \"Doh\",\n    \"password\": \"cb9b2c13\",\n    \"email\":
+                \"daken95777@abnovel.com\",\n    \"role\": \"User\",\n   
+                \"addedToAdmin\": \"{{accountName}}\",\n    \"fullAccess\":
+                true,\n    \"mfa\": false,\n    \"limits\": {\n       
+                \"view_machine\": true,\n        \"edit_machine\":
+                true,\n        \"view_prod\": true,\n        \"edit_prod\":
+                true,\n        \"view_cate\": true,\n        \"edit_cate\":
+                true,\n        \"view_brand\": true,\n        \"edit_brand\":
+                true,\n        \"view_receipt\": true,\n       
+                \"edit_receipt\": true,\n        \"view_ss\": true,\n       
+                \"edit_ss\": true,\n        \"edit_group\": true,\n       
+                \"edit_user\": true,\n        \"view_plano\": true,\n       
+                \"edit_plano\": true,\n        \"view_promo\": true,\n       
+                \"edit_promo\": true,\n        \"view_proposal\": true,\n       
+                \"edit_proposal\": true,\n        \"view_report\":
+                true,\n        \"view_trans\": true\n    },\n    \"features\":
+                {\n        \"additionPrice\": false,\n        \"disablePromo\":
+                false,\n        \"disableMR\": false,\n        \"extra\":
+                false,\n        \"temperature\": true,\n       
+                \"disableAudio\": true,\n        \"disablePlanogram\":
+                true,\n        \"disableAlert\": false,\n        \"advanced\":
+                false,\n        \"badges\": false\n    },\n    \"theme\":
+                \"0\",\n    \"stocking\": true,\n    \"stocking_write\":
+                false,\n    \"langs\": [],\n    \"dba\": false,\n    \"email2\":
+                null,\n    \"currency\": {\n        \"code\": \"KWD\",\n       
+                \"name\": \"Kuwaiti Dinar\",\n        \"symbol\": \"د.ك\"\n   
+                },\n    \"lang1\": \"ar\",\n    \"lang2\": \"\",\n    \"lang3\":
+                \"\"\n}"
+      parameters:
+        - name: auth-token
+          in: header
+          schema:
+            type: string
+          example: '{{accessToken}}'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /stockLog/{machine_id}/{from_date}/{to_date}:
+    get:
+      tags:
+        - Stocking
+      summary: Log
+      description: >-
+        # Retrieve Stock Log by Machine and Date Range
+
+
+        This endpoint allows you to retrieve the stock log for a specific
+        machine within a given date range.
+
+
+        ## Request
+
+
+        ### Endpoint
+
+
+        `GET /stockLog/:machine_id/:from_date/:to_date`
+
+
+        ### Parameters
+
+
+        - `machine_id` (required, string) - The unique identifier of the
+        machine.
+
+        - `from_date` (required, string) - The start date of the date range in
+        the format YYYY-MM-DD.
+
+        - `to_date` (required, string) - The end date of the date range in the
+        format YYYY-MM-DD.
+            
+
+        ## Response
+
+
+        - Status: 200 OK
+
+        - Content-Type: application/json
+            
+
+        ``` json
+
+        [
+            {
+                "_id": "",
+                "machine": "",
+                "user": null,
+                "prods": [
+                    {
+                        "_id": "",
+                        "id": null,
+                        "pos": "",
+                        "current_stock": 0,
+                        "pre_stock": 0,
+                        "motor": "",
+                        "stock": 0,
+                        "row": 0,
+                        "lane": 0,
+                        "upc": "",
+                        "name": ""
+                    }
+                ],
+                "localDate": "",
+                "createdAt": "",
+                "updatedAt": "",
+                "__v": 0
+            }
+        ]
+
+         ```
+
+        The response contains an array of stock log entries for the specified
+        machine within the provided date range. Each entry includes details such
+        as machine ID, user, product details, local date, and timestamps.
+      parameters:
+        - name: auth-token
+          in: header
+          schema:
+            type: string
+          example: '{{accessToken}}'
+        - name: machine_id
+          in: path
+          schema:
+            type: string
+          required: true
+          example: 657ab833c7201f469894300d
+        - name: from_date
+          in: path
+          schema:
+            type: string
+          required: true
+          example: '2024-04-01T00:00:00.000Z'
+        - name: to_date
+          in: path
+          schema:
+            type: string
+          required: true
+          example: '2024-04-14T23:59:59.999Z'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /brands/{accountName}:
+    get:
+      tags:
+        - Brands
+      summary: List
+      description: >-
+        This endpoint retrieves information about a specific brand associated
+        with the account.
+
+
+        ### Request
+
+
+        `GET /brands/{{accountName}}`
+
+
+        ### Response
+
+
+        - Status: 200
+
+        - Content-Type: application/json
+            
+
+        Example response body:
+
+
+        ``` json
+
+        [
+            {
+                "name": {
+                    "en": ""
+                },
+                "_id": "",
+                "referTo": "",
+                "picture": "",
+                "logo": "",
+                "createdAt": "",
+                "updatedAt": "",
+                "__v": 0
+            }
+        ]
+
+         ```
+      parameters:
+        - name: auth-token
+          in: header
+          schema:
+            type: string
+          example: '{{accessToken}}'
+        - name: accountName
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /brands/edit/{_id}:
+    post:
+      tags:
+        - Brands
+      summary: Edit
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: '{"en":"mes"}'
+                referTo:
+                  type: string
+                  example: '{{accountName}}'
+      parameters:
+        - name: auth-token
+          in: header
+          schema:
+            type: string
+          example: '{{accessToken}}'
+        - name: _id
+          in: path
+          schema:
+            type: string
+          required: true
+          description: Brand ID
+          example: 660dad867ac161199846401a
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /brands/create:
+    post:
+      tags:
+        - Brands
+      summary: Create
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: '{"en":"Holms Burger"}'
+                referTo:
+                  type: string
+                  example: '{{accountName}}'
+                picture:
+                  type: string
+                  format: binary
+      parameters:
+        - name: auth-token
+          in: header
+          schema:
+            type: string
+          example: '{{accessToken}}'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}

@@ -4,7 +4,8 @@
     "eslint:recommended",
     "@vue/eslint-config-typescript",
     "@vue/eslint-config-prettier/skip-formatting",
-    "../../.eslintrc.json"
+    "../../.eslintrc.json",
+    "../../.eslintrc.base.json"
   ],
   "ignorePatterns": ["!**/*"],
   "overrides": [
