@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@backend/config": ["libs/backend/config/src/index.ts"],
       "@backend/magex-connector": ["libs/backend/magex-connector/src/index.ts"],
       "@core": ["libs/core/src/index.ts"]
     }

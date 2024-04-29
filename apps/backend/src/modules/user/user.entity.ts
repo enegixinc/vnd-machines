@@ -1,6 +1,5 @@
-import { Column, Entity, ManyToMany } from 'typeorm';
-import { IProduct, IUser, UserRole } from '@core';
-import { ProductEntity } from '../product/product.entity';
+import { Column, Entity } from 'typeorm';
+import { IUser, UserRole } from '@core';
 import { DatabaseEntity } from '../../common/database.entity';
 
 @Entity()
@@ -15,11 +14,12 @@ export class UserEntity extends DatabaseEntity implements IUser {
   password: string;
 
   @Column({
+    type: 'enum',
     enum: UserRole,
     default: UserRole.SUPPLIER,
   })
   role: UserRole;
 
-  @ManyToMany(() => ProductEntity, (product) => product.supplierId)
-  products: IProduct[];
+  // @ManyToMany(() => ProductEntitsy, (product) => product.supplierId)
+  // products: IProduct[];
 }
