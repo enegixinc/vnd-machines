@@ -1,6 +1,10 @@
-import { IDatabaseEntity } from './database-entity';
+import { IUser } from './user';
 
-export interface IProduct extends Omit<IDatabaseEntity, 'id'> {
+export interface IProduct extends I_MAGEX_Product {
+  suppliers: IUser[];
+}
+
+export interface I_MAGEX_Product {
   _id: string;
   name: MultiLang;
   detail: MultiLang;
@@ -27,9 +31,8 @@ export interface IProduct extends Omit<IDatabaseEntity, 'id'> {
   brand: Brand;
   __v: number;
   costPrice: any;
-
-  supplierId: string;
-  isCreatedByNewSolution: boolean;
+  updatedAt: string;
+  createdAt: string;
 }
 
 export interface MultiLang {

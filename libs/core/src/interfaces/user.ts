@@ -9,7 +9,6 @@ export interface IUser extends IDatabaseEntity {
   phoneNumber: string;
   active: boolean;
   documents?: IDocument[];
-  deletedAt?: Date;
 }
 
 export interface IDocument {

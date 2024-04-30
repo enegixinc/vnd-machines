@@ -1,6 +1,7 @@
 import {
   BaseEntity,
   CreateDateColumn,
+  DeleteDateColumn,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -18,11 +19,17 @@ export class DatabaseEntity extends BaseEntity implements IDatabaseEntity {
   @ApiProperty({
     example: '2021-07-01T00:00:00.000Z',
   })
-  createdAt: Date;
+  createdAt: Date | string;
 
   @UpdateDateColumn()
   @ApiProperty({
     example: '2021-07-01T00:00:00.000Z',
   })
-  updatedAt: Date;
+  updatedAt: Date | string;
+
+  @DeleteDateColumn()
+  @ApiProperty({
+    example: '2021-07-01T00:00:00.000Z',
+  })
+  deletedAt?: Date | string;
 }

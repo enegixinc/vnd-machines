@@ -22,7 +22,7 @@ import { ConfigModule, ConfigService } from '@backend/config';
             database: configService.get('POSTGRES_DB'),
             synchronize: true,
             entities: [__dirname + '/../../modules/**/*.entity{.ts,.js}'],
-            // entities: [UserEntity],
+            // entities: [ProductsEntity],
           });
           await dataSource.initialize();
           console.log('Database connected successfully');
