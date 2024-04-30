@@ -106,6 +106,6 @@ export class UserEntity extends DatabaseEntity implements IUser {
 
   @DeleteDateColumn() deletedAt?: Date;
 
-  // @ManyToMany(() => ProductEntitsy, (product) => product.supplierId)
+  // @ManyToMany(() => ProductEntity, (product) => product.supplierId)
   // products: IProduct[];
 }

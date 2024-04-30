@@ -4,7 +4,7 @@ import { Brand, Category, Dimension, IProduct, MultiLang } from '@core';
 import { DatabaseEntity } from '../../common/database.entity';
 
 @Entity()
-export class ProductEntitsy extends DatabaseEntity implements IProduct {
+export class ProductEntity extends DatabaseEntity implements IProduct {
   __v: number;
   _id: string;
   additionPrice: any;

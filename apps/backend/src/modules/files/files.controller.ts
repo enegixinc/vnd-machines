@@ -7,7 +7,7 @@ import {
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { FilesService } from './files.service';
-import { multerConfig } from '../multer.config';
+import { multerConfig } from './multer.config';
 
 @Controller('files')
 @ApiTags('files')
