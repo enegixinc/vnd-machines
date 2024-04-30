@@ -1,16 +1,13 @@
 import { Column, DeleteDateColumn, Entity } from 'typeorm';
-import { IUser, UserRole } from '@core';
+import { IUser, POLICY, UserRole } from '@core';
 import { DatabaseEntity } from '../../common/database.entity';
 import { ApiProperty } from '@nestjs/swagger';
-import {
-  EmailApiProperty,
-  PasswordApiProperty,
-} from '../../common/decorators/swagger';
 import {
   IsNotEmpty,
   IsOptional,
   IsPhoneNumber,
   IsString,
+  IsStrongPassword,
   MaxLength,
 } from 'class-validator';
 import { CrudValidationGroups } from '@dataui/crud';
@@ -47,14 +44,31 @@ export class UserEntity extends DatabaseEntity implements IUser {
 
   @Column({
     unique: true,
+    nullable: false,
   })
   @IsOptional({ groups: [UPDATE] })
   @IsNotEmpty({ groups: [CREATE] })
-  @EmailApiProperty()
+  @ApiProperty({
+    example: 'email@example.com',
+  })
   email: string;
 
-  @Column()
-  @PasswordApiProperty()
+  @Column({
+    type: 'varchar',
+    length: POLICY.AUTH.PASSWORD.MAX_LENGTH,
+  })
+  @IsStrongPassword({
+    minLength: POLICY.AUTH.PASSWORD.MIN_LENGTH,
+    minLowercase: POLICY.AUTH.PASSWORD.MIN_LOWERCASE,
+    minNumbers: POLICY.AUTH.PASSWORD.MIN_NUMBERS,
+    minSymbols: POLICY.AUTH.PASSWORD.MIN_SYMBOLS,
+    minUppercase: POLICY.AUTH.PASSWORD.MIN_UPPERCASE,
+  })
+  @ApiProperty({
+    example: 'Password@123',
+    minLength: POLICY.AUTH.PASSWORD.MIN_LENGTH,
+    maxLength: POLICY.AUTH.PASSWORD.MAX_LENGTH,
+  })
   @IsOptional({ groups: [UPDATE] })
   @IsNotEmpty({ groups: [CREATE] })
   password: string;

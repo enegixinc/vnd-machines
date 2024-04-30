@@ -4,11 +4,11 @@ import { UserEntity } from './user.entity';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/request/create-user.dto';
 import { UpdateUserDto } from './dto/response/update-user.dto';
-import { OmitType } from '@nestjs/swagger';
+import { SerializedUserDto } from './dto/response/serialized-user.dto';
 
 @Crud({
   model: {
-    type: OmitType(UserEntity, ['password']),
+    type: UserEntity,
   },
   dto: {
     create: CreateUserDto,
@@ -36,10 +36,25 @@ import { OmitType } from '@nestjs/swagger';
     maxLimit: 100,
   },
   routes: {
-    exclude: ['createManyBase', 'replaceOneBase'],
+    exclude: ['replaceOneBase'],
+  },
+
+  serialize: {
+    create: SerializedUserDto,
+    update: SerializedUserDto,
+    get: SerializedUserDto,
+    getMany: SerializedUserDto,
+    createMany: SerializedUserDto,
+    delete: SerializedUserDto,
+    recover: SerializedUserDto,
+    replace: SerializedUserDto,
   },
 })
 @Controller('users')
 export class UserController implements CrudController<UserEntity> {
   constructor(public service: UserService) {}
+
+  get base(): CrudController<UserEntity> {
+    return this;
+  }
 }
