@@ -32,12 +32,16 @@ export class ProductEntity
       ar: 'اسم المنتج',
     },
   })
-  @Column({ type: 'simple-json', nullable: false })
+  @Column({
+    type: 'jsonb',
+  })
   @IsOptional({ groups: [UPDATE] })
   @IsNotEmpty({ groups: [CREATE] })
   name: MultiLang;
 
-  @Column()
+  @Column({
+    type: 'jsonb',
+  })
   @IsOptional({ groups: [UPDATE] })
   @IsNotEmpty({ groups: [CREATE] })
   additionPrice: any;
@@ -52,7 +56,9 @@ export class ProductEntity
   @IsNotEmpty({ groups: [CREATE] })
   barcode: string;
 
-  @Column({ type: 'simple-json' })
+  @Column({
+    type: 'jsonb',
+  })
   @ApiProperty({
     type: {
       name: {
@@ -67,13 +73,17 @@ export class ProductEntity
   @IsNotEmpty({ groups: [CREATE] })
   brand: Brand;
 
-  @Column({ type: 'simple-json' })
+  @Column({
+    type: 'jsonb',
+  })
   @IsOptional({ groups: [UPDATE] })
   @IsNotEmpty({ groups: [CREATE] })
   category: Category[];
 
   @ApiProperty({ example: 100 })
-  @Column()
+  @Column({
+    type: 'jsonb',
+  })
   @IsOptional({ groups: [UPDATE] })
   @IsNotEmpty({ groups: [CREATE] })
   costPrice: any;
@@ -84,12 +94,16 @@ export class ProductEntity
       ar: 'وصف المنتج',
     },
   })
-  @Column({ type: 'string' })
+  @Column({
+    type: 'jsonb',
+  })
   @IsOptional({ groups: [UPDATE] })
   @IsNotEmpty({ groups: [CREATE] })
   description: MultiLang;
 
-  @Column({ type: 'simple-json' })
+  @Column({
+    type: 'jsonb',
+  })
   @ApiProperty({
     example: {
       en: 'Product Detail',
@@ -118,6 +132,9 @@ export class ProductEntity
   updatedAt: string;
 
   @ManyToMany(() => UserEntity, (user) => user.products)
+  @ApiProperty({
+    type: () => UserEntity,
+  })
   suppliers: IUser[];
 
   @DeleteDateColumn()

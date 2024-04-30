@@ -105,7 +105,10 @@ export class UserEntity extends DatabaseEntity implements IUser {
   })
   active: boolean;
 
-  @ManyToMany(() => ProductEntity, (product) => product.suppliers)
+  @ManyToMany((type) => ProductEntity, (product) => product.suppliers)
+  @ApiProperty({
+    type: () => ProductEntity,
+  })
   @JoinTable({
     joinColumn: {
       name: 'userId',
