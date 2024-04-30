@@ -1,35 +1,45 @@
 import { Controller } from '@nestjs/common';
-import { Crud, CrudController } from '@nestjs-library/crud';
-
+import { Crud, CrudController } from '@dataui/crud';
 import { UserEntity } from './user.entity';
 import { UserService } from './user.service';
-import { ApiProperty } from '@nestjs/swagger';
-
-// isSuccess, message, data
-class UnifiedResponse {
-  @ApiProperty()
-  isSuccess: boolean;
-
-  @ApiProperty()
-  message: string;
-  data: any;
-
-  constructor(isSuccess: boolean, message: string, data: any) {
-    this.isSuccess = isSuccess;
-    this.message = message;
-    this.data = data;
-  }
-}
+import { CreateUserDto } from './dto/request/create-user.dto';
+import { UpdateUserDto } from './dto/response/update-user.dto';
+import { OmitType } from '@nestjs/swagger';
 
 @Crud({
-  entity: UserEntity,
-  routes: {
-    create: {
-      swagger: {},
+  model: {
+    type: OmitType(UserEntity, ['password']),
+  },
+  dto: {
+    create: CreateUserDto,
+    update: UpdateUserDto,
+  },
+  params: {
+    id: {
+      field: 'id',
+      type: 'uuid',
+      primary: true,
     },
+  },
+  query: {
+    cache: 2000,
+    alwaysPaginate: true,
+    sort: [
+      {
+        field: 'createdAt',
+        order: 'DESC',
+      },
+    ],
+    softDelete: true,
+    exclude: ['password'],
+    limit: 20,
+    maxLimit: 100,
+  },
+  routes: {
+    exclude: ['createManyBase', 'replaceOneBase'],
   },
 })
 @Controller('users')
 export class UserController implements CrudController<UserEntity> {
-  constructor(public readonly crudService: UserService) {}
+  constructor(public service: UserService) {}
 }

@@ -1,5 +1,5 @@
 export interface IDatabaseEntity {
-  id: number;
+  id: string;
   createdAt: Date;
   updatedAt: Date;
 }

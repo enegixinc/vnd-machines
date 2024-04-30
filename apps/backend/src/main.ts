@@ -1,13 +1,9 @@
-import {
-  BadRequestException,
-  Logger,
-  ValidationError,
-  ValidationPipe,
-} from '@nestjs/common';
+import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 
 import { AppModule } from './app/app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { TypeORMExceptionFilter } from './common/filters/typeorm.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -20,11 +16,10 @@ async function bootstrap() {
         target: true,
         value: true,
       },
-      exceptionFactory(errors: ValidationError[]) {
-        return new BadRequestException({ errors });
-      },
     })
   );
+  app.useGlobalFilters(new TypeORMExceptionFilter());
+
   app.setGlobalPrefix(globalPrefix);
   const port = process.env.PORT || 3000;
 
