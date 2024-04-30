@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 
 import { UserModule } from '../modules/user/user.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { FilesModule } from '../modules/files/files.module';
 
 @Module({
   imports: [
@@ -15,9 +16,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       autoLoadEntities: true,
       synchronize: true,
       entities: [__dirname + '/../../modules/**/*.entity{.ts,.js}'],
-      // entities: [UserEntity],
     }),
     UserModule,
+    FilesModule,
   ],
 })
 export class AppModule {}

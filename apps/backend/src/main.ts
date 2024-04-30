@@ -1,6 +1,6 @@
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-
+import * as express from 'express';
 import { AppModule } from './app/app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { TypeORMExceptionFilter } from './common/filters/typeorm.filter';
@@ -19,6 +19,7 @@ async function bootstrap() {
     })
   );
   app.useGlobalFilters(new TypeORMExceptionFilter());
+  app.use('/uploads', express.static('uploads'));
 
   app.setGlobalPrefix(globalPrefix);
   const port = process.env.PORT || 3000;

@@ -8,6 +8,16 @@ export interface IUser extends IDatabaseEntity {
   role: UserRole;
   phoneNumber: string;
   active: boolean;
+  documents?: IDocument[];
+  deletedAt?: Date;
+}
+
+export interface IDocument {
+  id: string;
+  name: string;
+  url: string;
+  mimeType: string;
+  size: number;
   deletedAt?: Date;
 }
 

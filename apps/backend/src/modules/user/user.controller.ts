@@ -5,6 +5,7 @@ import { UserService } from './user.service';
 import { CreateUserDto } from './dto/request/create-user.dto';
 import { UpdateUserDto } from './dto/response/update-user.dto';
 import { SerializedUserDto } from './dto/response/serialized-user.dto';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @Crud({
   model: {
@@ -51,6 +52,8 @@ import { SerializedUserDto } from './dto/response/serialized-user.dto';
   },
 })
 @Controller('users')
+@ApiResponse({ status: 403, description: 'Forbidden.' })
+@ApiTags('users')
 export class UserController implements CrudController<UserEntity> {
   constructor(public service: UserService) {}
 
