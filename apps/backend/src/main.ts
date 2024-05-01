@@ -7,16 +7,7 @@ import { TypeORMExceptionFilter } from './common/filters/typeorm.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.useGlobalPipes(
-    new ValidationPipe({
-      whitelist: true,
-      transform: true,
-      validationError: {
-        target: true,
-        value: true,
-      },
-    })
-  );
+  app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
   app.useGlobalFilters(new TypeORMExceptionFilter());
   app.use('/uploads', express.static('uploads'));
 

@@ -2,22 +2,16 @@ import { Controller } from '@nestjs/common';
 import { Crud, CrudController } from '@dataui/crud';
 import { ProductEntity } from './product.entity';
 import { ProductsService } from './products.service';
-import { CreateProductDto } from './dto/request/create-product.dto';
-import { UpdateProductsDto } from './dto/response/update-products.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @Crud({
   model: {
     type: ProductEntity,
   },
-  dto: {
-    create: CreateProductDto,
-    update: UpdateProductsDto,
-  },
   params: {
     id: {
       field: 'id',
-      type: 'uuid',
+      type: 'string',
       primary: true,
     },
   },
