@@ -6,6 +6,8 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { TypeORMExceptionFilter } from './common/filters/typeorm.filter';
 import { useContainer } from 'class-validator';
 
+declare const module: any;
+
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
@@ -35,6 +37,10 @@ async function bootstrap() {
   SwaggerModule.setup('api', app, document);
 
   await app.listen(port);
+  if (module.hot) {
+    module.hot.accept();
+    module.hot.dispose(() => app.close());
+  }
   Logger.log(`🚀 Application is running on: http://localhost:${port}/${'api'}`);
 }
 

@@ -14,11 +14,12 @@
         }
       ],
       "options": {
-        "buildTarget": "backend:build"
+        "buildTarget": "backend:build:development"
       },
       "configurations": {
         "development": {
-          "buildTarget": "backend:build:development"
+          "buildTarget": "backend:build:development",
+          "port": 3333
         },
         "production": {
           "buildTarget": "backend:build:production"

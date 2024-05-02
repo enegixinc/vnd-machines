@@ -33,10 +33,12 @@ export class ProductEntity implements IProduct {
 
   @BeforeInsert()
   async createProduct() {
+    //asd;smad;sklamdsa;ldmsal;mdss
     const productConverter = new ProductConverter();
     const magexProduct = productConverter.toMagexProduct(this);
-    // @ts-ignore
+    // @ts-expect-error - This is a test
     const { newProduct } = await magexConnector.products.postProductsCreate({
+      // @ts-expect-error - This is a test
       formData: magexProduct,
     });
     Object.assign(this, newProduct);

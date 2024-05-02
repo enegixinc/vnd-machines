@@ -1,10 +1,10 @@
 const { NxWebpackPlugin } = require('@nx/webpack');
 const { join } = require('path');
+const { RunScriptWebpackPlugin } = require('run-script-webpack-plugin');
+const webpack = require('webpack');
+const nodeExternals = require('webpack-node-externals');
 
 module.exports = {
-  output: {
-    path: join(__dirname, '../../dist/apps/backend'),
-  },
   plugins: [
     new NxWebpackPlugin({
       target: 'node',
@@ -15,5 +15,30 @@ module.exports = {
       optimization: false,
       outputHashing: 'none',
     }),
+    new webpack.HotModuleReplacementPlugin(),
+    new RunScriptWebpackPlugin({ name: 'main.js', autoRestart: false }),
   ],
+  output: {
+    path: join(__dirname, '../../dist/apps/backend'),
+  },
+  entry: ['webpack/hot/poll?100', './src/main.ts'],
+  target: 'node',
+  externals: [
+    nodeExternals({
+      allowlist: ['webpack/hot/poll?100'],
+    }),
+  ],
+  module: {
+    rules: [
+      {
+        test: /.tsx?$/,
+        use: 'ts-loader',
+        exclude: /node_modules/,
+      },
+    ],
+  },
+  mode: 'development',
+  resolve: {
+    extensions: ['.tsx', '.ts', '.js'],
+  },
 };
