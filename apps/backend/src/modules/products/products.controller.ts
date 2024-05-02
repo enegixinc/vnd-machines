@@ -37,8 +37,7 @@ import { ApiResponse, ApiTags } from '@nestjs/swagger';
     exclude: ['replaceOneBase'],
   },
   serialize: {
-    get: false,
-    getMany: false,
+    create: CreateProductDto,
   },
 })
 @Controller('products')
