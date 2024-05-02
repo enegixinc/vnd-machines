@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="Magex-Connector" pattern="file[vnd-machines]:libs/backend/magex-connector//*" />
+</component>
