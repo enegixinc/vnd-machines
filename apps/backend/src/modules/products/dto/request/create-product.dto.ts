@@ -19,7 +19,6 @@ export class CreateProductDto {
     description: 'List of users who are suppliers of this product',
     type: () => [String],
   })
-  // @IsUUID()
   @Validate(UserExistsValidator, { each: true })
   @IsOptional({ groups: [UPDATE, CREATE] })
   suppliers: string[];

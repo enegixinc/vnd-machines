@@ -5,6 +5,7 @@ import {
 } from 'class-validator';
 import { UserService } from '../user.service';
 
+// TODO: make this abstract class
 @Injectable()
 @ValidatorConstraint({ name: 'UserExists', async: true })
 export class UserExistsValidator implements ValidatorConstraintInterface {
