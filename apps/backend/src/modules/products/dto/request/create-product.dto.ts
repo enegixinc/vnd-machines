@@ -15,7 +15,7 @@ export class CreateProductDto {
   upc: string;
 
   @ApiProperty({
-    example: ['6b1f1b1b-1b1b-1b1b-1b1b-1b1b1b1b1b1b'],
+    example: ['0c2b8264-6aed-4d65-82bc-29843562b7ff'],
     description: 'List of users who are suppliers of this product',
     type: () => [String],
   })
