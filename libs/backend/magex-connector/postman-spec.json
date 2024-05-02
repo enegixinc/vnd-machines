@@ -1,1170 +1,1074 @@
 {
-  "info": {
-    "_postman_id": "556cb5dc-7ca1-45d1-ba8f-7e2c1ecc97e3",
-    "name": "VND API",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "_exporter_id": "34264370",
-    "_collection_link": "https://www.postman.com/trolley-ecommerce/workspace/vnd/collection/34264370-556cb5dc-7ca1-45d1-ba8f-7e2c1ecc97e3?action=share&source=collection_link&creator=34264370"
-  },
-  "item": [
-    {
-      "name": "Auth",
-      "item": [
-        {
-          "name": "Login",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "var accessToken = pm.response.json().accessToken;",
-                  "pm.globals.set(\"accessToken\", accessToken);"
-                ],
-                "type": "text/javascript",
-                "packages": {}
-              }
-            }
-          ],
-          "request": {
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "urlencoded",
-              "urlencoded": [
-                {
-                  "key": "email",
-                  "value": "meshari.alobaidi@tryvnd.com",
-                  "type": "text"
-                },
-                {
-                  "key": "password",
-                  "value": "3d55e04b",
-                  "type": "text"
-                }
-              ]
-            },
-            "url": {
-              "raw": "{{baseUrl}}/users/login",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "users",
-                "login"
-              ]
-            }
-          },
-          "response": [
-            {
-              "name": "200",
-              "originalRequest": {
-                "method": "POST",
-                "header": [],
-                "body": {
-                  "mode": "urlencoded",
-                  "urlencoded": [
-                    {
-                      "key": "email",
-                      "value": "meshari.alobaidi@tryvnd.com",
-                      "type": "text"
-                    },
-                    {
-                      "key": "password",
-                      "value": "3d55e04b",
-                      "type": "text"
-                    }
-                  ]
-                },
-                "url": {
-                  "raw": "{{baseUrl}}/users/login",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "users",
-                    "login"
-                  ]
-                }
-              },
-              "status": "OK",
-              "code": 200,
-              "_postman_previewlanguage": "json",
-              "header": [
-                {
-                  "key": "Keep-Alive",
-                  "value": "timeout=5"
-                },
-                {
-                  "key": "Content-Type",
-                  "value": "application/json; charset=utf-8"
-                },
-                {
-                  "key": "ETag",
-                  "value": "W/\"988-CusOgnjLO/gyDHRw8HAuxUBn/ik\""
-                },
-                {
-                  "key": "Vary",
-                  "value": "Origin"
-                },
-                {
-                  "key": "Server",
-                  "value": "Microsoft-IIS/10.0"
-                },
-                {
-                  "key": "X-Powered-By",
-                  "value": "Express"
-                },
-                {
-                  "key": "X-Powered-By",
-                  "value": "ASP.NET"
-                },
-                {
-                  "key": "Access-Control-Allow-Credentials",
-                  "value": "true"
-                },
-                {
-                  "key": "Set-Cookie",
-                  "value": "auth-token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiTWVzaGFyaSIsInJvbGUiOiJVc2VyIiwiZW1haWwiOiJtZXNoYXJpLmFsb2JhaWRpQHRyeXZuZC5jb20iLCJmdWxsQWNjZXNzIjp0cnVlLCJsaW1pdHMiOnsidmlld19wcm9wb3NhbCI6dHJ1ZSwiZWRpdF9wcm9wb3NhbCI6dHJ1ZSwidmlld19zdG9jayI6dHJ1ZSwidmlld19tYWNoaW5lIjp0cnVlLCJlZGl0X21hY2hpbmUiOnRydWUsInZpZXdfcHJvZCI6dHJ1ZSwiZWRpdF9wcm9kIjp0cnVlLCJ2aWV3X2NhdGUiOnRydWUsImVkaXRfY2F0ZSI6dHJ1ZSwidmlld19icmFuZCI6dHJ1ZSwiZWRpdF9icmFuZCI6dHJ1ZSwidmlld19yZWNlaXB0Ijp0cnVlLCJlZGl0X3JlY2VpcHQiOnRydWUsInZpZXdfc3MiOnRydWUsImVkaXRfc3MiOnRydWUsImVkaXRfZ3JvdXAiOnRydWUsImVkaXRfdXNlciI6dHJ1ZSwidmlld19wbGFubyI6dHJ1ZSwiZWRpdF9wbGFubyI6dHJ1ZSwidmlld19wcm9tbyI6dHJ1ZSwiZWRpdF9wcm9tbyI6dHJ1ZSwidmlld19yZXBvcnQiOnRydWUsInZpZXdfdHJhbnMiOnRydWV9LCJpZCI6IjY1N2M0ZTdiYjBmMjg5MTIyNGQ1ZTliMCIsImlhdCI6MTcxNDQxMDA3NSwiZXhwIjoxNzE0NDEwOTc1fQ.K1Pi5uS0WYoMsVTgb66d34QtPpD63vfi14FzYcRTsfk; Max-Age=315360000; Path=/; Expires=Thu, 27 Apr 2034 17:01:15 GMT; HttpOnly"
-                },
-                {
-                  "key": "Set-Cookie",
-                  "value": "refresh-token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1lc2hhcmkuYWxvYmFpZGlAdHJ5dm5kLmNvbSIsImlkIjoiNjU3YzRlN2JiMGYyODkxMjI0ZDVlOWIwIiwiY291bnQiOjAsImlhdCI6MTcxNDQxMDA3NSwiZXhwIjoxNzE1MDE0ODc1fQ.6K6A1lIZrPqZh7YL00RSbwIjzF6bc6uIYbi8ajVCAb0; Max-Age=315360000; Path=/; Expires=Thu, 27 Apr 2034 17:01:15 GMT; HttpOnly"
-                },
-                {
-                  "key": "Date",
-                  "value": "Mon, 29 Apr 2024 17:01:15 GMT"
-                },
-                {
-                  "key": "Content-Length",
-                  "value": "2440"
-                }
-              ],
-              "cookie": [],
-              "body": "{\n    \"result\": {\n        \"features\": {\n            \"additionPrice\": false,\n            \"disablePromo\": false,\n            \"disableMR\": false,\n            \"extra\": false,\n            \"disableAudio\": true,\n            \"disablePlanogram\": false,\n            \"disableAlert\": false,\n            \"advanced\": false,\n            \"temperature\": true,\n            \"alertCustomization\": false,\n            \"badges\": false,\n            \"proposal\": false\n        },\n        \"limits\": {\n            \"view_proposal\": true,\n            \"edit_proposal\": true,\n            \"view_stock\": true,\n            \"view_machine\": true,\n            \"edit_machine\": true,\n            \"view_prod\": true,\n            \"edit_prod\": true,\n            \"view_cate\": true,\n            \"edit_cate\": true,\n            \"view_brand\": true,\n            \"edit_brand\": true,\n            \"view_receipt\": true,\n            \"edit_receipt\": true,\n            \"view_ss\": true,\n            \"edit_ss\": true,\n            \"edit_group\": true,\n            \"edit_user\": true,\n            \"view_plano\": true,\n            \"edit_plano\": true,\n            \"view_promo\": true,\n            \"edit_promo\": true,\n            \"view_report\": true,\n            \"view_trans\": true\n        },\n        \"role\": \"User\",\n        \"fullAccess\": true,\n        \"resetLink\": \"\",\n        \"count\": 0,\n        \"theme\": \"0\",\n        \"group\": [],\n        \"langs\": [],\n        \"lang1\": \"ar\",\n        \"lang2\": \"\",\n        \"lang3\": \"\",\n        \"mfa\": false,\n        \"currency\": {\n            \"code\": \"KWD\",\n            \"name\": \"Kuwaiti Dinar\",\n            \"symbol\": \"د.ك\"\n        },\n        \"_id\": \"657c4e7bb0f2891224d5e9b0\",\n        \"firstname\": \"Meshari\",\n        \"lastname\": \"Alobaidi\",\n        \"email\": \"meshari.alobaidi@tryvnd.com\",\n        \"password\": \"$2b$10$ze90mcDfXyIGRiGFlP9Y..HFTYNbpEl7sx0rZS5m95etNTvuIfLfO\",\n        \"email2\": null,\n        \"dba\": false,\n        \"stocking\": 11715,\n        \"stocking_write\": false,\n        \"referTo\": \"tryvnd@point24h.com\",\n        \"createdAt\": \"2023-12-15T13:02:51.488Z\",\n        \"updatedAt\": \"2023-12-15T13:02:51.488Z\",\n        \"__v\": 0\n    },\n    \"accessToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiTWVzaGFyaSIsInJvbGUiOiJVc2VyIiwiZW1haWwiOiJtZXNoYXJpLmFsb2JhaWRpQHRyeXZuZC5jb20iLCJmdWxsQWNjZXNzIjp0cnVlLCJsaW1pdHMiOnsidmlld19wcm9wb3NhbCI6dHJ1ZSwiZWRpdF9wcm9wb3NhbCI6dHJ1ZSwidmlld19zdG9jayI6dHJ1ZSwidmlld19tYWNoaW5lIjp0cnVlLCJlZGl0X21hY2hpbmUiOnRydWUsInZpZXdfcHJvZCI6dHJ1ZSwiZWRpdF9wcm9kIjp0cnVlLCJ2aWV3X2NhdGUiOnRydWUsImVkaXRfY2F0ZSI6dHJ1ZSwidmlld19icmFuZCI6dHJ1ZSwiZWRpdF9icmFuZCI6dHJ1ZSwidmlld19yZWNlaXB0Ijp0cnVlLCJlZGl0X3JlY2VpcHQiOnRydWUsInZpZXdfc3MiOnRydWUsImVkaXRfc3MiOnRydWUsImVkaXRfZ3JvdXAiOnRydWUsImVkaXRfdXNlciI6dHJ1ZSwidmlld19wbGFubyI6dHJ1ZSwiZWRpdF9wbGFubyI6dHJ1ZSwidmlld19wcm9tbyI6dHJ1ZSwiZWRpdF9wcm9tbyI6dHJ1ZSwidmlld19yZXBvcnQiOnRydWUsInZpZXdfdHJhbnMiOnRydWV9LCJpZCI6IjY1N2M0ZTdiYjBmMjg5MTIyNGQ1ZTliMCIsImlhdCI6MTcxNDQxMDA3NSwiZXhwIjoxNzE0NDEwOTc1fQ.K1Pi5uS0WYoMsVTgb66d34QtPpD63vfi14FzYcRTsfk\",\n    \"refreshToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1lc2hhcmkuYWxvYmFpZGlAdHJ5dm5kLmNvbSIsImlkIjoiNjU3YzRlN2JiMGYyODkxMjI0ZDVlOWIwIiwiY291bnQiOjAsImlhdCI6MTcxNDQxMDA3NSwiZXhwIjoxNzE1MDE0ODc1fQ.6K6A1lIZrPqZh7YL00RSbwIjzF6bc6uIYbi8ajVCAb0\",\n    \"needFullAccessUser\": false,\n    \"need_mfa\": false\n}"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "Machines",
-      "item": [
-        {
-          "name": "List",
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          },
-          "request": {
-            "auth": {
-              "type": "noauth"
-            },
-            "method": "GET",
-            "header": [
-              {
-                "key": "auth-token",
-                "value": "{{accessToken}}",
-                "type": "text"
-              }
-            ],
-            "body": {
-              "mode": "urlencoded",
-              "urlencoded": [
-                {
-                  "key": "auth-token",
-                  "value": "{{accessToken}}",
-                  "type": "text"
-                }
-              ]
-            },
-            "url": {
-              "raw": "{{baseUrl}}/groupsAndMachines/{{accountName}}",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "groupsAndMachines",
-                "{{accountName}}"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Edit",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "auth-token",
-                "value": "{{accessToken}}",
-                "type": "text"
-              }
-            ],
-            "body": {
-              "mode": "urlencoded",
-              "urlencoded": [
-                {
-                  "key": "description",
-                  "value": "STC 2",
-                  "type": "text"
-                },
-                {
-                  "key": "tax",
-                  "value": "0",
-                  "type": "text"
-                },
-                {
-                  "key": "name",
-                  "value": "5686",
-                  "type": "text"
-                }
-              ]
-            },
-            "url": {
-              "raw": "{{baseUrl}}/machines/edit/657ab833c7201f469894300d",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "machines",
-                "edit",
-                "657ab833c7201f469894300d"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "View",
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          },
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "auth-token",
-                "value": "{{accessToken}}",
-                "type": "text"
-              }
-            ],
-            "body": {
-              "mode": "urlencoded",
-              "urlencoded": []
-            },
-            "url": {
-              "raw": "{{baseUrl}}/public/machines/:serial",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "public",
-                "machines",
-                ":serial"
-              ],
-              "variable": [
-                {
-                  "key": "serial",
-                  "value": "5686"
-                }
-              ]
-            }
-          },
-          "response": []
-        }
-      ]
-    },
-    {
-      "name": "Products",
-      "item": [
-        {
-          "name": "List",
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          },
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "auth-token",
-                "value": "{{accessToken}}",
-                "type": "text"
-              }
-            ],
-            "body": {
-              "mode": "urlencoded",
-              "urlencoded": []
-            },
-            "url": {
-              "raw": "{{baseUrl}}/products/{{accountName}}",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "products",
-                "{{accountName}}"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "View",
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          },
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "auth-token",
-                "value": "{{accessToken}}",
-                "type": "text"
-              }
-            ],
-            "body": {
-              "mode": "urlencoded",
-              "urlencoded": []
-            },
-            "url": {
-              "raw": "{{baseUrl}}/product/:_id",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "product",
-                ":_id"
-              ],
-              "variable": [
-                {
-                  "key": "_id",
-                  "value": "660da97f7ac1611998463602"
-                }
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Edit",
-          "request": {
-            "method": "PUT",
-            "header": [
-              {
-                "key": "auth-token",
-                "value": "{{accessToken}}",
-                "type": "text"
-              }
-            ],
-            "body": {
-              "mode": "formdata",
-              "formdata": [
-                {
-                  "key": "name",
-                  "value": "{\"ar\":\"Meshari\"}",
-                  "type": "text"
-                },
-                {
-                  "key": "description",
-                  "value": "{\"ar\":\"ساندوتش\"}",
-                  "type": "text"
-                },
-                {
-                  "key": "detail",
-                  "value": "{\"ar\":\"Sandwich\"}",
-                  "type": "text"
-                },
-                {
-                  "key": "ingredients",
-                  "value": "{\"ar\":\"برجر\"}",
-                  "type": "text"
-                },
-                {
-                  "key": "allergens",
-                  "value": "{}",
-                  "type": "text"
-                },
-                {
-                  "key": "referTo",
-                  "value": "tryvnd@point24h.com",
-                  "type": "text"
-                },
-                {
-                  "key": "auto",
-                  "value": "false",
-                  "type": "text"
-                },
-                {
-                  "key": "upc",
-                  "value": "07",
-                  "type": "text"
-                },
-                {
-                  "key": "barcode",
-                  "value": "",
-                  "type": "text"
-                },
-                {
-                  "key": "price",
-                  "value": "2",
-                  "type": "text"
-                },
-                {
-                  "key": "pricePerKilo",
-                  "value": "false",
-                  "type": "text"
-                },
-                {
-                  "key": "category",
-                  "value": "6608a4e9e0cde61fd03f1a81",
-                  "type": "text"
-                },
-                {
-                  "key": "brand",
-                  "value": "6608a4cee0cde61fd03f197f",
-                  "type": "text"
-                },
-                {
-                  "key": "pp",
-                  "value": "prod",
-                  "type": "text"
-                },
-                {
-                  "key": "length",
-                  "value": "0",
-                  "type": "text"
-                },
-                {
-                  "key": "width",
-                  "value": "0",
-                  "type": "text"
-                },
-                {
-                  "key": "height",
-                  "value": "0",
-                  "type": "text"
-                },
-                {
-                  "key": "preImage1",
-                  "value": "gFBBW69Ecud2t9Xv4As8J.png",
-                  "type": "text"
-                },
-                {
-                  "key": "ageControl",
-                  "value": "0",
-                  "type": "text"
-                },
-                {
-                  "key": "vatIndex",
-                  "value": "0",
-                  "type": "text"
-                },
-                {
-                  "key": "virtualProduct",
-                  "value": "0",
-                  "type": "text"
-                },
-                {
-                  "key": "sortIndex",
-                  "value": "0",
-                  "type": "text"
-                }
-              ]
-            },
-            "url": {
-              "raw": "{{baseUrl}}/products/edit/660da97f7ac1611998463602",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "products",
-                "edit",
-                "660da97f7ac1611998463602"
-              ]
-            },
-            "description": "# Edit Product\n\nThis endpoint allows you to edit a specific product by making an HTTP PUT request to the specified URL.\n\n## Request\n\nThe request should be made to the following URL:\n\n```\n{{baseUrl}}/products/edit/660da97f7ac1611998463602\n\n ```\n\n### Body\n\nThe request should include a form-data body with the following parameters:\n\n- `name` (text, optional): The name of the product.\n- `description` (text, optional): The description of the product.\n- `additionPrice` (text, optional): Additional price for the product.\n- `upc` (text, optional): The UPC (Universal Product Code) of the product.\n- `price` (text, optional): The price of the product.\n- `barcode` (text, optional): The barcode of the product.\n- `category` (text, optional): The category of the product.\n- `referTo` (text, optional): Reference information for the product.\n- `dimension` (text, optional): The dimensions of the product (length, height, width).\n- `prodType` (text, optional): The type of the product.\n- `pricePerKilo` (text, optional): The price per kilo of the product.\n- `productPictures` (text, optional): Pictures of the product.\n- `costPrice` (text, optional): The cost price of the product.\n- `detail` (text, optional): Detailed information about the product.\n- `keyFeatures` (text, optional): Key features of the product.\n- `include` (text, optional): Inclusions with the product.\n- `specification` (text, optional): Specifications of the product.\n- `sortIndex` (text, optional): Sorting index for the product.\n- `vatIndex` (text, optional): VAT index for the product.\n- `virtualProduct` (text, optional): Indicates if the product is virtual.\n- `ageControl` (text, optional): Age control information for the product.\n- `ingredients` (text, optional): Ingredients used in the product.\n- `allergens` (text, optional): Allergens related to the product.\n- `productVideo` (text, optional): Video link for the product.\n- `brand` (text, optional): The brand of the product.\n    \n\n## Response\n\nUpon successful execution, the endpoint will return a status code of 200 and a JSON object with the updated details of the product."
-          },
-          "response": []
-        },
-        {
-          "name": "Create",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "auth-token",
-                "value": "{{accessToken}}",
-                "type": "text"
-              }
-            ],
-            "body": {
-              "mode": "formdata",
-              "formdata": [
-                {
-                  "key": "name",
-                  "value": "{\"ar\":\"برجر دجاج ساندوتش\"}",
-                  "type": "text"
-                },
-                {
-                  "key": "description",
-                  "value": "{\"ar\":\"ساندوتش برجر دجاج\"}",
-                  "type": "text"
-                },
-                {
-                  "key": "referTo",
-                  "value": "{{accountName}}",
-                  "type": "text"
-                },
-                {
-                  "key": "auto",
-                  "value": "false",
-                  "type": "text"
-                },
-                {
-                  "key": "upc",
-                  "value": "019",
-                  "type": "text"
-                },
-                {
-                  "key": "barcode",
-                  "value": "12345678",
-                  "type": "text"
-                },
-                {
-                  "key": "price",
-                  "value": "2.5",
-                  "type": "text"
-                },
-                {
-                  "key": "costPrice",
-                  "value": "1.5",
-                  "type": "text"
-                },
-                {
-                  "key": "pricePerKilo",
-                  "value": "false",
-                  "type": "text"
-                },
-                {
-                  "key": "ingredients",
-                  "value": "{\"ar\":\"دجاج\"}",
-                  "type": "text"
-                },
-                {
-                  "key": "allergens",
-                  "value": "{}",
-                  "type": "text"
-                },
-                {
-                  "key": "detail",
-                  "value": "{\"ar\":\"ساندوتش برجر دجاج\"}",
-                  "type": "text"
-                },
-                {
-                  "key": "category",
-                  "value": "6608a4e9e0cde61fd03f1a81",
-                  "type": "text"
-                },
-                {
-                  "key": "brand",
-                  "value": "661c2a7345f6ce15dc3df34e",
-                  "type": "text"
-                },
-                {
-                  "key": "pp",
-                  "value": "prod",
-                  "type": "text"
-                },
-                {
-                  "key": "length",
-                  "value": "10",
-                  "type": "text"
-                },
-                {
-                  "key": "width",
-                  "value": "10",
-                  "type": "text"
-                },
-                {
-                  "key": "height",
-                  "value": "8",
-                  "type": "text"
-                },
-                {
-                  "key": "ageControl",
-                  "value": "0",
-                  "type": "text"
-                },
-                {
-                  "key": "vatIndex",
-                  "value": "0",
-                  "type": "text"
-                },
-                {
-                  "key": "virtualProduct",
-                  "value": "0",
-                  "type": "text"
-                },
-                {
-                  "key": "sortIndex",
-                  "value": "0",
-                  "type": "text"
-                },
-                {
-                  "key": "image1",
-                  "type": "file",
-                  "src": "images (1).jpeg"
-                }
-              ]
-            },
-            "url": {
-              "raw": "{{baseUrl}}/products/create",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "products",
-                "create"
-              ]
-            },
-            "description": "\n### Create a New Product\n\nThis endpoint allows you to create a new product.\n\n#### Request Body\n- The request should be sent as a form-data with the following parameters:\n  - `category` (text)\n  - `productPictures` (file)\n  - `pricePerKilo` (text)\n  - `name` (text)\n  - `upc` (text)\n  - `barcode` (text)\n  - `price` (text)\n  - `description` (text)\n  - `productVideo` (text)\n  - `referTo` (text)\n  - `dimension` (text)\n  - `prodType` (text)\n  - `additionPrice` (text)\n  - `costPrice` (text)\n  - `detail` (text)\n  - `keyFeatures` (text)\n  - `include` (text)\n  - `specification` (text)\n  - `sortIndex` (text)\n  - `vatIndex` (text)\n  - `virtualProduct` (text)\n  - `ageControl` (text)\n  - `ingredients` (text)\n  - `brand` (text)\n  - `createdAt` (text)\n  - `updatedAt` (text)\n  - `__v` (text)\n\n#### Response\nUpon successful creation, the endpoint returns a status code of 201 and a JSON object with the details of the newly created product, including its ID, name, category, price, and other attributes.\n\n"
-          },
-          "response": []
-        },
-        {
-          "name": "Delete",
-          "request": {
-            "method": "DELETE",
-            "header": [
-              {
-                "key": "auth-token",
-                "value": "{{accessToken}}",
-                "type": "text"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/products/delete/:_id",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "products",
-                "delete",
-                ":_id"
-              ],
-              "variable": [
-                {
-                  "key": "_id",
-                  "value": "661c2ee745f6ce15dc3dfafd"
-                }
-              ]
-            }
-          },
-          "response": []
-        }
-      ]
-    },
-    {
-      "name": "Categories",
-      "item": [
-        {
-          "name": "List",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "auth-token",
-                "value": "{{accessToken}}",
-                "type": "text"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/categories/{{accountName}}",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "categories",
-                "{{accountName}}"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Edit",
-          "request": {
-            "method": "PUT",
-            "header": [
-              {
-                "key": "auth-token",
-                "value": "{{accessToken}}",
-                "type": "text"
-              }
-            ],
-            "body": {
-              "mode": "formdata",
-              "formdata": [
-                {
-                  "key": "name",
-                  "value": "{\"ar\":\"Sandwich\"}",
-                  "type": "text"
-                },
-                {
-                  "key": "referTo",
-                  "value": "{{accountName}}",
-                  "type": "text"
-                },
-                {
-                  "key": "auto",
-                  "value": "undefined",
-                  "type": "text"
-                },
-                {
-                  "key": "sortIndex",
-                  "value": "0",
-                  "type": "text"
-                }
-              ]
-            },
-            "url": {
-              "raw": "{{baseUrl}}/categories/edit/:_id",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "categories",
-                "edit",
-                ":_id"
-              ],
-              "variable": [
-                {
-                  "key": "_id",
-                  "value": "6608a4e9e0cde61fd03f1a81"
-                }
-              ]
-            },
-            "description": "### Update Category\n\nThis endpoint allows the user to update a specific category by providing the category ID and the updated information.\n\n#### Request\n\n- Method: PUT\n- URL: {{baseUrl}}/categories/edit/:_id\n- Body (form-data):\n    - `name` (text): The updated name of the category.\n    - `referTo` (text): The reference information for the category.\n    - `auto` (text): Indicates if the category is set to auto.\n    - `sortIndex` (text): The updated sort index of the category.\n\n#### Response\n\n- Status: 200\n- Content-Type: application/json\n- Body:\n    \n    ``` json\n    {\n        \"name\": {\n            \"ar\": \"\"\n        },\n        \"sortIndex\": 0\n    }\n    \n     ```"
-          },
-          "response": []
-        },
-        {
-          "name": "Create",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "auth-token",
-                "value": "{{accessToken}}",
-                "type": "text"
-              }
-            ],
-            "body": {
-              "mode": "formdata",
-              "formdata": [
-                {
-                  "key": "name",
-                  "value": "{\"ar\":\"Cables\"}",
-                  "type": "text"
-                },
-                {
-                  "key": "referTo",
-                  "value": "{{accountName}}",
-                  "type": "text"
-                },
-                {
-                  "key": "auto",
-                  "value": "false",
-                  "type": "text"
-                },
-                {
-                  "key": "sortIndex",
-                  "value": "0",
-                  "type": "text"
-                },
-                {
-                  "key": "categoryPicture",
-                  "type": "file",
-                  "src": "/Users/ahmed/Downloads/438d52ee-8afb-4f2e-a33e-50264675acb8.jpg"
-                }
-              ]
-            },
-            "url": {
-              "raw": "{{baseUrl}}/categories/create",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "categories",
-                "create"
-              ]
-            },
-            "description": "This endpoint makes an HTTP POST request to create a new category. The request should be sent to {{baseUrl}}/categories/create with a form-data request body type.\n\n### Request Body\n\n- No specific parameters were provided for the form-data request body.\n    \n\n### Response\n\n- **Status**: 201\n- **Content-Type**: application/json\n- The response will contain the newly created category object with the following properties:\n    - `newCategory`: An object representing the new category with properties such as `machines`, `_id`, `name`, `referTo`, `categoryPicture`, `sortIndex`, `createdAt`, `updatedAt`, and `__v`."
-          },
-          "response": []
-        }
-      ]
-    },
-    {
-      "name": "Reports",
-      "item": [
-        {
-          "name": "Machines Groups",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "auth-token",
-                "value": "{{accessToken}}",
-                "type": "text"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/groupsAndMachinesForReport/{{accountEmail}}",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "groupsAndMachinesForReport",
-                "{{accountEmail}}"
-              ]
-            },
-            "description": "# Get Groups and Machines for Report\n\nThis endpoint retrieves the groups and machines associated with a specific account for reporting purposes.\n\n## Request\n\n### URL\n\n- `GET` {{baseUrl}}/groupsAndMachinesForReport/{{accountEmail}}\n    \n\n## Response\n\n- Status: 200\n- Content-Type: application/json\n    \n\n``` json\n{\n    \"groups\": [],\n    \"machines\": [\n        {\n            \"group\": [],\n            \"currency\": {\n                \"code\": \"\",\n                \"name\": \"\",\n                \"Symbol\": \"\"\n            },\n            \"stock\": 0,\n            \"_id\": \"\",\n            \"name\": \"\",\n            \"description\": \"\",\n            \"product\": [\n                {\n                    \"current_stock\": 0,\n                    \"_id\": \"\",\n                    \"id\": {\n                        \"name\": {\n                            \"ar\": \"\"\n                        },\n                        \"category\": [\"\"],\n                        \"productPictures\": [\"\"],\n                        \"_id\": \"\",\n                        \"upc\": \"\",\n                        \"price\": 0,\n                        \"referTo\": \"\"\n                    },\n                    \"max_stock\": 0,\n                    \"upc\": \"\",\n                    \"stock\": 0,\n                    \"floor\": 0,\n                    \"lane\": 0,\n                    \"name\": \"\",\n                    \"motor\": \"\"\n                }\n            ],\n            \"products_min\": [],\n            \"diff\": true\n        }\n    ]\n}\n\n ```"
-          },
-          "response": []
-        }
-      ]
-    },
-    {
-      "name": "Orders",
-      "item": [
-        {
-          "name": "List",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "auth-token",
-                "value": "{{accessToken}}",
-                "type": "text"
-              }
-            ],
-            "body": {
-              "mode": "urlencoded",
-              "urlencoded": [
-                {
-                  "key": "start",
-                  "value": "2024-04-10T00:00:00.000Z",
-                  "type": "text"
-                },
-                {
-                  "key": "end",
-                  "value": "2024-04-14T23:59:59.999Z",
-                  "type": "text"
-                },
-                {
-                  "key": "id",
-                  "value": "{{accountName}}",
-                  "type": "text"
-                },
-                {
-                  "key": "ids",
-                  "value": "657ab833c7201f469894300d,657ab86ec7201f469894300f",
-                  "description": "Comma separated Machine IDs",
-                  "type": "text"
-                }
-              ]
-            },
-            "url": {
-              "raw": "{{baseUrl}}/orders",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "orders"
-              ]
-            },
-            "description": "## Add Order\n\nThis endpoint allows you to list all orders and transactions for specified mchaine ids.\n\n### Request Body\n\n- `start` (text): The starting location for the order.\n- `end` (text): The destination location for the order.\n- `id` (text): The ID of the order.\n- `ids` (text): Comma separated Machine IDs.\n    \n\n### Response\n\n- Status: 200\n- Content Type: application/json\n- Body:\n    \n    ``` json\n    [\n      {\n        \"status\": \"\",\n        \"payment_type\": \"\",\n        \"lang\": \"\",\n        \"_id\": \"\",\n        \"machineID\": {\n          \"_id\": \"\",\n          \"name\": \"\",\n          \"description\": \"\"\n        },\n        \"products\": [\n          {\n            \"quantity\": 0,\n            \"discount\": 0,\n            \"proposed\": true,\n            \"_id\": \"\",\n            \"product\": {\n              \"name\": {\n                \"ar\": \"\"\n              },\n              \"category\": [\"\"],\n              \"_id\": \"\",\n              \"upc\": \"\",\n              \"price\": 0\n            },\n            \"upc\": \"\",\n            \"name\": \"\",\n            \"lane\": \"\",\n            \"detail\": \"\",\n            \"soldPrice\": 0,\n            \"tax_amount\": 0,\n            \"retail_price\": 0,\n            \"row_number\": \"\"\n          }\n        ],\n        \"referTo\": \"\",\n        \"tax\": 0,\n        \"total\": 0,\n        \"currency\": \"\",\n        \"createdAt\": \"\",\n        \"createdAtUtc\": \"\",\n        \"utcOffset\": 0,\n        \"payment_transaction_id\": \"\",\n        \"payment_receipt\": \"\",\n        \"cart_number\": \"\",\n        \"card_number\": \"\",\n        \"card_department\": \"\",\n        \"email\": \"\",\n        \"reservation_code\": \"\",\n        \"return_code\": \"\",\n        \"__v\": 0\n      }\n    ]\n    \n     ```"
-          },
-          "response": []
-        }
-      ],
-      "description": "Transactions and order details"
-    },
-    {
-      "name": "Users",
-      "item": [
-        {
-          "name": "List",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "auth-token",
-                "value": "{{accessToken}}",
-                "type": "text"
-              }
-            ],
-            "body": {
-              "mode": "urlencoded",
-              "urlencoded": [
-                {
-                  "key": "id",
-                  "value": "{{accountName}}",
-                  "type": "text"
-                }
-              ]
-            },
-            "url": {
-              "raw": "{{baseUrl}}/users/getAllEmployees",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "users",
-                "getAllEmployees"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Create",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "auth-token",
-                "value": "{{accessToken}}",
-                "type": "text"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n    \"firstname\": \"John\",\n    \"lastname\": \"Doh\",\n    \"password\": \"cb9b2c13\",\n    \"email\": \"daken95777@abnovel.com\",\n    \"role\": \"User\",\n    \"addedToAdmin\": \"{{accountName}}\",\n    \"fullAccess\": true,\n    \"mfa\": false,\n    \"limits\": {\n        \"view_machine\": true,\n        \"edit_machine\": true,\n        \"view_prod\": true,\n        \"edit_prod\": true,\n        \"view_cate\": true,\n        \"edit_cate\": true,\n        \"view_brand\": true,\n        \"edit_brand\": true,\n        \"view_receipt\": true,\n        \"edit_receipt\": true,\n        \"view_ss\": true,\n        \"edit_ss\": true,\n        \"edit_group\": true,\n        \"edit_user\": true,\n        \"view_plano\": true,\n        \"edit_plano\": true,\n        \"view_promo\": true,\n        \"edit_promo\": true,\n        \"view_proposal\": true,\n        \"edit_proposal\": true,\n        \"view_report\": true,\n        \"view_trans\": true\n    },\n    \"features\": {\n        \"additionPrice\": false,\n        \"disablePromo\": false,\n        \"disableMR\": false,\n        \"extra\": false,\n        \"temperature\": true,\n        \"disableAudio\": true,\n        \"disablePlanogram\": true,\n        \"disableAlert\": false,\n        \"advanced\": false,\n        \"badges\": false\n    },\n    \"theme\": \"0\",\n    \"stocking\": true,\n    \"stocking_write\": false,\n    \"langs\": [],\n    \"dba\": false,\n    \"email2\": null,\n    \"currency\": {\n        \"code\": \"KWD\",\n        \"name\": \"Kuwaiti Dinar\",\n        \"symbol\": \"د.ك\"\n    },\n    \"lang1\": \"ar\",\n    \"lang2\": \"\",\n    \"lang3\": \"\"\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}/users/create",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "users",
-                "create"
-              ]
-            }
-          },
-          "response": []
-        }
-      ]
-    },
-    {
-      "name": "Stocking",
-      "item": [
-        {
-          "name": "Log",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "auth-token",
-                "value": "{{accessToken}}",
-                "type": "text"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/stockLog/:machine_id/:from_date/:to_date",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "stockLog",
-                ":machine_id",
-                ":from_date",
-                ":to_date"
-              ],
-              "variable": [
-                {
-                  "key": "machine_id",
-                  "value": "657ab833c7201f469894300d"
-                },
-                {
-                  "key": "from_date",
-                  "value": "2024-04-01T00:00:00.000Z"
-                },
-                {
-                  "key": "to_date",
-                  "value": "2024-04-14T23:59:59.999Z"
-                }
-              ]
-            },
-            "description": "# Retrieve Stock Log by Machine and Date Range\n\nThis endpoint allows you to retrieve the stock log for a specific machine within a given date range.\n\n## Request\n\n### Endpoint\n\n`GET /stockLog/:machine_id/:from_date/:to_date`\n\n### Parameters\n\n- `machine_id` (required, string) - The unique identifier of the machine.\n- `from_date` (required, string) - The start date of the date range in the format YYYY-MM-DD.\n- `to_date` (required, string) - The end date of the date range in the format YYYY-MM-DD.\n    \n\n## Response\n\n- Status: 200 OK\n- Content-Type: application/json\n    \n\n``` json\n[\n    {\n        \"_id\": \"\",\n        \"machine\": \"\",\n        \"user\": null,\n        \"prods\": [\n            {\n                \"_id\": \"\",\n                \"id\": null,\n                \"pos\": \"\",\n                \"current_stock\": 0,\n                \"pre_stock\": 0,\n                \"motor\": \"\",\n                \"stock\": 0,\n                \"row\": 0,\n                \"lane\": 0,\n                \"upc\": \"\",\n                \"name\": \"\"\n            }\n        ],\n        \"localDate\": \"\",\n        \"createdAt\": \"\",\n        \"updatedAt\": \"\",\n        \"__v\": 0\n    }\n]\n\n ```\n\nThe response contains an array of stock log entries for the specified machine within the provided date range. Each entry includes details such as machine ID, user, product details, local date, and timestamps."
-          },
-          "response": []
-        }
-      ]
-    },
-    {
-      "name": "Brands",
-      "item": [
-        {
-          "name": "List",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "auth-token",
-                "value": "{{accessToken}}",
-                "type": "text"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/brands/{{accountName}}",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "brands",
-                "{{accountName}}"
-              ]
-            },
-            "description": "This endpoint retrieves information about a specific brand associated with the account.\n\n### Request\n\n`GET /brands/{{accountName}}`\n\n### Response\n\n- Status: 200\n- Content-Type: application/json\n    \n\nExample response body:\n\n``` json\n[\n    {\n        \"name\": {\n            \"en\": \"\"\n        },\n        \"_id\": \"\",\n        \"referTo\": \"\",\n        \"picture\": \"\",\n        \"logo\": \"\",\n        \"createdAt\": \"\",\n        \"updatedAt\": \"\",\n        \"__v\": 0\n    }\n]\n\n ```"
-          },
-          "response": []
-        },
-        {
-          "name": "Edit",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "auth-token",
-                "value": "{{accessToken}}",
-                "type": "text"
-              }
-            ],
-            "body": {
-              "mode": "formdata",
-              "formdata": [
-                {
-                  "key": "name",
-                  "value": "{\"en\":\"mes\"}",
-                  "type": "text"
-                },
-                {
-                  "key": "referTo",
-                  "value": "{{accountName}}",
-                  "type": "text"
-                }
-              ]
-            },
-            "url": {
-              "raw": "{{baseUrl}}/brands/edit/:_id",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "brands",
-                "edit",
-                ":_id"
-              ],
-              "variable": [
-                {
-                  "key": "_id",
-                  "value": "660dad867ac161199846401a",
-                  "description": "Brand ID"
-                }
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Create",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "auth-token",
-                "value": "{{accessToken}}",
-                "type": "text"
-              }
-            ],
-            "body": {
-              "mode": "formdata",
-              "formdata": [
-                {
-                  "key": "name",
-                  "value": "{\"en\":\"Holms Burger\"}",
-                  "type": "text"
-                },
-                {
-                  "key": "referTo",
-                  "value": "{{accountName}}",
-                  "type": "text"
-                },
-                {
-                  "key": "picture",
-                  "type": "file",
-                  "src": []
-                }
-              ]
-            },
-            "url": {
-              "raw": "{{baseUrl}}/brands/create",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "brands",
-                "create"
-              ]
-            }
-          },
-          "response": []
-        }
-      ]
-    }
-  ],
-  "event": [
-    {
-      "listen": "prerequest",
-      "script": {
-        "type": "text/javascript",
-        "packages": {},
-        "exec": [
-          "pm.request.headers.add({",
-          "    'auth-token':pm.variables.get(\"accessToken\")",
-          "})"
-        ]
-      }
-    },
-    {
-      "listen": "test",
-      "script": {
-        "type": "text/javascript",
-        "packages": {},
-        "exec": [
-          ""
-        ]
-      }
-    }
-  ],
-  "variable": [
-    {
-      "key": "baseUrl",
-      "value": "https://devapi.point24h.com/api",
-      "type": "string"
-    },
-    {
-      "key": "accountEmail",
-      "value": "meshari.alobaidi@tryvnd.com",
-      "type": "string"
-    },
-    {
-      "key": "accountName",
-      "value": "tryvnd@point24h.com",
-      "type": "string"
-    }
-  ]
+	"info": {
+		"_postman_id": "556cb5dc-7ca1-45d1-ba8f-7e2c1ecc97e3",
+		"name": "VND API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34264370",
+		"_collection_link": "https://www.postman.com/trolley-ecommerce/workspace/vnd/collection/34264370-556cb5dc-7ca1-45d1-ba8f-7e2c1ecc97e3?action=share&source=collection_link&creator=34264370"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var accessToken = pm.response.json().accessToken;",
+									"pm.globals.set(\"accessToken\", accessToken);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "meshari.alobaidi@tryvnd.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "3d55e04b",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Machines",
+			"item": [
+				{
+					"name": "List",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "auth-token",
+								"value": "{{accessToken}}",
+								"type": "text",
+								"uuid": "298eff6a-b67a-4954-9cf3-5ce101782a80"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "auth-token",
+									"value": "{{accessToken}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/groupsAndMachines/{{accountName}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"groupsAndMachines",
+								"{{accountName}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "auth-token",
+								"value": "{{accessToken}}",
+								"type": "text",
+								"uuid": "692f5d55-2fdd-43c0-952b-6c4fe9bbadc0"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "description",
+									"value": "STC 2",
+									"type": "text"
+								},
+								{
+									"key": "tax",
+									"value": "0",
+									"type": "text"
+								},
+								{
+									"key": "name",
+									"value": "5686",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/machines/edit/657ab833c7201f469894300d",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"machines",
+								"edit",
+								"657ab833c7201f469894300d"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "View",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "auth-token",
+								"value": "{{accessToken}}",
+								"type": "text",
+								"uuid": "f3d28520-a26d-4e17-b185-998f0709dd30"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "{{baseUrl}}/public/machines/:serial",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"public",
+								"machines",
+								":serial"
+							],
+							"variable": [
+								{
+									"key": "serial",
+									"value": "5686",
+									"uuid": "ab570022-2551-41d0-a528-fd6d9ced473f"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Products",
+			"item": [
+				{
+					"name": "List",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "{{baseUrl}}/products/{{accountName}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"products",
+								"{{accountName}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "View",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "{{baseUrl}}/product/:_id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"product",
+								":_id"
+							],
+							"variable": [
+								{
+									"key": "_id",
+									"value": "660da97f7ac1611998463602",
+									"uuid": "640d6fcb-f2ec-41f8-808a-d019464e6e3e"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "{\"ar\":\"Meshari\"}",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "{\"ar\":\"ساندوتش\"}",
+									"type": "text"
+								},
+								{
+									"key": "detail",
+									"value": "{\"ar\":\"Sandwich\"}",
+									"type": "text"
+								},
+								{
+									"key": "ingredients",
+									"value": "{\"ar\":\"برجر\"}",
+									"type": "text"
+								},
+								{
+									"key": "allergens",
+									"value": "{}",
+									"type": "text"
+								},
+								{
+									"key": "referTo",
+									"value": "tryvnd@point24h.com",
+									"type": "text"
+								},
+								{
+									"key": "auto",
+									"value": "false",
+									"type": "text"
+								},
+								{
+									"key": "upc",
+									"value": "07",
+									"type": "text"
+								},
+								{
+									"key": "barcode",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "price",
+									"value": "2",
+									"type": "text"
+								},
+								{
+									"key": "pricePerKilo",
+									"value": "false",
+									"type": "text"
+								},
+								{
+									"key": "category",
+									"value": "6608a4e9e0cde61fd03f1a81",
+									"type": "text"
+								},
+								{
+									"key": "brand",
+									"value": "6608a4cee0cde61fd03f197f",
+									"type": "text"
+								},
+								{
+									"key": "pp",
+									"value": "prod",
+									"type": "text"
+								},
+								{
+									"key": "length",
+									"value": "0",
+									"type": "text"
+								},
+								{
+									"key": "width",
+									"value": "0",
+									"type": "text"
+								},
+								{
+									"key": "height",
+									"value": "0",
+									"type": "text"
+								},
+								{
+									"key": "preImage1",
+									"value": "gFBBW69Ecud2t9Xv4As8J.png",
+									"type": "text"
+								},
+								{
+									"key": "ageControl",
+									"value": "0",
+									"type": "text"
+								},
+								{
+									"key": "vatIndex",
+									"value": "0",
+									"type": "text"
+								},
+								{
+									"key": "virtualProduct",
+									"value": "0",
+									"type": "text"
+								},
+								{
+									"key": "sortIndex",
+									"value": "0",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/products/edit/660da97f7ac1611998463602",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"products",
+								"edit",
+								"660da97f7ac1611998463602"
+							]
+						},
+						"description": "# Edit Product\n\nThis endpoint allows you to edit a specific product by making an HTTP PUT request to the specified URL.\n\n## Request\n\nThe request should be made to the following URL:\n\n```\n{{baseUrl}}/products/edit/660da97f7ac1611998463602\n\n ```\n\n### Body\n\nThe request should include a form-data body with the following parameters:\n\n- `name` (text, optional): The name of the product.\n- `description` (text, optional): The description of the product.\n- `additionPrice` (text, optional): Additional price for the product.\n- `upc` (text, optional): The UPC (Universal Product Code) of the product.\n- `price` (text, optional): The price of the product.\n- `barcode` (text, optional): The barcode of the product.\n- `category` (text, optional): The category of the product.\n- `referTo` (text, optional): Reference information for the product.\n- `dimension` (text, optional): The dimensions of the product (length, height, width).\n- `prodType` (text, optional): The type of the product.\n- `pricePerKilo` (text, optional): The price per kilo of the product.\n- `productPictures` (text, optional): Pictures of the product.\n- `costPrice` (text, optional): The cost price of the product.\n- `detail` (text, optional): Detailed information about the product.\n- `keyFeatures` (text, optional): Key features of the product.\n- `include` (text, optional): Inclusions with the product.\n- `specification` (text, optional): Specifications of the product.\n- `sortIndex` (text, optional): Sorting index for the product.\n- `vatIndex` (text, optional): VAT index for the product.\n- `virtualProduct` (text, optional): Indicates if the product is virtual.\n- `ageControl` (text, optional): Age control information for the product.\n- `ingredients` (text, optional): Ingredients used in the product.\n- `allergens` (text, optional): Allergens related to the product.\n- `productVideo` (text, optional): Video link for the product.\n- `brand` (text, optional): The brand of the product.\n    \n\n## Response\n\nUpon successful execution, the endpoint will return a status code of 200 and a JSON object with the updated details of the product."
+					},
+					"response": []
+				},
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "{\"ar\":\"برجر دجاج ساندوتش\"}",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "{\"ar\":\"ساندوتش برجر دجاج\"}",
+									"type": "text"
+								},
+								{
+									"key": "referTo",
+									"value": "{{accountName}}",
+									"type": "text"
+								},
+								{
+									"key": "auto",
+									"value": "false",
+									"type": "text"
+								},
+								{
+									"key": "upc",
+									"value": "019c",
+									"type": "text"
+								},
+								{
+									"key": "barcode",
+									"value": "12345678",
+									"type": "text"
+								},
+								{
+									"key": "price",
+									"value": "2.5",
+									"type": "text"
+								},
+								{
+									"key": "costPrice",
+									"value": "1.5",
+									"type": "text"
+								},
+								{
+									"key": "pricePerKilo",
+									"value": "false",
+									"type": "text"
+								},
+								{
+									"key": "ingredients",
+									"value": "{\"ar\":\"دجاج\"}",
+									"type": "text"
+								},
+								{
+									"key": "allergens",
+									"value": "{}",
+									"type": "text"
+								},
+								{
+									"key": "detail",
+									"value": "{\"ar\":\"ساندوتش برجر دجاج\"}",
+									"type": "text"
+								},
+								{
+									"key": "category",
+									"value": "6608a4e9e0cde61fd03f1a81",
+									"type": "text"
+								},
+								{
+									"key": "brand",
+									"value": "661c2a7345f6ce15dc3df34e",
+									"type": "text"
+								},
+								{
+									"key": "pp",
+									"value": "prod",
+									"type": "text"
+								},
+								{
+									"key": "length",
+									"value": "10",
+									"type": "text"
+								},
+								{
+									"key": "width",
+									"value": "10",
+									"type": "text"
+								},
+								{
+									"key": "height",
+									"value": "8",
+									"type": "text"
+								},
+								{
+									"key": "ageControl",
+									"value": "0",
+									"type": "text"
+								},
+								{
+									"key": "vatIndex",
+									"value": "0",
+									"type": "text"
+								},
+								{
+									"key": "virtualProduct",
+									"value": "0",
+									"type": "text"
+								},
+								{
+									"key": "sortIndex",
+									"value": "0",
+									"type": "text"
+								},
+								{
+									"key": "image1",
+									"type": "file",
+									"src": "images (1).jpeg"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/products/create",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"products",
+								"create"
+							]
+						},
+						"description": "\n### Create a New Product\n\nThis endpoint allows you to create a new product.\n\n#### Request Body\n- The request should be sent as a form-data with the following parameters:\n  - `category` (text)\n  - `productPictures` (file)\n  - `pricePerKilo` (text)\n  - `name` (text)\n  - `upc` (text)\n  - `barcode` (text)\n  - `price` (text)\n  - `description` (text)\n  - `productVideo` (text)\n  - `referTo` (text)\n  - `dimension` (text)\n  - `prodType` (text)\n  - `additionPrice` (text)\n  - `costPrice` (text)\n  - `detail` (text)\n  - `keyFeatures` (text)\n  - `include` (text)\n  - `specification` (text)\n  - `sortIndex` (text)\n  - `vatIndex` (text)\n  - `virtualProduct` (text)\n  - `ageControl` (text)\n  - `ingredients` (text)\n  - `brand` (text)\n  - `createdAt` (text)\n  - `updatedAt` (text)\n  - `__v` (text)\n\n#### Response\nUpon successful creation, the endpoint returns a status code of 201 and a JSON object with the details of the newly created product, including its ID, name, category, price, and other attributes.\n\n"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/products/delete/:_id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"products",
+								"delete",
+								":_id"
+							],
+							"variable": [
+								{
+									"key": "_id",
+									"value": "661c2ee745f6ce15dc3dfafd",
+									"uuid": "75524f46-c297-4c45-92ea-fff5e9e0b994"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Categories",
+			"item": [
+				{
+					"name": "List",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "auth-token",
+								"value": "{{accessToken}}",
+								"type": "text",
+								"uuid": "3f186175-be93-41cf-884d-6cf90714f987"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/categories/{{accountName}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"categories",
+								"{{accountName}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "auth-token",
+								"value": "{{accessToken}}",
+								"type": "text",
+								"uuid": "e98d3b55-df66-4ac5-8945-138d51872d34"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "{\"ar\":\"Sandwich\"}",
+									"type": "text"
+								},
+								{
+									"key": "referTo",
+									"value": "{{accountName}}",
+									"type": "text"
+								},
+								{
+									"key": "auto",
+									"value": "undefined",
+									"type": "text"
+								},
+								{
+									"key": "sortIndex",
+									"value": "0",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/categories/edit/:_id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"categories",
+								"edit",
+								":_id"
+							],
+							"variable": [
+								{
+									"key": "_id",
+									"value": "6608a4e9e0cde61fd03f1a81",
+									"uuid": "73a7434b-9f29-4bb9-b529-0be1cdaaf52d"
+								}
+							]
+						},
+						"description": "### Update Category\n\nThis endpoint allows the user to update a specific category by providing the category ID and the updated information.\n\n#### Request\n\n- Method: PUT\n- URL: {{baseUrl}}/categories/edit/:_id\n- Body (form-data):\n    - `name` (text): The updated name of the category.\n    - `referTo` (text): The reference information for the category.\n    - `auto` (text): Indicates if the category is set to auto.\n    - `sortIndex` (text): The updated sort index of the category.\n\n#### Response\n\n- Status: 200\n- Content-Type: application/json\n- Body:\n    \n    ``` json\n    {\n        \"name\": {\n            \"ar\": \"\"\n        },\n        \"sortIndex\": 0\n    }\n    \n     ```"
+					},
+					"response": []
+				},
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "auth-token",
+								"value": "{{accessToken}}",
+								"type": "text",
+								"uuid": "025a9e36-027b-4af5-9da5-f6657dc773ca"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "{\"ar\":\"Cables\"}",
+									"type": "text"
+								},
+								{
+									"key": "referTo",
+									"value": "{{accountName}}",
+									"type": "text"
+								},
+								{
+									"key": "auto",
+									"value": "false",
+									"type": "text"
+								},
+								{
+									"key": "sortIndex",
+									"value": "0",
+									"type": "text"
+								},
+								{
+									"key": "categoryPicture",
+									"type": "file",
+									"src": "/Users/ahmed/Downloads/438d52ee-8afb-4f2e-a33e-50264675acb8.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/categories/create",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"categories",
+								"create"
+							]
+						},
+						"description": "This endpoint makes an HTTP POST request to create a new category. The request should be sent to {{baseUrl}}/categories/create with a form-data request body type.\n\n### Request Body\n\n- No specific parameters were provided for the form-data request body.\n    \n\n### Response\n\n- **Status**: 201\n- **Content-Type**: application/json\n- The response will contain the newly created category object with the following properties:\n    - `newCategory`: An object representing the new category with properties such as `machines`, `_id`, `name`, `referTo`, `categoryPicture`, `sortIndex`, `createdAt`, `updatedAt`, and `__v`."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Reports",
+			"item": [
+				{
+					"name": "Machines Groups",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "auth-token",
+								"value": "{{accessToken}}",
+								"type": "text",
+								"uuid": "efdcd9e1-3ff4-4241-9fc0-cb4cc1f51894"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/groupsAndMachinesForReport/{{accountEmail}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"groupsAndMachinesForReport",
+								"{{accountEmail}}"
+							]
+						},
+						"description": "# Get Groups and Machines for Report\n\nThis endpoint retrieves the groups and machines associated with a specific account for reporting purposes.\n\n## Request\n\n### URL\n\n- `GET` {{baseUrl}}/groupsAndMachinesForReport/{{accountEmail}}\n    \n\n## Response\n\n- Status: 200\n- Content-Type: application/json\n    \n\n``` json\n{\n    \"groups\": [],\n    \"machines\": [\n        {\n            \"group\": [],\n            \"currency\": {\n                \"code\": \"\",\n                \"name\": \"\",\n                \"Symbol\": \"\"\n            },\n            \"stock\": 0,\n            \"_id\": \"\",\n            \"name\": \"\",\n            \"description\": \"\",\n            \"product\": [\n                {\n                    \"current_stock\": 0,\n                    \"_id\": \"\",\n                    \"id\": {\n                        \"name\": {\n                            \"ar\": \"\"\n                        },\n                        \"category\": [\"\"],\n                        \"productPictures\": [\"\"],\n                        \"_id\": \"\",\n                        \"upc\": \"\",\n                        \"price\": 0,\n                        \"referTo\": \"\"\n                    },\n                    \"max_stock\": 0,\n                    \"upc\": \"\",\n                    \"stock\": 0,\n                    \"floor\": 0,\n                    \"lane\": 0,\n                    \"name\": \"\",\n                    \"motor\": \"\"\n                }\n            ],\n            \"products_min\": [],\n            \"diff\": true\n        }\n    ]\n}\n\n ```"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Orders",
+			"item": [
+				{
+					"name": "List",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "auth-token",
+								"value": "{{accessToken}}",
+								"type": "text",
+								"uuid": "4d96ab68-35d3-4c85-b5c7-774e5a9f6b16"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "start",
+									"value": "2024-04-10T00:00:00.000Z",
+									"type": "text"
+								},
+								{
+									"key": "end",
+									"value": "2024-04-14T23:59:59.999Z",
+									"type": "text"
+								},
+								{
+									"key": "id",
+									"value": "{{accountName}}",
+									"type": "text"
+								},
+								{
+									"key": "ids",
+									"value": "657ab833c7201f469894300d,657ab86ec7201f469894300f",
+									"description": "Comma separated Machine IDs",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/orders",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"orders"
+							]
+						},
+						"description": "## Add Order\n\nThis endpoint allows you to list all orders and transactions for specified mchaine ids.\n\n### Request Body\n\n- `start` (text): The starting location for the order.\n- `end` (text): The destination location for the order.\n- `id` (text): The ID of the order.\n- `ids` (text): Comma separated Machine IDs.\n    \n\n### Response\n\n- Status: 200\n- Content Type: application/json\n- Body:\n    \n    ``` json\n    [\n      {\n        \"status\": \"\",\n        \"payment_type\": \"\",\n        \"lang\": \"\",\n        \"_id\": \"\",\n        \"machineID\": {\n          \"_id\": \"\",\n          \"name\": \"\",\n          \"description\": \"\"\n        },\n        \"products\": [\n          {\n            \"quantity\": 0,\n            \"discount\": 0,\n            \"proposed\": true,\n            \"_id\": \"\",\n            \"product\": {\n              \"name\": {\n                \"ar\": \"\"\n              },\n              \"category\": [\"\"],\n              \"_id\": \"\",\n              \"upc\": \"\",\n              \"price\": 0\n            },\n            \"upc\": \"\",\n            \"name\": \"\",\n            \"lane\": \"\",\n            \"detail\": \"\",\n            \"soldPrice\": 0,\n            \"tax_amount\": 0,\n            \"retail_price\": 0,\n            \"row_number\": \"\"\n          }\n        ],\n        \"referTo\": \"\",\n        \"tax\": 0,\n        \"total\": 0,\n        \"currency\": \"\",\n        \"createdAt\": \"\",\n        \"createdAtUtc\": \"\",\n        \"utcOffset\": 0,\n        \"payment_transaction_id\": \"\",\n        \"payment_receipt\": \"\",\n        \"cart_number\": \"\",\n        \"card_number\": \"\",\n        \"card_department\": \"\",\n        \"email\": \"\",\n        \"reservation_code\": \"\",\n        \"return_code\": \"\",\n        \"__v\": 0\n      }\n    ]\n    \n     ```"
+					},
+					"response": []
+				}
+			],
+			"description": "Transactions and order details"
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "List",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "auth-token",
+								"value": "{{accessToken}}",
+								"type": "text",
+								"uuid": "86b5e32a-d789-4310-a130-62e1f4674f54"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "id",
+									"value": "{{accountName}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users/getAllEmployees",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"getAllEmployees"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "auth-token",
+								"value": "{{accessToken}}",
+								"type": "text",
+								"uuid": "12035b63-b12f-40e0-be23-6aa7d0fd8e89"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstname\": \"John\",\n    \"lastname\": \"Doh\",\n    \"password\": \"cb9b2c13\",\n    \"email\": \"daken95777@abnovel.com\",\n    \"role\": \"User\",\n    \"addedToAdmin\": \"{{accountName}}\",\n    \"fullAccess\": true,\n    \"mfa\": false,\n    \"limits\": {\n        \"view_machine\": true,\n        \"edit_machine\": true,\n        \"view_prod\": true,\n        \"edit_prod\": true,\n        \"view_cate\": true,\n        \"edit_cate\": true,\n        \"view_brand\": true,\n        \"edit_brand\": true,\n        \"view_receipt\": true,\n        \"edit_receipt\": true,\n        \"view_ss\": true,\n        \"edit_ss\": true,\n        \"edit_group\": true,\n        \"edit_user\": true,\n        \"view_plano\": true,\n        \"edit_plano\": true,\n        \"view_promo\": true,\n        \"edit_promo\": true,\n        \"view_proposal\": true,\n        \"edit_proposal\": true,\n        \"view_report\": true,\n        \"view_trans\": true\n    },\n    \"features\": {\n        \"additionPrice\": false,\n        \"disablePromo\": false,\n        \"disableMR\": false,\n        \"extra\": false,\n        \"temperature\": true,\n        \"disableAudio\": true,\n        \"disablePlanogram\": true,\n        \"disableAlert\": false,\n        \"advanced\": false,\n        \"badges\": false\n    },\n    \"theme\": \"0\",\n    \"stocking\": true,\n    \"stocking_write\": false,\n    \"langs\": [],\n    \"dba\": false,\n    \"email2\": null,\n    \"currency\": {\n        \"code\": \"KWD\",\n        \"name\": \"Kuwaiti Dinar\",\n        \"symbol\": \"د.ك\"\n    },\n    \"lang1\": \"ar\",\n    \"lang2\": \"\",\n    \"lang3\": \"\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users/create",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"create"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Stocking",
+			"item": [
+				{
+					"name": "Log",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "auth-token",
+								"value": "{{accessToken}}",
+								"type": "text",
+								"uuid": "9ffc500b-9640-4304-8eb0-273af72c7933"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/stockLog/:machine_id/:from_date/:to_date",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"stockLog",
+								":machine_id",
+								":from_date",
+								":to_date"
+							],
+							"variable": [
+								{
+									"key": "machine_id",
+									"value": "657ab833c7201f469894300d",
+									"uuid": "0fbcba98-94d0-4efe-b4ac-c22a10f4ba85"
+								},
+								{
+									"key": "from_date",
+									"value": "2024-04-01T00:00:00.000Z",
+									"uuid": "b512db25-089e-48b6-837d-fe79414a3b16"
+								},
+								{
+									"key": "to_date",
+									"value": "2024-04-14T23:59:59.999Z",
+									"uuid": "8bb62cf7-b137-4800-b358-a967030302d0"
+								}
+							]
+						},
+						"description": "# Retrieve Stock Log by Machine and Date Range\n\nThis endpoint allows you to retrieve the stock log for a specific machine within a given date range.\n\n## Request\n\n### Endpoint\n\n`GET /stockLog/:machine_id/:from_date/:to_date`\n\n### Parameters\n\n- `machine_id` (required, string) - The unique identifier of the machine.\n- `from_date` (required, string) - The start date of the date range in the format YYYY-MM-DD.\n- `to_date` (required, string) - The end date of the date range in the format YYYY-MM-DD.\n    \n\n## Response\n\n- Status: 200 OK\n- Content-Type: application/json\n    \n\n``` json\n[\n    {\n        \"_id\": \"\",\n        \"machine\": \"\",\n        \"user\": null,\n        \"prods\": [\n            {\n                \"_id\": \"\",\n                \"id\": null,\n                \"pos\": \"\",\n                \"current_stock\": 0,\n                \"pre_stock\": 0,\n                \"motor\": \"\",\n                \"stock\": 0,\n                \"row\": 0,\n                \"lane\": 0,\n                \"upc\": \"\",\n                \"name\": \"\"\n            }\n        ],\n        \"localDate\": \"\",\n        \"createdAt\": \"\",\n        \"updatedAt\": \"\",\n        \"__v\": 0\n    }\n]\n\n ```\n\nThe response contains an array of stock log entries for the specified machine within the provided date range. Each entry includes details such as machine ID, user, product details, local date, and timestamps."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Brands",
+			"item": [
+				{
+					"name": "List",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "auth-token",
+								"value": "{{accessToken}}",
+								"type": "text",
+								"uuid": "6c1ce79c-91a3-40ac-a556-597051df6e9a"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/brands/{{accountName}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"brands",
+								"{{accountName}}"
+							]
+						},
+						"description": "This endpoint retrieves information about a specific brand associated with the account.\n\n### Request\n\n`GET /brands/{{accountName}}`\n\n### Response\n\n- Status: 200\n- Content-Type: application/json\n    \n\nExample response body:\n\n``` json\n[\n    {\n        \"name\": {\n            \"en\": \"\"\n        },\n        \"_id\": \"\",\n        \"referTo\": \"\",\n        \"picture\": \"\",\n        \"logo\": \"\",\n        \"createdAt\": \"\",\n        \"updatedAt\": \"\",\n        \"__v\": 0\n    }\n]\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "Edit",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "auth-token",
+								"value": "{{accessToken}}",
+								"type": "text",
+								"uuid": "ca938fcd-486d-4bee-92f1-738971977a79"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "{\"en\":\"mes\"}",
+									"type": "text"
+								},
+								{
+									"key": "referTo",
+									"value": "{{accountName}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/brands/edit/:_id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"brands",
+								"edit",
+								":_id"
+							],
+							"variable": [
+								{
+									"key": "_id",
+									"value": "660dad867ac161199846401a",
+									"description": "Brand ID",
+									"uuid": "6691b0fe-20db-4617-9c38-768f528172db"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "auth-token",
+								"value": "{{accessToken}}",
+								"type": "text",
+								"uuid": "b237c1fe-b322-4b1c-961f-674a19208da2"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "{\"en\":\"Holms Burger\"}",
+									"type": "text"
+								},
+								{
+									"key": "referTo",
+									"value": "{{accountName}}",
+									"type": "text"
+								},
+								{
+									"key": "picture",
+									"type": "file",
+									"src": []
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/brands/create",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"brands",
+								"create"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					"pm.request.headers.add({",
+					"    'auth-token':pm.variables.get(\"accessToken\")",
+					"})"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "https://devapi.point24h.com/api",
+			"type": "string"
+		},
+		{
+			"key": "accountEmail",
+			"value": "meshari.alobaidi@tryvnd.com",
+			"type": "string"
+		},
+		{
+			"key": "accountName",
+			"value": "tryvnd@point24h.com",
+			"type": "string"
+		}
+	]
 }

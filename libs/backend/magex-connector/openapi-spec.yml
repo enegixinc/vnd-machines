@@ -40,128 +40,9 @@ paths:
                   example: 3d55e04b
       responses:
         '200':
-          description: OK
-          headers:
-            Keep-Alive:
-              schema:
-                type: string
-                example: timeout=5
-            Content-Type:
-              schema:
-                type: string
-                example: application/json; charset=utf-8
-            ETag:
-              schema:
-                type: string
-                example: W/"988-CusOgnjLO/gyDHRw8HAuxUBn/ik"
-            Vary:
-              schema:
-                type: string
-                example: Origin
-            Server:
-              schema:
-                type: string
-                example: Microsoft-IIS/10.0
-            X-Powered-By:
-              schema:
-                type: string
-                example: ASP.NET
-            Access-Control-Allow-Credentials:
-              schema:
-                type: boolean
-                example: 'true'
-            Set-Cookie:
-              schema:
-                type: string
-                example: >-
-                  refresh-token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1lc2hhcmkuYWxvYmFpZGlAdHJ5dm5kLmNvbSIsImlkIjoiNjU3YzRlN2JiMGYyODkxMjI0ZDVlOWIwIiwiY291bnQiOjAsImlhdCI6MTcxNDQxMDA3NSwiZXhwIjoxNzE1MDE0ODc1fQ.6K6A1lIZrPqZh7YL00RSbwIjzF6bc6uIYbi8ajVCAb0;
-                  Max-Age=315360000; Path=/; Expires=Thu, 27 Apr 2034 17:01:15
-                  GMT; HttpOnly
-            Date:
-              schema:
-                type: string
-                example: Mon, 29 Apr 2024 17:01:15 GMT
-            Content-Length:
-              schema:
-                type: integer
-                example: '2440'
+          description: Successful response
           content:
-            application/json:
-              schema:
-                type: object
-              example:
-                result:
-                  features:
-                    additionPrice: false
-                    disablePromo: false
-                    disableMR: false
-                    extra: false
-                    disableAudio: true
-                    disablePlanogram: false
-                    disableAlert: false
-                    advanced: false
-                    temperature: true
-                    alertCustomization: false
-                    badges: false
-                    proposal: false
-                  limits:
-                    view_proposal: true
-                    edit_proposal: true
-                    view_stock: true
-                    view_machine: true
-                    edit_machine: true
-                    view_prod: true
-                    edit_prod: true
-                    view_cate: true
-                    edit_cate: true
-                    view_brand: true
-                    edit_brand: true
-                    view_receipt: true
-                    edit_receipt: true
-                    view_ss: true
-                    edit_ss: true
-                    edit_group: true
-                    edit_user: true
-                    view_plano: true
-                    edit_plano: true
-                    view_promo: true
-                    edit_promo: true
-                    view_report: true
-                    view_trans: true
-                  role: User
-                  fullAccess: true
-                  resetLink: ''
-                  count: 0
-                  theme: '0'
-                  group: []
-                  langs: []
-                  lang1: ar
-                  lang2: ''
-                  lang3: ''
-                  mfa: false
-                  currency:
-                    code: KWD
-                    name: Kuwaiti Dinar
-                    symbol: د.ك
-                  _id: 657c4e7bb0f2891224d5e9b0
-                  firstname: Meshari
-                  lastname: Alobaidi
-                  email: meshari.alobaidi@tryvnd.com
-                  password: $2b$10$ze90mcDfXyIGRiGFlP9Y..HFTYNbpEl7sx0rZS5m95etNTvuIfLfO
-                  email2: null
-                  dba: false
-                  stocking: 11715
-                  stocking_write: false
-                  referTo: tryvnd@point24h.com
-                  createdAt: '2023-12-15T13:02:51.488Z'
-                  updatedAt: '2023-12-15T13:02:51.488Z'
-                  __v: 0
-                accessToken: >-
-                  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiTWVzaGFyaSIsInJvbGUiOiJVc2VyIiwiZW1haWwiOiJtZXNoYXJpLmFsb2JhaWRpQHRyeXZuZC5jb20iLCJmdWxsQWNjZXNzIjp0cnVlLCJsaW1pdHMiOnsidmlld19wcm9wb3NhbCI6dHJ1ZSwiZWRpdF9wcm9wb3NhbCI6dHJ1ZSwidmlld19zdG9jayI6dHJ1ZSwidmlld19tYWNoaW5lIjp0cnVlLCJlZGl0X21hY2hpbmUiOnRydWUsInZpZXdfcHJvZCI6dHJ1ZSwiZWRpdF9wcm9kIjp0cnVlLCJ2aWV3X2NhdGUiOnRydWUsImVkaXRfY2F0ZSI6dHJ1ZSwidmlld19icmFuZCI6dHJ1ZSwiZWRpdF9icmFuZCI6dHJ1ZSwidmlld19yZWNlaXB0Ijp0cnVlLCJlZGl0X3JlY2VpcHQiOnRydWUsInZpZXdfc3MiOnRydWUsImVkaXRfc3MiOnRydWUsImVkaXRfZ3JvdXAiOnRydWUsImVkaXRfdXNlciI6dHJ1ZSwidmlld19wbGFubyI6dHJ1ZSwiZWRpdF9wbGFubyI6dHJ1ZSwidmlld19wcm9tbyI6dHJ1ZSwiZWRpdF9wcm9tbyI6dHJ1ZSwidmlld19yZXBvcnQiOnRydWUsInZpZXdfdHJhbnMiOnRydWV9LCJpZCI6IjY1N2M0ZTdiYjBmMjg5MTIyNGQ1ZTliMCIsImlhdCI6MTcxNDQxMDA3NSwiZXhwIjoxNzE0NDEwOTc1fQ.K1Pi5uS0WYoMsVTgb66d34QtPpD63vfi14FzYcRTsfk
-                refreshToken: >-
-                  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1lc2hhcmkuYWxvYmFpZGlAdHJ5dm5kLmNvbSIsImlkIjoiNjU3YzRlN2JiMGYyODkxMjI0ZDVlOWIwIiwiY291bnQiOjAsImlhdCI6MTcxNDQxMDA3NSwiZXhwIjoxNzE1MDE0ODc1fQ.6K6A1lIZrPqZh7YL00RSbwIjzF6bc6uIYbi8ajVCAb0
-                needFullAccessUser: false
-                need_mfa: false
+            application/json: {}
   /groupsAndMachines/{accountName}:
     get:
       tags:
@@ -244,11 +125,6 @@ paths:
         - Products
       summary: List
       parameters:
-        - name: auth-token
-          in: header
-          schema:
-            type: string
-          example: '{{accessToken}}'
         - name: accountName
           in: path
           schema:
@@ -265,11 +141,6 @@ paths:
         - Products
       summary: View
       parameters:
-        - name: auth-token
-          in: header
-          schema:
-            type: string
-          example: '{{accessToken}}'
         - name: _id
           in: path
           schema:
@@ -444,12 +315,6 @@ paths:
                 sortIndex:
                   type: integer
                   example: '0'
-      parameters:
-        - name: auth-token
-          in: header
-          schema:
-            type: string
-          example: '{{accessToken}}'
       responses:
         '200':
           description: Successful response
@@ -525,8 +390,8 @@ paths:
                   type: boolean
                   example: 'false'
                 upc:
-                  type: integer
-                  example: '019'
+                  type: string
+                  example: 019c
                 barcode:
                   type: integer
                   example: '12345678'
@@ -581,12 +446,6 @@ paths:
                 image1:
                   type: string
                   format: binary
-      parameters:
-        - name: auth-token
-          in: header
-          schema:
-            type: string
-          example: '{{accessToken}}'
       responses:
         '200':
           description: Successful response
@@ -598,11 +457,6 @@ paths:
         - Products
       summary: Delete
       parameters:
-        - name: auth-token
-          in: header
-          schema:
-            type: string
-          example: '{{accessToken}}'
         - name: _id
           in: path
           schema:
