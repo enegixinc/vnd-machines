@@ -28,7 +28,7 @@
     "docker": {
       "executor": "nx:run-commands",
       "options": {
-       "command": "docker-compose up -d --wait",
+        "command": "docker-compose up -d --wait",
         "cwd": "apps/backend",
         "color": true
       }
