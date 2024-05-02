@@ -35,6 +35,12 @@ import { ApiResponse, ApiTags } from '@nestjs/swagger';
     exclude: ['password'],
     limit: 20,
     maxLimit: 100,
+    join: {
+      products: {
+        exclude: ['suppliers'],
+        eager: true,
+      },
+    },
   },
   routes: {
     exclude: ['replaceOneBase'],

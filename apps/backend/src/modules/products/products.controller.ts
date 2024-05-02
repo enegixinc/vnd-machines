@@ -4,6 +4,7 @@ import { ProductEntity } from './product.entity';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/request/create-product.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { SerializedProductDto } from './dto/response/serialized-product.dto';
 
 @Crud({
   model: {
@@ -32,12 +33,25 @@ import { ApiResponse, ApiTags } from '@nestjs/swagger';
     exclude: ['password'],
     limit: 20,
     maxLimit: 100,
+    join: {
+      suppliers: {
+        exclude: ['products'],
+        eager: true,
+      },
+    },
   },
   routes: {
     exclude: ['replaceOneBase'],
   },
   serialize: {
-    create: CreateProductDto,
+    getMany: SerializedProductDto,
+    get: SerializedProductDto,
+    create: SerializedProductDto,
+    replace: SerializedProductDto,
+    recover: SerializedProductDto,
+    delete: SerializedProductDto,
+    createMany: SerializedProductDto,
+    update: SerializedProductDto,
   },
 })
 @Controller('products')

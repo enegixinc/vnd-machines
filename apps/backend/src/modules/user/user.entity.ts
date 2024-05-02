@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToMany } from 'typeorm';
+import { Column, Entity, JoinTable, ManyToMany } from 'typeorm';
 import { IProduct, IUser, POLICY, UserRole } from '@core';
 import { DatabaseEntity } from '../../common/database.entity';
 import { ApiProperty } from '@nestjs/swagger';
@@ -105,7 +105,17 @@ export class UserEntity extends DatabaseEntity implements IUser {
   })
   active: boolean;
 
-  @ManyToMany((type) => ProductEntity, (product) => product.suppliers)
+  @ManyToMany(() => ProductEntity, (product) => product.suppliers)
+  @JoinTable({
+    joinColumn: {
+      name: 'userId',
+      referencedColumnName: 'id',
+    },
+    inverseJoinColumn: {
+      name: 'productId',
+      referencedColumnName: '_id',
+    },
+  })
   @ApiProperty({
     type: () => ProductEntity,
   })

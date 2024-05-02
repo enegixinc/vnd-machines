@@ -6,7 +6,7 @@ import {
   ManyToMany,
   PrimaryColumn,
 } from 'typeorm';
-import { Brand, Category, Dimension, IProduct, IUser, MultiLang } from '@core';
+import { Brand, Category, Dimension, IProduct, MultiLang } from '@core';
 import { UserEntity } from '../user/user.entity';
 import { magexConnector } from '../../services/external-api';
 import { ProductConverter } from './dto/bridge/product-converter';
@@ -19,10 +19,17 @@ export class ProductEntity implements IProduct {
   @ManyToMany(() => UserEntity, (user) => user.products, {
     nullable: true,
   })
-  suppliers: IUser[];
+  suppliers: UserEntity[];
 
   @PrimaryColumn('varchar')
   _id: string;
+
+  @BeforeInsert()
+  isSupplierExist() {
+    if (!this.suppliers) {
+      this.suppliers = [];
+    }
+  }
 
   @BeforeInsert()
   async createProduct() {
@@ -33,12 +40,11 @@ export class ProductEntity implements IProduct {
       .postProductsCreate({
         formData: magexProduct,
         authToken:
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiTWVzaGFyaSIsInJvbGUiOiJVc2VyIiwiZW1haWwiOiJtZXNoYXJpLmFsb2JhaWRpQHRyeXZuZC5jb20iLCJmdWxsQWNjZXNzIjp0cnVlLCJsaW1pdHMiOnsidmlld19wcm9wb3NhbCI6dHJ1ZSwiZWRpdF9wcm9wb3NhbCI6dHJ1ZSwidmlld19zdG9jayI6dHJ1ZSwidmlld19tYWNoaW5lIjp0cnVlLCJlZGl0X21hY2hpbmUiOnRydWUsInZpZXdfcHJvZCI6dHJ1ZSwiZWRpdF9wcm9kIjp0cnVlLCJ2aWV3X2NhdGUiOnRydWUsImVkaXRfY2F0ZSI6dHJ1ZSwidmlld19icmFuZCI6dHJ1ZSwiZWRpdF9icmFuZCI6dHJ1ZSwidmlld19yZWNlaXB0Ijp0cnVlLCJlZGl0X3JlY2VpcHQiOnRydWUsInZpZXdfc3MiOnRydWUsImVkaXRfc3MiOnRydWUsImVkaXRfZ3JvdXAiOnRydWUsImVkaXRfdXNlciI6dHJ1ZSwidmlld19wbGFubyI6dHJ1ZSwiZWRpdF9wbGFubyI6dHJ1ZSwidmlld19wcm9tbyI6dHJ1ZSwiZWRpdF9wcm9tbyI6dHJ1ZSwidmlld19yZXBvcnQiOnRydWUsInZpZXdfdHJhbnMiOnRydWV9LCJpZCI6IjY1N2M0ZTdiYjBmMjg5MTIyNGQ1ZTliMCIsImlhdCI6MTcxNDY1MzA0NCwiZXhwIjoxNzE0NjUzOTQ0fQ.wEllxLoYWQ-Q9LWgL0U-mvPtO-nK38dvxR17O3LzmvM',
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiTWVzaGFyaSIsInJvbGUiOiJVc2VyIiwiZW1haWwiOiJtZXNoYXJpLmFsb2JhaWRpQHRyeXZuZC5jb20iLCJmdWxsQWNjZXNzIjp0cnVlLCJsaW1pdHMiOnsidmlld19wcm9wb3NhbCI6dHJ1ZSwiZWRpdF9wcm9wb3NhbCI6dHJ1ZSwidmlld19zdG9jayI6dHJ1ZSwidmlld19tYWNoaW5lIjp0cnVlLCJlZGl0X21hY2hpbmUiOnRydWUsInZpZXdfcHJvZCI6dHJ1ZSwiZWRpdF9wcm9kIjp0cnVlLCJ2aWV3X2NhdGUiOnRydWUsImVkaXRfY2F0ZSI6dHJ1ZSwidmlld19icmFuZCI6dHJ1ZSwiZWRpdF9icmFuZCI6dHJ1ZSwidmlld19yZWNlaXB0Ijp0cnVlLCJlZGl0X3JlY2VpcHQiOnRydWUsInZpZXdfc3MiOnRydWUsImVkaXRfc3MiOnRydWUsImVkaXRfZ3JvdXAiOnRydWUsImVkaXRfdXNlciI6dHJ1ZSwidmlld19wbGFubyI6dHJ1ZSwiZWRpdF9wbGFubyI6dHJ1ZSwidmlld19wcm9tbyI6dHJ1ZSwiZWRpdF9wcm9tbyI6dHJ1ZSwidmlld19yZXBvcnQiOnRydWUsInZpZXdfdHJhbnMiOnRydWV9LCJpZCI6IjY1N2M0ZTdiYjBmMjg5MTIyNGQ1ZTliMCIsImlhdCI6MTcxNDY1NzI5NywiZXhwIjoxNzE0NjU4MTk3fQ.0oD9OKNFxpIyeWOZwu0Ndrl17MLEoJT5L4uVllREZPM',
       })
       .catch((e) => {
         console.error(e);
       });
-    console.log(newProduct);
     Object.assign(this, newProduct);
     this.lastSync = new Date().toISOString();
   }

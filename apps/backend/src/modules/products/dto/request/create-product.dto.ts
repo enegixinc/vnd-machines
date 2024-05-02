@@ -1,11 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { CrudValidationGroups } from '@dataui/crud';
-import { IsOptional } from 'class-validator';
-import { UserEntity } from '../../../user/user.entity';
-import { Dimension, IUser, MultiLang } from '@core';
+import { IsOptional, Validate } from 'class-validator';
+import { Dimension, MultiLang } from '@core';
+import { UserExistsValidator } from '../../../user/validators/user-exists';
 
 const { CREATE, UPDATE } = CrudValidationGroups;
-
 export class CreateProductDto {
   @IsOptional({ groups: [UPDATE, CREATE] })
   @ApiProperty({
@@ -18,11 +17,12 @@ export class CreateProductDto {
   @ApiProperty({
     example: ['6b1f1b1b-1b1b-1b1b-1b1b-1b1b1b1b1b1b'],
     description: 'List of users who are suppliers of this product',
-    type: () => UserEntity,
+    type: () => [String],
   })
-  // @IsUUID('4', { each: true })
+  // @IsUUID()
+  @Validate(UserExistsValidator, { each: true })
   @IsOptional({ groups: [UPDATE, CREATE] })
-  suppliers: IUser[];
+  suppliers: string[];
 
   @IsOptional({ groups: [UPDATE, CREATE] })
   @ApiProperty({

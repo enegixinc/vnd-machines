@@ -19,7 +19,7 @@ describe('ProductConverter', () => {
 
     const productConverter = new ProductConverter();
     const convertedProduct = productConverter.toMagexProduct(
-      mockedProduct as any
+      mockedProduct as never
     );
     expect(convertedProduct).toEqual(convertedMockedProduct);
   });
