@@ -1,6 +1,8 @@
 import { IProduct, MultiLang } from '@core';
 import { Converter } from './converter';
 import { z } from 'zod';
+import { CreateMagexProduct } from './magex-product';
+import { ICreateMagexProduct } from '../../../../../../../libs/backend/magex-connector/types/create-product';
 
 // TODO: check for all languages
 const MultiLangSchema = z.object({
@@ -9,7 +11,7 @@ const MultiLangSchema = z.object({
 });
 
 export class ProductConverter extends Converter {
-  toMagexProduct(vndProduct: IProduct) {
+  toMagexProduct(vndProduct: IProduct): ICreateMagexProduct {
     const keysWithMultiLang = this.getKeysWithSchema(
       vndProduct,
       MultiLangSchema
@@ -21,6 +23,8 @@ export class ProductConverter extends Converter {
       (key) => keysWithMultiLang.includes(key)
     );
 
-    return Object.assign(vndProduct, convertedProduct);
+    const converted = Object.assign(vndProduct, convertedProduct);
+
+    return new CreateMagexProduct(converted);
   }
 }
