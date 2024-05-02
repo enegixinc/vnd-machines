@@ -1,3 +1,5 @@
+import { ZodSchema } from 'zod';
+
 export class Converter {
   executeConversion<ObjectType extends Record<string, any>, ConvertedValue>(
     objToConvert: ObjectType,
@@ -19,19 +21,10 @@ export class Converter {
     return convertedObj;
   }
 
-  getKeysWithValueType<T extends {}, A>(
-    obj: T,
-    type: A extends {} ? A : never
-  ) {
-    const keysWithType = new Set<string>([]);
-    const objectKeys = Object.keys(obj);
-
-    objectKeys.forEach((key) => {
-      if (obj[key] in type) {
-        keysWithType.add(key);
-      }
+  getKeysWithSchema<T extends {}>(obj: T, type: ZodSchema<any, any>) {
+    return Object.keys(obj).filter((key) => {
+      const value = obj[key];
+      return type.safeParse(value).success;
     });
-
-    return Array.from(keysWithType);
   }
 }

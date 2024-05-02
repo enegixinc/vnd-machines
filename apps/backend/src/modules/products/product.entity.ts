@@ -26,10 +26,8 @@ export class ProductEntity implements IProduct {
 
   @BeforeInsert()
   async createProduct() {
-    console.log('Creating product', this);
     const productConverter = new ProductConverter();
     const magexProduct = productConverter.toMagexProduct(this);
-    console.log('Magex product', magexProduct);
     // @ts-ignore
     const { newProduct } = await magexConnector.products
       .postProductsCreate({

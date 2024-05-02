@@ -1,5 +1,5 @@
 import { Converter } from './converter';
-import { faker } from '@faker-js/faker';
+import { z } from 'zod';
 
 describe('Converter', () => {
   let converter: Converter;
@@ -48,27 +48,23 @@ describe('Converter', () => {
     });
   });
 
-  describe('getKeysWithValueType', () => {
+  describe('getKeysWithSchema', () => {
     it('should return keys with values of the specified type', () => {
+      const MultiLangSchema = z.object({
+        en: z.optional(z.string()),
+        ar: z.optional(z.string()),
+      });
       const obj = {
-        name: faker.person.firstName(),
-        age: faker.number.int(),
-        email: faker.internet.email(),
+        name: {
+          en: 'John',
+          ar: 'جون',
+        },
+        age: 30,
       };
-      const result = converter.getKeysWithValueType(obj, 'string');
-      expect(result).toContain('name');
-      expect(result).toContain('email');
-      expect(result).not.toContain('age');
-    });
 
-    it('should return an empty array if no keys match the specified type', () => {
-      const obj = {
-        age: faker.number.int(),
-        height: faker.number.int(),
-        weight: faker.number.int(),
-      };
-      const result = converter.getKeysWithValueType(obj, 'string');
-      expect(result).toEqual([]);
+      const result = converter.getKeysWithSchema(obj, MultiLangSchema);
+
+      expect(result).toEqual(['name']);
     });
   });
 });

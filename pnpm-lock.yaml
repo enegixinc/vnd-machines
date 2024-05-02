@@ -74,6 +74,9 @@ importers:
       vue:
         specifier: ^3.3.4
         version: 3.4.26(typescript@5.4.5)
+      zod:
+        specifier: ^3.23.5
+        version: 3.23.5
     devDependencies:
       '@faker-js/faker':
         specifier: ^8.4.1
@@ -6588,6 +6591,9 @@ packages:
   yup@0.32.11:
     resolution: {integrity: sha512-Z2Fe1bn+eLstG8DRR6FTavGD+MeAwyfmouhHsIUgaADz8jvFKbO/fXc2trJKZg+5EBjh4gGm3iU/t3onKlXHIg==}
     engines: {node: '>=10'}
+
+  zod@3.23.5:
+    resolution: {integrity: sha512-fkwiq0VIQTksNNA131rDOsVJcns0pfVUjHzLrNBiF/O/Xxb5lQyEXkhZWcJ7npWsYlvs+h0jFWXXy4X46Em1JA==}
 
 snapshots:
 
@@ -14343,3 +14349,5 @@ snapshots:
       nanoclone: 0.2.1
       property-expr: 2.0.6
       toposort: 2.0.2
+
+  zod@3.23.5: {}
