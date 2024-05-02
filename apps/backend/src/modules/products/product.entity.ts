@@ -57,6 +57,7 @@ export class ProductEntity extends OmitType(DatabaseEntity, ['id']) {
       });
     console.log(newProduct);
     Object.assign(this, newProduct);
+    this.lastSync = new Date().toISOString();
   }
 
   @Column({ type: 'integer' })
@@ -142,7 +143,6 @@ export class ProductEntity extends OmitType(DatabaseEntity, ['id']) {
   updatedAt: string;
 
   // @DeleteDateColumn()
-  // @IsOptional({ groups: [UPDATE, CREATE] })
   // @ApiProperty({
   //   example: '2024-05-01T12:00:00.000Z',
   //   description: 'Creation date of the product',
