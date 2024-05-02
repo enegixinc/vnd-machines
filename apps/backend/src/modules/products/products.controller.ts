@@ -2,15 +2,19 @@ import { Controller } from '@nestjs/common';
 import { Crud, CrudController } from '@dataui/crud';
 import { ProductEntity } from './product.entity';
 import { ProductsService } from './products.service';
+import { CreateProductDto } from './dto/request/create-product.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @Crud({
   model: {
     type: ProductEntity,
   },
+  dto: {
+    create: CreateProductDto,
+  },
   params: {
     id: {
-      field: 'id',
+      field: '_id',
       type: 'string',
       primary: true,
     },
@@ -31,6 +35,10 @@ import { ApiResponse, ApiTags } from '@nestjs/swagger';
   },
   routes: {
     exclude: ['replaceOneBase'],
+  },
+  serialize: {
+    get: false,
+    getMany: false,
   },
 })
 @Controller('products')

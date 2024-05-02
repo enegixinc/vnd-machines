@@ -7,6 +7,7 @@ import {
 } from 'typeorm';
 import { IDatabaseEntity } from '@core';
 import { ApiProperty } from '@nestjs/swagger';
+import { IsOptional } from 'class-validator';
 
 export class DatabaseEntity extends BaseEntity implements IDatabaseEntity {
   @PrimaryGeneratedColumn('uuid')
@@ -28,6 +29,7 @@ export class DatabaseEntity extends BaseEntity implements IDatabaseEntity {
   updatedAt: Date | string;
 
   @DeleteDateColumn()
+  @IsOptional()
   @ApiProperty({
     example: '2021-07-01T00:00:00.000Z',
   })

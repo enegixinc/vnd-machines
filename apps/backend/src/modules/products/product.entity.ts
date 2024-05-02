@@ -14,30 +14,6 @@ import { UserEntity } from '../user/user.entity';
 import { magexConnector } from '../../services/external-api';
 import { MagexProduct } from './dto/bridge/toMagexProduct';
 
-const test = {
-  upc: Math.random().toString(36).substring(7),
-  suppliers: ['6b1f1b1b-1b1b-1b1b-1b1b-1b1b1b1b1b1b'],
-  additionPrice: 100.5,
-  ageControl: 18,
-  name: {},
-  barcode: '1234567890123',
-  brand: '661c2a7345f6ce15dc3df34e',
-  category: '6608a4e9e0cde61fd03f1a81',
-  costPrice: 99.99,
-  description: {},
-  dimension: {},
-  price: 199.99,
-  pricePerKilo: true,
-  prodType: 'electronic',
-  productPictures: ['image1.jpg', 'image2.jpg'],
-  productVideo: 'video.mp4',
-  referTo: 'Refer to some other product',
-  sortIndex: 1,
-  vatIndex: 1,
-  virtualProduct: 0,
-  __v: 1,
-};
-
 const { CREATE, UPDATE } = CrudValidationGroups;
 
 @Entity('products')
@@ -64,7 +40,7 @@ export class ProductEntity extends OmitType(DatabaseEntity, ['id']) {
   suppliers: IUser[];
 
   @PrimaryColumn('varchar')
-  id: string;
+  _id: string;
 
   @BeforeInsert()
   async createProduct() {
@@ -72,24 +48,18 @@ export class ProductEntity extends OmitType(DatabaseEntity, ['id']) {
     const { newProduct } = await magexConnector.products
       .postProductsCreate({
         // @ts-expect-error
-        formData: new MagexProduct(test),
+        formData: new MagexProduct(this),
         authToken:
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiTWVzaGFyaSIsInJvbGUiOiJVc2VyIiwiZW1haWwiOiJtZXNoYXJpLmFsb2JhaWRpQHRyeXZuZC5jb20iLCJmdWxsQWNjZXNzIjp0cnVlLCJsaW1pdHMiOnsidmlld19wcm9wb3NhbCI6dHJ1ZSwiZWRpdF9wcm9wb3NhbCI6dHJ1ZSwidmlld19zdG9jayI6dHJ1ZSwidmlld19tYWNoaW5lIjp0cnVlLCJlZGl0X21hY2hpbmUiOnRydWUsInZpZXdfcHJvZCI6dHJ1ZSwiZWRpdF9wcm9kIjp0cnVlLCJ2aWV3X2NhdGUiOnRydWUsImVkaXRfY2F0ZSI6dHJ1ZSwidmlld19icmFuZCI6dHJ1ZSwiZWRpdF9icmFuZCI6dHJ1ZSwidmlld19yZWNlaXB0Ijp0cnVlLCJlZGl0X3JlY2VpcHQiOnRydWUsInZpZXdfc3MiOnRydWUsImVkaXRfc3MiOnRydWUsImVkaXRfZ3JvdXAiOnRydWUsImVkaXRfdXNlciI6dHJ1ZSwidmlld19wbGFubyI6dHJ1ZSwiZWRpdF9wbGFubyI6dHJ1ZSwidmlld19wcm9tbyI6dHJ1ZSwiZWRpdF9wcm9tbyI6dHJ1ZSwidmlld19yZXBvcnQiOnRydWUsInZpZXdfdHJhbnMiOnRydWV9LCJpZCI6IjY1N2M0ZTdiYjBmMjg5MTIyNGQ1ZTliMCIsImlhdCI6MTcxNDYwNDk3MywiZXhwIjoxNzE0NjA1ODczfQ.JYmZrIn1IT72HOvmuk1cS-OJPtnP24wjGcncICh0oSU',
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiTWVzaGFyaSIsInJvbGUiOiJVc2VyIiwiZW1haWwiOiJtZXNoYXJpLmFsb2JhaWRpQHRyeXZuZC5jb20iLCJmdWxsQWNjZXNzIjp0cnVlLCJsaW1pdHMiOnsidmlld19wcm9wb3NhbCI6dHJ1ZSwiZWRpdF9wcm9wb3NhbCI6dHJ1ZSwidmlld19zdG9jayI6dHJ1ZSwidmlld19tYWNoaW5lIjp0cnVlLCJlZGl0X21hY2hpbmUiOnRydWUsInZpZXdfcHJvZCI6dHJ1ZSwiZWRpdF9wcm9kIjp0cnVlLCJ2aWV3X2NhdGUiOnRydWUsImVkaXRfY2F0ZSI6dHJ1ZSwidmlld19icmFuZCI6dHJ1ZSwiZWRpdF9icmFuZCI6dHJ1ZSwidmlld19yZWNlaXB0Ijp0cnVlLCJlZGl0X3JlY2VpcHQiOnRydWUsInZpZXdfc3MiOnRydWUsImVkaXRfc3MiOnRydWUsImVkaXRfZ3JvdXAiOnRydWUsImVkaXRfdXNlciI6dHJ1ZSwidmlld19wbGFubyI6dHJ1ZSwiZWRpdF9wbGFubyI6dHJ1ZSwidmlld19wcm9tbyI6dHJ1ZSwiZWRpdF9wcm9tbyI6dHJ1ZSwidmlld19yZXBvcnQiOnRydWUsInZpZXdfdHJhbnMiOnRydWV9LCJpZCI6IjY1N2M0ZTdiYjBmMjg5MTIyNGQ1ZTliMCIsImlhdCI6MTcxNDYwOTIyNywiZXhwIjoxNzE0NjEwMTI3fQ.8NKhA4G_cvQIdNB7-6-x5K8G3ynBVN5Qt95kvTPPQAo',
       })
       .catch((e) => {
         console.error(e);
       });
     console.log(newProduct);
     Object.assign(this, newProduct);
-    this.id = newProduct._id;
   }
 
   @Column({ type: 'integer' })
-  @ApiProperty({
-    example: 1,
-    description: 'Version number of the document',
-    type: Number,
-  })
   __v: number;
 
   @Column({ type: 'numeric' })
@@ -127,7 +97,7 @@ export class ProductEntity extends OmitType(DatabaseEntity, ['id']) {
   })
   barcode: string;
 
-  @Column({ type: 'jsonb' })
+  @Column({ type: 'varchar' })
   @IsOptional({ groups: [UPDATE, CREATE] })
   @ApiProperty({
     example: '661c2a7345f6ce15dc3df34e',
@@ -162,17 +132,92 @@ export class ProductEntity extends OmitType(DatabaseEntity, ['id']) {
   })
   createdAt: string;
 
+  @Column({ type: 'timestamp' })
+  @IsOptional({ groups: [UPDATE, CREATE] })
+  @ApiProperty({
+    example: '2024-05-01T12:00:00.000Z',
+    description: 'Creation date of the product',
+    type: String,
+  })
+  updatedAt: string;
+
+  // @DeleteDateColumn()
+  // @IsOptional({ groups: [UPDATE, CREATE] })
+  // @ApiProperty({
+  //   example: '2024-05-01T12:00:00.000Z',
+  //   description: 'Creation date of the product',
+  //   type: String,
+  // })
+  // deletedAt: string;
+
+  @Column({ type: 'timestamp' })
+  @IsOptional({ groups: [UPDATE, CREATE] })
+  @ApiProperty({
+    example: '2024-05-01T12:00:00.000Z',
+    description: 'Last Sync date of the product',
+    type: String,
+  })
+  lastSync: string;
+
   @Column('text')
   @IsOptional({ groups: [UPDATE, CREATE] })
   @ApiProperty({
-    example: {},
+    example: {
+      en: 'Description of the product in English',
+      fr: 'Description of the product in French',
+    },
     description: 'Description of the product in multiple languages',
   })
   description: MultiLang;
+  @Column('text')
+  @IsOptional({ groups: [UPDATE, CREATE] })
+  @ApiProperty({
+    example: {
+      en: 'Description of the product in English',
+      fr: 'Description of the product in French',
+    },
+    description: 'Description of the product in multiple languages',
+  })
   detail: MultiLang;
+  @Column('text')
+  @IsOptional({ groups: [UPDATE, CREATE] })
+  @ApiProperty({
+    example: {
+      en: 'Description of the product in English',
+      fr: 'Description of the product in French',
+    },
+    description: 'Description of the product in multiple languages',
+  })
   include: MultiLang;
+  @Column('text')
+  @IsOptional({ groups: [UPDATE, CREATE] })
+  @ApiProperty({
+    example: {
+      en: 'Description of the product in English',
+      fr: 'Description of the product in French',
+    },
+    description: 'Description of the product in multiple languages',
+  })
   ingredients: MultiLang;
+  @Column('text')
+  @IsOptional({ groups: [UPDATE, CREATE] })
+  @ApiProperty({
+    example: {
+      en: 'Description of the product in English',
+      fr: 'Description of the product in French',
+    },
+    description: 'Description of the product in multiple languages',
+  })
   keyFeatures: MultiLang;
+  @Column('text')
+  @IsOptional({ groups: [UPDATE, CREATE] })
+  @ApiProperty({
+    example: {
+      en: 'Description of the product in English',
+      fr: 'Description of the product in French',
+    },
+    description: 'Description of the product in multiple languages',
+  })
   specification: MultiLang;
 
   @Column({ type: 'jsonb' })
@@ -219,14 +264,14 @@ export class ProductEntity extends OmitType(DatabaseEntity, ['id']) {
   })
   productPictures: string[];
 
-  @Column({ type: 'varchar' })
-  @IsOptional({ groups: [UPDATE, CREATE] })
-  @ApiProperty({
-    example: 'video.mp4',
-    description: 'URL of the product video',
-    type: String,
-  })
-  productVideo: string;
+  // @Column({ type: 'varchar' })
+  // @IsOptional({ groups: [UPDATE, CREATE] })
+  // @ApiProperty({
+  //   example: 'video.mp4',
+  //   description: 'URL of the product video',
+  //   type: String,
+  // })
+  // productVideo: string;
 
   @Column({ type: 'varchar' })
   @IsOptional({ groups: [UPDATE, CREATE] })
