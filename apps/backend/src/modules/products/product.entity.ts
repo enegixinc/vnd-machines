@@ -25,13 +25,6 @@ export class ProductEntity implements IProduct {
   _id: string;
 
   @BeforeInsert()
-  isSupplierExist() {
-    if (!this.suppliers) {
-      this.suppliers = [];
-    }
-  }
-
-  @BeforeInsert()
   async createProduct() {
     const productConverter = new ProductConverter();
     const magexProduct = productConverter.toMagexProduct(this);
