@@ -2,7 +2,7 @@ import { IUser } from './user';
 
 export interface IProduct extends I_MAGEX_Product {
   suppliers: IUser[];
-  deletedAt: string;
+  deletedAt: string | null;
 }
 
 export interface I_MAGEX_Product {

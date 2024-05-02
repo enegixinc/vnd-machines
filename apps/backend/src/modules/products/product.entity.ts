@@ -1,26 +1,18 @@
 import {
   BeforeInsert,
   Column,
+  DeleteDateColumn,
   Entity,
   ManyToMany,
   PrimaryColumn,
 } from 'typeorm';
-import { ApiProperty, OmitType } from '@nestjs/swagger';
-import { CrudValidationGroups } from '@dataui/crud';
-import { IsOptional } from 'class-validator';
-import { DatabaseEntity } from '../../common/database.entity';
 import { Brand, Category, Dimension, IProduct, IUser, MultiLang } from '@core';
 import { UserEntity } from '../user/user.entity';
 import { magexConnector } from '../../services/external-api';
-import { MagexProduct } from './dto/bridge/toMagexProduct';
-
-const { CREATE, UPDATE } = CrudValidationGroups;
+import { ProductConverter } from './dto/bridge/product-converter';
 
 @Entity()
-export class ProductEntity
-  extends OmitType(DatabaseEntity, ['id'])
-  implements IProduct
-{
+export class ProductEntity implements IProduct {
   @Column({ type: 'varchar', nullable: true })
   upc: string;
 
@@ -35,13 +27,16 @@ export class ProductEntity
   @BeforeInsert()
   async createProduct() {
     console.log('Creating product', this);
+    const productConverter = new ProductConverter();
+    const magexProduct = productConverter.toMagexProduct(this);
+    console.log('Magex product', magexProduct);
     // @ts-ignore
     const { newProduct } = await magexConnector.products
       .postProductsCreate({
-        // @ts-expect-error
-        formData: new MagexProduct(this),
+        // @ts-ignore
+        formData: magexProduct,
         authToken:
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiTWVzaGFyaSIsInJvbGUiOiJVc2VyIiwiZW1haWwiOiJtZXNoYXJpLmFsb2JhaWRpQHRyeXZuZC5jb20iLCJmdWxsQWNjZXNzIjp0cnVlLCJsaW1pdHMiOnsidmlld19wcm9wb3NhbCI6dHJ1ZSwiZWRpdF9wcm9wb3NhbCI6dHJ1ZSwidmlld19zdG9jayI6dHJ1ZSwidmlld19tYWNoaW5lIjp0cnVlLCJlZGl0X21hY2hpbmUiOnRydWUsInZpZXdfcHJvZCI6dHJ1ZSwiZWRpdF9wcm9kIjp0cnVlLCJ2aWV3X2NhdGUiOnRydWUsImVkaXRfY2F0ZSI6dHJ1ZSwidmlld19icmFuZCI6dHJ1ZSwiZWRpdF9icmFuZCI6dHJ1ZSwidmlld19yZWNlaXB0Ijp0cnVlLCJlZGl0X3JlY2VpcHQiOnRydWUsInZpZXdfc3MiOnRydWUsImVkaXRfc3MiOnRydWUsImVkaXRfZ3JvdXAiOnRydWUsImVkaXRfdXNlciI6dHJ1ZSwidmlld19wbGFubyI6dHJ1ZSwiZWRpdF9wbGFubyI6dHJ1ZSwidmlld19wcm9tbyI6dHJ1ZSwiZWRpdF9wcm9tbyI6dHJ1ZSwidmlld19yZXBvcnQiOnRydWUsInZpZXdfdHJhbnMiOnRydWV9LCJpZCI6IjY1N2M0ZTdiYjBmMjg5MTIyNGQ1ZTliMCIsImlhdCI6MTcxNDYzODU4MSwiZXhwIjoxNzE0NjM5NDgxfQ.eGr3SnvRYxpjp4Jbz5cxAZ93YNo9kflZNAYPQl-TmZU',
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiTWVzaGFyaSIsInJvbGUiOiJVc2VyIiwiZW1haWwiOiJtZXNoYXJpLmFsb2JhaWRpQHRyeXZuZC5jb20iLCJmdWxsQWNjZXNzIjp0cnVlLCJsaW1pdHMiOnsidmlld19wcm9wb3NhbCI6dHJ1ZSwiZWRpdF9wcm9wb3NhbCI6dHJ1ZSwidmlld19zdG9jayI6dHJ1ZSwidmlld19tYWNoaW5lIjp0cnVlLCJlZGl0X21hY2hpbmUiOnRydWUsInZpZXdfcHJvZCI6dHJ1ZSwiZWRpdF9wcm9kIjp0cnVlLCJ2aWV3X2NhdGUiOnRydWUsImVkaXRfY2F0ZSI6dHJ1ZSwidmlld19icmFuZCI6dHJ1ZSwiZWRpdF9icmFuZCI6dHJ1ZSwidmlld19yZWNlaXB0Ijp0cnVlLCJlZGl0X3JlY2VpcHQiOnRydWUsInZpZXdfc3MiOnRydWUsImVkaXRfc3MiOnRydWUsImVkaXRfZ3JvdXAiOnRydWUsImVkaXRfdXNlciI6dHJ1ZSwidmlld19wbGFubyI6dHJ1ZSwiZWRpdF9wbGFubyI6dHJ1ZSwidmlld19wcm9tbyI6dHJ1ZSwiZWRpdF9wcm9tbyI6dHJ1ZSwidmlld19yZXBvcnQiOnRydWUsInZpZXdfdHJhbnMiOnRydWV9LCJpZCI6IjY1N2M0ZTdiYjBmMjg5MTIyNGQ1ZTliMCIsImlhdCI6MTcxNDYzOTg0MywiZXhwIjoxNzE0NjQwNzQzfQ.A5EPf0S8ihE_sGi4_k2cWMJnDP9AbEZmL9dnPt-DVx4',
       })
       .catch((e) => {
         console.error(e);
@@ -124,21 +119,9 @@ export class ProductEntity
   virtualProduct: number;
 
   @Column({ type: 'timestamp' })
-  @IsOptional({ groups: [UPDATE, CREATE] })
-  @ApiProperty({
-    example: '2024-05-01T12:00:00.000Z',
-    description: 'Creation date of the product',
-    type: String,
-  })
   createdAt: string;
 
   @Column({ type: 'timestamp' })
-  @IsOptional({ groups: [UPDATE, CREATE] })
-  @ApiProperty({
-    example: '2024-05-01T12:00:00.000Z',
-    description: 'Creation date of the product',
-    type: String,
-  })
   updatedAt: string;
 
   // @DeleteDateColumn()
@@ -150,12 +133,8 @@ export class ProductEntity
   // deletedAt: string;
 
   @Column({ type: 'timestamp' })
-  @IsOptional({ groups: [UPDATE, CREATE] })
-  @ApiProperty({
-    example: '2024-05-01T12:00:00.000Z',
-    description: 'Last Sync date of the product',
-    type: String,
-  })
   lastSync: string;
-  deletedAt: string;
+
+  @DeleteDateColumn()
+  deletedAt: string | null;
 }
