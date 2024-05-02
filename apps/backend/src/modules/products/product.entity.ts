@@ -35,8 +35,9 @@ export class ProductEntity implements IProduct {
   async createProduct() {
     const productConverter = new ProductConverter();
     const magexProduct = productConverter.toMagexProduct(this);
-    // @ts-ignore
+    // @ts-expect-error - magexConnector is not typed
     const { newProduct } = await magexConnector.products.postProductsCreate({
+      // @ts-expect-error - magexConnector is not typed
       formData: magexProduct,
     });
     Object.assign(this, newProduct);
