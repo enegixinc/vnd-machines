@@ -1,7 +1,7 @@
-import { IUser } from './user';
+import { ISerializedUser } from './user';
 
 export interface IProduct extends I_MAGEX_Product {
-  suppliers: IUser[];
+  suppliers: ISerializedUser[];
   deletedAt: string | null;
 }
 

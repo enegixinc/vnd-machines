@@ -1,4 +1,5 @@
-import { Brand, Category, IProduct, IUser } from '@core';
+import { Brand, Category, IProduct, ISerializedUser } from '@core';
+
 import { CreateProductDto } from '../request/create-product.dto';
 import { ApiProperty, OmitType } from '@nestjs/swagger';
 import { SerializedUserDto } from '../../../user/dto/response/serialized-user.dto';
@@ -58,7 +59,7 @@ export class SerializedProductDto
 
   @ApiProperty({
     description: 'Last sync date of the product',
-    type: [SerializedUserDto],
+    type: () => [SerializedUserDto],
   })
-  suppliers: IUser[];
+  suppliers: ISerializedUser[];
 }

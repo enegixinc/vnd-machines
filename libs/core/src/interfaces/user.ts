@@ -1,6 +1,18 @@
 import { IDatabaseEntity } from './database-entity';
+import { IProduct } from './product';
 
-export interface IUser extends IDatabaseEntity {
+export interface ISerializedUser
+  extends Omit<IUserEntity, 'password' | keyof IUserResolvedEntities> {
+  products: IProduct[];
+  documents: IDocument[];
+}
+
+interface IUserResolvedEntities {
+  products: IProduct[];
+  documents: IDocument[];
+}
+
+export interface IUserEntity extends IDatabaseEntity {
   firstName: string;
   lastName: string;
   email: string;
@@ -8,8 +20,11 @@ export interface IUser extends IDatabaseEntity {
   role: UserRole;
   phoneNumber: string;
   active: boolean;
-  documents?: IDocument[];
+  products: string[];
+  documents: string[];
 }
+
+export type ICreateUser = Omit<IUserEntity, keyof IDatabaseEntity>;
 
 export interface IDocument {
   id: string;
@@ -23,8 +38,4 @@ export interface IDocument {
 export enum UserRole {
   ADMIN = 'admin',
   SUPPLIER = 'supplier',
-}
-
-export interface Supplier extends IUser {
-  products: string[];
 }

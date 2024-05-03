@@ -1,10 +1,13 @@
 import { ApiProperty, OmitType } from '@nestjs/swagger';
-import { UserEntity } from '../../user.entity';
 import { SerializedProductDto } from '../../../products/dto/response/serialized-product.dto';
+import { CreateUserDto } from '../request/create-user.dto';
 
-export class SerializedUserDto extends OmitType(UserEntity, ['password']) {
+export class SerializedUserDto extends OmitType(CreateUserDto, [
+  'documents',
+  'products',
+]) {
   @ApiProperty({
-    type: [SerializedProductDto],
+    type: () => [SerializedProductDto],
   })
   products: SerializedProductDto[];
 }

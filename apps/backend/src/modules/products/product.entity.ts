@@ -6,12 +6,17 @@ import {
   ManyToMany,
   PrimaryColumn,
 } from 'typeorm';
-import { Brand, Category, Dimension, IProduct, MultiLang } from '@core';
+import {
+  Brand,
+  Category,
+  Dimension,
+  IProduct,
+  ISerializedUser,
+  MultiLang,
+} from '@core';
 import { UserEntity } from '../user/user.entity';
-import { magexConnector } from '../../services/external-api';
-import { ProductConverter } from './dto/bridge/product-converter';
 
-@Entity()
+@Entity('products')
 export class ProductEntity implements IProduct {
   @Column({ type: 'varchar', nullable: true })
   upc: string;
@@ -19,22 +24,28 @@ export class ProductEntity implements IProduct {
   @ManyToMany(() => UserEntity, (user) => user.products, {
     nullable: true,
   })
-  suppliers: UserEntity[];
+  suppliers: ISerializedUser[];
 
   @PrimaryColumn('varchar')
   _id: string;
 
   @BeforeInsert()
   async createProduct() {
-    const productConverter = new ProductConverter();
-    const magexProduct = productConverter.toMagexProduct(this);
-    // @ts-expect-error - magexConnector is not typed
-    const { newProduct } = await magexConnector.products.postProductsCreate({
-      // @ts-expect-error - magexConnector is not typed
-      formData: magexProduct,
-    });
-    Object.assign(this, newProduct);
+    // const productConverter = new ProductConverter();
+    // const magexProduct = productConverter.toMagexProduct(this);
+    // // @ts-expect-error - magexConnector is not typed
+    // const { newProduct } = await magexConnector.products.postProductsCreate({
+    //   // @ts-expect-error - magexConnector is not typed
+    //   formData: magexProduct,
+    // });
+    // Object.assign(this, newProduct);
     this.lastSync = new Date().toISOString();
+    this._id = Math.random().toString(36).substring(7);
+    this.__v = 0;
+    this.createdAt = new Date().toISOString();
+    this.updatedAt = new Date().toISOString();
+
+    console.log('Product created', this);
   }
 
   @Column({ type: 'integer' })
