@@ -7,7 +7,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { IDatabaseEntity } from '@core';
-import { ApiProperty, OmitType } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger';
 import { decorate } from 'ts-mixer';
 
 export class DatabaseEntity extends BaseEntity implements IDatabaseEntity {
@@ -27,14 +27,14 @@ export class DatabaseEntity extends BaseEntity implements IDatabaseEntity {
       type: 'timestamp',
     })
   )
-  createdAt: Date | string;
+  createdAt: string;
 
   @UpdateDateColumn()
   @ApiProperty({
     example: '2021-07-01T00:00:00.000Z',
     type: 'timestamp',
   })
-  updatedAt: Date | string;
+  updatedAt: string;
 
   @decorate(DeleteDateColumn())
   @decorate(
@@ -43,10 +43,10 @@ export class DatabaseEntity extends BaseEntity implements IDatabaseEntity {
       type: 'timestamp',
     })
   )
-  deletedAt: Date | string | null;
+  deletedAt: string | null;
 }
 
-export class _DatabaseEntity extends OmitType(DatabaseEntity, ['id']) {
+export class ManualDatabaseEntity {
   @decorate(
     ObjectIdColumn({
       generated: false,
@@ -62,4 +62,39 @@ export class _DatabaseEntity extends OmitType(DatabaseEntity, ['id']) {
     })
   )
   _id: string;
+
+  @decorate(
+    CreateDateColumn({
+      generated: false,
+    })
+  )
+  @decorate(
+    ApiProperty({
+      example: '2021-07-01T00:00:00.000Z',
+      type: 'timestamp',
+    })
+  )
+  createdAt: string;
+
+  @decorate(
+    UpdateDateColumn({
+      generated: false,
+    })
+  )
+  @decorate(
+    ApiProperty({
+      example: '2021-07-01T00:00:00.000Z',
+      type: 'timestamp',
+    })
+  )
+  updatedAt: string;
+
+  @decorate(DeleteDateColumn())
+  @decorate(
+    ApiProperty({
+      example: '2021-07-01T00:00:00.000Z',
+      type: 'timestamp',
+    })
+  )
+  deletedAt: string | null;
 }

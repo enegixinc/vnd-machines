@@ -1,10 +1,4 @@
-import {
-  BeforeInsert,
-  Column,
-  DeleteDateColumn,
-  Entity,
-  ManyToMany,
-} from 'typeorm';
+import { BeforeInsert, Column, Entity, ManyToMany } from 'typeorm';
 import {
   Brand,
   Category,
@@ -14,10 +8,10 @@ import {
   MultiLang,
 } from '@core';
 import { UserEntity } from '../user/user.entity';
-import { _DatabaseEntity } from '../../common/database.entity';
+import { ManualDatabaseEntity } from '../../common/database.entity';
 
 @Entity('products')
-export class ProductEntity extends _DatabaseEntity implements IProduct {
+export class ProductEntity extends ManualDatabaseEntity implements IProduct {
   @Column({ type: 'varchar', nullable: true })
   upc: string;
 
@@ -117,12 +111,6 @@ export class ProductEntity extends _DatabaseEntity implements IProduct {
   @Column({ type: 'integer' })
   virtualProduct: number;
 
-  @Column({ type: 'timestamp' })
-  createdAt: string;
-
-  @Column({ type: 'timestamp' })
-  updatedAt: string;
-
   // @DeleteDateColumn()
   // @ApiProperty({
   //   example: '2024-05-01T12:00:00.000Z',
@@ -133,7 +121,4 @@ export class ProductEntity extends _DatabaseEntity implements IProduct {
 
   @Column({ type: 'timestamp' })
   lastSync: string;
-
-  @DeleteDateColumn()
-  deletedAt: string | null;
 }
