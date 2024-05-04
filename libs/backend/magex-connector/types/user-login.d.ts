@@ -1,4 +1,4 @@
-import { MagexConnector } from '../gen';
+import { Currency, Features, Limits } from './create-user';
 
 export interface LoginResponse {
   result: Result;
@@ -36,51 +36,4 @@ export interface Result {
   createdAt: string;
   updatedAt: string;
   __v: number;
-}
-
-export interface Features {
-  additionPrice: boolean;
-  disablePromo: boolean;
-  disableMR: boolean;
-  extra: boolean;
-  disableAudio: boolean;
-  disablePlanogram: boolean;
-  disableAlert: boolean;
-  advanced: boolean;
-  temperature: boolean;
-  alertCustomization: boolean;
-  badges: boolean;
-  proposal: boolean;
-}
-
-export interface Limits {
-  view_proposal: boolean;
-  edit_proposal: boolean;
-  view_stock: boolean;
-  view_machine: boolean;
-  edit_machine: boolean;
-  view_prod: boolean;
-  edit_prod: boolean;
-  view_cate: boolean;
-  edit_cate: boolean;
-  view_brand: boolean;
-  edit_brand: boolean;
-  view_receipt: boolean;
-  edit_receipt: boolean;
-  view_ss: boolean;
-  edit_ss: boolean;
-  edit_group: boolean;
-  edit_user: boolean;
-  view_plano: boolean;
-  edit_plano: boolean;
-  view_promo: boolean;
-  edit_promo: boolean;
-  view_report: boolean;
-  view_trans: boolean;
-}
-
-export interface Currency {
-  code: string;
-  name: string;
-  symbol: string;
 }
