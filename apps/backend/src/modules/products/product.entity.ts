@@ -4,7 +4,6 @@ import {
   DeleteDateColumn,
   Entity,
   ManyToMany,
-  PrimaryColumn,
 } from 'typeorm';
 import {
   Brand,
@@ -15,9 +14,10 @@ import {
   MultiLang,
 } from '@core';
 import { UserEntity } from '../user/user.entity';
+import { _DatabaseEntity } from '../../common/database.entity';
 
 @Entity('products')
-export class ProductEntity implements IProduct {
+export class ProductEntity extends _DatabaseEntity implements IProduct {
   @Column({ type: 'varchar', nullable: true })
   upc: string;
 
@@ -25,9 +25,6 @@ export class ProductEntity implements IProduct {
     nullable: true,
   })
   suppliers: ISerializedUser[];
-
-  @PrimaryColumn('varchar')
-  _id: string;
 
   @BeforeInsert()
   async createProduct() {
