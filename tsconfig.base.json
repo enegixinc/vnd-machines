@@ -16,7 +16,7 @@
     "baseUrl": ".",
     "paths": {
       "@backend/config": ["libs/backend/config/src/index.ts"],
-      "@backend/magex-connector": ["libs/backend/magex-connector/gen/index.ts"],
+      "@backend/magex-connector": ["libs/backend/magex-connector/index.ts"],
       "@core": ["libs/core/src/index.ts"]
     }
   },

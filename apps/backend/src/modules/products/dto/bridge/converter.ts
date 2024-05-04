@@ -21,7 +21,7 @@ export class Converter {
     return convertedObj;
   }
 
-  getKeysWithSchema<T extends {}>(obj: T, type: ZodSchema<any, any>) {
+  getKeysWithSchema<T extends object>(obj: T, type: ZodSchema<unknown>) {
     return Object.keys(obj).filter((key) => {
       const value = obj[key];
       return type.safeParse(value).success;

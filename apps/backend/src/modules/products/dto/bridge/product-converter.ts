@@ -2,7 +2,7 @@ import { IProduct, MultiLang } from '@core';
 import { Converter } from './converter';
 import { z } from 'zod';
 import { CreateMagexProduct } from './magex-product';
-import { ICreateMagexProduct } from '../../../../../../../libs/backend/magex-connector/types/create-product';
+import { ICreateMagexProduct } from '@backend/magex-connector';
 
 // TODO: check for all languages
 const MultiLangSchema = z.object({

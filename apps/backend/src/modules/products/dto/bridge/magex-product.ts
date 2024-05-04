@@ -1,5 +1,5 @@
 import { IProduct } from '@core';
-import { ICreateMagexProduct } from '../../../../../../../libs/backend/magex-connector/types/create-product';
+import { ICreateMagexProduct } from '@backend/magex-connector';
 
 export class CreateMagexProduct implements ICreateMagexProduct {
   name?: string;
