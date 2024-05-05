@@ -1,18 +1,17 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, PickType } from '@nestjs/swagger';
 import { CrudValidationGroups } from '@dataui/crud';
 import { IsOptional, Validate } from 'class-validator';
 import { UserExistsValidator } from '../../../user/validators/user-exists';
 import { decorate } from 'ts-mixer';
 import { SharedProductDto } from '../shared/shared-product.dto';
+import { SerializedUserDto } from '../../../user/dto/response/serialized-user.dto';
 
 const { CREATE, UPDATE } = CrudValidationGroups;
 
 export class CreateProductDto extends SharedProductDto {
   @decorate(
     ApiProperty({
-      example: ['0c2b8264-6aed-4d65-82bc-29843562b7ff'],
-      description: 'List of users who are suppliers of this product',
-      type: () => [String],
+      type: () => [PickType(SerializedUserDto, ['id'])],
     })
   )
   @decorate(Validate(UserExistsValidator, { each: true }))

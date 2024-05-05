@@ -17,6 +17,7 @@ export class ProductEntity extends ManualDatabaseEntity implements IProduct {
 
   @ManyToMany(() => UserEntity, (user) => user.products, {
     nullable: true,
+    eager: true,
   })
   suppliers: ISerializedUser[];
 

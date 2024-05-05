@@ -4,6 +4,7 @@ import {
   ValidatorConstraintInterface,
 } from 'class-validator';
 import { UserService } from '../user.service';
+import { IUserEntity } from '@core';
 
 // TODO: make this abstract class
 @Injectable()
@@ -11,8 +12,9 @@ import { UserService } from '../user.service';
 export class UserExistsValidator implements ValidatorConstraintInterface {
   constructor(private readonly userService: UserService) {}
 
-  async validate(id: string) {
-    return !!(await this.userService.findOneBy({ id }));
+  async validate(user: IUserEntity) {
+    console.log('UserExistsValidator', user);
+    return !!(await this.userService.findOneBy({ id: user.id }));
   }
 
   defaultMessage() {

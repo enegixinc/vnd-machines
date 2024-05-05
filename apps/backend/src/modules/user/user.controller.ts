@@ -36,7 +36,9 @@ import { ApiResponse, ApiTags } from '@nestjs/swagger';
     limit: 20,
     maxLimit: 100,
     join: {
-      products: {},
+      products: {
+        eager: true,
+      },
     },
   },
   routes: {

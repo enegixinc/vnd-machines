@@ -33,8 +33,9 @@ import { SerializedProductDto } from './dto/response/serialized-product.dto';
     limit: 20,
     maxLimit: 100,
     join: {
-      users: {
-        alias: 'suppliers',
+      suppliers: {
+        alias: 'users',
+        eager: true,
       },
     },
   },

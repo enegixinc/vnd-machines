@@ -14,7 +14,7 @@ export class DatabaseEntity extends BaseEntity implements IDatabaseEntity {
   @decorate(PrimaryGeneratedColumn('uuid'))
   @decorate(
     ApiProperty({
-      example: '123e4567-e89b-12d3-a456-426614174000',
+      example: '7d0a9ced-97a2-4481-a1a8-aa91448cd7e5',
       type: 'uuid',
     })
   )
