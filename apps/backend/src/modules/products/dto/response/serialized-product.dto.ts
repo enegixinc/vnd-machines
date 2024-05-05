@@ -38,7 +38,6 @@ export class SerializedProductDto
   brand: Brand;
   @decorate(
     ApiProperty({
-      isArray: true,
       type: () => [OmitType(SerializedUserDto, ['products'])],
     })
   )
