@@ -36,16 +36,12 @@ import { ApiResponse, ApiTags } from '@nestjs/swagger';
     limit: 20,
     maxLimit: 100,
     join: {
-      products: {
-        exclude: ['suppliers'],
-        eager: true,
-      },
+      products: {},
     },
   },
   routes: {
     exclude: ['replaceOneBase'],
   },
-
   serialize: {
     create: SerializedUserDto,
     update: SerializedUserDto,

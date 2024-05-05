@@ -1,4 +1,4 @@
-import { ApiProperty, OmitType } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger';
 import { SerializedProductDto } from '../../../products/dto/response/serialized-product.dto';
 import { IDocument, ISerializedUser } from '@core';
 import { DatabaseEntity } from '../../../../common/database.entity';
@@ -12,7 +12,7 @@ export class SerializedUserDto
 {
   @decorate(
     ApiProperty({
-      type: () => [OmitType(SerializedProductDto, ['suppliers'])],
+      type: () => [SerializedProductDto],
     })
   )
   products: SerializedProductDto[];

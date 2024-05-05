@@ -1,10 +1,10 @@
 import { Brand, Category, IProduct, ISerializedUser } from '@core';
 
 import { ApiProperty, OmitType } from '@nestjs/swagger';
-import { SerializedUserDto } from '../../../user/dto/response/serialized-user.dto';
 import { decorate, Mixin } from 'ts-mixer';
 import { ManualDatabaseEntity } from '../../../../common/database.entity';
 import { SharedProductDto } from '../shared/shared-product.dto';
+import { SerializedUserDto } from '../../../user/dto/response/serialized-user.dto';
 
 export class SerializedProductDto
   extends Mixin(ManualDatabaseEntity, SharedProductDto)
@@ -36,9 +36,9 @@ export class SerializedProductDto
     })
   )
   brand: Brand;
-
   @decorate(
     ApiProperty({
+      isArray: true,
       type: () => [OmitType(SerializedUserDto, ['products'])],
     })
   )

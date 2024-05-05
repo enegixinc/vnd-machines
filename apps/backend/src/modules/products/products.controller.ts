@@ -30,13 +30,11 @@ import { SerializedProductDto } from './dto/response/serialized-product.dto';
       },
     ],
     softDelete: true,
-    exclude: ['password'],
     limit: 20,
     maxLimit: 100,
     join: {
-      suppliers: {
-        exclude: ['products'],
-        eager: true,
+      users: {
+        alias: 'suppliers',
       },
     },
   },
