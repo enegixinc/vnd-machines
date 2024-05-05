@@ -29,11 +29,13 @@ export class DatabaseEntity extends BaseEntity implements IDatabaseEntity {
   )
   createdAt: string;
 
-  @UpdateDateColumn()
-  @ApiProperty({
-    example: '2021-07-01T00:00:00.000Z',
-    type: 'timestamp',
-  })
+  @decorate(UpdateDateColumn())
+  @decorate(
+    ApiProperty({
+      example: '2021-07-01T00:00:00.000Z',
+      type: 'timestamp',
+    })
+  )
   updatedAt: string;
 
   @decorate(DeleteDateColumn())

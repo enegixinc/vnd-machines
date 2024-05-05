@@ -20,8 +20,8 @@ export interface IUserEntity extends IDatabaseEntity {
   role: UserRole;
   phoneNumber: string;
   active: boolean;
-  products: string[];
-  documents: string[];
+  products: string[] | IProduct[];
+  documents: string[] | IDocument[];
 }
 
 export type ICreateUser = Omit<IUserEntity, keyof IDatabaseEntity>;
