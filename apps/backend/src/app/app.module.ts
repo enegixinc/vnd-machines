@@ -21,6 +21,7 @@ import { ProductsModule } from '../modules/products/products.module';
     UsersModule,
     FilesModule,
     ProductsModule,
+    // HealthModule,
   ],
 })
 export class AppModule {}
