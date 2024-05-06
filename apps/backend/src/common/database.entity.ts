@@ -55,6 +55,7 @@ export class ManualDatabaseEntity {
       unique: true,
       name: '_id',
       type: 'varchar',
+      default: () => 'uuid_generate_v4()',
     })
   )
   @decorate(

@@ -25,18 +25,13 @@ export class SharedCategoryDto {
   @decorate(IsNotEmpty({ groups: [CREATE] }))
   @decorate(
     ApiProperty({
-      example: 'example@email.com',
-      description: 'Email of the owner',
-      type: String,
-    })
-  )
-  @decorate(
-    ApiProperty({
       type: Boolean,
     })
   )
   auto: boolean;
 
+  @decorate(IsOptional({ groups: [UPDATE] }))
+  @decorate(IsNotEmpty({ groups: [CREATE] }))
   @decorate(
     ApiProperty({
       example: 'https://www.local.com/image.jpg',
@@ -46,6 +41,8 @@ export class SharedCategoryDto {
   )
   categoryPicture: string;
 
+  @decorate(IsOptional({ groups: [UPDATE] }))
+  @decorate(IsNotEmpty({ groups: [CREATE] }))
   @decorate(
     ApiProperty({
       example: 'example@email.com',
@@ -55,6 +52,8 @@ export class SharedCategoryDto {
   )
   referTo: string;
 
+  @decorate(IsOptional({ groups: [UPDATE] }))
+  @decorate(IsNotEmpty({ groups: [CREATE] }))
   @decorate(
     ApiProperty({
       example: 1,

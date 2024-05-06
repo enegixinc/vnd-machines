@@ -53,9 +53,9 @@ import { SerializedCategoryDto } from './dto/response/serialized-category.dto';
     update: SerializedCategoryDto,
   },
 })
-@Controller('products')
+@Controller('categories')
 @ApiResponse({ status: 403, description: 'Forbidden.' })
-@ApiTags('products')
+@ApiTags('categories')
 @ApiBearerAuth('JWT-auth')
 export class CategoriesController implements CrudController<CategoryEntity> {
   constructor(public service: CategoriesService) {}
