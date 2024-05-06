@@ -1,44 +1,28 @@
-import { BeforeInsert, Column, Entity, ManyToMany } from 'typeorm';
+import { Column, Entity, ManyToMany } from 'typeorm';
 import {
-  Brand,
-  Category,
   Dimension,
-  IProduct,
+  ICategory,
+  IProductEntity,
+  ISerializedBrand,
   ISerializedUser,
   MultiLang,
+  ReferenceByID,
 } from '@core';
-import { UserEntity } from '../users/entities/user.entity';
 import { ManualDatabaseEntity } from '../../common/database.entity';
 
-@Entity('products')
-export class ProductEntity extends ManualDatabaseEntity implements IProduct {
+@Entity('categories')
+export class ProductEntity
+  extends ManualDatabaseEntity
+  implements IProductEntity
+{
   @Column({ type: 'varchar', nullable: true })
   upc: string;
 
-  @ManyToMany(() => UserEntity, (user) => user.products, {
+  @ManyToMany(() => ProductEntity, (product) => product.category, {
     nullable: true,
     eager: true,
   })
-  suppliers: ISerializedUser[];
-
-  @BeforeInsert()
-  async createProduct() {
-    // const productConverter = new ProductConverter();
-    // const magexProduct = productConverter.toMagexProduct(this);
-    // // @ts-expect-error - magexConnector is not typed
-    // const { newProduct } = await magexConnector.products.postProductsCreate({
-    //   // @ts-expect-error - magexConnector is not typed
-    //   formData: magexProduct,
-    // });
-    // Object.assign(this, newProduct);
-    this.lastSync = new Date().toISOString();
-    this._id = Math.random().toString(36).substring(7);
-    this.__v = 0;
-    this.createdAt = new Date().toISOString();
-    this.updatedAt = new Date().toISOString();
-
-    console.log('Product created', this);
-  }
+  suppliers: ReferenceByID<ISerializedUser>[];
 
   @Column({ type: 'integer' })
   __v: number;
@@ -56,10 +40,10 @@ export class ProductEntity extends ManualDatabaseEntity implements IProduct {
   barcode: string;
 
   @Column({ type: 'varchar' })
-  brand: Brand;
+  brand: ReferenceByID<ISerializedBrand>;
 
   @Column('simple-array')
-  category: Category[];
+  category: ICategory[];
 
   @Column({ type: 'numeric' })
   costPrice: any;

@@ -1,14 +1,14 @@
 import { IDatabaseEntity } from './database-entity';
-import { IProduct } from './product';
+import { ISerializedProduct } from './product';
 
 export interface ISerializedUser
   extends Omit<IUserEntity, 'password' | keyof IUserResolvedEntities> {
-  products: IProduct[];
+  products: ISerializedProduct[];
   documents: IDocument[];
 }
 
 interface IUserResolvedEntities {
-  products: IProduct[];
+  products: ISerializedProduct[];
   documents: IDocument[];
 }
 
@@ -21,7 +21,7 @@ export interface IUserEntity extends IDatabaseEntity {
   role: UserRole;
   phoneNumber: string;
   active: boolean;
-  products: string[] | IProduct[];
+  products: string[] | ISerializedProduct[];
   documents: string[] | IDocument[];
 }
 

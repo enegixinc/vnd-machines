@@ -1,4 +1,4 @@
-import { ICreateUser, IDocument, IProduct, POLICY } from '@core';
+import { ICreateUser, IDocument, ISerializedProduct, POLICY } from '@core';
 import { IsNotEmpty, IsOptional, IsStrongPassword } from 'class-validator';
 import { CrudValidationGroups } from '@dataui/crud';
 import { ApiProperty } from '@nestjs/swagger';
@@ -16,7 +16,7 @@ export class CreateUserDto extends SharedUserDto implements ICreateUser {
       type: [String],
     })
   )
-  products: string[] | IProduct[];
+  products: string[] | ISerializedProduct[];
 
   @decorate(IsNotEmpty({ groups: [CREATE] }))
   @decorate(IsOptional({ groups: [UPDATE] }))

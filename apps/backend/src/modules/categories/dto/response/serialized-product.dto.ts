@@ -1,9 +1,4 @@
-import {
-  ICategory,
-  ISerializedBrand,
-  ISerializedProduct,
-  ISerializedUser,
-} from '@core';
+import { ICategory, ISerializedProduct, ISerializedUser } from '@core';
 
 import { ApiProperty, OmitType } from '@nestjs/swagger';
 import { decorate, Mixin } from 'ts-mixer';
@@ -40,7 +35,7 @@ export class SerializedProductDto
       type: String,
     })
   )
-  brand: ISerializedBrand;
+  brand: Brand;
   @decorate(
     ApiProperty({
       type: () => [OmitType(SerializedUserDto, ['products'])],
