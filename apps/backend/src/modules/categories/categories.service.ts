@@ -5,7 +5,7 @@ import { TypeOrmCrudService } from '@dataui/crud-typeorm';
 import { CategoryEntity } from './category.entity';
 
 @Injectable()
-export class ProductsService extends TypeOrmCrudService<CategoryEntity> {
+export class CategoriesService extends TypeOrmCrudService<CategoryEntity> {
   constructor(
     @InjectRepository(CategoryEntity) repository: Repository<CategoryEntity>
   ) {

@@ -199,6 +199,17 @@ export class SharedProductDto {
   )
   productPictures: string[];
 
+  // TODO: check this
+  @decorate(IsOptional({ groups: [UPDATE, CREATE] }))
+  @decorate(
+    ApiProperty({
+      example: 'video.mp4',
+      description: 'URL of the product video',
+      type: String,
+    })
+  )
+  productVideo: string;
+
   @decorate(IsOptional({ groups: [UPDATE, CREATE] }))
   @decorate(
     ApiProperty({

@@ -1,7 +1,13 @@
-import { _IMagex_DatabaseEntity, MultiLang, ReferenceByID } from './common';
+import {
+  _IDataBaseEntity,
+  _IMagex_DatabaseEntity,
+  MultiLang,
+  ReferenceByID,
+} from './common';
 import { ISerializedUser } from './user';
-import { ISerializedProduct } from './product';
-import { ICategory } from '@core';
+import { ISerializedProduct } from './product/product';
+import { ISerializedMagexCategory } from './category/magex-category';
+import { ISerializedCategory } from './category/category';
 
 export interface ICreateMagexBrand {
   name: MultiLang;
@@ -10,7 +16,7 @@ export interface ICreateMagexBrand {
   logo: string;
   suppliers: ReferenceByID<ISerializedUser>[] | null;
   products: ReferenceByID<ISerializedProduct>[] | null;
-  category: ReferenceByID<ICategory>[] | null; // TODO: make it ISerializedCategory
+  category: ReferenceByID<ISerializedMagexCategory>[] | null; // TODO: make it ISerializedCategory
 }
 
 export interface IBrand {
@@ -20,7 +26,7 @@ export interface IBrand {
 
 export interface ISerializedBrand
   extends Omit<ICreateMagexBrand, keyof IBrandResolvedEntities>,
-    _IMagex_DatabaseEntity {
+    _IDataBaseEntity {
   referTo: string;
   logo: string;
 }
@@ -28,7 +34,7 @@ export interface ISerializedBrand
 export interface IBrandResolvedEntities {
   suppliers: ISerializedUser[];
   products: ISerializedProduct[];
-  category: ICategory[];
+  category: ISerializedCategory[];
 }
 
 export type ReferenceFor<T> = T extends {

@@ -1,9 +1,9 @@
 import { Column, Entity, ManyToMany } from 'typeorm';
 import {
   Dimension,
-  ICategory,
   IProductEntity,
   ISerializedBrand,
+  ISerializedCategory,
   ISerializedUser,
   MultiLang,
   ReferenceByID,
@@ -43,7 +43,7 @@ export class ProductEntity
   brand: ReferenceByID<ISerializedBrand>;
 
   @Column('simple-array')
-  category: ICategory[];
+  category: ReferenceByID<ISerializedCategory>[];
 
   @Column({ type: 'numeric' })
   costPrice: any;

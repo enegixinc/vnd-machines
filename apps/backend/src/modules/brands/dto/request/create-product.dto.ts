@@ -5,20 +5,10 @@ import { UserExistsValidator } from '../../../users/validators/user-exists';
 import { decorate } from 'ts-mixer';
 import { SharedProductDto } from '../shared/shared-product.dto';
 import { SerializedUserDto } from '../../../users/dto/response/serialized-user.dto';
-import {
-  ICreateProduct,
-  ISerializedBrand,
-  ISerializedCategory,
-  ISerializedUser,
-  ReferenceByID,
-} from '@core';
 
 const { CREATE, UPDATE } = CrudValidationGroups;
 
-export class CreateProductDto
-  extends SharedProductDto
-  implements ICreateProduct
-{
+export class CreateProductDto extends SharedProductDto {
   @decorate(
     ApiProperty({
       type: () => [PickType(SerializedUserDto, ['id'])],
@@ -26,33 +16,25 @@ export class CreateProductDto
   )
   @decorate(Validate(UserExistsValidator, { each: true }))
   @decorate(IsOptional({ groups: [UPDATE, CREATE] }))
-  suppliers: ReferenceByID<ISerializedUser>[];
+  suppliers: string[];
 
   @decorate(IsOptional({ groups: [UPDATE, CREATE] }))
   @decorate(
     ApiProperty({
       example: '661c2a7345f6ce15dc3df34e',
       description: 'Brand ID of the product',
-      type: String, // TODO:  () => [PickType(SerializedUserDto, ['id'])],
+      type: String,
     })
   )
-  brand: ReferenceByID<ISerializedBrand>;
+  brand: string;
 
   @decorate(IsOptional({ groups: [UPDATE, CREATE] }))
   @decorate(
     ApiProperty({
       example: '6608a4e9e0cde61fd03f1a81',
       description: 'Category ID of the product',
-      type: String, // TODO: () => [PickType(SerializedUserDto, ['id'])],
+      type: String,
     })
   )
-  category: ReferenceByID<ISerializedCategory>[];
-
-  @decorate(IsOptional({ groups: [UPDATE, CREATE] }))
-  @decorate(
-    ApiProperty({
-      type: 'File',
-    })
-  )
-  productVideo: File | Blob;
+  category: string;
 }

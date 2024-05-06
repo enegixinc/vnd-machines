@@ -1,7 +1,7 @@
 import { Controller } from '@nestjs/common';
 import { Crud, CrudController } from '@dataui/crud';
 import { CategoryEntity } from './category.entity';
-import { ProductsService } from './products.service';
+import { CategoriesService } from './categories.service';
 import { CreateProductDto } from './dto/request/create-product.dto';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { SerializedProductDto } from './dto/response/serialized-product.dto';
@@ -57,8 +57,8 @@ import { SerializedProductDto } from './dto/response/serialized-product.dto';
 @ApiResponse({ status: 403, description: 'Forbidden.' })
 @ApiTags('products')
 @ApiBearerAuth('JWT-auth')
-export class ProductsController implements CrudController<CategoryEntity> {
-  constructor(public service: ProductsService) {}
+export class CategoriesController implements CrudController<CategoryEntity> {
+  constructor(public service: CategoriesService) {}
 
   get base(): CrudController<CategoryEntity> {
     return this;

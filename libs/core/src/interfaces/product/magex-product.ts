@@ -1,7 +1,9 @@
-import { _IMagex_DatabaseEntity, ICategory, MultiLang } from '@core';
-import { IBrand } from './brand';
+import { _IMagex_DatabaseEntity, IBrand, MultiLang } from '@core';
+import { ISerializedMagexCategory } from '../category';
 
-export interface ISerializedMagexProduct extends IMagexProductResolvedEntities {
+export interface ISerializedMagexProduct
+  extends IMagexProductResolvedEntities,
+    _IMagex_DatabaseEntity {
   name: MultiLang;
   detail: MultiLang;
   keyFeatures: MultiLang;
@@ -11,11 +13,9 @@ export interface ISerializedMagexProduct extends IMagexProductResolvedEntities {
   ingredients: MultiLang;
   dimension: Dimension;
   pricePerKilo: boolean;
-
   upc: string;
   barcode: string;
   price: number;
-  productVideo: string;
   referTo: string;
   prodType: string;
   additionPrice: any; // TODO: check type with their backend
@@ -26,23 +26,21 @@ export interface ISerializedMagexProduct extends IMagexProductResolvedEntities {
   costPrice: number;
 }
 
-interface IMagexProductResolvedEntities extends _IMagex_DatabaseEntity {
-  category: ICategory[];
+export interface IMagexProductResolvedEntities {
+  category: ISerializedMagexCategory[];
   brand: IBrand;
   productPictures: string[];
+  productVideo: string;
 }
 
 export interface ICreateMagexProduct
-  extends Omit<ISerializedMagexProduct, keyof IMagexProductResolvedEntities> {
+  extends Omit<
+    ISerializedMagexProduct,
+    keyof (IMagexProductResolvedEntities & _IMagex_DatabaseEntity)
+  > {
   category: string[];
   brand: string;
-
-  // // TODO: find a better way to handle this
-  // image1: string;
-  // image2: string;
-  // image3: string;
-  // image4: string;
-  // image5: string;
+  productVideo: Blob | File;
 }
 
 export interface Dimension {
