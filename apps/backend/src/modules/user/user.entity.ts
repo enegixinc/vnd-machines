@@ -17,6 +17,9 @@ export class UserEntity extends DatabaseEntity implements IUserEntity {
   })
   email: string;
 
+  @Column({ type: 'varchar', length: 32, nullable: true })
+  businessName: string;
+
   @Column({
     type: 'varchar',
     length: POLICY.AUTH.PASSWORD.MAX_LENGTH,

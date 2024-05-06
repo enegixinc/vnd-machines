@@ -15,6 +15,7 @@ interface IUserResolvedEntities {
 export interface IUserEntity extends IDatabaseEntity {
   firstName: string;
   lastName: string;
+  businessName: string | null;
   email: string;
   password: string;
   role: UserRole;
@@ -24,7 +25,10 @@ export interface IUserEntity extends IDatabaseEntity {
   documents: string[] | IDocument[];
 }
 
-export type ICreateUser = Omit<IUserEntity, keyof IDatabaseEntity>;
+export type ICreateUser = Omit<
+  IUserEntity,
+  keyof (IDatabaseEntity & IUserResolvedEntities & 'password')
+>;
 
 export interface IDocument {
   id: string;

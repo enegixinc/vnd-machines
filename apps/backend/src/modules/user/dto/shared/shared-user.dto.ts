@@ -95,4 +95,15 @@ export class SharedUserDto {
     })
   )
   role: UserRole;
+
+  @decorate(IsOptional({ groups: [CREATE, UPDATE] }))
+  @decorate(
+    ApiProperty({
+      example: 'Business Name',
+      description: 'Business name of the user',
+      type: String,
+      nullable: true,
+    })
+  )
+  businessName: string;
 }
