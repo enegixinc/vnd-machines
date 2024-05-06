@@ -52,4 +52,7 @@ export class UserEntity extends DatabaseEntity implements IUserEntity {
   })
   products: string[];
   documents: string[];
+
+  @ManyToMany(() => ProductEntity, (product) => product.suppliers)
+  brands: string[];
 }

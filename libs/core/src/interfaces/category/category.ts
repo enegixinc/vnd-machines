@@ -1,15 +1,29 @@
-import { ICreateMagexCategory } from './magex-category';
+import {
+  ICreateMagexCategory,
+  ISerializedMagexCategory,
+} from './magex-category';
 import { _IDataBaseEntity } from '../common';
 import { ISerializedBrand } from '../brand';
 import { ISerializedUser } from '../user';
+import { ISerializedProduct } from '../product';
 
-export type ICategoryEntity = ICategoryResolvedEntities & _IDataBaseEntity;
+export interface ICategoryEntity
+  extends _IDataBaseEntity,
+    Omit<ISerializedCategory, keyof ICreateCategory>,
+    ICreateCategory {}
 
-export type ISerializedCategory = ICategoryResolvedEntities & _IDataBaseEntity;
+export interface ISerializedCategory
+  extends Omit<ISerializedMagexCategory, keyof ICategoryResolvedEntities>,
+    _IDataBaseEntity,
+    ICategoryResolvedEntities {
+  referTo: string;
+  // categoryPicture: string;
+}
 
-export type ICategoryCreate = ICreateMagexCategory;
+export type ICreateCategory = ICreateMagexCategory;
 
 export interface ICategoryResolvedEntities {
   suppliers: ISerializedUser[];
   brands: ISerializedBrand[];
+  products: ISerializedProduct[];
 }

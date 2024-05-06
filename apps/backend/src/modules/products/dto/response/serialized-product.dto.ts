@@ -10,6 +10,8 @@ import { decorate, Mixin } from 'ts-mixer';
 import { ManualDatabaseEntity } from '../../../../common/database.entity';
 import { SharedProductDto } from '../shared/shared-product.dto';
 import { SerializedUserDto } from '../../../users/dto/response/serialized-user.dto';
+import { SerializedBrandDto } from '../../../brands/dto/response/serialized-brand.dto';
+import { SerializedCategoryDto } from '../../../categories/dto/response/serialized-category.dto';
 
 export class SerializedProductDto
   extends Mixin(ManualDatabaseEntity, SharedProductDto)
@@ -17,18 +19,9 @@ export class SerializedProductDto
 {
   @decorate(
     ApiProperty({
-      example: 1,
-      description: 'Version',
-      type: Number,
-    })
-  )
-  __v: number;
-
-  @decorate(
-    ApiProperty({
       example: '2024-05-01T12:00:00.000Z',
       description: 'Last sync date of the product',
-      type: String,
+      type: () => [OmitType(SerializedCategoryDto, ['products'])],
     })
   )
   category: ISerializedCategory[];
@@ -37,10 +30,11 @@ export class SerializedProductDto
     ApiProperty({
       example: '2024-05-01T12:00:00.000Z',
       description: 'Last sync date of the product',
-      type: String,
+      type: () => [OmitType(SerializedBrandDto, ['products'])],
     })
   )
   brand: ISerializedBrand;
+
   @decorate(
     ApiProperty({
       type: () => [OmitType(SerializedUserDto, ['products'])],

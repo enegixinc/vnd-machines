@@ -1,5 +1,6 @@
-import { _IMagex_DatabaseEntity, IBrand, MultiLang } from '@core';
+import { _IMagex_DatabaseEntity, MultiLang } from '@core';
 import { ISerializedMagexCategory } from '../category';
+import { ISerializedMagexBrand } from '../brand';
 
 export interface ISerializedMagexProduct
   extends IMagexProductResolvedEntities,
@@ -28,7 +29,7 @@ export interface ISerializedMagexProduct
 
 export interface IMagexProductResolvedEntities {
   category: ISerializedMagexCategory[];
-  brand: IBrand;
+  brand: ISerializedMagexBrand;
   productPictures: string[];
   productVideo: string;
 }

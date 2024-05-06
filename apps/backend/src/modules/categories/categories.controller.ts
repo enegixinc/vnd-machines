@@ -2,7 +2,7 @@ import { Controller } from '@nestjs/common';
 import { Crud, CrudController } from '@dataui/crud';
 import { CategoryEntity } from './category.entity';
 import { CategoriesService } from './categories.service';
-import { CreateProductDto } from './dto/request/create-product.dto';
+import { CreateCategoryDto } from './dto/request/create-category.dto';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { SerializedCategoryDto } from './dto/response/serialized-category.dto';
 
@@ -11,7 +11,7 @@ import { SerializedCategoryDto } from './dto/response/serialized-category.dto';
     type: CategoryEntity,
   },
   dto: {
-    create: CreateProductDto,
+    create: CreateCategoryDto,
   },
   params: {
     id: {

@@ -5,10 +5,14 @@ import { UserExistsValidator } from '../../../users/validators/user-exists';
 import { decorate } from 'ts-mixer';
 import { SharedCategoryDto } from '../shared/shared-category.dto';
 import { SerializedUserDto } from '../../../users/dto/response/serialized-user.dto';
+import { ICreateCategory } from '@core';
 
 const { CREATE, UPDATE } = CrudValidationGroups;
 
-export class CreateProductDto extends SharedCategoryDto {
+export class CreateCategoryDto
+  extends SharedCategoryDto
+  implements ICreateCategory
+{
   @decorate(
     ApiProperty({
       type: () => [PickType(SerializedUserDto, ['id'])],
@@ -37,4 +41,13 @@ export class CreateProductDto extends SharedCategoryDto {
     })
   )
   category: string;
+
+  @decorate(IsOptional({ groups: [UPDATE, CREATE] }))
+  @decorate(
+    ApiProperty({
+      type: 'File',
+    })
+  )
+  // @ts-ignore
+  categoryPicture: Blob | File;
 }

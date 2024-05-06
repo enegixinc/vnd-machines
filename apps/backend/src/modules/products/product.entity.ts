@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToMany } from 'typeorm';
+import { Column, Entity, ManyToMany, ManyToOne } from 'typeorm';
 import {
   Dimension,
   IProductEntity,
@@ -9,20 +9,31 @@ import {
   ReferenceByID,
 } from '@core';
 import { ManualDatabaseEntity } from '../../common/database.entity';
+import { UserEntity } from '../users/entities/user.entity';
+import { BrandEntity } from '../brands/brand.entity';
 
-@Entity('categories')
+@Entity('products')
 export class ProductEntity
   extends ManualDatabaseEntity
   implements IProductEntity
 {
-  @Column({ type: 'varchar', nullable: true })
-  upc: string;
-
-  @ManyToMany(() => ProductEntity, (product) => product.category, {
+  @ManyToMany(() => UserEntity, (user) => user.products, {
     nullable: true,
-    eager: true,
   })
   suppliers: ReferenceByID<ISerializedUser>[];
+
+  @ManyToOne(() => BrandEntity, (brand) => brand.products, {
+    nullable: true,
+  })
+  brand: ReferenceByID<ISerializedBrand>;
+
+  // @ManyToOne(() => CategoryEntity, (category) => category.products, {
+  //   nullable: true,
+  // })
+  category: ReferenceByID<ISerializedCategory>[];
+
+  @Column({ type: 'varchar', nullable: true })
+  upc: string;
 
   @Column({ type: 'integer' })
   __v: number;
@@ -38,12 +49,6 @@ export class ProductEntity
 
   @Column({ type: 'varchar' })
   barcode: string;
-
-  @Column({ type: 'varchar' })
-  brand: ReferenceByID<ISerializedBrand>;
-
-  @Column('simple-array')
-  category: ReferenceByID<ISerializedCategory>[];
 
   @Column({ type: 'numeric' })
   costPrice: any;

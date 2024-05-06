@@ -37,6 +37,12 @@ import { SerializedBrandDto } from './dto/response/serialized-brand.dto';
         alias: 'users',
         eager: true,
       },
+      products: {
+        eager: true,
+      },
+      categories: {
+        eager: true,
+      },
     },
   },
   routes: {
@@ -53,9 +59,9 @@ import { SerializedBrandDto } from './dto/response/serialized-brand.dto';
     update: SerializedBrandDto,
   },
 })
-@Controller('products')
+@Controller('brands')
 @ApiResponse({ status: 403, description: 'Forbidden.' })
-@ApiTags('products')
+@ApiTags('brands')
 @ApiBearerAuth('JWT-auth')
 export class BrandsController implements CrudController<BrandEntity> {
   constructor(public service: BrandsService) {}

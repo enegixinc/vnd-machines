@@ -1,40 +1,63 @@
-import { ApiProperty, PickType } from '@nestjs/swagger';
 import { CrudValidationGroups } from '@dataui/crud';
-import { IsOptional, Validate } from 'class-validator';
-import { UserExistsValidator } from '../../../users/validators/user-exists';
+import {
+  ICreateBrand,
+  ISerializedCategory,
+  ISerializedProduct,
+  ISerializedUser,
+  ReferenceByID,
+} from '@core';
 import { decorate } from 'ts-mixer';
-import { SharedBrandDto } from '../shared/shared-brand.dto';
+import { IsOptional } from 'class-validator';
+import { ApiProperty, OmitType } from '@nestjs/swagger';
+import { SerializedCategoryDto } from '../../../categories/dto/response/serialized-category.dto';
+import { SerializedProductDto } from '../../../products/dto/response/serialized-product.dto';
 import { SerializedUserDto } from '../../../users/dto/response/serialized-user.dto';
+import { SharedBrandDto } from '../shared/shared-brand.dto';
 
 const { CREATE, UPDATE } = CrudValidationGroups;
 
-export class CreateBrandDto extends SharedBrandDto {
+export class CreateBrandDto extends SharedBrandDto implements ICreateBrand {
+  @decorate(IsOptional({ groups: [UPDATE, CREATE] }))
   @decorate(
     ApiProperty({
-      type: () => [PickType(SerializedUserDto, ['id'])],
+      type: () => [OmitType(SerializedUserDto, ['brand'])],
     })
   )
-  @decorate(Validate(UserExistsValidator, { each: true }))
-  @decorate(IsOptional({ groups: [UPDATE, CREATE] }))
-  suppliers: string[];
+  suppliers: ReferenceByID<ISerializedUser>[] | null;
 
   @decorate(IsOptional({ groups: [UPDATE, CREATE] }))
   @decorate(
     ApiProperty({
-      example: '661c2a7345f6ce15dc3df34e',
-      description: 'Brand ID of the product',
+      example: 'https://www.local.com/image.jpg',
+      description: 'Brand picture',
       type: String,
     })
   )
-  brand: string;
+  picture: string;
 
   @decorate(IsOptional({ groups: [UPDATE, CREATE] }))
   @decorate(
     ApiProperty({
-      example: '6608a4e9e0cde61fd03f1a81',
-      description: 'Category ID of the product',
+      type: () => [OmitType(SerializedProductDto, ['brand'])],
+    })
+  )
+  products: ReferenceByID<ISerializedProduct>[] | null;
+
+  @decorate(IsOptional({ groups: [UPDATE, CREATE] }))
+  @decorate(
+    ApiProperty({
+      type: () => [OmitType(SerializedCategoryDto, ['brands'])],
+    })
+  )
+  categories: ReferenceByID<ISerializedCategory>[];
+
+  @decorate(IsOptional({ groups: [UPDATE, CREATE] }))
+  @decorate(
+    ApiProperty({
+      example: 'https://www.local.com/image.jpg',
+      description: 'Brand logo',
       type: String,
     })
   )
-  category: string;
+  logo: string;
 }

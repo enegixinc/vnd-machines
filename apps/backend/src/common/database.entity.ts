@@ -66,6 +66,15 @@ export class ManualDatabaseEntity {
   _id: string;
 
   @decorate(
+    ApiProperty({
+      example: 1,
+      description: 'Version',
+      type: Number,
+    })
+  )
+  __v: number;
+
+  @decorate(
     CreateDateColumn({
       generated: false,
     })

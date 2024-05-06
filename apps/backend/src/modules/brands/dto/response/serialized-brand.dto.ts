@@ -1,45 +1,61 @@
-import { ISerializedBrand } from '@core';
-import { Mixin } from 'ts-mixer';
+import { decorate, Mixin } from 'ts-mixer';
 import { ManualDatabaseEntity } from '../../../../common/database.entity';
 import { SharedBrandDto } from '../shared/shared-brand.dto';
+import {
+  ISerializedBrand,
+  ISerializedCategory,
+  ISerializedProduct,
+  ISerializedUser,
+} from '@core';
+import { ApiProperty, OmitType } from '@nestjs/swagger';
+import { SerializedUserDto } from '../../../users/dto/response/serialized-user.dto';
+import { SerializedCategoryDto } from '../../../categories/dto/response/serialized-category.dto';
+import { SerializedProductDto } from '../../../products/dto/response/serialized-product.dto';
 
 export class SerializedBrandDto
   extends Mixin(ManualDatabaseEntity, SharedBrandDto)
   implements ISerializedBrand
 {
-  __v: number;
+  @decorate(
+    ApiProperty({
+      type: () => [
+        OmitType(SerializedCategoryDto, ['brands', 'suppliers', 'products']),
+      ],
+    })
+  )
+  categories: ISerializedCategory[];
+
+  @decorate(
+    ApiProperty({
+      type: () => [
+        OmitType(SerializedProductDto, ['brand', 'category', 'suppliers']),
+      ],
+    })
+  )
+  products: ISerializedProduct[];
+
+  @decorate(
+    ApiProperty({
+      type: () => [OmitType(SerializedUserDto, ['products', 'brand'])],
+    })
+  )
+  suppliers: ISerializedUser[];
+
+  @decorate(
+    ApiProperty({
+      example: 'https://www.local.com/image.jpg',
+      description: 'Brand logo',
+      type: String,
+    })
+  )
   logo: string;
+
+  @decorate(
+    ApiProperty({
+      example: 'https://www.local.com/image.jpg',
+      description: 'Brand picture',
+      type: String,
+    })
+  )
   picture: string;
-  // @decorate(
-  //   ApiProperty({
-  //     example: 1,
-  //     description: 'Version',
-  //     type: Number,
-  //   })
-  // )
-  // __v: number;
-  //
-  // @decorate(
-  //   ApiProperty({
-  //     example: '2024-05-01T12:00:00.000Z',
-  //     description: 'Last sync date of the product',
-  //     type: String,
-  //   })
-  // )
-  // category: ICategory[];
-  //
-  // @decorate(
-  //   ApiProperty({
-  //     example: '2024-05-01T12:00:00.000Z',
-  //     description: 'Last sync date of the product',
-  //     type: String,
-  //   })
-  // )
-  // brand: Brand;
-  // @decorate(
-  //   ApiProperty({
-  //     type: () => [OmitType(SerializedUserDto, ['products'])],
-  //   })
-  // )
-  // suppliers: ISerializedUser[];
 }
