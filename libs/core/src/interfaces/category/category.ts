@@ -3,6 +3,8 @@ import { _IDataBaseEntity } from '../common';
 import { ISerializedBrand } from '../brand';
 import { ISerializedUser } from '../user';
 
+export type ICategoryEntity = ICategoryResolvedEntities & _IDataBaseEntity;
+
 export type ISerializedCategory = ICategoryResolvedEntities & _IDataBaseEntity;
 
 export type ICategoryCreate = ICreateMagexCategory;

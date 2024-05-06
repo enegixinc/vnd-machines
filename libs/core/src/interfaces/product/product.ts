@@ -1,13 +1,12 @@
 import { ISerializedUser } from '../user';
 import { _IDataBaseEntity, ReferenceByID } from '../common';
 import { ISerializedBrand } from '../brand';
-import { ISerializedMagexCategory } from '../category/magex-category';
+import { ISerializedCategory, ISerializedMagexCategory } from '../category';
 import {
   ICreateMagexProduct,
   IMagexProductResolvedEntities,
   ISerializedMagexProduct,
 } from './magex-product';
-import { ISerializedCategory } from '../category/category';
 
 export interface IProductEntity
   extends _IDataBaseEntity,

@@ -2,16 +2,16 @@ import { Controller } from '@nestjs/common';
 import { Crud, CrudController } from '@dataui/crud';
 import { BrandEntity } from './brand.entity';
 import { BrandsService } from './brands.service';
-import { CreateProductDto } from './dto/request/create-product.dto';
+import { CreateBrandDto } from './dto/request/create-brand.dto';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { SerializedProductDto } from './dto/response/serialized-product.dto';
+import { SerializedBrandDto } from './dto/response/serialized-brand.dto';
 
 @Crud({
   model: {
     type: BrandEntity,
   },
   dto: {
-    create: CreateProductDto,
+    create: CreateBrandDto,
   },
   params: {
     id: {
@@ -43,14 +43,14 @@ import { SerializedProductDto } from './dto/response/serialized-product.dto';
     exclude: ['replaceOneBase'],
   },
   serialize: {
-    getMany: SerializedProductDto,
-    get: SerializedProductDto,
-    create: SerializedProductDto,
-    replace: SerializedProductDto,
-    recover: SerializedProductDto,
-    delete: SerializedProductDto,
-    createMany: SerializedProductDto,
-    update: SerializedProductDto,
+    getMany: SerializedBrandDto,
+    get: SerializedBrandDto,
+    create: SerializedBrandDto,
+    replace: SerializedBrandDto,
+    recover: SerializedBrandDto,
+    delete: SerializedBrandDto,
+    createMany: SerializedBrandDto,
+    update: SerializedBrandDto,
   },
 })
 @Controller('products')

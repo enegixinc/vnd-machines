@@ -6,7 +6,7 @@ import { CrudValidationGroups } from '@dataui/crud';
 
 const { CREATE, UPDATE } = CrudValidationGroups;
 
-export class SharedProductDto {
+export class SharedBrandDto {
   @decorate(IsOptional({ groups: [UPDATE, CREATE] }))
   @decorate(
     ApiProperty({

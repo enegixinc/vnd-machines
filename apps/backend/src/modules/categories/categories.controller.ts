@@ -4,7 +4,7 @@ import { CategoryEntity } from './category.entity';
 import { CategoriesService } from './categories.service';
 import { CreateProductDto } from './dto/request/create-product.dto';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { SerializedProductDto } from './dto/response/serialized-product.dto';
+import { SerializedCategoryDto } from './dto/response/serialized-category.dto';
 
 @Crud({
   model: {
@@ -43,14 +43,14 @@ import { SerializedProductDto } from './dto/response/serialized-product.dto';
     exclude: ['replaceOneBase'],
   },
   serialize: {
-    getMany: SerializedProductDto,
-    get: SerializedProductDto,
-    create: SerializedProductDto,
-    replace: SerializedProductDto,
-    recover: SerializedProductDto,
-    delete: SerializedProductDto,
-    createMany: SerializedProductDto,
-    update: SerializedProductDto,
+    getMany: SerializedCategoryDto,
+    get: SerializedCategoryDto,
+    create: SerializedCategoryDto,
+    replace: SerializedCategoryDto,
+    recover: SerializedCategoryDto,
+    delete: SerializedCategoryDto,
+    createMany: SerializedCategoryDto,
+    update: SerializedCategoryDto,
   },
 })
 @Controller('products')

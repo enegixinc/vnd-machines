@@ -3,12 +3,12 @@ import { CrudValidationGroups } from '@dataui/crud';
 import { IsOptional, Validate } from 'class-validator';
 import { UserExistsValidator } from '../../../users/validators/user-exists';
 import { decorate } from 'ts-mixer';
-import { SharedProductDto } from '../shared/shared-product.dto';
+import { SharedBrandDto } from '../shared/shared-brand.dto';
 import { SerializedUserDto } from '../../../users/dto/response/serialized-user.dto';
 
 const { CREATE, UPDATE } = CrudValidationGroups;
 
-export class CreateProductDto extends SharedProductDto {
+export class CreateBrandDto extends SharedBrandDto {
   @decorate(
     ApiProperty({
       type: () => [PickType(SerializedUserDto, ['id'])],

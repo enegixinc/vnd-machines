@@ -82,7 +82,7 @@ export class ProductEntity
   productPictures: string[];
 
   @Column({ type: 'varchar' })
-  productVideo: string;
+  productVideo: Blob; // TODO: string
 
   @Column({ type: 'varchar' })
   referTo: string;
