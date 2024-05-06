@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 
-import { UserModule } from '../modules/user/user.module';
+import { UsersModule } from '../modules/users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { FilesModule } from '../modules/files/files.module';
 import { ProductsModule } from '../modules/products/products.module';
@@ -18,7 +18,7 @@ import { ProductsModule } from '../modules/products/products.module';
       synchronize: true,
       entities: [__dirname + '/../../modules/**/*.entity{.ts,.js}'],
     }),
-    UserModule,
+    UsersModule,
     FilesModule,
     ProductsModule,
   ],

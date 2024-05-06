@@ -1,7 +1,7 @@
 import { Column, Entity, JoinTable, ManyToMany } from 'typeorm';
 import { IUserEntity, POLICY, UserRole } from '@core';
-import { DatabaseEntity } from '../../common/database.entity';
-import { ProductEntity } from '../products/product.entity';
+import { DatabaseEntity } from '../../../common/database.entity';
+import { ProductEntity } from '../../products/product.entity';
 
 @Entity('users')
 export class UserEntity extends DatabaseEntity implements IUserEntity {

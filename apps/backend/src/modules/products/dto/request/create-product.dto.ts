@@ -1,10 +1,10 @@
 import { ApiProperty, PickType } from '@nestjs/swagger';
 import { CrudValidationGroups } from '@dataui/crud';
 import { IsOptional, Validate } from 'class-validator';
-import { UserExistsValidator } from '../../../user/validators/user-exists';
+import { UserExistsValidator } from '../../../users/validators/user-exists';
 import { decorate } from 'ts-mixer';
 import { SharedProductDto } from '../shared/shared-product.dto';
-import { SerializedUserDto } from '../../../user/dto/response/serialized-user.dto';
+import { SerializedUserDto } from '../../../users/dto/response/serialized-user.dto';
 
 const { CREATE, UPDATE } = CrudValidationGroups;
 

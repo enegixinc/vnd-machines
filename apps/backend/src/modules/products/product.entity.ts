@@ -7,7 +7,7 @@ import {
   ISerializedUser,
   MultiLang,
 } from '@core';
-import { UserEntity } from '../user/user.entity';
+import { UserEntity } from '../users/entities/user.entity';
 import { ManualDatabaseEntity } from '../../common/database.entity';
 
 @Entity('products')

@@ -3,14 +3,14 @@ import {
   ValidatorConstraint,
   ValidatorConstraintInterface,
 } from 'class-validator';
-import { UserService } from '../user.service';
+import { UsersService } from '../users.service';
 import { IUserEntity } from '@core';
 
 // TODO: make this abstract class
 @Injectable()
 @ValidatorConstraint({ name: 'UserExists', async: true })
 export class UserExistsValidator implements ValidatorConstraintInterface {
-  constructor(private readonly userService: UserService) {}
+  constructor(private readonly userService: UsersService) {}
 
   async validate(user: IUserEntity) {
     console.log('UserExistsValidator', user);

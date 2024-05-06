@@ -1,7 +1,7 @@
 import { Controller } from '@nestjs/common';
 import { Crud, CrudController } from '@dataui/crud';
-import { UserEntity } from './user.entity';
-import { UserService } from './user.service';
+import { UserEntity } from './entities/user.entity';
+import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/request/create-user.dto';
 import { UpdateUserDto } from './dto/response/update-user.dto';
 import { SerializedUserDto } from './dto/response/serialized-user.dto';
@@ -58,8 +58,8 @@ import { ApiResponse, ApiTags } from '@nestjs/swagger';
 @Controller('users')
 @ApiResponse({ status: 403, description: 'Forbidden.' })
 @ApiTags('users')
-export class UserController implements CrudController<UserEntity> {
-  constructor(public service: UserService) {}
+export class UsersController implements CrudController<UserEntity> {
+  constructor(public service: UsersService) {}
 
   get base(): CrudController<UserEntity> {
     return this;
