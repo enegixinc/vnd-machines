@@ -10,6 +10,7 @@ import {
 } from '@core';
 import { ProductEntity } from '../products/product.entity';
 import { UserEntity } from '../users/entities/user.entity';
+import { CategoryEntity } from '../categories/category.entity';
 
 @Entity('brands')
 export class BrandEntity extends DatabaseEntity implements IBrandEntity {
@@ -28,7 +29,7 @@ export class BrandEntity extends DatabaseEntity implements IBrandEntity {
   })
   products: ReferenceByID<ISerializedProduct>[] | null;
 
-  @ManyToMany(() => ProductEntity, (product) => product.category, {
+  @ManyToMany(() => CategoryEntity, (category) => category.brands, {
     nullable: true,
     eager: true,
   })

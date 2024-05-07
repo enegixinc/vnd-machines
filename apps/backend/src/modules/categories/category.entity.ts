@@ -24,7 +24,7 @@ export class CategoryEntity extends DatabaseEntity implements ICategoryEntity {
   @Column({ type: 'int' })
   sortIndex: number;
 
-  @ManyToMany(() => UserEntity, (user) => user.products, {
+  @ManyToMany(() => UserEntity, (user) => user.categories, {
     nullable: true,
   })
   @JoinTable({

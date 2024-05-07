@@ -3,6 +3,7 @@ import { IUserEntity, POLICY, UserRole } from '@core';
 import { DatabaseEntity } from '../../../common/database.entity';
 import { ProductEntity } from '../../products/product.entity';
 import { CategoryEntity } from '../../categories/category.entity';
+import { BrandEntity } from '../../brands/brand.entity';
 
 @Entity('users')
 export class UserEntity extends DatabaseEntity implements IUserEntity {
@@ -53,7 +54,7 @@ export class UserEntity extends DatabaseEntity implements IUserEntity {
   })
   products: string[];
 
-  @ManyToMany(() => ProductEntity, (product) => product.suppliers)
+  @ManyToMany(() => BrandEntity, (brand) => brand.suppliers)
   brands: string[];
 
   @ManyToMany(() => CategoryEntity, (category) => category.suppliers)

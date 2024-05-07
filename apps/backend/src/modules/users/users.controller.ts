@@ -39,6 +39,12 @@ import { ApiResponse, ApiTags } from '@nestjs/swagger';
       products: {
         eager: true,
       },
+      categories: {
+        eager: true,
+      },
+      brands: {
+        eager: true,
+      },
     },
   },
   routes: {
