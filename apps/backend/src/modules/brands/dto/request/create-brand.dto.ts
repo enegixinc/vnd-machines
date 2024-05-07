@@ -8,7 +8,7 @@ import {
 } from '@core';
 import { decorate } from 'ts-mixer';
 import { IsOptional } from 'class-validator';
-import { ApiProperty, OmitType } from '@nestjs/swagger';
+import { ApiProperty, PickType } from '@nestjs/swagger';
 import { SerializedCategoryDto } from '../../../categories/dto/response/serialized-category.dto';
 import { SerializedProductDto } from '../../../products/dto/response/serialized-product.dto';
 import { SerializedUserDto } from '../../../users/dto/response/serialized-user.dto';
@@ -20,7 +20,8 @@ export class CreateBrandDto extends SharedBrandDto implements ICreateBrand {
   @decorate(IsOptional({ groups: [UPDATE, CREATE] }))
   @decorate(
     ApiProperty({
-      type: () => [OmitType(SerializedUserDto, ['brand'])],
+      type: () => PickType(SerializedUserDto, ['_id']),
+      isArray: true,
     })
   )
   suppliers: ReferenceByID<ISerializedUser>[] | null;
@@ -38,7 +39,8 @@ export class CreateBrandDto extends SharedBrandDto implements ICreateBrand {
   @decorate(IsOptional({ groups: [UPDATE, CREATE] }))
   @decorate(
     ApiProperty({
-      type: () => [OmitType(SerializedProductDto, ['brand'])],
+      type: () => PickType(SerializedProductDto, ['_id']),
+      isArray: true,
     })
   )
   products: ReferenceByID<ISerializedProduct>[] | null;
@@ -46,7 +48,8 @@ export class CreateBrandDto extends SharedBrandDto implements ICreateBrand {
   @decorate(IsOptional({ groups: [UPDATE, CREATE] }))
   @decorate(
     ApiProperty({
-      type: () => [OmitType(SerializedCategoryDto, ['brands'])],
+      type: () => PickType(SerializedCategoryDto, ['_id']),
+      isArray: true,
     })
   )
   categories: ReferenceByID<ISerializedCategory>[];
