@@ -11,7 +11,7 @@ export class ConfigService {
   get<T>(propertyPath: string): T {
     const resolvedEnv = this.nestConfigService.get<T>(propertyPath);
     if (resolvedEnv) {
-      this.logger.log(
+      this.logger.warn(
         `ConfigService resolved the property path: ${propertyPath}, value: ${resolvedEnv}`
       );
       return resolvedEnv;
