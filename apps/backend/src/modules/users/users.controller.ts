@@ -6,7 +6,6 @@ import { CreateUserDto } from './dto/request/create-user.dto';
 import { UpdateUserDto } from './dto/response/update-user.dto';
 import { SerializedUserDto } from './dto/response/serialized-user.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
-import { HashPasswordInterceptor } from './interceptors/hash-password.interceptor';
 
 @Crud({
   model: {
@@ -65,7 +64,6 @@ import { HashPasswordInterceptor } from './interceptors/hash-password.intercepto
 @Controller('users')
 @ApiResponse({ status: 403, description: 'Forbidden.' })
 @ApiTags('users')
-@UseInterceptors(HashPasswordInterceptor)
 export class UsersController implements CrudController<UserEntity> {
   constructor(public service: UsersService) {}
 

@@ -1,12 +1,18 @@
-import { Column, Entity, JoinTable, ManyToMany } from 'typeorm';
-import { IUserEntity, POLICY, UserRole } from '@core';
+import { BeforeInsert, Column, Entity, JoinTable, ManyToMany } from 'typeorm';
+import { IUserEntity, UserRole } from '@core';
 import { DatabaseEntity } from '../../../common/database.entity';
 import { ProductEntity } from '../../products/product.entity';
 import { CategoryEntity } from '../../categories/category.entity';
 import { BrandEntity } from '../../brands/brand.entity';
+import * as bcrypt from 'bcrypt';
 
 @Entity('users')
 export class UserEntity extends DatabaseEntity implements IUserEntity {
+  @BeforeInsert()
+  async hashingPassword() {
+    this.password = await bcrypt.hash(this.password, 10);
+  }
+
   @Column({ type: 'varchar', length: 100, nullable: false })
   firstName: string;
 
@@ -24,7 +30,6 @@ export class UserEntity extends DatabaseEntity implements IUserEntity {
 
   @Column({
     type: 'varchar',
-    length: POLICY.AUTH.PASSWORD.MAX_LENGTH,
   })
   password: string;
 

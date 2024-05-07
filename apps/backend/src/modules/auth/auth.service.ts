@@ -20,18 +20,16 @@ export class AuthService {
     const user: UserEntity = await this.usersService.findOne({
       where: { email: loginDto.email },
     });
-    if (!user) {
-      throw new NotFoundException('User not found');
-    }
-    console.log(user);
+
+    if (!user) throw new NotFoundException('User not found');
 
     const isMatch: boolean = bcrypt.compareSync(
       loginDto.password,
       user.password
     );
-    if (!isMatch) {
-      throw new BadRequestException('Password does not match');
-    }
+
+    if (!isMatch) throw new BadRequestException('Password does not match');
+
     return user;
   }
 
