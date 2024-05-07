@@ -5,6 +5,7 @@ import { CategoriesService } from './categories.service';
 import { CreateCategoryDto } from './dto/request/create-category.dto';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { SerializedCategoryDto } from './dto/response/serialized-category.dto';
+import { saneOperationsId } from '../../common/swagger.config';
 
 @Crud({
   model: {
@@ -46,6 +47,7 @@ import { SerializedCategoryDto } from './dto/response/serialized-category.dto';
     },
   },
   routes: {
+    ...saneOperationsId,
     exclude: ['replaceOneBase'],
   },
   serialize: {

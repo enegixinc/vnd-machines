@@ -5,6 +5,7 @@ import { BrandsService } from './brands.service';
 import { CreateBrandDto } from './dto/request/create-brand.dto';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { SerializedBrandDto } from './dto/response/serialized-brand.dto';
+import { saneOperationsId } from '../../common/swagger.config';
 
 @Crud({
   model: {
@@ -46,6 +47,7 @@ import { SerializedBrandDto } from './dto/response/serialized-brand.dto';
     },
   },
   routes: {
+    ...saneOperationsId,
     exclude: ['replaceOneBase'],
   },
   serialize: {

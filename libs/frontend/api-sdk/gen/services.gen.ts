@@ -8,7 +8,6 @@ export class UsersService {
     constructor(public readonly httpRequest: BaseHttpRequest) { }
     
     /**
-     * Retrieve a single UserEntity
      * @param data The data for the request.
      * @param data.id
      * @param data.fields Selects resource fields. <a href="https://github.com/nestjsx/crud/wiki/Requests#select" target="_blank">Docs</a>
@@ -18,7 +17,7 @@ export class UsersService {
      * @returns SerializedUserDto Get one base response
      * @throws ApiError
      */
-    public getOneBaseUsersControllerUserEntity(data: $OpenApiTs['/users/{id}']['get']['req']): CancelablePromise<$OpenApiTs['/users/{id}']['get']['res'][200]> {
+    public getOne(data: $OpenApiTs['/users/{id}']['get']['req']): CancelablePromise<$OpenApiTs['/users/{id}']['get']['res'][200]> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/users/{id}',
@@ -38,14 +37,13 @@ export class UsersService {
     }
     
     /**
-     * Update a single UserEntity
      * @param data The data for the request.
      * @param data.id
      * @param data.requestBody
      * @returns SerializedUserDto Response
      * @throws ApiError
      */
-    public updateOneBaseUsersControllerUserEntity(data: $OpenApiTs['/users/{id}']['patch']['req']): CancelablePromise<$OpenApiTs['/users/{id}']['patch']['res'][200]> {
+    public updateOne(data: $OpenApiTs['/users/{id}']['patch']['req']): CancelablePromise<$OpenApiTs['/users/{id}']['patch']['res'][200]> {
         return this.httpRequest.request({
             method: 'PATCH',
             url: '/users/{id}',
@@ -61,13 +59,12 @@ export class UsersService {
     }
     
     /**
-     * Delete a single UserEntity
      * @param data The data for the request.
      * @param data.id
      * @returns unknown Delete one base response
      * @throws ApiError
      */
-    public deleteOneBaseUsersControllerUserEntity(data: $OpenApiTs['/users/{id}']['delete']['req']): CancelablePromise<$OpenApiTs['/users/{id}']['delete']['res'][200]> {
+    public deleteOne(data: $OpenApiTs['/users/{id}']['delete']['req']): CancelablePromise<$OpenApiTs['/users/{id}']['delete']['res'][200]> {
         return this.httpRequest.request({
             method: 'DELETE',
             url: '/users/{id}',
@@ -81,7 +78,6 @@ export class UsersService {
     }
     
     /**
-     * Retrieve multiple UserEntities
      * @param data The data for the request.
      * @param data.fields Selects resource fields. <a href="https://github.com/nestjsx/crud/wiki/Requests#select" target="_blank">Docs</a>
      * @param data.s Adds search condition. <a href="https://github.com/nestjsx/crud/wiki/Requests#search" target="_blank">Docs</a>
@@ -97,7 +93,7 @@ export class UsersService {
      * @returns SerializedUserDto Get paginated response
      * @throws ApiError
      */
-    public getManyBaseUsersControllerUserEntity(data: $OpenApiTs['/users']['get']['req'] = {}): CancelablePromise<$OpenApiTs['/users']['get']['res'][200]> {
+    public getMany(data: $OpenApiTs['/users']['get']['req'] = {}): CancelablePromise<$OpenApiTs['/users']['get']['res'][200]> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/users',
@@ -121,13 +117,12 @@ export class UsersService {
     }
     
     /**
-     * Create a single UserEntity
      * @param data The data for the request.
      * @param data.requestBody
      * @returns SerializedUserDto Get create one base response
      * @throws ApiError
      */
-    public createOneBaseUsersControllerUserEntity(data: $OpenApiTs['/users']['post']['req']): CancelablePromise<$OpenApiTs['/users']['post']['res'][201]> {
+    public createOne(data: $OpenApiTs['/users']['post']['req']): CancelablePromise<$OpenApiTs['/users']['post']['res'][201]> {
         return this.httpRequest.request({
             method: 'POST',
             url: '/users',
@@ -140,13 +135,12 @@ export class UsersService {
     }
     
     /**
-     * Create multiple UserEntities
      * @param data The data for the request.
      * @param data.requestBody
      * @returns SerializedUserDto Get create many base response
      * @throws ApiError
      */
-    public createManyBaseUsersControllerUserEntity(data: $OpenApiTs['/users/bulk']['post']['req']): CancelablePromise<$OpenApiTs['/users/bulk']['post']['res'][201]> {
+    public createMany(data: $OpenApiTs['/users/bulk']['post']['req']): CancelablePromise<$OpenApiTs['/users/bulk']['post']['res'][201]> {
         return this.httpRequest.request({
             method: 'POST',
             url: '/users/bulk',
@@ -159,13 +153,12 @@ export class UsersService {
     }
     
     /**
-     * Recover one UserEntity
      * @param data The data for the request.
      * @param data.id
      * @returns unknown Recover one base response
      * @throws ApiError
      */
-    public recoverOneBaseUsersControllerUserEntity(data: $OpenApiTs['/users/{id}/recover']['patch']['req']): CancelablePromise<$OpenApiTs['/users/{id}/recover']['patch']['res'][200]> {
+    public recoverOne(data: $OpenApiTs['/users/{id}/recover']['patch']['req']): CancelablePromise<$OpenApiTs['/users/{id}/recover']['patch']['res'][200]> {
         return this.httpRequest.request({
             method: 'PATCH',
             url: '/users/{id}/recover',
@@ -200,7 +193,6 @@ export class ProductsService {
     constructor(public readonly httpRequest: BaseHttpRequest) { }
     
     /**
-     * Retrieve a single ProductEntity
      * @param data The data for the request.
      * @param data.id
      * @param data.fields Selects resource fields. <a href="https://github.com/nestjsx/crud/wiki/Requests#select" target="_blank">Docs</a>
@@ -210,7 +202,7 @@ export class ProductsService {
      * @returns SerializedProductDto Get one base response
      * @throws ApiError
      */
-    public getOneBaseProductsControllerProductEntity(data: $OpenApiTs['/products/{id}']['get']['req']): CancelablePromise<$OpenApiTs['/products/{id}']['get']['res'][200]> {
+    public getOne(data: $OpenApiTs['/products/{id}']['get']['req']): CancelablePromise<$OpenApiTs['/products/{id}']['get']['res'][200]> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/products/{id}',
@@ -230,14 +222,13 @@ export class ProductsService {
     }
     
     /**
-     * Update a single ProductEntity
      * @param data The data for the request.
      * @param data.id
      * @param data.requestBody
      * @returns SerializedProductDto Response
      * @throws ApiError
      */
-    public updateOneBaseProductsControllerProductEntity(data: $OpenApiTs['/products/{id}']['patch']['req']): CancelablePromise<$OpenApiTs['/products/{id}']['patch']['res'][200]> {
+    public updateOne(data: $OpenApiTs['/products/{id}']['patch']['req']): CancelablePromise<$OpenApiTs['/products/{id}']['patch']['res'][200]> {
         return this.httpRequest.request({
             method: 'PATCH',
             url: '/products/{id}',
@@ -253,13 +244,12 @@ export class ProductsService {
     }
     
     /**
-     * Delete a single ProductEntity
      * @param data The data for the request.
      * @param data.id
      * @returns unknown Delete one base response
      * @throws ApiError
      */
-    public deleteOneBaseProductsControllerProductEntity(data: $OpenApiTs['/products/{id}']['delete']['req']): CancelablePromise<$OpenApiTs['/products/{id}']['delete']['res'][200]> {
+    public deleteOne(data: $OpenApiTs['/products/{id}']['delete']['req']): CancelablePromise<$OpenApiTs['/products/{id}']['delete']['res'][200]> {
         return this.httpRequest.request({
             method: 'DELETE',
             url: '/products/{id}',
@@ -273,7 +263,6 @@ export class ProductsService {
     }
     
     /**
-     * Retrieve multiple ProductEntities
      * @param data The data for the request.
      * @param data.fields Selects resource fields. <a href="https://github.com/nestjsx/crud/wiki/Requests#select" target="_blank">Docs</a>
      * @param data.s Adds search condition. <a href="https://github.com/nestjsx/crud/wiki/Requests#search" target="_blank">Docs</a>
@@ -289,7 +278,7 @@ export class ProductsService {
      * @returns SerializedProductDto Get paginated response
      * @throws ApiError
      */
-    public getManyBaseProductsControllerProductEntity(data: $OpenApiTs['/products']['get']['req'] = {}): CancelablePromise<$OpenApiTs['/products']['get']['res'][200]> {
+    public getMany(data: $OpenApiTs['/products']['get']['req'] = {}): CancelablePromise<$OpenApiTs['/products']['get']['res'][200]> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/products',
@@ -313,13 +302,12 @@ export class ProductsService {
     }
     
     /**
-     * Create a single ProductEntity
      * @param data The data for the request.
      * @param data.requestBody
      * @returns SerializedProductDto Get create one base response
      * @throws ApiError
      */
-    public createOneBaseProductsControllerProductEntity(data: $OpenApiTs['/products']['post']['req']): CancelablePromise<$OpenApiTs['/products']['post']['res'][201]> {
+    public createOne(data: $OpenApiTs['/products']['post']['req']): CancelablePromise<$OpenApiTs['/products']['post']['res'][201]> {
         return this.httpRequest.request({
             method: 'POST',
             url: '/products',
@@ -332,13 +320,12 @@ export class ProductsService {
     }
     
     /**
-     * Create multiple ProductEntities
      * @param data The data for the request.
      * @param data.requestBody
      * @returns SerializedProductDto Get create many base response
      * @throws ApiError
      */
-    public createManyBaseProductsControllerProductEntity(data: $OpenApiTs['/products/bulk']['post']['req']): CancelablePromise<$OpenApiTs['/products/bulk']['post']['res'][201]> {
+    public createMany(data: $OpenApiTs['/products/bulk']['post']['req']): CancelablePromise<$OpenApiTs['/products/bulk']['post']['res'][201]> {
         return this.httpRequest.request({
             method: 'POST',
             url: '/products/bulk',
@@ -351,13 +338,12 @@ export class ProductsService {
     }
     
     /**
-     * Recover one ProductEntity
      * @param data The data for the request.
      * @param data.id
      * @returns unknown Recover one base response
      * @throws ApiError
      */
-    public recoverOneBaseProductsControllerProductEntity(data: $OpenApiTs['/products/{id}/recover']['patch']['req']): CancelablePromise<$OpenApiTs['/products/{id}/recover']['patch']['res'][200]> {
+    public recoverOne(data: $OpenApiTs['/products/{id}/recover']['patch']['req']): CancelablePromise<$OpenApiTs['/products/{id}/recover']['patch']['res'][200]> {
         return this.httpRequest.request({
             method: 'PATCH',
             url: '/products/{id}/recover',
@@ -376,7 +362,6 @@ export class BrandsService {
     constructor(public readonly httpRequest: BaseHttpRequest) { }
     
     /**
-     * Retrieve a single BrandEntity
      * @param data The data for the request.
      * @param data.id
      * @param data.fields Selects resource fields. <a href="https://github.com/nestjsx/crud/wiki/Requests#select" target="_blank">Docs</a>
@@ -386,7 +371,7 @@ export class BrandsService {
      * @returns SerializedBrandDto Get one base response
      * @throws ApiError
      */
-    public getOneBaseBrandsControllerBrandEntity(data: $OpenApiTs['/brands/{id}']['get']['req']): CancelablePromise<$OpenApiTs['/brands/{id}']['get']['res'][200]> {
+    public getOne(data: $OpenApiTs['/brands/{id}']['get']['req']): CancelablePromise<$OpenApiTs['/brands/{id}']['get']['res'][200]> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/brands/{id}',
@@ -406,14 +391,13 @@ export class BrandsService {
     }
     
     /**
-     * Update a single BrandEntity
      * @param data The data for the request.
      * @param data.id
      * @param data.requestBody
      * @returns SerializedBrandDto Response
      * @throws ApiError
      */
-    public updateOneBaseBrandsControllerBrandEntity(data: $OpenApiTs['/brands/{id}']['patch']['req']): CancelablePromise<$OpenApiTs['/brands/{id}']['patch']['res'][200]> {
+    public updateOne(data: $OpenApiTs['/brands/{id}']['patch']['req']): CancelablePromise<$OpenApiTs['/brands/{id}']['patch']['res'][200]> {
         return this.httpRequest.request({
             method: 'PATCH',
             url: '/brands/{id}',
@@ -429,13 +413,12 @@ export class BrandsService {
     }
     
     /**
-     * Delete a single BrandEntity
      * @param data The data for the request.
      * @param data.id
      * @returns unknown Delete one base response
      * @throws ApiError
      */
-    public deleteOneBaseBrandsControllerBrandEntity(data: $OpenApiTs['/brands/{id}']['delete']['req']): CancelablePromise<$OpenApiTs['/brands/{id}']['delete']['res'][200]> {
+    public deleteOne(data: $OpenApiTs['/brands/{id}']['delete']['req']): CancelablePromise<$OpenApiTs['/brands/{id}']['delete']['res'][200]> {
         return this.httpRequest.request({
             method: 'DELETE',
             url: '/brands/{id}',
@@ -449,7 +432,6 @@ export class BrandsService {
     }
     
     /**
-     * Retrieve multiple BrandEntities
      * @param data The data for the request.
      * @param data.fields Selects resource fields. <a href="https://github.com/nestjsx/crud/wiki/Requests#select" target="_blank">Docs</a>
      * @param data.s Adds search condition. <a href="https://github.com/nestjsx/crud/wiki/Requests#search" target="_blank">Docs</a>
@@ -465,7 +447,7 @@ export class BrandsService {
      * @returns SerializedBrandDto Get paginated response
      * @throws ApiError
      */
-    public getManyBaseBrandsControllerBrandEntity(data: $OpenApiTs['/brands']['get']['req'] = {}): CancelablePromise<$OpenApiTs['/brands']['get']['res'][200]> {
+    public getMany(data: $OpenApiTs['/brands']['get']['req'] = {}): CancelablePromise<$OpenApiTs['/brands']['get']['res'][200]> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/brands',
@@ -489,13 +471,12 @@ export class BrandsService {
     }
     
     /**
-     * Create a single BrandEntity
      * @param data The data for the request.
      * @param data.requestBody
      * @returns SerializedBrandDto Get create one base response
      * @throws ApiError
      */
-    public createOneBaseBrandsControllerBrandEntity(data: $OpenApiTs['/brands']['post']['req']): CancelablePromise<$OpenApiTs['/brands']['post']['res'][201]> {
+    public createOne(data: $OpenApiTs['/brands']['post']['req']): CancelablePromise<$OpenApiTs['/brands']['post']['res'][201]> {
         return this.httpRequest.request({
             method: 'POST',
             url: '/brands',
@@ -508,13 +489,12 @@ export class BrandsService {
     }
     
     /**
-     * Create multiple BrandEntities
      * @param data The data for the request.
      * @param data.requestBody
      * @returns SerializedBrandDto Get create many base response
      * @throws ApiError
      */
-    public createManyBaseBrandsControllerBrandEntity(data: $OpenApiTs['/brands/bulk']['post']['req']): CancelablePromise<$OpenApiTs['/brands/bulk']['post']['res'][201]> {
+    public createMany(data: $OpenApiTs['/brands/bulk']['post']['req']): CancelablePromise<$OpenApiTs['/brands/bulk']['post']['res'][201]> {
         return this.httpRequest.request({
             method: 'POST',
             url: '/brands/bulk',
@@ -527,13 +507,12 @@ export class BrandsService {
     }
     
     /**
-     * Recover one BrandEntity
      * @param data The data for the request.
      * @param data.id
      * @returns unknown Recover one base response
      * @throws ApiError
      */
-    public recoverOneBaseBrandsControllerBrandEntity(data: $OpenApiTs['/brands/{id}/recover']['patch']['req']): CancelablePromise<$OpenApiTs['/brands/{id}/recover']['patch']['res'][200]> {
+    public recoverOne(data: $OpenApiTs['/brands/{id}/recover']['patch']['req']): CancelablePromise<$OpenApiTs['/brands/{id}/recover']['patch']['res'][200]> {
         return this.httpRequest.request({
             method: 'PATCH',
             url: '/brands/{id}/recover',
@@ -552,7 +531,6 @@ export class CategoriesService {
     constructor(public readonly httpRequest: BaseHttpRequest) { }
     
     /**
-     * Retrieve a single CategoryEntity
      * @param data The data for the request.
      * @param data.id
      * @param data.fields Selects resource fields. <a href="https://github.com/nestjsx/crud/wiki/Requests#select" target="_blank">Docs</a>
@@ -562,7 +540,7 @@ export class CategoriesService {
      * @returns SerializedCategoryDto Get one base response
      * @throws ApiError
      */
-    public getOneBaseCategoriesControllerCategoryEntity(data: $OpenApiTs['/categories/{id}']['get']['req']): CancelablePromise<$OpenApiTs['/categories/{id}']['get']['res'][200]> {
+    public getOne(data: $OpenApiTs['/categories/{id}']['get']['req']): CancelablePromise<$OpenApiTs['/categories/{id}']['get']['res'][200]> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/categories/{id}',
@@ -582,14 +560,13 @@ export class CategoriesService {
     }
     
     /**
-     * Update a single CategoryEntity
      * @param data The data for the request.
      * @param data.id
      * @param data.requestBody
      * @returns SerializedCategoryDto Response
      * @throws ApiError
      */
-    public updateOneBaseCategoriesControllerCategoryEntity(data: $OpenApiTs['/categories/{id}']['patch']['req']): CancelablePromise<$OpenApiTs['/categories/{id}']['patch']['res'][200]> {
+    public updateOne(data: $OpenApiTs['/categories/{id}']['patch']['req']): CancelablePromise<$OpenApiTs['/categories/{id}']['patch']['res'][200]> {
         return this.httpRequest.request({
             method: 'PATCH',
             url: '/categories/{id}',
@@ -605,13 +582,12 @@ export class CategoriesService {
     }
     
     /**
-     * Delete a single CategoryEntity
      * @param data The data for the request.
      * @param data.id
      * @returns unknown Delete one base response
      * @throws ApiError
      */
-    public deleteOneBaseCategoriesControllerCategoryEntity(data: $OpenApiTs['/categories/{id}']['delete']['req']): CancelablePromise<$OpenApiTs['/categories/{id}']['delete']['res'][200]> {
+    public deleteOne(data: $OpenApiTs['/categories/{id}']['delete']['req']): CancelablePromise<$OpenApiTs['/categories/{id}']['delete']['res'][200]> {
         return this.httpRequest.request({
             method: 'DELETE',
             url: '/categories/{id}',
@@ -625,7 +601,6 @@ export class CategoriesService {
     }
     
     /**
-     * Retrieve multiple CategoryEntities
      * @param data The data for the request.
      * @param data.fields Selects resource fields. <a href="https://github.com/nestjsx/crud/wiki/Requests#select" target="_blank">Docs</a>
      * @param data.s Adds search condition. <a href="https://github.com/nestjsx/crud/wiki/Requests#search" target="_blank">Docs</a>
@@ -641,7 +616,7 @@ export class CategoriesService {
      * @returns SerializedCategoryDto Get paginated response
      * @throws ApiError
      */
-    public getManyBaseCategoriesControllerCategoryEntity(data: $OpenApiTs['/categories']['get']['req'] = {}): CancelablePromise<$OpenApiTs['/categories']['get']['res'][200]> {
+    public getMany(data: $OpenApiTs['/categories']['get']['req'] = {}): CancelablePromise<$OpenApiTs['/categories']['get']['res'][200]> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/categories',
@@ -665,13 +640,12 @@ export class CategoriesService {
     }
     
     /**
-     * Create a single CategoryEntity
      * @param data The data for the request.
      * @param data.requestBody
      * @returns SerializedCategoryDto Get create one base response
      * @throws ApiError
      */
-    public createOneBaseCategoriesControllerCategoryEntity(data: $OpenApiTs['/categories']['post']['req']): CancelablePromise<$OpenApiTs['/categories']['post']['res'][201]> {
+    public createOne(data: $OpenApiTs['/categories']['post']['req']): CancelablePromise<$OpenApiTs['/categories']['post']['res'][201]> {
         return this.httpRequest.request({
             method: 'POST',
             url: '/categories',
@@ -684,13 +658,12 @@ export class CategoriesService {
     }
     
     /**
-     * Create multiple CategoryEntities
      * @param data The data for the request.
      * @param data.requestBody
      * @returns SerializedCategoryDto Get create many base response
      * @throws ApiError
      */
-    public createManyBaseCategoriesControllerCategoryEntity(data: $OpenApiTs['/categories/bulk']['post']['req']): CancelablePromise<$OpenApiTs['/categories/bulk']['post']['res'][201]> {
+    public createMany(data: $OpenApiTs['/categories/bulk']['post']['req']): CancelablePromise<$OpenApiTs['/categories/bulk']['post']['res'][201]> {
         return this.httpRequest.request({
             method: 'POST',
             url: '/categories/bulk',
@@ -703,13 +676,12 @@ export class CategoriesService {
     }
     
     /**
-     * Recover one CategoryEntity
      * @param data The data for the request.
      * @param data.id
      * @returns unknown Recover one base response
      * @throws ApiError
      */
-    public recoverOneBaseCategoriesControllerCategoryEntity(data: $OpenApiTs['/categories/{id}/recover']['patch']['req']): CancelablePromise<$OpenApiTs['/categories/{id}/recover']['patch']['res'][200]> {
+    public recoverOne(data: $OpenApiTs['/categories/{id}/recover']['patch']['req']): CancelablePromise<$OpenApiTs['/categories/{id}/recover']['patch']['res'][200]> {
         return this.httpRequest.request({
             method: 'PATCH',
             url: '/categories/{id}/recover',
