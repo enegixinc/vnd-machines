@@ -204,6 +204,9 @@ importers:
       nx:
         specifier: 18.3.4
         version: 18.3.4(@swc-node/register@1.8.0(@swc/core@1.3.107(@swc/helpers@0.5.11))(@swc/types@0.1.6)(typescript@5.4.5))(@swc/core@1.3.107(@swc/helpers@0.5.11))
+      openapi-typescript-codegen:
+        specifier: ^0.29.0
+        version: 0.29.0
       prettier:
         specifier: ^2.6.2
         version: 2.8.8
@@ -4931,6 +4934,10 @@ packages:
   open@8.4.2:
     resolution: {integrity: sha512-7x81NCL719oNbsq/3mh+hVrAWmFuEYUqrq/Iw3kUzH8ReypT9QQ0BLoJS7/G9k6N81XjW4qHWtjWwe/9eLy1EQ==}
     engines: {node: '>=12'}
+
+  openapi-typescript-codegen@0.29.0:
+    resolution: {integrity: sha512-/wC42PkD0LGjDTEULa/XiWQbv4E9NwLjwLjsaJ/62yOsoYhwvmBR31kPttn1DzQ2OlGe5stACcF/EIkZk43M6w==}
+    hasBin: true
 
   opener@1.5.2:
     resolution: {integrity: sha512-ur5UIdyw5Y7yEj9wLzhqXiy6GZ3Mwx0yGI+5sMn2r0N0v3cKJvUmFH5yPP+WXh9e0xfyzyJX95D8l088DNFj7A==}
@@ -12686,6 +12693,14 @@ snapshots:
       define-lazy-prop: 2.0.0
       is-docker: 2.2.1
       is-wsl: 2.2.0
+
+  openapi-typescript-codegen@0.29.0:
+    dependencies:
+      '@apidevtools/json-schema-ref-parser': 11.5.5
+      camelcase: 6.3.0
+      commander: 12.0.0
+      fs-extra: 11.2.0
+      handlebars: 4.7.8
 
   opener@1.5.2: {}
 
