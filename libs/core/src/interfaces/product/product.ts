@@ -1,5 +1,5 @@
 import { ISerializedUser } from '../user';
-import { _IDataBaseEntity, ReferenceByID } from '../common';
+import { IDataBaseEntity, ReferenceByID } from '../common';
 import { ISerializedBrand } from '../brand';
 import { ISerializedCategory, ISerializedMagexCategory } from '../category';
 import {
@@ -9,7 +9,7 @@ import {
 } from './magex-product';
 
 export interface IProductEntity
-  extends _IDataBaseEntity,
+  extends IDataBaseEntity,
     Omit<ISerializedProduct, keyof ICreateProduct>,
     ICreateProduct {}
 

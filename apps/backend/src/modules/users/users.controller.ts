@@ -17,7 +17,7 @@ import { ApiResponse, ApiTags } from '@nestjs/swagger';
   },
   params: {
     id: {
-      field: 'id',
+      field: '_id',
       type: 'uuid',
       primary: true,
     },

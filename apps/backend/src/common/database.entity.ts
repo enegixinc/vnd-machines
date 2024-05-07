@@ -1,66 +1,27 @@
 import {
   BaseEntity,
+  Column,
   CreateDateColumn,
   DeleteDateColumn,
   ObjectIdColumn,
-  PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { IDatabaseEntity } from '@core';
+import { IDataBaseEntity } from '@core';
 import { ApiProperty } from '@nestjs/swagger';
 import { decorate } from 'ts-mixer';
 
-export class DatabaseEntity extends BaseEntity implements IDatabaseEntity {
-  @decorate(PrimaryGeneratedColumn('uuid'))
-  @decorate(
-    ApiProperty({
-      example: '7d0a9ced-97a2-4481-a1a8-aa91448cd7e5',
-      type: 'uuid',
-    })
-  )
-  id: string;
-
-  @decorate(CreateDateColumn())
-  @decorate(
-    ApiProperty({
-      example: '2021-07-01T00:00:00.000Z',
-      type: 'timestamp',
-    })
-  )
-  createdAt: string;
-
-  @decorate(UpdateDateColumn())
-  @decorate(
-    ApiProperty({
-      example: '2021-07-01T00:00:00.000Z',
-      type: 'timestamp',
-    })
-  )
-  updatedAt: string;
-
-  @decorate(DeleteDateColumn())
-  @decorate(
-    ApiProperty({
-      example: '2021-07-01T00:00:00.000Z',
-      type: 'timestamp',
-    })
-  )
-  deletedAt: string | null;
-}
-
-export class ManualDatabaseEntity {
+export class DatabaseEntity extends BaseEntity implements IDataBaseEntity {
   @decorate(
     ObjectIdColumn({
       generated: false,
       unique: true,
-      name: '_id',
       type: 'varchar',
-      default: () => 'uuid_generate_v4()',
+      default: () => 'gen_random_uuid()',
     })
   )
   @decorate(
     ApiProperty({
-      example: '60d7b0f7d7f0b3001f6c3c9d',
+      example: '6a909236-53f2-4727-b780-e41e115ee906',
       type: 'objectId',
     })
   )
@@ -71,6 +32,12 @@ export class ManualDatabaseEntity {
       example: 1,
       description: 'Version',
       type: Number,
+    })
+  )
+  @decorate(
+    Column({
+      type: 'int',
+      default: 1,
     })
   )
   __v: number;
@@ -109,4 +76,19 @@ export class ManualDatabaseEntity {
     })
   )
   deletedAt: string | null;
+
+  @decorate(
+    Column({
+      type: 'timestamp',
+      nullable: true,
+      default: () => 'CURRENT_TIMESTAMP',
+    })
+  )
+  @decorate(
+    ApiProperty({
+      example: '2021-07-01T00:00:00.000Z',
+      type: 'timestamp',
+    })
+  )
+  lastSyncAt: string;
 }

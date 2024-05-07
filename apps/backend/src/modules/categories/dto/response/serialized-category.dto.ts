@@ -5,7 +5,7 @@ import {
   ISerializedUser,
 } from '@core';
 import { decorate, Mixin } from 'ts-mixer';
-import { ManualDatabaseEntity } from '../../../../common/database.entity';
+import { DatabaseEntity } from '../../../../common/database.entity';
 import { ApiProperty, OmitType } from '@nestjs/swagger';
 import { SerializedUserDto } from '../../../users/dto/response/serialized-user.dto';
 import { SerializedBrandDto } from '../../../brands/dto/response/serialized-brand.dto';
@@ -13,26 +13,30 @@ import { SerializedProductDto } from '../../../products/dto/response/serialized-
 import { SharedCategoryDto } from '../shared/shared-category.dto';
 
 export class SerializedCategoryDto
-  extends Mixin(ManualDatabaseEntity, SharedCategoryDto)
+  extends Mixin(DatabaseEntity, SharedCategoryDto)
   implements ISerializedCategory
 {
   @decorate(
     ApiProperty({
-      type: () => [OmitType(SerializedProductDto, ['category'])],
+      type: () => [
+        OmitType(SerializedProductDto, ['category', 'suppliers', 'brand']),
+      ],
     })
   )
   products: ISerializedProduct[];
 
   @decorate(
     ApiProperty({
-      type: () => [SerializedUserDto],
+      type: () => [OmitType(SerializedUserDto, ['brand', 'products'])],
     })
   )
   suppliers: ISerializedUser[];
 
   @decorate(
     ApiProperty({
-      type: () => [OmitType(SerializedBrandDto, ['categories'])],
+      type: () => [
+        OmitType(SerializedBrandDto, ['categories', 'products', 'suppliers']),
+      ],
     })
   )
   brands: ISerializedBrand[];

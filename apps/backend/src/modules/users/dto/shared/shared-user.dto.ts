@@ -31,6 +31,7 @@ export class SharedUserDto {
       example: 'email@example.com',
       description: 'Email of the user',
       type: String,
+      uniqueItems: true,
     })
   )
   email: string;

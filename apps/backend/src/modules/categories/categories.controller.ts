@@ -37,6 +37,12 @@ import { SerializedCategoryDto } from './dto/response/serialized-category.dto';
         alias: 'users',
         eager: true,
       },
+      products: {
+        eager: true,
+      },
+      brands: {
+        eager: true,
+      },
     },
   },
   routes: {

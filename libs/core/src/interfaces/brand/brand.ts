@@ -1,17 +1,17 @@
-import { _IDataBaseEntity, ReferenceByID } from '../common';
+import { IDataBaseEntity, ReferenceByID } from '../common';
 import { ISerializedUser } from '../user';
 import { ISerializedProduct } from '../product';
 import { ISerializedCategory } from '../category';
 import { ICreateMagexBrand } from './magex-brand';
 
 export interface IBrandEntity
-  extends _IDataBaseEntity,
+  extends IDataBaseEntity,
     Omit<ISerializedBrand, keyof ICreateBrand>,
     ICreateBrand {}
 
 export interface ISerializedBrand
   extends Omit<ICreateBrand, keyof IBrandResolvedEntities>,
-    _IDataBaseEntity,
+    IDataBaseEntity,
     IBrandResolvedEntities {
   referTo: string;
   logo: string;

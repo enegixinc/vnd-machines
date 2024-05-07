@@ -14,7 +14,7 @@ export class UserExistsValidator implements ValidatorConstraintInterface {
 
   async validate(user: IUserEntity) {
     console.log('UserExistsValidator', user);
-    return !!(await this.userService.findOneBy({ id: user.id }));
+    return !!(await this.userService.findOneBy({ _id: user._id }));
   }
 
   defaultMessage() {

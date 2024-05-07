@@ -6,16 +6,13 @@ import {
   ISerializedUser,
   MultiLang,
 } from '@core';
-import { ManualDatabaseEntity } from '../../common/database.entity';
+import { DatabaseEntity } from '../../common/database.entity';
 import { ProductEntity } from '../products/product.entity';
 import { UserEntity } from '../users/entities/user.entity';
 import { BrandEntity } from '../brands/brand.entity';
 
 @Entity('categories')
-export class CategoryEntity
-  extends ManualDatabaseEntity
-  implements ICategoryEntity
-{
+export class CategoryEntity extends DatabaseEntity implements ICategoryEntity {
   @Column({ type: 'boolean' })
   auto: boolean;
   @Column({ type: 'varchar' })
@@ -37,7 +34,7 @@ export class CategoryEntity
     },
     inverseJoinColumn: {
       name: 'userId',
-      referencedColumnName: 'id',
+      referencedColumnName: '_id',
     },
   })
   suppliers: ISerializedUser[];

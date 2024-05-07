@@ -1,5 +1,5 @@
 import { Column, Entity, JoinTable, ManyToMany, OneToMany } from 'typeorm';
-import { ManualDatabaseEntity } from '../../common/database.entity';
+import { DatabaseEntity } from '../../common/database.entity';
 import {
   IBrandEntity,
   ISerializedCategory,
@@ -12,7 +12,7 @@ import { ProductEntity } from '../products/product.entity';
 import { UserEntity } from '../users/entities/user.entity';
 
 @Entity('brands')
-export class BrandEntity extends ManualDatabaseEntity implements IBrandEntity {
+export class BrandEntity extends DatabaseEntity implements IBrandEntity {
   @Column({ type: 'varchar' })
   logo: string;
   @Column({ type: 'jsonb' })
@@ -55,7 +55,7 @@ export class BrandEntity extends ManualDatabaseEntity implements IBrandEntity {
     },
     inverseJoinColumn: {
       name: 'supplierId',
-      referencedColumnName: 'id',
+      referencedColumnName: '_id',
     },
   })
   suppliers: ReferenceByID<ISerializedUser>[] | null;

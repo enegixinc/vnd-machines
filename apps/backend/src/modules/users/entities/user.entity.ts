@@ -2,6 +2,7 @@ import { Column, Entity, JoinTable, ManyToMany } from 'typeorm';
 import { IUserEntity, POLICY, UserRole } from '@core';
 import { DatabaseEntity } from '../../../common/database.entity';
 import { ProductEntity } from '../../products/product.entity';
+import { CategoryEntity } from '../../categories/category.entity';
 
 @Entity('users')
 export class UserEntity extends DatabaseEntity implements IUserEntity {
@@ -43,7 +44,7 @@ export class UserEntity extends DatabaseEntity implements IUserEntity {
   @JoinTable({
     joinColumn: {
       name: 'userId',
-      referencedColumnName: 'id',
+      referencedColumnName: '_id',
     },
     inverseJoinColumn: {
       name: 'productId',
@@ -51,8 +52,12 @@ export class UserEntity extends DatabaseEntity implements IUserEntity {
     },
   })
   products: string[];
-  documents: string[];
 
   @ManyToMany(() => ProductEntity, (product) => product.suppliers)
   brands: string[];
+
+  @ManyToMany(() => CategoryEntity, (category) => category.suppliers)
+  categories: string[];
+
+  documents: string[];
 }

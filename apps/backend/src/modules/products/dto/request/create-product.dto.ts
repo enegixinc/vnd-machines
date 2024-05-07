@@ -12,6 +12,8 @@ import {
   ISerializedUser,
   ReferenceByID,
 } from '@core';
+import { SerializedBrandDto } from '../../../brands/dto/response/serialized-brand.dto';
+import { SerializedCategoryDto } from '../../../categories/dto/response/serialized-category.dto';
 
 const { CREATE, UPDATE } = CrudValidationGroups;
 
@@ -21,7 +23,7 @@ export class CreateProductDto
 {
   @decorate(
     ApiProperty({
-      type: () => [PickType(SerializedUserDto, ['id'])],
+      type: () => [PickType(SerializedUserDto, ['_id'])],
     })
   )
   @decorate(Validate(UserExistsValidator, { each: true }))
@@ -31,9 +33,7 @@ export class CreateProductDto
   @decorate(IsOptional({ groups: [UPDATE, CREATE] }))
   @decorate(
     ApiProperty({
-      example: '661c2a7345f6ce15dc3df34e',
-      description: 'Brand ID of the product',
-      type: String, // TODO:  () => [PickType(SerializedUserDto, ['id'])],
+      type: () => PickType(SerializedBrandDto, ['_id']),
     })
   )
   brand: ReferenceByID<ISerializedBrand>;
@@ -41,9 +41,7 @@ export class CreateProductDto
   @decorate(IsOptional({ groups: [UPDATE, CREATE] }))
   @decorate(
     ApiProperty({
-      example: '6608a4e9e0cde61fd03f1a81',
-      description: 'Category ID of the product',
-      type: String, // TODO: () => [PickType(SerializedUserDto, ['id'])],
+      type: () => [PickType(SerializedCategoryDto, ['_id'])],
     })
   )
   category: ReferenceByID<ISerializedCategory>[];

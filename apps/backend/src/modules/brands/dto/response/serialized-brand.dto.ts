@@ -1,5 +1,5 @@
 import { decorate, Mixin } from 'ts-mixer';
-import { ManualDatabaseEntity } from '../../../../common/database.entity';
+import { DatabaseEntity } from '../../../../common/database.entity';
 import { SharedBrandDto } from '../shared/shared-brand.dto';
 import {
   ISerializedBrand,
@@ -13,7 +13,7 @@ import { SerializedCategoryDto } from '../../../categories/dto/response/serializ
 import { SerializedProductDto } from '../../../products/dto/response/serialized-product.dto';
 
 export class SerializedBrandDto
-  extends Mixin(ManualDatabaseEntity, SharedBrandDto)
+  extends Mixin(DatabaseEntity, SharedBrandDto)
   implements ISerializedBrand
 {
   @decorate(

@@ -8,15 +8,13 @@ import {
   MultiLang,
   ReferenceByID,
 } from '@core';
-import { ManualDatabaseEntity } from '../../common/database.entity';
+import { DatabaseEntity } from '../../common/database.entity';
 import { UserEntity } from '../users/entities/user.entity';
 import { BrandEntity } from '../brands/brand.entity';
+import { CategoryEntity } from '../categories/category.entity';
 
 @Entity('products')
-export class ProductEntity
-  extends ManualDatabaseEntity
-  implements IProductEntity
-{
+export class ProductEntity extends DatabaseEntity implements IProductEntity {
   @ManyToMany(() => UserEntity, (user) => user.products, {
     nullable: true,
   })
@@ -27,9 +25,9 @@ export class ProductEntity
   })
   brand: ReferenceByID<ISerializedBrand>;
 
-  // @ManyToOne(() => CategoryEntity, (category) => category.products, {
-  //   nullable: true,
-  // })
+  @ManyToOne(() => CategoryEntity, (category) => category.products, {
+    nullable: true,
+  })
   category: ReferenceByID<ISerializedCategory>[];
 
   @Column({ type: 'varchar', nullable: true })
@@ -110,5 +108,5 @@ export class ProductEntity
   // deletedAt: string;
 
   @Column({ type: 'timestamp' })
-  lastSync: string;
+  lastSyncAt: string;
 }

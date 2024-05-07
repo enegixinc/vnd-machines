@@ -1,5 +1,5 @@
-import { IDatabaseEntity } from './database-entity';
 import { ISerializedProduct } from './product';
+import { IDataBaseEntity } from './common';
 
 export interface ISerializedUser
   extends Omit<IUserEntity, 'password' | keyof IUserResolvedEntities> {
@@ -12,7 +12,7 @@ interface IUserResolvedEntities {
   documents: IDocument[];
 }
 
-export interface IUserEntity extends IDatabaseEntity {
+export interface IUserEntity extends IDataBaseEntity {
   firstName: string;
   lastName: string;
   businessName: string | null;
@@ -27,7 +27,7 @@ export interface IUserEntity extends IDatabaseEntity {
 
 export type ICreateUser = Omit<
   IUserEntity,
-  keyof (IDatabaseEntity & IUserResolvedEntities & 'password')
+  keyof (IDataBaseEntity & IUserResolvedEntities & 'password')
 >;
 
 export interface IDocument {
