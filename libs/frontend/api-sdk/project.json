@@ -28,6 +28,25 @@
       "options": {
         "packageRoot": "dist\\{projectRoot}"
       }
+    },
+    "download-spec": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "libs/frontend/api-sdk",
+        "color": true,
+        "command": "node -e \"require('fs').rmSync('./gen', { recursive: true, force: true }); process.exit();\" && curl -o openapi-spec.json http://localhost:3000/api-json"        }
+    },
+    "generate": {
+      "executor": "nx:run-commands",
+      "dependsOn": [
+        {
+          "target": "download-spec"
+        }
+      ],
+      "options": {
+        "command": "openapi-ts --input {projectRoot}/openapi-spec.json --output {projectRoot}/gen --name VNDClient --client axios",
+        "color": true
+      }
     }
   }
 }

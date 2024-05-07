@@ -22,7 +22,7 @@ export class DatabaseEntity extends BaseEntity implements IDataBaseEntity {
   @decorate(
     ApiProperty({
       example: '6a909236-53f2-4727-b780-e41e115ee906',
-      type: 'objectId',
+      type: 'string',
     })
   )
   _id: string;
@@ -50,7 +50,7 @@ export class DatabaseEntity extends BaseEntity implements IDataBaseEntity {
   @decorate(
     ApiProperty({
       example: '2021-07-01T00:00:00.000Z',
-      type: 'timestamp',
+      type: 'date',
     })
   )
   createdAt: string;
@@ -63,7 +63,7 @@ export class DatabaseEntity extends BaseEntity implements IDataBaseEntity {
   @decorate(
     ApiProperty({
       example: '2021-07-01T00:00:00.000Z',
-      type: 'timestamp',
+      type: 'date',
     })
   )
   updatedAt: string;
@@ -72,14 +72,14 @@ export class DatabaseEntity extends BaseEntity implements IDataBaseEntity {
   @decorate(
     ApiProperty({
       example: '2021-07-01T00:00:00.000Z',
-      type: 'timestamp',
+      type: 'date',
     })
   )
   deletedAt: string | null;
 
   @decorate(
     Column({
-      type: 'timestamp',
+      type: 'date',
       nullable: true,
       default: () => 'CURRENT_TIMESTAMP',
     })
@@ -87,7 +87,7 @@ export class DatabaseEntity extends BaseEntity implements IDataBaseEntity {
   @decorate(
     ApiProperty({
       example: '2021-07-01T00:00:00.000Z',
-      type: 'timestamp',
+      type: 'date',
     })
   )
   lastSyncAt: string;

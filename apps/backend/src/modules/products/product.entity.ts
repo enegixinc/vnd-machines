@@ -107,6 +107,6 @@ export class ProductEntity extends DatabaseEntity implements IProductEntity {
   // })
   // deletedAt: string;
 
-  @Column({ type: 'timestamp' })
+  @Column({ type: 'date' })
   lastSyncAt: string;
 }
