@@ -9,7 +9,6 @@ import {
 import { IDataBaseEntity } from '@core';
 import { ApiProperty } from '@nestjs/swagger';
 import { decorate } from 'ts-mixer';
-import { Factory } from 'nestjs-seeder';
 
 export class DatabaseEntity extends BaseEntity implements IDataBaseEntity {
   @decorate(
@@ -26,7 +25,6 @@ export class DatabaseEntity extends BaseEntity implements IDataBaseEntity {
       type: 'string',
     })
   )
-  @decorate(Factory((faker) => faker.database.mongodbObjectId()))
   _id: string;
 
   @decorate(
@@ -42,7 +40,6 @@ export class DatabaseEntity extends BaseEntity implements IDataBaseEntity {
       default: 1,
     })
   )
-  @decorate(Factory(() => 7))
   __v: number;
 
   @decorate(
@@ -56,7 +53,6 @@ export class DatabaseEntity extends BaseEntity implements IDataBaseEntity {
       type: 'date',
     })
   )
-  @decorate(Factory((faker) => faker.date.past().toISOString()))
   createdAt: string;
 
   @decorate(
@@ -70,7 +66,6 @@ export class DatabaseEntity extends BaseEntity implements IDataBaseEntity {
       type: 'date',
     })
   )
-  @decorate(Factory((faker) => faker.date.past().toISOString()))
   updatedAt: string;
 
   @decorate(DeleteDateColumn())
@@ -79,11 +74,6 @@ export class DatabaseEntity extends BaseEntity implements IDataBaseEntity {
       example: '2021-07-01T00:00:00.000Z',
       type: 'date',
     })
-  )
-  @decorate(
-    Factory((faker) =>
-      faker.helpers.shuffle([faker.date.recent().toISOString(), null])
-    )
   )
   deletedAt: string | null;
 
@@ -99,14 +89,6 @@ export class DatabaseEntity extends BaseEntity implements IDataBaseEntity {
       example: '2021-07-01T00:00:00.000Z',
       type: 'date',
     })
-  )
-  @decorate(
-    Factory((faker) =>
-      faker.helpers.shuffle([
-        faker.date.past().toISOString(),
-        faker.date.recent().toISOString(),
-      ])
-    )
   )
   lastSyncAt: string;
 }

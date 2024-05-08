@@ -69,4 +69,6 @@ export class UserEntity extends DatabaseEntity implements IUserEntity {
   categories: string[];
 
   documents: string[];
+
+  _id: string;
 }
