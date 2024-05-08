@@ -32,6 +32,30 @@
         "cwd": "apps/backend",
         "color": true
       }
+    },
+    "seed": {
+      "dependsOn": [
+        {
+          "target": "docker"
+        }
+      ],
+      "executor": "nx:run-commands",
+      "options": {
+        "buildTarget": "backend:build",
+        "command": "node dist/apps/backend/seeder"
+      }
+    },
+    "seed-refresh": {
+      "dependsOn": [
+        {
+          "target": "docker"
+        }
+      ],
+      "executor": "nx:run-commands",
+      "options": {
+        "buildTarget": "backend:build",
+        "command": "node dist/apps/backend/seeder --refresh"
+      }
     }
   }
 }

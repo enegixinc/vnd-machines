@@ -6,6 +6,7 @@ import { CreateUserDto } from './dto/request/create-user.dto';
 import { UpdateUserDto } from './dto/response/update-user.dto';
 import { SerializedUserDto } from './dto/response/serialized-user.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { saneOperationsId } from '../../common/swagger.config';
 
 @Crud({
   model: {
@@ -48,6 +49,7 @@ import { ApiResponse, ApiTags } from '@nestjs/swagger';
     },
   },
   routes: {
+    ...saneOperationsId,
     exclude: ['replaceOneBase'],
   },
   serialize: {

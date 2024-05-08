@@ -1,25 +1,60 @@
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { NestExpressApplication } from '@nestjs/platform-express';
+import { ApiOperation } from '@nestjs/swagger';
 
-export default function initSwagger(
-  app: NestExpressApplication
-  // systemConfig: SystemConfig
-) {
-  const apiDocsConfig = new DocumentBuilder()
-    .setTitle('TN Critic API')
-    .setDescription('APIs for TN Shit')
-    .setVersion('1.0.0')
-    .addBearerAuth()
-
-    .build();
-
-  SwaggerModule.setup(
-    `docs`,
-    app,
-    SwaggerModule.createDocument(app, apiDocsConfig),
-    {
-      customSiteTitle: 'TN Stuff API',
-      yamlDocumentUrl: `/docs/yaml`,
-    }
-  );
-}
+export const saneOperationsId = {
+  getOneBase: {
+    decorators: [
+      ApiOperation({
+        operationId: 'getOne',
+      }),
+    ],
+  },
+  createOneBase: {
+    decorators: [
+      ApiOperation({
+        operationId: 'createOne',
+      }),
+    ],
+  },
+  updateOneBase: {
+    decorators: [
+      ApiOperation({
+        operationId: 'updateOne',
+      }),
+    ],
+  },
+  deleteOneBase: {
+    decorators: [
+      ApiOperation({
+        operationId: 'deleteOne',
+      }),
+    ],
+  },
+  getManyBase: {
+    decorators: [
+      ApiOperation({
+        operationId: 'getMany',
+      }),
+    ],
+  },
+  createManyBase: {
+    decorators: [
+      ApiOperation({
+        operationId: 'createMany',
+      }),
+    ],
+  },
+  replaceOneBase: {
+    decorators: [
+      ApiOperation({
+        operationId: 'replaceOne',
+      }),
+    ],
+  },
+  recoverOneBase: {
+    decorators: [
+      ApiOperation({
+        operationId: 'recoverOne',
+      }),
+    ],
+  },
+};

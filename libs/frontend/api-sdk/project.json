@@ -1,0 +1,52 @@
+{
+  "name": "api-sdk",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/frontend/api-sdk/src",
+  "projectType": "library",
+  "release": {
+    "version": {
+      "generatorOptions": {
+        "packageRoot": "dist\\{projectRoot}",
+        "currentVersionResolver": "git-tag"
+      }
+    }
+  },
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/frontend/api-sdk",
+        "tsConfig": "libs/frontend/api-sdk/tsconfig.lib.json",
+        "packageJson": "libs/frontend/api-sdk/package.json",
+        "main": "libs/frontend/api-sdk/src/index.ts",
+        "assets": ["libs/frontend/api-sdk/*.md"]
+      }
+    },
+    "nx-release-publish": {
+      "options": {
+        "packageRoot": "dist\\{projectRoot}"
+      }
+    },
+    "download-spec": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "libs/frontend/api-sdk",
+        "color": true,
+        "command": "node -e \"require('fs').rmSync('./gen', { recursive: true, force: true }); process.exit();\" && curl -o openapi-spec.json http://localhost:3000/api-json"        }
+    },
+    "generate": {
+      "executor": "nx:run-commands",
+      "dependsOn": [
+        {
+          "target": "download-spec"
+        }
+      ],
+      "options": {
+        "command": "openapi-ts --input {projectRoot}/openapi-spec.json --output {projectRoot}/gen --name VNDClient --client axios",
+        "color": true
+      }
+    }
+  }
+}

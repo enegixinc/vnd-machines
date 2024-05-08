@@ -5,6 +5,8 @@ import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/request/create-product.dto';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { SerializedProductDto } from './dto/response/serialized-product.dto';
+import { saneOperationsId } from '../../common/swagger.config';
+import { UpdateProductDto } from './dto/request/update-product.dto';
 
 @Crud({
   model: {
@@ -12,6 +14,7 @@ import { SerializedProductDto } from './dto/response/serialized-product.dto';
   },
   dto: {
     create: CreateProductDto,
+    update: UpdateProductDto,
   },
   params: {
     id: {
@@ -40,6 +43,7 @@ import { SerializedProductDto } from './dto/response/serialized-product.dto';
     },
   },
   routes: {
+    ...saneOperationsId,
     exclude: ['replaceOneBase'],
   },
   serialize: {

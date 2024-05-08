@@ -17,7 +17,8 @@
     "paths": {
       "@backend/config": ["libs/backend/config/src/index.ts"],
       "@backend/magex-connector": ["libs/backend/magex-connector/index.ts"],
-      "@core": ["libs/core/src/index.ts"]
+      "@core": ["libs/core/src/index.ts"],
+      "@frontend/api-sdk": ["libs/frontend/api-sdk/gen/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

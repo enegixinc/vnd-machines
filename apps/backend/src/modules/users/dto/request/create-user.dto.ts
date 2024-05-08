@@ -1,4 +1,4 @@
-import { ICreateUser, IDocument, ISerializedProduct, POLICY } from '@core';
+import { ICreateUser, POLICY } from '@core';
 import { IsNotEmpty, IsOptional, IsStrongPassword } from 'class-validator';
 import { CrudValidationGroups } from '@dataui/crud';
 import { ApiProperty } from '@nestjs/swagger';
@@ -8,25 +8,6 @@ import { SharedUserDto } from '../shared/shared-user.dto';
 const { CREATE, UPDATE } = CrudValidationGroups;
 
 export class CreateUserDto extends SharedUserDto implements ICreateUser {
-  @decorate(IsOptional({ groups: [UPDATE, CREATE] }))
-  @decorate(
-    ApiProperty({
-      example: '60d7b0f7d7f0b3001f6c3c9d',
-      description: 'id of the products',
-      type: [String],
-    })
-  )
-  products: string[] | ISerializedProduct[];
-
-  @decorate(IsNotEmpty({ groups: [CREATE] }))
-  @decorate(IsOptional({ groups: [UPDATE] }))
-  @decorate(
-    ApiProperty({
-      type: [String],
-    })
-  )
-  documents: string[] | IDocument[];
-
   @decorate(IsNotEmpty({ groups: [CREATE] }))
   @decorate(IsOptional({ groups: [UPDATE] }))
   @decorate(
