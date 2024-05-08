@@ -5,6 +5,10 @@ module.exports = {
   output: {
     path: join(__dirname, '../../dist/apps/backend'),
   },
+  entry: {
+    main: './src/main.ts',
+    seeder: './src/seeder.ts',
+  },
   plugins: [
     new NxWebpackPlugin({
       target: 'node',

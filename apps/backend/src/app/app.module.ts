@@ -21,7 +21,6 @@ import { CategoriesModule } from '../modules/categories/categories.module';
         database: configService.get('POSTGRES_DB'),
         autoLoadEntities: true,
         synchronize: true,
-        logging: true,
         entities: [__dirname + '/../../modules/**/*.entity{.ts,.js}'],
       }),
     }),
