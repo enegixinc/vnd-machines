@@ -9,6 +9,15 @@ jobs:
   backend:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 8
+          run_install: |
+            - recursive: true
+              args: [--frozen-lockfile, --strict-peer-dependencies]
+
       - name: Check for Affected Projects
         uses: dkhunt27/action-nx-affected-list@v5
         id: checkForAffected
