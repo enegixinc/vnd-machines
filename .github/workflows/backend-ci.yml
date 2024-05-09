@@ -45,25 +45,21 @@ jobs:
     runs-on: ubuntu-latest
     needs: cache-and-install
     steps:
-      - name: Restore cached node_modules
-        uses: actions/cache@v4
-        with:
-          path: ./node_modules
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
-
       - name: Check for Affected Projects
-        uses: dkhunt27/action-nx-affected-list@v5
+        uses: dkhunt27/action-nx-affected-list@v4
         id: checkForAffected
+
+      - if: steps.checkForAffected.outputs.hasAffected == 'true'
+        name: Build (Nx Affected)
+        uses: mansagroup/nrwl-nx-action@v2
+        with:
+          targets: build
+          affected: true
+          nxCloud: false
 
   backend:
     runs-on: ubuntu-latest
     steps:
-      - name: Check for Affected Projects
-        uses: dkhunt27/action-nx-affected-list@v5
-        id: checkForAffected
-
 #      - if: steps.checkForAffected.outputs.hasAffected == 'true'
 #        name: Build (Nx Affected)
 #        uses: mansagroup/nrwl-nx-action@v2
