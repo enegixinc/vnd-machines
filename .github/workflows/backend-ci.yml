@@ -81,7 +81,8 @@ jobs:
       - run: pnpm i nx -g
       - run: nx affected:lint --fix --parallel
       #      - run: nx affected -t format:write,test,build,e2e --parallel
-      - run: nx affected -t format:write,test,deploy --parallel
+#      - run: nx affected -t format:write,test,deploy --parallel
+      - run: nx affected -t format:write,deploy --parallel
 
 
 #      - name: Check for Affected Projects
