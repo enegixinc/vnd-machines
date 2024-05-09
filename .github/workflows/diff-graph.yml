@@ -14,3 +14,4 @@ jobs:
       - uses: ysk8hori/delta-typescript-graph-action@v1.0.3
         with:
           tsconfig-root: 'tsconfig.base.json'
+          debug: true
