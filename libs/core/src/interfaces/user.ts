@@ -21,6 +21,8 @@ export interface IUserEntity extends IDataBaseEntity {
   role: UserRole;
   phoneNumber: string;
   active: boolean;
+  products: string[] | ISerializedProduct[];
+  documents: string[] | IDocument[];
 }
 
 export type ICreateUser = Omit<
