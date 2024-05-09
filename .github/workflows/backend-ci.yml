@@ -53,9 +53,44 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Typecheck
-        uses: andoshin11/typescript-error-reporter-action@v1.0.2
+      - name: Cache node_modules
+        uses: actions/upload-artifact@v4
+        with:
+          name: node_modules
+          path: ./node_modules
 
+  check-ts:
+    name: Evaluate Affected Projects
+    runs-on: ubuntu-latest
+    needs: install-and-cache
+    steps:
+      - uses: actions/download-artifact@v4
+        name: Download node_modules
+        with:
+          name: node_modules
+      - name: Detecting files changed
+        id: files
+        uses: umani/changed-files@v4.0.0
+        with:
+          repo-token: ${{ github.token }}
+          pattern: '^.*\.ts$'
+      - name: List files changed (you can remove this step, for monitoring only)
+        run: |
+          echo 'Files modified: ${{steps.files.outputs.files_updated}}'
+          echo 'Files added: ${{steps.files.outputs.files_created}}'
+          echo 'Files removed: ${{steps.files.outputs.files_deleted}}'
+      - uses: Arhia/action-check-typescript@v1.0.0
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          use-check: true
+          check-fail-mode: added
+          files-changed: ${{steps.files.outputs.files_updated}}
+          files-added: ${{steps.files.outputs.files_created}}
+          files-deleted: ${{steps.files.outputs.files_deleted}}
+          line-numbers: ${{steps.diff.outputs.lineNumbers}}
+          output-behaviour: both
+          comment-behaviour: new
+          ts-config-path: './tsconfig.base.json'
 
   evaluate-affected-projects:
     name: Evaluate Affected Projects
