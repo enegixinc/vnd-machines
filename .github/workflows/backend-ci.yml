@@ -16,6 +16,17 @@ jobs:
 #      - name: Prettify code
 #        uses: creyD/prettier_action@v4.3
 
+  tsc:
+    name: runner / tsc
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: EPMatt/reviewdog-action-tsc@v1
+        with:
+          github_token: ${{ secrets.github_token }}
+          reporter: github-pr-review
+          level: warning
+
   install-and-cache:
     runs-on: ubuntu-latest
     name: Install and Cache Dependencies
@@ -50,12 +61,12 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: TSC Diagnostics Diff
-        uses: beerose/tsc-diff-action@v0.0.1
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          leave-comment: true
-
+#      - name: TSC Diagnostics Diff
+#        uses: beerose/tsc-diff-action@v0.0.1
+#        with:
+#          github-token: ${{ secrets.GITHUB_TOKEN }}
+#          leave-comment: true
+#
 
       - uses: nrwl/nx-set-shas@v4
 
