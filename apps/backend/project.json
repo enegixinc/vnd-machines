@@ -67,21 +67,21 @@
       "executor": "nx:run-commands",
       "defaultConfiguration": "dev",
       "options": {
+        "parallel": false,
         "commands": [
-          "docker build -f apps/backend/Dockerfile . -t {args.DockerContainerRegistry}/your-registry",
-          "docker push {args.DockerContainerRegistry}/your-registry"
-        ],
-        "parallel": false
+          "docker build -f apps/backend/Dockerfile . -t {args.DockerContainerRegistry}",
+          "docker push {args.DockerContainerRegistry}"
+        ]
       },
       "configurations": {
         "dev": {
-          "DockerContainerRegistry": "abdelrahmanessawy"
+          "DockerContainerRegistry": "abdelrahmanessawy/vnd-backend-dev"
         },
         "staging": {
-          "DockerContainerRegistry": "your-registry-staging.azurecr.io"
+          "DockerContainerRegistry": "abdelrahmanessawy/vnd-backend-staging"
         },
         "production": {
-          "DockerContainerRegistry": "your-registry-prod.azurecr.io"
+          "DockerContainerRegistry": "abdelrahmanessawy/vnd-backend-production"
         }
       }
     }

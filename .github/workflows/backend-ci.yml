@@ -61,13 +61,6 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-#      - name: TSC Diagnostics Diff
-#        uses: beerose/tsc-diff-action@v0.0.1
-#        with:
-#          github-token: ${{ secrets.GITHUB_TOKEN }}
-#          leave-comment: true
-#
-
       - uses: nrwl/nx-set-shas@v4
 
       - run: |
@@ -82,20 +75,14 @@ jobs:
 #      - run: nx affected:lint --fix --parallel
       #      - run: nx affected -t format:write,test,build,e2e --parallel
 #      - run: nx affected -t format:write,test,deploy --parallel
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        id: login_to_docker_hub
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
       - run: nx affected -t deploy --parallel
-
-
-#      - name: Check for Affected Projects
-#        uses: dkhunt27/action-nx-affected-list@v5
-#        id: checkForAffected
-#
-#      - if: steps.checkForAffected.outputs.hasAffected == 'true'
-#        name: Build (Nx Affected)
-#        uses: mansagroup/nrwl-nx-action@v3
-#        with:
-#          targets: build
-#          affected: true
-#          nxCloud: false
 
 
 #  backend:
