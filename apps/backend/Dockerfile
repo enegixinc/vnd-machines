@@ -34,7 +34,7 @@ FROM node:lts-slim AS production
 WORKDIR /app
 
 COPY --from=builder /app/dist/apps/backend /app
-#COPY --from=builder /app/node_modules /app/node_modules
+COPY --from=builder /app/node_modules /app/node_modules
 
 EXPOSE 4444
 
