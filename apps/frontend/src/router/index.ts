@@ -7,6 +7,25 @@ import HomeView from '../views/index.vue';
 const routes: RouteRecordRaw[] = [
     // dashboard
     { path: '/', name: 'home', component: HomeView },
+    // -----------------auth
+    {
+        path: '/auth/signin',
+        name: 'signin',
+        component: () => import('@/pages/auth/signin/TheIndex.vue'),
+        meta: { layout: 'auth' },
+    },
+    {
+        path: '/auth/signup',
+        name: 'signup',
+        component: () => import('@/pages/auth/signup/TheIndex.vue'),
+        meta: { layout: 'auth' },
+    },
+    {
+        path: '/auth/password-reset',
+        name: 'password-reset',
+        component: () => import('@/pages/auth/passwordReset/TheIndex.vue'),
+        meta: { layout: 'auth' },
+    },
 ];
 
 const router = createRouter({

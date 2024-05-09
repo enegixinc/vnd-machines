@@ -644,28 +644,13 @@
                             <vue-collapsible :isOpen="activeDropdown === 'authentication'">
                                 <ul class="sub-menu text-gray-500">
                                     <li @click="toggleMobileMenu">
-                                        <router-link to="/auth/boxed-signin" target="_blank">{{ $t('login_boxed') }}</router-link>
+                                        <router-link :to="{name:'signin'}" target="_blank">{{ $t('login_boxed') }}</router-link>
                                     </li>
                                     <li @click="toggleMobileMenu">
-                                        <router-link to="/auth/boxed-signup" target="_blank">{{ $t('register_boxed') }}</router-link>
+                                        <router-link :to="{name:'signup'}" target="_blank">{{ $t('register_boxed') }}</router-link>
                                     </li>
                                     <li @click="toggleMobileMenu">
-                                        <router-link to="/auth/boxed-lockscreen" target="_blank">{{ $t('unlock_boxed') }}</router-link>
-                                    </li>
-                                    <li @click="toggleMobileMenu">
-                                        <router-link to="/auth/boxed-password-reset" target="_blank">{{ $t('recover_id_boxed') }}</router-link>
-                                    </li>
-                                    <li @click="toggleMobileMenu">
-                                        <router-link to="/auth/cover-login" target="_blank">{{ $t('login_cover') }}</router-link>
-                                    </li>
-                                    <li @click="toggleMobileMenu">
-                                        <router-link to="/auth/cover-register" target="_blank">{{ $t('register_cover') }}</router-link>
-                                    </li>
-                                    <li @click="toggleMobileMenu">
-                                        <router-link to="/auth/cover-lockscreen" target="_blank">{{ $t('unlock_cover') }}</router-link>
-                                    </li>
-                                    <li @click="toggleMobileMenu">
-                                        <router-link to="/auth/cover-password-reset" target="_blank">{{ $t('recover_id_cover') }}</router-link>
+                                        <router-link :to="{name:'password-reset'}" target="_blank">{{ $t('recover_id_boxed') }}</router-link>
                                     </li>
                                 </ul>
                             </vue-collapsible>
