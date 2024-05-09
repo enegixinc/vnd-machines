@@ -8,33 +8,18 @@ on:
 jobs:
   backend:
     runs-on: ubuntu-latest
-  pre-run:
-    runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v2
+      - name: Check for Affected Projects
+        uses: dkhunt27/action-nx-affected-list@v5
+        id: checkForAffected
 
-      - name: Detect changed directories
-        uses: gagle/nx-check-changes@v1.0.0
-        id: nx-changes
-
-    outputs:
-      changed-dirs: ${{ steps.nx-changes.outputs.changed-dirs }}
-      skip: ${{ steps.nx-changes.outputs.not-affected }}
-
-  lint:
-    runs-on: ubuntu-latest
-    needs: [pre-run]
-    if: needs.pre-run.outputs.skip == 'false'
-
-    steps:
-      # Loop over 'needs.pre-run.outputs.changed-dirs'
-
-#      - name: Run Lint (Affected)
-#        if: steps.affected.outputs.isAffected == 'true'
-#        env:
-#          affectedDeps: ${{ steps.affected.outputs.affectedDeps }}
-
+      - if: steps.checkForAffected.outputs.hasAffected == 'true'
+        name: Build (Nx Affected)
+        uses: mansagroup/nrwl-nx-action@v2
+        with:
+          targets: build
+          affected: true
+          nxCloud: false
 
 #      - name: Notify Slack
 #        run: |
