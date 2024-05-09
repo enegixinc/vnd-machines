@@ -6,7 +6,21 @@ on:
       - 'main'
 
 jobs:
-  docker:
+  setup:
+    runs-on: ubuntu-latest
+    name: Affected Matrix
+    outputs:
+      hasChanges: ${{ steps.affected.outputs.hasChanges }}
+      matrix: ${{ steps.affected.outputs.matrix }}
+    steps:
+      - name: Calculate affected projects
+        uses: e-square-io/nx-affected-matrix@v2
+        id: affected
+        with:
+          targets: 'test,build'
+          maxDistribution: 3
+
+  backend:
     runs-on: ubuntu-latest
     steps:
 #      - name: Notify Slack
