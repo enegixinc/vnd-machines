@@ -71,6 +71,7 @@ jobs:
       - uses: nrwl/nx-set-shas@v4
 
       - run: |
+          git fetch origin
           if ! git show-ref --quiet refs/remotes/origin/main; then
             git branch --track main origin/main
           else
