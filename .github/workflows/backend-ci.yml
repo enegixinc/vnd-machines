@@ -24,7 +24,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-
       - name: Install Node.js
         uses: actions/setup-node@v4
         with:
@@ -58,35 +57,46 @@ jobs:
     runs-on: ubuntu-latest
     needs: install-and-cache
     steps:
-      - uses: actions/download-artifact@v4
-        name: Download node_modules
-        with:
-          name: node_modules
-#      - name: Restore pnpm cache
-#        uses: actions/cache@v4
-#        with:
-#          path: ./node_modules
-#          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-#          restore-keys: |
-#            ${{ runner.os }}-pnpm-store-
-
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: LS
-        run: ls -al
-
-      - name: Check for Affected Projects
-        uses: dkhunt27/action-nx-affected-list@v5
-        id: checkForAffected
-
-      - if: steps.checkForAffected.outputs.hasAffected == 'true'
-        name: Build (Nx Affected)
-        uses: mansagroup/nrwl-nx-action@v3
+      - name: Restore pnpm cache
+        uses: actions/cache@v4
         with:
-          targets: build
-          affected: true
-          nxCloud: false
+          path: ./node_modules
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - uses: nrwl/nx-set-shas@v4
+
+      - run: |
+          if [ ! -n "$(git show-ref refs/heads/main)" ]; then
+            git branch --track main origin/main
+          else
+            echo "Branch 'main' already exists. Skipping branch creation."
+          fi
+
+      - run: pnpm i nx -g
+      - run: nx affected:lint --fix --parallel
+#      - run: nx affected -t format:write,test,build,e2e --parallel
+      - run: nx affected -t format:write,test,deploy --parallel
+
+
+#      - name: Check for Affected Projects
+#        uses: dkhunt27/action-nx-affected-list@v5
+#        id: checkForAffected
+#
+#      - if: steps.checkForAffected.outputs.hasAffected == 'true'
+#        name: Build (Nx Affected)
+#        uses: mansagroup/nrwl-nx-action@v3
+#        with:
+#          targets: build
+#          affected: true
+#          nxCloud: false
 
 
 #  backend:
