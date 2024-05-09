@@ -52,12 +52,12 @@ jobs:
 
       - uses: nrwl/nx-set-shas@v4
 
-      - run: |
-          if [ ! -n "$(git show-ref refs/heads/main)" ]; then
-            git branch --track main origin/main
-          else
-            echo "Branch 'main' already exists. Skipping branch creation."
-          fi
+#      - run: |
+#          if [ ! -n "$(git show-ref refs/heads/main)" ]; then
+#            git branch --track main origin/main
+#          else
+#            echo "Branch 'main' already exists. Skipping branch creation."
+#          fi
 
       - run: pnpm i nx -g
       - run: nx affected:lint --fix --parallel
