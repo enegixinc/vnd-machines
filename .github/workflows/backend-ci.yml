@@ -43,7 +43,7 @@ jobs:
 
   evaluate-affected-projects:
     runs-on: ubuntu-latest
-    needs: cache-and-install
+    needs: install-and-cache
     steps:
       - name: Restore pnpm cache
         uses: actions/cache@v4
