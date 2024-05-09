@@ -65,7 +65,7 @@ jobs:
         if: steps.affected.outputs.isAffected == 'true'
         env:
           affectedDeps: ${{ steps.affected.outputs.affectedDeps }}
-        run: npx nx run-many --target=test --projects=$affectedDeps
+        run: nx run-many --target=test --projects=$affectedDeps
 
   backend:
     runs-on: ubuntu-latest
