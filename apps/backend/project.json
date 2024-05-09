@@ -5,14 +5,20 @@
   "projectType": "application",
   "tags": [],
   "targets": {
-    "serve": {
+    "dev": {
       "executor": "@nx/js:node",
-      "defaultConfiguration": "development",
       "dependsOn": [
         {
           "target": "docker"
         }
       ],
+      "options": {
+        "buildTarget": "backend:build:development"
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
       "options": {
         "buildTarget": "backend:build"
       },
