@@ -5,137 +5,63 @@ on:
     branches:
       - 'main'
 
-
 jobs:
-  install-and-cache:
+  build-and-test:
     runs-on: ubuntu-latest
-    name: Install and Cache Dependencies
+    name: Build and Test Affected Projects
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-#        with:
-#          sparse-checkout: |
-#            package.json |
-#            pnpm-lock.yaml
-#          sparse-checkout-cone-mode: false
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-      - name: Install Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
-      - uses: pnpm/action-setup@v4
-        name: Install pnpm
-        with:
-          version: 8
-          run_install: false
-
-      - name: Get pnpm store directory
-        shell: bash
-        run: |
-          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
-
-      - uses: actions/cache@v4
-        name: Setup pnpm cache
-        with:
-          path: ${{ env.STORE_PATH }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
+      - name: Install pnpm
+        run: npm install -g pnpm@8
 
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
 
-      - uses: actions/upload-artifact@v4
-        name: Upload node_modules
+      - name: Format code
+        run: pnpm format
+
+      - name: Lint code
+        run: pnpm lint
+
+      - name: Test code
+        run: pnpm test
+
+      - name: Evaluate Affected Projects
+        id: checkForAffected
+        run: pnpm run nx affected:apps --plain
+
+      - name: Build and Test Affected Projects
+        if: steps.checkForAffected.outputs.stdout != ''
+        run: pnpm run nx affected:build --base=main --prod
+
+      - name: Upload node_modules
+        uses: actions/upload-artifact@v2
         with:
           name: node_modules
           path: ./node_modules
 
-  evaluate-affected-projects:
-    name: Evaluate Affected Projects
+  build-docker-image:
     runs-on: ubuntu-latest
-    needs: install-and-cache
+    needs: build-and-test
+    name: Build Docker Image for Affected Projects
     steps:
-      - uses: actions/download-artifact@v4
-        name: Download node_modules
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Download node_modules
+        uses: actions/download-artifact@v2
         with:
           name: node_modules
-#      - name: Restore pnpm cache
-#        uses: actions/cache@v4
-#        with:
-#          path: ./node_modules
-#          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-#          restore-keys: |
-#            ${{ runner.os }}-pnpm-store-
+          path: ./node_modules
 
-      - name: Checkout
-        uses: actions/checkout@v4
+      - name: Build Docker Image
+        run: docker build -t your-docker-username/your-image-name:latest .
 
-      - name: LS
-        run: ls -al
-
-      - name: Check for Affected Projects
-        uses: dkhunt27/action-nx-affected-list@v5
-        id: checkForAffected
-
-      - if: steps.checkForAffected.outputs.hasAffected == 'true'
-        name: Build (Nx Affected)
-        uses: mansagroup/nrwl-nx-action@v3
+      - name: Push Docker Image
+        uses: docker/login-action@v2
         with:
-          targets: build
-          affected: true
-          nxCloud: false
-
-
-#  backend:
-#    runs-on: ubuntu-latest
-#    steps:
-#      - if: steps.checkForAffected.outputs.hasAffected == 'true'
-#        name: Build (Nx Affected)
-#        uses: mansagroup/nrwl-nx-action@v2
-#        with:
-#          targets: build
-#          affected: true
-#          nxCloud: false
-#
-#      - name: Notify Slack
-#        run: |
-#          curl -X POST -H 'Content-type: application/json' --data \
-#          '{"channel": "#kingo", "username": "5oStudios", "text": "New Build Starts!, project: `game`", "icon_emoji": ":5ostudios:"}' \
-#            ${{ secrets.SLACK_WEBHOOK }}
-
-#      - name: Set up QEMU
-#        uses: docker/setup-qemu-action@v3
-#        id: setup_qemu
-#
-#      - name: Set up Docker Buildx
-#        uses: docker/setup-buildx-action@v3
-#        id: setup_buildx
-#
-#      - name: Login to Docker Hub
-#        uses: docker/login-action@v3
-#        id: login_to_docker_hub
-#        with:
-#          username: ${{ secrets.DOCKER_USERNAME }}
-#          password: ${{ secrets.DOCKER_PASSWORD }}
-#
-#      - name: Build and push
-#        id: docker_build
-#        uses: docker/build-push-action@v5
-#        with:
-#          file: apps/backend/Dockerfile
-#          push: true
-#          tags: ${{ secrets.DOCKER_USERNAME }}/vnd-dev-backend:latest
-
-#      - name: Notify Slack
-#        run: |
-#          curl -X POST -H 'Content-type: application/json' --data \
-#          '{"channel": "#kingo", "username": "5oStudios", "text": "Build Success!, project `game`", "icon_emoji": ":5ostudios:"}' \
-#            ${{ secrets.SLACK_WEBHOOK }}
-#
-#      - name: Deploy to Staging
-#        run: |
-#          curl -X GET \
-#            -H "Authorization: Bearer ${{ secrets.COOLIFY_KEY_FRONTEND_STAGING }}" \
-#              ${{ secrets.COOLIFY_WEBHOOK_FRONTEND_STAGING }}
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      - run: docker push ${{ secrets.DOCKER_USERNAME }}/test
