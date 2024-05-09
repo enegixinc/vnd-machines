@@ -23,6 +23,7 @@ export interface IUserEntity extends IDataBaseEntity {
   active: boolean;
   products: string[] | ISerializedProduct[];
   documents: string[] | IDocument[];
+  test: string;
 }
 
 export type ICreateUser = Omit<
