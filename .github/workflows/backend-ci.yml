@@ -50,14 +50,21 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: TSC Diagnostics Diff
+        uses: beerose/tsc-diff-action@v0.0.1
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          leave-comment: true
+
+
       - uses: nrwl/nx-set-shas@v4
 
-#      - run: |
-#          if [ ! -n "$(git show-ref refs/heads/main)" ]; then
-#            git branch --track main origin/main
-#          else
-#            echo "Branch 'main' already exists. Skipping branch creation."
-#          fi
+      - run: |
+          if ! git show-ref --quiet refs/remotes/origin/main; then
+            git branch --track main origin/main
+          else
+            echo "Branch 'main' already exists. Skipping branch creation."
+          fi
 
       - run: pnpm i nx -g
       - run: nx affected:lint --fix --parallel
