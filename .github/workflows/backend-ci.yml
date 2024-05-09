@@ -52,6 +52,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: Typecheck
+        uses: andoshin11/typescript-error-reporter-action@v1.0.2
+
 
   evaluate-affected-projects:
     name: Evaluate Affected Projects
