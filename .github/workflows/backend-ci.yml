@@ -53,17 +53,19 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
 
-      - name: Check for Affected Projects
-        uses: dkhunt27/action-nx-affected-list@v5
-        id: checkForAffected
-
-      - if: steps.checkForAffected.outputs.hasAffected == 'true'
-        name: Build (Nx Affected)
-        uses: mansagroup/nrwl-nx-action@v3
+      - name: Evaluate affected
+        uses: leanix/nx-affected-dependencies-action@v0.2.1
+        id: affected
         with:
-          targets: build
-          affected: true
-          nxCloud: false
+          project: pathfinder
+          base: ${{ github.sha }}~1
+          head: ${{ github.sha }}
+
+      - name: Run Unit Tests (Affected)
+        if: steps.affected.outputs.isAffected == 'true'
+        env:
+          affectedDeps: ${{ steps.affected.outputs.affectedDeps }}
+        run: npx nx run-many --target=test --projects=$affectedDeps
 
   backend:
     runs-on: ubuntu-latest
