@@ -6,23 +6,24 @@ on:
       - 'main'
 
 jobs:
-  setup:
-    runs-on: ubuntu-latest
-    name: Affected Matrix
-    outputs:
-      hasChanges: ${{ steps.affected.outputs.hasChanges }}
-      matrix: ${{ steps.affected.outputs.matrix }}
-    steps:
-      - name: Calculate affected projects
-        uses: e-square-io/nx-affected-matrix@v2
-        id: affected
-        with:
-          targets: 'test,build'
-          maxDistribution: 3
-
   backend:
     runs-on: ubuntu-latest
     steps:
+      - name: Evaluate affected
+        uses: leanix/nx-affected-dependencies-action@v0.2.1
+        id: affected
+        with:
+          project: pathfinder
+          base: ${{ github.sha }}~1
+          head: ${{ github.sha }}
+
+      - name: Run Unit Tests (Affected)
+        if: steps.affected.outputs.isAffected == 'true'
+        env:
+          affectedDeps: ${{ steps.affected.outputs.affectedDeps }}
+        run: npx nx run-many --target=test --projects=$affectedDeps
+
+
 #      - name: Notify Slack
 #        run: |
 #          curl -X POST -H 'Content-type: application/json' --data \
