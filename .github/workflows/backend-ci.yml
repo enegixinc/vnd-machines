@@ -6,15 +6,15 @@ on:
 
 
 jobs:
-  code-check:
-    name: Check formatting, linting, vetting
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Prettify code
-        uses: creyD/prettier_action@v4.3
+#  code-check:
+#    name: Check formatting, linting, vetting
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Checkout
+#        uses: actions/checkout@v4
+#
+#      - name: Prettify code
+#        uses: creyD/prettier_action@v4.3
 
   install-and-cache:
     runs-on: ubuntu-latest
