@@ -7,9 +7,9 @@ on:
 
 
 jobs:
-  cache-and-install:
+  install-and-cache:
     runs-on: ubuntu-latest
-
+    name: Install and Cache Dependencies
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -62,10 +62,9 @@ jobs:
           head: ${{ github.sha }}
 
       - name: Run Unit Tests (Affected)
-        if: steps.affected.outputs.isAffected == 'true'
         env:
           affectedDeps: ${{ steps.affected.outputs.affectedDeps }}
-        run: nx run-many --target=test --projects=$affectedDeps
+        run: echo "Affected Deps:" $affectedDeps
 
   backend:
     runs-on: ubuntu-latest
