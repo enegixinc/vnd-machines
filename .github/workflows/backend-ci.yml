@@ -13,11 +13,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          sparse-checkout: |
-            package.json |
-            pnpm-lock.yaml
-          sparse-checkout-cone-mode: false
+#        with:
+#          sparse-checkout: |
+#            package.json |
+#            pnpm-lock.yaml
+#          sparse-checkout-cone-mode: false
 
       - name: Install Node.js
         uses: actions/setup-node@v4
