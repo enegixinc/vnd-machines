@@ -42,6 +42,7 @@ jobs:
         run: pnpm install
 
   evaluate-affected-projects:
+    name: Evaluate Affected Projects
     runs-on: ubuntu-latest
     needs: install-and-cache
     steps:
@@ -56,18 +57,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Evaluate affected
-        uses: leanix/nx-affected-dependencies-action@v0.2.1
-        id: affected
-        with:
-          project: pathfinder
-          base: ${{ github.sha }}~1
-          head: ${{ github.sha }}
+      - name: Check for Affected Projects
+        uses: dkhunt27/action-nx-affected-list@v5
+        id: checkForAffected
 
-      - name: Run Unit Tests (Affected)
-        env:
-          affectedDeps: ${{ steps.affected.outputs.affectedDeps }}
-        run: echo "Affected Deps:" $affectedDeps
+      - if: steps.checkForAffected.outputs.hasAffected == 'true'
+        name: Build (Nx Affected)
+        uses: mansagroup/nrwl-nx-action@v3
+        with:
+          targets: build
+          affected: true
+          nxCloud: false
 
 
   backend:
