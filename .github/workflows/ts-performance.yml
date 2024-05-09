@@ -1,0 +1,22 @@
+name: Check TypeScript Performance
+
+on:
+  pull_request:
+
+jobs:
+  check-performance:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Use Node.js 16.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: 16.x
+      - name: Install dependencies
+        run: npm ci
+      - name: TSC Diagnostics Diff
+        uses: beerose/tsc-diff-action@v0.0.1
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          leave-comment: true
