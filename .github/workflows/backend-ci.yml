@@ -5,11 +5,10 @@ on:
     branches:
       - 'main'
 
+
 jobs:
   cache-and-install:
     runs-on: ubuntu-latest
-    outputs:
-      node-modules-path: ${{ steps.install.outputs.node-modules-path }}
 
     steps:
       - name: Checkout
@@ -40,16 +39,7 @@ jobs:
             ${{ runner.os }}-pnpm-store-
 
       - name: Install dependencies
-        id: install
         run: pnpm install
-        continue-on-error: true
-
-      - name: Cache node_modules
-        if: steps.install.outcome == 'success'
-        uses: actions/cache@v2
-        with:
-          path: ${{ steps.install.outputs.node-modules-path }}
-          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/pnpm-lock.yaml') }}
 
   evaluate-affected-projects:
     runs-on: ubuntu-latest
@@ -61,15 +51,14 @@ jobs:
       - name: Restore cached node_modules
         uses: actions/cache@v2
         with:
-          path: ${{ needs.cache-and-install.outputs.node-modules-path }}
-          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-node-modules-
+            path: ~/.pnpm-store
+            key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+            restore-keys: |
+                ${{ runner.os }}-pnpm-store-
 
       - name: Check for Affected Projects
         uses: dkhunt27/action-nx-affected-list@v5
         id: checkForAffected
-
 
   backend:
     runs-on: ubuntu-latest
