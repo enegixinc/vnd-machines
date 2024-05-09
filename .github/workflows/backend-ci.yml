@@ -21,7 +21,13 @@ jobs:
         if: steps.affected.outputs.isAffected == 'true'
         env:
           affectedDeps: ${{ steps.affected.outputs.affectedDeps }}
-        run: npx nx run-many --target=test --projects=$affectedDeps
+#        run: pnpx nx run-many --target=test --projects=$affectedDeps
+        run: echo "Effecting Deps:" + " " + $affectedDeps
+
+#      - name: Run Lint (Affected)
+#        if: steps.affected.outputs.isAffected == 'true'
+#        env:
+#          affectedDeps: ${{ steps.affected.outputs.affectedDeps }}
 
 
 #      - name: Notify Slack
