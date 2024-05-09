@@ -54,12 +54,12 @@ jobs:
             ${{ runner.os }}-pnpm-store-
 
       - name: Check for Affected Projects
-        uses: dkhunt27/action-nx-affected-list@v4
+        uses: dkhunt27/action-nx-affected-list@v5
         id: checkForAffected
 
       - if: steps.checkForAffected.outputs.hasAffected == 'true'
         name: Build (Nx Affected)
-        uses: mansagroup/nrwl-nx-action@v2
+        uses: mansagroup/nrwl-nx-action@v3
         with:
           targets: build
           affected: true
