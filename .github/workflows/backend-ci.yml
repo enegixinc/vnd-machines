@@ -53,6 +53,9 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
 
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - name: Evaluate affected
         uses: leanix/nx-affected-dependencies-action@v0.2.1
         id: affected
