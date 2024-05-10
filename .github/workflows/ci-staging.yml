@@ -1,4 +1,4 @@
-name: Staging CI
+name: Staging Test, Build, E2E CI
 
 on:
     pull_request:
@@ -51,4 +51,4 @@ jobs:
             echo "Branch 'main' already exists. Skipping branch creation."
           fi
 
-      - run: nx affected -t test,build,e2e --configuration=staging --parallel
+      - run: nx affected -t test,build,e2e --configuration=development --parallel
