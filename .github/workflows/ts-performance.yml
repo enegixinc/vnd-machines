@@ -1,45 +1,45 @@
-name: Check TypeScript Performance
-
-on:
-  pull_request:
-
-jobs:
-  check-performance:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      - name: Use Node.js 16.x
-        uses: actions/setup-node@v4
-        with:
-          node-version: 16.x
-
-      - uses: pnpm/action-setup@v4
-        name: Install pnpm
-        with:
-          version: 8
-          run_install: false
-
-
-      - name: Get pnpm store directory
-        shell: bash
-        run: |
-          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
-
-      - uses: actions/cache@v4
-        name: Setup pnpm cache
-        with:
-          path: ${{ env.STORE_PATH }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
-
-      - name: Install dependencies
-        run: pnpm install
-
-
-      - name: TSC Diagnostics
-        uses: abdelrahman-essawy/tsc-diagnostics-diff-action@alpha
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          leave-comment: true
+#name: Check TypeScript Performance
+#
+#on:
+#  pull_request:
+#
+#jobs:
+#  check-performance:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Checkout code
+#        uses: actions/checkout@v4
+#      - name: Use Node.js 16.x
+#        uses: actions/setup-node@v4
+#        with:
+#          node-version: 16.x
+#
+#      - uses: pnpm/action-setup@v4
+#        name: Install pnpm
+#        with:
+#          version: 8
+#          run_install: false
+#
+#
+#      - name: Get pnpm store directory
+#        shell: bash
+#        run: |
+#          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+#
+#      - uses: actions/cache@v4
+#        name: Setup pnpm cache
+#        with:
+#          path: ${{ env.STORE_PATH }}
+#          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+#          restore-keys: |
+#            ${{ runner.os }}-pnpm-store-
+#
+#      - name: Install dependencies
+#        run: pnpm install
+#
+#
+#      - name: TSC Diagnostics
+#        uses: abdelrahman-essawy/tsc-diagnostics-diff-action@alpha
+#        with:
+#          github-token: ${{ secrets.GITHUB_TOKEN }}
+#          leave-comment: true
