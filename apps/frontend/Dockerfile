@@ -35,5 +35,6 @@ WORKDIR /app
 
 COPY --from=builder /app/dist/apps/frontend /app
 COPY --from=builder /app/node_modules /app/node_modules
+RUN npm install -g http-server
 
-CMD ["npx", "http-server"]
+CMD ["http-server"]
