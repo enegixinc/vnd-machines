@@ -17,4 +17,5 @@ jobs:
         with:
           release-type: simple
           target-branch: staging
+          default-branch: main
           token: ${{ secrets.REALEASE_PLEASE_PAT }}
