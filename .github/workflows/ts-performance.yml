@@ -37,8 +37,10 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: TSC Diagnostics Diff
-        uses: beerose/tsc-diff-action@v0.0.1
+
+
+      - name: TSC Diagnostics
+        uses: abdelrahman-essawy/tsc-diagnostics-diff-action@alpha
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           leave-comment: true
