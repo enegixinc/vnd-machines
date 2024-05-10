@@ -1,7 +1,17 @@
-name: 'check-ts'
-on:
-  pull_request:
+name: PR Review
+on: pull_request
+
 jobs:
+  tsc:
+    name: runner / tsc
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: EPMatt/reviewdog-action-tsc@v1
+        with:
+          github_token: ${{ secrets.github_token }}
+          reporter: github-pr-review
+          level: warning
   ts:
     runs-on: ubuntu-latest
     steps:

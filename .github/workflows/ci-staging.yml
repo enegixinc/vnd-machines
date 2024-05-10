@@ -1,25 +1,29 @@
-name: Check TypeScript Performance
+name: Staging CI
 
 on:
-  pull_request:
+    pull_request:
+        branches:
+        - staging
+
 
 jobs:
-  check-performance:
+  install-and-cache:
     runs-on: ubuntu-latest
+    name: Install and Cache Dependencies
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v4
-      - name: Use Node.js 16.x
+
+      - name: Install Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 16.x
+          node-version: 20
 
       - uses: pnpm/action-setup@v4
         name: Install pnpm
         with:
           version: 8
           run_install: false
-
 
       - name: Get pnpm store directory
         shell: bash
@@ -37,9 +41,14 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - uses: nrwl/nx-set-shas@v4
 
-      - name: TSC Diagnostics
-        uses: abdelrahman-essawy/tsc-diagnostics-diff-action@alpha
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          leave-comment: true
+      - run: |
+          git fetch origin
+          if ! git show-ref --quiet refs/remotes/origin/main; then
+            git branch --track main origin/main
+          else
+            echo "Branch 'main' already exists. Skipping branch creation."
+          fi
+
+      - run: nx affected -t test,build,e2e --configuration=staging --parallel
