@@ -51,4 +51,4 @@ jobs:
             echo "Branch 'main' already exists. Skipping branch creation."
           fi
 
-      - run: nx affected -t test,build,e2e --configuration=development --parallel
+      - run: pnpx nx affected -t test,build,e2e --configuration=development --parallel
