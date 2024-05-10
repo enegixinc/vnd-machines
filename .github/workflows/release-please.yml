@@ -16,5 +16,5 @@ jobs:
       - uses: google-github-actions/release-please-action@v4
         with:
           release-type: simple
-          target-branch: main
+          target-branch: staging
           token: ${{ secrets.REALEASE_PLEASE_PAT }}
