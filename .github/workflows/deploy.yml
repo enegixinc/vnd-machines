@@ -1,0 +1,90 @@
+name: Deploying
+
+on:
+    push:
+        branches:
+        - main
+        - staging
+        - dev
+
+jobs:
+  install-and-cache:
+    runs-on: ubuntu-latest
+    name: Install and Cache Dependencies
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - uses: pnpm/action-setup@v4
+        name: Install pnpm
+        with:
+          version: 8
+          run_install: false
+
+      - name: Get pnpm store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+      - uses: actions/cache@v4
+        name: Setup pnpm cache
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - uses: nrwl/nx-set-shas@v4
+
+      - run: |
+          git fetch origin
+          if ! git show-ref --quiet refs/remotes/origin/main; then
+            git branch --track main origin/main
+          else
+            echo "Branch 'main' already exists. Skipping branch creation."
+          fi
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        id: login_to_docker_hub
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Deploy affected projects - DEV
+        if: github.event.inputs.environment == 'development' || github.ref_name == 'dev'
+        run: npx nx affected --target=deploy --configuration=dev
+
+      - name: Deploy affected projects - STAGING
+        if: github.event.inputs.environment == 'development' || github.ref_name == 'staging'
+        run: npx nx affected --target=deploy --configuration=staging
+
+
+      - name: Deploy affected projects - PROD
+        if: github.event.inputs.environment == 'production' || github.ref_name == 'main'
+        run: npx nx affected --target=deploy --configuration=production
+
+#      - name: Notify Slack
+#        run: |
+#          curl -X POST -H 'Content-type: application/json' --data \
+#          '{"channel": "#kingo", "username": "5oStudios", "text": "New Build Starts!, project: `game`", "icon_emoji": ":5ostudios:"}' \
+#            ${{ secrets.SLACK_WEBHOOK }}
+
+#      - name: Notify Slack
+#        run: |
+#          curl -X POST -H 'Content-type: application/json' --data \
+#          '{"channel": "#kingo", "username": "5oStudios", "text": "Build Success!, project `game`", "icon_emoji": ":5ostudios:"}' \
+#            ${{ secrets.SLACK_WEBHOOK }}
+#
+#      - name: Deploy to Staging
+#        run: |
+#          curl -X GET \
+#            -H "Authorization: Bearer ${{ secrets.COOLIFY_KEY_FRONTEND_STAGING }}" \
+#              ${{ secrets.COOLIFY_WEBHOOK_FRONTEND_STAGING }}
