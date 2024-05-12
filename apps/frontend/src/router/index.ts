@@ -7,7 +7,11 @@ import HomeView from '../views/index.vue';
 const routes: RouteRecordRaw[] = [
     // dashboard
     { path: '/', name: 'home', component: HomeView },
-
+    {
+        path: '/users',
+        name: 'users',
+        component: () => import('@/pages/users/TheIndex.vue'),
+    },
     ...authLinks
 ];
 
