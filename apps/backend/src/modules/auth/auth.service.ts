@@ -1,26 +1,33 @@
-import { Injectable } from '@nestjs/common';
-import { CreateAuthDto } from './dto/create-auth.dto';
-import { UpdateAuthDto } from './dto/update-auth.dto';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
+
+import { LoginDto } from './dto/login.dto';
+import { UsersService } from '../users/users.service';
+import { HashingService } from '../../common/hashing/hashing.service';
 
 @Injectable()
 export class AuthService {
-  create(createAuthDto: CreateAuthDto) {
-    return 'This action adds a new auth';
-  }
+  constructor(
+    private readonly jwtService: JwtService,
+    private readonly userService: UsersService,
+    private readonly hashingService: HashingService
+  ) {}
+  async login(loginDto: LoginDto) {
+    const user = await this.userService.findOneBy({ email: loginDto.email });
 
-  findAll() {
-    return `This action returns all auth`;
-  }
+    if (!user) throw new NotFoundException('User not found');
 
-  findOne(id: number) {
-    return `This action returns a #${id} auth`;
-  }
+    const isValidPassword = await this.hashingService.compare(
+      loginDto.password,
+      user.password
+    );
 
-  update(id: number, updateAuthDto: UpdateAuthDto) {
-    return `This action updates a #${id} auth`;
-  }
+    if (!isValidPassword) throw new NotFoundException('Invalid password');
 
-  remove(id: number) {
-    return `This action removes a #${id} auth`;
+    const payload = { email: user.email, sub: user._id, role: user.role };
+
+    return {
+      access_token: this.jwtService.sign(payload),
+    };
   }
 }
