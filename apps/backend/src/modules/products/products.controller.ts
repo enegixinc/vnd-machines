@@ -47,14 +47,7 @@ import { UpdateProductDto } from './dto/request/update-product.dto';
     exclude: ['replaceOneBase'],
   },
   serialize: {
-    getMany: SerializedProductDto,
     get: SerializedProductDto,
-    create: SerializedProductDto,
-    replace: SerializedProductDto,
-    recover: SerializedProductDto,
-    delete: SerializedProductDto,
-    createMany: SerializedProductDto,
-    update: SerializedProductDto,
   },
 })
 @Controller('products')
