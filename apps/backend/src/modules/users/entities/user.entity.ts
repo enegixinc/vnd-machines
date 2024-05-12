@@ -1,13 +1,24 @@
-import { Column, Entity, JoinTable, ManyToMany } from 'typeorm';
+import { BeforeInsert, Column, Entity, JoinTable, ManyToMany } from 'typeorm';
 import { IUserEntity, UserRole } from '@core';
 import { DatabaseEntity } from '../../../common/database.entity';
 import { ProductEntity } from '../../products/product.entity';
 import { CategoryEntity } from '../../categories/category.entity';
 import { BrandEntity } from '../../brands/brand.entity';
 import { Factory } from 'nestjs-seeder';
+import { HashingService } from '../../../common/hashing/hashing.service';
 
 @Entity('users')
 export class UserEntity extends DatabaseEntity implements IUserEntity {
+  constructor(private readonly hashingService: HashingService) {
+    super();
+  }
+
+  @BeforeInsert()
+  async hashPassword() {
+    console.log(this.hashingService);
+    this.password = await this.hashingService.hash(this.password);
+  }
+
   @Factory((faker) => faker.person.fullName())
   @Column({ type: 'varchar', length: 100, nullable: false })
   firstName: string;
@@ -69,6 +80,4 @@ export class UserEntity extends DatabaseEntity implements IUserEntity {
   categories: string[];
 
   documents: string[];
-
-  _id: string;
 }
