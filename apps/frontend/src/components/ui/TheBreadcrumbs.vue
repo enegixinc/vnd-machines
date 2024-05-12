@@ -6,13 +6,18 @@
                     <icon-home class="w-4 h-4" />
                 </router-link>
             </li>
-            <li class="before:content-['/'] before:px-1.5"><a href="javascript:;">Components</a></li>
+<!--            <li class="before:content-['/'] before:px-1.5"><a href="javascript:;">Components</a></li>-->
             <li class="before:content-['/'] before:px-1.5">
-                <a href="javascript:;" class="text-black dark:text-white-light hover:text-black/70 dark:hover:text-white-light/70">UI Kit</a>
+                <span class="text-black dark:text-white-light cursor-default select-none">{{$t(currentLocation)}}</span>
             </li>
         </ol>
     </div>
 </template>
 <script setup lang="ts">
 import IconHome from '@/components/icon/icon-home.vue';
+
+interface Props {
+    currentLocation:string
+}
+defineProps<Props>()
 </script>
