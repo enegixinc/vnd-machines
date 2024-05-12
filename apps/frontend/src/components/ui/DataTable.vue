@@ -131,13 +131,13 @@
 
     const cols =
         ref([
-            { field: 'id', title: 'id', hide: false, isUnique: true, filter: false },
+            // { field: 'id', title: 'id', hide: false, isUnique: true, filter: false },
             { field: 'firstName', title: 'Name', hide: false },
-            { field: 'age', title: 'Progress', hide: false, type: 'number' },
-            { field: 'company', title: 'Company', hide: false },
-            { field: 'dob', title: 'Start Date', hide: false, type: 'date' }, //type for filter input
+            // { field: 'age', title: 'Progress', hide: false, type: 'number' },
+            { field: 'businessName', title: 'Company', hide: false },
+            // { field: 'dob', title: 'Start Date', hide: false, type: 'date' }, //type for filter input
             { field: 'email', title: 'Email', hide: false },
-            { field: 'phone', title: 'Phone No.', hide: false },
+            { field: 'phoneNumber', title: 'Phone No.', hide: false },
             { field: 'action', title: 'Action', sort: false, hide: false },
         ]) || [];
 
