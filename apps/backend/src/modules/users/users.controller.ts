@@ -53,14 +53,7 @@ import { saneOperationsId } from '../../common/swagger.config';
     exclude: ['replaceOneBase'],
   },
   serialize: {
-    create: SerializedUserDto,
-    update: SerializedUserDto,
     get: SerializedUserDto,
-    getMany: SerializedUserDto,
-    createMany: SerializedUserDto,
-    delete: SerializedUserDto,
-    recover: SerializedUserDto,
-    replace: SerializedUserDto,
   },
 })
 @Controller('users')
