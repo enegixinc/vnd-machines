@@ -15,7 +15,7 @@
                             </button>
                             <template #content>
                                 <ul class="whitespace-nowrap">
-                                    <template v-for="(col, i) in cols" :key="i">
+                                    <template v-for="(col, i) in fields" :key="i">
                                         <li>
                                             <div class="flex items-center px-4 py-1">
                                                 <label class="cursor-pointer mb-0">
