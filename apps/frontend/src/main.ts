@@ -32,6 +32,23 @@ appSetting.init();
 import i18n from '@/i18n';
 app.use(i18n);
 
+
+// tippy tooltips
+import VueTippy from 'vue-tippy'
+app.use(
+    VueTippy,
+    // optional
+    {
+        directive: 'tippy',
+        component: 'tippy',
+        componentSingleton: 'tippy-singleton',
+        defaultProps: {
+            placement: 'top',
+            allowHTML: true,
+        },
+    }
+)
+
 // popper
 import Popper from 'vue3-popper';
 app.component('Popper', Popper);
