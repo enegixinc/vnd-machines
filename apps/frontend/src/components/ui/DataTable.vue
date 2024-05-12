@@ -45,9 +45,9 @@
 
             <div class="datatable">
                 <vue3-datatable
-                    :rows="rows"
-                    :columns="cols"
-                    :totalRows="rows?.length"
+                    :rows="tableData"
+                    :columns="fields"
+                    :totalRows="tableData?.length"
                     :sortable="true"
                     sortColumn="id"
                     :stickyFirstColumn="true"
@@ -120,8 +120,17 @@ import IconCaretDown from '@/components/icon/icon-caret-down.vue';
 const store = useAppStore();
 const search = ref('');
 
-const rows = ref(
-    [
+
+
+interface MyObject {
+    [key: string]: any;
+}
+interface Props{
+    tableData?:MyObject[],
+    fields?:MyObject[]
+}
+const props = withDefaults(defineProps<Props>(),{
+    tableData:  ()=> [
         {
             id: 1,
             firstName: 'Caroline',
@@ -622,11 +631,8 @@ const rows = ref(
             age: 32,
             company: 'PHARMACON',
         },
-    ] || []
-);
-
-const cols =
-    ref([
+    ],
+    fields:()=>[
         {field:'id',title:'id',hide:false,isUnique:true,filter:false},
         { field: 'firstName', title: 'Name' ,hide: false},
         { field: 'age', title: 'Progress' ,hide: false,type:'number'},
@@ -635,8 +641,8 @@ const cols =
         { field: 'email', title: 'Email' ,hide: false},
         { field: 'phone', title: 'Phone No.' ,hide: false},
         { field: 'action', title: 'Action', sort: false ,hide: false},
-    ]) || [];
-
+    ]
+})
 const formatDate = (date) => {
     if (date) {
         const dt = new Date(date);
