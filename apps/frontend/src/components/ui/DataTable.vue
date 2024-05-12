@@ -129,7 +129,7 @@ interface Props{
     tableData?:MyObject[],
     fields?:MyObject[]
 }
-const props = withDefaults(defineProps<Props>(),{
+withDefaults(defineProps<Props>(),{
     tableData:  ()=> [
         {
             id: 1,
