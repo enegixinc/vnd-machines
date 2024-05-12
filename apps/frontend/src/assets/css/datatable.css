@@ -123,4 +123,9 @@
 .datatable .bh-table-responsive table thead tr th {
     @apply rtl:text-right;
 }
-
+.bh-table-responsive{
+    position: revert;
+}
+.bh-table-responsive >  table + .bh-absolute{
+    z-index: 99;
+}

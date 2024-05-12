@@ -2,12 +2,13 @@
     <div>
         <div class="panel pb-0 mt-6">
             <div class="flex md:items-center md:flex-row flex-col mb-5 gap-5">
-                <h5 class="font-semibold text-lg dark:text-white-light">Table 2</h5>
+                <h5 class="font-semibold text-lg dark:text-white-light">{{$t(tableTitle)}}</h5>
                 <div class="flex items-center gap-5 ltr:ml-auto rtl:mr-auto">
                     <div class="dropdown">
                         <Popper :placement="store.rtlClass === 'rtl' ? 'bottom-end' : 'bottom-start'" offsetDistance="0" class="align-middle">
                             <button
                                 type="button"
+                                :disabled="loading"
                                 class="flex items-center border font-semibold border-[#e0e6ed] dark:border-[#253b5c] rounded-md px-4 py-2 text-sm dark:bg-[#1b2e4b] dark:text-white-dark"
                             >
                                 <span class="ltr:mr-1 rtl:ml-1">Columns</span>
@@ -37,7 +38,7 @@
                         </Popper>
                     </div>
                     <div>
-                        <input v-model="search" type="text" class="form-input" placeholder="Search..." />
+                        <input v-model="search" type="text" class="form-input" :disabled="loading" placeholder="Search..." />
                     </div>
                 </div>
 
@@ -47,13 +48,19 @@
                 <vue3-datatable
                     :rows="tableData"
                     :columns="fields"
-                    :totalRows="tableData?.length"
-                    :sortable="true"
-                    sortColumn="id"
+                    :totalRows="pages"
+                    :pageSize="perPage"
+                    sortDirection="desc"
+                    :loading="loading"
+                    :sortable="sortable"
+                    :sortColumn="sortBy"
                     :stickyFirstColumn="true"
+                    :showNumbersCount="3"
+                    :isServerMode="true"
                     :stickyHeader="true"
                     :columnFilter="true"
                     :search="search"
+                    @change="changeServer"
                     skin="whitespace-nowrap bh-table-hover"
                     firstArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180">
 <path d="M13 19L7 12L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -89,6 +96,9 @@
                     <template #dob="data">
                         {{ formatDate(data.value.dob) }}
                     </template>
+                    <template #createdAt="data">
+                        {{ formatDate(data.value.createdAt) }}
+                    </template>
                     <template #action>
                         <div class="flex items-center">
                             <div>
@@ -119,7 +129,7 @@ import IconTrashLines from '@/components/icon/icon-trash-lines.vue';
 import IconCaretDown from '@/components/icon/icon-caret-down.vue';
 const store = useAppStore();
 const search = ref('');
-
+const emit = defineEmits(['changeServer'])
 
 
 interface MyObject {
@@ -127,7 +137,13 @@ interface MyObject {
 }
 interface Props{
     tableData?:MyObject[],
-    fields?:MyObject[]
+    fields?:MyObject[],
+    pages?:number,
+    loading?:boolean,
+    perPage?:number,
+    sortBy?:string,
+    sortable?:boolean,
+    tableTitle?:string,
 }
 withDefaults(defineProps<Props>(),{
     tableData:  ()=> [
@@ -641,7 +657,13 @@ withDefaults(defineProps<Props>(),{
         { field: 'email', title: 'Email' ,hide: false},
         { field: 'phone', title: 'Phone No.' ,hide: false},
         { field: 'action', title: 'Action', sort: false ,hide: false},
-    ]
+    ],
+    pages:1,
+    loading:false,
+    perPage:10,
+    sortable:true,
+    sortBy:'id',
+    tableTitle:'users'
 })
 const formatDate = (date) => {
     if (date) {
@@ -658,6 +680,16 @@ const randomColor = () => {
     const random = Math.floor(Math.random() * color.length);
     return color[random];
 };
-
+const changeServer = (data: any) => {
+emit('changeServer',{
+    currentPage:data.current_page,
+    pageSize:data.pagesize,
+})
+    // params.current_page = data.current_page;
+    // params.pagesize = data.pagesize;
+    // params.sort_column = data.sort_column;
+    // sort_direction = data.sort_direction;
+    // getUsers();
+};
 </script>
 
