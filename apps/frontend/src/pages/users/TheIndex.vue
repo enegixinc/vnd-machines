@@ -19,7 +19,7 @@ import type { Ref } from 'vue'
 import TheBreadcrumbs from "@/components/ui/TheBreadcrumbs.vue";
 import DataTable from "@/components/ui/DataTable.vue";
 import {vndClient} from "@/api"
-const loading:Ref<boolean> = ref(true),
+const loading:Ref<boolean> = ref(false),
     totalPages:Ref<number>=ref(1),
     pageSize:Ref<number>=ref(10),
     usersData:Ref<[]>=ref([]),
@@ -45,7 +45,7 @@ const users = async (data:pageData) =>{
     }catch (err){
         console.log(err)
     }finally {
-        // loading.value=false;
+        loading.value=false;
     }
 }
 users({currentPage:1,pageSize:pageSize.value});
