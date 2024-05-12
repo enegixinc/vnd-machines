@@ -80,7 +80,7 @@
                 >
                     <template #firstName="data">
                         <div class="flex items-center w-max">
-                            <img class="w-9 h-9 rounded-full ltr:mr-2 rtl:ml-2 object-cover" :src="`https://i.pravatar.cc/200?u${data.value.firstName} ${data.value.lastName}`" />
+                            <img class="w-9 h-9 rounded-full ltr:mr-2 rtl:ml-2 object-cover" :src="`https://i.pravatar.cc/200?u=${data.value.email}`" />
                             {{ data.value.firstName + ' ' + data.value.lastName }}
                         </div>
                     </template>
