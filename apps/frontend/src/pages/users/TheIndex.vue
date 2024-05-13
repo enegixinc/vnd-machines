@@ -15,11 +15,17 @@
 </template>
 <script setup lang="ts">
 import {ref} from 'vue';
-import type { Ref } from 'vue'
 import TheBreadcrumbs from "@/components/ui/TheBreadcrumbs.vue";
 import DataTable from "@/components/ui/DataTable.vue";
 import {vndClient} from "@/api"
-import {ISerializedUser} from "../../../../../libs/core";
+import {ISerializedUser} from "@core";
+
+
+
+
+
+
+
 
 const loading = ref(false),
     totalPages=ref(1),

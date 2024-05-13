@@ -21,7 +21,9 @@
     "skipLibCheck": true,
     "baseUrl": "./",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["src/*"],
+        "@core": ["../../libs/core"],
+        "@frontend/api-sdk": ["../../libs/frontend/api-sdk/gen/index.ts"]
     },
     "noImplicitAny": false,
 
