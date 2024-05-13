@@ -52,6 +52,8 @@ import { saneOperationsId } from '../../common/swagger.config';
   },
   serialize: {
     get: SerializedBrandDto,
+    create: SerializedBrandDto,
+    update: SerializedBrandDto,
   },
 })
 @Controller('brands')

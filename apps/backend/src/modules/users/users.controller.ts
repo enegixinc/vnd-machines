@@ -54,6 +54,8 @@ import { saneOperationsId } from '../../common/swagger.config';
   },
   serialize: {
     get: SerializedUserDto,
+    create: SerializedUserDto,
+    update: SerializedUserDto,
   },
 })
 @Controller('users')
