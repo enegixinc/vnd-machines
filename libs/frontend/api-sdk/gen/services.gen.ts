@@ -40,7 +40,7 @@ export class UsersService {
      * @param data The data for the request.
      * @param data.id
      * @param data.requestBody
-     * @returns SerializedUserDto Response
+     * @returns UserEntity Response
      * @throws ApiError
      */
     public updateOne(data: $OpenApiTs['/users/{id}']['patch']['req']): CancelablePromise<$OpenApiTs['/users/{id}']['patch']['res'][200]> {
@@ -90,7 +90,7 @@ export class UsersService {
      * @param data.page Page portion of resources. <a href="https://github.com/nestjsx/crud/wiki/Requests#page" target="_blank">Docs</a>
      * @param data.cache Reset cache (if was enabled). <a href="https://github.com/nestjsx/crud/wiki/Requests#cache" target="_blank">Docs</a>
      * @param data.includeDeleted Include deleted. <a href="https://github.com/nestjsx/crud/wiki/Requests#includeDeleted" target="_blank">Docs</a>
-     * @returns SerializedUserDto Get paginated response
+     * @returns GetManyUserEntityResponseDto Get paginated response
      * @throws ApiError
      */
     public getMany(data: $OpenApiTs['/users']['get']['req'] = {}): CancelablePromise<$OpenApiTs['/users']['get']['res'][200]> {
@@ -119,7 +119,7 @@ export class UsersService {
     /**
      * @param data The data for the request.
      * @param data.requestBody
-     * @returns SerializedUserDto Get create one base response
+     * @returns UserEntity Get create one base response
      * @throws ApiError
      */
     public createOne(data: $OpenApiTs['/users']['post']['req']): CancelablePromise<$OpenApiTs['/users']['post']['res'][201]> {
@@ -137,7 +137,7 @@ export class UsersService {
     /**
      * @param data The data for the request.
      * @param data.requestBody
-     * @returns SerializedUserDto Get create many base response
+     * @returns UserEntity Get create many base response
      * @throws ApiError
      */
     public createMany(data: $OpenApiTs['/users/bulk']['post']['req']): CancelablePromise<$OpenApiTs['/users/bulk']['post']['res'][201]> {
@@ -225,7 +225,7 @@ export class ProductsService {
      * @param data The data for the request.
      * @param data.id
      * @param data.requestBody
-     * @returns SerializedProductDto Response
+     * @returns ProductEntity Response
      * @throws ApiError
      */
     public updateOne(data: $OpenApiTs['/products/{id}']['patch']['req']): CancelablePromise<$OpenApiTs['/products/{id}']['patch']['res'][200]> {
@@ -275,7 +275,7 @@ export class ProductsService {
      * @param data.page Page portion of resources. <a href="https://github.com/nestjsx/crud/wiki/Requests#page" target="_blank">Docs</a>
      * @param data.cache Reset cache (if was enabled). <a href="https://github.com/nestjsx/crud/wiki/Requests#cache" target="_blank">Docs</a>
      * @param data.includeDeleted Include deleted. <a href="https://github.com/nestjsx/crud/wiki/Requests#includeDeleted" target="_blank">Docs</a>
-     * @returns SerializedProductDto Get paginated response
+     * @returns GetManyProductEntityResponseDto Get paginated response
      * @throws ApiError
      */
     public getMany(data: $OpenApiTs['/products']['get']['req'] = {}): CancelablePromise<$OpenApiTs['/products']['get']['res'][200]> {
@@ -304,7 +304,7 @@ export class ProductsService {
     /**
      * @param data The data for the request.
      * @param data.requestBody
-     * @returns SerializedProductDto Get create one base response
+     * @returns ProductEntity Get create one base response
      * @throws ApiError
      */
     public createOne(data: $OpenApiTs['/products']['post']['req']): CancelablePromise<$OpenApiTs['/products']['post']['res'][201]> {
@@ -322,7 +322,7 @@ export class ProductsService {
     /**
      * @param data The data for the request.
      * @param data.requestBody
-     * @returns SerializedProductDto Get create many base response
+     * @returns ProductEntity Get create many base response
      * @throws ApiError
      */
     public createMany(data: $OpenApiTs['/products/bulk']['post']['req']): CancelablePromise<$OpenApiTs['/products/bulk']['post']['res'][201]> {
@@ -394,7 +394,7 @@ export class BrandsService {
      * @param data The data for the request.
      * @param data.id
      * @param data.requestBody
-     * @returns SerializedBrandDto Response
+     * @returns BrandEntity Response
      * @throws ApiError
      */
     public updateOne(data: $OpenApiTs['/brands/{id}']['patch']['req']): CancelablePromise<$OpenApiTs['/brands/{id}']['patch']['res'][200]> {
@@ -444,7 +444,7 @@ export class BrandsService {
      * @param data.page Page portion of resources. <a href="https://github.com/nestjsx/crud/wiki/Requests#page" target="_blank">Docs</a>
      * @param data.cache Reset cache (if was enabled). <a href="https://github.com/nestjsx/crud/wiki/Requests#cache" target="_blank">Docs</a>
      * @param data.includeDeleted Include deleted. <a href="https://github.com/nestjsx/crud/wiki/Requests#includeDeleted" target="_blank">Docs</a>
-     * @returns SerializedBrandDto Get paginated response
+     * @returns GetManyBrandEntityResponseDto Get paginated response
      * @throws ApiError
      */
     public getMany(data: $OpenApiTs['/brands']['get']['req'] = {}): CancelablePromise<$OpenApiTs['/brands']['get']['res'][200]> {
@@ -473,7 +473,7 @@ export class BrandsService {
     /**
      * @param data The data for the request.
      * @param data.requestBody
-     * @returns SerializedBrandDto Get create one base response
+     * @returns BrandEntity Get create one base response
      * @throws ApiError
      */
     public createOne(data: $OpenApiTs['/brands']['post']['req']): CancelablePromise<$OpenApiTs['/brands']['post']['res'][201]> {
@@ -491,7 +491,7 @@ export class BrandsService {
     /**
      * @param data The data for the request.
      * @param data.requestBody
-     * @returns SerializedBrandDto Get create many base response
+     * @returns BrandEntity Get create many base response
      * @throws ApiError
      */
     public createMany(data: $OpenApiTs['/brands/bulk']['post']['req']): CancelablePromise<$OpenApiTs['/brands/bulk']['post']['res'][201]> {
@@ -563,7 +563,7 @@ export class CategoriesService {
      * @param data The data for the request.
      * @param data.id
      * @param data.requestBody
-     * @returns SerializedCategoryDto Response
+     * @returns CategoryEntity Response
      * @throws ApiError
      */
     public updateOne(data: $OpenApiTs['/categories/{id}']['patch']['req']): CancelablePromise<$OpenApiTs['/categories/{id}']['patch']['res'][200]> {
@@ -613,7 +613,7 @@ export class CategoriesService {
      * @param data.page Page portion of resources. <a href="https://github.com/nestjsx/crud/wiki/Requests#page" target="_blank">Docs</a>
      * @param data.cache Reset cache (if was enabled). <a href="https://github.com/nestjsx/crud/wiki/Requests#cache" target="_blank">Docs</a>
      * @param data.includeDeleted Include deleted. <a href="https://github.com/nestjsx/crud/wiki/Requests#includeDeleted" target="_blank">Docs</a>
-     * @returns SerializedCategoryDto Get paginated response
+     * @returns GetManyCategoryEntityResponseDto Get paginated response
      * @throws ApiError
      */
     public getMany(data: $OpenApiTs['/categories']['get']['req'] = {}): CancelablePromise<$OpenApiTs['/categories']['get']['res'][200]> {
@@ -642,7 +642,7 @@ export class CategoriesService {
     /**
      * @param data The data for the request.
      * @param data.requestBody
-     * @returns SerializedCategoryDto Get create one base response
+     * @returns CategoryEntity Get create one base response
      * @throws ApiError
      */
     public createOne(data: $OpenApiTs['/categories']['post']['req']): CancelablePromise<$OpenApiTs['/categories']['post']['res'][201]> {
@@ -660,7 +660,7 @@ export class CategoriesService {
     /**
      * @param data The data for the request.
      * @param data.requestBody
-     * @returns SerializedCategoryDto Get create many base response
+     * @returns CategoryEntity Get create many base response
      * @throws ApiError
      */
     public createMany(data: $OpenApiTs['/categories/bulk']['post']['req']): CancelablePromise<$OpenApiTs['/categories/bulk']['post']['res'][201]> {

@@ -11,6 +11,11 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
   app.useGlobalFilters(new TypeORMExceptionFilter());
   app.use('/uploads', express.static('uploads'));
+  app.enableCors({
+    origin: '*',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    allowedHeaders: 'Content-Type, Accept',
+  });
   useContainer(app.select(AppModule), { fallbackOnErrors: true });
 
   const port = process.env.PORT || 3000;
@@ -36,6 +41,7 @@ async function bootstrap() {
 
   await app.listen(port);
   Logger.log(`🚀 Application is running on: http://localhost:${port}/${'api'}`);
+  Logger.log('debug', 'Debugging log');
 }
 
 bootstrap();

@@ -7,17 +7,19 @@ import { BrandEntity } from './modules/brands/brand.entity';
 import { CategoryEntity } from './modules/categories/category.entity';
 import { DatabaseEntity } from './common/database.entity';
 import { ProductsSeeder } from './modules/products/products.seeder';
+import { ConfigModule, ConfigService } from '@backend/config';
 
 seeder({
   imports: [
     TypeOrmModule.forRootAsync({
-      useFactory: async () => ({
+      inject: [ConfigService],
+      useFactory: async (configService: ConfigService) => ({
         type: 'postgres',
-        host: 'localhost',
-        port: 5432,
-        username: 'postgres',
-        password: 'postgres',
-        database: 'postgres',
+        host: configService.get('POSTGRES_HOST'),
+        port: parseInt(configService.get('POSTGRES_PORT'), 10),
+        username: configService.get('POSTGRES_USER'),
+        password: configService.get('POSTGRES_PASSWORD'),
+        database: configService.get('POSTGRES_DB'),
         autoLoadEntities: true,
         synchronize: true,
         entities: [
@@ -36,5 +38,8 @@ seeder({
       CategoryEntity,
       DatabaseEntity,
     ]),
+    ConfigModule,
   ],
 }).run([UsersSeeder, ProductsSeeder]);
+
+////

@@ -51,13 +51,8 @@ import { saneOperationsId } from '../../common/swagger.config';
     exclude: ['replaceOneBase'],
   },
   serialize: {
-    getMany: SerializedCategoryDto,
     get: SerializedCategoryDto,
     create: SerializedCategoryDto,
-    replace: SerializedCategoryDto,
-    recover: SerializedCategoryDto,
-    delete: SerializedCategoryDto,
-    createMany: SerializedCategoryDto,
     update: SerializedCategoryDto,
   },
 })

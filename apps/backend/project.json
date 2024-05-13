@@ -5,14 +5,20 @@
   "projectType": "application",
   "tags": [],
   "targets": {
-    "serve": {
+    "dev": {
       "executor": "@nx/js:node",
-      "defaultConfiguration": "development",
       "dependsOn": [
         {
           "target": "docker"
         }
       ],
+      "options": {
+        "buildTarget": "backend:build:development"
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
       "options": {
         "buildTarget": "backend:build"
       },
@@ -55,6 +61,28 @@
       "options": {
         "buildTarget": "backend:build",
         "command": "node dist/apps/backend/seeder --refresh"
+      }
+    },
+    "deploy": {
+      "executor": "nx:run-commands",
+      "defaultConfiguration": "dev",
+      "options": {
+        "parallel": false,
+        "commands": [
+          "docker build -f apps/backend/Dockerfile . -t {args.DockerContainerRegistry}",
+          "docker push {args.DockerContainerRegistry}"
+        ]
+      },
+      "configurations": {
+        "dev": {
+          "DockerContainerRegistry": "abdelrahmanessawy/vnd-backend-dev"
+        },
+        "staging": {
+          "DockerContainerRegistry": "abdelrahmanessawy/vnd-backend-staging"
+        },
+        "production": {
+          "DockerContainerRegistry": "abdelrahmanessawy/vnd-backend-production"
+        }
       }
     }
   }
