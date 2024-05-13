@@ -19,14 +19,6 @@ import TheBreadcrumbs from "@/components/ui/TheBreadcrumbs.vue";
 import DataTable from "@/components/ui/DataTable.vue";
 import {vndClient} from "@/api"
 import {ISerializedUser} from "@core";
-
-
-
-
-
-
-
-
 const loading = ref(false),
     totalPages=ref(1),
     pageSize=ref(10),
