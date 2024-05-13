@@ -1,4 +1,4 @@
-import { BeforeInsert, Column, Entity, JoinTable, ManyToMany } from 'typeorm';
+import { Column, Entity, JoinTable, ManyToMany } from 'typeorm';
 import { IUserEntity, UserRole } from '@core';
 import { DatabaseEntity } from '../../../common/database.entity';
 import { ProductEntity } from '../../products/product.entity';
@@ -60,17 +60,7 @@ export class UserEntity extends DatabaseEntity implements IUserEntity {
   @Column({ type: 'boolean', default: true })
   active: boolean;
 
-  @ManyToMany(() => ProductEntity, (product) => product.suppliers)
-  @JoinTable({
-    joinColumn: {
-      name: 'userId',
-      referencedColumnName: '_id',
-    },
-    inverseJoinColumn: {
-      name: 'productId',
-      referencedColumnName: '_id',
-    },
-  })
+  @OneToMany(() => ProductEntity, (product) => product.suppliers)
   products: string[];
 
   @ManyToMany(() => BrandEntity, (brand) => brand.suppliers)
