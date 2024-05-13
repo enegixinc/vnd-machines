@@ -23,14 +23,14 @@ const loading = ref(false),
     totalPages=ref(1),
     pageSize=ref(10),
     usersData=ref<ISerializedUser[]>([]),
-    tableFields=[
+    tableFields=ref([
         { field: 'firstName', title: 'Name' ,hide: false},
         { field: 'email', title: 'Email' ,hide: false},
         { field: 'phoneNumber', title: 'Phone No.' ,hide: false},
         { field: 'role', title: 'Role' ,hide: false},
         { field: 'createdAt', title: 'Created At' ,hide: false,type: 'date'},
-        {field:'action',title:'Action'}
-    ]
+        {field:'action',title:'Action',hide:false}
+    ])
 interface pageData {
     currentPage:number,
     pageSize:number
