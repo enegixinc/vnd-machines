@@ -6,10 +6,12 @@ import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@backend/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserEntity } from '../users/entities/user.entity';
+import { HashingModule } from '../../common/hashing/hashing.module';
+import { HashingService } from '../../common/hashing/hashing.service';
 
 @Module({
   controllers: [AuthController],
-  providers: [AuthService, UsersService],
+  providers: [AuthService, UsersService, HashingService],
   imports: [
     TypeOrmModule.forFeature([UserEntity]),
     JwtModule.registerAsync({
@@ -20,6 +22,7 @@ import { UserEntity } from '../users/entities/user.entity';
       inject: [ConfigService],
       imports: [ConfigModule],
     }),
+    HashingModule,
   ],
 })
 export class AuthModule {}
