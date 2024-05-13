@@ -5,18 +5,13 @@ import { ProductEntity } from '../../products/product.entity';
 import { CategoryEntity } from '../../categories/category.entity';
 import { BrandEntity } from '../../brands/brand.entity';
 import { Factory } from 'nestjs-seeder';
-import { HashingService } from '../../../common/hashing/hashing.service';
+import bcrypt from 'bcrypt';
 
 @Entity('users')
 export class UserEntity extends DatabaseEntity implements IUserEntity {
-  constructor(private readonly hashingService: HashingService) {
-    super();
-  }
-
   @BeforeInsert()
   async hashPassword() {
-    console.log(this.hashingService);
-    this.password = await this.hashingService.hash(this.password);
+    this.password = await bcrypt.hash(this.password, 10);
   }
 
   @Factory((faker) => faker.person.fullName())
