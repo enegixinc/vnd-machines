@@ -131,13 +131,9 @@ const store = useAppStore();
 const search = ref('');
 const emit = defineEmits(['changeServer'])
 
-
-interface MyObject {
-    [key: string]: any;
-}
 interface Props{
-    tableData?:MyObject[],
-    fields?:MyObject[],
+    tableData?: { [key: string]: unknown }[],
+    fields?:{ [key: string]: unknown }[],
     pages?:number,
     loading?:boolean,
     perPage?:number,
