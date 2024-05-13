@@ -1,13 +1,4 @@
-<!--<template>-->
-<!--    <div>-->
-<!--        <h1>starter page</h1>-->
 
-<!--        <DataTable/>-->
-<!--    </div>-->
-<!--</template>-->
-<!--<script setup lang="ts">-->
-<!--import DataTable from "@/components/ui/DataTable.vue";-->
-<!--</script>-->
 <template>
     <div>
         <ul class="flex space-x-2 rtl:space-x-reverse">
@@ -18,6 +9,7 @@
                 <span>Sweet Alerts</span>
             </li>
         </ul>
+                <DataTable/>
         <div class="pt-5 space-y-8 sweet-alerts">
             <div class="panel p-3 flex items-center text-primary overflow-x-auto whitespace-nowrap">
                 <div class="ring-2 ring-primary/30 rounded-full bg-primary text-white p-1.5 ltr:mr-3 rtl:ml-3">
@@ -345,7 +337,7 @@
 <script lang="ts" setup>
 import Swal from 'sweetalert2';
 import { useMeta } from '@/composables/use-meta';
-
+import DataTable from "@/components/ui/DataTable.vue";
 import IconBell from '@/components/icon/icon-bell.vue';
 import IconCode from '@/components/icon/icon-code.vue';
 
