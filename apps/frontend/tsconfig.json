@@ -7,10 +7,6 @@
     "jsxImportSource": "vue",
     "moduleResolution": "node",
     "resolveJsonModule": true,
-
-
-
-
     "target": "ESNext",
     "useDefineForClassFields": true,
     "module": "ESNext",
