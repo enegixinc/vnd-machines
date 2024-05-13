@@ -8,3 +8,5 @@ import { HashingService } from './hashing.service';
 })
 @Global()
 export class HashingModule {}
+
+// Path: apps/backend/src/common/hashing/hashing.service.ts
