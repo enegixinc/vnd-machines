@@ -52,6 +52,8 @@ import { saneOperationsId } from '../../common/swagger.config';
   },
   serialize: {
     get: SerializedCategoryDto,
+    create: SerializedCategoryDto,
+    update: SerializedCategoryDto,
   },
 })
 @Controller('categories')

@@ -48,6 +48,8 @@ import { UpdateProductDto } from './dto/request/update-product.dto';
   },
   serialize: {
     get: SerializedProductDto,
+    create: SerializedProductDto,
+    update: SerializedProductDto,
   },
 })
 @Controller('products')
