@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToMany, ManyToOne } from 'typeorm';
+import { Column, Entity, ManyToOne } from 'typeorm';
 import {
   Dimension,
   IProductEntity,
@@ -8,19 +8,20 @@ import {
   MultiLang,
   ReferenceByID,
 } from '@core';
+import { fakerAR } from '@faker-js/faker';
+import { Factory } from 'nestjs-seeder';
+
 import { DatabaseEntity } from '../../common/database.entity';
 import { UserEntity } from '../users/entities/user.entity';
 import { BrandEntity } from '../brands/brand.entity';
 import { CategoryEntity } from '../categories/category.entity';
-import { Factory } from 'nestjs-seeder';
-import { fakerAR } from '@faker-js/faker';
 
 @Entity('products')
 export class ProductEntity extends DatabaseEntity implements IProductEntity {
   @Factory((faker) => ({
     _id: faker.database.mongodbObjectId(),
   }))
-  @ManyToMany(() => UserEntity, (user) => user.products, {
+  @ManyToOne(() => UserEntity, (user) => user.products, {
     nullable: true,
   })
   suppliers: ReferenceByID<ISerializedUser>[];
