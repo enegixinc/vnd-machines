@@ -716,3 +716,18 @@ hover:text-primary hover:before:!bg-primary ltr:before:mr-2 rtl:before:ml-2 dark
 .no-animtion [data-height-collapsible] {
     transition: none !important;
 }
+/*logo*/
+.collapsible-vertical .sidebar .main-logo > .icon-image {
+    @apply flex justify-center;
+}
+.collapsible-vertical .sidebar:hover .main-logo > .large-icon,
+.collapsible-vertical.toggle-sidebar .sidebar .main-logo > .large-icon {
+    @apply inline;
+}
+.collapsible-vertical .sidebar:hover .main-logo > .icon-image,
+.collapsible-vertical.toggle-sidebar .sidebar .main-logo > .icon-image {
+    @apply hidden;
+}
+.collapsible-vertical .sidebar .main-logo > .large-icon{
+    @apply hidden;
+}
