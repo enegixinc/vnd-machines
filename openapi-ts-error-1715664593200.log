@@ -1,0 +1,13 @@
+Unsupported Open API specification: {
+  "message": "Cannot GET /api-json",
+  "error": "Not Found",
+  "statusCode": 404
+}
+Error: Unsupported Open API specification: {
+  "message": "Cannot GET /api-json",
+  "error": "Not Found",
+  "statusCode": 404
+}
+    at D:\vnd-machines\node_modules\.pnpm\@hey-api+openapi-ts@0.42.1_typescript@5.4.5\node_modules\@hey-api\openapi-ts\dist\node\index.cjs:1:146779
+    at exports.createClient (D:\vnd-machines\node_modules\.pnpm\@hey-api+openapi-ts@0.42.1_typescript@5.4.5\node_modules\@hey-api\openapi-ts\dist\node\index.cjs:1:146856)
+    at async start (D:\vnd-machines\node_modules\.pnpm\@hey-api+openapi-ts@0.42.1_typescript@5.4.5\node_modules\@hey-api\openapi-ts\bin\index.cjs:81:5)
