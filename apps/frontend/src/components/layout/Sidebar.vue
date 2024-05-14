@@ -12,7 +12,7 @@
                              <img class="w-24 flex-none hidden dark:inline" src="/assets/images/logo/vnd-logo-white.svg"
                              alt="logo-dark-mode">
                         </div>
-                        <div class="icon-image w-[38px] text-center">
+                        <div class="hidden icon-image w-[38px] text-center">
                             <img class="w-5" src="/assets/images/logo/vnd-icon.svg"
                                  alt="logo-dark-mode">
                         </div>
