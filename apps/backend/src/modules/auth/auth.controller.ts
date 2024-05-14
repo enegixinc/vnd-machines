@@ -13,6 +13,7 @@ import {
   ApiOkResponse,
   ApiOperation,
   ApiResponse,
+  ApiTags,
 } from '@nestjs/swagger';
 import { Public } from './decorators/public.decorator';
 import { LoginDto } from './dto/login.dto';
@@ -21,6 +22,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { UserEntity } from '../users/entities/user.entity';
 import { SerializedUserDto } from '../users/dto/response/serialized-user.dto';
 
+@ApiTags('auth')
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
@@ -88,12 +90,12 @@ export class AuthController {
     const user = await this.authService.me(_id);
     return this.authService.login(user);
   }
-
-  @Get('logout')
-  @ApiBearerAuth('access-token')
-  @UseGuards(AuthGuard('jwt'))
-  @HttpCode(HttpStatus.NO_CONTENT)
-  async logout(@User() { _id }: UserEntity) {
-    return this.authService.logout(_id);
-  }
+  //
+  // @Get('logout')
+  // @ApiBearerAuth('access-token')
+  // @UseGuards(AuthGuard('jwt'))
+  // @HttpCode(HttpStatus.NO_CONTENT)
+  // async logout(@User() { _id }: UserEntity) {
+  //   return this.authService.logout(_id);
+  // }
 }
