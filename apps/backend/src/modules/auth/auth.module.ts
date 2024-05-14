@@ -13,6 +13,7 @@ import { HashingService } from '../../common/hashing/hashing.service';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { LocalStrategy } from './strategies/local.strategy';
 import { PassportModule } from '@nestjs/passport';
+import { RefreshStrategy } from './strategies/refresh.strategy';
 
 @Module({
   controllers: [AuthController],
@@ -23,6 +24,7 @@ import { PassportModule } from '@nestjs/passport';
 
     JwtStrategy,
     LocalStrategy,
+    RefreshStrategy,
   ],
   imports: [
     TypeOrmModule.forFeature([UserEntity]),

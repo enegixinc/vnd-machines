@@ -7,7 +7,13 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { ApiBearerAuth, ApiBody, ApiOkResponse } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiBody,
+  ApiOkResponse,
+  ApiOperation,
+  ApiResponse,
+} from '@nestjs/swagger';
 import { Public } from './decorators/public.decorator';
 import { LoginDto } from './dto/login.dto';
 import { User } from './decorators/user.decorator';
@@ -40,18 +46,54 @@ export class AuthController {
     const user = await this.authService.me(_id);
     return new SerializedUserDto(user);
   }
-  //
-  // @ApiBearerAuth()
-  // @SerializeOptions({
-  //   groups: ['me'],
-  // })
-  // @Post('refresh')
-  // @UseGuards(AuthGuard('jwt-refresh'))
-  // @HttpCode(HttpStatus.OK)
-  // public refresh(@Request() request): Promise<RefreshResponseDto> {
-  //   return this.authService.refreshToken({
-  //     sessionId: request.user.sessionId,
-  //     hash: request.user.hash,
-  //   });
-  // }
+
+  @ApiOperation({
+    summary: 'Refresh access token',
+    operationId: 'refreshToken',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Refresh token',
+    content: {
+      'application/json': {
+        schema: {
+          type: 'object',
+          properties: {
+            accessToken: { type: 'string' },
+            refreshToken: { type: 'string' },
+          },
+        },
+      },
+    },
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Invalid refresh token',
+  })
+  @ApiBody({
+    type: Object,
+    required: true,
+    examples: {
+      Object: {
+        value: {
+          refresh_token: 'string',
+        },
+      },
+    },
+  })
+  @Post('refresh')
+  @Public()
+  @UseGuards(AuthGuard('refresh'))
+  async refresh(@User() { _id }: UserEntity) {
+    const user = await this.authService.me(_id);
+    return this.authService.login(user);
+  }
+
+  @Get('logout')
+  @ApiBearerAuth('access-token')
+  @UseGuards(AuthGuard('jwt'))
+  @HttpCode(HttpStatus.NO_CONTENT)
+  async logout(@User() { _id }: UserEntity) {
+    return this.authService.logout(_id);
+  }
 }

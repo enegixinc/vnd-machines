@@ -5,6 +5,7 @@ import { UsersService } from '../users/users.service';
 import { HashingService } from '../../common/hashing/hashing.service';
 import { RedisService } from '@liaoliaots/nestjs-redis';
 import { UserEntity } from '../users/entities/user.entity';
+import { ConfigService } from '@backend/config';
 
 @Injectable()
 export class AuthService {
@@ -12,7 +13,8 @@ export class AuthService {
     private readonly jwtService: JwtService,
     private readonly userService: UsersService,
     private readonly hashingService: HashingService,
-    private readonly redisService: RedisService
+    private readonly redisService: RedisService,
+    private readonly configService: ConfigService
   ) {}
 
   private async generateTokens(user: UserEntity) {
@@ -21,11 +23,11 @@ export class AuthService {
 
     const accessToken = this.jwtService.sign(atPayload, {
       expiresIn: '5m',
-      secret: process.env.JWT_SECRET,
+      secret: this.configService.get('JWT_ACCESS_SECRET'),
     });
     const refreshToken = this.jwtService.sign(rtPayload, {
       expiresIn: '30d',
-      secret: process.env.JWT_SECRET,
+      secret: this.configService.get('JWT_REFRESH_SECRET'),
     });
 
     return {
@@ -61,6 +63,21 @@ export class AuthService {
     return tokens;
   }
 
+  async validateRefreshToken(userId: string, refreshToken: string) {
+    const redisClient = this.redisService.getClient();
+    const storedRefreshToken = await redisClient.get(`refresh-token:${userId}`);
+
+    if (storedRefreshToken !== refreshToken) {
+      throw new NotFoundException('Invalid refresh token');
+    }
+
+    const user = await this.userService.findOneBy({ _id: userId });
+
+    if (!user) throw new NotFoundException('User not found');
+
+    return user;
+  }
+
   async logout(userId: string) {
     const redisClient = this.redisService.getClient();
     await redisClient.del(`refresh-token:${userId}`);
@@ -72,51 +89,4 @@ export class AuthService {
       relations: ['products', 'categories', 'brands'],
     });
   }
-
-  // @ApiOperation({
-  //   summary: 'Refresh access token',
-  //   operationId: 'refreshToken',
-  // })
-  // @ApiResponse({
-  //   status: 200,
-  //   description: 'Refresh token',
-  //   content: {
-  //     'application/json': {
-  //       schema: {
-  //         type: 'object',
-  //         properties: {
-  //           accessToken: { type: 'string' },
-  //           refreshToken: { type: 'string' },
-  //         },
-  //       },
-  //     },
-  //   },
-  // })
-  // @ApiResponse({
-  //   status: 404,
-  //   description: 'Invalid refresh token',
-  // })
-  // @ApiBearerAuth()
-  // @Post('refresh')
-  // @UseGuards(AuthGuard('jwt-refresh'))
-  // async refresh(@Request() request) {
-  //   const decoded = this.jwtService.decode(request) as { sub: string };
-  //   const redisClient = this.redisService.getClient();
-  //   const storedRefreshToken = await redisClient.get(
-  //     `refresh-token:${decoded.sub}`
-  //   );
-  //
-  //   console.log('storedRefreshToken', storedRefreshToken);
-  //   console.log('request.user', request);
-  //
-  //   // if (storedRefreshToken !== refreshToken) {
-  //   //   throw new NotFoundException('Invalid refresh token');
-  //   // }
-  //   //
-  //   const user = await this.userService.findOneBy({ _id: decoded.sub });
-  //
-  //   if (!user) throw new NotFoundException('User not found');
-  //
-  //   return this.generateTokens(user);
-  // }
 }
