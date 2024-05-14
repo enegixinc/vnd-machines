@@ -92,4 +92,9 @@ export class DatabaseEntity extends BaseEntity implements IDataBaseEntity {
     })
   )
   lastSyncAt: string | null;
+
+  constructor(props: DatabaseEntity) {
+    super();
+    Object.assign(this, props);
+  }
 }

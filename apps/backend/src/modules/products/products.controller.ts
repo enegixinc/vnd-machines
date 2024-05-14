@@ -53,9 +53,9 @@ import { UpdateProductDto } from './dto/request/update-product.dto';
   },
 })
 @Controller('products')
+@ApiBearerAuth('access-token')
 @ApiResponse({ status: 403, description: 'Forbidden.' })
 @ApiTags('products')
-@ApiBearerAuth('JWT-auth')
 export class ProductsController implements CrudController<ProductEntity> {
   constructor(public service: ProductsService) {}
 

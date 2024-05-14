@@ -1,11 +1,12 @@
 import { BeforeInsert, Column, Entity, ManyToMany, OneToMany } from 'typeorm';
 import { IUserEntity, UserRole } from '@core';
+import { Factory } from 'nestjs-seeder';
+import bcrypt from 'bcrypt';
+
 import { DatabaseEntity } from '../../../common/database.entity';
 import { ProductEntity } from '../../products/product.entity';
 import { CategoryEntity } from '../../categories/category.entity';
 import { BrandEntity } from '../../brands/brand.entity';
-import { Factory } from 'nestjs-seeder';
-import bcrypt from 'bcrypt';
 
 @Entity('users')
 export class UserEntity extends DatabaseEntity implements IUserEntity {
@@ -55,7 +56,9 @@ export class UserEntity extends DatabaseEntity implements IUserEntity {
   @Column({ type: 'boolean', default: true })
   active: boolean;
 
-  @OneToMany(() => ProductEntity, (product) => product.suppliers)
+  @OneToMany(() => ProductEntity, (product) => product.suppliers, {
+    eager: true,
+  })
   products: string[];
 
   @ManyToMany(() => BrandEntity, (brand) => brand.suppliers)
