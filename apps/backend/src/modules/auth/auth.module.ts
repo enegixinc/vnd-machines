@@ -1,28 +1,44 @@
 import { Module } from '@nestjs/common';
+import { JwtModule } from '@nestjs/jwt';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { ConfigModule, ConfigService } from '@backend/config';
+import { RedisModule } from '@liaoliaots/nestjs-redis';
+
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { UsersService } from '../users/users.service';
-import { JwtModule } from '@nestjs/jwt';
-import { ConfigModule, ConfigService } from '@backend/config';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserEntity } from '../users/entities/user.entity';
 import { HashingModule } from '../../common/hashing/hashing.module';
 import { HashingService } from '../../common/hashing/hashing.service';
+import { JwtStrategy } from './strategies/jwt.strategy';
+import { LocalStrategy } from './strategies/local.strategy';
+import { PassportModule } from '@nestjs/passport';
 
 @Module({
   controllers: [AuthController],
-  providers: [AuthService, UsersService, HashingService],
+  providers: [
+    AuthService,
+    UsersService,
+    HashingService,
+
+    JwtStrategy,
+    LocalStrategy,
+  ],
   imports: [
     TypeOrmModule.forFeature([UserEntity]),
-    JwtModule.registerAsync({
-      useFactory: (configService: ConfigService) => ({
-        secret: configService.get('JWT_SECRET'),
-        signOptions: { expiresIn: '7d' },
-      }),
-      inject: [ConfigService],
-      imports: [ConfigModule],
-    }),
+    JwtModule,
     HashingModule,
+    PassportModule,
+
+    RedisModule.forRootAsync({
+      useFactory: (configService: ConfigService) => ({
+        config: {
+          url: configService.get('REDIS_URL'),
+        },
+      }),
+      imports: [ConfigModule],
+      inject: [ConfigService],
+    }),
   ],
 })
 export class AuthModule {}

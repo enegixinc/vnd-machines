@@ -33,14 +33,14 @@ async function bootstrap() {
         description: 'Enter JWT token',
         in: 'header',
       },
-      'JWT-auth' // This name here is important for matching up with @ApiBearerAuth() in your controller!
+      'access-token' // This name here is important for matching up with @ApiBearerAuth() in your controller!
     )
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
+  SwaggerModule.setup('/', app, document);
 
   await app.listen(port);
-  Logger.log(`🚀 Application is running on: http://localhost:${port}/${'api'}`);
+  Logger.log(`🚀 Application is running on: http://localhost:${port}/`);
   Logger.log('debug', 'Debugging log');
 }
 

@@ -57,6 +57,7 @@ import { saneOperationsId } from '../../common/swagger.config';
   },
 })
 @Controller('brands')
+@ApiBearerAuth('access-token')
 @ApiResponse({ status: 403, description: 'Forbidden.' })
 @ApiTags('brands')
 @ApiBearerAuth('JWT-auth')
