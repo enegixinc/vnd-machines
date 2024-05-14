@@ -52,9 +52,12 @@ import { saneOperationsId } from '../../common/swagger.config';
   },
   serialize: {
     get: SerializedBrandDto,
+    create: SerializedBrandDto,
+    update: SerializedBrandDto,
   },
 })
 @Controller('brands')
+@ApiBearerAuth('access-token')
 @ApiResponse({ status: 403, description: 'Forbidden.' })
 @ApiTags('brands')
 @ApiBearerAuth('JWT-auth')

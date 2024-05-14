@@ -73,6 +73,7 @@ export class DatabaseEntity extends BaseEntity implements IDataBaseEntity {
     ApiProperty({
       example: '2021-07-01T00:00:00.000Z',
       type: 'date',
+      nullable: true,
     })
   )
   deletedAt: string | null;
@@ -81,14 +82,19 @@ export class DatabaseEntity extends BaseEntity implements IDataBaseEntity {
     Column({
       type: 'date',
       nullable: true,
-      default: () => 'CURRENT_TIMESTAMP',
     })
   )
   @decorate(
     ApiProperty({
       example: '2021-07-01T00:00:00.000Z',
       type: 'date',
+      nullable: true,
     })
   )
-  lastSyncAt: string;
+  lastSyncAt: string | null;
+
+  constructor(props: DatabaseEntity) {
+    super();
+    Object.assign(this, props);
+  }
 }

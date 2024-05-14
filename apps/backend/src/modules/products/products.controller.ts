@@ -48,12 +48,14 @@ import { UpdateProductDto } from './dto/request/update-product.dto';
   },
   serialize: {
     get: SerializedProductDto,
+    create: SerializedProductDto,
+    update: SerializedProductDto,
   },
 })
 @Controller('products')
+@ApiBearerAuth('access-token')
 @ApiResponse({ status: 403, description: 'Forbidden.' })
 @ApiTags('products')
-@ApiBearerAuth('JWT-auth')
 export class ProductsController implements CrudController<ProductEntity> {
   constructor(public service: ProductsService) {}
 

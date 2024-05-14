@@ -52,12 +52,14 @@ import { saneOperationsId } from '../../common/swagger.config';
   },
   serialize: {
     get: SerializedCategoryDto,
+    create: SerializedCategoryDto,
+    update: SerializedCategoryDto,
   },
 })
 @Controller('categories')
+@ApiBearerAuth('access-token')
 @ApiResponse({ status: 403, description: 'Forbidden.' })
 @ApiTags('categories')
-@ApiBearerAuth('JWT-auth')
 export class CategoriesController implements CrudController<CategoryEntity> {
   constructor(public service: CategoriesService) {}
 
