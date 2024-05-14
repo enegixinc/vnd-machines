@@ -18,9 +18,9 @@ import { CategoryEntity } from '../categories/category.entity';
 
 @Entity('products')
 export class ProductEntity extends DatabaseEntity implements IProductEntity {
-  @Factory((faker) => ({
-    _id: faker.database.mongodbObjectId(),
-  }))
+  // @Factory((faker) => ({
+  //   _id: faker.database.mongodbObjectId(),
+  // }))
   @ManyToOne(() => UserEntity, (user) => user.products, {})
   suppliers: ReferenceByID<ISerializedUser>[];
 
