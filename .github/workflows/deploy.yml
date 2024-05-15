@@ -42,7 +42,6 @@ jobs:
       - name: Install dependencies
         run: pnpm install && pnpm install -g nx
 
-      - uses: nrwl/nx-set-shas@v4
 
       - run: |
           git fetch origin
@@ -59,8 +58,9 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
+      - uses: nrwl/nx-set-shas@v4
       - name: Deploy Affected Projects
-        run: nx affected -t=deploy --base=${{ github.ref_name }} --args="--DEV_FRONTEND_COOLIFY_WEBHOOK=${{ secrets.DEV_FRONTEND_COOLIFY_WEBHOOK }} --DEV_BACKEND_COOLIFY_WEBHOOK=${{ secrets.DEV_BACKEND_COOLIFY_WEBHOOK }} --COOLIFY_TOKEN=${{ secrets.COOLIFY_TOKEN }}"
+        run: nx affected -t=deploy --args="--DEV_FRONTEND_COOLIFY_WEBHOOK=${{ secrets.DEV_FRONTEND_COOLIFY_WEBHOOK }} --DEV_BACKEND_COOLIFY_WEBHOOK=${{ secrets.DEV_BACKEND_COOLIFY_WEBHOOK }} --COOLIFY_TOKEN=${{ secrets.COOLIFY_TOKEN }}"
 
 #      - name: Notify Coolify
 #        run: |
