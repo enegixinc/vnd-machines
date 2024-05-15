@@ -64,7 +64,7 @@ jobs:
         if: github.ref_name == 'main' || github.ref_name == 'staging' || github.ref_name == 'dev'
         run: |
           echo "Finding affected projects..."
-          affected=$(nx affected:apps --plain --base=${{ github.ref_name }} --head=HEAD)
+          affected=$(nx show projects --affected --base=${{ github.ref_name }})
           echo "Affected projects: $affected"
           echo "::set-output name=projects::$affected"
 
