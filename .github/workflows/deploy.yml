@@ -52,7 +52,6 @@ jobs:
             echo "Branch 'main' already exists. Skipping branch creation."
           fi
 
-
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         id: login_to_docker_hub
@@ -60,17 +59,18 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Deploy Affected Projects
-        run: nx affected --target=deploy --configuration=${{ github.ref_name }}
-
-      - name: Determine Deployable Projects
+      - name: Determine Affected Projects
         id: affected_projects
+        if: github.ref_name == 'main' || github.ref_name == 'staging' || github.ref_name == 'dev'
         run: |
           echo "Finding affected projects..."
-          affected=$(nx show projects --affected --base=main)
+          affected=$(nx show projects --affected --base=${{ github.ref_name }}) --head=HEAD)
           echo "::set-output name=projects::$affected"
 
-      - name: Deploy projects
+      - name: Deploy Affected Projects
+        run: nx run-many --target=deploy --projects=${{ steps.affected_projects.outputs.projects }}
+
+      - name: Notify Coolify
         run: |
           echo "Deploying affected projects: ${{ steps.affected_projects.outputs.projects }}" |
             for project in ${{ steps.affected_projects.outputs.projects }}; do
