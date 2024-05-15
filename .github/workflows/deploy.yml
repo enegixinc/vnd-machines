@@ -51,6 +51,10 @@ jobs:
           else
             echo "Branch 'main' already exists. Skipping branch creation."
           fi
+
+
+
+
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         id: login_to_docker_hub
@@ -58,18 +62,34 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Deploy affected projects - DEV
-        if: github.event.inputs.environment == 'development' || github.ref_name == 'dev'
-        run: npx nx affected --target=deploy --configuration=dev
-
-      - name: Deploy affected projects - STAGING
-        if: github.event.inputs.environment == 'development' || github.ref_name == 'staging'
-        run: npx nx affected --target=deploy --configuration=staging
 
 
-      - name: Deploy affected projects - PROD
-        if: github.event.inputs.environment == 'production' || github.ref_name == 'main'
-        run: npx nx affected --target=deploy --configuration=production
+      - name: Deploy affected projects
+        if: github.ref_name == 'dev' || github.ref_name == 'staging' || github.ref_name == 'main'
+        run: |
+          pnpx nx affected --target=deploy --configuration=${{ github.ref_name }} --parallel |
+          projects=$(pnpx nx show projects --affected --base=${{ github.ref_name }} --head=HEAD) &&
+          echo "$projects" | while IFS= read -r project; do
+            case $project in
+              "frontend")
+                echo "Deploying frontend..."
+          curl -X POST \
+            -H "Authorization: Bearer ${{ secrets.COOLIFY_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            ${{ secrets.DEV_FRONTEND_COOLIFY_WEBHOOK }}
+                ;;
+              "backend")
+                echo "Deploying backend..."
+          curl -X POST \
+            -H "Authorization: Bearer ${{ secrets.COOLIFY_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            ${{ secrets.DEV_BACKEND_COOLIFY_WEBHOOK }}
+                ;;
+              *)
+                echo "Skipping deployment for $project..."
+                ;;
+            esac
+          done
 
 #      - name: Notify Slack
 #        run: |
