@@ -1,7 +1,7 @@
 import { RouteRecordRaw } from 'vue-router';
 export const authLinks :RouteRecordRaw[] = [
     {
-        path: '/auth/signin',
+        path: '/login',
         name: 'signin',
         component: () => import('@/pages/auth/signin/TheIndex.vue'),
         meta: { layout: 'auth' },
@@ -13,7 +13,7 @@ export const authLinks :RouteRecordRaw[] = [
         meta: { layout: 'auth' },
     },
     {
-        path: '/auth/password-reset',
+        path: '/forgetPassword',
         name: 'password-reset',
         component: () => import('@/pages/auth/passwordReset/TheIndex.vue'),
         meta: { layout: 'auth' },
