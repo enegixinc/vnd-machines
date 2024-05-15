@@ -65,6 +65,7 @@ jobs:
         run: |
           echo "Finding affected projects..."
           affected=$(nx affected:apps --plain --base=${{ github.ref_name }} --head=HEAD)
+          echo "Affected projects: $affected"
           echo "::set-output name=projects::$affected"
 
       - name: Deploy Affected Projects
