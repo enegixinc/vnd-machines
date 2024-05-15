@@ -11,7 +11,7 @@
           "options": {
               "parallel": false,
               "commands": [
-                  "docker build -f apps/frontend/Dockerfile . -t {args.DockerContainerRegistry}",
+                  "docker build -f apps/frontend/Dockerfile . -t abdelrahmanessawy/vnd-frontend-dev",
                   "docker push {args.DockerContainerRegistry}",
                   "curl -X POST -H 'Authorization: Bearer {args.COOLIFY_TOKEN}' {args.DEV_FRONTEND_COOLIFY_WEBHOOK}"
               ]

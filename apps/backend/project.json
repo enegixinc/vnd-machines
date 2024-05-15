@@ -69,7 +69,7 @@
       "options": {
         "parallel": false,
         "commands": [
-          "docker build -f apps/backend/Dockerfile . -t {args.DockerContainerRegistry}",
+          "docker build -f apps/backend/Dockerfile . -t abdelrahmanessawy/vnd-backend-dev",
           "docker push {args.DockerContainerRegistry}",
           "curl -X POST -H 'Authorization: Bearer {args.COOLIFY_TOKEN}' {args.DEV_BACKEND_COOLIFY_WEBHOOK}"
         ]
