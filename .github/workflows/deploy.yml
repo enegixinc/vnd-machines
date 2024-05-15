@@ -53,8 +53,6 @@ jobs:
           fi
 
 
-
-
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         id: login_to_docker_hub
@@ -62,34 +60,34 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
+      - name: Deploy Affected Projects
+        run: nx affected --target=deploy --configuration=${{ github.ref_name }}
 
-
-      - name: Deploy affected projects
-        if: github.ref_name == 'dev' || github.ref_name == 'staging' || github.ref_name == 'main'
+      - name: Determine Deployable Projects
+        id: affected_projects
         run: |
-          pnpx nx affected --target=deploy --configuration=${{ github.ref_name }} --parallel |
-          projects=$(pnpx nx show projects --affected --base=${{ github.ref_name }} --head=HEAD) &&
-          echo "$projects" | while IFS= read -r project; do
+          echo "Finding affected projects..."
+          affected=$(nx show projects --affected --base=main)
+          echo "::set-output name=projects::$affected"
+
+      - name: Deploy projects
+        run: |
+          echo "Deploying affected projects..."
+          for project in ${{ steps.affected_projects.outputs.projects }}; do
             case $project in
               "frontend")
                 echo "Deploying frontend..."
-          curl -X POST \
-            -H "Authorization: Bearer ${{ secrets.COOLIFY_TOKEN }}" \
-            -H "Content-Type: application/json" \
-            ${{ secrets.DEV_FRONTEND_COOLIFY_WEBHOOK }}
+                curl -X POST -H "Authorization: Bearer ${{ secrets.COOLIFY_TOKEN }}" -H "Content-Type: application/json" ${{ secrets.DEV_FRONTEND_COOLIFY_WEBHOOK }}
                 ;;
               "backend")
                 echo "Deploying backend..."
-          curl -X POST \
-            -H "Authorization: Bearer ${{ secrets.COOLIFY_TOKEN }}" \
-            -H "Content-Type: application/json" \
-            ${{ secrets.DEV_BACKEND_COOLIFY_WEBHOOK }}
+                curl -X POST -H "Authorization: Bearer ${{ secrets.COOLIFY_TOKEN }}" -H "Content-Type: application/json" ${{ secrets.DEV_BACKEND_COOLIFY_WEBHOOK }}
                 ;;
               *)
                 echo "Skipping deployment for $project..."
                 ;;
             esac
-          done
+          donee
 
 #      - name: Notify Slack
 #        run: |
