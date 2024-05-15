@@ -37,6 +37,7 @@ seeder({
       BrandEntity,
       CategoryEntity,
       DatabaseEntity,
+      // change
     ]),
     ConfigModule,
   ],
