@@ -6,11 +6,11 @@
                 <div class="flex justify-between items-center px-4 py-3">
                     <router-link to="/" class="main-logo flex items-center shrink-0">
                         <div class="large-icon">
-                             <img class="w-24 flex-none inline dark:hidden "
-                                  src="/assets/images/logo/vnd-logo-color.svg"
-                                  alt="logo-light-mode">
-                             <img class="w-24 flex-none hidden dark:inline" src="/assets/images/logo/vnd-logo-white.svg"
-                             alt="logo-dark-mode">
+                            <img class="w-24 flex-none inline dark:hidden "
+                                 src="/assets/images/logo/vnd-logo-color.svg"
+                                 alt="logo-light-mode">
+                            <img class="w-24 flex-none hidden dark:inline" src="/assets/images/logo/vnd-logo-white.svg"
+                                 alt="logo-dark-mode">
                         </div>
                         <div class="hidden icon-image w-[38px] text-center">
                             <img class="w-5" src="/assets/images/logo/vnd-icon.svg"
@@ -54,29 +54,23 @@
                             <vue-collapsible :isOpen="activeDropdown === 'dashboard'">
                                 <ul class="sub-menu text-gray-500">
                                     <li>
-                                        <router-link :to="{name:'users'}" @click="toggleMobileMenu">{{
-                                                $t('users')
-                                            }}
-                                        </router-link>
-                                    </li>
-                                    <li>
                                         <router-link to="/" @click="toggleMobileMenu">{{ $t('sales') }}</router-link>
                                     </li>
                                     <li>
                                         <router-link to="/analytics" @click="toggleMobileMenu">{{
-                                                $t('analytics')
+                                            $t('analytics')
                                             }}
                                         </router-link>
                                     </li>
                                     <li>
                                         <router-link to="/finance" @click="toggleMobileMenu">{{
-                                                $t('finance')
+                                            $t('finance')
                                             }}
                                         </router-link>
                                     </li>
                                     <li>
                                         <router-link to="/crypto" @click="toggleMobileMenu">{{
-                                                $t('crypto')
+                                            $t('crypto')
                                             }}
                                         </router-link>
                                     </li>
@@ -84,6 +78,69 @@
                             </vue-collapsible>
                         </li>
 
+                        <li class="nav-item">
+                            <ul>
+                                <li class="menu nav-item">
+                                    <button
+                                        type="button"
+                                        class="nav-link group w-full"
+                                        :class="{ active: activeDropdown === 'users' }"
+                                        @click="activeDropdown === 'users' ? (activeDropdown = null) : (activeDropdown = 'users')"
+                                    >
+                                        <div class="flex items-center">
+                                            <icon-menu-users class="group-hover:!text-primary shrink-0"/>
+
+                                            <span
+                                                class="ltr:pl-3 rtl:pr-3 text-black dark:text-[#506690] dark:group-hover:text-white-dark">{{
+                                                    $t('users')
+                                                }}</span>
+                                        </div>
+                                        <div :class="{ 'rtl:rotate-90 -rotate-90': activeDropdown !== 'users' }">
+                                            <icon-caret-down/>
+                                        </div>
+                                    </button>
+                                    <vue-collapsible :isOpen="activeDropdown === 'users'">
+                                        <ul class="sub-menu text-gray-500">
+                                            <li>
+                                                <router-link :to="{name:'users'}" @click="toggleMobileMenu">{{
+                                                    $t('users')
+                                                    }}
+                                                </router-link>
+                                            </li>
+                                            <li>
+                                                <router-link to="/suppliers" @click="toggleMobileMenu">{{
+                                                    $t('usersPages.suppliers')
+                                                    }}
+                                                </router-link>
+                                            </li>
+                                            <li>
+                                                <router-link to="/suppliers" @click="toggleMobileMenu">{{
+                                                    $t('usersPages.deletedUsers')
+                                                    }}
+                                                </router-link>
+                                            </li>
+                                            <li>
+                                                <router-link to="/suppliers" @click="toggleMobileMenu">{{
+                                                    $t('usersPages.addUser')
+                                                    }}
+                                                </router-link>
+                                            </li>
+                                            <li>
+                                                <router-link to="/users/profile" @click="toggleMobileMenu">{{
+                                                    $t('usersPages.profile')
+                                                    }}
+                                                </router-link>
+                                            </li>
+                                            <li>
+                                                <router-link to="/users/user-account-settings" @click="toggleMobileMenu">
+                                                    {{ $t('usersPages.account_settings') }}
+                                                </router-link>
+                                            </li>
+                                        </ul>
+                                    </vue-collapsible>
+                                </li>
+                            </ul>
+                        </li>
                         <h2 class="py-3 px-7 flex items-center uppercase font-extrabold bg-white-light/30 dark:bg-dark dark:bg-opacity-[0.08] -mx-4 mb-1">
                             <icon-minus class="w-4 h-5 flex-none hidden"/>
                             <span>{{ $t('users') }}</span>
@@ -252,7 +309,7 @@
                                 <ul class="sub-menu text-gray-500">
                                     <li>
                                         <router-link to="/components/tabs" @click="toggleMobileMenu">{{
-                                                $t('tabs')
+                                            $t('tabs')
                                             }}
                                         </router-link>
                                     </li>
@@ -263,13 +320,13 @@
                                     </li>
                                     <li>
                                         <router-link to="/components/modals" @click="toggleMobileMenu">{{
-                                                $t('modals')
+                                            $t('modals')
                                             }}
                                         </router-link>
                                     </li>
                                     <li>
                                         <router-link to="/components/cards" @click="toggleMobileMenu">{{
-                                                $t('cards')
+                                            $t('cards')
                                             }}
                                         </router-link>
                                     </li>
@@ -285,7 +342,7 @@
                                     </li>
                                     <li>
                                         <router-link to="/components/counter" @click="toggleMobileMenu">{{
-                                                $t('counter')
+                                            $t('counter')
                                             }}
                                         </router-link>
                                     </li>
@@ -351,19 +408,19 @@
                                 <ul class="sub-menu text-gray-500">
                                     <li>
                                         <router-link to="/elements/alerts" @click="toggleMobileMenu">{{
-                                                $t('alerts')
+                                            $t('alerts')
                                             }}
                                         </router-link>
                                     </li>
                                     <li>
                                         <router-link to="/elements/avatar" @click="toggleMobileMenu">{{
-                                                $t('avatar')
+                                            $t('avatar')
                                             }}
                                         </router-link>
                                     </li>
                                     <li>
                                         <router-link to="/elements/badges" @click="toggleMobileMenu">{{
-                                                $t('badges')
+                                            $t('badges')
                                             }}
                                         </router-link>
                                     </li>
@@ -374,7 +431,7 @@
                                     </li>
                                     <li>
                                         <router-link to="/elements/buttons" @click="toggleMobileMenu">{{
-                                                $t('buttons')
+                                            $t('buttons')
                                             }}
                                         </router-link>
                                     </li>
@@ -390,13 +447,13 @@
                                     </li>
                                     <li>
                                         <router-link to="/elements/dropdown" @click="toggleMobileMenu">{{
-                                                $t('dropdown')
+                                            $t('dropdown')
                                             }}
                                         </router-link>
                                     </li>
                                     <li>
                                         <router-link to="/elements/infobox" @click="toggleMobileMenu">{{
-                                                $t('infobox')
+                                            $t('infobox')
                                             }}
                                         </router-link>
                                     </li>
@@ -407,7 +464,7 @@
                                     </li>
                                     <li>
                                         <router-link to="/elements/loader" @click="toggleMobileMenu">{{
-                                                $t('loader')
+                                            $t('loader')
                                             }}
                                         </router-link>
                                     </li>
@@ -418,7 +475,7 @@
                                     </li>
                                     <li>
                                         <router-link to="/elements/popovers" @click="toggleMobileMenu">{{
-                                                $t('popovers')
+                                            $t('popovers')
                                             }}
                                         </router-link>
                                     </li>
@@ -429,19 +486,19 @@
                                     </li>
                                     <li>
                                         <router-link to="/elements/search" @click="toggleMobileMenu">{{
-                                                $t('search')
+                                            $t('search')
                                             }}
                                         </router-link>
                                     </li>
                                     <li>
                                         <router-link to="/elements/tooltips" @click="toggleMobileMenu">{{
-                                                $t('tooltips')
+                                            $t('tooltips')
                                             }}
                                         </router-link>
                                     </li>
                                     <li>
                                         <router-link to="/elements/treeview" @click="toggleMobileMenu">{{
-                                                $t('treeview')
+                                            $t('treeview')
                                             }}
                                         </router-link>
                                     </li>
@@ -547,7 +604,7 @@
                                 <ul class="sub-menu text-gray-500">
                                     <li>
                                         <router-link to="/datatables/basic" @click="toggleMobileMenu">{{
-                                                $t('basic')
+                                            $t('basic')
                                             }}
                                         </router-link>
                                     </li>
@@ -558,7 +615,7 @@
                                     </li>
                                     <li>
                                         <router-link to="/datatables/skin" @click="toggleMobileMenu">{{
-                                                $t('skin')
+                                            $t('skin')
                                             }}
                                         </router-link>
                                     </li>
@@ -599,7 +656,7 @@
                                     </li>
                                     <li>
                                         <router-link to="/datatables/export" @click="toggleMobileMenu">{{
-                                                $t('export')
+                                            $t('export')
                                             }}
                                         </router-link>
                                     </li>
@@ -645,7 +702,7 @@
                                 <ul class="sub-menu text-gray-500">
                                     <li>
                                         <router-link to="/forms/basic" @click="toggleMobileMenu">{{
-                                                $t('basic')
+                                            $t('basic')
                                             }}
                                         </router-link>
                                     </li>
@@ -656,7 +713,7 @@
                                     </li>
                                     <li>
                                         <router-link to="/forms/layouts" @click="toggleMobileMenu">{{
-                                                $t('layouts')
+                                            $t('layouts')
                                             }}
                                         </router-link>
                                     </li>
@@ -672,13 +729,13 @@
                                     </li>
                                     <li>
                                         <router-link to="/forms/select2" @click="toggleMobileMenu">{{
-                                                $t('select2')
+                                            $t('select2')
                                             }}
                                         </router-link>
                                     </li>
                                     <li>
                                         <router-link to="/forms/touchspin" @click="toggleMobileMenu">{{
-                                                $t('touchspin')
+                                            $t('touchspin')
                                             }}
                                         </router-link>
                                     </li>
@@ -689,13 +746,13 @@
                                     </li>
                                     <li>
                                         <router-link to="/forms/switches" @click="toggleMobileMenu">{{
-                                                $t('switches')
+                                            $t('switches')
                                             }}
                                         </router-link>
                                     </li>
                                     <li>
                                         <router-link to="/forms/wizards" @click="toggleMobileMenu">{{
-                                                $t('wizards')
+                                            $t('wizards')
                                             }}
                                         </router-link>
                                     </li>
@@ -721,7 +778,7 @@
                                     </li>
                                     <li>
                                         <router-link to="/forms/clipboard" @click="toggleMobileMenu">{{
-                                                $t('clipboard')
+                                            $t('clipboard')
                                             }}
                                         </router-link>
                                     </li>
@@ -734,41 +791,7 @@
                             <span>{{ $t('user_and_pages') }}</span>
                         </h2>
 
-                        <li class="menu nav-item">
-                            <button
-                                type="button"
-                                class="nav-link group w-full"
-                                :class="{ active: activeDropdown === 'users' }"
-                                @click="activeDropdown === 'users' ? (activeDropdown = null) : (activeDropdown = 'users')"
-                            >
-                                <div class="flex items-center">
-                                    <icon-menu-users class="group-hover:!text-primary shrink-0"/>
 
-                                    <span
-                                        class="ltr:pl-3 rtl:pr-3 text-black dark:text-[#506690] dark:group-hover:text-white-dark">{{
-                                            $t('users')
-                                        }}</span>
-                                </div>
-                                <div :class="{ 'rtl:rotate-90 -rotate-90': activeDropdown !== 'users' }">
-                                    <icon-caret-down/>
-                                </div>
-                            </button>
-                            <vue-collapsible :isOpen="activeDropdown === 'users'">
-                                <ul class="sub-menu text-gray-500">
-                                    <li>
-                                        <router-link to="/users/profile" @click="toggleMobileMenu">{{
-                                                $t('profile')
-                                            }}
-                                        </router-link>
-                                    </li>
-                                    <li>
-                                        <router-link to="/users/user-account-settings" @click="toggleMobileMenu">
-                                            {{ $t('account_settings') }}
-                                        </router-link>
-                                    </li>
-                                </ul>
-                            </vue-collapsible>
-                        </li>
 
                         <li class="menu nav-item">
                             <button
@@ -808,7 +831,7 @@
                                     </li>
                                     <li>
                                         <router-link to="/pages/faq" @click="toggleMobileMenu">{{
-                                                $t('faq')
+                                            $t('faq')
                                             }}
                                         </router-link>
                                     </li>
@@ -839,19 +862,19 @@
                                             <ul :unmount="false" class="sub-menu text-gray-500">
                                                 <li @click="toggleMobileMenu">
                                                     <router-link to="/pages/error404" target="_blank">{{
-                                                            $t('404')
+                                                        $t('404')
                                                         }}
                                                     </router-link>
                                                 </li>
                                                 <li @click="toggleMobileMenu">
                                                     <router-link to="/pages/error500" target="_blank">{{
-                                                            $t('500')
+                                                        $t('500')
                                                         }}
                                                     </router-link>
                                                 </li>
                                                 <li @click="toggleMobileMenu">
                                                     <router-link to="/pages/error503" target="_blank">{{
-                                                            $t('503')
+                                                        $t('503')
                                                         }}
                                                     </router-link>
                                                 </li>
@@ -860,7 +883,7 @@
                                     </li>
                                     <li>
                                         <router-link to="/pages/maintenence" target="_blank">{{
-                                                $t('maintenence')
+                                            $t('maintenence')
                                             }}
                                         </router-link>
                                     </li>
@@ -891,13 +914,13 @@
                                 <ul class="sub-menu text-gray-500">
                                     <li @click="toggleMobileMenu">
                                         <router-link :to="{name:'signin'}" target="_blank">{{
-                                                $t('login_boxed')
+                                            $t('login_boxed')
                                             }}
                                         </router-link>
                                     </li>
                                     <li @click="toggleMobileMenu">
                                         <router-link :to="{name:'signup'}" target="_blank">{{
-                                                $t('register_boxed')
+                                            $t('register_boxed')
                                             }}
                                         </router-link>
                                     </li>
@@ -965,7 +988,8 @@ import IconMenuUsers from '@/components/icon/menu/icon-menu-users.vue';
 import IconMenuPages from '@/components/icon/menu/icon-menu-pages.vue';
 import IconMenuAuthentication from '@/components/icon/menu/icon-menu-authentication.vue';
 import IconMenuDocumentation from '@/components/icon/menu/icon-menu-documentation.vue';
-
+// --------new
+import IconUser from "@/components/icon/icon-user.vue";
 const store = useAppStore();
 const activeDropdown: any = ref('');
 const subActive: any = ref('');
