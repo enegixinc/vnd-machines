@@ -69,9 +69,8 @@
       "options": {
         "parallel": false,
         "commands": [
-          "docker build -f apps/backend/Dockerfile . -t abdelrahmanessawy/vnd-backend-dev",
-          "docker push {args.DockerContainerRegistry}",
-          "curl -X POST -H 'Authorization: Bearer {args.COOLIFY_TOKEN}' {args.DEV_BACKEND_COOLIFY_WEBHOOK}"
+          "docker build -f apps/backend/Dockerfile . -t {args.DockerContainerRegistry}",
+          "docker push {args.DockerContainerRegistry}"
         ]
       },
       "configurations": {
@@ -84,6 +83,14 @@
         "production": {
           "DockerContainerRegistry": "abdelrahmanessawy/vnd-backend-production"
         }
+      }
+    },
+    "notify": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "curl -X POST -H 'Authorization: Bearer {args.COOLIFY_TOKEN}' {args.DEV_BACKEND_COOLIFY_WEBHOOK}"
+        ]
       }
     }
   }
