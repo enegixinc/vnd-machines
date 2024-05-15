@@ -60,7 +60,9 @@ jobs:
 
       - uses: nrwl/nx-set-shas@v4
       - name: Deploy Affected Projects
-        run: nx affected -t=deploy,notify --args="--DEV_FRONTEND_COOLIFY_WEBHOOK=${{ secrets.DEV_FRONTEND_COOLIFY_WEBHOOK }} --DEV_BACKEND_COOLIFY_WEBHOOK=${{ secrets.DEV_BACKEND_COOLIFY_WEBHOOK }} --COOLIFY_TOKEN=${{ secrets.COOLIFY_TOKEN }}" --parallel=false
+        run: |
+          nx affected -t=deploy
+          nx affected -t=notify --args="--DEV_FRONTEND_COOLIFY_WEBHOOK=${{ secrets.DEV_FRONTEND_COOLIFY_WEBHOOK }} --DEV_BACKEND_COOLIFY_WEBHOOK=${{ secrets.DEV_BACKEND_COOLIFY_WEBHOOK }} --COOLIFY_TOKEN=${{ secrets.COOLIFY_TOKEN }}"
 
 #      - name: Notify Coolify
 #        run: |
