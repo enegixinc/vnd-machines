@@ -89,7 +89,7 @@
       "executor": "nx:run-commands",
       "options": {
         "commands": [
-          "curl -X GET -H 'Authorization: Bearer {args.COOLIFY_TOKEN}' {args.DEV_BACKEND_COOLIFY_WEBHOOK}"
+          "curl -X GET -H 'Authorization: Bearer {args.COOLIFY_TOKEN} {args.DEV_BACKEND_COOLIFY_WEBHOOK}"
         ]
       }
     }
