@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-import axios from 'axios';
-import { Command } from 'commander';
+const axios = require('axios');
+const { Command } = require('commander');
 
 const program = new Command();
 program
