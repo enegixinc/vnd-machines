@@ -21,6 +21,7 @@ export class ProductEntity extends DatabaseEntity implements IProductEntity {
   // @Factory((faker) => ({
   //   _id: faker.database.mongodbObjectId(),
   // }))
+  //
   @ManyToOne(() => UserEntity, (user) => user.products, {})
   suppliers: ReferenceByID<ISerializedUser>[];
 
