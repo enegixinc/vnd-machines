@@ -31,7 +31,7 @@
           "executor": "nx:run-commands",
           "options": {
               "commands": [
-                  "curl -X POST -H 'Authorization: Bearer {args.COOLIFY_TOKEN}' {args.DEV_FRONTEND_COOLIFY_WEBHOOK}"
+                  "curl -X GET -H 'Authorization: Bearer {args.COOLIFY_TOKEN}' {args.DEV_FRONTEND_COOLIFY_WEBHOOK}"
               ]
           }
       }
