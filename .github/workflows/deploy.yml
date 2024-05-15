@@ -63,8 +63,8 @@ jobs:
         id: affected_projects
         if: github.ref_name == 'main' || github.ref_name == 'staging' || github.ref_name == 'dev'
         run: |
-          echo "Finding affected projects..." |
-          affected=$(nx show projects --affected --base=${{ github.ref_name }}) --head=HEAD) |
+          echo "Finding affected projects..."
+          affected=$(nx affected:apps --plain --base=${{ github.ref_name }} --head=HEAD)
           echo "::set-output name=projects::$affected"
 
       - name: Deploy Affected Projects
