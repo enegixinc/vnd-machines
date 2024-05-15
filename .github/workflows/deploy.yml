@@ -72,22 +72,19 @@ jobs:
 
       - name: Deploy projects
         run: |
-          echo "Deploying affected projects..."
-          for project in ${{ steps.affected_projects.outputs.projects }}; do
-            case $project in
-              "frontend")
-                echo "Deploying frontend..."
+          echo "Deploying affected projects: ${{ steps.affected_projects.outputs.projects }}" |
+            for project in ${{ steps.affected_projects.outputs.projects }}; do
+              if [[ $project == *"frontend"* ]]; then
+                echo "Deploying frontend project: $project"
                 curl -X POST -H "Authorization: Bearer ${{ secrets.COOLIFY_TOKEN }}" -H "Content-Type: application/json" ${{ secrets.DEV_FRONTEND_COOLIFY_WEBHOOK }}
-                ;;
-              "backend")
-                echo "Deploying backend..."
-                curl -X POST -H "Authorization: Bearer ${{ secrets.COOLIFY_TOKEN }}" -H "Content-Type: application/json" ${{ secrets.DEV_BACKEND_COOLIFY_WEBHOOK }}
-                ;;
-              *)
-                echo "Skipping deployment for $project..."
-                ;;
-            esac
-          donee
+                fi
+                if [[ $project == *"backend"* ]]; then
+                    echo "Deploying backend project: $project"
+                    curl -X POST -H "Authorization: Bearer ${{ secrets.COOLIFY_TOKEN }}" -H "Content-Type: application/json" ${{ secrets.DEV_BACKEND_COOLIFY_WEBHOOK }}
+                    fi
+            done
+
+
 
 #      - name: Notify Slack
 #        run: |
