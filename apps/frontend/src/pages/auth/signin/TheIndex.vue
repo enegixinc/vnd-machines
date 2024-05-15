@@ -141,10 +141,7 @@ import { useMeta } from '@/composables/use-meta';
 import IconCaretDown from '@/components/icon/icon-caret-down.vue';
 import IconMail from '@/components/icon/icon-mail.vue';
 import IconLockDots from '@/components/icon/icon-lock-dots.vue';
-import IconInstagram from '@/components/icon/icon-instagram.vue';
-import IconFacebookCircle from '@/components/icon/icon-facebook-circle.vue';
-import IconTwitter from '@/components/icon/icon-twitter.vue';
-import IconGoogle from '@/components/icon/icon-google.vue';
+
 
 useMeta({ title: 'Login' });
 const router = useRouter();
