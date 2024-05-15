@@ -20,9 +20,9 @@
                         class="absolute inset-y-0 w-8 from-primary/10 via-transparent to-transparent ltr:-right-10 ltr:bg-gradient-to-r rtl:-left-10 rtl:bg-gradient-to-l xl:w-16 ltr:xl:-right-20 rtl:xl:-left-20"
                     ></div>
                     <div class="ltr:xl:-skew-x-[14deg] rtl:xl:skew-x-[14deg]">
-                        <router-link to="/" class="w-48 block lg:w-72 ms-10">
-                            <img src="/assets/images/auth/logo-white.svg" alt="Logo" class="w-full" />
-                        </router-link>
+                        <div  class="w-48 block lg:w-72 ms-10">
+                            <img src="/assets/images/logo/vnd-allwhite.svg" alt="Logo" class="w-full" />
+                        </div>
                         <div class="mt-24 hidden w-full max-w-[430px] lg:block">
                             <img src="/assets/images/auth/login.svg" alt="Cover Image" class="w-full" />
                         </div>
@@ -42,7 +42,7 @@
                                     <div>
                                         <img :src="currentFlag" alt="image" class="h-5 w-5 rounded-full object-cover" />
                                     </div>
-                                    <div class="text-base font-bold uppercase">{{ store.locale }}</div>
+                                    <div class="text-base font-bold uppercase">{{ store.locale === 'eg'? 'ar' : store.locale }}</div>
                                     <span class="shrink-0">
                                         <icon-caret-down />
                                     </span>
@@ -62,7 +62,7 @@
                                                         :src="`/assets/images/flags/${item.code.toUpperCase()}.svg`"
                                                         alt=""
                                                     />
-                                                    <span class="ltr:ml-3 rtl:mr-3">{{ item.name }}</span>
+                                                    <span class="ltr:ml-3 rtl:mr-3">{{ $t(`languages.${item.name}`) }}</span>
                                                 </button>
                                             </li>
                                         </template>
@@ -73,98 +73,65 @@
                     </div>
                     <div class="w-full max-w-[440px] lg:mt-16">
                         <div class="mb-10">
-                            <h1 class="text-3xl font-extrabold uppercase !leading-snug text-primary md:text-4xl">Sign in</h1>
-                            <p class="text-base font-bold leading-normal text-white-dark">Enter your email and password to login</p>
+                            <h1 class="text-3xl font-extrabold uppercase !leading-snug text-primary md:text-4xl">{{$t('authPages.signIn')}}</h1>
+                            <p class="text-base font-bold leading-normal text-white-dark">{{$t('authPages.enterYourEmailAndPasswordToLogin')}}</p>
                         </div>
                         <form class="space-y-5 dark:text-white" @submit.prevent="router.push({name:'home'})">
                             <div>
-                                <label for="Email">Email</label>
+                                <label for="Email">{{ $t('fields.email') }}</label>
                                 <div class="relative text-white-dark">
-                                    <input id="Email" type="email" placeholder="Enter Email" class="form-input ps-10 placeholder:text-white-dark" />
+                                    <input id="Email" type="email"
+                                           :placeholder="$t('placeHolders.enterEmail')"
+                                           class="form-input ps-10 placeholder:text-white-dark"
+                                           v-model.trim="form.email"
+                                    />
                                     <span class="absolute start-4 top-1/2 -translate-y-1/2">
                                         <icon-mail :fill="true" />
                                     </span>
                                 </div>
                             </div>
                             <div>
-                                <label for="Password">Password</label>
+                                <label for="Password">{{ $t('fields.password') }}</label>
                                 <div class="relative text-white-dark">
-                                    <input id="Password" type="password" placeholder="Enter Password" class="form-input ps-10 placeholder:text-white-dark" />
+                                    <input id="Password"
+                                           type="password"
+                                           :placeholder="$t('placeHolders.enterPassword')"
+                                           class="form-input ps-10 placeholder:text-white-dark"
+                                           v-model="form.password"
+                                    />
                                     <span class="absolute start-4 top-1/2 -translate-y-1/2">
                                         <icon-lock-dots :fill="true" />
                                     </span>
                                 </div>
+                                <div class="text-white-dark flex justify-end mt-2 text-sm font-semibold">
+                                    <router-link :to="{name:'password-reset'}">
+                                        {{$t('authPages.forgetPassword')}}
+                                    </router-link>
+                                </div>
                             </div>
                             <div>
                                 <label class="flex cursor-pointer items-center">
-                                    <input type="checkbox" class="form-checkbox bg-white dark:bg-black" />
-                                    <span class="text-white-dark">Subscribe to weekly newsletter</span>
+                                    <input type="checkbox" v-model="form.rememberMe" class="form-checkbox bg-white dark:bg-black" />
+                                    <span class="text-white-dark">{{ $t('authPages.rememberMe') }}</span>
                                 </label>
                             </div>
                             <button type="submit" class="btn btn-gradient !mt-6 w-full border-0 uppercase shadow-[0_10px_20px_-10px_rgba(67,97,238,0.44)]">
-                                Sign in
+                                {{ $t('authPages.signIn') }}
                             </button>
                         </form>
-
-                        <div class="relative my-7 text-center md:mb-9">
-                            <span class="absolute inset-x-0 top-1/2 h-px w-full -translate-y-1/2 bg-white-light dark:bg-white-dark"></span>
-                            <span class="relative bg-white px-2 font-bold uppercase text-white-dark dark:bg-dark dark:text-white-light">or</span>
-                        </div>
-                        <div class="mb-10 md:mb-[60px]">
-                            <ul class="flex justify-center gap-3.5 text-white">
-                                <li>
-                                    <a
-                                        href="javascript:"
-                                        class="inline-flex h-8 w-8 items-center justify-center rounded-full p-0 transition hover:scale-110"
-                                        style="background: linear-gradient(135deg, rgba(239, 18, 98, 1) 0%, rgba(67, 97, 238, 1) 100%)"
-                                    >
-                                        <icon-instagram />
-                                    </a>
-                                </li>
-                                <li>
-                                    <a
-                                        href="javascript:"
-                                        class="inline-flex h-8 w-8 items-center justify-center rounded-full p-0 transition hover:scale-110"
-                                        style="background: linear-gradient(135deg, rgba(239, 18, 98, 1) 0%, rgba(67, 97, 238, 1) 100%)"
-                                    >
-                                        <icon-facebook-circle />
-                                    </a>
-                                </li>
-                                <li>
-                                    <a
-                                        href="javascript:"
-                                        class="inline-flex h-8 w-8 items-center justify-center rounded-full p-0 transition hover:scale-110"
-                                        style="background: linear-gradient(135deg, rgba(239, 18, 98, 1) 0%, rgba(67, 97, 238, 1) 100%)"
-                                    >
-                                        <icon-twitter :fill="true" />
-                                    </a>
-                                </li>
-                                <li>
-                                    <a
-                                        href="javascript:"
-                                        class="inline-flex h-8 w-8 items-center justify-center rounded-full p-0 transition hover:scale-110"
-                                        style="background: linear-gradient(135deg, rgba(239, 18, 98, 1) 0%, rgba(67, 97, 238, 1) 100%)"
-                                    >
-                                        <icon-google />
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="text-center dark:text-white">
-                            Don't have an account ?
-                            <router-link :to="{name:'signup'}" class="uppercase text-primary underline transition hover:text-black dark:hover:text-white">
-                                SIGN UP
-                            </router-link>
-                        </div>
                     </div>
-                    <p class="absolute bottom-6 w-full text-center dark:text-white">© {{ new Date().getFullYear() }}.VRISTO All Rights Reserved.</p>
+                    <p class="absolute bottom-6 w-full text-center dark:text-white">
+                        <bdi>
+                            © {{ new Date().getFullYear() }}. VND - Vending Machines System {{$t('allRightsReserved')}}.
+                        </bdi>
+                    </p>
                 </div>
             </div>
         </div>
     </div>
 </template>
 <script lang="ts" setup>
-import { computed, reactive } from 'vue';
+import { computed, reactive,ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import appSetting from '@/app-setting';
 import { useAppStore } from '@/stores/index';
@@ -191,4 +158,9 @@ const changeLanguage = (item: any) => {
 const currentFlag = computed(() => {
     return `/assets/images/flags/${i18n.locale.toUpperCase()}.svg`;
 });
+const form = ref({
+    email:'',
+    password:'',
+    rememberMe:false
+})
 </script>

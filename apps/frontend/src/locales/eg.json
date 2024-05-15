@@ -132,5 +132,24 @@
         "deletedUsers": "المستخدمون المحذوفون",
         "addUser": "إضافة مستخدم",
         "recoverUser": "استعادة المستخدم"
-    }
+    },
+    "authPages": {
+        "signIn": "تسجيل الدخول",
+        "enterYourEmailAndPasswordToLogin": "أدخل بريدك الإلكتروني وكلمة المرور لتسجيل الدخول",
+        "rememberMe": "ابقي متصلاً علي هذا الجهاز",
+        "forgetPassword": "نسيت كلمة المرور؟"
+    },
+    "languages": {
+        "English": "English",
+        "Arabic": "اللغة العربية"
+    },
+    "fields": {
+        "email": "البريد الإلكتروني",
+        "password": "كلمة المرور"
+    },
+    "placeHolders": {
+        "enterEmail": "ادخل البريد الإلكتروني",
+        "enterPassword": "ادخل كلمة المرور"
+    },
+    "allRightsReserved": "جميع الحقوق محفوظة"
 }

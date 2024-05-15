@@ -132,5 +132,24 @@
         "deletedUsers": "Deleted Users",
         "addUser": "Add User",
         "recoverUser": "Recover User"
-    }
+    },
+    "authPages": {
+        "signIn": "SIGN IN",
+        "enterYourEmailAndPasswordToLogin": "Enter your email and password to login",
+        "rememberMe": "Remember Me",
+        "forgetPassword": "Forget Password ?"
+    },
+    "languages": {
+        "English": "English",
+        "Arabic": "اللغة العربية"
+    },
+    "fields": {
+        "email": "Email",
+        "password": "Password"
+    },
+    "placeHolders": {
+        "enterEmail": "Enter Email",
+        "enterPassword": "Enter Password"
+    },
+    "allRightsReserved": "All Rights Reserved"
 }

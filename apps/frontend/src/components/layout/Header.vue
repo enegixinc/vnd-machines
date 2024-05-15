@@ -102,7 +102,7 @@
                                                     :src="`/assets/images/flags/${item.code.toUpperCase()}.svg`"
                                                     alt=""
                                                 />
-                                                <span class="ltr:ml-3 rtl:mr-3">{{ item.name }}</span>
+                                                <span class="ltr:ml-3 rtl:mr-3">{{ $t(`languages.${item.name}`) }}</span>
                                             </button>
                                         </li>
                                     </template>
