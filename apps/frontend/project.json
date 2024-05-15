@@ -31,7 +31,7 @@
           "executor": "nx:run-commands",
           "options": {
               "commands": [
-                  "node scripts/coolify.js -t={args.COOLIFY_TOKEN} -w={args.DEV_FRONTEND_COOLIFY_WEBHOOK}"
+                  "node scripts/coolify.js -t='{args.COOLIFY_TOKEN}' -w='{args.DEV_FRONTEND_COOLIFY_WEBHOOK}'"
               ]
           }
       }
