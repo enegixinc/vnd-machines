@@ -4,19 +4,19 @@ export const authLinks :RouteRecordRaw[] = [
         path: '/login',
         name: 'signin',
         component: () => import('@/pages/auth/signin/TheIndex.vue'),
-        meta: { layout: 'auth' },
+        meta: { layout: 'auth',requiresUnAuth:true },
     },
     {
         path: '/auth/signup',
         name: 'signup',
         component: () => import('@/pages/auth/signup/TheIndex.vue'),
-        meta: { layout: 'auth' },
+        meta: { layout: 'auth',requiresUnAuth:true },
     },
     {
         path: '/forgetPassword',
         name: 'password-reset',
         component: () => import('@/pages/auth/passwordReset/TheIndex.vue'),
-        meta: { layout: 'auth' },
+        meta: { layout: 'auth',requiresUnAuth:true  },
     },
     {
         path: '/auth/lock-screen',

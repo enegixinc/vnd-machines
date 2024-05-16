@@ -140,7 +140,9 @@
         "forgetPassword": "Forget Password ?",
         "passwordReset": "Password Reset",
         "enterYourEmailToRecoverYourID": "Enter your email to recover your Password",
-        "recover": " RECOVER "
+        "recover": " RECOVER ",
+        "invalidEmailOrPassword": "Invalid email or password.",
+
     },
     "languages": {
         "English": "English",
@@ -154,5 +156,11 @@
         "enterEmail": "Enter Email",
         "enterPassword": "Enter Password"
     },
-    "allRightsReserved": "All Rights Reserved"
+    "allRightsReserved": "All Rights Reserved",
+    "errors": {
+        "ops": "Ops...",
+        "errorHappened": "Some error happened please call technical support",
+        "pleaseEnterValidEmail": "Please Enter Valid Email",
+        "passwordRequired": "Password Required"
+    }
 }

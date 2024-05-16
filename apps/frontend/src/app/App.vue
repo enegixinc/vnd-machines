@@ -13,9 +13,8 @@ import { computed } from 'vue';
 import appLayout from '@/layouts/app-layout.vue';
 import authLayout from '@/layouts/auth-layout.vue';
 import { useAppStore } from '@/stores/index';
+
 const store = useAppStore();
-
-
 
 
 const mainLayout = computed(() => {

@@ -8,7 +8,9 @@ const app = createApp(App);
 import { createPinia } from 'pinia';
 const pinia = createPinia();
 app.use(pinia);
-
+import {useUser} from "@/stores/user"
+const user = useUser();
+user.tryLogin()
 import router from '@/router';
 app.use(router);
 

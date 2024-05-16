@@ -30,9 +30,9 @@
                 </div>
                 <div class="relative flex w-full flex-col items-center justify-center gap-6 px-4 pb-16 pt-6 sm:px-6 lg:max-w-[667px]">
                     <div class="flex w-full max-w-[440px] items-center gap-2 lg:absolute lg:end-6 lg:top-6 lg:max-w-full">
-                        <router-link to="/" class="w-8 block lg:hidden">
-                            <img src="/assets/images/logo.svg" alt="Logo" class="mx-auto w-10" />
-                        </router-link>
+                        <div  class="w-28 block lg:hidden">
+                            <img src="/assets/images/logo/vnd-logo-color.svg" alt="Logo" class="mx-auto w-full" />
+                        </div>
                         <div class="dropdown ms-auto w-max">
                             <Popper :placement="store.rtlClass === 'rtl' ? 'bottom-start' : 'bottom-end'" offsetDistance="8">
                                 <button
@@ -76,38 +76,46 @@
                             <h1 class="text-3xl font-extrabold uppercase !leading-snug text-primary md:text-4xl">{{$t('authPages.signIn')}}</h1>
                             <p class="text-base font-bold leading-normal text-white-dark">{{$t('authPages.enterYourEmailAndPasswordToLogin')}}</p>
                         </div>
-                        <form class="space-y-5 dark:text-white" @submit.prevent="router.push({name:'home'})">
-                            <div>
+                        <form class="space-y-5 dark:text-white" @submit.prevent="onSubmit">
+                            <div :class="{ 'has-error': runErrors.email}">
                                 <label for="Email">{{ $t('fields.email') }}</label>
                                 <div class="relative text-white-dark">
                                     <input id="Email" type="email"
                                            :placeholder="$t('placeHolders.enterEmail')"
                                            class="form-input ps-10 placeholder:text-white-dark"
+                                           @input="runErrors.email=null"
                                            v-model.trim="form.email"
                                     />
                                     <span class="absolute start-4 top-1/2 -translate-y-1/2">
                                         <icon-mail :fill="true" />
                                     </span>
                                 </div>
+                                <template v-if="runErrors.email">
+                                    <p class="text-danger mt-1">{{ $t(runErrors.email) }}</p>
+                                </template>
                             </div>
-                            <div>
+                            <div :class="{ 'has-error': runErrors.password}">
                                 <label for="Password">{{ $t('fields.password') }}</label>
                                 <div class="relative text-white-dark">
                                     <input id="Password"
                                            type="password"
                                            :placeholder="$t('placeHolders.enterPassword')"
                                            class="form-input ps-10 placeholder:text-white-dark"
+                                           @input="runErrors.password=null"
                                            v-model="form.password"
                                     />
                                     <span class="absolute start-4 top-1/2 -translate-y-1/2">
                                         <icon-lock-dots :fill="true" />
                                     </span>
                                 </div>
-                                <div class="text-white-dark flex justify-end mt-2 text-sm font-semibold">
-                                    <router-link :to="{name:'password-reset'}">
-                                        {{$t('authPages.forgetPassword')}}
-                                    </router-link>
-                                </div>
+                                <template v-if="runErrors.password">
+                                    <p class="text-danger mt-1">{{ $t(runErrors.password) }}</p>
+                                </template>
+                            </div>
+                            <div class="text-white-dark flex justify-end mt-2 text-sm font-semibold">
+                                <router-link :to="{name:'password-reset'}">
+                                    {{$t('authPages.forgetPassword')}}
+                                </router-link>
                             </div>
                             <div>
                                 <label class="flex cursor-pointer items-center">
@@ -137,15 +145,20 @@ import appSetting from '@/app-setting';
 import { useAppStore } from '@/stores/index';
 import { useRouter } from 'vue-router';
 import { useMeta } from '@/composables/use-meta';
-
+import {vndClient} from "@/api"
 import IconCaretDown from '@/components/icon/icon-caret-down.vue';
 import IconMail from '@/components/icon/icon-mail.vue';
 import IconLockDots from '@/components/icon/icon-lock-dots.vue';
-
+import {useUser} from "@/stores/user"
+import { jwtDecode } from "jwt-decode"
+// use sweet alert local now
+import Swal from 'sweetalert2';
 
 useMeta({ title: 'Login' });
 const router = useRouter();
 const store = useAppStore();
+const user = useUser();
+
 // multi language
 const i18n = reactive(useI18n());
 const changeLanguage = (item: any) => {
@@ -159,5 +172,62 @@ const form = ref({
     email:'',
     password:'',
     rememberMe:false
-})
+});
+interface errors {
+    email:null | string,
+    password:null | string
+}
+const runErrors = ref<errors>({
+    email:null,
+    password:null
+});
+const formInvalid = ref(false)
+async function onSubmit(){
+    runErrors.value={
+        email:null,
+        password:null
+    };
+    formInvalid.value=false
+    if (!form.value.email || /^[a-zA-Z0-9. _-]+@[a-zA-Z0-9. -]+\. [a-zA-Z]{2,4}$/.test(form.value.email)){
+        runErrors.value.email = 'errors.pleaseEnterValidEmail'
+        formInvalid.value=true
+    }
+    if (!form.value.password){
+        runErrors.value.password = 'errors.passwordRequired'
+        formInvalid.value=true
+    }
+    if (formInvalid.value){
+        return
+    }
+    // handle request local now
+    try{
+        const res:any =await vndClient.auth.authControllerLogin({
+            requestBody:{
+                email:form.value.email,
+                password:form.value.password
+            }
+        })
+        const tokenDecode:any=jwtDecode(res.refreshToken);
+        user.setUser({},res.accessToken,res.refreshToken,tokenDecode.exp,true,form.value.rememberMe)
+        router.push({name:'users'})
+
+    }catch (err:any){
+        let msg= '';
+        console.log(err.body)
+      //   handl error cardintial for now
+        if(err?.body?.statusCode === 404){
+            msg = i18n.t('authPages.invalidEmailOrPassword');
+        }else {
+            msg = i18n.t('errors.errorHappened')
+        }
+      await  Swal.fire({
+            icon: 'error',
+            title: i18n.t('errors.ops'),
+            text: msg,
+            padding: '0',
+          confirmButtonColor:'primary',
+        });
+    }
+
+}
 </script>

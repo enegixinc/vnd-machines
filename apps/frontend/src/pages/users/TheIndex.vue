@@ -45,7 +45,7 @@ const users = async (data:pageData) =>{
         pageSize.value = data.pageSize
 
     }catch (err){
-
+        console.log(err)
     }finally {
         loading.value=false;
     }

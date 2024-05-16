@@ -140,7 +140,9 @@
         "forgetPassword": "نسيت كلمة المرور؟",
         "passwordReset": "إعادة تعيين كلمة المرور",
         "enterYourEmailToRecoverYourID": "أدخل بريدك الإلكتروني لاستعادة كلمة المرور",
-        "recover": "استعاده"
+        "recover": "استعاده",
+        "invalidEmailOrPassword": "بريد إلكتروني أو كلمة مرور غير صحيحة.",
+        "pleaseEnterValidEmail": "الرجاء ادخال بريد الكتروني صحيح"
     },
     "languages": {
         "English": "English",
@@ -154,5 +156,11 @@
         "enterEmail": "ادخل البريد الإلكتروني",
         "enterPassword": "ادخل كلمة المرور"
     },
-    "allRightsReserved": "جميع الحقوق محفوظة"
+    "allRightsReserved": "جميع الحقوق محفوظة",
+    "errors": {
+        "ops": "عفواً..",
+        "errorHappened": "حدث خطأ ما, يرجي الاتصال بالدعم الفني",
+        "pleaseEnterValidEmail": "الرجاء ادخال بريد الكتروني صحيح",
+        "passwordRequired": "كلمة المرور مطلوبة"
+    }
 }
