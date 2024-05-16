@@ -51,9 +51,9 @@ import { Public } from '../auth/decorators/public.decorator';
   },
   routes: {
     ...saneOperationsId,
-    createOneBase: {
-      decorators: [...saneOperationsId.createOneBase.decorators, Public],
-    },
+    // createOneBase: {
+    //   decorators: [...saneOperationsId.createOneBase.decorators, Public],
+    // },
     exclude: ['replaceOneBase'],
   },
   serialize: {
@@ -64,6 +64,7 @@ import { Public } from '../auth/decorators/public.decorator';
 })
 @Controller('users')
 @ApiBearerAuth('access-token')
+@Public()
 @ApiResponse({ status: 403, description: 'Forbidden.' })
 @ApiTags('users')
 export class UsersController implements CrudController<UserEntity> {
