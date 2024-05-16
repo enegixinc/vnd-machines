@@ -137,7 +137,10 @@
         "signIn": "SIGN IN",
         "enterYourEmailAndPasswordToLogin": "Enter your email and password to login",
         "rememberMe": "Remember Me",
-        "forgetPassword": "Forget Password ?"
+        "forgetPassword": "Forget Password ?",
+        "passwordReset": "Password Reset",
+        "enterYourEmailToRecoverYourID": "Enter your email to recover your Password",
+        "recover": " RECOVER "
     },
     "languages": {
         "English": "English",

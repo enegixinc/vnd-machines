@@ -20,9 +20,9 @@
                         class="absolute inset-y-0 w-8 from-primary/10 via-transparent to-transparent ltr:-right-10 ltr:bg-gradient-to-r rtl:-left-10 rtl:bg-gradient-to-l xl:w-16 ltr:xl:-right-20 rtl:xl:-left-20"
                     ></div>
                     <div class="ltr:xl:-skew-x-[14deg] rtl:xl:skew-x-[14deg]">
-                        <router-link to="/" class="w-48 block lg:w-72 ms-10">
-                            <img src="/assets/images/auth/logo-white.svg" alt="Logo" class="w-full" />
-                        </router-link>
+                        <div  class="w-48 block lg:w-72 ms-10">
+                            <img src="/assets/images/logo/vnd-allwhite.svg" alt="Logo" class="w-full" />
+                        </div>
                         <div class="mt-24 hidden w-full max-w-[430px] lg:block">
                             <img src="/assets/images/auth/reset-password.svg" alt="Cover Image" class="w-full" />
                         </div>
@@ -30,9 +30,9 @@
                 </div>
                 <div class="relative flex w-full flex-col items-center justify-center gap-6 px-4 pb-16 pt-6 sm:px-6 lg:max-w-[667px]">
                     <div class="flex w-full max-w-[440px] items-center gap-2 lg:absolute lg:end-6 lg:top-6 lg:max-w-full">
-                        <router-link to="/" class="w-8 block lg:hidden">
-                            <img src="/assets/images/logo.svg" alt="Logo" class="mx-auto w-10" />
-                        </router-link>
+                        <div  class="w-28 block lg:hidden">
+                            <img src="/assets/images/logo/vnd-logo-color.svg" alt="Logo" class="mx-auto w-full" />
+                        </div>
                         <div class="dropdown ms-auto w-max">
                             <Popper :placement="store.rtlClass === 'rtl' ? 'bottom-start' : 'bottom-end'" offsetDistance="8">
                                 <button
@@ -42,7 +42,7 @@
                                     <div>
                                         <img :src="currentFlag" alt="image" class="h-5 w-5 rounded-full object-cover" />
                                     </div>
-                                    <div class="text-base font-bold uppercase">{{ store.locale }}</div>
+                                    <div class="text-base font-bold uppercase">{{ store.locale === 'eg'? 'ar' : store.locale }}</div>
                                     <span class="shrink-0">
                                         <icon-caret-down />
                                     </span>
@@ -62,7 +62,7 @@
                                                         :src="`/assets/images/flags/${item.code.toUpperCase()}.svg`"
                                                         alt=""
                                                     />
-                                                    <span class="ltr:ml-3 rtl:mr-3">{{ item.name }}</span>
+                                                    <span class="ltr:ml-3 rtl:mr-3">{{ $t(`languages.${item.name}`) }}</span>
                                                 </button>
                                             </li>
                                         </template>
@@ -73,32 +73,40 @@
                     </div>
                     <div class="w-full max-w-[440px] lg:mt-16">
                         <div class="mb-7">
-                            <h1 class="mb-3 text-2xl font-bold !leading-snug dark:text-white">Password Reset</h1>
-                            <p>Enter your email to recover your ID</p>
+                            <h1 class="mb-3 text-2xl font-bold !leading-snug dark:text-white">{{ $t('authPages.passwordReset') }}</h1>
+                            <p>{{$t('authPages.enterYourEmailToRecoverYourID')}}</p>
                         </div>
-                        <form class="space-y-5" @submit.prevent="router.push({name:'home'})">
+                        <form class="space-y-5" @submit.prevent="onSubmit">
                             <div>
-                                <label for="Email">Email</label>
+                                <label for="Email">{{ $t('fields.email') }}</label>
                                 <div class="relative text-white-dark">
-                                    <input id="Email" type="email" placeholder="Enter Email" class="form-input pl-10 placeholder:text-white-dark" />
-                                    <span class="absolute left-4 top-1/2 -translate-y-1/2">
+                                    <input id="Email" type="email"
+                                           :placeholder="$t('placeHolders.enterEmail')"
+                                           class="form-input ps-10 placeholder:text-white-dark"
+                                           v-model.trim="form.email"
+                                    />
+                                    <span class="absolute start-4 top-1/2 -translate-y-1/2">
                                         <icon-mail :fill="true" />
                                     </span>
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-gradient !mt-6 w-full border-0 uppercase shadow-[0_10px_20px_-10px_rgba(67,97,238,0.44)]">
-                                RECOVER
+                                {{ $t('authPages.recover') }}
                             </button>
                         </form>
                     </div>
-                    <p class="absolute bottom-6 w-full text-center dark:text-white">© {{ new Date().getFullYear() }}.VRISTO All Rights Reserved.</p>
+                    <p class="absolute bottom-6 w-full text-center dark:text-white">
+                        <bdi>
+                            © {{ new Date().getFullYear() }}. VND - Vending Machines System {{$t('allRightsReserved')}}.
+                        </bdi>
+                    </p>
                 </div>
             </div>
         </div>
     </div>
 </template>
 <script lang="ts" setup>
-import { computed, reactive } from 'vue';
+import { computed, reactive,ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import appSetting from '@/app-setting';
 import { useAppStore } from '@/stores/index';
@@ -120,4 +128,8 @@ const changeLanguage = (item: any) => {
 const currentFlag = computed(() => {
     return `/assets/images/flags/${i18n.locale.toUpperCase()}.svg`;
 });
+const form = ref({
+    email:''
+})
+async function onSubmit(){}
 </script>

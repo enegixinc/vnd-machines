@@ -137,7 +137,10 @@
         "signIn": "تسجيل الدخول",
         "enterYourEmailAndPasswordToLogin": "أدخل بريدك الإلكتروني وكلمة المرور لتسجيل الدخول",
         "rememberMe": "ابقي متصلاً علي هذا الجهاز",
-        "forgetPassword": "نسيت كلمة المرور؟"
+        "forgetPassword": "نسيت كلمة المرور؟",
+        "passwordReset": "إعادة تعيين كلمة المرور",
+        "enterYourEmailToRecoverYourID": "أدخل بريدك الإلكتروني لاستعادة كلمة المرور",
+        "recover": "استعاده"
     },
     "languages": {
         "English": "English",
