@@ -336,12 +336,11 @@
 </template>
 <script lang="ts" setup>
 import Swal from 'sweetalert2';
-import { useMeta } from '@/composables/use-meta';
 import DataTable from "@/components/ui/DataTable.vue";
 import IconBell from '@/components/icon/icon-bell.vue';
 import IconCode from '@/components/icon/icon-code.vue';
 
-useMeta({ title: 'Sweetalert' });
+
 const showAlert = async (type: number) => {
     if (type === 1) {
         Swal.fire({
