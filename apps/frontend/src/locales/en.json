@@ -125,6 +125,10 @@
     "coming_soon_cover": "Coming Soon Cover",
     "contact_us_boxed": "Contact Us Boxed",
     "contact_us_cover": "Contact Us Cover",
+    "machine": "Machine",
+    "categories": "Categories",
+    "products": "Products",
+    "brands": "Brands",
     "usersPages": {
         "suppliers": "Suppliers",
         "account_settings": "Account Settings",
@@ -141,7 +145,7 @@
         "passwordReset": "Password Reset",
         "enterYourEmailToRecoverYourID": "Enter your email to recover your Password",
         "recover": " RECOVER ",
-        "invalidEmailOrPassword": "Invalid email or password.",
+        "invalidEmailOrPassword": "Invalid email or password."
 
     },
     "languages": {
