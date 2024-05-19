@@ -1,4 +1,4 @@
-import { Controller, Param, Post } from '@nestjs/common';
+import { Controller } from '@nestjs/common';
 import { Crud, CrudController } from '@dataui/crud';
 import { ProductEntity } from './product.entity';
 import { ProductsService } from './products.service';
@@ -64,12 +64,12 @@ export class ProductsController implements CrudController<ProductEntity> {
   ) {}
   service = this.productsService;
 
-  @Post('add-supplier')
-  async addSupplier(
-    @Param('id') id: string,
-    @Param('supplierId') supplierId: string
-  ) {
-    const product = await this.productsService.findOneBy({ _id: id });
-    const supplier = await this.usersService.findOneBy({ _id: supplierId });
-  }
+  // @Public()
+  // @Post('add-supplier')
+  // async addSupplier(
+  //   @Param('productId') productId: string,
+  //   @Param('supplierId') supplierId: string
+  // ) {
+  //   return this.productsService.addSupplier(productId, supplierId);
+  // }
 }
