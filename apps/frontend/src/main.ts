@@ -2,9 +2,6 @@ import { createApp } from 'vue';
 import App from '@/app/App.vue';
 // pinia store
 import { createPinia } from 'pinia';
-import {useUser} from "@/stores/user"
-const user = useUser();
-user.tryLogin()
 import router from '@/router';
 // main app css
 import '@/assets/css/app.css';
