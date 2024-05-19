@@ -146,7 +146,8 @@
         "enterYourEmailToRecoverYourID": "أدخل بريدك الإلكتروني لاستعادة كلمة المرور",
         "recover": "استعاده",
         "invalidEmailOrPassword": "بريد إلكتروني أو كلمة مرور غير صحيحة.",
-        "pleaseEnterValidEmail": "الرجاء ادخال بريد الكتروني صحيح"
+        "pleaseEnterValidEmail": "الرجاء ادخال بريد الكتروني صحيح",
+        "signOut": "تسجيل الخروج"
     },
     "languages": {
         "English": "English",

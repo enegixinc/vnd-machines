@@ -235,10 +235,10 @@
                                         </router-link>
                                     </li>
                                     <li class="border-t border-white-light dark:border-white-light/10">
-                                        <router-link to="/auth/boxed-signin" class="text-danger !py-3" @click="close()">
+                                        <router-link to="/auth/boxed-signin" class="text-danger !py-3" @click="logout();close()">
                                             <icon-logout class="w-4.5 h-4.5 ltr:mr-2 rtl:ml-2 rotate-90 shrink-0" />
 
-                                            Sign Out
+                                            {{ $t('authPages.signOut') }}
                                         </router-link>
                                     </li>
                                 </ul>
@@ -772,7 +772,7 @@ import { ref, onMounted, computed, reactive, watch } from 'vue';
 
     import appSetting from '@/app-setting';
 
-    import { useRoute } from 'vue-router';
+    import { useRoute,useRouter } from 'vue-router';
     import { useAppStore } from '@/stores/index';
     import IconMenu from '@/components/icon/icon-menu.vue';
     import IconSearch from '@/components/icon/icon-search.vue';
@@ -795,6 +795,7 @@ import { ref, onMounted, computed, reactive, watch } from 'vue';
     import IconMenuForms from '@/components/icon/menu/icon-menu-forms.vue';
     import IconMenuPages from '@/components/icon/menu/icon-menu-pages.vue';
     import IconMenuMore from '@/components/icon/menu/icon-menu-more.vue';
+    import {useUser} from"@/stores/user"
     const store = useAppStore();
     const route = useRoute();
     const search = ref(false);
@@ -863,4 +864,10 @@ import { ref, onMounted, computed, reactive, watch } from 'vue';
     const removeNotification = (value: number) => {
         notifications.value = notifications.value.filter((d) => d.id !== value);
     };
+const user = useUser();
+const router = useRouter();
+function logout (){
+    user.logout();
+    router.push({name:'signin'})
+}
 </script>
