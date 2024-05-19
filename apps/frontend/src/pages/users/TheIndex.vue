@@ -21,28 +21,30 @@ import {vndClient} from "@/api"
 import {ISerializedUser} from "@core";
 const loading = ref(false),
     totalPages=ref(1),
-    pageSize=ref(10),
+    pageSize=ref<number|undefined>(10),
     usersData=ref<ISerializedUser[]>([]),
     tableFields=ref([
-        { field: 'firstName', title: 'Name' ,hide: false},
+        { field: 'firstName', title: 'Name' ,condition:"equal",hide: false},
         { field: 'email', title: 'Email' ,hide: false},
         { field: 'phoneNumber', title: 'Phone No.' ,hide: false},
         { field: 'role', title: 'Role' ,hide: false},
         { field: 'createdAt', title: 'Created At' ,hide: false,type: 'date'},
-        {field:'action',title:'Action',hide:false}
+        {field:'action',title:'',filter:false,sort:false}
     ])
-interface pageData {
-    currentPage:number,
-    pageSize:number
-}
-const users = async (data:pageData) =>{
+
+
+// import {$OpenApiTs} from "@frontend/api-sdk"
+
+type requestType = Parameters<typeof vndClient.users.getMany>[0]
+
+const users = async (data: requestType) =>{
     try {
         loading.value=true;
-        const users = await vndClient.users.getMany({page:data.currentPage,limit:data.pageSize});
+        const users = await vndClient.users.getMany(data);
         // @ts-expect-error - to be fixed by backend
         usersData.value=users.data;
         totalPages.value=users.total;
-        pageSize.value = data.pageSize
+        pageSize.value = data?.limit || 10
 
     }catch (err){
         console.log(err)
@@ -50,5 +52,6 @@ const users = async (data:pageData) =>{
         loading.value=false;
     }
 }
-users({currentPage:1,pageSize:pageSize.value});
+users({page:1,limit:pageSize.value});
+
 </script>

@@ -166,5 +166,10 @@
         "errorHappened": "حدث خطأ ما, يرجي الاتصال بالدعم الفني",
         "pleaseEnterValidEmail": "الرجاء ادخال بريد الكتروني صحيح",
         "passwordRequired": "كلمة المرور مطلوبة"
+    },
+    "dataTable": {
+        "reset": "إعادة ضبط",
+        "search": "بحث...",
+        "columns": "الاعمده"
     }
 }

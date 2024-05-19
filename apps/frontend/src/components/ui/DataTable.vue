@@ -2,17 +2,19 @@
     <div>
         <div class="panel pb-0 mt-6">
             <div class="flex md:items-center md:flex-row flex-col mb-5 gap-5">
-                <h5 class="font-semibold text-lg dark:text-white-light">{{$t(tableTitle)}}</h5>
-                <div class="flex items-center gap-5 ltr:ml-auto rtl:mr-auto">
+                <h5 class="font-semibold text-lg dark:text-white-light">{{ $t(tableTitle) }}</h5>
+                <div class="flex flex-wrap md:flex-nowrap items-center gap-5 ltr:ml-auto rtl:mr-auto">
+                <div class="flex items-center gap-5 ltr:ml-auto rtl:mr-auto ">
                     <div class="dropdown">
-                        <Popper :placement="store.rtlClass === 'rtl' ? 'bottom-end' : 'bottom-start'" offsetDistance="0" class="align-middle">
+                        <Popper :placement="store.rtlClass === 'rtl' ? 'bottom-end' : 'bottom-start'" offsetDistance="0"
+                                class="align-middle">
                             <button
                                 type="button"
                                 :disabled="loading"
                                 class="flex items-center border font-semibold border-[#e0e6ed] dark:border-[#253b5c] rounded-md px-4 py-2 text-sm dark:bg-[#1b2e4b] dark:text-white-dark"
                             >
-                                <span class="ltr:mr-1 rtl:ml-1">Columns</span>
-                                <icon-caret-down class="w-5 h-5" />
+                                <span class="ltr:mr-1 rtl:ml-1">{{ $t('dataTable.columns') }}</span>
+                                <icon-caret-down class="w-5 h-5"/>
                             </button>
                             <template #content>
                                 <ul class="whitespace-nowrap">
@@ -28,7 +30,9 @@
                                                         @change="col.hide = !$event?.target?.checked"
                                                         :checked="!col.hide"
                                                     />
-                                                    <span :for="`chk-${i}`" class="ltr:ml-2 rtl:mr-2">{{ col.title }}</span>
+                                                    <span :for="`chk-${i}`" class="ltr:ml-2 rtl:mr-2">{{
+                                                            col.title
+                                                        }}</span>
                                                 </label>
                                             </div>
                                         </li>
@@ -38,10 +42,13 @@
                         </Popper>
                     </div>
                     <div>
-                        <input v-model="search" type="text" class="form-input" :disabled="loading" placeholder="Search..." />
+                        <input v-model="search" type="text" class="form-input w-full" :disabled="loading"
+                               :placeholder="$t('dataTable.search')"/>
                     </div>
                 </div>
-
+                    <button type="button" class="btn btn-danger w-full md:max-w-fit shadow-none" @click="resetTable">
+                        {{ $t('dataTable.reset') }}</button>
+                </div>
             </div>
 
             <div class="datatable">
@@ -60,6 +67,7 @@
                     :stickyHeader="true"
                     :columnFilter="true"
                     :search="search"
+                    ref="dataTable"
                     @change="changeServer"
                     skin="whitespace-nowrap bh-table-hover"
                     firstArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180">
@@ -80,7 +88,8 @@
                 >
                     <template #firstName="data">
                         <div class="flex items-center w-max">
-                            <img class="w-9 h-9 rounded-full ltr:mr-2 rtl:ml-2 object-cover" :src="`https://i.pravatar.cc/200?u=${data.value.email}`" />
+                            <img class="w-9 h-9 rounded-full ltr:mr-2 rtl:ml-2 object-cover"
+                                 :src="`https://i.pravatar.cc/200?u=${data.value.email}`"/>
                             {{ data.value.firstName + ' ' + data.value.lastName }}
                         </div>
                     </template>
@@ -103,12 +112,12 @@
                         <div class="flex items-center">
                             <div>
                                 <button type="button" class="ltr:mr-2 rtl:ml-2" v-tippy="'Edit'">
-                                    <icon-pencil />
+                                    <icon-pencil/>
                                 </button>
                             </div>
                             <div>
                                 <button type="button" v-tippy="'Delete'">
-                                    <icon-trash-lines />
+                                    <icon-trash-lines/>
                                 </button>
                             </div>
                         </div>
@@ -121,28 +130,31 @@
 
 </template>
 <script setup lang="ts">
-import { ref } from 'vue';
+import {ref} from 'vue';
 import Vue3Datatable from '@bhplugin/vue3-datatable';
-import { useAppStore } from '@/stores/index';
+import {useAppStore} from '@/stores/index';
 import IconPencil from '@/components/icon/icon-pencil.vue';
 import IconTrashLines from '@/components/icon/icon-trash-lines.vue';
 import IconCaretDown from '@/components/icon/icon-caret-down.vue';
+
+
 const store = useAppStore();
 const search = ref('');
 const emit = defineEmits(['changeServer'])
-
-interface Props{
+const     dataTable=ref(null);
+interface Props {
     tableData?: { [key: string]: unknown }[],
-    fields?:{ [key: string]: unknown }[],
-    pages?:number,
-    loading?:boolean,
-    perPage?:number,
-    sortBy?:string,
-    sortable?:boolean,
-    tableTitle?:string,
+    fields?: { [key: string]: unknown }[],
+    pages?: number,
+    loading?: boolean,
+    perPage?: number,
+    sortBy?: string,
+    sortable?: boolean,
+    tableTitle?: string,
 }
-withDefaults(defineProps<Props>(),{
-    tableData:  ()=> [
+
+withDefaults(defineProps<Props>(), {
+    tableData: () => [
         {
             id: 1,
             firstName: 'Caroline',
@@ -644,22 +656,22 @@ withDefaults(defineProps<Props>(),{
             company: 'PHARMACON',
         },
     ],
-    fields:()=>[
-        {field:'id',title:'id',hide:false,isUnique:true,filter:false},
-        { field: 'firstName', title: 'Name' ,hide: false},
-        { field: 'age', title: 'Progress' ,hide: false,type:'number'},
-        { field: 'company', title: 'Company' ,hide: false},
-        { field: 'dob', title: 'Start Date' ,hide: false,type: 'date'},//type for filter input
-        { field: 'email', title: 'Email' ,hide: false},
-        { field: 'phone', title: 'Phone No.' ,hide: false},
-        { field: 'action', title: 'Action', sort: false ,hide: false},
+    fields: () => [
+        {field: 'id', title: 'id', hide: false, isUnique: true, filter: false},
+        {field: 'firstName', title: 'Name', hide: false},
+        {field: 'age', title: 'Progress', hide: false, type: 'number'},
+        {field: 'company', title: 'Company', hide: false},
+        {field: 'dob', title: 'Start Date', hide: false, type: 'date'},//type for filter input
+        {field: 'email', title: 'Email', hide: false},
+        {field: 'phone', title: 'Phone No.', hide: false},
+        {field: 'action', title: 'Action', sort: false, hide: false},
     ],
-    pages:1,
-    loading:false,
-    perPage:10,
-    sortable:true,
-    sortBy:'id',
-    tableTitle:'users'
+    pages: 1,
+    loading: false,
+    perPage: 10,
+    sortable: true,
+    sortBy: 'id',
+    tableTitle: 'users'
 })
 const formatDate = (date) => {
     if (date) {
@@ -676,16 +688,41 @@ const randomColor = () => {
     const random = Math.floor(Math.random() * color.length);
     return color[random];
 };
+
+enum Conditions {
+    "contain" = "$cont",
+    "not_contain" = "$excl",
+    "equal" = "$eq",
+    "not_equal" = "$neL",
+    "start_with" = "$starts",
+    "end_with" = "$ends",
+    "is_null" = "$isnull",
+    "is_not_null" = "$notnull",
+    "greater_than" = "$gt",
+    "less_than" = "$lt"
+}
+
 const changeServer = (data: any) => {
-emit('changeServer',{
-    currentPage:data.current_page,
-    pageSize:data.pagesize,
-})
-    // params.current_page = data.current_page;
-    // params.pagesize = data.pagesize;
-    // params.sort_column = data.sort_column;
-    // sort_direction = data.sort_direction;
-    // getUsers();
+    const filters = data.column_filters.filter(
+        element=>(element.condition && element.value) || element.condition === 'is_null' || element.condition === 'is_not_null'
+    ).map(element=>{
+        if (element.condition !== "is_null" && element.condition !== "is_not_null"){
+            return `${element.field}||${Conditions[element.condition]}||${element.value}`}
+        else{
+            return `${element.field}||${Conditions[element.condition]}`
+        }
+    })
+console.log(data)
+
+    emit('changeServer', {
+        page: data.current_page,
+        limit: data.pagesize,
+        filter:filters,
+        sort:[`${data.sort_column},${data.sort_direction.toUpperCase()}`]
+    })
 };
+function resetTable(){
+    dataTable?.value?.reset();
+}
 </script>
 

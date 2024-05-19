@@ -166,5 +166,10 @@
         "errorHappened": "Some error happened please call technical support",
         "pleaseEnterValidEmail": "Please Enter Valid Email",
         "passwordRequired": "Password Required"
+    },
+    "dataTable": {
+        "reset": "Reset",
+        "search": "Search...",
+        "columns": "Columns"
     }
 }
