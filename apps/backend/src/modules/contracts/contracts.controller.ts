@@ -2,6 +2,9 @@ import { Controller } from '@nestjs/common';
 import { Crud } from '@dataui/crud';
 import { ContractEntity } from './entities/contract.entity';
 import { saneOperationsId } from '../../common/swagger.config';
+import { ApiTags } from '@nestjs/swagger';
+import { CreateContractDto } from './dto/request/create-contract.dto';
+import { Public } from '../auth/decorators/public.decorator';
 
 @Crud({
   model: {
@@ -45,6 +48,11 @@ import { saneOperationsId } from '../../common/swagger.config';
       'recoverOneBase',
     ],
   },
+  dto: {
+    create: CreateContractDto,
+  },
 })
 @Controller('contracts')
+@Public()
+@ApiTags('contracts')
 export class ContractsController {}

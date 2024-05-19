@@ -8,20 +8,21 @@ import {
 import { DatabaseEntity } from '../../../common/database.entity';
 import { UserEntity } from '../../users/entities/user.entity';
 import { Post } from '@nestjs/common';
-
-enum ContractStatus {
-  ACTIVE = 'active',
-  EXPIRED = 'expired',
-  TERMINATED = 'terminated',
-}
+import {
+  ContractStatus,
+  FeeType,
+  IContractEntity,
+  IUserEntity,
+  ReferenceByID,
+} from '@core';
 
 @Entity('contracts')
-export class ContractEntity extends DatabaseEntity {
+export class ContractEntity extends DatabaseEntity implements IContractEntity {
   @Column({ type: 'date', nullable: false })
-  startDate: Date;
+  startDate: string;
 
   @Column({ type: 'date', nullable: false })
-  endDate: Date;
+  endDate: string;
 
   @Column({ type: 'varchar', nullable: false })
   description: string;
@@ -36,11 +37,14 @@ export class ContractEntity extends DatabaseEntity {
   @Column({ type: 'numeric', nullable: false })
   feePerSale: number;
 
-  @OneToOne(() => UserEntity, (supplier) => supplier.contract)
-  supplier: UserEntity;
+  @Column({ type: 'enum', enum: FeeType, nullable: false })
+  feeType: FeeType;
 
-  @Column({ type: 'boolean', default: false })
-  autoRenew: boolean;
+  @OneToOne(() => UserEntity, (supplier) => supplier.contract)
+  supplier: ReferenceByID<IUserEntity>;
+
+  // @Column({ type: 'boolean', default: false })
+  // autoRenew: boolean;
 
   @Column({ type: 'numeric', nullable: false })
   totalSales: number;
