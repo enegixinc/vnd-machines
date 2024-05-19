@@ -46,10 +46,10 @@ export class ContractEntity extends DatabaseEntity implements IContractEntity {
   // @Column({ type: 'boolean', default: false })
   // autoRenew: boolean;
 
-  @Column({ type: 'numeric', nullable: false })
+  @Column({ type: 'numeric', nullable: false, default: 0 })
   totalSales: number;
 
-  @Column({ type: 'numeric', nullable: false })
+  @Column({ type: 'numeric', nullable: false, default: 0 })
   totalRevenue: number;
 }
 

@@ -1,10 +1,12 @@
 import { Controller } from '@nestjs/common';
-import { Crud } from '@dataui/crud';
+import { Crud, CrudController } from '@dataui/crud';
 import { ContractEntity } from './entities/contract.entity';
 import { saneOperationsId } from '../../common/swagger.config';
 import { ApiTags } from '@nestjs/swagger';
 import { CreateContractDto } from './dto/request/create-contract.dto';
 import { Public } from '../auth/decorators/public.decorator';
+import { SerializedContractDto } from './dto/response/serialized-contract.dto';
+import { ContractsService } from './contracts.service';
 
 @Crud({
   model: {
@@ -51,8 +53,15 @@ import { Public } from '../auth/decorators/public.decorator';
   dto: {
     create: CreateContractDto,
   },
+  serialize: {
+    get: SerializedContractDto,
+    create: SerializedContractDto,
+  },
 })
 @Controller('contracts')
 @Public()
 @ApiTags('contracts')
-export class ContractsController {}
+export class ContractsController implements CrudController<ContractEntity> {
+  constructor(private readonly contractsService: ContractsService) {}
+  service = this.contractsService;
+}
