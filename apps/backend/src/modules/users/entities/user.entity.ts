@@ -1,4 +1,11 @@
-import { BeforeInsert, Column, Entity, ManyToMany, OneToMany } from 'typeorm';
+import {
+  BeforeInsert,
+  Column,
+  Entity,
+  ManyToMany,
+  OneToMany,
+  OneToOne,
+} from 'typeorm';
 import { IUserEntity, UserRole } from '@core';
 import { Factory } from 'nestjs-seeder';
 import bcrypt from 'bcrypt';
@@ -7,6 +14,7 @@ import { DatabaseEntity } from '../../../common/database.entity';
 import { ProductEntity } from '../../products/product.entity';
 import { CategoryEntity } from '../../categories/category.entity';
 import { BrandEntity } from '../../brands/brand.entity';
+import { ContractEntity } from '../../contracts/entities/contract.entity';
 
 @Entity('users')
 export class UserEntity extends DatabaseEntity implements IUserEntity {
@@ -66,6 +74,9 @@ export class UserEntity extends DatabaseEntity implements IUserEntity {
 
   @ManyToMany(() => CategoryEntity, (category) => category.suppliers)
   categories: string[];
+
+  @OneToOne(() => ContractEntity, (contract) => contract.supplier)
+  contract: string[];
 
   documents: string[];
 }

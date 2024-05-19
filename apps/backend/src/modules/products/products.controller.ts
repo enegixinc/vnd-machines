@@ -1,4 +1,4 @@
-import { Controller } from '@nestjs/common';
+import { Controller, Param, Post } from '@nestjs/common';
 import { Crud, CrudController } from '@dataui/crud';
 import { ProductEntity } from './product.entity';
 import { ProductsService } from './products.service';
@@ -7,6 +7,7 @@ import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { SerializedProductDto } from './dto/response/serialized-product.dto';
 import { saneOperationsId } from '../../common/swagger.config';
 import { UpdateProductDto } from './dto/request/update-product.dto';
+import { UsersService } from '../users/users.service';
 
 @Crud({
   model: {
@@ -57,9 +58,18 @@ import { UpdateProductDto } from './dto/request/update-product.dto';
 @ApiResponse({ status: 403, description: 'Forbidden.' })
 @ApiTags('products')
 export class ProductsController implements CrudController<ProductEntity> {
-  constructor(public service: ProductsService) {}
+  constructor(
+    private readonly productsService: ProductsService,
+    private readonly usersService: UsersService
+  ) {}
+  service = this.productsService;
 
-  get base(): CrudController<ProductEntity> {
-    return this;
+  @Post('add-supplier')
+  async addSupplier(
+    @Param('id') id: string,
+    @Param('supplierId') supplierId: string
+  ) {
+    const product = await this.productsService.findOneBy({ _id: id });
+    const supplier = await this.usersService.findOneBy({ _id: supplierId });
   }
 }

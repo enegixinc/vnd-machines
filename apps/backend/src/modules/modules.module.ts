@@ -7,11 +7,13 @@ import { FileDto } from './files/file.dto';
 import { ProductsModule } from './products/products.module';
 import { HashingModule } from '../common/hashing/hashing.module';
 import { HashingService } from '../common/hashing/hashing.service';
+import { ContractsModule } from './contracts/contracts.module';
 
 @Module({
   imports: [
     AuthModule,
     UsersModule,
+    ContractsModule,
     ProductsModule,
     CategoriesModule,
     BrandsModule,
