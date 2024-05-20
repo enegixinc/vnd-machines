@@ -1,4 +1,4 @@
-import {VNDClient} from "@frontend/api-sdk";
+import { VNDClient } from '@frontend/api-sdk';
 // import { type AxiosRequestConfig } from 'axios';
 // import {useUser} from "@/stores/user"
 // const user = useUser();
@@ -6,11 +6,10 @@ import {VNDClient} from "@frontend/api-sdk";
 // type Middleware<T> = (value: T) => Promise<T> | T;
 export const vndClient = new VNDClient({
     BASE: 'https://vnd-api.5ostudios.com',
-    HEADERS:{
+    HEADERS: {
         // 'Access-Control-Allow-Origin': '*',
         // 'Content-type': 'application/json',
     },
-
 });
 // ----------------- this give core error now
 // const attachHeaders: Middleware<AxiosRequestConfig<unknown>> = async (
@@ -25,3 +24,4 @@ export const vndClient = new VNDClient({
 //     };
 // };
 // vndClient.request.config.interceptors.request.use(attachHeaders);
+//
