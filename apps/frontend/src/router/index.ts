@@ -4,11 +4,11 @@ import {useUser} from '@/stores/user'
 import appSetting from '@/app-setting';
 import {authLinks} from "@/router/auth";
 import {userLinks} from "@/router/users";
-import HomeView from '../views/index.vue';
+
 
 const routes: RouteRecordRaw[] = [
     // dashboard
-    { path: '/', name: 'home', component: HomeView},
+    { path: '/', name: 'home', component: () => import('@/pages/TheIndex.vue')},
     ...userLinks,
     ...authLinks
 ];
