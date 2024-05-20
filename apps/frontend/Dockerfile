@@ -39,4 +39,4 @@ COPY ../../scripts/slack.js /app/scripts/slack.js
 
 RUN npm install -g http-server
 
-CMD ["http-server"]
+CMD ["http-server -p 8080 -c-1 . --proxy http://localhost:8080?"]
