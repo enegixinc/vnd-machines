@@ -171,7 +171,7 @@ const currentFlag = computed(() => {
 const form = ref({
     email:'',
     password:'',
-    rememberMe:false
+    rememberMe:true
 });
 interface errors {
     email:null | string,
