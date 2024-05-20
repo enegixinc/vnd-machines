@@ -107,4 +107,8 @@ export class SharedUserDto {
     })
   )
   businessName: string;
+
+  constructor(partial: Partial<SharedUserDto>) {
+    Object.assign(this, partial);
+  }
 }

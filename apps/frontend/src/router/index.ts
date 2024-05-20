@@ -1,31 +1,16 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 import { useAppStore } from '@/stores/index';
+import { useUser } from '@/stores/user';
 import appSetting from '@/app-setting';
-
+import { authLinks } from '@/router/auth';
+import { userLinks } from '@/router/users';
 import HomeView from '../views/index.vue';
 
 const routes: RouteRecordRaw[] = [
-    // dashboard
+    ////// dashboard
     { path: '/', name: 'home', component: HomeView },
-    // -----------------auth
-    {
-        path: '/auth/signin',
-        name: 'signin',
-        component: () => import('@/pages/auth/signin/TheIndex.vue'),
-        meta: { layout: 'auth' },
-    },
-    {
-        path: '/auth/signup',
-        name: 'signup',
-        component: () => import('@/pages/auth/signup/TheIndex.vue'),
-        meta: { layout: 'auth' },
-    },
-    {
-        path: '/auth/password-reset',
-        name: 'password-reset',
-        component: () => import('@/pages/auth/passwordReset/TheIndex.vue'),
-        meta: { layout: 'auth' },
-    },
+    ...userLinks,
+    ...authLinks,
 ];
 
 const router = createRouter({
@@ -43,13 +28,22 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
     const store = useAppStore();
+    const user = useUser();
 
     if (to?.meta?.layout == 'auth') {
         store.setMainLayout('auth');
     } else {
         store.setMainLayout('app');
     }
-    next(true);
+    if (to.meta.pageGlobal) {
+        next(true);
+    } else if (to.meta.requiresUnAuth && user.isAuthenticated) {
+        next({ name: 'home' });
+    } else if (!to.meta.requiresUnAuth && !user.isAuthenticated) {
+        next({ name: 'signin' });
+    } else {
+        next(true);
+    }
 });
 router.afterEach((to, from, next) => {
     appSetting.changeAnimation();

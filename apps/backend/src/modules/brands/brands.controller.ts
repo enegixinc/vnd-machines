@@ -51,17 +51,13 @@ import { saneOperationsId } from '../../common/swagger.config';
     exclude: ['replaceOneBase'],
   },
   serialize: {
-    getMany: SerializedBrandDto,
     get: SerializedBrandDto,
     create: SerializedBrandDto,
-    replace: SerializedBrandDto,
-    recover: SerializedBrandDto,
-    delete: SerializedBrandDto,
-    createMany: SerializedBrandDto,
     update: SerializedBrandDto,
   },
 })
 @Controller('brands')
+@ApiBearerAuth('access-token')
 @ApiResponse({ status: 403, description: 'Forbidden.' })
 @ApiTags('brands')
 @ApiBearerAuth('JWT-auth')

@@ -1,12 +1,9 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@backend/config';
-
-import { UsersModule } from '../modules/users/users.module';
-import { FilesModule } from '../modules/files/files.module';
-import { ProductsModule } from '../modules/products/products.module';
-import { BrandsModule } from '../modules/brands/brands.module';
-import { CategoriesModule } from '../modules/categories/categories.module';
+import { ModulesModule } from '../modules/modules.module';
+import { JwtGuard } from '../modules/auth/guards/jwt.guard';
+import { APP_GUARD } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -24,13 +21,15 @@ import { CategoriesModule } from '../modules/categories/categories.module';
         entities: [__dirname + '/../../modules/**/*.entity{.ts,.js}'],
       }),
     }),
-    UsersModule,
-    FilesModule,
-    ProductsModule,
-    BrandsModule,
-    CategoriesModule,
+    ModulesModule,
     ConfigModule,
     // HealthModule,
+  ],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: JwtGuard,
+    },
   ],
 })
 export class AppModule {}

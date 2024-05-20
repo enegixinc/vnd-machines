@@ -47,20 +47,15 @@ import { UpdateProductDto } from './dto/request/update-product.dto';
     exclude: ['replaceOneBase'],
   },
   serialize: {
-    getMany: SerializedProductDto,
     get: SerializedProductDto,
     create: SerializedProductDto,
-    replace: SerializedProductDto,
-    recover: SerializedProductDto,
-    delete: SerializedProductDto,
-    createMany: SerializedProductDto,
     update: SerializedProductDto,
   },
 })
 @Controller('products')
+@ApiBearerAuth('access-token')
 @ApiResponse({ status: 403, description: 'Forbidden.' })
 @ApiTags('products')
-@ApiBearerAuth('JWT-auth')
 export class ProductsController implements CrudController<ProductEntity> {
   constructor(public service: ProductsService) {}
 

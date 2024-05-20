@@ -11,10 +11,10 @@
 /*@import 'swiper.css';*/
 
 /* sweetalert */
-/*@import 'sweetalert.css';*/
+@import 'sweetalert.css';
 
 /* tippy */
-/*@import 'tippy.css';*/
+@import 'tippy.css';
 
 /* range-slider */
 /*@import 'range-slider.css';*/
@@ -35,7 +35,7 @@
 /*@import 'wizard.css';*/
 
 /* vue3-datatable */
-/*@import 'datatable.css';*/
+@import 'datatable.css';
 
 /* lightbox */
 /*@import 'lightbox.css';*/
@@ -111,7 +111,7 @@
     .sidebar ul.sub-menu li button,
     .sidebar ul.sub-menu li a {
         @apply flex w-full items-center px-9 py-2.5 before:h-0.5 before:w-2 before:rounded before:bg-gray-300 hover:bg-gray-100
-        hover:text-primary hover:before:!bg-primary ltr:before:mr-2 rtl:before:ml-2 dark:before:bg-gray-500 dark:hover:bg-gray-900 dark:hover:text-primary;
+hover:text-primary hover:before:!bg-primary ltr:before:mr-2 rtl:before:ml-2 dark:before:bg-gray-500 dark:hover:bg-gray-900 dark:hover:text-primary;
     }
     .sidebar ul.sub-menu li button.active,
     .sidebar ul.sub-menu li a.active {
@@ -432,7 +432,7 @@
     .form-radio,
     .form-checkbox {
         @apply h-5 w-5 cursor-pointer rounded border-2 border-[#e0e6ed] bg-transparent text-primary !shadow-none !outline-none !ring-0 !ring-offset-0 checked:bg-[length:90%_90%] disabled:cursor-not-allowed disabled:bg-[#eee] ltr:mr-1.5 rtl:ml-1.5
-        dark:border-[#253b5c] dark:checked:border-transparent dark:disabled:bg-[#1b2e4b];
+      dark:border-[#253b5c] dark:checked:border-transparent dark:disabled:bg-[#1b2e4b];
     }
 
     .form-checkbox.outline-primary:checked {
@@ -715,4 +715,19 @@
 }
 .no-animtion [data-height-collapsible] {
     transition: none !important;
+}
+/*logo*/
+.collapsible-vertical .sidebar .main-logo > .icon-image {
+    @apply flex justify-center;
+}
+.collapsible-vertical .sidebar:hover .main-logo > .large-icon,
+.collapsible-vertical.toggle-sidebar .sidebar .main-logo > .large-icon {
+    @apply inline;
+}
+.collapsible-vertical .sidebar:hover .main-logo > .icon-image,
+.collapsible-vertical.toggle-sidebar .sidebar .main-logo > .icon-image {
+    @apply hidden;
+}
+.collapsible-vertical .sidebar .main-logo > .large-icon{
+    @apply hidden;
 }

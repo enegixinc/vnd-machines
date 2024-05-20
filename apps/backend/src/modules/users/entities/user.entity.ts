@@ -1,13 +1,20 @@
-import { Column, Entity, JoinTable, ManyToMany } from 'typeorm';
+import { BeforeInsert, Column, Entity, ManyToMany, OneToMany } from 'typeorm';
 import { IUserEntity, UserRole } from '@core';
+import { Factory } from 'nestjs-seeder';
+import bcrypt from 'bcrypt';
+
 import { DatabaseEntity } from '../../../common/database.entity';
 import { ProductEntity } from '../../products/product.entity';
 import { CategoryEntity } from '../../categories/category.entity';
 import { BrandEntity } from '../../brands/brand.entity';
-import { Factory } from 'nestjs-seeder';
 
 @Entity('users')
 export class UserEntity extends DatabaseEntity implements IUserEntity {
+  @BeforeInsert()
+  async hashPassword() {
+    this.password = await bcrypt.hash(this.password, 10);
+  }
+
   @Factory((faker) => faker.person.fullName())
   @Column({ type: 'varchar', length: 100, nullable: false })
   firstName: string;
@@ -49,16 +56,8 @@ export class UserEntity extends DatabaseEntity implements IUserEntity {
   @Column({ type: 'boolean', default: true })
   active: boolean;
 
-  @ManyToMany(() => ProductEntity, (product) => product.suppliers)
-  @JoinTable({
-    joinColumn: {
-      name: 'userId',
-      referencedColumnName: '_id',
-    },
-    inverseJoinColumn: {
-      name: 'productId',
-      referencedColumnName: '_id',
-    },
+  @OneToMany(() => ProductEntity, (product) => product.suppliers, {
+    eager: true,
   })
   products: string[];
 
@@ -69,6 +68,4 @@ export class UserEntity extends DatabaseEntity implements IUserEntity {
   categories: string[];
 
   documents: string[];
-
-  _id: string;
 }

@@ -1,4 +1,12 @@
 /** @type {import('tailwindcss').Config} */
+const plugin = require('tailwindcss/plugin');
+const rotateX = plugin(function ({ addUtilities }) {
+    addUtilities({
+        '.rotate-y-180': {
+            transform: 'rotateY(180deg)',
+        },
+    });
+});
 module.exports = {
     content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
     darkMode: 'class',
@@ -9,7 +17,7 @@ module.exports = {
         extend: {
             colors: {
                 primary: {
-                    DEFAULT: '#4361ee',
+                    DEFAULT: '#03516b',
                     light: '#eaf1ff',
                     'dark-light': 'rgba(67,97,238,.15)',
                 },
@@ -87,5 +95,6 @@ module.exports = {
             strategy: 'class',
         }),
         require('@tailwindcss/typography'),
+        rotateX,
     ],
 };

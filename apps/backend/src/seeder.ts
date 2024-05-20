@@ -37,9 +37,10 @@ seeder({
       BrandEntity,
       CategoryEntity,
       DatabaseEntity,
+      // change
     ]),
     ConfigModule,
   ],
 }).run([UsersSeeder, ProductsSeeder]);
 
-////
+////////
