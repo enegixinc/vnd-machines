@@ -174,5 +174,35 @@
         "search": "بحث...",
         "columns": "الاعمده"
     },
-    "wait": "انتظر من فضلك.."
+    "wait": "انتظر من فضلك..",
+    "links": {
+        "manageSuppliers": "إدارة الموردين",
+        "contracts": "العقود",
+        "manageContracts": "إدارة العقود",
+        "newContract": "إضافة عقد جديد",
+        "manageMachines": "إدارة الماكينات",
+        "newMachine": "إضافة اله جديده",
+        "machines": "ماكينات",
+        "products": "منتجات",
+        "manageProducts": "إدارة المنتجات",
+        "newProducts": "إضافة منتجات جديده",
+        "deletedProducts": "المنتجات المحذوفة",
+        "categories": "الفئات",
+        "manageCategories": "إدارة الفئات",
+        "deletedCategories": "الفئات المحذوفة",
+        "newCategories": "إضافة فئات جديده",
+        "brands": "العلامات التجاريه",
+        "manageBrands": "إدارة العلامات التجاريه",
+        "deletedBrands": "العلامات التجاريه المحذوفة",
+        "newBrands": "إضافة علامات تجاريه جديده",
+        "requests": "الطلبات",
+        "manageRequests": "إدارة الطلبات",
+        "createRequest": "إنشاء طلب",
+        "reports": "التقارير"
+    },
+    "headings": {
+        "machinesAndProducts": "الماكينات و المنتجات",
+        "categoriesAndBrands": "الفئات و العلامات التجاريه",
+        "requestsAndReports": "الطلبات و التقارير"
+    }
 }

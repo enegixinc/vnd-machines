@@ -173,5 +173,35 @@
         "search": "Search...",
         "columns": "Columns"
     },
-    "wait": "Please wait.."
+    "wait": "Please wait..",
+    "links": {
+        "manageSuppliers": "Manage Suppliers",
+        "contracts": "Contracts",
+        "manageContracts": "Manage Contracts",
+        "newContract": "Add New Contract",
+        "manageMachines": "Manage Machines",
+        "newMachine": "Add New Machine",
+        "machines": "Machines",
+        "products": "Products",
+        "manageProducts": "Manage Products",
+        "newProducts": "Add New Products",
+        "deletedProducts": "Deleted Products",
+        "categories": "Categories",
+        "manageCategories": "Manage Categories",
+        "deletedCategories": "Deleted Categories",
+        "newCategories": "Add New Categories",
+        "brands": "Brands",
+        "manageBrands": "Manage Brands",
+        "deletedBrands": "Deleted Brands",
+        "newBrands": "Add New Brands",
+        "requests": "Requests",
+        "manageRequests": "Manage Requests",
+        "createRequest": "Create Request",
+        "reports": "Reports"
+    },
+    "headings": {
+        "machinesAndProducts": "Machines & Products",
+        "categoriesAndBrands": "Categories & Brands",
+        "requestsAndReports": "Requests & Reports"
+    }
 }
