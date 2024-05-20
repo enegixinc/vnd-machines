@@ -33,10 +33,10 @@ FROM node:lts-slim AS production
 
 WORKDIR /app
 
-COPY --from=builder /app/dist/apps/frontend /app/dist
+COPY --from=builder /app/dist/apps/frontend /app
 COPY --from=builder /app/node_modules /app/node_modules
 COPY ../../scripts/slack.js /app/scripts/slack.js
 
 RUN npm install -g http-server
 
-CMD ["http-server", "-p", "80", "-c-1", "dist", "--proxy", "http://localhost:80?"]
+CMD ["http-server", "-p", "80", "-c-1", ".", "--proxy", "http://localhost:80?"]
