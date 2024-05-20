@@ -197,7 +197,8 @@
         "requests": "Requests",
         "manageRequests": "Manage Requests",
         "createRequest": "Create Request",
-        "reports": "Reports"
+        "reports": "Reports",
+        "mangeUsers": "Manage Users"
     },
     "headings": {
         "machinesAndProducts": "Machines & Products",

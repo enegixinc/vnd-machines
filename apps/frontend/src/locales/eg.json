@@ -198,7 +198,8 @@
         "requests": "الطلبات",
         "manageRequests": "إدارة الطلبات",
         "createRequest": "إنشاء طلب",
-        "reports": "التقارير"
+        "reports": "التقارير",
+        "mangeUsers": "إدارة المستخدمون"
     },
     "headings": {
         "machinesAndProducts": "الماكينات و المنتجات",

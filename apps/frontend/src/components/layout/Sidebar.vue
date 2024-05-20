@@ -70,7 +70,7 @@
                                         <ul class="sub-menu text-gray-500">
                                             <li>
                                                 <router-link :to="{name:'users'}" @click="toggleMobileMenu">{{
-                                                    $t('users')
+                                                    $t('links.mangeUsers')
                                                     }}
                                                 </router-link>
                                             </li>
