@@ -7,7 +7,7 @@ import { userLinks } from '@/router/users';
 import HomeView from '../views/index.vue';
 
 const routes: RouteRecordRaw[] = [
-    ///// dashboard
+    ////// dashboard
     { path: '/', name: 'home', component: HomeView },
     ...userLinks,
     ...authLinks,
