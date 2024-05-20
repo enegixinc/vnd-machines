@@ -146,7 +146,8 @@
         "enterYourEmailToRecoverYourID": "Enter your email to recover your Password",
         "recover": " RECOVER ",
         "invalidEmailOrPassword": "Invalid email or password.",
-        "signOut": "Sign Out"
+        "signOut": "Sign Out",
+        "backTo": "Back To"
     },
     "languages": {
         "English": "English",

@@ -147,7 +147,8 @@
         "recover": "استعاده",
         "invalidEmailOrPassword": "بريد إلكتروني أو كلمة مرور غير صحيحة.",
         "pleaseEnterValidEmail": "الرجاء ادخال بريد الكتروني صحيح",
-        "signOut": "تسجيل الخروج"
+        "signOut": "تسجيل الخروج",
+        "backTo": "العودة إلي"
     },
     "languages": {
         "English": "English",

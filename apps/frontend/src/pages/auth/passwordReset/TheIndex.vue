@@ -95,6 +95,12 @@
                             </button>
                         </form>
                     </div>
+                    <div class="text-center dark:text-white">
+                        {{ $t('authPages.backTo') }}
+                        <router-link :to="{name:'signin'}" class="uppercase text-primary underline transition hover:text-black dark:hover:text-white">
+                            {{ $t('authPages.signIn') }}
+                        </router-link>
+                    </div>
                     <p class="absolute bottom-6 w-full text-center dark:text-white">
                         <bdi>
                             © {{ new Date().getFullYear() }}. VND - Vending Machines System {{$t('allRightsReserved')}}.
