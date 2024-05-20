@@ -172,5 +172,6 @@
         "reset": "Reset",
         "search": "Search...",
         "columns": "Columns"
-    }
+    },
+    "wait": "Please wait.."
 }
