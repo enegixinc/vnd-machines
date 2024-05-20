@@ -382,7 +382,7 @@
                 <li class="menu nav-item relative">
                     <a href="javascript:;" class="nav-link">
                         <div class="flex items-center">
-                            <icon-menu-apps class="shrink-0" />
+                            <icon-menu-layout-grid class="shrink-0" />
                             <span class="px-2">{{ $t('headings.categoriesAndBrands') }}</span>
                         </div>
                         <div class="right_arrow">
@@ -437,7 +437,7 @@
                 <li class="menu nav-item relative">
                     <a href="javascript:;" class="nav-link">
                         <div class="flex items-center">
-                            <icon-menu-apps class="shrink-0" />
+                            <icon-menu-notes-edit class="shrink-0" />
                             <span class="px-2">{{ $t('headings.requestsAndReports') }}</span>
                         </div>
                         <div class="right_arrow">
@@ -497,6 +497,8 @@ import { ref, onMounted, computed, reactive, watch } from 'vue';
     import IconMenuUsersGroup from '@/components/icon/icon-users-group.vue';
     import IconMenuUsers from '@/components/icon/icon-users.vue';
     import IconMenuApps from "@/components/icon/menu/icon-menu-apps.vue";
+import IconMenuNotesEdit from '@/components/icon/icon-notes-edit.vue';
+import IconMenuLayoutGrid from '@/components/icon/icon-layout-grid.vue';
     import {useUser} from"@/stores/user"
 import IconMenuHome from "@/components/icon/icon-home.vue";
     const store = useAppStore();
