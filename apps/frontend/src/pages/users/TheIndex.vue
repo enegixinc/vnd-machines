@@ -7,6 +7,7 @@
             :table-data="usersData"
             :fields = "tableFields"
             :loading="loading"
+            :table-title="$t('users')"
             @change-server="users"
             :sortable="true"
             sort-by="createdAt"
@@ -19,16 +20,21 @@ import TheBreadcrumbs from "@/components/ui/TheBreadcrumbs.vue";
 import DataTable from "@/components/ui/DataTable.vue";
 import {vndClient} from "@/api"
 import {ISerializedUser} from "@core";
+
+
+
 const loading = ref(false),
     totalPages=ref(1),
     pageSize=ref<number|undefined>(10),
     usersData=ref<ISerializedUser[]>([]),
     tableFields=ref([
-        { field: 'firstName', title: 'Name' ,condition:"equal",hide: false},
-        { field: 'email', title: 'Email' ,hide: false},
-        { field: 'phoneNumber', title: 'Phone No.' ,hide: false},
-        { field: 'role', title: 'Role' ,hide: false},
-        { field: 'createdAt', title: 'Created At' ,hide: false,type: 'date'},
+        { field: 'firstName', title: "fields.name" ,condition:"equal",hide: false},
+        { field: 'email', title: "fields.email" ,hide: false},
+        { field: 'phoneNumber', title: 'fields.phoneNo' ,hide: false},
+        { field: 'businessName', title: 'fields.businessName' ,hide: false},
+        { field: 'role', title: 'fields.role' ,hide: false},
+        { field: 'active', title: 'fields.status' ,hide: false},
+        { field: 'createdAt', title: 'fields.createdAt' ,hide: false,type: 'date'},
         {field:'action',title:'',filter:false,sort:false}
     ])
 

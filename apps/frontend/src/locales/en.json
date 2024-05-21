@@ -130,12 +130,13 @@
     "products": "Products",
     "brands": "Brands",
     "usersPages": {
+        "users": "Users",
         "suppliers": "Suppliers",
         "account_settings": "Account Settings",
         "profile": "Profile",
         "deletedUsers": "Deleted Users",
         "addUser": "Add User",
-        "recoverUser": "Recover User"
+        "recoverUser": "Recover User",
     },
     "authPages": {
         "signIn": "SIGN IN",
@@ -155,7 +156,15 @@
     },
     "fields": {
         "email": "Email",
-        "password": "Password"
+        "password": "Password",
+        "name": "Name",
+        "phoneNo": "Phone No",
+        "businessName": "Business Name",
+        "role": "Role",
+        "createdAt": "Created At",
+        "status": "Status",
+        "actions": "Actions"
+
     },
     "placeHolders": {
         "enterEmail": "Enter Email",

@@ -31,7 +31,7 @@
                                                         :checked="!col.hide"
                                                     />
                                                     <span :for="`chk-${i}`" class="ltr:ml-2 rtl:mr-2">{{
-                                                            col.title
+                                                           col.field === 'action'? 'action' :$t(col.title)
                                                         }}</span>
                                                 </label>
                                             </div>
@@ -54,10 +54,10 @@
             <div class="datatable">
                 <vue3-datatable
                     :rows="tableData"
-                    :columns="fields"
+                    :columns="x"
                     :totalRows="pages"
                     :pageSize="perPage"
-                    sortDirection="desc"
+                    :sortDirection="sortDirection"
                     :loading="loading"
                     :sortable="sortable"
                     :sortColumn="sortBy"
@@ -88,8 +88,6 @@
                 >
                     <template #firstName="data">
                         <div class="flex items-center w-max">
-                            <img class="w-9 h-9 rounded-full ltr:mr-2 rtl:ml-2 object-cover"
-                                 :src="`https://i.pravatar.cc/200?u=${data.value.email}`"/>
                             {{ data.value.firstName + ' ' + data.value.lastName }}
                         </div>
                     </template>
@@ -130,14 +128,17 @@
 
 </template>
 <script setup lang="ts">
-import {ref} from 'vue';
+import {ref,computed} from 'vue';
 import Vue3Datatable from '@bhplugin/vue3-datatable';
 import {useAppStore} from '@/stores/index';
 import IconPencil from '@/components/icon/icon-pencil.vue';
 import IconTrashLines from '@/components/icon/icon-trash-lines.vue';
 import IconCaretDown from '@/components/icon/icon-caret-down.vue';
-
-
+import {useI18n} from"vue-i18n"
+const {t} = useI18n()
+const x = computed(() => {
+    return [ { field: 'firstName', title: t("fields.name") ,condition:"equal",hide: false}]
+})
 const store = useAppStore();
 const search = ref('');
 const emit = defineEmits(['changeServer'])
@@ -151,6 +152,7 @@ interface Props {
     sortBy?: string,
     sortable?: boolean,
     tableTitle?: string,
+    sortDirection?:string
 }
 
 withDefaults(defineProps<Props>(), {
@@ -671,7 +673,8 @@ withDefaults(defineProps<Props>(), {
     perPage: 10,
     sortable: true,
     sortBy: 'id',
-    tableTitle: 'users'
+    tableTitle: 'users',
+    sortDirection:'desc'
 })
 const formatDate = (date) => {
     if (date) {

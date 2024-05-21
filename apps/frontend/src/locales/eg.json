@@ -130,12 +130,13 @@
     "products": "منتجات",
     "brands": "العلامات التجاريه",
     "usersPages": {
+        "users": "المستخدمون",
         "suppliers": "الموردين",
         "profile": "الملف الشخصي",
         "account_settings": "إعدادت الحساب",
         "deletedUsers": "المستخدمون المحذوفون",
         "addUser": "إضافة مستخدم",
-        "recoverUser": "استعادة المستخدم"
+        "recoverUser": "استعادة المستخدم",
     },
     "authPages": {
         "signIn": "تسجيل الدخول",
@@ -156,7 +157,14 @@
     },
     "fields": {
         "email": "البريد الإلكتروني",
-        "password": "كلمة المرور"
+        "password": "كلمة المرور",
+        "name": "الأسم",
+        "phoneNo": "رقم الهاتف",
+        "businessName": "اسم العمل",
+        "role": "الدور",
+        "createdAt": "تاريخ الإنشاء",
+        "status": "الحالة",
+        "actions": "الاجراءات"
     },
     "placeHolders": {
         "enterEmail": "ادخل البريد الإلكتروني",
