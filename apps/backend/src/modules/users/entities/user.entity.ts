@@ -2,7 +2,7 @@ import {
   BeforeInsert,
   Column,
   Entity,
-  JoinTable,
+  JoinColumn,
   ManyToMany,
   OneToMany,
   OneToOne,
@@ -77,8 +77,8 @@ export class UserEntity extends DatabaseEntity implements IUserEntity {
   categories: string[];
 
   @OneToOne(() => ContractEntity, (contract) => contract.supplier)
-  @JoinTable()
-  contract: string[];
+  @JoinColumn()
+  contract: ContractEntity;
 
   documents: string[];
 }

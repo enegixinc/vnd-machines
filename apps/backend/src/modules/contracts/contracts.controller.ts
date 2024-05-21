@@ -35,6 +35,7 @@ import { ContractsService } from './contracts.service';
       supplier: {
         eager: true,
         alias: 'users',
+        exclude: ['password'],
       },
     },
   },

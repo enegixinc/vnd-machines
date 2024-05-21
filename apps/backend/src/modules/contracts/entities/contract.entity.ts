@@ -40,9 +40,8 @@ export class ContractEntity extends DatabaseEntity implements IContractEntity {
   @Column({ type: 'enum', enum: FeeType, nullable: false })
   feeType: FeeType;
 
-  @OneToOne(() => UserEntity, (supplier) => supplier.contract)
+  @OneToOne(() => UserEntity, (user) => user.contract)
   supplier: ReferenceByID<IUserEntity>;
-
   // @Column({ type: 'boolean', default: false })
   // autoRenew: boolean;
 
