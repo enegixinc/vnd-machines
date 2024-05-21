@@ -1,16 +1,16 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 import { useAppStore } from '@/stores/index';
-import { useUser } from '@/stores/user';
+import {useUser} from '@/stores/user'
 import appSetting from '@/app-setting';
-import { authLinks } from '@/router/auth';
-import { userLinks } from '@/router/users';
-import HomeView from '../views/index.vue';
+import {authLinks} from "@/router/auth";
+import {userLinks} from "@/router/users";
+
 
 const routes: RouteRecordRaw[] = [
-    ////// dashboard
-    { path: '/', name: 'home', component: HomeView },
+    // dashboard
+    { path: '/', name: 'home', component: () => import('@/pages/TheIndex.vue')},
     ...userLinks,
-    ...authLinks,
+    ...authLinks
 ];
 
 const router = createRouter({
@@ -35,12 +35,13 @@ router.beforeEach((to, from, next) => {
     } else {
         store.setMainLayout('app');
     }
-    if (to.meta.pageGlobal) {
+    if (to.meta.pageGlobal){
         next(true);
-    } else if (to.meta.requiresUnAuth && user.isAuthenticated) {
-        next({ name: 'home' });
+    }
+    else if (to.meta.requiresUnAuth && user.isAuthenticated) {
+        next({name:'home'});
     } else if (!to.meta.requiresUnAuth && !user.isAuthenticated) {
-        next({ name: 'signin' });
+        next({name:'signin'});
     } else {
         next(true);
     }

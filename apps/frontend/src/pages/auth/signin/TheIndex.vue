@@ -123,8 +123,15 @@
                                     <span class="text-white-dark">{{ $t('authPages.rememberMe') }}</span>
                                 </label>
                             </div>
-                            <button type="submit" class="btn btn-gradient !mt-6 w-full border-0 uppercase shadow-[0_10px_20px_-10px_rgba(67,97,238,0.44)]">
-                                {{ $t('authPages.signIn') }}
+                            <button type="submit" :disabled="loading" class="btn btn-gradient !mt-6 w-full border-0 uppercase shadow-[0_10px_20px_-10px_rgba(67,97,238,0.44)] disabled:opacity-60">
+                                <template v-if="loading">
+                                    <icon-loader class="animate-[spin_2s_linear_infinite] inline-block align-middle ltr:mr-2 rtl:ml-2 shrink-0" />
+                                    {{ $t('wait') }}
+                                </template>
+                               <template v-else>
+                                   {{ $t('authPages.signIn') }}
+                               </template>
+
                             </button>
                         </form>
                     </div>
@@ -151,6 +158,7 @@ import IconMail from '@/components/icon/icon-mail.vue';
 import IconLockDots from '@/components/icon/icon-lock-dots.vue';
 import {useUser} from "@/stores/user"
 import { jwtDecode } from "jwt-decode"
+import IconLoader from '@/components/icon/icon-loader.vue';
 // use sweet alert local now
 import Swal from 'sweetalert2';
 
@@ -171,7 +179,7 @@ const currentFlag = computed(() => {
 const form = ref({
     email:'',
     password:'',
-    rememberMe:false
+    rememberMe:true
 });
 interface errors {
     email:null | string,
@@ -181,7 +189,8 @@ const runErrors = ref<errors>({
     email:null,
     password:null
 });
-const formInvalid = ref(false)
+const formInvalid = ref(false);
+const loading = ref(false)
 async function onSubmit(){
     runErrors.value={
         email:null,
@@ -201,6 +210,7 @@ async function onSubmit(){
     }
     // handle request local now
     try{
+        loading.value = true
         const res:any =await vndClient.auth.authControllerLogin({
             requestBody:{
                 email:form.value.email,
@@ -213,20 +223,21 @@ async function onSubmit(){
 
     }catch (err:any){
         let msg= '';
-        console.log(err.body)
       //   handl error cardintial for now
         if(err?.body?.statusCode === 404){
             msg = i18n.t('authPages.invalidEmailOrPassword');
         }else {
             msg = i18n.t('errors.errorHappened')
         }
-      await  Swal.fire({
+        Swal.fire({
             icon: 'error',
             title: i18n.t('errors.ops'),
             text: msg,
             padding: '0',
           confirmButtonColor:'primary',
         });
+    }finally {
+        loading.value = false
     }
 
 }

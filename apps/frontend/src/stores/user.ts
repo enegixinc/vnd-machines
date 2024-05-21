@@ -13,7 +13,7 @@ export const useUser = defineStore('user', () => {
     let timer:number;
 
 
-    function setUser(userInfo:unknown, userToken:string|null,userRefreshToken:string|null, expiresIn:number,newLogin?:boolean, loginOnce?:boolean):void{
+    function setUser(userInfo:unknown, userToken:string|null,userRefreshToken:string|null, expiresIn:number,newLogin?:boolean, rememberMe?:boolean):void{
         user.value= userInfo;
         token.value = userToken;
         refreshToken.value= userRefreshToken;
@@ -21,7 +21,7 @@ export const useUser = defineStore('user', () => {
         if (newLogin){
             expiresIn = expiresIn? expiresIn * 1000 : 0;
             const expirationDate = new Date(expiresIn).getTime();
-            if (userRefreshToken && userToken && userInfo && expirationDate && !loginOnce){
+            if (userRefreshToken && userToken && userInfo && expirationDate && rememberMe){
                 localStorage.setItem('token', userToken);
                 localStorage.setItem('refreshToken', userRefreshToken);
                 localStorage.setItem('user', JSON.stringify(userInfo));
