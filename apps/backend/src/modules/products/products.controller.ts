@@ -7,6 +7,7 @@ import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { SerializedProductDto } from './dto/response/serialized-product.dto';
 import { saneOperationsId } from '../../common/swagger.config';
 import { UpdateProductDto } from './dto/request/update-product.dto';
+import { UsersService } from '../users/users.service';
 
 @Crud({
   model: {
@@ -36,10 +37,32 @@ import { UpdateProductDto } from './dto/request/update-product.dto';
     limit: 20,
     maxLimit: 100,
     join: {
-      suppliers: {
-        alias: 'users',
+      supplier: {
         eager: true,
+        alias: 'users',
+        exclude: ['password'],
       },
+      brand: {
+        eager: true,
+        alias: 'brands',
+      },
+      category: {
+        eager: true,
+        alias: 'categories',
+      },
+
+      // 'suppliers.brands': {
+      //   eager: true,
+      //   alias: 'brands',
+      // },
+      // 'suppliers.products': {
+      //   eager: true,
+      //   alias: 'products',
+      // },
+      // 'suppliers.categories': {
+      //   eager: true,
+      //   alias: 'categories',
+      // },
     },
   },
   routes: {
@@ -57,9 +80,18 @@ import { UpdateProductDto } from './dto/request/update-product.dto';
 @ApiResponse({ status: 403, description: 'Forbidden.' })
 @ApiTags('products')
 export class ProductsController implements CrudController<ProductEntity> {
-  constructor(public service: ProductsService) {}
+  constructor(
+    private readonly productsService: ProductsService,
+    private readonly usersService: UsersService
+  ) {}
+  service = this.productsService;
 
-  get base(): CrudController<ProductEntity> {
-    return this;
-  }
+  // @Public()
+  // @Post('add-supplier')
+  // async addSupplier(
+  //   @Param('productId') productId: string,
+  //   @Param('supplierId') supplierId: string
+  // ) {
+  //   return this.productsService.addSupplier(productId, supplierId);
+  // }
 }

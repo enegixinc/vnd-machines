@@ -31,4 +31,22 @@ export class SharedBrandDto {
     })
   )
   referTo: string;
+
+  @decorate(
+    ApiProperty({
+      example: 'https://www.local.com/image.jpg',
+      description: 'Brand logo',
+      type: String,
+    })
+  )
+  logo: string;
+
+  @decorate(
+    ApiProperty({
+      example: 'https://www.local.com/image.jpg',
+      description: 'Brand picture',
+      type: String,
+    })
+  )
+  picture: string;
 }

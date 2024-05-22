@@ -47,6 +47,9 @@ import { Public } from '../auth/decorators/public.decorator';
       brands: {
         eager: true,
       },
+      contracts: {
+        eager: true,
+      },
     },
   },
   routes: {
