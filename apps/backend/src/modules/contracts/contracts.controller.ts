@@ -37,6 +37,18 @@ import { ContractsService } from './contracts.service';
         alias: 'users',
         exclude: ['password'],
       },
+      'supplier.brands': {
+        eager: true,
+        alias: 'brands',
+      },
+      'supplier.products': {
+        eager: true,
+        alias: 'products',
+      },
+      'supplier.categories': {
+        eager: true,
+        alias: 'categories',
+      },
     },
   },
   routes: {

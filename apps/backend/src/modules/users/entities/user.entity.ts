@@ -77,7 +77,7 @@ export class UserEntity extends DatabaseEntity implements IUserEntity {
 
   @OneToMany(() => ContractEntity, (contract) => contract.supplier)
   @JoinColumn()
-  contracts: ContractEntity[];
+  contracts: string[];
 
   documents: string[];
 }
