@@ -7,6 +7,7 @@ import { UpdateUserDto } from './dto/response/update-user.dto';
 import { SerializedUserDto } from './dto/response/serialized-user.dto';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { saneOperationsId } from '../../common/swagger.config';
+import { Public } from '../auth/decorators/public.decorator';
 
 @Crud({
   model: {
@@ -54,7 +55,7 @@ import { saneOperationsId } from '../../common/swagger.config';
   routes: {
     ...saneOperationsId,
     // createOneBase: {
-    //   // decorators: [...saneOperationsId.createOneBase.decorators, Public],
+    //   decorators: [...saneOperationsId.createOneBase.decorators, Public],
     // },
     exclude: ['replaceOneBase'],
   },
@@ -66,6 +67,7 @@ import { saneOperationsId } from '../../common/swagger.config';
 })
 @Controller('users')
 @ApiBearerAuth('access-token')
+@Public()
 @ApiResponse({ status: 403, description: 'Forbidden.' })
 @ApiTags('users')
 export class UsersController implements CrudController<UserEntity> {
