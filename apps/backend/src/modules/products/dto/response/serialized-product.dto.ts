@@ -42,8 +42,8 @@ export class SerializedProductDto
 
   @decorate(
     ApiProperty({
-      type: () => [SharedUserDto],
+      type: () => SharedUserDto,
     })
   )
-  suppliers: ISerializedUser[];
+  supplier: ISerializedUser[];
 }

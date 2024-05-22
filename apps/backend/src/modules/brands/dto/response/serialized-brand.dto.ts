@@ -8,9 +8,8 @@ import {
   ISerializedUser,
 } from '@core';
 import { ApiProperty } from '@nestjs/swagger';
-import { SerializedUserDto } from '../../../users/dto/response/serialized-user.dto';
-import { SerializedProductDto } from '../../../products/dto/response/serialized-product.dto';
 import { SharedCategoryDto } from '../../../categories/dto/shared/shared-category.dto';
+import { SharedProductDto } from '../../../products/dto/shared/shared-product.dto';
 
 class ResolvedBrandDto {
   @decorate(
@@ -22,14 +21,14 @@ class ResolvedBrandDto {
 
   @decorate(
     ApiProperty({
-      type: () => [SerializedProductDto],
+      type: () => [SharedProductDto],
     })
   )
   products: ISerializedProduct[];
 
   @decorate(
     ApiProperty({
-      type: () => [SerializedUserDto],
+      type: () => [SharedProductDto],
     })
   )
   suppliers: ISerializedUser[];

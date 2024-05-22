@@ -15,7 +15,7 @@ export interface IProductEntity
 
 export interface ISerializedProduct
   extends Omit<ISerializedMagexProduct, keyof IMagexProductResolvedEntities> {
-  suppliers: ISerializedUser[];
+  supplier: ISerializedUser[];
   brand: ISerializedBrand;
   category: ISerializedCategory;
   productVideo: string;
@@ -23,7 +23,7 @@ export interface ISerializedProduct
 
 export interface ICreateProduct
   extends Omit<ICreateMagexProduct, keyof IMagexProductResolvedEntities> {
-  suppliers: ReferenceByID<ISerializedUser>[];
+  supplier: ReferenceByID<ISerializedUser>[];
   brand: ReferenceByID<ISerializedBrand>;
   category: ReferenceByID<ISerializedMagexCategory>[];
   productVideo: File | Blob;

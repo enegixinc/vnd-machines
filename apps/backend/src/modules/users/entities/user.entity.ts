@@ -64,9 +64,7 @@ export class UserEntity extends DatabaseEntity implements IUserEntity {
   @Column({ type: 'boolean', default: true })
   active: boolean;
 
-  @OneToMany(() => ProductEntity, (product) => product.suppliers, {
-    eager: true,
-  })
+  @OneToMany(() => ProductEntity, (product) => product.supplier)
   products: string[];
 
   @ManyToMany(() => BrandEntity, (brand) => brand.suppliers)

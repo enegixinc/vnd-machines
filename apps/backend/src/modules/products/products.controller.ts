@@ -37,28 +37,32 @@ import { UsersService } from '../users/users.service';
     limit: 20,
     maxLimit: 100,
     join: {
-      suppliers: {
+      supplier: {
         eager: true,
         alias: 'users',
         exclude: ['password'],
       },
-      'suppliers.brands': {
+      brand: {
         eager: true,
         alias: 'brands',
       },
-      'suppliers.products': {
-        eager: true,
-        alias: 'products',
-      },
-      'suppliers.categories': {
+      category: {
         eager: true,
         alias: 'categories',
       },
 
-      brand: {
-        eager: true,
-        alias: 'brand',
-      },
+      // 'suppliers.brands': {
+      //   eager: true,
+      //   alias: 'brands',
+      // },
+      // 'suppliers.products': {
+      //   eager: true,
+      //   alias: 'products',
+      // },
+      // 'suppliers.categories': {
+      //   eager: true,
+      //   alias: 'categories',
+      // },
     },
   },
   routes: {

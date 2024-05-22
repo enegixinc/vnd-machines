@@ -4,6 +4,7 @@ import {
   IDocument,
   ISerializedBrand,
   ISerializedContract,
+  ISerializedProduct,
   ISerializedUser,
 } from '@core';
 import { DatabaseEntity } from '../../../../common/database.entity';
@@ -23,7 +24,7 @@ export class SerializedUserDto
       type: () => [SerializedProductDto],
     })
   )
-  products: SerializedProductDto[];
+  products: ISerializedProduct[];
 
   // TODO: add this to the system
   documents: IDocument[];
