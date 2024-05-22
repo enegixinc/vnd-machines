@@ -44,7 +44,7 @@ export class SerializedUserDto
   contracts: ISerializedContract[];
 
   constructor(props: UserEntity) {
-    if (props.password) delete props.password;
+    if (props?.password) delete props.password;
     super(props);
     Object.assign(this, props);
   }
