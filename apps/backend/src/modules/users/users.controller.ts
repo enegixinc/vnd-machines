@@ -8,6 +8,7 @@ import { SerializedUserDto } from './dto/response/serialized-user.dto';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { saneOperationsId } from '../../common/swagger.config';
 import { Public } from '../auth/decorators/public.decorator';
+import { SharedUserDto } from './dto/shared/shared-user.dto';
 
 @Crud({
   model: {
@@ -62,6 +63,8 @@ import { Public } from '../auth/decorators/public.decorator';
   serialize: {
     get: SerializedUserDto,
     getMany: SerializedUserDto,
+    update: SharedUserDto,
+    create: SerializedUserDto,
   },
 })
 @Controller('users')

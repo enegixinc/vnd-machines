@@ -19,29 +19,52 @@ export const $LoginDto = {
     required: ['email', 'password']
 } as const;
 
-export const $GetManyUserEntityResponseDto = {
+export const $UserRole = {
+    type: 'string',
+    description: 'Role of the user',
+    default: 'supplier',
+    enum: ['admin', 'supplier']
+} as const;
+
+export const $SharedUserDto = {
     type: 'object',
     properties: {
-        data: {
-            type: 'array',
-            items: {
-                '$ref': '#/components/schemas/SerializedUserDto'
-            }
+        active: {
+            type: 'boolean',
+            example: true,
+            description: 'Is the user active'
         },
-        count: {
-            type: 'number'
+        email: {
+            type: 'string',
+            example: 'email@example.com',
+            description: 'Email of the user',
+            uniqueItems: true
         },
-        total: {
-            type: 'number'
+        firstName: {
+            type: 'string',
+            example: 'John'
         },
-        page: {
-            type: 'number'
+        lastName: {
+            type: 'string',
+            example: 'Doe'
         },
-        pageCount: {
-            type: 'number'
+        phoneNumber: {
+            type: 'string',
+            example: '+201554891929',
+            description: 'Phone number of the user'
+        },
+        role: {
+            example: 'supplier',
+            '$ref': '#/components/schemas/UserRole'
+        },
+        businessName: {
+            type: 'string',
+            example: 'Business Name',
+            description: 'Business name of the user',
+            nullable: true
         }
     },
-    required: ['data', 'count', 'total', 'page', 'pageCount']
+    required: ['active', 'email', 'firstName', 'lastName', 'phoneNumber', 'role', 'businessName']
 } as const;
 
 export const $UserEntity = {
@@ -76,13 +99,6 @@ export const $UserEntity = {
         }
     },
     required: ['_id', '__v', 'createdAt', 'updatedAt', 'deletedAt', 'lastSyncAt']
-} as const;
-
-export const $UserRole = {
-    type: 'string',
-    description: 'Role of the user',
-    default: 'supplier',
-    enum: ['admin', 'supplier']
 } as const;
 
 export const $GetManyProductEntityResponseDto = {
@@ -205,47 +221,6 @@ export const $SharedBrandDto = {
         }
     },
     required: ['name', 'referTo', 'logo', 'picture']
-} as const;
-
-export const $SharedUserDto = {
-    type: 'object',
-    properties: {
-        active: {
-            type: 'boolean',
-            example: true,
-            description: 'Is the user active'
-        },
-        email: {
-            type: 'string',
-            example: 'email@example.com',
-            description: 'Email of the user',
-            uniqueItems: true
-        },
-        firstName: {
-            type: 'string',
-            example: 'John'
-        },
-        lastName: {
-            type: 'string',
-            example: 'Doe'
-        },
-        phoneNumber: {
-            type: 'string',
-            example: '+201554891929',
-            description: 'Phone number of the user'
-        },
-        role: {
-            example: 'supplier',
-            '$ref': '#/components/schemas/UserRole'
-        },
-        businessName: {
-            type: 'string',
-            example: 'Business Name',
-            description: 'Business name of the user',
-            nullable: true
-        }
-    },
-    required: ['active', 'email', 'firstName', 'lastName', 'phoneNumber', 'role', 'businessName']
 } as const;
 
 export const $SerializedProductDto = {
@@ -754,51 +729,6 @@ export const $ContractEntity = {
     required: ['_id', '__v', 'createdAt', 'updatedAt', 'deletedAt', 'lastSyncAt']
 } as const;
 
-export const $SerializedContractDto = {
-    type: 'object',
-    properties: {
-        _id: {
-            type: 'string',
-            example: '6a909236-53f2-4727-b780-e41e115ee906'
-        },
-        __v: {
-            type: 'number',
-            example: 1,
-            description: 'Version'
-        },
-        createdAt: {
-            type: 'date',
-            example: '2021-07-01T00:00:00.000Z'
-        },
-        updatedAt: {
-            type: 'date',
-            example: '2021-07-01T00:00:00.000Z'
-        },
-        deletedAt: {
-            type: 'date',
-            example: '2021-07-01T00:00:00.000Z',
-            nullable: true
-        },
-        lastSyncAt: {
-            type: 'date',
-            example: '2021-07-01T00:00:00.000Z',
-            nullable: true
-        },
-        supplier: {
-            '$ref': '#/components/schemas/SerializedUserDto'
-        },
-        totalRevenue: {
-            type: 'string',
-            example: 4213
-        },
-        totalSales: {
-            type: 'string',
-            example: 213
-        }
-    },
-    required: ['_id', '__v', 'createdAt', 'updatedAt', 'deletedAt', 'lastSyncAt', 'supplier', 'totalRevenue', 'totalSales']
-} as const;
-
 export const $SerializedUserDto = {
     type: 'object',
     properties: {
@@ -883,6 +813,51 @@ export const $SerializedUserDto = {
         }
     },
     required: ['_id', '__v', 'createdAt', 'updatedAt', 'deletedAt', 'lastSyncAt', 'active', 'email', 'firstName', 'lastName', 'phoneNumber', 'role', 'businessName', 'products', 'brand', 'contracts']
+} as const;
+
+export const $SerializedContractDto = {
+    type: 'object',
+    properties: {
+        _id: {
+            type: 'string',
+            example: '6a909236-53f2-4727-b780-e41e115ee906'
+        },
+        __v: {
+            type: 'number',
+            example: 1,
+            description: 'Version'
+        },
+        createdAt: {
+            type: 'date',
+            example: '2021-07-01T00:00:00.000Z'
+        },
+        updatedAt: {
+            type: 'date',
+            example: '2021-07-01T00:00:00.000Z'
+        },
+        deletedAt: {
+            type: 'date',
+            example: '2021-07-01T00:00:00.000Z',
+            nullable: true
+        },
+        lastSyncAt: {
+            type: 'date',
+            example: '2021-07-01T00:00:00.000Z',
+            nullable: true
+        },
+        supplier: {
+            '$ref': '#/components/schemas/SerializedUserDto'
+        },
+        totalRevenue: {
+            type: 'string',
+            example: 4213
+        },
+        totalSales: {
+            type: 'string',
+            example: 213
+        }
+    },
+    required: ['_id', '__v', 'createdAt', 'updatedAt', 'deletedAt', 'lastSyncAt', 'supplier', 'totalRevenue', 'totalSales']
 } as const;
 
 export const $Object = {
@@ -1025,11 +1000,11 @@ export const $CreateContractDto = {
         },
         startDate: {
             type: 'date',
-            default: '2024-05-22T10:16:10.450Z'
+            default: '2024-05-22T12:02:07.550Z'
         },
         endDate: {
             type: 'date',
-            default: '2024-05-22T10:16:10.450Z'
+            default: '2024-05-22T12:02:07.550Z'
         },
         status: {
             type: 'string',
