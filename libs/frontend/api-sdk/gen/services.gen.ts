@@ -90,7 +90,7 @@ export class UsersService {
      * @param data The data for the request.
      * @param data.id
      * @param data.requestBody
-     * @returns SerializedUserDto Response
+     * @returns SharedUserDto Response
      * @throws ApiError
      */
     public updateOne(data: $OpenApiTs['/users/{id}']['patch']['req']): CancelablePromise<$OpenApiTs['/users/{id}']['patch']['res'][200]> {
@@ -140,7 +140,7 @@ export class UsersService {
      * @param data.page Page portion of resources. <a href="https://github.com/nestjsx/crud/wiki/Requests#page" target="_blank">Docs</a>
      * @param data.cache Reset cache (if was enabled). <a href="https://github.com/nestjsx/crud/wiki/Requests#cache" target="_blank">Docs</a>
      * @param data.includeDeleted Include deleted. <a href="https://github.com/nestjsx/crud/wiki/Requests#includeDeleted" target="_blank">Docs</a>
-     * @returns GetManyUserEntityResponseDto Get paginated response
+     * @returns SerializedUserDto Get paginated response
      * @throws ApiError
      */
     public getMany(data: $OpenApiTs['/users']['get']['req'] = {}): CancelablePromise<$OpenApiTs['/users']['get']['res'][200]> {

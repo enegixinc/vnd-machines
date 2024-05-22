@@ -8,12 +8,31 @@ export type LoginDto = {
     password: string;
 };
 
-export type GetManyUserEntityResponseDto = {
-    data: Array<SerializedUserDto>;
-    count: number;
-    total: number;
-    page: number;
-    pageCount: number;
+/**
+ * Role of the user
+ */
+export type UserRole = 'admin' | 'supplier';
+
+export type SharedUserDto = {
+    /**
+     * Is the user active
+     */
+    active: boolean;
+    /**
+     * Email of the user
+     */
+    email: string;
+    firstName: string;
+    lastName: string;
+    /**
+     * Phone number of the user
+     */
+    phoneNumber: string;
+    role: UserRole;
+    /**
+     * Business name of the user
+     */
+    businessName: string | null;
 };
 
 export type UserEntity = {
@@ -27,11 +46,6 @@ export type UserEntity = {
     deletedAt: string | null;
     lastSyncAt: string | null;
 };
-
-/**
- * Role of the user
- */
-export type UserRole = 'admin' | 'supplier';
 
 export type GetManyProductEntityResponseDto = {
     data: Array<SerializedProductDto>;
@@ -94,28 +108,6 @@ export type SharedBrandDto = {
      * Brand picture
      */
     picture: string;
-};
-
-export type SharedUserDto = {
-    /**
-     * Is the user active
-     */
-    active: boolean;
-    /**
-     * Email of the user
-     */
-    email: string;
-    firstName: string;
-    lastName: string;
-    /**
-     * Phone number of the user
-     */
-    phoneNumber: string;
-    role: UserRole;
-    /**
-     * Business name of the user
-     */
-    businessName: string | null;
 };
 
 export type SerializedProductDto = {
@@ -413,21 +405,6 @@ export type ContractEntity = {
     lastSyncAt: string | null;
 };
 
-export type SerializedContractDto = {
-    _id: string;
-    /**
-     * Version
-     */
-    __v: number;
-    createdAt: string;
-    updatedAt: string;
-    deletedAt: string | null;
-    lastSyncAt: string | null;
-    supplier: SerializedUserDto;
-    totalRevenue: string;
-    totalSales: string;
-};
-
 export type SerializedUserDto = {
     _id: string;
     /**
@@ -460,6 +437,21 @@ export type SerializedUserDto = {
     products: Array<SerializedProductDto>;
     brand: Array<SerializedBrandDto>;
     contracts: Array<SerializedContractDto>;
+};
+
+export type SerializedContractDto = {
+    _id: string;
+    /**
+     * Version
+     */
+    __v: number;
+    createdAt: string;
+    updatedAt: string;
+    deletedAt: string | null;
+    lastSyncAt: string | null;
+    supplier: SerializedUserDto;
+    totalRevenue: string;
+    totalSales: string;
 };
 
 export type Object = unknown;
@@ -933,7 +925,7 @@ export type $OpenApiTs = {
                 /**
                  * Response
                  */
-                200: SerializedUserDto;
+                200: SharedUserDto;
                 /**
                  * Forbidden.
                  */
@@ -1008,7 +1000,7 @@ export type $OpenApiTs = {
                 /**
                  * Get paginated response
                  */
-                200: GetManyUserEntityResponseDto;
+                200: SerializedUserDto;
                 /**
                  * Forbidden.
                  */
