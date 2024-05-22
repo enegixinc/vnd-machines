@@ -38,8 +38,26 @@ import { UsersService } from '../users/users.service';
     maxLimit: 100,
     join: {
       suppliers: {
-        alias: 'users',
         eager: true,
+        alias: 'users',
+        exclude: ['password'],
+      },
+      'suppliers.brands': {
+        eager: true,
+        alias: 'brands',
+      },
+      'suppliers.products': {
+        eager: true,
+        alias: 'products',
+      },
+      'suppliers.categories': {
+        eager: true,
+        alias: 'categories',
+      },
+
+      brand: {
+        eager: true,
+        alias: 'brand',
       },
     },
   },

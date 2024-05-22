@@ -17,7 +17,7 @@ export interface ISerializedProduct
   extends Omit<ISerializedMagexProduct, keyof IMagexProductResolvedEntities> {
   suppliers: ISerializedUser[];
   brand: ISerializedBrand;
-  category: ISerializedCategory[];
+  category: ISerializedCategory;
   productVideo: string;
 }
 
