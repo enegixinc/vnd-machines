@@ -61,8 +61,7 @@ import { Public } from '../auth/decorators/public.decorator';
   },
   serialize: {
     get: SerializedUserDto,
-    create: SerializedUserDto,
-    update: SerializedUserDto,
+    getMany: SerializedUserDto,
   },
 })
 @Controller('users')

@@ -73,7 +73,9 @@ export class UserEntity extends DatabaseEntity implements IUserEntity {
   @ManyToMany(() => CategoryEntity, (category) => category.suppliers)
   categories: string[];
 
-  @OneToMany(() => ContractEntity, (contract) => contract.supplier)
+  @OneToMany(() => ContractEntity, (contract) => contract.supplier, {
+    cascade: ['insert', 'update', 'recover', 'remove', 'soft-remove'],
+  })
   @JoinColumn()
   contracts: string[];
 
