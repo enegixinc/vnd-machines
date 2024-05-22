@@ -53,16 +53,7 @@ export type ProductEntity = {
     lastSyncAt: string | null;
 };
 
-export type OmitTypeClass = {
-    _id: string;
-    /**
-     * Version
-     */
-    __v: number;
-    createdAt: string;
-    updatedAt: string;
-    deletedAt: string | null;
-    lastSyncAt: string | null;
+export type SharedCategoryDto = {
     /**
      * Name of the Category in multiple languages
      */
@@ -82,8 +73,49 @@ export type OmitTypeClass = {
      * Sort index
      */
     sortIndex: number;
-    suppliers: Array<OmitTypeClass>;
-    brands: Array<OmitTypeClass>;
+};
+
+export type SharedBrandDto = {
+    /**
+     * Name of the product in multiple languages
+     */
+    name: {
+        [key: string]: unknown;
+    };
+    /**
+     * Email of the owner
+     */
+    referTo: string;
+    /**
+     * Brand logo
+     */
+    logo: string;
+    /**
+     * Brand picture
+     */
+    picture: string;
+};
+
+export type SharedUserDto = {
+    /**
+     * Is the user active
+     */
+    active: boolean;
+    /**
+     * Email of the user
+     */
+    email: string;
+    firstName: string;
+    lastName: string;
+    /**
+     * Phone number of the user
+     */
+    phoneNumber: string;
+    role: UserRole;
+    /**
+     * Business name of the user
+     */
+    businessName: string | null;
 };
 
 export type SerializedProductDto = {
@@ -196,13 +228,204 @@ export type SerializedProductDto = {
      * Virtual product indicator
      */
     virtualProduct: number;
-    category: Array<OmitTypeClass>;
-    brand: Array<OmitTypeClass>;
-    suppliers: Array<OmitTypeClass>;
     /**
      * Video of the product
      */
     productVideo: string;
+    category: SharedCategoryDto;
+    brand: SharedBrandDto;
+    supplier: SharedUserDto;
+};
+
+export type GetManyBrandEntityResponseDto = {
+    data: Array<SerializedBrandDto>;
+    count: number;
+    total: number;
+    page: number;
+    pageCount: number;
+};
+
+export type BrandEntity = {
+    _id: string;
+    /**
+     * Version
+     */
+    __v: number;
+    createdAt: string;
+    updatedAt: string;
+    deletedAt: string | null;
+    lastSyncAt: string | null;
+};
+
+export type SharedProductDto = {
+    /**
+     * UPC of the product
+     */
+    upc: string;
+    /**
+     * Additional price of the product
+     */
+    additionPrice: number;
+    /**
+     * Age control of the product
+     */
+    ageControl: number;
+    /**
+     * Name of the product in multiple languages
+     */
+    name: {
+        [key: string]: unknown;
+    };
+    /**
+     * Barcode of the product
+     */
+    barcode: string;
+    /**
+     * Cost price of the product
+     */
+    costPrice: number;
+    /**
+     * Description of the product in multiple languages
+     */
+    description: {
+        [key: string]: unknown;
+    };
+    /**
+     * Description of the product in multiple languages
+     */
+    detail: {
+        [key: string]: unknown;
+    };
+    /**
+     * Description of the product in multiple languages
+     */
+    include: {
+        [key: string]: unknown;
+    };
+    /**
+     * Description of the product in multiple languages
+     */
+    ingredients: {
+        [key: string]: unknown;
+    };
+    /**
+     * Description of the product in multiple languages
+     */
+    keyFeatures: {
+        [key: string]: unknown;
+    };
+    /**
+     * Description of the product in multiple languages
+     */
+    specification: {
+        [key: string]: unknown;
+    };
+    /**
+     * Dimensions of the product
+     */
+    dimension: {
+        [key: string]: unknown;
+    };
+    /**
+     * Price of the product
+     */
+    price: number;
+    /**
+     * Whether the price is per kilo or not
+     */
+    pricePerKilo: boolean;
+    /**
+     * Type of the product
+     */
+    prodType: string;
+    /**
+     * Array of product picture URLs
+     */
+    productPictures: Array<(string)>;
+    /**
+     * Reference to another product
+     */
+    referTo: string;
+    /**
+     * Index for sorting the product
+     */
+    sortIndex: number;
+    /**
+     * VAT index of the product
+     */
+    vatIndex: number;
+    /**
+     * Virtual product indicator
+     */
+    virtualProduct: number;
+};
+
+export type SerializedBrandDto = {
+    _id: string;
+    /**
+     * Version
+     */
+    __v: number;
+    createdAt: string;
+    updatedAt: string;
+    deletedAt: string | null;
+    lastSyncAt: string | null;
+    /**
+     * Name of the product in multiple languages
+     */
+    name: {
+        [key: string]: unknown;
+    };
+    /**
+     * Email of the owner
+     */
+    referTo: string;
+    /**
+     * Brand logo
+     */
+    logo: string;
+    /**
+     * Brand picture
+     */
+    picture: string;
+    categories: Array<SharedCategoryDto>;
+    products: Array<SharedProductDto>;
+    suppliers: Array<SharedProductDto>;
+};
+
+export type GetManyContractEntityResponseDto = {
+    data: Array<SerializedContractDto>;
+    count: number;
+    total: number;
+    page: number;
+    pageCount: number;
+};
+
+export type ContractEntity = {
+    _id: string;
+    /**
+     * Version
+     */
+    __v: number;
+    createdAt: string;
+    updatedAt: string;
+    deletedAt: string | null;
+    lastSyncAt: string | null;
+};
+
+export type SerializedContractDto = {
+    _id: string;
+    /**
+     * Version
+     */
+    __v: number;
+    createdAt: string;
+    updatedAt: string;
+    deletedAt: string | null;
+    lastSyncAt: string | null;
+    supplier: SerializedUserDto;
+    totalRevenue: string;
+    totalSales: string;
 };
 
 export type SerializedUserDto = {
@@ -235,6 +458,8 @@ export type SerializedUserDto = {
      */
     businessName: string | null;
     products: Array<SerializedProductDto>;
+    brand: Array<SerializedBrandDto>;
+    contracts: Array<SerializedContractDto>;
 };
 
 export type Object = unknown;
@@ -291,6 +516,16 @@ export type UpdateUserDto = {
 
 export type PickTypeClass = {
     _id: string;
+};
+
+export type CreateContractDto = {
+    description: string;
+    feePerSale: number;
+    feeType: 'percentage' | 'fixed';
+    startDate: string;
+    endDate: string;
+    status: 'active' | 'expired' | 'terminated';
+    supplier: PickTypeClass;
 };
 
 export type CreateProductDto = {
@@ -394,9 +629,9 @@ export type CreateProductDto = {
      * Virtual product indicator
      */
     virtualProduct: number;
-    suppliers: Array<PickTypeClass>;
+    supplier: PickTypeClass;
     brand: PickTypeClass;
-    category: Array<PickTypeClass>;
+    category: PickTypeClass;
     productVideo: File;
 };
 
@@ -505,9 +740,9 @@ export type UpdateProductDto = {
      * Virtual product indicator
      */
     virtualProduct?: number;
-    suppliers?: Array<PickTypeClass>;
+    supplier?: PickTypeClass;
     brand?: PickTypeClass;
-    category?: Array<PickTypeClass>;
+    category?: PickTypeClass;
     productVideo?: File;
 };
 
@@ -560,9 +795,9 @@ export type SerializedCategoryDto = {
      * Sort index
      */
     sortIndex: number;
-    products: Array<OmitTypeClass>;
-    suppliers: Array<OmitTypeClass>;
-    brands: Array<OmitTypeClass>;
+    products: Array<SharedProductDto>;
+    suppliers: Array<SharedUserDto>;
+    brands: Array<SharedBrandDto>;
 };
 
 export type CreateCategoryDto = {
@@ -591,59 +826,6 @@ export type CreateManyCategoryEntityDto = {
     bulk: Array<CreateCategoryDto>;
 };
 
-export type GetManyBrandEntityResponseDto = {
-    data: Array<SerializedBrandDto>;
-    count: number;
-    total: number;
-    page: number;
-    pageCount: number;
-};
-
-export type BrandEntity = {
-    _id: string;
-    /**
-     * Version
-     */
-    __v: number;
-    createdAt: string;
-    updatedAt: string;
-    deletedAt: string | null;
-    lastSyncAt: string | null;
-};
-
-export type SerializedBrandDto = {
-    _id: string;
-    /**
-     * Version
-     */
-    __v: number;
-    createdAt: string;
-    updatedAt: string;
-    deletedAt: string | null;
-    lastSyncAt: string | null;
-    /**
-     * Name of the product in multiple languages
-     */
-    name: {
-        [key: string]: unknown;
-    };
-    /**
-     * Email of the owner
-     */
-    referTo: string;
-    categories: Array<OmitTypeClass>;
-    products: Array<OmitTypeClass>;
-    suppliers: Array<OmitTypeClass>;
-    /**
-     * Brand logo
-     */
-    logo: string;
-    /**
-     * Brand picture
-     */
-    picture: string;
-};
-
 export type CreateBrandDto = {
     /**
      * Name of the product in multiple languages
@@ -655,17 +837,17 @@ export type CreateBrandDto = {
      * Email of the owner
      */
     referTo: string;
-    suppliers: Array<PickTypeClass>;
-    /**
-     * Brand picture
-     */
-    picture: string;
-    products: Array<PickTypeClass>;
-    categories: Array<PickTypeClass>;
     /**
      * Brand logo
      */
     logo: string;
+    /**
+     * Brand picture
+     */
+    picture: string;
+    suppliers: Array<PickTypeClass>;
+    products: Array<PickTypeClass>;
+    categories: Array<PickTypeClass>;
 };
 
 export type CreateManyBrandEntityDto = {
@@ -880,6 +1062,114 @@ export type $OpenApiTs = {
                  * Forbidden.
                  */
                 403: unknown;
+            };
+        };
+    };
+    '/contracts/{id}': {
+        get: {
+            req: {
+                /**
+                 * Reset cache (if was enabled). <a href="https://github.com/nestjsx/crud/wiki/Requests#cache" target="_blank">Docs</a>
+                 */
+                cache?: number;
+                /**
+                 * Selects resource fields. <a href="https://github.com/nestjsx/crud/wiki/Requests#select" target="_blank">Docs</a>
+                 */
+                fields?: Array<(string)>;
+                id: string;
+                /**
+                 * Include deleted. <a href="https://github.com/nestjsx/crud/wiki/Requests#includeDeleted" target="_blank">Docs</a>
+                 */
+                includeDeleted?: number;
+                /**
+                 * Adds relational resources. <a href="https://github.com/nestjsx/crud/wiki/Requests#join" target="_blank">Docs</a>
+                 */
+                join?: Array<(string)>;
+            };
+            res: {
+                /**
+                 * Get one base response
+                 */
+                200: SerializedContractDto;
+            };
+        };
+        patch: {
+            req: {
+                id: string;
+                requestBody: ContractEntity;
+            };
+            res: {
+                /**
+                 * Response
+                 */
+                200: ContractEntity;
+            };
+        };
+    };
+    '/contracts': {
+        get: {
+            req: {
+                /**
+                 * Reset cache (if was enabled). <a href="https://github.com/nestjsx/crud/wiki/Requests#cache" target="_blank">Docs</a>
+                 */
+                cache?: number;
+                /**
+                 * Selects resource fields. <a href="https://github.com/nestjsx/crud/wiki/Requests#select" target="_blank">Docs</a>
+                 */
+                fields?: Array<(string)>;
+                /**
+                 * Adds filter condition. <a href="https://github.com/nestjsx/crud/wiki/Requests#filter" target="_blank">Docs</a>
+                 */
+                filter?: Array<(string)>;
+                /**
+                 * Include deleted. <a href="https://github.com/nestjsx/crud/wiki/Requests#includeDeleted" target="_blank">Docs</a>
+                 */
+                includeDeleted?: number;
+                /**
+                 * Adds relational resources. <a href="https://github.com/nestjsx/crud/wiki/Requests#join" target="_blank">Docs</a>
+                 */
+                join?: Array<(string)>;
+                /**
+                 * Limit amount of resources. <a href="https://github.com/nestjsx/crud/wiki/Requests#limit" target="_blank">Docs</a>
+                 */
+                limit?: number;
+                /**
+                 * Offset amount of resources. <a href="https://github.com/nestjsx/crud/wiki/Requests#offset" target="_blank">Docs</a>
+                 */
+                offset?: number;
+                /**
+                 * Adds OR condition. <a href="https://github.com/nestjsx/crud/wiki/Requests#or" target="_blank">Docs</a>
+                 */
+                or?: Array<(string)>;
+                /**
+                 * Page portion of resources. <a href="https://github.com/nestjsx/crud/wiki/Requests#page" target="_blank">Docs</a>
+                 */
+                page?: number;
+                /**
+                 * Adds search condition. <a href="https://github.com/nestjsx/crud/wiki/Requests#search" target="_blank">Docs</a>
+                 */
+                s?: string;
+                /**
+                 * Adds sort by field. <a href="https://github.com/nestjsx/crud/wiki/Requests#sort" target="_blank">Docs</a>
+                 */
+                sort?: Array<(string)>;
+            };
+            res: {
+                /**
+                 * Get paginated response
+                 */
+                200: GetManyContractEntityResponseDto;
+            };
+        };
+        post: {
+            req: {
+                requestBody: CreateContractDto;
+            };
+            res: {
+                /**
+                 * Get create one base response
+                 */
+                201: SerializedContractDto;
             };
         };
     };
