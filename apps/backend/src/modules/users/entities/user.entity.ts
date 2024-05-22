@@ -5,7 +5,6 @@ import {
   JoinColumn,
   ManyToMany,
   OneToMany,
-  OneToOne,
 } from 'typeorm';
 import { IUserEntity, UserRole } from '@core';
 import { Factory } from 'nestjs-seeder';
@@ -76,9 +75,9 @@ export class UserEntity extends DatabaseEntity implements IUserEntity {
   @ManyToMany(() => CategoryEntity, (category) => category.suppliers)
   categories: string[];
 
-  @OneToOne(() => ContractEntity, (contract) => contract.supplier)
+  @OneToMany(() => ContractEntity, (contract) => contract.supplier)
   @JoinColumn()
-  contract: ContractEntity;
+  contracts: ContractEntity[];
 
   documents: string[];
 }

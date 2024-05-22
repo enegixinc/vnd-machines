@@ -3,7 +3,7 @@ import {
   Entity,
   EntitySubscriberInterface,
   EventSubscriber,
-  OneToOne,
+  ManyToOne,
 } from 'typeorm';
 import { DatabaseEntity } from '../../../common/database.entity';
 import { UserEntity } from '../../users/entities/user.entity';
@@ -40,7 +40,9 @@ export class ContractEntity extends DatabaseEntity implements IContractEntity {
   @Column({ type: 'enum', enum: FeeType, nullable: false })
   feeType: FeeType;
 
-  @OneToOne(() => UserEntity, (user) => user.contract)
+  @ManyToOne(() => UserEntity, (user) => user.contracts, {
+    // nullable: false,
+  })
   supplier: ReferenceByID<IUserEntity>;
   // @Column({ type: 'boolean', default: false })
   // autoRenew: boolean;

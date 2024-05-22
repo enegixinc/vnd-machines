@@ -46,6 +46,9 @@ import { saneOperationsId } from '../../common/swagger.config';
       brands: {
         eager: true,
       },
+      contracts: {
+        eager: true,
+      },
     },
   },
   routes: {

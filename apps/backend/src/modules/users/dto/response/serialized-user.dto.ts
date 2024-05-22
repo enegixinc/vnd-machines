@@ -25,7 +25,7 @@ export class SerializedUserDto
   brand: ISerializedBrand;
 
   constructor(props: UserEntity) {
-    console.log('props', props);
+    if (props.password) delete props.password;
     super(props);
     Object.assign(this, props);
   }
