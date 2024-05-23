@@ -6,6 +6,8 @@ import { ConfigModule, ConfigService } from '@backend/config';
 
 import { SystemModule } from '../modules/system.module';
 import { JwtGuard } from '../modules/auth/guards/jwt.guard';
+import { BrandSubscriber } from '../modules/brands/brands.subscriber';
+import { MagexModule } from '../services/magex/magex.module';
 
 @Module({
   imports: [
@@ -21,10 +23,12 @@ import { JwtGuard } from '../modules/auth/guards/jwt.guard';
         autoLoadEntities: true,
         synchronize: true,
         entities: [__dirname + '/../../modules/**/*.entity{.ts,.js}'],
+        subscribers: [BrandSubscriber],
       }),
     }),
     SystemModule,
     ConfigModule,
+    MagexModule,
     // HealthModule,
   ],
   providers: [

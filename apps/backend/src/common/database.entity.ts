@@ -80,7 +80,7 @@ export class DatabaseEntity extends BaseEntity implements IDataBaseEntity {
 
   @decorate(
     Column({
-      type: 'date',
+      type: 'timestamp',
       nullable: true,
     })
   )
