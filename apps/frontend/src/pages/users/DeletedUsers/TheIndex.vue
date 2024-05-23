@@ -27,80 +27,25 @@
     </div>
 </template>
 <script setup lang="ts">
-import {computed, ref} from 'vue';
-import TheBreadcrumbs from "@/components/ui/TheBreadcrumbs.vue";
-import DataTable from "@/components/ui/DataTable.vue";
-import {vndClient} from "@/api"
-import {ISerializedUser} from "@core";
+import {computed} from 'vue';
 import {useI18n} from 'vue-i18n'
 import IconLoader from "@/components/icon/icon-loader.vue";
-import Swal from "sweetalert2";
-const i18n = useI18n()
-
-const loading = ref(false),
-    totalPages=ref(1),
-    pageSize=ref<number|undefined>(10),
-    usersData=ref<ISerializedUser[]>([]),
-    tableFields=computed(()=>{
+import useUser from "@/composables/users/use-user";
+const {t} = useI18n()
+const {fetchUsers:deletedUsers,loading,totalPages,pageSize,usersData,rowLoading,TheBreadcrumbs,DataTable,recoverUser} = useUser( {
+    filter:['deletedAt||$notnull'],
+    includeDeleted:1
+})
+const tableFields=computed(()=>{
         return [
-            { field: 'firstName', title: i18n.t("fields.name") ,condition:"equal",hide: false},
-            { field: 'email', title: i18n.t("fields.email") ,hide: false},
-            { field: 'phoneNumber', title: i18n.t('fields.phoneNo') ,hide: false},
-            { field: 'businessName', title: i18n.t('fields.businessName') ,hide: false},
-            { field: 'deletedAt', title: i18n.t('fields.deletedAt') ,hide: false,type: 'date'},
+            { field: 'firstName', title: t("fields.name") ,condition:"equal",hide: false},
+            { field: 'email', title: t("fields.email") ,hide: false},
+            { field: 'phoneNumber', title: t('fields.phoneNo') ,hide: false},
+            { field: 'businessName', title: t('fields.businessName') ,hide: false},
+            { field: 'deletedAt', title: t('fields.deletedAt') ,hide: false,type: 'date'},
             {field:'action',title:'',filter:false,sort:false}
         ]
-    }),
-    rowLoading=ref<string | unknown>(null)
-
-
-// import {$OpenApiTs} from "@frontend/api-sdk"
-
-type requestType = Parameters<typeof vndClient.users.getMany>[0]
-
-const deletedUsers = async (data: requestType = {}) =>{
-    try {
-        loading.value=true;
-        if (data.filter){
-            data.filter.push('deletedAt||$notnull')
-        }else {
-            data.filter = ['deletedAt||$notnull']
-        }
-        data.includeDeleted = 1;
-        const deletedUsers = await vndClient.users.getMany(data);
-        // @ts-expect-error - to be fixed by backend
-        usersData.value=deletedUsers.data;
-        totalPages.value=deletedUsers.total;
-        pageSize.value = data?.limit || 10
-
-    }catch (err){
-        console.log(err)
-    }finally {
-        loading.value=false;
-    }
-}
-    async function recoverUser(id:string){
-        try {
-            rowLoading.value = id
-            await vndClient.users.recoverOne({id});
-            deletedUsers({page:1,limit:pageSize.value})
-            const toast = Swal.mixin({
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 3000,
-            });
-            toast.fire({
-                icon: 'success',
-                title: i18n.t('usersPages.TheUserHasBeenSuccessfullyRecovered'),
-                padding: '10px 20px',
-            });
-        }catch (err){
-            console.log(err)
-        }finally {
-            rowLoading.value = null
-        }
-}
+    })
 deletedUsers({page:1,limit:pageSize.value});
 
 </script>

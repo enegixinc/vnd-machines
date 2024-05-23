@@ -115,12 +115,17 @@
                         <slot name="actions" :data="data">
                         <div class="flex items-center">
                             <div>
-                                <button type="button" class="ltr:mr-2 rtl:ml-2" v-tippy="'Edit'">
+                                <button type="button" class="ltr:mr-2 rtl:ml-2" v-tippy="$t('show')">
+                                    <icon-eye/>
+                                </button>
+                            </div>
+                            <div>
+                                <button type="button" class="ltr:mr-2 rtl:ml-2" v-tippy="$t('edit')">
                                     <icon-pencil/>
                                 </button>
                             </div>
                             <div>
-                                <button type="button" v-tippy="'Delete'">
+                                <button type="button" v-tippy="$t('delete')" @click="emit('deleteRow',data.value._id)">
                                     <icon-trash-lines/>
                                 </button>
                             </div>
@@ -141,10 +146,10 @@ import {useAppStore} from '@/stores/index';
 import IconPencil from '@/components/icon/icon-pencil.vue';
 import IconTrashLines from '@/components/icon/icon-trash-lines.vue';
 import IconCaretDown from '@/components/icon/icon-caret-down.vue';
-
+import IconEye from "@/components/icon/icon-eye.vue"
 const store = useAppStore();
 const search = ref('');
-const emit = defineEmits(['changeServer'])
+const emit = defineEmits(['changeServer','deleteRow'])
 const     dataTable=ref(null);
 interface Props {
     tableData?: { [key: string]: unknown }[],

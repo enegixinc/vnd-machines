@@ -32,7 +32,7 @@
     "list": "List",
     "preview": "Preview",
     "add": "Add",
-    "edit": "Edit",
+
     "calendar": "Calendar",
     "tabs": "Tabs",
     "accordions": "Accordions",
@@ -137,7 +137,8 @@
         "deletedUsers": "Deleted Users",
         "addUser": "Add User",
         "recoverUser": "Recover User",
-        "TheUserHasBeenSuccessfullyRecovered": "The user has been successfully recovered."
+        "TheUserHasBeenSuccessfullyRecovered": "The user has been successfully recovered.",
+        "TheUserHasBeenSuccessfullyDeleted": "The user has been successfully deleted."
     },
     "authPages": {
         "signIn": "SIGN IN",
@@ -217,5 +218,14 @@
         "requestsAndReports": "Requests & Reports"
     },
     "inactive": "Inactive",
-    "active": "Active"
+    "active": "Active",
+    "edit": "Edit",
+    "delete": "Delete",
+    "show": "Show",
+    "sweetAlert": {
+        "areYouSure": "Are you sure?",
+        "youWantToDeleteThisUser": "You want to delete this user!",
+        "yesDeleteIt": "Yes, delete it!",
+        "noCancel": "no,Cancel!"
+    }
 }

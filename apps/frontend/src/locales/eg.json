@@ -32,7 +32,7 @@
     "list": "قائمة",
     "preview": "معاينة",
     "add": "يضيف",
-    "edit": "يحرر",
+
     "calendar": "تقويم",
     "tabs": "نوافذ التبويب",
     "accordions": "الأكورديونات",
@@ -137,7 +137,8 @@
         "deletedUsers": "المستخدمون المحذوفون",
         "addUser": "إضافة مستخدم",
         "recoverUser": "استعادة المستخدم",
-        "TheUserHasBeenSuccessfullyRecovered": "تم استعادة المستخدم بنجاح."
+        "TheUserHasBeenSuccessfullyRecovered": "تم استعادة المستخدم بنجاح.",
+        "TheUserHasBeenSuccessfullyDeleted": "تم حذف المستخدم بنجاح."
     },
     "authPages": {
         "signIn": "تسجيل الدخول",
@@ -218,5 +219,14 @@
         "requestsAndReports": "الطلبات و التقارير"
     },
     "inactive": "غير نشط",
-    "active": "نشط"
+    "active": "نشط",
+    "edit": "تعديل",
+    "delete": "حذف",
+    "show": "عرض",
+    "sweetAlert": {
+        "areYouSure": "هل أنت متأكد؟",
+        "youWantToDeleteThisUser": "تريد حذف هذا المستخدم!",
+        "yesDeleteIt": "نعم، احذفه!",
+        "noCancel": "لا، إلغاء!"
+    }
 }
