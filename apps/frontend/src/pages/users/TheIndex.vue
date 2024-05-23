@@ -8,57 +8,30 @@
             :fields = "tableFields"
             :loading="loading"
             :table-title="$t('users')"
-            @change-server="users"
+            @change-server="fetchUsers"
+            @delete-row="deleteUser"
             :sortable="true"
             sort-by="firstName"
         />
     </div>
 </template>
 <script setup lang="ts">
-import {computed, ref} from 'vue';
-import TheBreadcrumbs from "@/components/ui/TheBreadcrumbs.vue";
-import DataTable from "@/components/ui/DataTable.vue";
-import {vndClient} from "@/api"
-import {ISerializedUser} from "@core";
+import {computed} from 'vue';
 import {useI18n} from 'vue-i18n'
-const i18n = useI18n()
-
-const loading = ref(false),
-    totalPages=ref(1),
-    pageSize=ref<number|undefined>(10),
-    usersData=ref<ISerializedUser[]>([]),
-    tableFields=computed(()=>{
+import useUser from "@/composables/users/use-user";
+const {t} = useI18n()
+const {deleteUser,fetchUsers,TheBreadcrumbs,totalPages,pageSize,usersData,DataTable,loading} =useUser()
+const tableFields=computed(()=>{
         return [
-            { field: 'firstName', title: i18n.t("fields.name") ,condition:"equal",hide: false},
-            { field: 'email', title: i18n.t("fields.email") ,hide: false},
-            { field: 'phoneNumber', title: i18n.t('fields.phoneNo') ,hide: false},
-            { field: 'businessName', title: i18n.t('fields.businessName') ,hide: false},
-            { field: 'role', title: i18n.t('fields.role') ,hide: false},
-            { field: 'active', title: i18n.t('fields.status') ,hide: false},
+            { field: 'firstName', title: t("fields.name") ,condition:"equal",hide: false},
+            { field: 'email', title: t("fields.email") ,hide: false},
+            { field: 'phoneNumber', title: t('fields.phoneNo') ,hide: false},
+            { field: 'businessName', title: t('fields.businessName') ,hide: false},
+            { field: 'role', title: t('fields.role') ,hide: false},
+            { field: 'active', title: t('fields.status') ,hide: false},
             {field:'action',title:'',filter:false,sort:false}
         ]
     })
-
-
-// import {$OpenApiTs} from "@frontend/api-sdk"
-
-type requestType = Parameters<typeof vndClient.users.getMany>[0]
-
-const users = async (data: requestType) =>{
-    try {
-        loading.value=true;
-        const users = await vndClient.users.getMany(data);
-        // @ts-expect-error - to be fixed by backend
-        usersData.value=users.data;
-        totalPages.value=users.total;
-        pageSize.value = data?.limit || 10
-
-    }catch (err){
-        console.log(err)
-    }finally {
-        loading.value=false;
-    }
-}
-users({page:1,limit:pageSize.value});
+fetchUsers({page:1,limit:pageSize.value});
 
 </script>
