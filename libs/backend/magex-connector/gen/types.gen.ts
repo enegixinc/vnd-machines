@@ -9,7 +9,9 @@ export type PostUsersLoginData = {
   };
 };
 
-export type PostUsersLoginResponse = unknown;
+export type PostUsersLoginResponse = {
+  accessToken: string;
+};
 
 export type GetGroupsAndMachinesByAccountNameData = {
   accountName: string;
@@ -233,9 +235,7 @@ export type $OpenApiTs = {
         /**
          * Successful response
          */
-        200: {
-          accessToken: string;
-        };
+        200: unknown;
       };
     };
   };

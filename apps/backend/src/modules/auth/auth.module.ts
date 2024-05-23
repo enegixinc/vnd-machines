@@ -1,8 +1,6 @@
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ConfigModule, ConfigService } from '@backend/config';
-import { RedisModule } from '@liaoliaots/nestjs-redis';
 
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
@@ -31,16 +29,6 @@ import { RefreshStrategy } from './strategies/refresh.strategy';
     JwtModule,
     HashingModule,
     PassportModule,
-
-    RedisModule.forRootAsync({
-      useFactory: (configService: ConfigService) => ({
-        config: {
-          url: configService.get('REDIS_URL'),
-        },
-      }),
-      imports: [ConfigModule],
-      inject: [ConfigService],
-    }),
   ],
 })
 export class AuthModule {}

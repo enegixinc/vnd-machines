@@ -6,13 +6,15 @@ import { ConfigModule, ConfigService } from '@backend/config';
 
 import { SystemModule } from '../modules/system.module';
 import { JwtGuard } from '../modules/auth/guards/jwt.guard';
-import { BrandSubscriber } from '../modules/brands/brands.subscriber';
 import { MagexModule } from '../services/magex/magex.module';
+import { RedisModule } from '@liaoliaots/nestjs-redis';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
+      imports: [MagexModule],
       useFactory: async (configService: ConfigService) => ({
         type: 'postgres',
         host: configService.get('POSTGRES_HOST'),
@@ -23,12 +25,24 @@ import { MagexModule } from '../services/magex/magex.module';
         autoLoadEntities: true,
         synchronize: true,
         entities: [__dirname + '/../../modules/**/*.entity{.ts,.js}'],
-        subscribers: [BrandSubscriber],
       }),
     }),
+
+    RedisModule.forRootAsync({
+      useFactory: (configService: ConfigService) => ({
+        config: {
+          url: configService.get('REDIS_URL'),
+        },
+      }),
+      imports: [ConfigModule],
+      inject: [ConfigService],
+    }),
+
+    ScheduleModule.forRoot(),
+
+    MagexModule,
     SystemModule,
     ConfigModule,
-    MagexModule,
     // HealthModule,
   ],
   providers: [
