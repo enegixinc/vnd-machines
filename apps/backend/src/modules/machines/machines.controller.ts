@@ -17,6 +17,7 @@ export class MachinesController {
     type: FillRequestDto,
   })
   fill(
+    // TODO: validate machine exists
     @Param('machineId') machineId: string,
     @Body() fillRequestDto: FillRequestDto
   ) {
