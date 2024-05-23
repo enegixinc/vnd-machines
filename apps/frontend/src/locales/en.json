@@ -136,7 +136,8 @@
         "profile": "Profile",
         "deletedUsers": "Deleted Users",
         "addUser": "Add User",
-        "recoverUser": "Recover User"
+        "recoverUser": "Recover User",
+        "TheUserHasBeenSuccessfullyRecovered": "The user has been successfully recovered."
     },
     "authPages": {
         "signIn": "SIGN IN",
@@ -163,7 +164,8 @@
         "role": "Role",
         "createdAt": "Created At",
         "status": "Status",
-        "actions": "Actions"
+        "actions": "Actions",
+        "deletedAt": "Deleted At"
 
     },
     "placeHolders": {

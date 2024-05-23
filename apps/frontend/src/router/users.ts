@@ -10,4 +10,9 @@ export const userLinks :RouteRecordRaw[] = [
         name: 'suppliers',
         component: () => import('@/pages/users/suppliers/TheIndex.vue'),
     },
+    {
+        path: '/deleted-users',
+        name: 'deletedUsers',
+        component: () => import('@/pages/users/DeletedUsers/TheIndex.vue'),
+    },
 ]

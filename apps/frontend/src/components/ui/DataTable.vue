@@ -103,15 +103,16 @@
                     <template #dob="data">
                         {{ formatDate(data.value.dob) }}
                     </template>
-                    <template #createdAt="data">
-                        {{ formatDate(data.value.createdAt) }}
+                    <template #deletedAt="data">
+                        {{ formatDate(data.value.deletedAt) }}
                     </template>
                     <template #active="data">
                         <span class="badge badge-outline-success rounded-full" v-if="data.value.active">{{ $t('active') }}</span>
                         <span class="badge badge-outline-danger rounded-full" v-else>{{ $t('inactive') }}</span>
 
                     </template>
-                    <template #action>
+                    <template #action="data">
+                        <slot name="actions" :data="data">
                         <div class="flex items-center">
                             <div>
                                 <button type="button" class="ltr:mr-2 rtl:ml-2" v-tippy="'Edit'">
@@ -124,6 +125,7 @@
                                 </button>
                             </div>
                         </div>
+                        </slot>
                     </template>
                 </vue3-datatable>
             </div>

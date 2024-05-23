@@ -136,7 +136,8 @@
         "account_settings": "إعدادت الحساب",
         "deletedUsers": "المستخدمون المحذوفون",
         "addUser": "إضافة مستخدم",
-        "recoverUser": "استعادة المستخدم"
+        "recoverUser": "استعادة المستخدم",
+        "TheUserHasBeenSuccessfullyRecovered": "تم استعادة المستخدم بنجاح."
     },
     "authPages": {
         "signIn": "تسجيل الدخول",
@@ -164,7 +165,8 @@
         "role": "الدور",
         "createdAt": "تاريخ الإنشاء",
         "status": "الحالة",
-        "actions": "الاجراءات"
+        "actions": "الاجراءات",
+        "deletedAt": "تم الحذف في"
     },
     "placeHolders": {
         "enterEmail": "ادخل البريد الإلكتروني",

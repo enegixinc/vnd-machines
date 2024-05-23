@@ -81,7 +81,7 @@
                                                 </router-link>
                                             </li>
                                             <li>
-                                                <router-link to="/supplierss" @click="toggleMobileMenu">{{
+                                                <router-link :to="{name:'deletedUsers'}" @click="toggleMobileMenu">{{
                                                     $t('usersPages.deletedUsers')
                                                     }}
                                                 </router-link>
