@@ -43,7 +43,7 @@ const loading = ref(false),
 
 type requestType = Parameters<typeof vndClient.users.getMany>[0]
 
-const suppliers = async (data: requestType) =>{
+const suppliers = async (data: requestType = {}) =>{
     try {
         loading.value=true;
         if (data.filter){

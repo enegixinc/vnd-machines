@@ -58,7 +58,7 @@ const loading = ref(false),
 
 type requestType = Parameters<typeof vndClient.users.getMany>[0]
 
-const deletedUsers = async (data: requestType) =>{
+const deletedUsers = async (data: requestType = {}) =>{
     try {
         loading.value=true;
         if (data.filter){
@@ -82,14 +82,13 @@ const deletedUsers = async (data: requestType) =>{
     async function recoverUser(id:string){
         try {
             rowLoading.value = id
-            const deletedUsers = await vndClient.users.recoverOne({id});
-            console.log('done')
+            await vndClient.users.recoverOne({id});
             deletedUsers({page:1,limit:pageSize.value})
             const toast = Swal.mixin({
                 toast: true,
                 position: 'top-end',
                 showConfirmButton: false,
-                // timer: 3000,
+                timer: 3000,
             });
             toast.fire({
                 icon: 'success',
