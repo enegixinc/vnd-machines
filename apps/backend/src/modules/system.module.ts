@@ -8,10 +8,12 @@ import { ProductsModule } from './products/products.module';
 import { HashingModule } from '../common/hashing/hashing.module';
 import { HashingService } from '../common/hashing/hashing.service';
 import { ContractsModule } from './contracts/contracts.module';
+import { MachinesModule } from './machines/machines.module';
 
 @Module({
   imports: [
     AuthModule,
+    MachinesModule,
     UsersModule,
     ContractsModule,
     ProductsModule,
@@ -24,4 +26,4 @@ import { ContractsModule } from './contracts/contracts.module';
   controllers: [],
   providers: [HashingService],
 })
-export class ModulesModule {}
+export class SystemModule {}

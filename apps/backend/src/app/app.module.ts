@@ -1,9 +1,11 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ConfigModule, ConfigService } from '@backend/config';
-import { ModulesModule } from '../modules/modules.module';
-import { JwtGuard } from '../modules/auth/guards/jwt.guard';
 import { APP_GUARD } from '@nestjs/core';
+
+import { ConfigModule, ConfigService } from '@backend/config';
+
+import { SystemModule } from '../modules/system.module';
+import { JwtGuard } from '../modules/auth/guards/jwt.guard';
 
 @Module({
   imports: [
@@ -21,7 +23,7 @@ import { APP_GUARD } from '@nestjs/core';
         entities: [__dirname + '/../../modules/**/*.entity{.ts,.js}'],
       }),
     }),
-    ModulesModule,
+    SystemModule,
     ConfigModule,
     // HealthModule,
   ],

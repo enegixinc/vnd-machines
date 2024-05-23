@@ -7,7 +7,6 @@ import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { SerializedProductDto } from './dto/response/serialized-product.dto';
 import { saneOperationsId } from '../../common/swagger.config';
 import { UpdateProductDto } from './dto/request/update-product.dto';
-import { UsersService } from '../users/users.service';
 
 @Crud({
   model: {
@@ -80,10 +79,7 @@ import { UsersService } from '../users/users.service';
 @ApiResponse({ status: 403, description: 'Forbidden.' })
 @ApiTags('products')
 export class ProductsController implements CrudController<ProductEntity> {
-  constructor(
-    private readonly productsService: ProductsService,
-    private readonly usersService: UsersService
-  ) {}
+  constructor(private readonly productsService: ProductsService) {}
   service = this.productsService;
 
   // @Public()
