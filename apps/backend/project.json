@@ -7,13 +7,10 @@
   "targets": {
     "dev": {
       "executor": "@nx/js:node",
-      "dependsOn": [
-        {
-          "target": "docker"
-        }
-      ],
       "options": {
-        "buildTarget": "backend:build:development"
+        "buildTarget": "backend:build:development",
+        "inspect": true,
+        "watch": true
       }
     },
     "serve": {

@@ -90,7 +90,7 @@ export class UsersService {
      * @param data The data for the request.
      * @param data.id
      * @param data.requestBody
-     * @returns SerializedUserDto Response
+     * @returns SharedUserDto Response
      * @throws ApiError
      */
     public updateOne(data: $OpenApiTs['/users/{id}']['patch']['req']): CancelablePromise<$OpenApiTs['/users/{id}']['patch']['res'][200]> {
@@ -140,7 +140,7 @@ export class UsersService {
      * @param data.page Page portion of resources. <a href="https://github.com/nestjsx/crud/wiki/Requests#page" target="_blank">Docs</a>
      * @param data.cache Reset cache (if was enabled). <a href="https://github.com/nestjsx/crud/wiki/Requests#cache" target="_blank">Docs</a>
      * @param data.includeDeleted Include deleted. <a href="https://github.com/nestjsx/crud/wiki/Requests#includeDeleted" target="_blank">Docs</a>
-     * @returns GetManyUserEntityResponseDto Get paginated response
+     * @returns SerializedUserDto Get paginated response
      * @throws ApiError
      */
     public getMany(data: $OpenApiTs['/users']['get']['req'] = {}): CancelablePromise<$OpenApiTs['/users']['get']['res'][200]> {
@@ -218,6 +218,107 @@ export class UsersService {
             errors: {
                 403: 'Forbidden.'
             }
+        });
+    }
+    
+}
+
+export class ContractsService {
+    constructor(public readonly httpRequest: BaseHttpRequest) { }
+    
+    /**
+     * @param data The data for the request.
+     * @param data.id
+     * @param data.fields Selects resource fields. <a href="https://github.com/nestjsx/crud/wiki/Requests#select" target="_blank">Docs</a>
+     * @param data.join Adds relational resources. <a href="https://github.com/nestjsx/crud/wiki/Requests#join" target="_blank">Docs</a>
+     * @param data.cache Reset cache (if was enabled). <a href="https://github.com/nestjsx/crud/wiki/Requests#cache" target="_blank">Docs</a>
+     * @param data.includeDeleted Include deleted. <a href="https://github.com/nestjsx/crud/wiki/Requests#includeDeleted" target="_blank">Docs</a>
+     * @returns SerializedContractDto Get one base response
+     * @throws ApiError
+     */
+    public getOne(data: $OpenApiTs['/contracts/{id}']['get']['req']): CancelablePromise<$OpenApiTs['/contracts/{id}']['get']['res'][200]> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/contracts/{id}',
+            path: {
+                id: data.id
+            },
+            query: {
+                fields: data.fields,
+                join: data.join,
+                cache: data.cache,
+                include_deleted: data.includeDeleted
+            }
+        });
+    }
+    
+    /**
+     * @param data The data for the request.
+     * @param data.id
+     * @param data.requestBody
+     * @returns ContractEntity Response
+     * @throws ApiError
+     */
+    public updateOne(data: $OpenApiTs['/contracts/{id}']['patch']['req']): CancelablePromise<$OpenApiTs['/contracts/{id}']['patch']['res'][200]> {
+        return this.httpRequest.request({
+            method: 'PATCH',
+            url: '/contracts/{id}',
+            path: {
+                id: data.id
+            },
+            body: data.requestBody,
+            mediaType: 'application/json'
+        });
+    }
+    
+    /**
+     * @param data The data for the request.
+     * @param data.fields Selects resource fields. <a href="https://github.com/nestjsx/crud/wiki/Requests#select" target="_blank">Docs</a>
+     * @param data.s Adds search condition. <a href="https://github.com/nestjsx/crud/wiki/Requests#search" target="_blank">Docs</a>
+     * @param data.filter Adds filter condition. <a href="https://github.com/nestjsx/crud/wiki/Requests#filter" target="_blank">Docs</a>
+     * @param data.or Adds OR condition. <a href="https://github.com/nestjsx/crud/wiki/Requests#or" target="_blank">Docs</a>
+     * @param data.sort Adds sort by field. <a href="https://github.com/nestjsx/crud/wiki/Requests#sort" target="_blank">Docs</a>
+     * @param data.join Adds relational resources. <a href="https://github.com/nestjsx/crud/wiki/Requests#join" target="_blank">Docs</a>
+     * @param data.limit Limit amount of resources. <a href="https://github.com/nestjsx/crud/wiki/Requests#limit" target="_blank">Docs</a>
+     * @param data.offset Offset amount of resources. <a href="https://github.com/nestjsx/crud/wiki/Requests#offset" target="_blank">Docs</a>
+     * @param data.page Page portion of resources. <a href="https://github.com/nestjsx/crud/wiki/Requests#page" target="_blank">Docs</a>
+     * @param data.cache Reset cache (if was enabled). <a href="https://github.com/nestjsx/crud/wiki/Requests#cache" target="_blank">Docs</a>
+     * @param data.includeDeleted Include deleted. <a href="https://github.com/nestjsx/crud/wiki/Requests#includeDeleted" target="_blank">Docs</a>
+     * @returns GetManyContractEntityResponseDto Get paginated response
+     * @throws ApiError
+     */
+    public getMany(data: $OpenApiTs['/contracts']['get']['req'] = {}): CancelablePromise<$OpenApiTs['/contracts']['get']['res'][200]> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/contracts',
+            query: {
+                fields: data.fields,
+                s: data.s,
+                filter: data.filter,
+                or: data.or,
+                sort: data.sort,
+                join: data.join,
+                limit: data.limit,
+                offset: data.offset,
+                page: data.page,
+                cache: data.cache,
+                include_deleted: data.includeDeleted
+            }
+        });
+    }
+    
+    /**
+     * @param data The data for the request.
+     * @param data.requestBody
+     * @returns SerializedContractDto Get create one base response
+     * @throws ApiError
+     */
+    public createOne(data: $OpenApiTs['/contracts']['post']['req']): CancelablePromise<$OpenApiTs['/contracts']['post']['res'][201]> {
+        return this.httpRequest.request({
+            method: 'POST',
+            url: '/contracts',
+            body: data.requestBody,
+            mediaType: 'application/json'
         });
     }
     

@@ -23,12 +23,12 @@ export class CreateProductDto
 {
   @decorate(
     ApiProperty({
-      type: () => [PickType(SerializedUserDto, ['_id'])],
+      type: () => PickType(SerializedUserDto, ['_id']),
     })
   )
-  @decorate(Validate(UserExistsValidator, { each: true }))
+  @decorate(Validate(UserExistsValidator))
   @decorate(IsOptional({ groups: [UPDATE, CREATE] }))
-  suppliers: ReferenceByID<ISerializedUser>[];
+  supplier: ReferenceByID<ISerializedUser>[];
 
   @decorate(IsOptional({ groups: [UPDATE, CREATE] }))
   @decorate(
@@ -41,7 +41,7 @@ export class CreateProductDto
   @decorate(IsOptional({ groups: [UPDATE, CREATE] }))
   @decorate(
     ApiProperty({
-      type: () => [PickType(SerializedCategoryDto, ['_id'])],
+      type: () => PickType(SerializedCategoryDto, ['_id']),
     })
   )
   category: ReferenceByID<ISerializedCategory>[];

@@ -1,15 +1,15 @@
 import { ISerializedProduct } from './product';
 import { IDataBaseEntity } from './common';
+import { ISerializedContract } from './contract';
 
 export interface ISerializedUser
-  extends Omit<IUserEntity, 'password' | keyof IUserResolvedEntities> {
-  products: ISerializedProduct[];
-  documents: IDocument[];
-}
+  extends Omit<IUserEntity, 'password' | keyof IUserResolvedEntities>,
+    IUserResolvedEntities {}
 
 interface IUserResolvedEntities {
   products: ISerializedProduct[];
   documents: IDocument[];
+  contracts: ISerializedContract[];
 }
 
 export interface IUserEntity extends IDataBaseEntity {
@@ -23,6 +23,7 @@ export interface IUserEntity extends IDataBaseEntity {
   active: boolean;
   products: string[] | ISerializedProduct[];
   documents: string[] | IDocument[];
+  contracts: string[] | ISerializedContract[];
 }
 
 export type ICreateUser = Omit<
