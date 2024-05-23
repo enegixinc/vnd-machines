@@ -11,7 +11,10 @@ export class ProductHasSupplier implements ValidatorConstraintInterface {
   private product: ProductEntity;
   constructor(private readonly productService: ProductsService) {}
   async validate(where: ReferenceByID<ProductEntity>) {
-    this.product = await this.productService.findOneBy(where);
+    this.product = await this.productService.findOne({
+      where,
+      relations: ['supplier'],
+    });
     return !!this.product?.supplier;
   }
 
