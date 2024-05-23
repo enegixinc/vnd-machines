@@ -136,7 +136,7 @@
         "profile": "Profile",
         "deletedUsers": "Deleted Users",
         "addUser": "Add User",
-        "recoverUser": "Recover User",
+        "recoverUser": "Recover User"
     },
     "authPages": {
         "signIn": "SIGN IN",
@@ -213,5 +213,7 @@
         "machinesAndProducts": "Machines & Products",
         "categoriesAndBrands": "Categories & Brands",
         "requestsAndReports": "Requests & Reports"
-    }
+    },
+    "inactive": "Inactive",
+    "active": "Active"
 }

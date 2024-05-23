@@ -1,14 +1,14 @@
 <template>
     <div>
-        <TheBreadcrumbs :current-location="$t('usersPages.users')"/>
+        <TheBreadcrumbs :current-location="$t('usersPages.suppliers')"/>
         <DataTable
             :pages="totalPages"
             :per-page="pageSize"
             :table-data="usersData"
             :fields = "tableFields"
             :loading="loading"
-            :table-title="$t('users')"
-            @change-server="users"
+            :table-title="$t('usersPages.suppliers')"
+            @change-server="suppliers"
             :sortable="true"
             sort-by="firstName"
         />
@@ -33,7 +33,6 @@ const loading = ref(false),
             { field: 'email', title: i18n.t("fields.email") ,hide: false},
             { field: 'phoneNumber', title: i18n.t('fields.phoneNo') ,hide: false},
             { field: 'businessName', title: i18n.t('fields.businessName') ,hide: false},
-            { field: 'role', title: i18n.t('fields.role') ,hide: false},
             { field: 'active', title: i18n.t('fields.status') ,hide: false},
             {field:'action',title:'',filter:false,sort:false}
         ]
@@ -44,13 +43,18 @@ const loading = ref(false),
 
 type requestType = Parameters<typeof vndClient.users.getMany>[0]
 
-const users = async (data: requestType) =>{
+const suppliers = async (data: requestType) =>{
     try {
         loading.value=true;
-        const users = await vndClient.users.getMany(data);
+        if (data.filter){
+            data.filter.push('role||$eq||supplier')
+        }else {
+            data.filter = ['role||$eq||supplier']
+        }
+        const suppliers = await vndClient.users.getMany(data);
         // @ts-expect-error - to be fixed by backend
-        usersData.value=users.data;
-        totalPages.value=users.total;
+        usersData.value=suppliers.data;
+        totalPages.value=suppliers.total;
         pageSize.value = data?.limit || 10
 
     }catch (err){
@@ -59,6 +63,6 @@ const users = async (data: requestType) =>{
         loading.value=false;
     }
 }
-users({page:1,limit:pageSize.value});
+suppliers({page:1,limit:pageSize.value});
 
 </script>

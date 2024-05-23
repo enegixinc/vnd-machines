@@ -136,7 +136,7 @@
         "account_settings": "إعدادت الحساب",
         "deletedUsers": "المستخدمون المحذوفون",
         "addUser": "إضافة مستخدم",
-        "recoverUser": "استعادة المستخدم",
+        "recoverUser": "استعادة المستخدم"
     },
     "authPages": {
         "signIn": "تسجيل الدخول",
@@ -183,6 +183,7 @@
         "columns": "الاعمده"
     },
     "wait": "انتظر من فضلك..",
+
     "links": {
         "manageSuppliers": "إدارة الموردين",
         "contracts": "العقود",
@@ -213,5 +214,7 @@
         "machinesAndProducts": "الماكينات و المنتجات",
         "categoriesAndBrands": "الفئات و العلامات التجاريه",
         "requestsAndReports": "الطلبات و التقارير"
-    }
+    },
+    "inactive": "غير نشط",
+    "active": "نشط"
 }

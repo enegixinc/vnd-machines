@@ -31,7 +31,7 @@
                                                         :checked="!col.hide"
                                                     />
                                                     <span :for="`chk-${i}`" class="ltr:ml-2 rtl:mr-2">{{
-                                                           col.field === 'action'? 'action' :$t(col.title)
+                                                           col.field === 'action'? $t('fields.actions') :col.title
                                                         }}</span>
                                                 </label>
                                             </div>
@@ -54,7 +54,7 @@
             <div class="datatable">
                 <vue3-datatable
                     :rows="tableData"
-                    :columns="x"
+                    :columns="fields"
                     :totalRows="pages"
                     :pageSize="perPage"
                     :sortDirection="sortDirection"
@@ -106,6 +106,11 @@
                     <template #createdAt="data">
                         {{ formatDate(data.value.createdAt) }}
                     </template>
+                    <template #active="data">
+                        <span class="badge badge-outline-success rounded-full" v-if="data.value.active">{{ $t('active') }}</span>
+                        <span class="badge badge-outline-danger rounded-full" v-else>{{ $t('inactive') }}</span>
+
+                    </template>
                     <template #action>
                         <div class="flex items-center">
                             <div>
@@ -128,17 +133,13 @@
 
 </template>
 <script setup lang="ts">
-import {ref,computed} from 'vue';
+import {ref} from 'vue';
 import Vue3Datatable from '@bhplugin/vue3-datatable';
 import {useAppStore} from '@/stores/index';
 import IconPencil from '@/components/icon/icon-pencil.vue';
 import IconTrashLines from '@/components/icon/icon-trash-lines.vue';
 import IconCaretDown from '@/components/icon/icon-caret-down.vue';
-import {useI18n} from"vue-i18n"
-const {t} = useI18n()
-const x = computed(() => {
-    return [ { field: 'firstName', title: t("fields.name") ,condition:"equal",hide: false}]
-})
+
 const store = useAppStore();
 const search = ref('');
 const emit = defineEmits(['changeServer'])

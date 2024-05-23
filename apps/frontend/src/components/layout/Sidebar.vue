@@ -75,19 +75,19 @@
                                                 </router-link>
                                             </li>
                                             <li>
-                                                <router-link to="/suppliers" @click="toggleMobileMenu">{{
+                                                <router-link :to="{name:'suppliers'}" @click="toggleMobileMenu">{{
                                                     $t('usersPages.suppliers')
                                                     }}
                                                 </router-link>
                                             </li>
                                             <li>
-                                                <router-link to="/suppliers" @click="toggleMobileMenu">{{
+                                                <router-link to="/supplierss" @click="toggleMobileMenu">{{
                                                     $t('usersPages.deletedUsers')
                                                     }}
                                                 </router-link>
                                             </li>
                                             <li>
-                                                <router-link to="/suppliers" @click="toggleMobileMenu">{{
+                                                <router-link to="/supplierss" @click="toggleMobileMenu">{{
                                                     $t('usersPages.addUser')
                                                     }}
                                                 </router-link>
@@ -132,7 +132,7 @@
                                     <vue-collapsible :isOpen="activeDropdown === 'suppliers'">
                                         <ul class="sub-menu text-gray-500">
                                             <li>
-                                                <router-link to="/supliers" @click="toggleMobileMenu">{{
+                                                <router-link :to="{name:'suppliers'}" @click="toggleMobileMenu">{{
                                                         $t('links.manageSuppliers')
                                                     }}
                                                 </router-link>
