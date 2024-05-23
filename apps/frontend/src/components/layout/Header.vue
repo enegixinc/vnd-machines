@@ -277,19 +277,19 @@
                             <router-link :to="{name:'users'}">{{ $t('links.mangeUsers') }}</router-link>
                         </li>
                         <li>
-                            <router-link to="/suppliers">{{$t('usersPages.suppliers')}}</router-link>
+                            <router-link :to="{name:'suppliers'}">{{$t('usersPages.suppliers')}}</router-link>
                         </li>
                         <li>
-                            <router-link to="/suppliers">{{$t('usersPages.deletedUsers')}}</router-link>
+                            <router-link :to="{name:'deletedUsers'}">{{$t('usersPages.deletedUsers')}}</router-link>
                         </li>
                         <li>
-                            <router-link to="/suppliers">{{$t('usersPages.addUser')}}</router-link>
+                            <router-link to="/supplierss">{{$t('usersPages.addUser')}}</router-link>
                         </li>
                         <li>
-                            <router-link to="/suppliers">{{$t('usersPages.profile')}}</router-link>
+                            <router-link to="/supplierss">{{$t('usersPages.profile')}}</router-link>
                         </li>
                         <li>
-                            <router-link to="/suppliers">{{$t('usersPages.account_settings')}}</router-link>
+                            <router-link to="/supplierss">{{$t('usersPages.account_settings')}}</router-link>
                         </li>
                     </ul>
                 </li>
@@ -305,7 +305,7 @@
                     </a>
                     <ul class="sub-menu">
                         <li>
-                            <router-link to="/suppliers">{{$t('links.manageSuppliers')}}</router-link>
+                            <router-link :to="{name:'suppliers'}">{{$t('links.manageSuppliers')}}</router-link>
                         </li>
                         <li class="relative">
                             <a href="javascript:;"
@@ -464,7 +464,7 @@
                             </ul>
                         </li>
                         <li>
-                            <router-link to="/suppliers">{{$t('links.reports')}}</router-link>
+                            <router-link to="/supplierss">{{$t('links.reports')}}</router-link>
                         </li>
                     </ul>
                 </li>

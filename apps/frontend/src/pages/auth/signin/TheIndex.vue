@@ -219,7 +219,7 @@ async function onSubmit(){
         })
         const tokenDecode:any=jwtDecode(res.refreshToken);
         user.setUser({},res.accessToken,res.refreshToken,tokenDecode.exp,true,form.value.rememberMe)
-        router.push({name:'users'})
+        router.push({name:'home'})
 
     }catch (err:any){
         let msg= '';

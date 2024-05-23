@@ -32,7 +32,7 @@
     "list": "List",
     "preview": "Preview",
     "add": "Add",
-    "edit": "Edit",
+
     "calendar": "Calendar",
     "tabs": "Tabs",
     "accordions": "Accordions",
@@ -130,12 +130,15 @@
     "products": "Products",
     "brands": "Brands",
     "usersPages": {
+        "users": "Users",
         "suppliers": "Suppliers",
         "account_settings": "Account Settings",
         "profile": "Profile",
         "deletedUsers": "Deleted Users",
         "addUser": "Add User",
-        "recoverUser": "Recover User"
+        "recoverUser": "Recover User",
+        "TheUserHasBeenSuccessfullyRecovered": "The user has been successfully recovered.",
+        "TheUserHasBeenSuccessfullyDeleted": "The user has been successfully deleted."
     },
     "authPages": {
         "signIn": "SIGN IN",
@@ -155,7 +158,16 @@
     },
     "fields": {
         "email": "Email",
-        "password": "Password"
+        "password": "Password",
+        "name": "Name",
+        "phoneNo": "Phone No",
+        "businessName": "Business Name",
+        "role": "Role",
+        "createdAt": "Created At",
+        "status": "Status",
+        "actions": "Actions",
+        "deletedAt": "Deleted At"
+
     },
     "placeHolders": {
         "enterEmail": "Enter Email",
@@ -204,5 +216,16 @@
         "machinesAndProducts": "Machines & Products",
         "categoriesAndBrands": "Categories & Brands",
         "requestsAndReports": "Requests & Reports"
+    },
+    "inactive": "Inactive",
+    "active": "Active",
+    "edit": "Edit",
+    "delete": "Delete",
+    "show": "Show",
+    "sweetAlert": {
+        "areYouSure": "Are you sure?",
+        "youWantToDeleteThisUser": "You want to delete this user!",
+        "yesDeleteIt": "Yes, delete it!",
+        "noCancel": "no,Cancel!"
     }
 }

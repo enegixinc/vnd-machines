@@ -31,7 +31,7 @@
                                                         :checked="!col.hide"
                                                     />
                                                     <span :for="`chk-${i}`" class="ltr:ml-2 rtl:mr-2">{{
-                                                            col.title
+                                                           col.field === 'action'? $t('fields.actions') :col.title
                                                         }}</span>
                                                 </label>
                                             </div>
@@ -57,7 +57,7 @@
                     :columns="fields"
                     :totalRows="pages"
                     :pageSize="perPage"
-                    sortDirection="desc"
+                    :sortDirection="sortDirection"
                     :loading="loading"
                     :sortable="sortable"
                     :sortColumn="sortBy"
@@ -88,8 +88,6 @@
                 >
                     <template #firstName="data">
                         <div class="flex items-center w-max">
-                            <img class="w-9 h-9 rounded-full ltr:mr-2 rtl:ml-2 object-cover"
-                                 :src="`https://i.pravatar.cc/200?u=${data.value.email}`"/>
                             {{ data.value.firstName + ' ' + data.value.lastName }}
                         </div>
                     </template>
@@ -105,22 +103,34 @@
                     <template #dob="data">
                         {{ formatDate(data.value.dob) }}
                     </template>
-                    <template #createdAt="data">
-                        {{ formatDate(data.value.createdAt) }}
+                    <template #deletedAt="data">
+                        {{ formatDate(data.value.deletedAt) }}
                     </template>
-                    <template #action>
+                    <template #active="data">
+                        <span class="badge badge-outline-success rounded-full" v-if="data.value.active">{{ $t('active') }}</span>
+                        <span class="badge badge-outline-danger rounded-full" v-else>{{ $t('inactive') }}</span>
+
+                    </template>
+                    <template #action="data">
+                        <slot name="actions" :data="data">
                         <div class="flex items-center">
                             <div>
-                                <button type="button" class="ltr:mr-2 rtl:ml-2" v-tippy="'Edit'">
+                                <button type="button" class="ltr:mr-2 rtl:ml-2" v-tippy="$t('show')">
+                                    <icon-eye/>
+                                </button>
+                            </div>
+                            <div>
+                                <button type="button" class="ltr:mr-2 rtl:ml-2" v-tippy="$t('edit')">
                                     <icon-pencil/>
                                 </button>
                             </div>
                             <div>
-                                <button type="button" v-tippy="'Delete'">
+                                <button type="button" v-tippy="$t('delete')" @click="emit('deleteRow',data.value._id)">
                                     <icon-trash-lines/>
                                 </button>
                             </div>
                         </div>
+                        </slot>
                     </template>
                 </vue3-datatable>
             </div>
@@ -136,11 +146,10 @@ import {useAppStore} from '@/stores/index';
 import IconPencil from '@/components/icon/icon-pencil.vue';
 import IconTrashLines from '@/components/icon/icon-trash-lines.vue';
 import IconCaretDown from '@/components/icon/icon-caret-down.vue';
-
-
+import IconEye from "@/components/icon/icon-eye.vue"
 const store = useAppStore();
 const search = ref('');
-const emit = defineEmits(['changeServer'])
+const emit = defineEmits(['changeServer','deleteRow'])
 const     dataTable=ref(null);
 interface Props {
     tableData?: { [key: string]: unknown }[],
@@ -151,6 +160,7 @@ interface Props {
     sortBy?: string,
     sortable?: boolean,
     tableTitle?: string,
+    sortDirection?:string
 }
 
 withDefaults(defineProps<Props>(), {
@@ -671,7 +681,8 @@ withDefaults(defineProps<Props>(), {
     perPage: 10,
     sortable: true,
     sortBy: 'id',
-    tableTitle: 'users'
+    tableTitle: 'users',
+    sortDirection:'desc'
 })
 const formatDate = (date) => {
     if (date) {
