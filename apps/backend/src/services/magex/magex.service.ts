@@ -15,7 +15,7 @@ import { AxiosResponse } from 'axios';
 @Global()
 @Injectable()
 export class MagexService extends MagexConnector implements OnModuleInit {
-  private accessToken: string;
+  accessToken: string;
 
   constructor(private readonly configService: ConfigService) {
     super({
@@ -23,21 +23,19 @@ export class MagexService extends MagexConnector implements OnModuleInit {
     });
 
     this.request.config.interceptors.request.use(this.handleRequest.bind(this));
+
     this.request.config.interceptors.response.use(
       this.handleResponseError.bind(this)
     );
   }
 
-  private async handleRequest(request: AxiosResponse) {
-    console.log('THIS', this);
-    console.log('Request', request);
+  private handleRequest(request: AxiosResponse) {
+    const headers = Object.assign({}, request.headers, {
+      'auth-token': this.accessToken,
+    });
     return {
       ...request,
-      headers: {
-        ...request.headers,
-        Authorization: `Bearer ${this.accessToken}`,
-        test: 'test',
-      },
+      headers,
     };
   }
 
@@ -72,23 +70,12 @@ export class MagexService extends MagexConnector implements OnModuleInit {
   // TODO: use refresh tokens
   @Cron(CronExpression.EVERY_MINUTE)
   async login() {
-    console.log('Logging in to Magex');
     const { accessToken } = await this.auth.postUsersLogin({
       formData: {
         email: this.configService.get('MAGEX_EMAIL'),
         password: this.configService.get('MAGEX_PASSWORD'),
       },
     });
-    console.log('Logged in to Magex', accessToken);
     this.accessToken = accessToken;
-
-    // Ensure HEADERS is an object before assigning values to it
-    if (!this.request.config.HEADERS) {
-      this.request.config.HEADERS = {};
-    }
-
-    Object.assign(this.request.config.HEADERS, {
-      Authorization: `Bearer ${this.accessToken}`,
-    });
   }
 }
