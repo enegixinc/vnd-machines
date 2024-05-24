@@ -42,20 +42,27 @@ export class ProductEntity extends DatabaseEntity implements IProductEntity {
 
   @Factory((faker) =>
     faker.commerce.price({
-      min: 10,
+      min: 0,
       max: 100,
     })
   )
-  @Column({ type: 'numeric' })
-  additionPrice: any;
+  @Column({
+    type: 'numeric',
+    default: 0,
+    transformer: {
+      to: (value: string) => (value ? parseFloat(value) : 0),
+      from: (value: number) => value,
+    },
+  })
+  additionPrice: number;
 
   @Factory((faker) =>
     faker.number.int({
-      min: 18,
+      min: 0,
       max: 60,
     })
   )
-  @Column({ type: 'integer' })
+  @Column({ type: 'integer', default: 0 })
   ageControl: number;
 
   @Factory((faker) => ({
@@ -71,7 +78,7 @@ export class ProductEntity extends DatabaseEntity implements IProductEntity {
       max: 20,
     })
   )
-  @Column({ type: 'varchar' })
+  @Column({ type: 'varchar', nullable: true })
   barcode: string;
 
   @Factory((faker) =>
@@ -80,49 +87,55 @@ export class ProductEntity extends DatabaseEntity implements IProductEntity {
       max: 100,
     })
   )
-  @Column({ type: 'numeric' })
-  costPrice: any;
+  @Column({
+    type: 'numeric',
+    transformer: {
+      to: (value: string) => (value ? parseFloat(value) : 0),
+      from: (value: number) => value,
+    },
+  })
+  costPrice: number;
 
   @Factory((faker) => ({
     en: faker.commerce.productDescription(),
     ar: fakerAR.commerce.productDescription(),
   }))
-  @Column('jsonb')
+  @Column('jsonb', { nullable: true })
   description: MultiLang;
 
   @Factory((faker) => ({
     en: faker.commerce.productDescription(),
     ar: fakerAR.commerce.productDescription(),
   }))
-  @Column('jsonb')
+  @Column('jsonb', { nullable: true })
   detail: MultiLang;
 
   @Factory((faker) => ({
     en: faker.commerce.productDescription(),
     ar: fakerAR.commerce.productDescription(),
   }))
-  @Column('jsonb')
+  @Column('jsonb', { nullable: true })
   include: MultiLang;
 
   @Factory((faker) => ({
     en: faker.commerce.productDescription(),
     ar: fakerAR.commerce.productDescription(),
   }))
-  @Column('jsonb')
+  @Column('jsonb', { nullable: true })
   ingredients: MultiLang;
 
   @Factory((faker) => ({
     en: faker.commerce.productDescription(),
     ar: fakerAR.commerce.productDescription(),
   }))
-  @Column('jsonb')
+  @Column('jsonb', { nullable: true })
   keyFeatures: MultiLang;
 
   @Factory((faker) => ({
     en: faker.commerce.productDescription(),
     ar: fakerAR.commerce.productDescription(),
   }))
-  @Column('jsonb')
+  @Column('jsonb', { nullable: true })
   specification: MultiLang;
 
   @Factory((faker) => ({
@@ -139,7 +152,7 @@ export class ProductEntity extends DatabaseEntity implements IProductEntity {
       max: 10,
     }),
   }))
-  @Column('jsonb')
+  @Column('jsonb', { nullable: true })
   dimension: Dimension;
 
   @Factory((faker) =>
@@ -164,7 +177,7 @@ export class ProductEntity extends DatabaseEntity implements IProductEntity {
   productPictures: string[];
 
   @Factory((faker) => faker.image.url())
-  @Column({ type: 'varchar' })
+  @Column({ type: 'varchar', nullable: true })
   productVideo: Blob; // TODO: string
 
   @Factory((faker) => faker.internet.email())
@@ -177,7 +190,7 @@ export class ProductEntity extends DatabaseEntity implements IProductEntity {
       max: 1,
     })
   )
-  @Column({ type: 'integer' })
+  @Column({ type: 'integer', default: 0 })
   sortIndex: number;
 
   @Factory((faker) =>
@@ -186,7 +199,7 @@ export class ProductEntity extends DatabaseEntity implements IProductEntity {
       max: 1,
     })
   )
-  @Column({ type: 'integer' })
+  @Column({ type: 'integer', default: 0 })
   vatIndex: number;
 
   @Factory((faker) =>
@@ -195,7 +208,7 @@ export class ProductEntity extends DatabaseEntity implements IProductEntity {
       max: 1,
     })
   )
-  @Column({ type: 'integer' })
+  @Column({ type: 'integer', default: 0 })
   virtualProduct: number;
 
   // @DeleteDateColumn()
