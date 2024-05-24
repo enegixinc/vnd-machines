@@ -3,15 +3,15 @@ import {
   EntitySubscriberInterface,
   EventSubscriber,
 } from 'typeorm';
-import { BrandEntity } from './brand.entity';
 import { MagexService } from '../../services/magex/magex.service';
 import { Inject } from '@nestjs/common';
-import { EntitySyncer } from './entitySyncer';
+import { CategoryEntity } from './category.entity';
+import { EntitySyncer } from '../brands/entitySyncer';
 
 @EventSubscriber()
-export class BrandSubscriber
-  extends EntitySyncer<BrandEntity>
-  implements EntitySubscriberInterface<BrandEntity>
+export class CategorySubscriber
+  extends EntitySyncer<CategoryEntity>
+  implements EntitySubscriberInterface<CategoryEntity>
 {
   constructor(
     @Inject(MagexService) private readonly magexService: MagexService,
@@ -22,7 +22,7 @@ export class BrandSubscriber
   }
 
   listenTo() {
-    return BrandEntity;
+    return CategoryEntity;
   }
 
   // async beforeInsert(event: InsertEvent<BrandEntity>) {
@@ -41,8 +41,9 @@ export class BrandSubscriber
   // }
 
   async fetchMagexRecords() {
-    this.magexRecords = await this.magexService.brands.getBrandsByAccountName({
-      accountName: 'tryvnd@point24h.com',
-    });
+    this.magexRecords =
+      await this.magexService.categories.getCategoriesByAccountName({
+        accountName: 'tryvnd@point24h.com',
+      });
   }
 }

@@ -16,7 +16,7 @@ import { fakerAR } from '@faker-js/faker';
 @Entity('categories')
 export class CategoryEntity extends DatabaseEntity implements ICategoryEntity {
   @Factory((faker) => faker.datatype.boolean())
-  @Column({ type: 'boolean' })
+  @Column({ type: 'boolean', default: false })
   auto: boolean;
 
   @Factory((faker) => faker.image.url())
