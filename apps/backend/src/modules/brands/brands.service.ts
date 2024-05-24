@@ -11,4 +11,10 @@ export class BrandsService extends TypeOrmCrudService<BrandEntity> {
   ) {
     super(repository);
   }
+
+  // protected sync() {
+  //   magexClient.brands.getBrandsByAccountName({
+  //     accountName: 'tryvnd',
+  //   });
+  // }
 }

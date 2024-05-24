@@ -6,6 +6,7 @@ import { CreateBrandDto } from './dto/request/create-brand.dto';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { SerializedBrandDto } from './dto/response/serialized-brand.dto';
 import { saneOperationsId } from '../../common/swagger.config';
+import { Public } from '../auth/decorators/public.decorator';
 
 @Crud({
   model: {
@@ -60,6 +61,7 @@ import { saneOperationsId } from '../../common/swagger.config';
 @ApiBearerAuth('access-token')
 @ApiResponse({ status: 403, description: 'Forbidden.' })
 @ApiTags('brands')
+@Public() // TODO: remove
 @ApiBearerAuth('JWT-auth')
 export class BrandsController implements CrudController<BrandEntity> {
   constructor(public service: BrandsService) {}
