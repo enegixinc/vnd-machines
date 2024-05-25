@@ -2,6 +2,7 @@
 
 import { CreateBrandResponse, NewBrand } from '../types/brand';
 import { CategoriesByAccountNameResponse } from '../types/category';
+import { GetProductResponse } from '../types';
 
 export type PostUsersLoginData = {
   formData?: {
@@ -43,7 +44,7 @@ export type GetProductsByAccountNameData = {
   accountName: string;
 };
 
-export type GetProductsByAccountNameResponse = unknown;
+export type GetProductsByAccountNameResponse = GetProductResponse;
 
 export type GetProductByIdData = {
   id: string;

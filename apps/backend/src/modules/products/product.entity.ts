@@ -29,7 +29,7 @@ export class ProductEntity extends DatabaseEntity implements IProductEntity {
   brand: ReferenceByID<ISerializedBrand>;
 
   @ManyToOne(() => CategoryEntity, (category) => category.products, {})
-  category: ReferenceByID<ISerializedCategory>[];
+  category: ReferenceByID<ISerializedCategory>;
 
   @Factory((faker) =>
     faker.number.int({

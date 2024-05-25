@@ -7,7 +7,12 @@ import { Inject, OnModuleInit } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { timer } from 'execution-time-decorators';
 
+export interface EntitySyncer<Entity> {
+  handleRelationships(record: unknown): Entity;
+}
+
 @EventSubscriber()
+// eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
 export abstract class EntitySyncer<
   Entity extends { _id: string; lastSyncAt: string },
   MagexRecord extends { _id: string; updatedAt: string } = {
@@ -79,10 +84,12 @@ export abstract class EntitySyncer<
 
   @timer()
   async addRecord(recordToAdd: MagexRecord) {
-    const newRecord = this.dataSource.manager.create(
+    let newRecord = this.dataSource.manager.create(
       this.listenTo(),
       recordToAdd
     );
+    if (this.handleRelationships)
+      newRecord = this.handleRelationships(recordToAdd);
     Object.assign(newRecord, { lastSyncAt: this.nowDate });
     await this.dataSource.manager.save(newRecord);
     console.log('Added new record:', newRecord);
@@ -91,6 +98,7 @@ export abstract class EntitySyncer<
   @timer()
   async updateRecord(recordToUpdate: MagexRecord) {
     Object.assign(recordToUpdate, { lastSyncAt: this.nowDate });
+    if (this.handleRelationships) this.handleRelationships(recordToUpdate);
     await this.dataSource.manager.update(
       this.listenTo(),
       recordToUpdate._id,

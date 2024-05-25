@@ -44,7 +44,7 @@ export class CreateProductDto
       type: () => PickType(SerializedCategoryDto, ['_id']),
     })
   )
-  category: ReferenceByID<ISerializedCategory>[];
+  category: ReferenceByID<ISerializedCategory>;
 
   @decorate(IsOptional({ groups: [UPDATE, CREATE] }))
   @decorate(
