@@ -32,7 +32,7 @@
     "list": "قائمة",
     "preview": "معاينة",
     "add": "يضيف",
-    "edit": "يحرر",
+
     "calendar": "تقويم",
     "tabs": "نوافذ التبويب",
     "accordions": "الأكورديونات",
@@ -130,12 +130,15 @@
     "products": "منتجات",
     "brands": "العلامات التجاريه",
     "usersPages": {
+        "users": "المستخدمون",
         "suppliers": "الموردين",
         "profile": "الملف الشخصي",
         "account_settings": "إعدادت الحساب",
         "deletedUsers": "المستخدمون المحذوفون",
         "addUser": "إضافة مستخدم",
-        "recoverUser": "استعادة المستخدم"
+        "recoverUser": "استعادة المستخدم",
+        "TheUserHasBeenSuccessfullyRecovered": "تم استعادة المستخدم بنجاح.",
+        "TheUserHasBeenSuccessfullyDeleted": "تم حذف المستخدم بنجاح."
     },
     "authPages": {
         "signIn": "تسجيل الدخول",
@@ -156,7 +159,15 @@
     },
     "fields": {
         "email": "البريد الإلكتروني",
-        "password": "كلمة المرور"
+        "password": "كلمة المرور",
+        "name": "الأسم",
+        "phoneNo": "رقم الهاتف",
+        "businessName": "اسم العمل",
+        "role": "الدور",
+        "createdAt": "تاريخ الإنشاء",
+        "status": "الحالة",
+        "actions": "الاجراءات",
+        "deletedAt": "تم الحذف في"
     },
     "placeHolders": {
         "enterEmail": "ادخل البريد الإلكتروني",
@@ -175,6 +186,7 @@
         "columns": "الاعمده"
     },
     "wait": "انتظر من فضلك..",
+
     "links": {
         "manageSuppliers": "إدارة الموردين",
         "contracts": "العقود",
@@ -205,5 +217,16 @@
         "machinesAndProducts": "الماكينات و المنتجات",
         "categoriesAndBrands": "الفئات و العلامات التجاريه",
         "requestsAndReports": "الطلبات و التقارير"
+    },
+    "inactive": "غير نشط",
+    "active": "نشط",
+    "edit": "تعديل",
+    "delete": "حذف",
+    "show": "عرض",
+    "sweetAlert": {
+        "areYouSure": "هل أنت متأكد؟",
+        "youWantToDeleteThisUser": "تريد حذف هذا المستخدم!",
+        "yesDeleteIt": "نعم، احذفه!",
+        "noCancel": "لا، إلغاء!"
     }
 }
