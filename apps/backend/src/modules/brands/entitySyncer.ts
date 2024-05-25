@@ -5,6 +5,7 @@ import {
 } from 'typeorm';
 import { Inject, OnModuleInit } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
+import { timer } from 'execution-time-decorators';
 
 @EventSubscriber()
 export abstract class EntitySyncer<
@@ -32,11 +33,18 @@ export abstract class EntitySyncer<
     await this.syncWithMagex();
   }
 
+  @timer()
   async fetchOurRecords() {
     this.records = await this.dataSource.manager.find(this.listenTo());
   }
-  abstract fetchMagexRecords(): Promise<void>;
 
+  abstract fetchMagexRecords(): Promise<void>;
+  @timer()
+  private timedFetchMagexRecords() {
+    return this.fetchMagexRecords();
+  }
+
+  @timer()
   identifyOutOfSyncRecords() {
     const newRecords = new Set<MagexRecord>();
     const updatedRecords = new Set<MagexRecord>();
@@ -59,14 +67,17 @@ export abstract class EntitySyncer<
     };
   }
 
+  @timer()
   async syncNewRecords(records: MagexRecord[]) {
     for (const record of records) await this.addRecord(record);
   }
 
+  @timer()
   async syncUpdatedRecords(records: MagexRecord[]) {
     for (const record of records) await this.updateRecord(record);
   }
 
+  @timer()
   async addRecord(recordToAdd: MagexRecord) {
     const newRecord = this.dataSource.manager.create(
       this.listenTo(),
@@ -77,6 +88,7 @@ export abstract class EntitySyncer<
     console.log('Added new record:', newRecord);
   }
 
+  @timer()
   async updateRecord(recordToUpdate: MagexRecord) {
     Object.assign(recordToUpdate, { lastSyncAt: this.nowDate });
     await this.dataSource.manager.update(
@@ -88,9 +100,10 @@ export abstract class EntitySyncer<
   }
 
   @Cron(CronExpression.EVERY_MINUTE)
+  @timer()
   async syncWithMagex() {
-    console.log('Syncing with Magex ' + this.listenTo().name);
-    await Promise.all([this.fetchOurRecords(), this.fetchMagexRecords()]);
+    console.log('Syncing with Magex', this.listenTo().name);
+    await Promise.all([this.fetchOurRecords(), this.timedFetchMagexRecords()]);
 
     const { newRecords, updatedRecords } = this.identifyOutOfSyncRecords();
 

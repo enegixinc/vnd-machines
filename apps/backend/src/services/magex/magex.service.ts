@@ -11,6 +11,7 @@ import { MagexConnector } from '@backend/magex-connector';
 import { GlobalResponseError } from '../../common/responses/GlobalResponseError.dto';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { AxiosResponse } from 'axios';
+import { timer } from 'execution-time-decorators';
 
 @Global()
 @Injectable()
@@ -69,6 +70,7 @@ export class MagexService extends MagexConnector implements OnModuleInit {
 
   // TODO: use refresh tokens
   @Cron(CronExpression.EVERY_MINUTE)
+  @timer()
   async login() {
     const { accessToken } = await this.auth.postUsersLogin({
       formData: {
