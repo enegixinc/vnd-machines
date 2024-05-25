@@ -7,6 +7,8 @@ import { MagexService } from '../../services/magex/magex.service';
 import { Inject } from '@nestjs/common';
 import { EntitySyncer } from '../brands/entitySyncer';
 import { ProductEntity } from './product.entity';
+import { ISerializedMagexProduct } from '@core';
+import { CategoryEntity } from '../categories/category.entity';
 
 @EventSubscriber()
 export class ProductSubscriber
@@ -41,10 +43,19 @@ export class ProductSubscriber
   // }
 
   async fetchMagexRecords() {
-    // @ts-ignore
     this.magexRecords =
       await this.magexService.products.getProductsByAccountName({
         accountName: 'tryvnd@point24h.com',
       });
+  }
+
+  handleRelationships(record: ISerializedMagexProduct) {
+    const category = this.dataSource.manager.create(CategoryEntity);
+    Object.assign(category, record.category[0]);
+
+    return this.dataSource.manager.create(ProductEntity, {
+      ...record,
+      category,
+    });
   }
 }
