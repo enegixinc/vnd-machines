@@ -60,8 +60,8 @@ jobs:
 
       - uses: nrwl/nx-set-shas@v4
         with:
-#          main-branch-name: ${{github.ref_name == 'main' && 'main' || github.ref_name == 'staging' && 'staging' || 'dev'}}
-          main-branch-name: dev
+          main-branch-name: ${{github.ref_name}}
+#          main-branch-name: dev
 
 
       - name: Deploy Affected Projects
