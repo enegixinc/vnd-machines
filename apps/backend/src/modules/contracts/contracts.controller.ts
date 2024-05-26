@@ -56,12 +56,7 @@ import { ContractsService } from './contracts.service';
     // createOneBase: {
     //   // decorators: [...saneOperationsId.createOneBase.decorators, Public],
     // },
-    exclude: [
-      'replaceOneBase',
-      'createManyBase',
-      'deleteOneBase',
-      'recoverOneBase',
-    ],
+    exclude: ['replaceOneBase', 'createManyBase'],
   },
   dto: {
     create: CreateContractDto,

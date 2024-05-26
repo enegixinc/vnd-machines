@@ -25,6 +25,6 @@ export interface ICreateProduct
   extends Omit<ICreateMagexProduct, keyof IMagexProductResolvedEntities> {
   supplier: ReferenceByID<ISerializedUser>[];
   brand: ReferenceByID<ISerializedBrand>;
-  category: ReferenceByID<ISerializedMagexCategory>[];
+  category: ReferenceByID<ISerializedMagexCategory>;
   productVideo: File | Blob;
 }

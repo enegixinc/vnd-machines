@@ -456,68 +456,23 @@ export type SerializedContractDto = {
 
 export type Object = unknown;
 
-export type CreateUserDto = {
-    /**
-     * Is the user active
-     */
-    active: boolean;
-    /**
-     * Email of the user
-     */
-    email: string;
-    firstName: string;
-    lastName: string;
-    /**
-     * Phone number of the user
-     */
-    phoneNumber: string;
-    role: UserRole;
-    /**
-     * Business name of the user
-     */
-    businessName: string | null;
-    password: string;
-};
-
-export type CreateManyUserEntityDto = {
-    bulk: Array<CreateUserDto>;
-};
-
-export type UpdateUserDto = {
-    /**
-     * Is the user active
-     */
-    active?: boolean;
-    /**
-     * Email of the user
-     */
-    email?: string;
-    firstName?: string;
-    lastName?: string;
-    /**
-     * Phone number of the user
-     */
-    phoneNumber?: string;
-    role?: UserRole;
-    /**
-     * Business name of the user
-     */
-    businessName?: string | null;
-    password?: string;
-};
-
 export type PickTypeClass = {
     _id: string;
 };
 
-export type CreateContractDto = {
-    description: string;
-    feePerSale: number;
-    feeType: 'percentage' | 'fixed';
-    startDate: string;
-    endDate: string;
-    status: 'active' | 'expired' | 'terminated';
-    supplier: PickTypeClass;
+export type ProductsRequest = {
+    product: PickTypeClass;
+    quantity: number;
+};
+
+export type NotificationRequest = {
+    email: boolean;
+    whatsapp: boolean;
+};
+
+export type FillRequestDto = {
+    products: Array<ProductsRequest>;
+    notify: NotificationRequest;
 };
 
 export type CreateProductDto = {
@@ -738,6 +693,70 @@ export type UpdateProductDto = {
     productVideo?: File;
 };
 
+export type CreateUserDto = {
+    /**
+     * Is the user active
+     */
+    active: boolean;
+    /**
+     * Email of the user
+     */
+    email: string;
+    firstName: string;
+    lastName: string;
+    /**
+     * Phone number of the user
+     */
+    phoneNumber: string;
+    role: UserRole;
+    /**
+     * Business name of the user
+     */
+    businessName: string | null;
+    password: string;
+};
+
+export type CreateManyUserEntityDto = {
+    bulk: Array<CreateUserDto>;
+};
+
+export type UpdateUserDto = {
+    /**
+     * Is the user active
+     */
+    active?: boolean;
+    /**
+     * Email of the user
+     */
+    email?: string;
+    firstName?: string;
+    lastName?: string;
+    /**
+     * Phone number of the user
+     */
+    phoneNumber?: string;
+    role?: UserRole;
+    /**
+     * Business name of the user
+     */
+    businessName?: string | null;
+    password?: string;
+};
+
+export type CreateContractDto = {
+    description: string;
+    feePerSale: number;
+    feeType: 'percentage' | 'fixed';
+    startDate: string;
+    endDate: string;
+    status: 'active' | 'expired' | 'terminated';
+    supplier: PickTypeClass;
+};
+
+export type feeType = 'percentage' | 'fixed';
+
+export type status = 'active' | 'expired' | 'terminated';
+
 export type GetManyCategoryEntityResponseDto = {
     data: Array<SerializedCategoryDto>;
     count: number;
@@ -818,6 +837,28 @@ export type CreateManyCategoryEntityDto = {
     bulk: Array<CreateCategoryDto>;
 };
 
+export type UpdateCategoryDto = {
+    /**
+     * Name of the Category in multiple languages
+     */
+    name?: {
+        [key: string]: unknown;
+    };
+    auto?: boolean;
+    /**
+     * Category picture
+     */
+    categoryPicture?: File;
+    /**
+     * Email of the owner
+     */
+    referTo?: string;
+    /**
+     * Sort index
+     */
+    sortIndex?: number;
+};
+
 export type CreateBrandDto = {
     /**
      * Name of the product in multiple languages
@@ -846,12 +887,136 @@ export type CreateManyBrandEntityDto = {
     bulk: Array<CreateBrandDto>;
 };
 
+export type AuthControllerLoginData = {
+    requestBody: LoginDto;
+};
+
+export type AuthControllerLoginResponse = unknown;
+
+export type AuthControllerMeResponse = SerializedUserDto;
+
+export type RefreshTokenData = {
+    requestBody: Object;
+};
+
+export type RefreshTokenResponse = {
+    accessToken?: string;
+    refreshToken?: string;
+};
+
+export type FillData = {
+    machineId: string;
+    requestBody: FillRequestDto;
+};
+
+export type FillResponse = unknown;
+
+export type GetOneData = {
+    /**
+     * Reset cache (if was enabled). <a href="https://github.com/nestjsx/crud/wiki/Requests#cache" target="_blank">Docs</a>
+     */
+    cache?: number;
+    /**
+     * Selects resource fields. <a href="https://github.com/nestjsx/crud/wiki/Requests#select" target="_blank">Docs</a>
+     */
+    fields?: Array<(string)>;
+    id: string;
+    /**
+     * Include deleted. <a href="https://github.com/nestjsx/crud/wiki/Requests#includeDeleted" target="_blank">Docs</a>
+     */
+    includeDeleted?: number;
+    /**
+     * Adds relational resources. <a href="https://github.com/nestjsx/crud/wiki/Requests#join" target="_blank">Docs</a>
+     */
+    join?: Array<(string)>;
+};
+
+export type GetOneResponse = SerializedProductDto;
+
+export type UpdateOneData = {
+    id: string;
+    requestBody: UpdateProductDto;
+};
+
+export type UpdateOneResponse = SerializedProductDto;
+
+export type DeleteOneData = {
+    id: string;
+};
+
+export type DeleteOneResponse = unknown;
+
+export type GetManyData = {
+    /**
+     * Reset cache (if was enabled). <a href="https://github.com/nestjsx/crud/wiki/Requests#cache" target="_blank">Docs</a>
+     */
+    cache?: number;
+    /**
+     * Selects resource fields. <a href="https://github.com/nestjsx/crud/wiki/Requests#select" target="_blank">Docs</a>
+     */
+    fields?: Array<(string)>;
+    /**
+     * Adds filter condition. <a href="https://github.com/nestjsx/crud/wiki/Requests#filter" target="_blank">Docs</a>
+     */
+    filter?: Array<(string)>;
+    /**
+     * Include deleted. <a href="https://github.com/nestjsx/crud/wiki/Requests#includeDeleted" target="_blank">Docs</a>
+     */
+    includeDeleted?: number;
+    /**
+     * Adds relational resources. <a href="https://github.com/nestjsx/crud/wiki/Requests#join" target="_blank">Docs</a>
+     */
+    join?: Array<(string)>;
+    /**
+     * Limit amount of resources. <a href="https://github.com/nestjsx/crud/wiki/Requests#limit" target="_blank">Docs</a>
+     */
+    limit?: number;
+    /**
+     * Offset amount of resources. <a href="https://github.com/nestjsx/crud/wiki/Requests#offset" target="_blank">Docs</a>
+     */
+    offset?: number;
+    /**
+     * Adds OR condition. <a href="https://github.com/nestjsx/crud/wiki/Requests#or" target="_blank">Docs</a>
+     */
+    or?: Array<(string)>;
+    /**
+     * Page portion of resources. <a href="https://github.com/nestjsx/crud/wiki/Requests#page" target="_blank">Docs</a>
+     */
+    page?: number;
+    /**
+     * Adds search condition. <a href="https://github.com/nestjsx/crud/wiki/Requests#search" target="_blank">Docs</a>
+     */
+    s?: string;
+    /**
+     * Adds sort by field. <a href="https://github.com/nestjsx/crud/wiki/Requests#sort" target="_blank">Docs</a>
+     */
+    sort?: Array<(string)>;
+};
+
+export type GetManyResponse = GetManyProductEntityResponseDto;
+
+export type CreateOneData = {
+    requestBody: CreateProductDto;
+};
+
+export type CreateOneResponse = SerializedProductDto;
+
+export type CreateManyData = {
+    requestBody: CreateManyProductEntityDto;
+};
+
+export type CreateManyResponse = Array<SerializedProductDto>;
+
+export type RecoverOneData = {
+    id: string;
+};
+
+export type RecoverOneResponse = unknown;
+
 export type $OpenApiTs = {
     '/auth/login': {
         post: {
-            req: {
-                requestBody: LoginDto;
-            };
+            req: AuthControllerLoginData;
             res: {
                 201: unknown;
             };
@@ -866,9 +1031,7 @@ export type $OpenApiTs = {
     };
     '/auth/refresh': {
         post: {
-            req: {
-                requestBody: Object;
-            };
+            req: RefreshTokenData;
             res: {
                 /**
                  * Refresh token
@@ -884,308 +1047,17 @@ export type $OpenApiTs = {
             };
         };
     };
-    '/users/{id}': {
-        get: {
-            req: {
-                /**
-                 * Reset cache (if was enabled). <a href="https://github.com/nestjsx/crud/wiki/Requests#cache" target="_blank">Docs</a>
-                 */
-                cache?: number;
-                /**
-                 * Selects resource fields. <a href="https://github.com/nestjsx/crud/wiki/Requests#select" target="_blank">Docs</a>
-                 */
-                fields?: Array<(string)>;
-                id: string;
-                /**
-                 * Include deleted. <a href="https://github.com/nestjsx/crud/wiki/Requests#includeDeleted" target="_blank">Docs</a>
-                 */
-                includeDeleted?: number;
-                /**
-                 * Adds relational resources. <a href="https://github.com/nestjsx/crud/wiki/Requests#join" target="_blank">Docs</a>
-                 */
-                join?: Array<(string)>;
-            };
-            res: {
-                /**
-                 * Get one base response
-                 */
-                200: SerializedUserDto;
-                /**
-                 * Forbidden.
-                 */
-                403: unknown;
-            };
-        };
-        patch: {
-            req: {
-                id: string;
-                requestBody: UpdateUserDto;
-            };
-            res: {
-                /**
-                 * Response
-                 */
-                200: SharedUserDto;
-                /**
-                 * Forbidden.
-                 */
-                403: unknown;
-            };
-        };
-        delete: {
-            req: {
-                id: string;
-            };
-            res: {
-                /**
-                 * Delete one base response
-                 */
-                200: unknown;
-                /**
-                 * Forbidden.
-                 */
-                403: unknown;
-            };
-        };
-    };
-    '/users': {
-        get: {
-            req: {
-                /**
-                 * Reset cache (if was enabled). <a href="https://github.com/nestjsx/crud/wiki/Requests#cache" target="_blank">Docs</a>
-                 */
-                cache?: number;
-                /**
-                 * Selects resource fields. <a href="https://github.com/nestjsx/crud/wiki/Requests#select" target="_blank">Docs</a>
-                 */
-                fields?: Array<(string)>;
-                /**
-                 * Adds filter condition. <a href="https://github.com/nestjsx/crud/wiki/Requests#filter" target="_blank">Docs</a>
-                 */
-                filter?: Array<(string)>;
-                /**
-                 * Include deleted. <a href="https://github.com/nestjsx/crud/wiki/Requests#includeDeleted" target="_blank">Docs</a>
-                 */
-                includeDeleted?: number;
-                /**
-                 * Adds relational resources. <a href="https://github.com/nestjsx/crud/wiki/Requests#join" target="_blank">Docs</a>
-                 */
-                join?: Array<(string)>;
-                /**
-                 * Limit amount of resources. <a href="https://github.com/nestjsx/crud/wiki/Requests#limit" target="_blank">Docs</a>
-                 */
-                limit?: number;
-                /**
-                 * Offset amount of resources. <a href="https://github.com/nestjsx/crud/wiki/Requests#offset" target="_blank">Docs</a>
-                 */
-                offset?: number;
-                /**
-                 * Adds OR condition. <a href="https://github.com/nestjsx/crud/wiki/Requests#or" target="_blank">Docs</a>
-                 */
-                or?: Array<(string)>;
-                /**
-                 * Page portion of resources. <a href="https://github.com/nestjsx/crud/wiki/Requests#page" target="_blank">Docs</a>
-                 */
-                page?: number;
-                /**
-                 * Adds search condition. <a href="https://github.com/nestjsx/crud/wiki/Requests#search" target="_blank">Docs</a>
-                 */
-                s?: string;
-                /**
-                 * Adds sort by field. <a href="https://github.com/nestjsx/crud/wiki/Requests#sort" target="_blank">Docs</a>
-                 */
-                sort?: Array<(string)>;
-            };
-            res: {
-                /**
-                 * Get paginated response
-                 */
-                200: SerializedUserDto;
-                /**
-                 * Forbidden.
-                 */
-                403: unknown;
-            };
-        };
+    '/fill/{machineId}': {
         post: {
-            req: {
-                requestBody: CreateUserDto;
-            };
+            req: FillData;
             res: {
-                /**
-                 * Get create one base response
-                 */
-                201: SerializedUserDto;
-                /**
-                 * Forbidden.
-                 */
-                403: unknown;
-            };
-        };
-    };
-    '/users/bulk': {
-        post: {
-            req: {
-                requestBody: CreateManyUserEntityDto;
-            };
-            res: {
-                /**
-                 * Get create many base response
-                 */
-                201: Array<SerializedUserDto>;
-                /**
-                 * Forbidden.
-                 */
-                403: unknown;
-            };
-        };
-    };
-    '/users/{id}/recover': {
-        patch: {
-            req: {
-                id: string;
-            };
-            res: {
-                /**
-                 * Recover one base response
-                 */
-                200: unknown;
-                /**
-                 * Forbidden.
-                 */
-                403: unknown;
-            };
-        };
-    };
-    '/contracts/{id}': {
-        get: {
-            req: {
-                /**
-                 * Reset cache (if was enabled). <a href="https://github.com/nestjsx/crud/wiki/Requests#cache" target="_blank">Docs</a>
-                 */
-                cache?: number;
-                /**
-                 * Selects resource fields. <a href="https://github.com/nestjsx/crud/wiki/Requests#select" target="_blank">Docs</a>
-                 */
-                fields?: Array<(string)>;
-                id: string;
-                /**
-                 * Include deleted. <a href="https://github.com/nestjsx/crud/wiki/Requests#includeDeleted" target="_blank">Docs</a>
-                 */
-                includeDeleted?: number;
-                /**
-                 * Adds relational resources. <a href="https://github.com/nestjsx/crud/wiki/Requests#join" target="_blank">Docs</a>
-                 */
-                join?: Array<(string)>;
-            };
-            res: {
-                /**
-                 * Get one base response
-                 */
-                200: SerializedContractDto;
-            };
-        };
-        patch: {
-            req: {
-                id: string;
-                requestBody: ContractEntity;
-            };
-            res: {
-                /**
-                 * Response
-                 */
-                200: ContractEntity;
-            };
-        };
-    };
-    '/contracts': {
-        get: {
-            req: {
-                /**
-                 * Reset cache (if was enabled). <a href="https://github.com/nestjsx/crud/wiki/Requests#cache" target="_blank">Docs</a>
-                 */
-                cache?: number;
-                /**
-                 * Selects resource fields. <a href="https://github.com/nestjsx/crud/wiki/Requests#select" target="_blank">Docs</a>
-                 */
-                fields?: Array<(string)>;
-                /**
-                 * Adds filter condition. <a href="https://github.com/nestjsx/crud/wiki/Requests#filter" target="_blank">Docs</a>
-                 */
-                filter?: Array<(string)>;
-                /**
-                 * Include deleted. <a href="https://github.com/nestjsx/crud/wiki/Requests#includeDeleted" target="_blank">Docs</a>
-                 */
-                includeDeleted?: number;
-                /**
-                 * Adds relational resources. <a href="https://github.com/nestjsx/crud/wiki/Requests#join" target="_blank">Docs</a>
-                 */
-                join?: Array<(string)>;
-                /**
-                 * Limit amount of resources. <a href="https://github.com/nestjsx/crud/wiki/Requests#limit" target="_blank">Docs</a>
-                 */
-                limit?: number;
-                /**
-                 * Offset amount of resources. <a href="https://github.com/nestjsx/crud/wiki/Requests#offset" target="_blank">Docs</a>
-                 */
-                offset?: number;
-                /**
-                 * Adds OR condition. <a href="https://github.com/nestjsx/crud/wiki/Requests#or" target="_blank">Docs</a>
-                 */
-                or?: Array<(string)>;
-                /**
-                 * Page portion of resources. <a href="https://github.com/nestjsx/crud/wiki/Requests#page" target="_blank">Docs</a>
-                 */
-                page?: number;
-                /**
-                 * Adds search condition. <a href="https://github.com/nestjsx/crud/wiki/Requests#search" target="_blank">Docs</a>
-                 */
-                s?: string;
-                /**
-                 * Adds sort by field. <a href="https://github.com/nestjsx/crud/wiki/Requests#sort" target="_blank">Docs</a>
-                 */
-                sort?: Array<(string)>;
-            };
-            res: {
-                /**
-                 * Get paginated response
-                 */
-                200: GetManyContractEntityResponseDto;
-            };
-        };
-        post: {
-            req: {
-                requestBody: CreateContractDto;
-            };
-            res: {
-                /**
-                 * Get create one base response
-                 */
-                201: SerializedContractDto;
+                201: unknown;
             };
         };
     };
     '/products/{id}': {
         get: {
-            req: {
-                /**
-                 * Reset cache (if was enabled). <a href="https://github.com/nestjsx/crud/wiki/Requests#cache" target="_blank">Docs</a>
-                 */
-                cache?: number;
-                /**
-                 * Selects resource fields. <a href="https://github.com/nestjsx/crud/wiki/Requests#select" target="_blank">Docs</a>
-                 */
-                fields?: Array<(string)>;
-                id: string;
-                /**
-                 * Include deleted. <a href="https://github.com/nestjsx/crud/wiki/Requests#includeDeleted" target="_blank">Docs</a>
-                 */
-                includeDeleted?: number;
-                /**
-                 * Adds relational resources. <a href="https://github.com/nestjsx/crud/wiki/Requests#join" target="_blank">Docs</a>
-                 */
-                join?: Array<(string)>;
-            };
+            req: GetOneData;
             res: {
                 /**
                  * Get one base response
@@ -1198,10 +1070,7 @@ export type $OpenApiTs = {
             };
         };
         patch: {
-            req: {
-                id: string;
-                requestBody: UpdateProductDto;
-            };
+            req: UpdateOneData;
             res: {
                 /**
                  * Response
@@ -1214,9 +1083,7 @@ export type $OpenApiTs = {
             };
         };
         delete: {
-            req: {
-                id: string;
-            };
+            req: DeleteOneData;
             res: {
                 /**
                  * Delete one base response
@@ -1231,52 +1098,7 @@ export type $OpenApiTs = {
     };
     '/products': {
         get: {
-            req: {
-                /**
-                 * Reset cache (if was enabled). <a href="https://github.com/nestjsx/crud/wiki/Requests#cache" target="_blank">Docs</a>
-                 */
-                cache?: number;
-                /**
-                 * Selects resource fields. <a href="https://github.com/nestjsx/crud/wiki/Requests#select" target="_blank">Docs</a>
-                 */
-                fields?: Array<(string)>;
-                /**
-                 * Adds filter condition. <a href="https://github.com/nestjsx/crud/wiki/Requests#filter" target="_blank">Docs</a>
-                 */
-                filter?: Array<(string)>;
-                /**
-                 * Include deleted. <a href="https://github.com/nestjsx/crud/wiki/Requests#includeDeleted" target="_blank">Docs</a>
-                 */
-                includeDeleted?: number;
-                /**
-                 * Adds relational resources. <a href="https://github.com/nestjsx/crud/wiki/Requests#join" target="_blank">Docs</a>
-                 */
-                join?: Array<(string)>;
-                /**
-                 * Limit amount of resources. <a href="https://github.com/nestjsx/crud/wiki/Requests#limit" target="_blank">Docs</a>
-                 */
-                limit?: number;
-                /**
-                 * Offset amount of resources. <a href="https://github.com/nestjsx/crud/wiki/Requests#offset" target="_blank">Docs</a>
-                 */
-                offset?: number;
-                /**
-                 * Adds OR condition. <a href="https://github.com/nestjsx/crud/wiki/Requests#or" target="_blank">Docs</a>
-                 */
-                or?: Array<(string)>;
-                /**
-                 * Page portion of resources. <a href="https://github.com/nestjsx/crud/wiki/Requests#page" target="_blank">Docs</a>
-                 */
-                page?: number;
-                /**
-                 * Adds search condition. <a href="https://github.com/nestjsx/crud/wiki/Requests#search" target="_blank">Docs</a>
-                 */
-                s?: string;
-                /**
-                 * Adds sort by field. <a href="https://github.com/nestjsx/crud/wiki/Requests#sort" target="_blank">Docs</a>
-                 */
-                sort?: Array<(string)>;
-            };
+            req: GetManyData;
             res: {
                 /**
                  * Get paginated response
@@ -1289,9 +1111,7 @@ export type $OpenApiTs = {
             };
         };
         post: {
-            req: {
-                requestBody: CreateProductDto;
-            };
+            req: CreateOneData;
             res: {
                 /**
                  * Get create one base response
@@ -1306,9 +1126,7 @@ export type $OpenApiTs = {
     };
     '/products/bulk': {
         post: {
-            req: {
-                requestBody: CreateManyProductEntityDto;
-            };
+            req: CreateManyData;
             res: {
                 /**
                  * Get create many base response
@@ -1323,9 +1141,7 @@ export type $OpenApiTs = {
     };
     '/products/{id}/recover': {
         patch: {
-            req: {
-                id: string;
-            };
+            req: RecoverOneData;
             res: {
                 /**
                  * Recover one base response
@@ -1338,27 +1154,168 @@ export type $OpenApiTs = {
             };
         };
     };
+    '/users/{id}': {
+        get: {
+            req: GetOneData;
+            res: {
+                /**
+                 * Get one base response
+                 */
+                200: SerializedUserDto;
+                /**
+                 * Forbidden.
+                 */
+                403: unknown;
+            };
+        };
+        patch: {
+            req: UpdateOneData;
+            res: {
+                /**
+                 * Response
+                 */
+                200: SharedUserDto;
+                /**
+                 * Forbidden.
+                 */
+                403: unknown;
+            };
+        };
+        delete: {
+            req: DeleteOneData;
+            res: {
+                /**
+                 * Delete one base response
+                 */
+                200: unknown;
+                /**
+                 * Forbidden.
+                 */
+                403: unknown;
+            };
+        };
+    };
+    '/users': {
+        get: {
+            req: GetManyData;
+            res: {
+                /**
+                 * Get paginated response
+                 */
+                200: SerializedUserDto;
+                /**
+                 * Forbidden.
+                 */
+                403: unknown;
+            };
+        };
+        post: {
+            req: CreateOneData;
+            res: {
+                /**
+                 * Get create one base response
+                 */
+                201: SerializedUserDto;
+                /**
+                 * Forbidden.
+                 */
+                403: unknown;
+            };
+        };
+    };
+    '/users/bulk': {
+        post: {
+            req: CreateManyData;
+            res: {
+                /**
+                 * Get create many base response
+                 */
+                201: Array<SerializedUserDto>;
+                /**
+                 * Forbidden.
+                 */
+                403: unknown;
+            };
+        };
+    };
+    '/users/{id}/recover': {
+        patch: {
+            req: RecoverOneData;
+            res: {
+                /**
+                 * Recover one base response
+                 */
+                200: unknown;
+                /**
+                 * Forbidden.
+                 */
+                403: unknown;
+            };
+        };
+    };
+    '/contracts/{id}': {
+        get: {
+            req: GetOneData;
+            res: {
+                /**
+                 * Get one base response
+                 */
+                200: SerializedContractDto;
+            };
+        };
+        patch: {
+            req: UpdateOneData;
+            res: {
+                /**
+                 * Response
+                 */
+                200: ContractEntity;
+            };
+        };
+        delete: {
+            req: DeleteOneData;
+            res: {
+                /**
+                 * Delete one base response
+                 */
+                200: unknown;
+            };
+        };
+    };
+    '/contracts': {
+        get: {
+            req: GetManyData;
+            res: {
+                /**
+                 * Get paginated response
+                 */
+                200: GetManyContractEntityResponseDto;
+            };
+        };
+        post: {
+            req: CreateOneData;
+            res: {
+                /**
+                 * Get create one base response
+                 */
+                201: SerializedContractDto;
+            };
+        };
+    };
+    '/contracts/{id}/recover': {
+        patch: {
+            req: RecoverOneData;
+            res: {
+                /**
+                 * Recover one base response
+                 */
+                200: unknown;
+            };
+        };
+    };
     '/categories/{id}': {
         get: {
-            req: {
-                /**
-                 * Reset cache (if was enabled). <a href="https://github.com/nestjsx/crud/wiki/Requests#cache" target="_blank">Docs</a>
-                 */
-                cache?: number;
-                /**
-                 * Selects resource fields. <a href="https://github.com/nestjsx/crud/wiki/Requests#select" target="_blank">Docs</a>
-                 */
-                fields?: Array<(string)>;
-                id: string;
-                /**
-                 * Include deleted. <a href="https://github.com/nestjsx/crud/wiki/Requests#includeDeleted" target="_blank">Docs</a>
-                 */
-                includeDeleted?: number;
-                /**
-                 * Adds relational resources. <a href="https://github.com/nestjsx/crud/wiki/Requests#join" target="_blank">Docs</a>
-                 */
-                join?: Array<(string)>;
-            };
+            req: GetOneData;
             res: {
                 /**
                  * Get one base response
@@ -1371,10 +1328,7 @@ export type $OpenApiTs = {
             };
         };
         patch: {
-            req: {
-                id: string;
-                requestBody: CategoryEntity;
-            };
+            req: UpdateOneData;
             res: {
                 /**
                  * Response
@@ -1387,9 +1341,7 @@ export type $OpenApiTs = {
             };
         };
         delete: {
-            req: {
-                id: string;
-            };
+            req: DeleteOneData;
             res: {
                 /**
                  * Delete one base response
@@ -1404,52 +1356,7 @@ export type $OpenApiTs = {
     };
     '/categories': {
         get: {
-            req: {
-                /**
-                 * Reset cache (if was enabled). <a href="https://github.com/nestjsx/crud/wiki/Requests#cache" target="_blank">Docs</a>
-                 */
-                cache?: number;
-                /**
-                 * Selects resource fields. <a href="https://github.com/nestjsx/crud/wiki/Requests#select" target="_blank">Docs</a>
-                 */
-                fields?: Array<(string)>;
-                /**
-                 * Adds filter condition. <a href="https://github.com/nestjsx/crud/wiki/Requests#filter" target="_blank">Docs</a>
-                 */
-                filter?: Array<(string)>;
-                /**
-                 * Include deleted. <a href="https://github.com/nestjsx/crud/wiki/Requests#includeDeleted" target="_blank">Docs</a>
-                 */
-                includeDeleted?: number;
-                /**
-                 * Adds relational resources. <a href="https://github.com/nestjsx/crud/wiki/Requests#join" target="_blank">Docs</a>
-                 */
-                join?: Array<(string)>;
-                /**
-                 * Limit amount of resources. <a href="https://github.com/nestjsx/crud/wiki/Requests#limit" target="_blank">Docs</a>
-                 */
-                limit?: number;
-                /**
-                 * Offset amount of resources. <a href="https://github.com/nestjsx/crud/wiki/Requests#offset" target="_blank">Docs</a>
-                 */
-                offset?: number;
-                /**
-                 * Adds OR condition. <a href="https://github.com/nestjsx/crud/wiki/Requests#or" target="_blank">Docs</a>
-                 */
-                or?: Array<(string)>;
-                /**
-                 * Page portion of resources. <a href="https://github.com/nestjsx/crud/wiki/Requests#page" target="_blank">Docs</a>
-                 */
-                page?: number;
-                /**
-                 * Adds search condition. <a href="https://github.com/nestjsx/crud/wiki/Requests#search" target="_blank">Docs</a>
-                 */
-                s?: string;
-                /**
-                 * Adds sort by field. <a href="https://github.com/nestjsx/crud/wiki/Requests#sort" target="_blank">Docs</a>
-                 */
-                sort?: Array<(string)>;
-            };
+            req: GetManyData;
             res: {
                 /**
                  * Get paginated response
@@ -1462,9 +1369,7 @@ export type $OpenApiTs = {
             };
         };
         post: {
-            req: {
-                requestBody: CreateCategoryDto;
-            };
+            req: CreateOneData;
             res: {
                 /**
                  * Get create one base response
@@ -1479,9 +1384,7 @@ export type $OpenApiTs = {
     };
     '/categories/bulk': {
         post: {
-            req: {
-                requestBody: CreateManyCategoryEntityDto;
-            };
+            req: CreateManyData;
             res: {
                 /**
                  * Get create many base response
@@ -1496,9 +1399,7 @@ export type $OpenApiTs = {
     };
     '/categories/{id}/recover': {
         patch: {
-            req: {
-                id: string;
-            };
+            req: RecoverOneData;
             res: {
                 /**
                  * Recover one base response
@@ -1513,25 +1414,7 @@ export type $OpenApiTs = {
     };
     '/brands/{id}': {
         get: {
-            req: {
-                /**
-                 * Reset cache (if was enabled). <a href="https://github.com/nestjsx/crud/wiki/Requests#cache" target="_blank">Docs</a>
-                 */
-                cache?: number;
-                /**
-                 * Selects resource fields. <a href="https://github.com/nestjsx/crud/wiki/Requests#select" target="_blank">Docs</a>
-                 */
-                fields?: Array<(string)>;
-                id: string;
-                /**
-                 * Include deleted. <a href="https://github.com/nestjsx/crud/wiki/Requests#includeDeleted" target="_blank">Docs</a>
-                 */
-                includeDeleted?: number;
-                /**
-                 * Adds relational resources. <a href="https://github.com/nestjsx/crud/wiki/Requests#join" target="_blank">Docs</a>
-                 */
-                join?: Array<(string)>;
-            };
+            req: GetOneData;
             res: {
                 /**
                  * Get one base response
@@ -1544,10 +1427,7 @@ export type $OpenApiTs = {
             };
         };
         patch: {
-            req: {
-                id: string;
-                requestBody: BrandEntity;
-            };
+            req: UpdateOneData;
             res: {
                 /**
                  * Response
@@ -1560,9 +1440,7 @@ export type $OpenApiTs = {
             };
         };
         delete: {
-            req: {
-                id: string;
-            };
+            req: DeleteOneData;
             res: {
                 /**
                  * Delete one base response
@@ -1577,52 +1455,7 @@ export type $OpenApiTs = {
     };
     '/brands': {
         get: {
-            req: {
-                /**
-                 * Reset cache (if was enabled). <a href="https://github.com/nestjsx/crud/wiki/Requests#cache" target="_blank">Docs</a>
-                 */
-                cache?: number;
-                /**
-                 * Selects resource fields. <a href="https://github.com/nestjsx/crud/wiki/Requests#select" target="_blank">Docs</a>
-                 */
-                fields?: Array<(string)>;
-                /**
-                 * Adds filter condition. <a href="https://github.com/nestjsx/crud/wiki/Requests#filter" target="_blank">Docs</a>
-                 */
-                filter?: Array<(string)>;
-                /**
-                 * Include deleted. <a href="https://github.com/nestjsx/crud/wiki/Requests#includeDeleted" target="_blank">Docs</a>
-                 */
-                includeDeleted?: number;
-                /**
-                 * Adds relational resources. <a href="https://github.com/nestjsx/crud/wiki/Requests#join" target="_blank">Docs</a>
-                 */
-                join?: Array<(string)>;
-                /**
-                 * Limit amount of resources. <a href="https://github.com/nestjsx/crud/wiki/Requests#limit" target="_blank">Docs</a>
-                 */
-                limit?: number;
-                /**
-                 * Offset amount of resources. <a href="https://github.com/nestjsx/crud/wiki/Requests#offset" target="_blank">Docs</a>
-                 */
-                offset?: number;
-                /**
-                 * Adds OR condition. <a href="https://github.com/nestjsx/crud/wiki/Requests#or" target="_blank">Docs</a>
-                 */
-                or?: Array<(string)>;
-                /**
-                 * Page portion of resources. <a href="https://github.com/nestjsx/crud/wiki/Requests#page" target="_blank">Docs</a>
-                 */
-                page?: number;
-                /**
-                 * Adds search condition. <a href="https://github.com/nestjsx/crud/wiki/Requests#search" target="_blank">Docs</a>
-                 */
-                s?: string;
-                /**
-                 * Adds sort by field. <a href="https://github.com/nestjsx/crud/wiki/Requests#sort" target="_blank">Docs</a>
-                 */
-                sort?: Array<(string)>;
-            };
+            req: GetManyData;
             res: {
                 /**
                  * Get paginated response
@@ -1635,9 +1468,7 @@ export type $OpenApiTs = {
             };
         };
         post: {
-            req: {
-                requestBody: CreateBrandDto;
-            };
+            req: CreateOneData;
             res: {
                 /**
                  * Get create one base response
@@ -1652,9 +1483,7 @@ export type $OpenApiTs = {
     };
     '/brands/bulk': {
         post: {
-            req: {
-                requestBody: CreateManyBrandEntityDto;
-            };
+            req: CreateManyData;
             res: {
                 /**
                  * Get create many base response
@@ -1669,9 +1498,7 @@ export type $OpenApiTs = {
     };
     '/brands/{id}/recover': {
         patch: {
-            req: {
-                id: string;
-            };
+            req: RecoverOneData;
             res: {
                 /**
                  * Recover one base response
