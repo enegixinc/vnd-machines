@@ -9,6 +9,7 @@ import { EntitySyncer } from '../brands/entitySyncer';
 import { ProductEntity } from './product.entity';
 import { ISerializedMagexProduct } from '@core';
 import { CategoryEntity } from '../categories/category.entity';
+import { BrandEntity } from '../brands/brand.entity';
 
 @EventSubscriber()
 export class ProductSubscriber
@@ -51,11 +52,15 @@ export class ProductSubscriber
 
   handleRelationships(record: ISerializedMagexProduct) {
     const category = this.dataSource.manager.create(CategoryEntity);
+    const brand = this.dataSource.manager.create(BrandEntity);
+
     Object.assign(category, record.category[0]);
+    Object.assign(brand, record.brand);
 
     return this.dataSource.manager.create(ProductEntity, {
       ...record,
       category,
+      brand,
     });
   }
 }

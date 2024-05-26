@@ -39,6 +39,7 @@ import { UpdateCategoryDto } from './dto/response/update-category.dto';
       suppliers: {
         alias: 'users',
         eager: true,
+        exclude: ['password'],
       },
       products: {
         eager: true,
