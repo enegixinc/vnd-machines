@@ -6,6 +6,11 @@ on:
         - main
         - staging
         - dev
+    pull_request:
+        branches:
+        - main
+        - staging
+        - dev
 
 jobs:
   install-and-cache:
@@ -14,6 +19,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Install Node.js
         uses: actions/setup-node@v4
@@ -60,13 +67,14 @@ jobs:
 
       - uses: nrwl/nx-set-shas@v4
         with:
-#          main-branch-name: ${{github.ref_name == 'main' && 'main' || github.ref_name == 'staging' && 'staging' || 'dev'}}
-          main-branch-name: dev
+            base-branch: ${{github.base_ref}}
+#          main-branch-name: ${{github.base_ref == 'main' && 'main' || github.base_ref == 'staging' && 'staging' || 'dev'}}
+#          main-branch-name: dev
 
 
       - name: Deploy Affected Projects
         run: |
-              nx affected -t=deploy --configuration=${{github.ref_name == 'main' && 'production' || github.ref_name == 'staging' && 'staging' || 'dev'}}
+              nx affected -t=deploy --configuration=${{github.base_ref}}
               nx affected -t=notify --args="--DEV_FRONTEND_COOLIFY_WEBHOOK ${{ secrets.DEV_FRONTEND_COOLIFY_WEBHOOK }} --DEV_BACKEND_COOLIFY_WEBHOOK ${{ secrets.DEV_BACKEND_COOLIFY_WEBHOOK }} --COOLIFY_TOKEN ${{ secrets.COOLIFY_TOKEN }}"
 
 #      - name: Notify Coolify
