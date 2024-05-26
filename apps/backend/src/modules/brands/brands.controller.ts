@@ -38,6 +38,7 @@ import { Public } from '../auth/decorators/public.decorator';
       suppliers: {
         alias: 'users',
         eager: true,
+        exclude: ['password'],
       },
       products: {
         eager: true,
