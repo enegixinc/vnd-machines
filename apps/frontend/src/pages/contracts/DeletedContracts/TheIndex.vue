@@ -40,10 +40,7 @@ const {t,loading,totalPages,pageSize,entityData:contractsData,fetchEntities:dele
     })
 const tableFields=computed(()=>{
     return [
-        { field: 'firstName', title: t("fields.name") ,condition:"equal",hide: false},
-        { field: 'email', title: t("fields.email") ,hide: false},
-        { field: 'phoneNumber', title: t('fields.phoneNo') ,hide: false},
-        { field: 'businessName', title: t('fields.businessName') ,hide: false},
+        { field: 'supplier.firstName', title: t("fields.supplierName") ,condition:"equal",hide: false,filter:false,sort:false},
         { field: 'deletedAt', title: t('fields.deletedAt') ,hide: false,type: 'date'},
         {field:'action',title:'',filter:false,sort:false}
     ]
