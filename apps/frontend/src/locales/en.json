@@ -195,6 +195,7 @@
     "links": {
         "manageSuppliers": "Manage Suppliers",
         "contracts": "Contracts",
+        "deletedContracts": "Deleted Contracts",
         "manageContracts": "Manage Contracts",
         "newContract": "Add New Contract",
         "manageMachines": "Manage Machines",
@@ -236,6 +237,8 @@
         "noCancel": "no,Cancel!"
     },
     "contractsPages": {
-        "contracts": "Contracts"
+        "contracts": "Contracts",
+        "deletedContracts": "Deleted Contracts",
+        "recoverContract": "Recover Contract"
     }
 }

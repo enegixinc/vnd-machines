@@ -155,6 +155,9 @@
                                                             <router-link :to="{name:'manage-contracts'}" >{{ $t('links.manageContracts') }}</router-link>
                                                         </li>
                                                         <li @click="toggleMobileMenu">
+                                                            <router-link :to="{name:'deletedContracts'}" >{{ $t('links.deletedContracts') }}</router-link>
+                                                        </li>
+                                                        <li @click="toggleMobileMenu">
                                                             <router-link to="/pages/error500" >{{ $t('links.newContract') }}</router-link>
                                                         </li>
 

@@ -193,10 +193,10 @@
         "columns": "الاعمده"
     },
     "wait": "انتظر من فضلك..",
-
     "links": {
         "manageSuppliers": "إدارة الموردين",
         "contracts": "العقود",
+        "deletedContracts": "العقود المحذوفة",
         "manageContracts": "إدارة العقود",
         "newContract": "إضافة عقد جديد",
         "manageMachines": "إدارة الماكينات",
@@ -238,6 +238,8 @@
         "noCancel": "لا، إلغاء!"
     },
     "contractsPages": {
-        "contracts": "العقود"
+        "contracts": "العقود",
+        "deletedContracts": "العقود المحذوفة",
+        "recoverContract": "استعادة العقد"
     }
 }
