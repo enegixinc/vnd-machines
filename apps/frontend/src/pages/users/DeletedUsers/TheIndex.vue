@@ -8,20 +8,21 @@
             :fields = "tableFields"
             :loading="loading"
             :table-title="$t('usersPages.deletedUsers')"
+            :rowLoading="rowLoading"
             @change-server="deletedUsers"
             :sortable="true"
             sort-by="deletedAt"
         >
             <template #actions="{data}">
-                <button type="button" class="btn btn-info w-36 shadow-none disabled:opacity-60" :disabled="(rowLoading === data.value._id || !!rowLoading)" @click="recoverUser(data.value._id)" >
-                    <template v-if="rowLoading === data.value._id">
-                        <icon-loader class="animate-[spin_2s_linear_infinite] inline-block align-middle ltr:mr-2 rtl:ml-2 shrink-0" />
-                        {{ $t('wait') }}
-                    </template>
-                    <template v-else>
-                        {{ $t('usersPages.recoverUser') }}
-                    </template>
-                </button>
+                    <button type="button" v-tippy="$t('usersPages.recoverUser')" @click="recoverUser(data.value._id)" :disabled="(rowLoading === data.value._id || !!rowLoading)" >
+                        <template v-if="rowLoading === data.value._id">
+                            <icon-loader class="animate-[spin_2s_linear_infinite]" />
+                        </template>
+                        <template v-else>
+                            <icon-multiple-forward-right class="rtl:rotate-y-180"/>
+                        </template>
+
+                    </button>
             </template>
         </DataTable>
     </div>
@@ -31,6 +32,7 @@ import {computed} from 'vue';
 import {useI18n} from 'vue-i18n'
 import IconLoader from "@/components/icon/icon-loader.vue";
 import useUser from "@/composables/users/use-user";
+import IconMultipleForwardRight from '@/components/icon/icon-multiple-forward-right.vue';
 const {t} = useI18n()
 const {fetchUsers:deletedUsers,loading,totalPages,pageSize,usersData,rowLoading,TheBreadcrumbs,DataTable,recoverUser} = useUser( {
     filter:['deletedAt||$notnull'],
