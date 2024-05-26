@@ -19,7 +19,7 @@
 <script setup lang="ts">
 import {computed} from 'vue';
 import {useContract}from "@/composables/contracts/use-contracts";
-const {t,loading,totalPages,pageSize,entityData:contractsData,fetchEntities:fetchContracts,DataTable,TheBreadcrumbs,rowLoading,deleteEntity} = useContract()
+const {t,loading,totalPages,pageSize,entityData:contractsData,fetchEntities:fetchContracts,DataTable,TheBreadcrumbs,rowLoading,deleteEntity} = useContract({})
 const tableFields=computed(()=>{
         return [
             { field: 'supplier.firstName', title: t("fields.supplierName") ,condition:"equal",hide: false,filter:false,sort:false},
