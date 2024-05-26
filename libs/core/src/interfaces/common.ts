@@ -10,7 +10,10 @@ export interface _IMagex_DatabaseEntity {
   createdAt: string;
 }
 
-export type IDataBaseEntity = _IMagex_DatabaseEntity;
+export type IDataBaseEntity = _IMagex_DatabaseEntity & {
+  deletedAt: string | null;
+  lastSyncAt: string | null;
+};
 
 export type ReferenceByID<T> = T extends {
   _id: string;

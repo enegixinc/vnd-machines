@@ -5,11 +5,12 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { FilesInterceptor } from '@nestjs/platform-express';
-import { ApiConsumes, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { FilesService } from './files.service';
 import { multerConfig } from './multer.config';
 
 @Controller('files')
+@ApiBearerAuth('access-token')
 @ApiTags('files')
 export class FilesController {
   constructor(private readonly filesService: FilesService) {}

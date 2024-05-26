@@ -11,6 +11,11 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
   app.useGlobalFilters(new TypeORMExceptionFilter());
   app.use('/uploads', express.static('uploads'));
+  app.enableCors({
+    origin: '*',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    allowedHeaders: 'Content-Type, Accept',
+  });
   useContainer(app.select(AppModule), { fallbackOnErrors: true });
 
   const port = process.env.PORT || 3000;
@@ -28,14 +33,15 @@ async function bootstrap() {
         description: 'Enter JWT token',
         in: 'header',
       },
-      'JWT-auth' // This name here is important for matching up with @ApiBearerAuth() in your controller!
+      'access-token' // This name here is important for matching up with @ApiBearerAuth() in your controller!
     )
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
+  SwaggerModule.setup('/', app, document);
 
   await app.listen(port);
-  Logger.log(`🚀 Application is running on: http://localhost:${port}/${'api'}`);
+  Logger.log(`🚀 Application is running on: http://localhost:${port}/`);
+  Logger.log('debug', 'Debugging log');
 }
 
 bootstrap();

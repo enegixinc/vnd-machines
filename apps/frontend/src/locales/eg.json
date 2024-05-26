@@ -32,7 +32,7 @@
     "list": "قائمة",
     "preview": "معاينة",
     "add": "يضيف",
-    "edit": "يحرر",
+
     "calendar": "تقويم",
     "tabs": "نوافذ التبويب",
     "accordions": "الأكورديونات",
@@ -124,5 +124,127 @@
     "coming_soon_boxed": "قريبا محاصر",
     "coming_soon_cover": "قريبا تغطية",
     "contact_us_boxed": "اتصل بنا محاصر",
-    "contact_us_cover": "اتصل بنا الغلاف"
+    "contact_us_cover": "اتصل بنا الغلاف",
+    "machine": "الألة",
+    "categories": "فئات",
+    "products": "منتجات",
+    "brands": "العلامات التجاريه",
+    "usersPages": {
+        "users": "المستخدمون",
+        "suppliers": "الموردين",
+        "profile": "الملف الشخصي",
+        "account_settings": "إعدادت الحساب",
+        "deletedUsers": "المستخدمون المحذوفون",
+        "addUser": "إضافة مستخدم",
+        "recoverUser": "استعادة المستخدم",
+        "TheUserHasBeenSuccessfullyRecovered": "تم استعادة المستخدم بنجاح.",
+        "TheUserHasBeenSuccessfullyDeleted": "تم حذف المستخدم بنجاح."
+    },
+    "authPages": {
+        "signIn": "تسجيل الدخول",
+        "enterYourEmailAndPasswordToLogin": "أدخل بريدك الإلكتروني وكلمة المرور لتسجيل الدخول",
+        "rememberMe": "ابقي متصلاً علي هذا الجهاز",
+        "forgetPassword": "نسيت كلمة المرور؟",
+        "passwordReset": "إعادة تعيين كلمة المرور",
+        "enterYourEmailToRecoverYourID": "أدخل بريدك الإلكتروني لاستعادة كلمة المرور",
+        "recover": "استعاده",
+        "invalidEmailOrPassword": "بريد إلكتروني أو كلمة مرور غير صحيحة.",
+        "pleaseEnterValidEmail": "الرجاء ادخال بريد الكتروني صحيح",
+        "signOut": "تسجيل الخروج",
+        "backTo": "العودة إلي"
+    },
+    "languages": {
+        "English": "English",
+        "Arabic": "اللغة العربية"
+    },
+    "fields": {
+        "email": "البريد الإلكتروني",
+        "password": "كلمة المرور",
+        "name": "الأسم",
+        "phoneNo": "رقم الهاتف",
+        "businessName": "اسم العمل",
+        "role": "الدور",
+        "createdAt": "تاريخ الإنشاء",
+        "status": "الحالة",
+        "actions": "الاجراءات",
+        "deletedAt": "تم الحذف في",
+        "totalSales": "إجمالي المبيعات",
+        "totalRevenue": "إجمالي الإيرادات",
+        "feePerSale": "رسوم البيع",
+        "feeType": "نوع الرسوم",
+        "startDate": "تاريخ البدء",
+        "endDate": "تاريخ الانتهاء",
+        "supplierName": "اسم المورد"
+    },
+    "placeHolders": {
+        "enterEmail": "ادخل البريد الإلكتروني",
+        "enterPassword": "ادخل كلمة المرور"
+    },
+    "allRightsReserved": "جميع الحقوق محفوظة",
+    "errors": {
+        "ops": "عفواً..",
+        "errorHappened": "حدث خطأ ما, يرجي الاتصال بالدعم الفني",
+        "pleaseEnterValidEmail": "الرجاء ادخال بريد الكتروني صحيح",
+        "passwordRequired": "كلمة المرور مطلوبة"
+    },
+    "dataTable": {
+        "reset": "إعادة ضبط",
+        "search": "بحث...",
+        "columns": "الاعمده"
+    },
+    "wait": "انتظر من فضلك..",
+    "links": {
+        "manageSuppliers": "إدارة الموردين",
+        "contracts": "العقود",
+        "deletedContracts": "العقود المحذوفة",
+        "manageContracts": "إدارة العقود",
+        "newContract": "إضافة عقد جديد",
+        "manageMachines": "إدارة الماكينات",
+        "newMachine": "إضافة اله جديده",
+        "machines": "ماكينات",
+        "products": "منتجات",
+        "manageProducts": "إدارة المنتجات",
+        "newProducts": "إضافة منتجات جديده",
+        "deletedProducts": "المنتجات المحذوفة",
+        "categories": "الفئات",
+        "manageCategories": "إدارة الفئات",
+        "deletedCategories": "الفئات المحذوفة",
+        "newCategories": "إضافة فئات جديده",
+        "brands": "العلامات التجاريه",
+        "manageBrands": "إدارة العلامات التجاريه",
+        "deletedBrands": "العلامات التجاريه المحذوفة",
+        "newBrands": "إضافة علامات تجاريه جديده",
+        "requests": "الطلبات",
+        "manageRequests": "إدارة الطلبات",
+        "createRequest": "إنشاء طلب",
+        "reports": "التقارير",
+        "mangeUsers": "إدارة المستخدمون"
+    },
+    "headings": {
+        "machinesAndProducts": "الماكينات و المنتجات",
+        "categoriesAndBrands": "الفئات و العلامات التجاريه",
+        "requestsAndReports": "الطلبات و التقارير"
+    },
+    "inactive": "غير نشط",
+    "active": "نشط",
+    "edit": "تعديل",
+    "delete": "حذف",
+    "show": "عرض",
+    "sweetAlert": {
+        "areYouSure": "هل أنت متأكد؟",
+        "youWantToDeleteThisUser": "تريد حذف هذا المستخدم!",
+        "youWantToDeleteThisContract": "تريد حذف هذا العقد!",
+        "yesDeleteIt": "نعم، احذفه!",
+        "noCancel": "لا، إلغاء!",
+        "youWantToDeleteThisEntity": "تريد حذف هذا !"
+    },
+    "contractsPages": {
+        "contracts": "العقود",
+        "deletedContracts": "العقود المحذوفة",
+        "recoverContract": "استعادة العقد"
+    },
+    "entitiesPages": {
+        "TheEntityHasBeenSuccessfullyRecovered": "تم  المستخدم بنجاح.",
+        "TheEntityHasBeenSuccessfullyDeleted": "تم حذف  بنجاح."
+    }
 }

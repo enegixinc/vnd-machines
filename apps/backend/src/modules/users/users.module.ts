@@ -11,5 +11,6 @@ import { UserExistsValidator } from './validators/user-exists';
   imports: [TypeOrmModule.forFeature([ProductEntity, UserEntity])],
   controllers: [UsersController],
   providers: [UsersService, UserExistsValidator],
+  exports: [UsersService, UserExistsValidator],
 })
 export class UsersModule {}

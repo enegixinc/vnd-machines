@@ -5,8 +5,10 @@ import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/request/create-user.dto';
 import { UpdateUserDto } from './dto/response/update-user.dto';
 import { SerializedUserDto } from './dto/response/serialized-user.dto';
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { saneOperationsId } from '../../common/swagger.config';
+import { Public } from '../auth/decorators/public.decorator';
+import { SharedUserDto } from './dto/shared/shared-user.dto';
 
 @Crud({
   model: {
@@ -46,24 +48,28 @@ import { saneOperationsId } from '../../common/swagger.config';
       brands: {
         eager: true,
       },
+      contracts: {
+        eager: true,
+      },
     },
   },
   routes: {
     ...saneOperationsId,
+    // createOneBase: {
+    //   decorators: [...saneOperationsId.createOneBase.decorators, Public],
+    // },
     exclude: ['replaceOneBase'],
   },
   serialize: {
-    create: SerializedUserDto,
-    update: SerializedUserDto,
     get: SerializedUserDto,
     getMany: SerializedUserDto,
-    createMany: SerializedUserDto,
-    delete: SerializedUserDto,
-    recover: SerializedUserDto,
-    replace: SerializedUserDto,
+    update: SharedUserDto,
+    create: SerializedUserDto,
   },
 })
 @Controller('users')
+@ApiBearerAuth('access-token')
+@Public()
 @ApiResponse({ status: 403, description: 'Forbidden.' })
 @ApiTags('users')
 export class UsersController implements CrudController<UserEntity> {

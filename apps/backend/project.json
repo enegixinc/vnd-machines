@@ -7,13 +7,10 @@
   "targets": {
     "dev": {
       "executor": "@nx/js:node",
-      "dependsOn": [
-        {
-          "target": "docker"
-        }
-      ],
       "options": {
-        "buildTarget": "backend:build:development"
+        "buildTarget": "backend:build:development",
+        "inspect": true,
+        "watch": true
       }
     },
     "serve": {
@@ -83,6 +80,14 @@
         "production": {
           "DockerContainerRegistry": "abdelrahmanessawy/vnd-backend-production"
         }
+      }
+    },
+    "notify": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "node scripts/coolify.js -w {args.DEV_BACKEND_COOLIFY_WEBHOOK}"
+        ]
       }
     }
   }

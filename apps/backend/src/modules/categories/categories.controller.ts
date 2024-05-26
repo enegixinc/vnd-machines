@@ -6,6 +6,7 @@ import { CreateCategoryDto } from './dto/request/create-category.dto';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { SerializedCategoryDto } from './dto/response/serialized-category.dto';
 import { saneOperationsId } from '../../common/swagger.config';
+import { UpdateCategoryDto } from './dto/response/update-category.dto';
 
 @Crud({
   model: {
@@ -13,6 +14,7 @@ import { saneOperationsId } from '../../common/swagger.config';
   },
   dto: {
     create: CreateCategoryDto,
+    update: UpdateCategoryDto,
   },
   params: {
     id: {
@@ -37,6 +39,7 @@ import { saneOperationsId } from '../../common/swagger.config';
       suppliers: {
         alias: 'users',
         eager: true,
+        exclude: ['password'],
       },
       products: {
         eager: true,
@@ -51,20 +54,15 @@ import { saneOperationsId } from '../../common/swagger.config';
     exclude: ['replaceOneBase'],
   },
   serialize: {
-    getMany: SerializedCategoryDto,
     get: SerializedCategoryDto,
     create: SerializedCategoryDto,
-    replace: SerializedCategoryDto,
-    recover: SerializedCategoryDto,
-    delete: SerializedCategoryDto,
-    createMany: SerializedCategoryDto,
     update: SerializedCategoryDto,
   },
 })
 @Controller('categories')
+@ApiBearerAuth('access-token')
 @ApiResponse({ status: 403, description: 'Forbidden.' })
 @ApiTags('categories')
-@ApiBearerAuth('JWT-auth')
 export class CategoriesController implements CrudController<CategoryEntity> {
   constructor(public service: CategoriesService) {}
 

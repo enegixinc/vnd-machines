@@ -14,11 +14,11 @@ import { CategoryEntity } from '../categories/category.entity';
 
 @Entity('brands')
 export class BrandEntity extends DatabaseEntity implements IBrandEntity {
-  @Column({ type: 'varchar' })
+  @Column({ type: 'varchar', nullable: true })
   logo: string;
   @Column({ type: 'jsonb' })
   name: MultiLang;
-  @Column({ type: 'varchar' })
+  @Column({ type: 'varchar', nullable: true })
   picture: string;
   @Column({ type: 'varchar' })
   referTo: string;

@@ -36,10 +36,32 @@ import { UpdateProductDto } from './dto/request/update-product.dto';
     limit: 20,
     maxLimit: 100,
     join: {
-      suppliers: {
-        alias: 'users',
+      supplier: {
         eager: true,
+        alias: 'users',
+        exclude: ['password'],
       },
+      brand: {
+        eager: true,
+        alias: 'brands',
+      },
+      category: {
+        eager: true,
+        alias: 'categories',
+      },
+
+      // 'suppliers.brands': {
+      //   eager: true,
+      //   alias: 'brands',
+      // },
+      // 'suppliers.products': {
+      //   eager: true,
+      //   alias: 'products',
+      // },
+      // 'suppliers.categories': {
+      //   eager: true,
+      //   alias: 'categories',
+      // },
     },
   },
   routes: {
@@ -47,24 +69,25 @@ import { UpdateProductDto } from './dto/request/update-product.dto';
     exclude: ['replaceOneBase'],
   },
   serialize: {
-    getMany: SerializedProductDto,
     get: SerializedProductDto,
     create: SerializedProductDto,
-    replace: SerializedProductDto,
-    recover: SerializedProductDto,
-    delete: SerializedProductDto,
-    createMany: SerializedProductDto,
     update: SerializedProductDto,
   },
 })
 @Controller('products')
+@ApiBearerAuth('access-token')
 @ApiResponse({ status: 403, description: 'Forbidden.' })
 @ApiTags('products')
-@ApiBearerAuth('JWT-auth')
 export class ProductsController implements CrudController<ProductEntity> {
-  constructor(public service: ProductsService) {}
+  constructor(private readonly productsService: ProductsService) {}
+  service = this.productsService;
 
-  get base(): CrudController<ProductEntity> {
-    return this;
-  }
+  // @Public()
+  // @Post('add-supplier')
+  // async addSupplier(
+  //   @Param('productId') productId: string,
+  //   @Param('supplierId') supplierId: string
+  // ) {
+  //   return this.productsService.addSupplier(productId, supplierId);
+  // }
 }

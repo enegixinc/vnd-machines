@@ -7,10 +7,6 @@
     "jsxImportSource": "vue",
     "moduleResolution": "node",
     "resolveJsonModule": true,
-
-
-
-
     "target": "ESNext",
     "useDefineForClassFields": true,
     "module": "ESNext",
@@ -21,7 +17,9 @@
     "skipLibCheck": true,
     "baseUrl": "./",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["src/*"],
+        "@core": ["../../libs/core"],
+        "@frontend/api-sdk": ["../../libs/frontend/api-sdk/gen/index.ts"]
     },
     "noImplicitAny": false,
 

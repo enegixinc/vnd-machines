@@ -1,17 +1,20 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { APP_GUARD } from '@nestjs/core';
+
 import { ConfigModule, ConfigService } from '@backend/config';
 
-import { UsersModule } from '../modules/users/users.module';
-import { FilesModule } from '../modules/files/files.module';
-import { ProductsModule } from '../modules/products/products.module';
-import { BrandsModule } from '../modules/brands/brands.module';
-import { CategoriesModule } from '../modules/categories/categories.module';
+import { SystemModule } from '../modules/system.module';
+import { JwtGuard } from '../modules/auth/guards/jwt.guard';
+import { MagexModule } from '../services/magex/magex.module';
+import { RedisModule } from '@liaoliaots/nestjs-redis';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
+      imports: [MagexModule],
       useFactory: async (configService: ConfigService) => ({
         type: 'postgres',
         host: configService.get('POSTGRES_HOST'),
@@ -24,13 +27,29 @@ import { CategoriesModule } from '../modules/categories/categories.module';
         entities: [__dirname + '/../../modules/**/*.entity{.ts,.js}'],
       }),
     }),
-    UsersModule,
-    FilesModule,
-    ProductsModule,
-    BrandsModule,
-    CategoriesModule,
+
+    RedisModule.forRootAsync({
+      useFactory: (configService: ConfigService) => ({
+        config: {
+          url: configService.get('REDIS_URL'),
+        },
+      }),
+      imports: [ConfigModule],
+      inject: [ConfigService],
+    }),
+
+    ScheduleModule.forRoot(),
+
+    MagexModule,
+    SystemModule,
     ConfigModule,
     // HealthModule,
+  ],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: JwtGuard,
+    },
   ],
 })
 export class AppModule {}

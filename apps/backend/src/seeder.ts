@@ -8,6 +8,8 @@ import { CategoryEntity } from './modules/categories/category.entity';
 import { DatabaseEntity } from './common/database.entity';
 import { ProductsSeeder } from './modules/products/products.seeder';
 import { ConfigModule, ConfigService } from '@backend/config';
+import { ContractEntity } from './modules/contracts/entities/contract.entity';
+import { CategoriesSeeder } from './modules/categories/categories.seeder';
 
 seeder({
   imports: [
@@ -28,6 +30,7 @@ seeder({
           BrandEntity,
           CategoryEntity,
           DatabaseEntity,
+          ContractEntity,
         ],
       }),
     }),
@@ -37,9 +40,11 @@ seeder({
       BrandEntity,
       CategoryEntity,
       DatabaseEntity,
+      ContractEntity,
+      // change
     ]),
     ConfigModule,
   ],
-}).run([UsersSeeder, ProductsSeeder]);
+}).run([UsersSeeder, ProductsSeeder, CategoriesSeeder]);
 
-////
+////////
