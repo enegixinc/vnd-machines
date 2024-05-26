@@ -12,6 +12,7 @@
             @delete-row="deleteUser"
             :sortable="true"
             sort-by="firstName"
+            :row-loading="rowLoading"
         />
     </div>
 </template>
@@ -20,7 +21,7 @@ import {computed} from 'vue';
 import {useI18n} from 'vue-i18n'
 import useUser from "@/composables/users/use-user";
 const {t} = useI18n()
-const {deleteUser,fetchUsers,TheBreadcrumbs,totalPages,pageSize,usersData,DataTable,loading} =useUser()
+const {deleteUser,fetchUsers,TheBreadcrumbs,totalPages,pageSize,usersData,DataTable,loading,rowLoading} =useUser()
 const tableFields=computed(()=>{
         return [
             { field: 'firstName', title: t("fields.name") ,condition:"equal",hide: false},
