@@ -4,13 +4,15 @@ import {useUser} from '@/stores/user'
 import appSetting from '@/app-setting';
 import {authLinks} from "@/router/auth";
 import {userLinks} from "@/router/users";
+import {contractsLinks} from "@/router/contracts";
 
 
 const routes: RouteRecordRaw[] = [
     // dashboard
     { path: '/', name: 'home', component: () => import('@/pages/TheIndex.vue')},
     ...userLinks,
-    ...authLinks
+    ...authLinks,
+    ...contractsLinks
 ];
 
 const router = createRouter({

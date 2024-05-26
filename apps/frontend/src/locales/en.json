@@ -166,8 +166,14 @@
         "createdAt": "Created At",
         "status": "Status",
         "actions": "Actions",
-        "deletedAt": "Deleted At"
-
+        "deletedAt": "Deleted At",
+        "totalSales": "Total Sales",
+        "totalRevenue": "Total Revenue",
+        "feePerSale": "Fee Per Sale",
+        "feeType": "Fee Type",
+        "startDate": "Start Date",
+        "endDate": "End Date",
+        "supplierName": "Supplier Name"
     },
     "placeHolders": {
         "enterEmail": "Enter Email",
@@ -225,7 +231,11 @@
     "sweetAlert": {
         "areYouSure": "Are you sure?",
         "youWantToDeleteThisUser": "You want to delete this user!",
+        "youWantToDeleteThisContract": "You want to delete this contract!",
         "yesDeleteIt": "Yes, delete it!",
         "noCancel": "no,Cancel!"
+    },
+    "contractsPages": {
+        "contracts": "Contracts"
     }
 }

@@ -167,7 +167,14 @@
         "createdAt": "تاريخ الإنشاء",
         "status": "الحالة",
         "actions": "الاجراءات",
-        "deletedAt": "تم الحذف في"
+        "deletedAt": "تم الحذف في",
+        "totalSales": "إجمالي المبيعات",
+        "totalRevenue": "إجمالي الإيرادات",
+        "feePerSale": "رسوم البيع",
+        "feeType": "نوع الرسوم",
+        "startDate": "تاريخ البدء",
+        "endDate": "تاريخ الانتهاء",
+        "supplierName": "اسم المورد"
     },
     "placeHolders": {
         "enterEmail": "ادخل البريد الإلكتروني",
@@ -226,7 +233,11 @@
     "sweetAlert": {
         "areYouSure": "هل أنت متأكد؟",
         "youWantToDeleteThisUser": "تريد حذف هذا المستخدم!",
+        "youWantToDeleteThisContract": "تريد حذف هذا العقد!",
         "yesDeleteIt": "نعم، احذفه!",
         "noCancel": "لا، إلغاء!"
+    },
+    "contractsPages": {
+        "contracts": "العقود"
     }
 }
