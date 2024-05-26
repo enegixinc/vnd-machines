@@ -234,11 +234,16 @@
         "youWantToDeleteThisUser": "You want to delete this user!",
         "youWantToDeleteThisContract": "You want to delete this contract!",
         "yesDeleteIt": "Yes, delete it!",
-        "noCancel": "no,Cancel!"
+        "noCancel": "no,Cancel!",
+        "youWantToDeleteThisEntity": "You want to delete this!"
     },
     "contractsPages": {
         "contracts": "Contracts",
         "deletedContracts": "Deleted Contracts",
         "recoverContract": "Recover Contract"
+    },
+    "entitiesPages": {
+        "TheEntityHasBeenSuccessfullyDeleted": "The user has been successfully deleted.",
+        "TheEntityHasBeenSuccessfullyRecovered": "The user has been successfully recovered."
     }
 }

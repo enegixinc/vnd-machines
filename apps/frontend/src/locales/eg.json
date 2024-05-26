@@ -235,11 +235,16 @@
         "youWantToDeleteThisUser": "تريد حذف هذا المستخدم!",
         "youWantToDeleteThisContract": "تريد حذف هذا العقد!",
         "yesDeleteIt": "نعم، احذفه!",
-        "noCancel": "لا، إلغاء!"
+        "noCancel": "لا، إلغاء!",
+        "youWantToDeleteThisEntity": "تريد حذف هذا !"
     },
     "contractsPages": {
         "contracts": "العقود",
         "deletedContracts": "العقود المحذوفة",
         "recoverContract": "استعادة العقد"
+    },
+    "entitiesPages": {
+        "TheEntityHasBeenSuccessfullyRecovered": "تم  المستخدم بنجاح.",
+        "TheEntityHasBeenSuccessfullyDeleted": "تم حذف  بنجاح."
     }
 }
