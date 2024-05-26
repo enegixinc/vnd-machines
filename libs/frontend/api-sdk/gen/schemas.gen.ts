@@ -865,112 +865,6 @@ export const $Object = {
     properties: {}
 } as const;
 
-export const $CreateUserDto = {
-    type: 'object',
-    properties: {
-        active: {
-            type: 'boolean',
-            example: true,
-            description: 'Is the user active'
-        },
-        email: {
-            type: 'string',
-            example: 'email@example.com',
-            description: 'Email of the user',
-            uniqueItems: true
-        },
-        firstName: {
-            type: 'string',
-            example: 'John'
-        },
-        lastName: {
-            type: 'string',
-            example: 'Doe'
-        },
-        phoneNumber: {
-            type: 'string',
-            example: '+201554891929',
-            description: 'Phone number of the user'
-        },
-        role: {
-            example: 'supplier',
-            '$ref': '#/components/schemas/UserRole'
-        },
-        businessName: {
-            type: 'string',
-            example: 'Business Name',
-            description: 'Business name of the user',
-            nullable: true
-        },
-        password: {
-            type: 'string',
-            example: 'Password@123',
-            minLength: 8,
-            maxLength: 32
-        }
-    },
-    required: ['active', 'email', 'firstName', 'lastName', 'phoneNumber', 'role', 'businessName', 'password']
-} as const;
-
-export const $CreateManyUserEntityDto = {
-    type: 'object',
-    properties: {
-        bulk: {
-            type: 'array',
-            items: {
-                '$ref': '#/components/schemas/CreateUserDto'
-            }
-        }
-    },
-    required: ['bulk']
-} as const;
-
-export const $UpdateUserDto = {
-    type: 'object',
-    properties: {
-        active: {
-            type: 'boolean',
-            example: true,
-            description: 'Is the user active'
-        },
-        email: {
-            type: 'string',
-            example: 'email@example.com',
-            description: 'Email of the user',
-            uniqueItems: true
-        },
-        firstName: {
-            type: 'string',
-            example: 'John'
-        },
-        lastName: {
-            type: 'string',
-            example: 'Doe'
-        },
-        phoneNumber: {
-            type: 'string',
-            example: '+201554891929',
-            description: 'Phone number of the user'
-        },
-        role: {
-            example: 'supplier',
-            '$ref': '#/components/schemas/UserRole'
-        },
-        businessName: {
-            type: 'string',
-            example: 'Business Name',
-            description: 'Business name of the user',
-            nullable: true
-        },
-        password: {
-            type: 'string',
-            example: 'Password@123',
-            minLength: 8,
-            maxLength: 32
-        }
-    }
-} as const;
-
 export const $PickTypeClass = {
     type: 'object',
     properties: {
@@ -982,40 +876,49 @@ export const $PickTypeClass = {
     required: ['_id']
 } as const;
 
-export const $CreateContractDto = {
+export const $ProductsRequest = {
     type: 'object',
     properties: {
-        description: {
-            type: 'string',
-            default: 'Contract Description'
-        },
-        feePerSale: {
-            type: 'number',
-            default: 5.5
-        },
-        feeType: {
-            type: 'string',
-            enum: ['percentage', 'fixed'],
-            default: 'percentage'
-        },
-        startDate: {
-            type: 'date',
-            default: '2024-05-22T12:02:07.550Z'
-        },
-        endDate: {
-            type: 'date',
-            default: '2024-05-22T12:02:07.550Z'
-        },
-        status: {
-            type: 'string',
-            enum: ['active', 'expired', 'terminated'],
-            default: 'active'
-        },
-        supplier: {
+        product: {
             '$ref': '#/components/schemas/PickTypeClass'
+        },
+        quantity: {
+            type: 'number',
+            example: 1
         }
     },
-    required: ['description', 'feePerSale', 'feeType', 'startDate', 'endDate', 'status', 'supplier']
+    required: ['product', 'quantity']
+} as const;
+
+export const $NotificationRequest = {
+    type: 'object',
+    properties: {
+        email: {
+            type: 'boolean',
+            example: true
+        },
+        whatsapp: {
+            type: 'boolean',
+            example: true
+        }
+    },
+    required: ['email', 'whatsapp']
+} as const;
+
+export const $FillRequestDto = {
+    type: 'object',
+    properties: {
+        products: {
+            type: 'array',
+            items: {
+                '$ref': '#/components/schemas/ProductsRequest'
+            }
+        },
+        notify: {
+            '$ref': '#/components/schemas/NotificationRequest'
+        }
+    },
+    required: ['products', 'notify']
 } as const;
 
 export const $CreateProductDto = {
@@ -1326,6 +1229,148 @@ export const $UpdateProductDto = {
     }
 } as const;
 
+export const $CreateUserDto = {
+    type: 'object',
+    properties: {
+        active: {
+            type: 'boolean',
+            example: true,
+            description: 'Is the user active'
+        },
+        email: {
+            type: 'string',
+            example: 'email@example.com',
+            description: 'Email of the user',
+            uniqueItems: true
+        },
+        firstName: {
+            type: 'string',
+            example: 'John'
+        },
+        lastName: {
+            type: 'string',
+            example: 'Doe'
+        },
+        phoneNumber: {
+            type: 'string',
+            example: '+201554891929',
+            description: 'Phone number of the user'
+        },
+        role: {
+            example: 'supplier',
+            '$ref': '#/components/schemas/UserRole'
+        },
+        businessName: {
+            type: 'string',
+            example: 'Business Name',
+            description: 'Business name of the user',
+            nullable: true
+        },
+        password: {
+            type: 'string',
+            example: 'Password@123',
+            minLength: 8,
+            maxLength: 32
+        }
+    },
+    required: ['active', 'email', 'firstName', 'lastName', 'phoneNumber', 'role', 'businessName', 'password']
+} as const;
+
+export const $CreateManyUserEntityDto = {
+    type: 'object',
+    properties: {
+        bulk: {
+            type: 'array',
+            items: {
+                '$ref': '#/components/schemas/CreateUserDto'
+            }
+        }
+    },
+    required: ['bulk']
+} as const;
+
+export const $UpdateUserDto = {
+    type: 'object',
+    properties: {
+        active: {
+            type: 'boolean',
+            example: true,
+            description: 'Is the user active'
+        },
+        email: {
+            type: 'string',
+            example: 'email@example.com',
+            description: 'Email of the user',
+            uniqueItems: true
+        },
+        firstName: {
+            type: 'string',
+            example: 'John'
+        },
+        lastName: {
+            type: 'string',
+            example: 'Doe'
+        },
+        phoneNumber: {
+            type: 'string',
+            example: '+201554891929',
+            description: 'Phone number of the user'
+        },
+        role: {
+            example: 'supplier',
+            '$ref': '#/components/schemas/UserRole'
+        },
+        businessName: {
+            type: 'string',
+            example: 'Business Name',
+            description: 'Business name of the user',
+            nullable: true
+        },
+        password: {
+            type: 'string',
+            example: 'Password@123',
+            minLength: 8,
+            maxLength: 32
+        }
+    }
+} as const;
+
+export const $CreateContractDto = {
+    type: 'object',
+    properties: {
+        description: {
+            type: 'string',
+            default: 'Contract Description'
+        },
+        feePerSale: {
+            type: 'number',
+            default: 5.5
+        },
+        feeType: {
+            type: 'string',
+            enum: ['percentage', 'fixed'],
+            default: 'percentage'
+        },
+        startDate: {
+            type: 'date',
+            default: '2024-05-26T07:35:41.614Z'
+        },
+        endDate: {
+            type: 'date',
+            default: '2024-05-26T07:35:41.614Z'
+        },
+        status: {
+            type: 'string',
+            enum: ['active', 'expired', 'terminated'],
+            default: 'active'
+        },
+        supplier: {
+            '$ref': '#/components/schemas/PickTypeClass'
+        }
+    },
+    required: ['description', 'feePerSale', 'feeType', 'startDate', 'endDate', 'status', 'supplier']
+} as const;
+
 export const $GetManyCategoryEntityResponseDto = {
     type: 'object',
     properties: {
@@ -1507,6 +1552,38 @@ export const $CreateManyCategoryEntityDto = {
         }
     },
     required: ['bulk']
+} as const;
+
+export const $UpdateCategoryDto = {
+    type: 'object',
+    properties: {
+        name: {
+            type: 'object',
+            example: {
+                en: 'Name of the Category in English',
+                fr: 'Name of the Category in French'
+            },
+            description: 'Name of the Category in multiple languages'
+        },
+        auto: {
+            type: 'boolean'
+        },
+        categoryPicture: {
+            type: 'File',
+            example: 'https://www.local.com/image.jpg',
+            description: 'Category picture'
+        },
+        referTo: {
+            type: 'string',
+            example: 'example@email.com',
+            description: 'Email of the owner'
+        },
+        sortIndex: {
+            type: 'number',
+            example: 1,
+            description: 'Sort index'
+        }
+    }
 } as const;
 
 export const $CreateBrandDto = {
