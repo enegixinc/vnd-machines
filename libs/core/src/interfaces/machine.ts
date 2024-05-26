@@ -1,4 +1,4 @@
-export interface Root {
+export interface GroupsAndMachinesResponse {
   groups: any[];
   machines: Machine[];
 }
@@ -13,7 +13,7 @@ export interface Machine {
   products_bs: any[];
   tax: number;
   group: any[];
-  currency: Currency;
+  currency: MagexCurrency;
   stock: number;
   languages: Language[];
   time_to_idle: number;
@@ -49,7 +49,7 @@ export interface Machine {
   screenSaver: string;
 }
 
-export interface Currency {
+export interface MagexCurrency {
   code: string;
   name: string;
   Symbol: string;

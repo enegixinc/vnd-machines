@@ -11,6 +11,8 @@ import {
 import { ProductEntity } from '../products/product.entity';
 import { UserEntity } from '../users/entities/user.entity';
 import { CategoryEntity } from '../categories/category.entity';
+import { Machine } from '../../../../../libs/core/src/interfaces/machine';
+import { MachineEntity } from '../machines/machine.entity';
 
 @Entity('brands')
 export class BrandEntity extends DatabaseEntity implements IBrandEntity {
@@ -60,4 +62,10 @@ export class BrandEntity extends DatabaseEntity implements IBrandEntity {
     },
   })
   suppliers: ReferenceByID<ISerializedUser>[] | null;
+
+  @ManyToMany(() => MachineEntity, (machine) => machine.brand, {
+    nullable: true,
+    eager: true,
+  })
+  machines: Machine[];
 }

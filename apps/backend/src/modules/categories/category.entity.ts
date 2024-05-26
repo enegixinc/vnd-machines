@@ -12,6 +12,8 @@ import { UserEntity } from '../users/entities/user.entity';
 import { BrandEntity } from '../brands/brand.entity';
 import { Factory } from 'nestjs-seeder';
 import { fakerAR } from '@faker-js/faker';
+import { Machine } from '../../../../../libs/core/src/interfaces/machine';
+import { MachineEntity } from '../machines/machine.entity';
 
 @Entity('categories')
 export class CategoryEntity extends DatabaseEntity implements ICategoryEntity {
@@ -93,4 +95,10 @@ export class CategoryEntity extends DatabaseEntity implements ICategoryEntity {
     eager: true,
   })
   products: ISerializedProduct[];
+
+  @ManyToMany(() => MachineEntity, (machine) => machine.category, {
+    nullable: true,
+    eager: true,
+  })
+  machines: Machine[];
 }
