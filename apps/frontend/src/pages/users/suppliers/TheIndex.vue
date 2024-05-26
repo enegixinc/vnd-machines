@@ -34,6 +34,6 @@ const tableFields=computed(()=>{
             {field:'action',title:'',filter:false,sort:false}
         ]
     })
-fetchSuppliers({page:1,limit:pageSize.value});
+fetchSuppliers({page:1,limit:pageSize.value,sort: ['firstName,DESC']});
 
 </script>

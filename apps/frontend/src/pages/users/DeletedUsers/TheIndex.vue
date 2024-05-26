@@ -48,6 +48,6 @@ const tableFields=computed(()=>{
             {field:'action',title:'',filter:false,sort:false}
         ]
     })
-deletedUsers({page:1,limit:pageSize.value});
+deletedUsers({page:1,limit:pageSize.value,sort: ['deletedAt,DESC']});
 
 </script>
