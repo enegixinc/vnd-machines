@@ -166,8 +166,14 @@
         "createdAt": "Created At",
         "status": "Status",
         "actions": "Actions",
-        "deletedAt": "Deleted At"
-
+        "deletedAt": "Deleted At",
+        "totalSales": "Total Sales",
+        "totalRevenue": "Total Revenue",
+        "feePerSale": "Fee Per Sale",
+        "feeType": "Fee Type",
+        "startDate": "Start Date",
+        "endDate": "End Date",
+        "supplierName": "Supplier Name"
     },
     "placeHolders": {
         "enterEmail": "Enter Email",
@@ -189,6 +195,7 @@
     "links": {
         "manageSuppliers": "Manage Suppliers",
         "contracts": "Contracts",
+        "deletedContracts": "Deleted Contracts",
         "manageContracts": "Manage Contracts",
         "newContract": "Add New Contract",
         "manageMachines": "Manage Machines",
@@ -225,7 +232,18 @@
     "sweetAlert": {
         "areYouSure": "Are you sure?",
         "youWantToDeleteThisUser": "You want to delete this user!",
+        "youWantToDeleteThisContract": "You want to delete this contract!",
         "yesDeleteIt": "Yes, delete it!",
-        "noCancel": "no,Cancel!"
+        "noCancel": "no,Cancel!",
+        "youWantToDeleteThisEntity": "You want to delete this!"
+    },
+    "contractsPages": {
+        "contracts": "Contracts",
+        "deletedContracts": "Deleted Contracts",
+        "recoverContract": "Recover Contract"
+    },
+    "entitiesPages": {
+        "TheEntityHasBeenSuccessfullyDeleted": "The user has been successfully deleted.",
+        "TheEntityHasBeenSuccessfullyRecovered": "The user has been successfully recovered."
     }
 }

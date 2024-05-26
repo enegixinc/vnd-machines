@@ -17,9 +17,9 @@ export default function useUser(defaultSettings:requestType = {}){
         try {
             loading.value=true;
             Object.entries(defaultSettings).forEach(([key,value])=>{
-                if (data[key]){
+                if (data && Array.isArray(value) &&data[key]){
                     data[key].push(...value)
-                }else {
+                }else if(data){
                     data[key] = value
                 }
             })
@@ -40,8 +40,8 @@ export default function useUser(defaultSettings:requestType = {}){
     const swal = Swal.mixin({
         customClass: {
             popup: 'sweet-alerts',
-            confirmButton: 'btn btn-danger',
-            cancelButton: 'btn btn-secondary ltr:mr-3 rtl:ml-3',
+            confirmButton: 'btn btn-danger shadow-none',
+            cancelButton: 'btn btn-dark shadow-none ltr:mr-3 rtl:ml-3',
         },
         buttonsStyling: false,
     });
@@ -49,6 +49,7 @@ export default function useUser(defaultSettings:requestType = {}){
         toast: true,
         position: 'top-end',
         showConfirmButton: false,
+
         timer: 3000,
     });
     function showSuccessNotfication(msg:string){
@@ -72,9 +73,16 @@ export default function useUser(defaultSettings:requestType = {}){
      if (!confirm.isConfirmed){
          return
      }
-        await vndClient.users.deleteOne({id});
-        showSuccessNotfication(t('usersPages.TheUserHasBeenSuccessfullyDeleted'))
-        fetchUsers({page:1,limit:pageSize.value});
+     try {
+         rowLoading.value = id
+         await vndClient.users.deleteOne({id});
+         showSuccessNotfication(t('usersPages.TheUserHasBeenSuccessfullyDeleted'))
+         fetchUsers({page:1,limit:pageSize.value});
+     }catch (err){
+         console.log(err)
+     }finally {
+         rowLoading.value = null
+     }
 
     }
     async function recoverUser(id:string){
@@ -82,7 +90,7 @@ export default function useUser(defaultSettings:requestType = {}){
             rowLoading.value = id
             await vndClient.users.recoverOne({id});
             fetchUsers({page:1,limit:pageSize.value})
-            showSuccessNotfication(i18n.t('usersPages.TheUserHasBeenSuccessfullyRecovered'))
+            showSuccessNotfication(t('usersPages.TheUserHasBeenSuccessfullyRecovered'))
         }catch (err){
             console.log(err)
         }finally {

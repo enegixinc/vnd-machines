@@ -167,7 +167,14 @@
         "createdAt": "تاريخ الإنشاء",
         "status": "الحالة",
         "actions": "الاجراءات",
-        "deletedAt": "تم الحذف في"
+        "deletedAt": "تم الحذف في",
+        "totalSales": "إجمالي المبيعات",
+        "totalRevenue": "إجمالي الإيرادات",
+        "feePerSale": "رسوم البيع",
+        "feeType": "نوع الرسوم",
+        "startDate": "تاريخ البدء",
+        "endDate": "تاريخ الانتهاء",
+        "supplierName": "اسم المورد"
     },
     "placeHolders": {
         "enterEmail": "ادخل البريد الإلكتروني",
@@ -186,10 +193,10 @@
         "columns": "الاعمده"
     },
     "wait": "انتظر من فضلك..",
-
     "links": {
         "manageSuppliers": "إدارة الموردين",
         "contracts": "العقود",
+        "deletedContracts": "العقود المحذوفة",
         "manageContracts": "إدارة العقود",
         "newContract": "إضافة عقد جديد",
         "manageMachines": "إدارة الماكينات",
@@ -226,7 +233,18 @@
     "sweetAlert": {
         "areYouSure": "هل أنت متأكد؟",
         "youWantToDeleteThisUser": "تريد حذف هذا المستخدم!",
+        "youWantToDeleteThisContract": "تريد حذف هذا العقد!",
         "yesDeleteIt": "نعم، احذفه!",
-        "noCancel": "لا، إلغاء!"
+        "noCancel": "لا، إلغاء!",
+        "youWantToDeleteThisEntity": "تريد حذف هذا !"
+    },
+    "contractsPages": {
+        "contracts": "العقود",
+        "deletedContracts": "العقود المحذوفة",
+        "recoverContract": "استعادة العقد"
+    },
+    "entitiesPages": {
+        "TheEntityHasBeenSuccessfullyRecovered": "تم  المستخدم بنجاح.",
+        "TheEntityHasBeenSuccessfullyDeleted": "تم حذف  بنجاح."
     }
 }

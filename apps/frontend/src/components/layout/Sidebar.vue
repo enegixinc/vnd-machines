@@ -152,10 +152,13 @@
                                                 <vue-collapsible :isOpen="subActive === 'contracts'">
                                                     <ul :unmount="false" class="sub-menu text-gray-500">
                                                         <li @click="toggleMobileMenu">
-                                                            <router-link to="/pages/error404" target="_blank">{{ $t('links.manageContracts') }}</router-link>
+                                                            <router-link :to="{name:'manage-contracts'}" >{{ $t('links.manageContracts') }}</router-link>
                                                         </li>
                                                         <li @click="toggleMobileMenu">
-                                                            <router-link to="/pages/error500" target="_blank">{{ $t('links.newContract') }}</router-link>
+                                                            <router-link :to="{name:'deletedContracts'}" >{{ $t('links.deletedContracts') }}</router-link>
+                                                        </li>
+                                                        <li @click="toggleMobileMenu">
+                                                            <router-link to="/pages/error500" >{{ $t('links.newContract') }}</router-link>
                                                         </li>
 
                                                     </ul>

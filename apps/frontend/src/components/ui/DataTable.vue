@@ -114,19 +114,24 @@
                     <template #action="data">
                         <slot name="actions" :data="data">
                         <div class="flex items-center">
-                            <div>
+                            <div v-if="!hideShowDetails">
                                 <button type="button" class="ltr:mr-2 rtl:ml-2" v-tippy="$t('show')">
                                     <icon-eye/>
                                 </button>
                             </div>
-                            <div>
+                            <div v-if="!hideEdit">
                                 <button type="button" class="ltr:mr-2 rtl:ml-2" v-tippy="$t('edit')">
                                     <icon-pencil/>
                                 </button>
                             </div>
-                            <div>
-                                <button type="button" v-tippy="$t('delete')" @click="emit('deleteRow',data.value._id)">
-                                    <icon-trash-lines/>
+                            <div v-if="!hideDelete">
+                                <button type="button" v-tippy="$t('delete')" @click="emit('deleteRow',data.value._id)" :disabled="(rowLoading === data.value._id || !!rowLoading)">
+                                    <template v-if="rowLoading=== data.value._id">
+                                        <icon-loader class="animate-[spin_2s_linear_infinite]" />
+                                    </template>
+                                    <template v-else>
+                                        <icon-trash-lines/>
+                                    </template>
                                 </button>
                             </div>
                         </div>
@@ -147,6 +152,7 @@ import IconPencil from '@/components/icon/icon-pencil.vue';
 import IconTrashLines from '@/components/icon/icon-trash-lines.vue';
 import IconCaretDown from '@/components/icon/icon-caret-down.vue';
 import IconEye from "@/components/icon/icon-eye.vue"
+import IconLoader from "@/components/icon/icon-loader.vue";
 const store = useAppStore();
 const search = ref('');
 const emit = defineEmits(['changeServer','deleteRow'])
@@ -160,7 +166,11 @@ interface Props {
     sortBy?: string,
     sortable?: boolean,
     tableTitle?: string,
-    sortDirection?:string
+    sortDirection?:string,
+    hideDelete?:boolean,
+    hideShowDetails?:boolean,
+    hideEdit?:boolean,
+    rowLoading?:any
 }
 
 withDefaults(defineProps<Props>(), {
@@ -682,7 +692,11 @@ withDefaults(defineProps<Props>(), {
     sortable: true,
     sortBy: 'id',
     tableTitle: 'users',
-    sortDirection:'desc'
+    sortDirection:'desc',
+    hideEdit:false,
+    hideShowDetails:false,
+    hideDelete:false,
+    rowLoading:null
 })
 const formatDate = (date) => {
     if (date) {
@@ -723,8 +737,6 @@ const changeServer = (data: any) => {
             return `${element.field}||${Conditions[element.condition]}`
         }
     })
-console.log(data)
-
     emit('changeServer', {
         page: data.current_page,
         limit: data.pagesize,
