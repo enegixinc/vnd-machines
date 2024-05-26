@@ -6,6 +6,11 @@ on:
         - main
         - staging
         - dev
+    pull_request:
+        branches:
+        - main
+        - staging
+        - dev
 
 jobs:
   install-and-cache:
