@@ -60,7 +60,7 @@ jobs:
 
       - uses: nrwl/nx-set-shas@v4
         with:
-          main-branch-name: ${{github.base_ref}}
+          main-branch-name: ${{github.base_ref == 'main' && 'main' || github.base_ref == 'staging' && 'staging' || 'dev'}}
 #          main-branch-name: dev
 
 
