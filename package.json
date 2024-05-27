@@ -10,7 +10,7 @@
     "@intlify/unplugin-vue-i18n": "^4.0.0",
     "@nestjs/schematics": "^10.0.1",
     "@nestjs/testing": "^10.0.2",
-    "@nx/cypress": "18.3.4",
+    "@nx/cypress": "19.1.0",
     "@nx/eslint": "18.3.4",
     "@nx/eslint-plugin": "18.3.4",
     "@nx/jest": "18.3.4",
