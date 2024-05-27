@@ -51,11 +51,18 @@ export class ProductSubscriber
   }
 
   handleRelationships(record: ISerializedMagexProduct) {
-    const category = this.dataSource.manager.create(CategoryEntity);
-    const brand = this.dataSource.manager.create(BrandEntity);
+    let category: CategoryEntity | undefined;
+    let brand: BrandEntity | undefined;
 
-    Object.assign(category, record.category[0]);
-    Object.assign(brand, record.brand);
+    if (record.category.length) {
+      category = this.dataSource.manager.create(CategoryEntity);
+      Object.assign(category, record.category[0]);
+    }
+
+    if (record.brand) {
+      brand = this.dataSource.manager.create(BrandEntity);
+      Object.assign(brand, record.brand);
+    }
 
     return this.dataSource.manager.create(ProductEntity, {
       ...record,
