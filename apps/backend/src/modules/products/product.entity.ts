@@ -25,10 +25,14 @@ export class ProductEntity extends DatabaseEntity implements IProductEntity {
   @ManyToOne(() => UserEntity, (user) => user.products)
   supplier: ReferenceByID<ISerializedUser>[];
 
-  @ManyToOne(() => BrandEntity, (brand) => brand.products, {})
+  @ManyToOne(() => BrandEntity, (brand) => brand.products, {
+    cascade: true,
+  })
   brand: ReferenceByID<ISerializedBrand>;
 
-  @ManyToOne(() => CategoryEntity, (category) => category.products, {})
+  @ManyToOne(() => CategoryEntity, (category) => category.products, {
+    cascade: true,
+  })
   category: ReferenceByID<ISerializedCategory>;
 
   @Factory((faker) =>

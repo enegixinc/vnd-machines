@@ -14,7 +14,7 @@ async function bootstrap() {
   app.enableCors({
     origin: '*',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    allowedHeaders: 'Content-Type, Accept',
+    allowedHeaders: '*',
   });
   useContainer(app.select(AppModule), { fallbackOnErrors: true });
 
@@ -23,7 +23,7 @@ async function bootstrap() {
   const config = new DocumentBuilder()
     .setTitle('VND Machines Backend')
     .setDescription('The VND Machines API description')
-    .setVersion('1.0')
+    .setVersion('2.0')
     .addBearerAuth(
       {
         type: 'http',

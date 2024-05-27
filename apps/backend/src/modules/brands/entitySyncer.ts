@@ -83,7 +83,7 @@ export abstract class EntitySyncer<
   }
 
   @timer()
-  async addRecord(recordToAdd: MagexRecord) {
+  async addRecord(recordToAdd: unknown) {
     let newRecord = this.dataSource.manager.create(
       this.listenTo(),
       recordToAdd
@@ -97,14 +97,18 @@ export abstract class EntitySyncer<
 
   @timer()
   async updateRecord(recordToUpdate: MagexRecord) {
-    Object.assign(recordToUpdate, { lastSyncAt: this.nowDate });
-    if (this.handleRelationships) this.handleRelationships(recordToUpdate);
+    let newRecord = Object.assign(recordToUpdate, { lastSyncAt: this.nowDate });
+
+    if (this.handleRelationships) {
+      //@ts-expect-error - TODO: fix this
+      newRecord = this.handleRelationships(recordToUpdate);
+    }
     await this.dataSource.manager.update(
       this.listenTo(),
       recordToUpdate._id,
-      recordToUpdate
+      newRecord
     );
-    console.log('Updated record:', recordToUpdate);
+    console.log('Updated record:', newRecord);
   }
 
   @Cron(CronExpression.EVERY_MINUTE)
