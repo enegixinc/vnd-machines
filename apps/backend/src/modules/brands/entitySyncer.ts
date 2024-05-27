@@ -6,6 +6,7 @@ import {
 import { Inject, OnModuleInit } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { timer } from 'execution-time-decorators';
+import { ProductEntity } from '../products/product.entity';
 
 export interface EntitySyncer<Entity> {
   handleRelationships(record: unknown): Entity;
@@ -35,6 +36,7 @@ export abstract class EntitySyncer<
   abstract listenTo(): any;
 
   async onModuleInit() {
+    if (this.listenTo() === ProductEntity) return;
     await this.syncWithMagex();
   }
 
