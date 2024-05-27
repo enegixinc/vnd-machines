@@ -33,7 +33,7 @@ import {computed} from 'vue';
 import IconLoader from "@/components/icon/icon-loader.vue";
 import {useContract} from "@/composables/contracts/use-contracts";
 import IconMultipleForwardRight from '@/components/icon/icon-multiple-forward-right.vue';
-const {t,loading,totalPages,pageSize,entityData:contractsData,fetchEntities:deletedContracts,DataTable,TheBreadcrumbs,rowLoading,recoverUser} =
+const {t,loading,totalPages,pageSize,entityData:contractsData,fetchEntities:deletedContracts,DataTable,TheBreadcrumbs,rowLoading,recoverEntity:recoverUser} =
     useContract({
         filter:['deletedAt||$notnull'],
         includeDeleted:1

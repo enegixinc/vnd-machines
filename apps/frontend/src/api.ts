@@ -12,7 +12,7 @@ export const vndClient = new VNDClient({
         'Content-type': 'application/json',
     },
 });
-// ----------------- this give core error now
+
 const attachHeaders: Middleware<AxiosRequestConfig<unknown>> = async (
     request,
 ) => {
@@ -25,4 +25,4 @@ const attachHeaders: Middleware<AxiosRequestConfig<unknown>> = async (
     };
 };
 vndClient.request.config.interceptors.request.use(attachHeaders);
-//
+
