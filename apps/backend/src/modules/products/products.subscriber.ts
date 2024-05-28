@@ -5,7 +5,7 @@ import {
 } from 'typeorm';
 import { MagexService } from '../../services/magex/magex.service';
 import { Inject } from '@nestjs/common';
-import { EntitySyncer } from '../brands/entitySyncer';
+import { EntitySyncer } from '../../common/entities/entity-syncer/entitySyncer';
 import { ProductEntity } from './product.entity';
 import { ISerializedMagexProduct } from '@core';
 import { CategoryEntity } from '../categories/category.entity';
