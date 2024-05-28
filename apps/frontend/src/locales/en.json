@@ -259,7 +259,7 @@
     "productsPages": {
         "products": "Products",
         "deletedProducts": "Deleted Products",
-        "recoverProducts": "Recover Products",
+        "recoverProducts": "Recover Product",
         "unknown": "Unknown"
     }
 }
