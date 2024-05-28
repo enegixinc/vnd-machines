@@ -31,6 +31,12 @@ export abstract class EntitySyncer<
   protected get nowDate() {
     return new Date().toISOString();
   }
+  protected get Entity() {
+    return this.listenTo();
+  }
+  private get EntityClone() {
+    return this.dataSource.manager.create(this.Entity);
+  }
 
   abstract listenTo(): any;
 
@@ -73,55 +79,35 @@ export abstract class EntitySyncer<
   }
 
   @timer()
-  async syncNewRecords(records: MagexRecord[]) {
-    for (const record of records) await this.addRecord(record);
+  prepareRecords(records: unknown[]) {
+    return records.map((record) => {
+      const entity = this.EntityClone;
+      Object.assign(entity, this.assignRelations(record));
+      Object.assign(entity, { lastSyncAt: this.nowDate });
+      return entity;
+    });
+  }
+  assignRelations(record: unknown) {
+    return this.handleRelationships ? this.handleRelationships(record) : record;
   }
 
   @timer()
-  async syncUpdatedRecords(records: MagexRecord[]) {
-    for (const record of records) await this.updateRecord(record);
+  async saveRecords(records: unknown[]) {
+    await this.dataSource.manager.save(records, {
+      listeners: false,
+      chunk: 1000,
+    });
   }
 
   @timer()
-  async addRecord(recordToAdd: unknown) {
-    let newRecord = this.dataSource.manager.create(
-      this.listenTo(),
-      recordToAdd
-    );
-    if (this.handleRelationships)
-      newRecord = this.handleRelationships(recordToAdd);
-    Object.assign(newRecord, { lastSyncAt: this.nowDate });
-    await this.dataSource.manager.save(newRecord);
-    console.log('Added new record:', newRecord);
-  }
-
-  @timer()
-  async updateRecord(recordToUpdate: MagexRecord) {
-    let newRecord = Object.assign(recordToUpdate, { lastSyncAt: this.nowDate });
-
-    if (this.handleRelationships) {
-      //@ts-expect-error - TODO: fix this
-      newRecord = this.handleRelationships(recordToUpdate);
-    }
-    await this.dataSource.manager.update(
-      this.listenTo(),
-      recordToUpdate._id,
-      newRecord
-    );
-    console.log('Updated record:', newRecord);
-  }
-
   @Cron(CronExpression.EVERY_MINUTE)
-  @timer()
   async syncWithMagex() {
-    console.log('Syncing with Magex', this.listenTo().name);
+    console.log('Syncing with Magex', this.Entity.name);
     await Promise.all([this.fetchOurRecords(), this.timedFetchMagexRecords()]);
 
     const { newRecords, updatedRecords } = this.identifyOutOfSyncRecords();
+    const records = this.prepareRecords([...newRecords, ...updatedRecords]);
 
-    await Promise.all([
-      this.syncNewRecords(newRecords),
-      this.syncUpdatedRecords(updatedRecords),
-    ]);
+    await this.saveRecords(records);
   }
 }
