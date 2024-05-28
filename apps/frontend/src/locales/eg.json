@@ -184,7 +184,8 @@
         "additionPrice": "سعر إضافي",
         "costPrice": "سعر التكلفة",
         "categoryName": "اسم الفئة",
-        "referTo": "الرجوع إلى"
+        "referTo": "الرجوع إلى",
+        "brandName": "اسم العلامات التجاريه"
     },
     "placeHolders": {
         "enterEmail": "ادخل البريد الإلكتروني",
@@ -270,5 +271,10 @@
         "categories": "الفئات",
         "deletedCategories": "الفئات المحذوفة",
         "recoverCategory": "استعادة الفئة"
+    },
+    "brandsPages": {
+        "brands": "العلامات التجاريه",
+        "deletedBrands": "العلامات التجاريه المحذوفة",
+        "recoverBrand": "استعادة العلامة التجارية"
     }
 }

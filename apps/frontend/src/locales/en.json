@@ -183,7 +183,8 @@
         "additionPrice": "Addition Price",
         "costPrice": "Cost Price",
         "categoryName": "Category Name",
-        "referTo": "Refer To"
+        "referTo": "Refer To",
+        "brandName": "Brand Name"
     },
     "placeHolders": {
         "enterEmail": "Enter Email",
@@ -269,5 +270,10 @@
         "categories": "Categories",
         "deletedCategories": "Deleted Categories",
         "recoverCategory": "Recover Category"
+    },
+    "brandsPages": {
+        "brands": "Brands",
+        "deletedBrands": "Deleted Brands",
+        "recoverBrand": "Recover Brand"
     }
 }
