@@ -173,7 +173,18 @@
         "feeType": "Fee Type",
         "startDate": "Start Date",
         "endDate": "End Date",
-        "supplierName": "Supplier Name"
+        "supplierName": "Supplier Name",
+        "productName": "Product Name",
+        "barcode": "Barcode",
+        "price": "Price",
+        "category": "Category",
+        "brand": "brand",
+        "pricePerKilo": "Price Per Kilo",
+        "additionPrice": "Addition Price",
+        "costPrice": "Cost Price",
+        "categoryName": "Category Name",
+        "referTo": "Refer To",
+        "brandName": "Brand Name"
     },
     "placeHolders": {
         "enterEmail": "Enter Email",
@@ -226,6 +237,8 @@
     },
     "inactive": "Inactive",
     "active": "Active",
+    "yes": "Yes",
+    "no": "No",
     "edit": "Edit",
     "delete": "Delete",
     "show": "Show",
@@ -245,5 +258,22 @@
     "entitiesPages": {
         "TheEntityHasBeenSuccessfullyDeleted": "The user has been successfully deleted.",
         "TheEntityHasBeenSuccessfullyRecovered": "The user has been successfully recovered."
+    },
+    "productsPages": {
+        "products": "Products",
+        "deletedProducts": "Deleted Products",
+        "recoverProducts": "Recover Product"
+
+    },
+    "unknown": "Unknown",
+    "categoriesPages": {
+        "categories": "Categories",
+        "deletedCategories": "Deleted Categories",
+        "recoverCategory": "Recover Category"
+    },
+    "brandsPages": {
+        "brands": "Brands",
+        "deletedBrands": "Deleted Brands",
+        "recoverBrand": "Recover Brand"
     }
 }

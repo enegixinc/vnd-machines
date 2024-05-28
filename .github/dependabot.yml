@@ -9,21 +9,25 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    target-branch: "dev"
 
   # Maintain dependencies for npm
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
       interval: "weekly"
+    target-branch: "dev"
 
   # Maintain dependencies for Composer
   - package-ecosystem: "composer"
     directory: "/"
     schedule:
       interval: "weekly"
+    target-branch: "dev"
 
   # Maintain dependencies for Docker
   - package-ecosystem: "docker"
     directory: "/"
     schedule:
       interval: "weekly"
+    target-branch: "dev"

@@ -5,6 +5,9 @@ import appSetting from '@/app-setting';
 import {authLinks} from "@/router/auth";
 import {userLinks} from "@/router/users";
 import {contractsLinks} from "@/router/contracts";
+import {productsLinks} from "@/router/products";
+import {categoriesLinks} from "@/router/categories";
+import {brandsLinks} from "@/router/brands";
 
 
 const routes: RouteRecordRaw[] = [
@@ -12,7 +15,10 @@ const routes: RouteRecordRaw[] = [
     { path: '/', name: 'home', component: () => import('@/pages/TheIndex.vue')},
     ...userLinks,
     ...authLinks,
-    ...contractsLinks
+    ...contractsLinks,
+    ...productsLinks,
+    ...categoriesLinks,
+    ...brandsLinks
 ];
 
 const router = createRouter({

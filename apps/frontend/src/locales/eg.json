@@ -174,7 +174,18 @@
         "feeType": "نوع الرسوم",
         "startDate": "تاريخ البدء",
         "endDate": "تاريخ الانتهاء",
-        "supplierName": "اسم المورد"
+        "supplierName": "اسم المورد",
+        "productName": "اسم المنتج",
+        "barcode": "الباركود",
+        "price": "السعر",
+        "category": "الفئه",
+        "brand": "ماركه",
+        "pricePerKilo": "السعر لكل كيلو",
+        "additionPrice": "سعر إضافي",
+        "costPrice": "سعر التكلفة",
+        "categoryName": "اسم الفئة",
+        "referTo": "الرجوع إلى",
+        "brandName": "اسم العلامات التجاريه"
     },
     "placeHolders": {
         "enterEmail": "ادخل البريد الإلكتروني",
@@ -227,6 +238,8 @@
     },
     "inactive": "غير نشط",
     "active": "نشط",
+    "yes": "نعم",
+    "no": "لا",
     "edit": "تعديل",
     "delete": "حذف",
     "show": "عرض",
@@ -246,5 +259,22 @@
     "entitiesPages": {
         "TheEntityHasBeenSuccessfullyRecovered": "تم  المستخدم بنجاح.",
         "TheEntityHasBeenSuccessfullyDeleted": "تم حذف  بنجاح."
+    },
+    "productsPages": {
+        "products": "المنتجات",
+        "deletedProducts": "المنتجات المحذوفة",
+        "recoverProducts": "استعادة المنتج"
+
+    },
+    "Unknown": "غير معروف",
+    "categoriesPages": {
+        "categories": "الفئات",
+        "deletedCategories": "الفئات المحذوفة",
+        "recoverCategory": "استعادة الفئة"
+    },
+    "brandsPages": {
+        "brands": "العلامات التجاريه",
+        "deletedBrands": "العلامات التجاريه المحذوفة",
+        "recoverBrand": "استعادة العلامة التجارية"
     }
 }

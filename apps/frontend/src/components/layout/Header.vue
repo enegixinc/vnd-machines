@@ -370,10 +370,10 @@
                                 class="rounded absolute top-0 ltr:left-[95%] rtl:right-[95%] min-w-[180px] bg-white z-[10] text-dark dark:text-white-dark dark:bg-[#1b2e4b] shadow p-0 py-2 hidden"
                             >
                                 <li>
-                                    <router-link to="/datatables/basic">{{ $t('links.manageProducts') }}</router-link>
+                                    <router-link :to="{name:'manageProducts'}">{{ $t('links.manageProducts') }}</router-link>
                                 </li>
                                 <li>
-                                    <router-link to="/datatables/advanced">{{ $t('links.deletedProducts') }}</router-link>
+                                    <router-link :to="{name:'deletedProducts'}">{{ $t('links.deletedProducts') }}</router-link>
                                 </li>
                                 <li>
                                     <router-link to="/datatables/advanced">{{ $t('links.newProducts') }}</router-link>
@@ -404,10 +404,10 @@
                                 class="rounded absolute top-0 ltr:left-[95%] rtl:right-[95%] min-w-[180px] bg-white z-[10] text-dark dark:text-white-dark dark:bg-[#1b2e4b] shadow p-0 py-2 hidden"
                             >
                                 <li>
-                                    <router-link to="/datatables/basic">{{ $t('links.manageCategories') }}</router-link>
+                                    <router-link :to="{name:'manageCategories'}">{{ $t('links.manageCategories') }}</router-link>
                                 </li>
                                 <li>
-                                    <router-link to="/datatables/advanced">{{ $t('links.deletedCategories') }}</router-link>
+                                    <router-link :to="{name:'deletedCategories'}">{{ $t('links.deletedCategories') }}</router-link>
                                 </li>
                                 <li>
                                     <router-link to="/datatables/advanced">{{ $t('links.newCategories') }}</router-link>
@@ -425,10 +425,10 @@
                                 class="rounded absolute top-0 ltr:left-[95%] rtl:right-[95%] min-w-[180px] bg-white z-[10] text-dark dark:text-white-dark dark:bg-[#1b2e4b] shadow p-0 py-2 hidden"
                             >
                                 <li>
-                                    <router-link to="/datatables/basic">{{ $t('links.manageBrands') }}</router-link>
+                                    <router-link :to="{name:'manageBrands'}">{{ $t('links.manageBrands') }}</router-link>
                                 </li>
                                 <li>
-                                    <router-link to="/datatables/advanced">{{ $t('links.deletedBrands') }}</router-link>
+                                    <router-link :to="{name:'deletedBrands'}">{{ $t('links.deletedBrands') }}</router-link>
                                 </li>
                                 <li>
                                     <router-link to="/datatables/advanced">{{ $t('links.newBrands') }}</router-link>

@@ -25,10 +25,14 @@ export class ProductEntity extends DatabaseEntity implements IProductEntity {
   @ManyToOne(() => UserEntity, (user) => user.products)
   supplier: ReferenceByID<ISerializedUser>[];
 
-  @ManyToOne(() => BrandEntity, (brand) => brand.products, {})
+  @ManyToOne(() => BrandEntity, (brand) => brand.products, {
+    cascade: true,
+  })
   brand: ReferenceByID<ISerializedBrand>;
 
-  @ManyToOne(() => CategoryEntity, (category) => category.products, {})
+  @ManyToOne(() => CategoryEntity, (category) => category.products, {
+    cascade: true,
+  })
   category: ReferenceByID<ISerializedCategory>;
 
   @Factory((faker) =>
@@ -181,7 +185,7 @@ export class ProductEntity extends DatabaseEntity implements IProductEntity {
   productVideo: Blob; // TODO: string
 
   @Factory((faker) => faker.internet.email())
-  @Column({ type: 'varchar' })
+  @Column({ type: 'varchar', default: 'tryvnd@point24h.com' })
   referTo: string;
 
   @Factory((faker) =>
