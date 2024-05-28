@@ -20,7 +20,7 @@ export class BrandEntity extends DatabaseEntity implements IBrandEntity {
   name: MultiLang;
   @Column({ type: 'varchar', nullable: true })
   picture: string;
-  @Column({ type: 'varchar' })
+  @Column({ type: 'varchar', default: 'tryvnd@point24h.com' })
   referTo: string;
 
   @OneToMany(() => ProductEntity, (product) => product.brand, {

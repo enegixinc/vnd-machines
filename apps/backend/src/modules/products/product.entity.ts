@@ -185,7 +185,7 @@ export class ProductEntity extends DatabaseEntity implements IProductEntity {
   productVideo: Blob; // TODO: string
 
   @Factory((faker) => faker.internet.email())
-  @Column({ type: 'varchar' })
+  @Column({ type: 'varchar', default: 'tryvnd@point24h.com' })
   referTo: string;
 
   @Factory((faker) =>
