@@ -31,7 +31,7 @@ export class CategoryEntity extends DatabaseEntity implements ICategoryEntity {
   name: MultiLang;
 
   @Factory((faker) => faker.internet.email())
-  @Column({ type: 'varchar' })
+  @Column({ type: 'varchar', default: 'tryvnd@point24h.com' })
   referTo: string;
 
   @Factory((faker) =>
@@ -40,7 +40,7 @@ export class CategoryEntity extends DatabaseEntity implements ICategoryEntity {
       max: 1,
     })
   )
-  @Column({ type: 'int' })
+  @Column({ type: 'int', default: 0 })
   sortIndex: number;
 
   @Factory((faker) => [
