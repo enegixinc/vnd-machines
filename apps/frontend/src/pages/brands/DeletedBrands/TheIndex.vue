@@ -1,20 +1,21 @@
 <template>
     <div>
-        <TheBreadcrumbs :current-location="$t('contractsPages.deletedContracts')"/>
+        <TheBreadcrumbs :current-location="$t('brandsPages.deletedBrands')"/>
         <DataTable
             :pages="totalPages"
             :per-page="pageSize"
-            :table-data="contractsData"
+            :table-data="brandsData"
             :fields = "tableFields"
             :loading="loading"
-            :table-title="$t('contractsPages.deletedContracts')"
+            :table-title="$t('brandsPages.deletedBrands')"
             :rowLoading="rowLoading"
-            @change-server="deletedContracts"
+            @change-server="deletedBrands"
             :sortable="true"
             sort-by="deletedAt"
         >
             <template #actions="{data}">
-                <button type="button" v-tippy="$t('contractsPages.recoverContract')" @click="recoverUser(data.value._id)" :disabled="(rowLoading === data.value._id || !!rowLoading)" >
+                <button type="button" v-tippy="$t('brandsPages.recoverBrand')"
+                        @click="recoverBrand(data.value._id)" :disabled="(rowLoading === data.value._id || !!rowLoading)" >
                     <template v-if="rowLoading === data.value._id">
                         <icon-loader class="animate-[spin_2s_linear_infinite]" />
                     </template>
@@ -29,22 +30,33 @@
 </template>
 <script setup lang="ts">
 import {computed} from 'vue';
-
 import IconLoader from "@/components/icon/icon-loader.vue";
-import {useContract} from "@/composables/contracts/use-contracts";
+import {useBrands} from "@/composables/brands/use-brands";
 import IconMultipleForwardRight from '@/components/icon/icon-multiple-forward-right.vue';
-const {t,loading,totalPages,pageSize,entityData:contractsData,fetchEntities:deletedContracts,DataTable,TheBreadcrumbs,rowLoading,recoverEntity:recoverUser} =
-    useContract({
+const {t,
+    loading,
+    totalPages,
+    pageSize,
+    entityData:brandsData,
+    fetchEntities:deletedBrands,
+    DataTable,
+    TheBreadcrumbs,
+    rowLoading,
+    recoverEntity:recoverBrand} =
+    useBrands({
         filter:['deletedAt||$notnull'],
         includeDeleted:1
     })
 const tableFields=computed(()=>{
     return [
-        { field: 'supplier.firstName', title: t("fields.supplierName") ,condition:"equal",hide: false,filter:false,sort:false},
+        {field: 'name.ar', title: t("fields.brandName"), hide: false, sort: false,
+            cellRenderer: (item) => item?.name?.ar || item?.name?.en || t('unkown')
+        },
+        {field: 'referTo', title: t("fields.referTo"), hide: false},
         { field: 'deletedAt', title: t('fields.deletedAt') ,hide: false,type: 'date'},
         {field:'action',title:'',filter:false,sort:false}
     ]
 })
-deletedContracts({page:1,limit:pageSize.value,sort: ['deletedAt,DESC']});
+deletedBrands({page:1,limit:pageSize.value,sort: ['deletedAt,DESC']});
 
 </script>
