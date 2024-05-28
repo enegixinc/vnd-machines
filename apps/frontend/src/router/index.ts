@@ -7,6 +7,7 @@ import {userLinks} from "@/router/users";
 import {contractsLinks} from "@/router/contracts";
 import {productsLinks} from "@/router/products";
 import {categoriesLinks} from "@/router/categories";
+import {brandsLinks} from "@/router/brands";
 
 
 const routes: RouteRecordRaw[] = [
@@ -16,7 +17,8 @@ const routes: RouteRecordRaw[] = [
     ...authLinks,
     ...contractsLinks,
     ...productsLinks,
-    ...categoriesLinks
+    ...categoriesLinks,
+    ...brandsLinks
 ];
 
 const router = createRouter({
