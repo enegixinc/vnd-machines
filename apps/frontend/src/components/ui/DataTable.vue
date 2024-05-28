@@ -109,8 +109,13 @@
                     <template #active="data">
                         <span class="badge badge-outline-success rounded-full" v-if="data.value.active">{{ $t('active') }}</span>
                         <span class="badge badge-outline-danger rounded-full" v-else>{{ $t('inactive') }}</span>
-
                     </template>
+                    <template #pricePerKilo="data">
+                        <span class="badge badge-outline-success rounded-full" v-if="data.value.pricePerKilo">{{ $t('yes') }}</span>
+                        <span class="badge badge-outline-danger rounded-full" v-else>{{ $t('no') }}</span>
+                    </template>
+
+
                     <template #action="data">
                         <slot name="actions" :data="data">
                         <div class="flex items-center">

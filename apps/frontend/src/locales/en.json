@@ -173,7 +173,15 @@
         "feeType": "Fee Type",
         "startDate": "Start Date",
         "endDate": "End Date",
-        "supplierName": "Supplier Name"
+        "supplierName": "Supplier Name",
+        "productName": "Product Name",
+        "barcode": "Barcode",
+        "price": "Price",
+        "category": "Category",
+        "brand": "brand",
+        "pricePerKilo": "Price Per Kilo",
+        "additionPrice": "Addition Price",
+        "costPrice": "Cost Price"
     },
     "placeHolders": {
         "enterEmail": "Enter Email",
@@ -226,6 +234,8 @@
     },
     "inactive": "Inactive",
     "active": "Active",
+    "yes": "Yes",
+    "no": "No",
     "edit": "Edit",
     "delete": "Delete",
     "show": "Show",
@@ -245,5 +255,11 @@
     "entitiesPages": {
         "TheEntityHasBeenSuccessfullyDeleted": "The user has been successfully deleted.",
         "TheEntityHasBeenSuccessfullyRecovered": "The user has been successfully recovered."
+    },
+    "productsPages": {
+        "products": "Products",
+        "deletedProducts": "Deleted Products",
+        "recoverProducts": "Recover Products",
+        "unknown": "Unknown"
     }
 }
