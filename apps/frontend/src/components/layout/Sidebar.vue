@@ -287,10 +287,10 @@
                             <vue-collapsible :isOpen="activeDropdown === 'brands'">
                                 <ul class="sub-menu text-gray-500">
                                     <li>
-                                        <router-link to="/datatables/basic21" @click="toggleMobileMenu">{{ $t('links.manageBrands') }}</router-link>
+                                        <router-link :to="{name:'manageBrands'}" @click="toggleMobileMenu">{{ $t('links.manageBrands') }}</router-link>
                                     </li>
                                     <li>
-                                        <router-link to="/datatables/advanced21" @click="toggleMobileMenu">{{ $t('links.deletedBrands') }}</router-link>
+                                        <router-link :to="{name:'deletedBrands'}" @click="toggleMobileMenu">{{ $t('links.deletedBrands') }}</router-link>
                                     </li>
                                     <li>
                                         <router-link to="/datatables/advanced31" @click="toggleMobileMenu">{{ $t('links.newBrands') }}</router-link>
