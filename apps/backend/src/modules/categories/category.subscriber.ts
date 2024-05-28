@@ -6,7 +6,7 @@ import {
 import { MagexService } from '../../services/magex/magex.service';
 import { Inject } from '@nestjs/common';
 import { CategoryEntity } from './category.entity';
-import { EntitySyncer } from '../brands/entitySyncer';
+import { EntitySyncer } from '../../common/entities/entity-syncer/entitySyncer';
 
 @EventSubscriber()
 export class CategorySubscriber
