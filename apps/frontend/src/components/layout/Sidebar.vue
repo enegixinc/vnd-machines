@@ -256,10 +256,10 @@
                             <vue-collapsible :isOpen="activeDropdown === 'categories'">
                                 <ul class="sub-menu text-gray-500">
                                     <li>
-                                        <router-link to="/datatables/basic12" @click="toggleMobileMenu">{{ $t('links.manageCategories') }}</router-link>
+                                        <router-link :to="{name:'manageCategories'}" @click="toggleMobileMenu">{{ $t('links.manageCategories') }}</router-link>
                                     </li>
                                     <li>
-                                        <router-link to="/datatables/advanced12" @click="toggleMobileMenu">{{ $t('links.deletedCategories') }}</router-link>
+                                        <router-link :to="{name:'deletedCategories'}" @click="toggleMobileMenu">{{ $t('links.deletedCategories') }}</router-link>
                                     </li>
                                     <li>
                                         <router-link to="/datatables/advanced12" @click="toggleMobileMenu">{{ $t('links.newCategories') }}</router-link>
