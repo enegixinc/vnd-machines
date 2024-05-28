@@ -182,7 +182,9 @@
         "brand": "ماركه",
         "pricePerKilo": "السعر لكل كيلو",
         "additionPrice": "سعر إضافي",
-        "costPrice": "سعر التكلفة"
+        "costPrice": "سعر التكلفة",
+        "categoryName": "اسم الفئة",
+        "referTo": "الرجوع إلى"
     },
     "placeHolders": {
         "enterEmail": "ادخل البريد الإلكتروني",
@@ -260,7 +262,13 @@
     "productsPages": {
         "products": "المنتجات",
         "deletedProducts": "المنتجات المحذوفة",
-        "recoverProducts": "استعادة المنتج",
-        "Unknown": "غير معروف"
+        "recoverProducts": "استعادة المنتج"
+
+    },
+    "Unknown": "غير معروف",
+    "categoriesPages": {
+        "categories": "الفئات",
+        "deletedCategories": "الفئات المحذوفة",
+        "recoverCategory": "استعادة الفئة"
     }
 }

@@ -181,7 +181,9 @@
         "brand": "brand",
         "pricePerKilo": "Price Per Kilo",
         "additionPrice": "Addition Price",
-        "costPrice": "Cost Price"
+        "costPrice": "Cost Price",
+        "categoryName": "Category Name",
+        "referTo": "Refer To"
     },
     "placeHolders": {
         "enterEmail": "Enter Email",
@@ -259,7 +261,13 @@
     "productsPages": {
         "products": "Products",
         "deletedProducts": "Deleted Products",
-        "recoverProducts": "Recover Product",
-        "unknown": "Unknown"
+        "recoverProducts": "Recover Product"
+
+    },
+    "unknown": "Unknown",
+    "categoriesPages": {
+        "categories": "Categories",
+        "deletedCategories": "Deleted Categories",
+        "recoverCategory": "Recover Category"
     }
 }

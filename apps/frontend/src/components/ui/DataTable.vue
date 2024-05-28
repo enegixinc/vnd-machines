@@ -61,7 +61,7 @@
                     :loading="loading"
                     :sortable="sortable"
                     :sortColumn="sortBy"
-                    :stickyFirstColumn="true"
+                    :stickyFirstColumn="stickyFirstColumn"
                     :showNumbersCount="3"
                     :isServerMode="true"
                     :stickyHeader="true"
@@ -105,6 +105,9 @@
                     </template>
                     <template #deletedAt="data">
                         {{ formatDate(data.value.deletedAt) }}
+                    </template>
+                    <template #createdAt="data">
+                        {{ formatDate(data.value.createdAt) }}
                     </template>
                     <template #active="data">
                         <span class="badge badge-outline-success rounded-full" v-if="data.value.active">{{ $t('active') }}</span>
@@ -175,7 +178,8 @@ interface Props {
     hideDelete?:boolean,
     hideShowDetails?:boolean,
     hideEdit?:boolean,
-    rowLoading?:any
+    rowLoading?:any,
+    stickyFirstColumn?:boolean
 }
 
 withDefaults(defineProps<Props>(), {
@@ -701,7 +705,8 @@ withDefaults(defineProps<Props>(), {
     hideEdit:false,
     hideShowDetails:false,
     hideDelete:false,
-    rowLoading:null
+    rowLoading:null,
+    stickyFirstColumn:true
 })
 const formatDate = (date) => {
     if (date) {
