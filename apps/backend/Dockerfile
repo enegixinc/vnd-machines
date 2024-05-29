@@ -1,5 +1,5 @@
 # Stage 1: Build the application
-FROM node:lts-slim AS installer
+FROM node:lts-alpine AS installer
 
 # Set environment variables for pnpm
 ENV PNPM_HOME="/pnpm"
@@ -18,7 +18,7 @@ COPY ../../../package.json ./package.json
 # Install dependencies using pnpm with caching
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile --ignore-scripts
 
-FROM node:lts-slim AS builder
+FROM node:lts-alpine AS builder
 
 COPY --from=installer /app/node_modules /app/node_modules
 
