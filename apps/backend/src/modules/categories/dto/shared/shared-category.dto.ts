@@ -45,7 +45,7 @@ export class SharedCategoryDto {
   @decorate(IsNotEmpty({ groups: [CREATE] }))
   @decorate(
     ApiProperty({
-      example: 'example@email.com',
+      example: 'tryvnd@point24h.com',
       description: 'Email of the owner',
       type: String,
     })

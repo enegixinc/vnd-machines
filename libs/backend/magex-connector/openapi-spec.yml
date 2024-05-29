@@ -152,7 +152,7 @@ paths:
           description: Successful response
           content:
             application/json: {}
-  /products/edit/660da97f7ac1611998463602:
+  /products/edit/{_id}:
     put:
       tags:
         - Products
@@ -237,7 +237,7 @@ paths:
         - `productVideo` (text, optional): Video link for the product.
 
         - `brand` (text, optional): The brand of the product.
-            
+
 
         ## Response
 
@@ -315,6 +315,12 @@ paths:
                 sortIndex:
                   type: integer
                   example: '0'
+      parameters:
+        - name: _id
+          in: path
+          schema:
+            type: string
+          required: true
       responses:
         '200':
           description: Successful response
@@ -391,7 +397,7 @@ paths:
                   example: 'false'
                 upc:
                   type: string
-                  example: 019c
+                  example: 019cx
                 barcode:
                   type: integer
                   example: '12345678'
@@ -447,10 +453,90 @@ paths:
                   type: string
                   format: binary
       responses:
-        '200':
-          description: Successful response
+        '201':
+          description: Created
+          headers:
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            ETag:
+              schema:
+                type: string
+                example: W/"303-iG3EO1gBfXaacG8s4MT8lQyAyUs"
+            Vary:
+              schema:
+                type: string
+                example: Origin
+            Server:
+              schema:
+                type: string
+                example: Microsoft-IIS/10.0
+            X-Powered-By:
+              schema:
+                type: string
+                example: ASP.NET
+            Access-Control-Allow-Credentials:
+              schema:
+                type: boolean
+                example: 'true'
+            Date:
+              schema:
+                type: string
+                example: Thu, 02 May 2024 18:05:05 GMT
+            Content-Length:
+              schema:
+                type: integer
+                example: '771'
           content:
-            application/json: {}
+            application/json:
+              schema:
+                type: object
+              example:
+                newProduct:
+                  category:
+                    - 6608a4e9e0cde61fd03f1a81
+                  productPictures: []
+                  pricePerKilo: false
+                  _id: 6633d5d240dc2c1d40bbd6c8
+                  name:
+                    ar: برجر دجاج ساندوتش
+                  upc: 019cx
+                  barcode: '12345678'
+                  price: 2.5
+                  description:
+                    ar: ساندوتش برجر دجاج
+                  productVideo: ''
+                  referTo: tryvnd@point24h.com
+                  dimension:
+                    length: 10
+                    height: 8
+                    width: 10
+                  prodType: prod
+                  additionPrice: null
+                  costPrice: 1.5
+                  detail:
+                    ar: ساندوتش برجر دجاج
+                  keyFeatures:
+                    en: ''
+                  include:
+                    en: ''
+                  specification:
+                    en: ''
+                  sortIndex: 0
+                  vatIndex: 0
+                  virtualProduct: 0
+                  ageControl: 0
+                  ingredients:
+                    ar: دجاج
+                  brand: 661c2a7345f6ce15dc3df34e
+                  createdAt: '2024-05-02T18:05:06.390Z'
+                  updatedAt: '2024-05-02T18:05:06.390Z'
+                  __v: 0
   /products/delete/{_id}:
     delete:
       tags:
@@ -523,7 +609,7 @@ paths:
         - Content-Type: application/json
 
         - Body:
-            
+
             ``` json
             {
                 "name": {
@@ -531,7 +617,7 @@ paths:
                 },
                 "sortIndex": 0
             }
-            
+
              ```
       requestBody:
         content:
@@ -568,6 +654,67 @@ paths:
           description: Successful response
           content:
             application/json: {}
+  /categories/delete/{_id}:
+    delete:
+      tags:
+        - Categories
+      summary: Delete
+      description: >-
+        ### Update Category
+
+
+        This endpoint allows the user to update a specific category by providing
+        the category ID and the updated information.
+
+
+        #### Request
+
+
+        - Method: PUT
+
+        - URL: {{baseUrl}}/categories/edit/:_id
+
+        - Body (form-data):
+            - `name` (text): The updated name of the category.
+            - `referTo` (text): The reference information for the category.
+            - `auto` (text): Indicates if the category is set to auto.
+            - `sortIndex` (text): The updated sort index of the category.
+
+        #### Response
+
+
+        - Status: 200
+
+        - Content-Type: application/json
+
+        - Body:
+
+            ``` json
+            {
+                "name": {
+                    "ar": ""
+                },
+                "sortIndex": 0
+            }
+
+             ```
+      parameters:
+        - name: auth-token
+          in: header
+          schema:
+            type: string
+          example: '{{accessToken}}'
+        - name: _id
+          in: path
+          schema:
+            type: string
+          required: true
+          example: 6608a4e9e0cde61fd03f1a81
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
   /categories/create:
     post:
       tags:
@@ -583,7 +730,7 @@ paths:
 
 
         - No specific parameters were provided for the form-data request body.
-            
+
 
         ### Response
 
@@ -647,7 +794,7 @@ paths:
 
 
         - `GET` {{baseUrl}}/groupsAndMachinesForReport/{{accountEmail}}
-            
+
 
         ## Response
 
@@ -655,7 +802,7 @@ paths:
         - Status: 200
 
         - Content-Type: application/json
-            
+
 
         ``` json
 
@@ -743,7 +890,7 @@ paths:
         - `id` (text): The ID of the order.
 
         - `ids` (text): Comma separated Machine IDs.
-            
+
 
         ### Response
 
@@ -753,7 +900,7 @@ paths:
         - Content Type: application/json
 
         - Body:
-            
+
             ``` json
             [
               {
@@ -809,7 +956,7 @@ paths:
                 "__v": 0
               }
             ]
-            
+
              ```
       requestBody:
         content:
@@ -879,31 +1026,31 @@ paths:
               example: >-
                 "{\n    \"firstname\": \"John\",\n    \"lastname\":
                 \"Doh\",\n    \"password\": \"cb9b2c13\",\n    \"email\":
-                \"daken95777@abnovel.com\",\n    \"role\": \"User\",\n   
+                \"daken95777@abnovel.com\",\n    \"role\": \"User\",\n
                 \"addedToAdmin\": \"{{accountName}}\",\n    \"fullAccess\":
-                true,\n    \"mfa\": false,\n    \"limits\": {\n       
+                true,\n    \"mfa\": false,\n    \"limits\": {\n
                 \"view_machine\": true,\n        \"edit_machine\":
                 true,\n        \"view_prod\": true,\n        \"edit_prod\":
                 true,\n        \"view_cate\": true,\n        \"edit_cate\":
                 true,\n        \"view_brand\": true,\n        \"edit_brand\":
-                true,\n        \"view_receipt\": true,\n       
-                \"edit_receipt\": true,\n        \"view_ss\": true,\n       
-                \"edit_ss\": true,\n        \"edit_group\": true,\n       
-                \"edit_user\": true,\n        \"view_plano\": true,\n       
-                \"edit_plano\": true,\n        \"view_promo\": true,\n       
-                \"edit_promo\": true,\n        \"view_proposal\": true,\n       
+                true,\n        \"view_receipt\": true,\n
+                \"edit_receipt\": true,\n        \"view_ss\": true,\n
+                \"edit_ss\": true,\n        \"edit_group\": true,\n
+                \"edit_user\": true,\n        \"view_plano\": true,\n
+                \"edit_plano\": true,\n        \"view_promo\": true,\n
+                \"edit_promo\": true,\n        \"view_proposal\": true,\n
                 \"edit_proposal\": true,\n        \"view_report\":
                 true,\n        \"view_trans\": true\n    },\n    \"features\":
                 {\n        \"additionPrice\": false,\n        \"disablePromo\":
                 false,\n        \"disableMR\": false,\n        \"extra\":
-                false,\n        \"temperature\": true,\n       
+                false,\n        \"temperature\": true,\n
                 \"disableAudio\": true,\n        \"disablePlanogram\":
                 true,\n        \"disableAlert\": false,\n        \"advanced\":
                 false,\n        \"badges\": false\n    },\n    \"theme\":
                 \"0\",\n    \"stocking\": true,\n    \"stocking_write\":
                 false,\n    \"langs\": [],\n    \"dba\": false,\n    \"email2\":
-                null,\n    \"currency\": {\n        \"code\": \"KWD\",\n       
-                \"name\": \"Kuwaiti Dinar\",\n        \"symbol\": \"د.ك\"\n   
+                null,\n    \"currency\": {\n        \"code\": \"KWD\",\n
+                \"name\": \"Kuwaiti Dinar\",\n        \"symbol\": \"د.ك\"\n
                 },\n    \"lang1\": \"ar\",\n    \"lang2\": \"\",\n    \"lang3\":
                 \"\"\n}"
       parameters:
@@ -950,7 +1097,7 @@ paths:
 
         - `to_date` (required, string) - The end date of the date range in the
         format YYYY-MM-DD.
-            
+
 
         ## Response
 
@@ -958,7 +1105,7 @@ paths:
         - Status: 200 OK
 
         - Content-Type: application/json
-            
+
 
         ``` json
 
@@ -1045,7 +1192,7 @@ paths:
         - Status: 200
 
         - Content-Type: application/json
-            
+
 
         Example response body:
 
@@ -1101,6 +1248,29 @@ paths:
                 referTo:
                   type: string
                   example: '{{accountName}}'
+      parameters:
+        - name: auth-token
+          in: header
+          schema:
+            type: string
+          example: '{{accessToken}}'
+        - name: _id
+          in: path
+          schema:
+            type: string
+          required: true
+          description: Brand ID
+          example: 660dad867ac161199846401a
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /brands/delete/{_id}:
+    delete:
+      tags:
+        - Brands
+      summary: Delete
       parameters:
         - name: auth-token
           in: header

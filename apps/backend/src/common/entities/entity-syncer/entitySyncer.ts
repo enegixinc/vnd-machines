@@ -99,8 +99,8 @@ export abstract class EntitySyncer<
     });
   }
 
+  @Cron(CronExpression.EVERY_SECOND)
   @timer()
-  @Cron(CronExpression.EVERY_MINUTE)
   async syncWithMagex() {
     console.log('Syncing with Magex', this.Entity.name);
     await Promise.all([this.fetchOurRecords(), this.timedFetchMagexRecords()]);
@@ -109,5 +109,8 @@ export abstract class EntitySyncer<
     const records = this.prepareRecords([...newRecords, ...updatedRecords]);
 
     await this.saveRecords(records);
+
+    // clear all records even soft deleted ones
+    // await this.dataSource.manager.delete(this.listenTo(), {});
   }
 }
