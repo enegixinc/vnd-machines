@@ -29,7 +29,7 @@ COPY ../../../ .
 RUN npx nx run backend:build:production
 
 
-FROM node:lts-slim AS production
+FROM node:lts-alpine AS production
 
 WORKDIR /app
 
