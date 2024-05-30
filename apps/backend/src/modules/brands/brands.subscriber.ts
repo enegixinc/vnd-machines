@@ -55,6 +55,7 @@ export class BrandSubscriber
     await this.magexService.brands.deleteBrandsDeleteById({
       id: brand._id,
     });
+    await this.dataSource.manager.delete(BrandEntity, brand._id);
   }
 
   async beforeUpdate(event: UpdateEvent<BrandEntity>) {
