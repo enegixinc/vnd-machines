@@ -30,8 +30,13 @@ export class CategorySubscriber
 
   async beforeInsert(event: InsertEvent<CategoryEntity>) {
     if (event.entity.lastSyncAt) return;
+    await this.createCategory(event);
+  }
 
-    // @ts-expect-error - TODO: add type
+  async createCategory(
+    event: InsertEvent<CategoryEntity> | UpdateEvent<CategoryEntity>
+  ) {
+    // @ts-expect-error - to be fixed
     const { newCategory } =
       await this.magexService.categories.postCategoriesCreate({
         formData: {
@@ -39,12 +44,15 @@ export class CategorySubscriber
           referTo: event.entity.referTo,
           auto: event.entity.auto,
           sortIndex: event.entity.sortIndex,
-          // TODO: handle pics
           categoryPicture: event.entity.categoryPicture,
         },
       });
     Object.assign(event.entity, newCategory);
     event.entity.lastSyncAt = newCategory.updatedAt;
+  }
+
+  async beforeRecover(event) {
+    await this.createCategory(event);
   }
 
   async beforeUpdate(event: UpdateEvent<CategoryEntity>) {
