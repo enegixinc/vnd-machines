@@ -68,11 +68,11 @@ export class BrandSubscriber
     });
   }
 
-  async beforeRecover(event) {
+  async beforeRecover(event: RecoverEvent<BrandEntity>) {
     await this.dataSource.manager.remove(event.entity, {
       listeners: false,
     });
-    await this.createBrand(event.entity);
+    await this.createBrand(event);
   }
 
   async fetchMagexRecords() {
