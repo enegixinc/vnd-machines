@@ -89,6 +89,12 @@
           "node scripts/coolify.js -w {args.DEV_BACKEND_COOLIFY_WEBHOOK}"
         ]
       }
+    },
+    "start": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "NODE_ENV=production node dist/apps/backend/main.js"
+      }
     }
   }
 }
