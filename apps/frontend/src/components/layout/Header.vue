@@ -376,7 +376,7 @@
                                     <router-link :to="{name:'deletedProducts'}">{{ $t('links.deletedProducts') }}</router-link>
                                 </li>
                                 <li>
-                                    <router-link to="/datatables/advanced">{{ $t('links.newProducts') }}</router-link>
+                                    <router-link :to="{name:'addProduct'}">{{ $t('links.newProducts') }}</router-link>
                                 </li>
                             </ul>
                         </li>
