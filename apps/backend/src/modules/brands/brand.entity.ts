@@ -25,13 +25,11 @@ export class BrandEntity extends DatabaseEntity implements IBrandEntity {
 
   @OneToMany(() => ProductEntity, (product) => product.brand, {
     nullable: true,
-    eager: true,
   })
   products: ReferenceByID<ISerializedProduct>[] | null;
 
   @ManyToMany(() => CategoryEntity, (category) => category.brands, {
     nullable: true,
-    eager: true,
   })
   @JoinTable({
     joinColumn: {
@@ -47,7 +45,6 @@ export class BrandEntity extends DatabaseEntity implements IBrandEntity {
 
   @ManyToMany(() => UserEntity, (user) => user.brands, {
     nullable: true,
-    eager: true,
   })
   @JoinTable({
     joinColumn: {

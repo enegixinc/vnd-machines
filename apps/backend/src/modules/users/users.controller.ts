@@ -39,18 +39,10 @@ import { SharedUserDto } from './dto/shared/shared-user.dto';
     limit: 20,
     maxLimit: 100,
     join: {
-      products: {
-        eager: true,
-      },
-      categories: {
-        eager: true,
-      },
-      brands: {
-        eager: true,
-      },
-      contracts: {
-        eager: true,
-      },
+      products: {},
+      categories: {},
+      brands: {},
+      contracts: {},
     },
   },
   routes: {

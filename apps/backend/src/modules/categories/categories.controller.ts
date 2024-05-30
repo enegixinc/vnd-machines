@@ -38,15 +38,10 @@ import { UpdateCategoryDto } from './dto/response/update-category.dto';
     join: {
       suppliers: {
         alias: 'users',
-        eager: true,
         exclude: ['password'],
       },
-      products: {
-        eager: true,
-      },
-      brands: {
-        eager: true,
-      },
+      products: {},
+      brands: {},
     },
   },
   routes: {

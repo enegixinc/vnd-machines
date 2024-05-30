@@ -90,7 +90,6 @@ export class CategoryEntity extends DatabaseEntity implements ICategoryEntity {
   ])
   @OneToMany(() => ProductEntity, (product) => product.category, {
     nullable: true,
-    eager: true,
   })
   products: ISerializedProduct[];
 }
