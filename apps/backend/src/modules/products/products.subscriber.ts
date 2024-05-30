@@ -3,6 +3,8 @@ import {
   EntitySubscriberInterface,
   EventSubscriber,
   InsertEvent,
+  ObjectLiteral,
+  RecoverEvent,
   RemoveEvent,
   UpdateEvent,
 } from 'typeorm';
@@ -33,24 +35,8 @@ export class ProductSubscriber
 
   async beforeInsert(event: InsertEvent<ProductEntity>) {
     if (event.entity.lastSyncAt) return;
-    const multiLangProps = [
-      'name',
-      'description',
-      'ingredients',
-      'detail',
-      'include',
-      'keyFeatures',
-      'specification',
-    ];
-    const formData = Object.fromEntries(
-      Object.entries(event.entity).map(([key, value]) => {
-        if (multiLangProps.includes(key)) {
-          return [key, JSON.stringify(value)];
-        }
-        return [key, value];
-      })
-    );
 
+    const formData = await this.handleMultiLangProps(event.entity);
     const { newProduct } = await this.magexService.products.postProductsCreate({
       formData,
     });
@@ -69,7 +55,15 @@ export class ProductSubscriber
   }
 
   async beforeUpdate(event: UpdateEvent<ProductEntity>) {
-    const product = event.entity;
+    const formData = await this.handleMultiLangProps(event.entity);
+
+    await this.magexService.products.putProductsEditById({
+      id: formData._id,
+      formData,
+    });
+  }
+
+  async handleMultiLangProps(product: ObjectLiteral) {
     const multiLangProps = [
       'name',
       'description',
@@ -79,7 +73,7 @@ export class ProductSubscriber
       'keyFeatures',
       'specification',
     ];
-    const formData = Object.fromEntries(
+    return Object.fromEntries(
       Object.entries(product).map(([key, value]) => {
         if (multiLangProps.includes(key)) {
           return [key, JSON.stringify(value)];
@@ -87,11 +81,17 @@ export class ProductSubscriber
         return [key, value];
       })
     );
+  }
 
-    await this.magexService.products.putProductsEditById({
-      id: product._id,
+  async beforeRecover(event: RecoverEvent<ProductEntity>) {
+    const formData = await this.handleMultiLangProps(event.entity);
+    const { newProduct } = await this.magexService.products.postProductsCreate({
       formData,
     });
+
+    Object.assign(event.entity, newProduct);
+    // @ts-expect-error - to be fixed
+    event.entity.lastSyncAt = newProduct.updatedAt;
   }
 
   async fetchMagexRecords() {

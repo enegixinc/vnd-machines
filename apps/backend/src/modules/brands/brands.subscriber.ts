@@ -3,6 +3,7 @@ import {
   EntitySubscriberInterface,
   EventSubscriber,
   InsertEvent,
+  RecoverEvent,
   RemoveEvent,
   UpdateEvent,
 } from 'typeorm';
@@ -30,16 +31,22 @@ export class BrandSubscriber
 
   async beforeInsert(event: InsertEvent<BrandEntity>) {
     if (event.entity.lastSyncAt) return;
+    await this.createBrand(event);
+  }
 
-    // @ts-expect-error - TODO: add type
+  // insert or recover brand
+  async createBrand(
+    event: InsertEvent<BrandEntity> | RecoverEvent<BrandEntity>
+  ) {
+    const brand = event.entity;
+    // @ts-expect-error - to be fixed
     const { newBrand } = await this.magexService.brands.postBrandsCreate({
       formData: {
-        name: JSON.stringify(event.entity.name),
-        referTo: event.entity.referTo,
+        name: JSON.stringify(brand.name),
+        referTo: brand.referTo,
       },
     });
-
-    Object.assign(event.entity, newBrand);
+    Object.assign(brand, newBrand);
     event.entity.lastSyncAt = newBrand.updatedAt;
   }
 
@@ -59,6 +66,10 @@ export class BrandSubscriber
         referTo: brand.referTo,
       },
     });
+  }
+
+  async beforeRecover(event) {
+    await this.createBrand(event.entity);
   }
 
   async fetchMagexRecords() {
