@@ -2,6 +2,9 @@
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
+import dotenv from 'dotenv';
+
+dotenv.config();
 // ================new
 import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite'
 import path from 'path';

@@ -59,6 +59,9 @@ dependencies:
   '@types/express':
     specifier: ^4.17.21
     version: 4.17.21
+  '@vee-validate/zod':
+    specifier: ^4.12.8
+    version: 4.12.8(vue@3.4.27)
   '@vueuse/head':
     specifier: ^0.9.7
     version: 0.9.8(vue@3.4.27)
@@ -140,6 +143,9 @@ dependencies:
   typeorm:
     specifier: ^0.3.20
     version: 0.3.20(ioredis@5.4.1)(pg@8.11.5)(ts-node@10.9.1)
+  vee-validate:
+    specifier: ^4.12.8
+    version: 4.12.8(vue@3.4.27)
   vue:
     specifier: ^3.3.4
     version: 3.4.27(typescript@5.4.5)
@@ -283,6 +289,9 @@ devDependencies:
   cypress:
     specifier: ^13.6.6
     version: 13.10.0
+  dotenv:
+    specifier: ^16.4.5
+    version: 16.4.5
   eslint:
     specifier: ~8.57.0
     version: 8.57.0
@@ -4918,6 +4927,16 @@ packages:
     resolution: {integrity: sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==}
     dev: true
 
+  /@vee-validate/zod@4.12.8(vue@3.4.27):
+    resolution: {integrity: sha512-P+G8grCc5iN7FMfvLzVWoGKxamBd0EYgN/hXBmzgbJV7B7FGnQADlUIsqt4jM+oGacbFW12B56zSORaVy3Owqg==}
+    dependencies:
+      type-fest: 4.18.3
+      vee-validate: 4.12.8(vue@3.4.27)
+      zod: 3.23.8
+    transitivePeerDependencies:
+      - vue
+    dev: false
+
   /@verdaccio/auth@7.0.0-next-7.15:
     resolution: {integrity: sha512-BWexr0derpjjJh3fNh59aVen5pssvMTLRMTnBi9vmmn1Ndn6cOjeO6a16EhGixFdeef9YFrDMFRY7t96l4QrPQ==}
     engines: {node: '>=18'}
@@ -6240,7 +6259,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001625
-      electron-to-chromium: 1.4.785
+      electron-to-chromium: 1.4.786
       node-releases: 2.0.14
       update-browserslist-db: 1.0.16(browserslist@4.23.0)
 
@@ -7545,8 +7564,8 @@ packages:
       jake: 10.9.1
     dev: true
 
-  /electron-to-chromium@1.4.785:
-    resolution: {integrity: sha512-V94FSLwW6V1JYeYT/pl23zIdwiAbeod7gBjyud2uhuWTa2yV3gZ4IaWt6l0t808y4l6NwOspyR5hiENGrYQqvA==}
+  /electron-to-chromium@1.4.786:
+    resolution: {integrity: sha512-i/A2UB0sxYViMN0M2zIotQFRIOt1jLuVXudACHBDiJ5gGuAUzf/crZxwlBTdA0O52Hy4CNtTzS7AKRAacs/08Q==}
 
   /emittery@0.13.1:
     resolution: {integrity: sha512-DeWwawk6r5yR9jFgnDKYt4sLS0LmHJJi3ZOnb5/JdbYwj3nW+FxQnHIjhBKz8YLC7oRNPVM9NQ47I3CVx34eqQ==}
@@ -13607,6 +13626,11 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
+  /type-fest@4.18.3:
+    resolution: {integrity: sha512-Q08/0IrpvM+NMY9PA2rti9Jb+JejTddwmwmVQGskAlhtcrw1wsRzoR6ode6mR+OAabNa75w/dxedSUY2mlphaQ==}
+    engines: {node: '>=16'}
+    dev: false
+
   /type-is@1.6.18:
     resolution: {integrity: sha512-TkRKr9sUTxEH8MdfuCSP7VizJyzRNMjj2J2do2Jr3Kym598JVdEksuzPQCnlFPW4ky9Q+iA+ma9BGm06XQBy8g==}
     engines: {node: '>= 0.6'}
@@ -13862,6 +13886,16 @@ packages:
   /vary@1.1.2:
     resolution: {integrity: sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==}
     engines: {node: '>= 0.8'}
+
+  /vee-validate@4.12.8(vue@3.4.27):
+    resolution: {integrity: sha512-A07rm3+y7SRk0CMD/O4nBT0nxtwjyfzGZwjEUDk18SxK0ZMzd4AFCzzdHlIiCE1QgHetxd0I3kVkZdN0GG0Oww==}
+    peerDependencies:
+      vue: ^3.4.26
+    dependencies:
+      '@vue/devtools-api': 6.6.1
+      type-fest: 4.18.3
+      vue: 3.4.27(typescript@5.4.5)
+    dev: false
 
   /verdaccio-audit@12.0.0-next-7.15:
     resolution: {integrity: sha512-ylUxj3VZljYyCpAUFa3THFb29UyHCVv8qgte0LI/20+5EptcZuayHtVP5sd5mnMiMqCO4TUylm30EdXSIvqk4A==}
