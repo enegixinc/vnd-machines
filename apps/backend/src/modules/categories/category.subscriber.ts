@@ -3,6 +3,7 @@ import {
   EntitySubscriberInterface,
   EventSubscriber,
   InsertEvent,
+  RecoverEvent,
   RemoveEvent,
   UpdateEvent,
 } from 'typeorm';
@@ -24,17 +25,46 @@ export class CategorySubscriber
     this.dataSource.subscribers.push(this);
   }
 
-  listenTo() {
-    return CategoryEntity;
-  }
-
   async beforeInsert(event: InsertEvent<CategoryEntity>) {
     if (event.entity.lastSyncAt) return;
     await this.createCategory(event);
   }
 
+  async beforeSoftRemove(event: RemoveEvent<CategoryEntity>) {
+    const category = event.entity;
+    await this.magexService.categories.deleteCategoriesDeleteById({
+      id: category._id,
+    });
+  }
+
+  async beforeUpdate(event: UpdateEvent<CategoryEntity>) {
+    const category = event.entity;
+
+    await this.magexService.categories.putCategoriesEditById({
+      id: category._id,
+      formData: {
+        name: JSON.stringify(category.name),
+        referTo: category.referTo,
+        auto: category.auto ? 'true' : 'false',
+        sortIndex: category.sortIndex,
+      },
+    });
+  }
+
+  async beforeRecover(event: RecoverEvent<CategoryEntity>) {
+    await this.dataSource.manager.remove(event.entity, {
+      listeners: false,
+    });
+
+    await this.createCategory(event);
+  }
+
+  listenTo() {
+    return CategoryEntity;
+  }
+
   async createCategory(
-    event: InsertEvent<CategoryEntity> | UpdateEvent<CategoryEntity>
+    event: InsertEvent<CategoryEntity> | RecoverEvent<CategoryEntity>
   ) {
     // @ts-expect-error - to be fixed
     const { newCategory } =
@@ -50,37 +80,11 @@ export class CategorySubscriber
     Object.assign(event.entity, newCategory);
     event.entity.lastSyncAt = newCategory.updatedAt;
   }
-
-  async beforeRecover(event) {
-    await this.createCategory(event);
-    await this.dataSource.manager.delete(CategoryEntity, event.entity._id);
-  }
-
-  async beforeUpdate(event: UpdateEvent<CategoryEntity>) {
-    const category = event.entity;
-    await this.magexService.categories.putCategoriesEditById({
-      id: category._id,
-      formData: {
-        name: JSON.stringify(category.name),
-        referTo: category.referTo,
-        auto: category.auto ? 'true' : 'false',
-        sortIndex: category.sortIndex,
-      },
-    });
-  }
-
   async fetchMagexRecords() {
     // @ts-expect-error - TODO: add type
     this.magexRecords =
       await this.magexService.categories.getCategoriesByAccountName({
         accountName: 'tryvnd@point24h.com',
       });
-  }
-
-  async beforeSoftRemove(event: RemoveEvent<CategoryEntity>) {
-    const category = event.entity;
-    await this.magexService.categories.deleteCategoriesDeleteById({
-      id: category._id,
-    });
   }
 }

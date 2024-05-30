@@ -29,13 +29,7 @@ export class BrandSubscriber
     return BrandEntity;
   }
 
-  async beforeInsert(event: InsertEvent<BrandEntity>) {
-    if (event.entity.lastSyncAt) return;
-    await this.createBrand(event);
-  }
-
-  // insert or recover brand
-  async createBrand(
+  private async createBrand(
     event: InsertEvent<BrandEntity> | RecoverEvent<BrandEntity>
   ) {
     const brand = event.entity;
@@ -50,16 +44,21 @@ export class BrandSubscriber
     event.entity.lastSyncAt = newBrand.updatedAt;
   }
 
+  async beforeInsert(event: InsertEvent<BrandEntity>) {
+    if (event.entity.lastSyncAt) return;
+    await this.createBrand(event);
+  }
+
   async beforeSoftRemove(event: RemoveEvent<BrandEntity>) {
     const brand = event.entity;
     await this.magexService.brands.deleteBrandsDeleteById({
       id: brand._id,
     });
-    await this.dataSource.manager.delete(BrandEntity, brand._id);
   }
 
   async beforeUpdate(event: UpdateEvent<BrandEntity>) {
     const brand = event.entity;
+
     await this.magexService.brands.postBrandsEditById({
       id: brand._id,
       formData: {
@@ -70,6 +69,9 @@ export class BrandSubscriber
   }
 
   async beforeRecover(event) {
+    await this.dataSource.manager.remove(event.entity, {
+      listeners: false,
+    });
     await this.createBrand(event.entity);
   }
 
