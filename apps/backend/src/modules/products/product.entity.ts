@@ -173,7 +173,7 @@ export class ProductEntity extends DatabaseEntity implements IProductEntity {
   pricePerKilo: boolean;
 
   @Factory((faker) => faker.commerce.productMaterial())
-  @Column({ type: 'varchar' })
+  @Column({ type: 'varchar', nullable: true })
   prodType: string;
 
   @Factory((faker) => faker.image.url())
