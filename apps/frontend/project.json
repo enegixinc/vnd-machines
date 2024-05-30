@@ -34,6 +34,12 @@
                   "node scripts/coolify.js -w '{args.DEV_FRONTEND_COOLIFY_WEBHOOK}'"
               ]
           }
+      },
+      "start": {
+          "executor": "nx:run-commands",
+          "options": {
+              "command": "NODE_ENV=production http-server -p 80 -c-1 dist/apps/frontend --proxy http://localhost:80?"
+          }
       }
   }
 }
