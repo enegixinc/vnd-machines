@@ -37,15 +37,10 @@ import { Public } from '../auth/decorators/public.decorator';
     join: {
       suppliers: {
         alias: 'users',
-        eager: true,
         exclude: ['password'],
       },
-      products: {
-        eager: true,
-      },
-      categories: {
-        eager: true,
-      },
+      products: {},
+      categories: {},
     },
   },
   routes: {

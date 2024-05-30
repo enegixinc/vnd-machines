@@ -37,16 +37,13 @@ import { UpdateProductDto } from './dto/request/update-product.dto';
     maxLimit: 100,
     join: {
       supplier: {
-        eager: true,
         alias: 'users',
         exclude: ['password'],
       },
       brand: {
-        eager: true,
         alias: 'brands',
       },
       category: {
-        eager: true,
         alias: 'categories',
       },
 

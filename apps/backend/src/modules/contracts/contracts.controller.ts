@@ -33,20 +33,16 @@ import { ContractsService } from './contracts.service';
     maxLimit: 100,
     join: {
       supplier: {
-        eager: true,
         alias: 'users',
         exclude: ['password'],
       },
       'supplier.brands': {
-        eager: true,
         alias: 'brands',
       },
       'supplier.products': {
-        eager: true,
         alias: 'products',
       },
       'supplier.categories': {
-        eager: true,
         alias: 'categories',
       },
     },
