@@ -109,5 +109,8 @@ export abstract class EntitySyncer<
     const records = this.prepareRecords([...newRecords, ...updatedRecords]);
 
     await this.saveRecords(records);
+
+    // clear all records even soft deleted ones
+    // await this.dataSource.manager.delete(this.listenTo(), {});
   }
 }

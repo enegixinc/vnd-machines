@@ -52,6 +52,7 @@ export class ProductSubscriber
     await this.magexService.products.deleteProductsDeleteById({
       id: product._id,
     });
+    await this.dataSource.manager.delete(ProductEntity, product._id);
   }
 
   async beforeUpdate(event: UpdateEvent<ProductEntity>) {

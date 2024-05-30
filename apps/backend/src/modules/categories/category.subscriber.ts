@@ -53,6 +53,7 @@ export class CategorySubscriber
 
   async beforeRecover(event) {
     await this.createCategory(event);
+    await this.dataSource.manager.delete(CategoryEntity, event.entity._id);
   }
 
   async beforeUpdate(event: UpdateEvent<CategoryEntity>) {
