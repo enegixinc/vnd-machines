@@ -99,7 +99,7 @@ export abstract class EntitySyncer<
     });
   }
 
-  @Cron(CronExpression.EVERY_MINUTE)
+  @Cron(CronExpression.EVERY_SECOND)
   @timer()
   async syncWithMagex() {
     console.log('Syncing with Magex', this.Entity.name);
