@@ -1,6 +1,6 @@
 import { VNDClient } from '@frontend/api-sdk';
 import { type AxiosRequestConfig } from 'axios';
-import { useUser } from '@/stores/user';
+import {useUser} from "@/stores/user"
 
 const user = useUser();
 // eslint-disable-next-line no-unused-vars

@@ -2,6 +2,9 @@ import {
   DataSource,
   EntitySubscriberInterface,
   EventSubscriber,
+  InsertEvent,
+  RemoveEvent,
+  UpdateEvent,
 } from 'typeorm';
 import { MagexService } from '../../services/magex/magex.service';
 import { Inject } from '@nestjs/common';
@@ -28,22 +31,71 @@ export class ProductSubscriber
     return ProductEntity;
   }
 
-  // async beforeInsert(event: InsertEvent<BrandEntity>) {
-  //   if (event.entity.lastSyncAt) return;
-  //
-  //   const { newBrand } = await this.magexService.brands.postBrandsCreate({
-  //     formData: {
-  //       name: JSON.stringify(event.entity.name),
-  //       referTo: event.entity.referTo,
-  //       // picture: event.entity.picture,
-  //     },
-  //   });
-  //
-  //   Object.assign(event.entity, newBrand);
-  //   event.entity.lastSyncAt = newBrand.updatedAt;
-  // }
+  async beforeInsert(event: InsertEvent<ProductEntity>) {
+    if (event.entity.lastSyncAt) return;
+    const multiLangProps = [
+      'name',
+      'description',
+      'ingredients',
+      'detail',
+      'include',
+      'keyFeatures',
+      'specification',
+    ];
+    const formData = Object.fromEntries(
+      Object.entries(event.entity).map(([key, value]) => {
+        if (multiLangProps.includes(key)) {
+          return [key, JSON.stringify(value)];
+        }
+        return [key, value];
+      })
+    );
+
+    const { newProduct } = await this.magexService.products.postProductsCreate({
+      formData,
+    });
+
+    Object.assign(event.entity, newProduct);
+    // @ts-expect-error - TODO: add type
+
+    event.entity.lastSyncAt = newProduct.updatedAt;
+  }
+
+  async beforeSoftRemove(event: RemoveEvent<ProductEntity>) {
+    const product = event.entity;
+    await this.magexService.products.deleteProductsDeleteById({
+      id: product._id,
+    });
+  }
+
+  async beforeUpdate(event: UpdateEvent<ProductEntity>) {
+    const product = event.entity;
+    const multiLangProps = [
+      'name',
+      'description',
+      'ingredients',
+      'detail',
+      'include',
+      'keyFeatures',
+      'specification',
+    ];
+    const formData = Object.fromEntries(
+      Object.entries(product).map(([key, value]) => {
+        if (multiLangProps.includes(key)) {
+          return [key, JSON.stringify(value)];
+        }
+        return [key, value];
+      })
+    );
+
+    await this.magexService.products.putProductsEditById({
+      id: product._id,
+      formData,
+    });
+  }
 
   async fetchMagexRecords() {
+    // @ts-expect-error - TODO: add type
     this.magexRecords =
       await this.magexService.products.getProductsByAccountName({
         accountName: 'tryvnd@point24h.com',

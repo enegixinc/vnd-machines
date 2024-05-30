@@ -72,6 +72,7 @@ export class MagexService extends MagexConnector implements OnModuleInit {
   @Cron(CronExpression.EVERY_MINUTE)
   @timer()
   async login() {
+    // @ts-expect-error - TODO: add type
     const { accessToken } = await this.auth.postUsersLogin({
       formData: {
         email: this.configService.get('MAGEX_EMAIL'),
