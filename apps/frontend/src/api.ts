@@ -42,5 +42,5 @@ const attachHeaders: Middleware<AxiosRequestConfig<unknown>> = async (
 };
 
 vndClient.request.config.interceptors.request.use(attachHeaders);
-vndClient.request.config.interceptors.request.use(errorHandler);
+vndClient.request.config.interceptors.response.use(errorHandler);
 
