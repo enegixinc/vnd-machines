@@ -202,7 +202,7 @@ export class SharedProductDto {
   @decorate(IsOptional({ groups: [UPDATE, CREATE] }))
   @decorate(
     ApiProperty({
-      example: 'Refer to some other product',
+      example: 'tryvnd@point24h.com',
       description: 'Reference to another product',
       type: String,
     })
