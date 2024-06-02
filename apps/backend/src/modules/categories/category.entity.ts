@@ -6,7 +6,7 @@ import {
   ISerializedUser,
   MultiLang,
 } from '@core';
-import { DatabaseEntity } from '../../common/database.entity';
+import { MagexDatabaseEntity } from '../../common/database.entity';
 import { ProductEntity } from '../products/product.entity';
 import { UserEntity } from '../users/entities/user.entity';
 import { BrandEntity } from '../brands/brand.entity';
@@ -14,7 +14,10 @@ import { Factory } from 'nestjs-seeder';
 import { fakerAR } from '@faker-js/faker';
 
 @Entity('categories')
-export class CategoryEntity extends DatabaseEntity implements ICategoryEntity {
+export class CategoryEntity
+  extends MagexDatabaseEntity
+  implements ICategoryEntity
+{
   @Factory((faker) => faker.datatype.boolean())
   @Column({ type: 'boolean', default: false })
   auto: boolean;
@@ -92,4 +95,16 @@ export class CategoryEntity extends DatabaseEntity implements ICategoryEntity {
     nullable: true,
   })
   products: ISerializedProduct[];
+
+  createMagexRecord(): Promise<unknown> {
+    return Promise.resolve(undefined);
+  }
+
+  deleteMagexRecord(): Promise<unknown> {
+    return Promise.resolve(undefined);
+  }
+
+  updateMagexRecord(): Promise<unknown> {
+    return Promise.resolve(undefined);
+  }
 }

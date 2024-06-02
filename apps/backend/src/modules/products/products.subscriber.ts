@@ -5,16 +5,14 @@ import {
   InsertEvent,
   ObjectLiteral,
   RecoverEvent,
-  RemoveEvent,
-  UpdateEvent,
 } from 'typeorm';
-import { MagexService } from '../../services/magex/magex.service';
 import { Inject } from '@nestjs/common';
 import { EntitySyncer } from '../../common/entities/entity-syncer/entitySyncer';
 import { ProductEntity } from './product.entity';
 import { ISerializedMagexProduct } from '@core';
 import { CategoryEntity } from '../categories/category.entity';
 import { BrandEntity } from '../brands/brand.entity';
+import { MagexService } from '../../services/magex/magex.service';
 
 @EventSubscriber()
 export class ProductSubscriber
@@ -22,40 +20,40 @@ export class ProductSubscriber
   implements EntitySubscriberInterface<ProductEntity>
 {
   constructor(
-    @Inject(MagexService) private readonly magexService: MagexService,
-    @Inject(DataSource) protected dataSource: DataSource
+    @Inject(DataSource) protected dataSource: DataSource,
+    @Inject(MagexService) protected magexService: MagexService
   ) {
-    super(dataSource);
+    super(dataSource, magexService);
     this.dataSource.subscribers.push(this);
   }
 
-  async beforeInsert(event: InsertEvent<ProductEntity>) {
-    if (event.entity.lastSyncAt) return;
-    await this.createProduct(event);
-  }
+  // async beforeInsert(event: InsertEvent<ProductEntity>) {
+  //   if (event.entity.lastSyncAt) return;
+  //   await this.createProduct(event);
+  // }
 
-  async beforeSoftRemove(event: RemoveEvent<ProductEntity>) {
-    const product = event.entity;
-    await this.magexService.products.deleteProductsDeleteById({
-      id: product._id,
-    });
-  }
-
-  async beforeUpdate(event: UpdateEvent<ProductEntity>) {
-    const formData = await this.handleMultiLangProps(event.entity);
-
-    await this.magexService.products.putProductsEditById({
-      id: formData._id,
-      formData,
-    });
-  }
-
-  async beforeRecover(event: RecoverEvent<ProductEntity>) {
-    await this.dataSource.manager.remove(event.entity, {
-      listeners: false,
-    });
-    await this.createProduct(event);
-  }
+  // async beforeSoftRemove(event: RemoveEvent<ProductEntity>) {
+  //   const product = event.entity;
+  //   await this.magexService.products.deleteProductsDeleteById({
+  //     id: product._id,
+  //   });
+  // }
+  //
+  // async beforeUpdate(event: UpdateEvent<ProductEntity>) {
+  //   const formData = await this.handleMultiLangProps(event.entity);
+  //
+  //   await this.magexService.products.putProductsEditById({
+  //     id: formData._id,
+  //     formData,
+  //   });
+  // }
+  //
+  // async beforeRecover(event: RecoverEvent<ProductEntity>) {
+  //   await this.dataSource.manager.remove(event.entity, {
+  //     listeners: false,
+  //   });
+  //   await this.createProduct(event);
+  // }
 
   listenTo() {
     return ProductEntity;
@@ -94,11 +92,10 @@ export class ProductSubscriber
   }
 
   async fetchMagexRecords() {
-    // @ts-expect-error - TODO: add type
-    this.magexRecords =
-      await this.magexService.products.getProductsByAccountName({
-        accountName: 'tryvnd@point24h.com',
-      });
+    // this.magexRecords =
+    //   await this.magexService.products.getProductsByAccountName({
+    //     accountName: 'tryvnd@point24h.com',
+    //   });
   }
 
   handleRelationships(record: ISerializedMagexProduct) {

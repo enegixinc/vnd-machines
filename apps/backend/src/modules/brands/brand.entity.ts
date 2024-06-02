@@ -1,5 +1,5 @@
 import { Column, Entity, JoinTable, ManyToMany, OneToMany } from 'typeorm';
-import { DatabaseEntity } from '../../common/database.entity';
+import { MagexDatabaseEntity } from '../../common/database.entity';
 import {
   IBrandEntity,
   ISerializedCategory,
@@ -11,9 +11,10 @@ import {
 import { ProductEntity } from '../products/product.entity';
 import { UserEntity } from '../users/entities/user.entity';
 import { CategoryEntity } from '../categories/category.entity';
+import { MagexService } from '../../services/magex/magex.service';
 
 @Entity('brands')
-export class BrandEntity extends DatabaseEntity implements IBrandEntity {
+export class BrandEntity extends MagexDatabaseEntity implements IBrandEntity {
   @Column({ type: 'varchar', nullable: true })
   logo: string;
   @Column({ type: 'jsonb' })
@@ -57,4 +58,38 @@ export class BrandEntity extends DatabaseEntity implements IBrandEntity {
     },
   })
   suppliers: ReferenceByID<ISerializedUser>[] | null;
+
+  async createMagexRecord(magexService: MagexService) {
+    console.count('createMagexRecord');
+    // @ts-ignore
+    const { newBrand } = await magexService.brands.postBrandsCreate({
+      formData: {
+        name: JSON.stringify(this.name),
+        referTo: this.referTo,
+        // picture: this.picture,
+      },
+    });
+    Object.assign(this, newBrand);
+    Object.assign(this, { lastSyncAt: newBrand.updatedAt });
+  }
+
+  async deleteMagexRecord(mageService: MagexService) {
+    await mageService.brands.deleteBrandsDeleteById({
+      id: this._id,
+    });
+  }
+
+  async updateMagexRecord(magexService: MagexService) {
+    console.count('updateMagexRecord');
+    // @ts-ignore
+    const { newBrand } = await magexService.brands.postBrandsEditById({
+      id: this._id,
+      formData: {
+        name: JSON.stringify(this.name),
+        referTo: this.referTo,
+      },
+    });
+    Object.assign(this, newBrand);
+    Object.assign(this, { lastSyncAt: newBrand.updatedAt });
+  }
 }

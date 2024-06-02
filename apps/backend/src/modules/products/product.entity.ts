@@ -11,13 +11,17 @@ import {
 import { fakerAR } from '@faker-js/faker';
 import { Factory } from 'nestjs-seeder';
 
-import { DatabaseEntity } from '../../common/database.entity';
+import { MagexDatabaseEntity } from '../../common/database.entity';
 import { UserEntity } from '../users/entities/user.entity';
 import { BrandEntity } from '../brands/brand.entity';
 import { CategoryEntity } from '../categories/category.entity';
+import { undefined } from 'zod';
 
 @Entity('products')
-export class ProductEntity extends DatabaseEntity implements IProductEntity {
+export class ProductEntity
+  extends MagexDatabaseEntity
+  implements IProductEntity
+{
   // @Factory((faker) => ({
   //   _id: faker.database.mongodbObjectId(),
   // }))
@@ -214,6 +218,18 @@ export class ProductEntity extends DatabaseEntity implements IProductEntity {
   )
   @Column({ type: 'integer', default: 0 })
   virtualProduct: number;
+
+  createMagexRecord() {
+    return Promise.resolve(undefined);
+  }
+
+  deleteMagexRecord() {
+    return Promise.resolve(undefined);
+  }
+
+  updateMagexRecord() {
+    return Promise.resolve(undefined);
+  }
 
   // @DeleteDateColumn()
   // @ApiProperty({

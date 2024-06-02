@@ -4,13 +4,11 @@ import {
   EventSubscriber,
   InsertEvent,
   RecoverEvent,
-  RemoveEvent,
-  UpdateEvent,
 } from 'typeorm';
-import { MagexService } from '../../services/magex/magex.service';
 import { Inject } from '@nestjs/common';
 import { CategoryEntity } from './category.entity';
 import { EntitySyncer } from '../../common/entities/entity-syncer/entitySyncer';
+import { MagexService } from '../../services/magex/magex.service';
 
 @EventSubscriber()
 export class CategorySubscriber
@@ -18,46 +16,45 @@ export class CategorySubscriber
   implements EntitySubscriberInterface<CategoryEntity>
 {
   constructor(
-    @Inject(MagexService) private readonly magexService: MagexService,
-    @Inject(DataSource) protected dataSource: DataSource
+    @Inject(DataSource) protected dataSource: DataSource,
+    @Inject(MagexService) protected magexService: MagexService
   ) {
-    super(dataSource);
+    super(dataSource, magexService);
     this.dataSource.subscribers.push(this);
   }
+  // async beforeInsert(event: InsertEvent<CategoryEntity>) {
+  //   if (event.entity.lastSyncAt) return;
+  //   await this.createCategory(event);
+  // }
 
-  async beforeInsert(event: InsertEvent<CategoryEntity>) {
-    if (event.entity.lastSyncAt) return;
-    await this.createCategory(event);
-  }
-
-  async beforeSoftRemove(event: RemoveEvent<CategoryEntity>) {
-    const category = event.entity;
-    await this.magexService.categories.deleteCategoriesDeleteById({
-      id: category._id,
-    });
-  }
-
-  async beforeUpdate(event: UpdateEvent<CategoryEntity>) {
-    const category = event.entity;
-
-    await this.magexService.categories.putCategoriesEditById({
-      id: category._id,
-      formData: {
-        name: JSON.stringify(category.name),
-        referTo: category.referTo,
-        auto: category.auto ? 'true' : 'false',
-        sortIndex: category.sortIndex,
-      },
-    });
-  }
-
-  async beforeRecover(event: RecoverEvent<CategoryEntity>) {
-    await this.dataSource.manager.remove(event.entity, {
-      listeners: false,
-    });
-
-    await this.createCategory(event);
-  }
+  // async beforeSoftRemove(event: RemoveEvent<CategoryEntity>) {
+  //   const category = event.entity;
+  //   await this.magexService.categories.deleteCategoriesDeleteById({
+  //     id: category._id,
+  //   });
+  // }
+  //
+  // async beforeUpdate(event: UpdateEvent<CategoryEntity>) {
+  //   const category = event.entity;
+  //
+  //   await this.magexService.categories.putCategoriesEditById({
+  //     id: category._id,
+  //     formData: {
+  //       name: JSON.stringify(category.name),
+  //       referTo: category.referTo,
+  //       auto: category.auto ? 'true' : 'false',
+  //       sortIndex: category.sortIndex,
+  //     },
+  //   });
+  // }
+  //
+  // async beforeRecover(event: RecoverEvent<CategoryEntity>) {
+  //   await this.dataSource.manager.remove(event.entity, {
+  //     listeners: false,
+  //   });
+  //
+  //   await this.createCategory(event);
+  // }
 
   listenTo() {
     return CategoryEntity;
@@ -81,10 +78,9 @@ export class CategorySubscriber
     event.entity.lastSyncAt = newCategory.updatedAt;
   }
   async fetchMagexRecords() {
-    // @ts-expect-error - TODO: add type
-    this.magexRecords =
-      await this.magexService.categories.getCategoriesByAccountName({
-        accountName: 'tryvnd@point24h.com',
-      });
+    // this.magexRecords =
+    //   await this.magexService.categories.getCategoriesByAccountName({
+    //     accountName: 'tryvnd@point24h.com',
+    //   });
   }
 }
