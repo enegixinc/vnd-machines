@@ -83,7 +83,7 @@ export abstract class EntitySyncer<
   }
 
   @timer()
-  private prepareRecords(records: unknown[]) {
+  prepareRecords(records: unknown[]) {
     return records.map((record) => {
       const entity = this.EntityClone;
       Object.assign(entity, this.assignRelations(record));
@@ -109,7 +109,7 @@ export abstract class EntitySyncer<
       : CronExpression.EVERY_5_MINUTES
   )
   @timer()
-  private async syncWithMagex() {
+  async syncWithMagex() {
     // @ts-expect-error - TODO: add type
     console.log('Syncing with Magex', this.Entity.name);
     await Promise.all([this.fetchOurRecords(), this.fetchMagexRecords()]);

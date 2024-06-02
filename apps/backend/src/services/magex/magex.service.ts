@@ -1,6 +1,4 @@
 import {
-  BadRequestException,
-  ForbiddenException,
   Global,
   Injectable,
   NotFoundException,
@@ -52,10 +50,6 @@ export class MagexService extends MagexConnector implements OnModuleInit {
           );
         case 404:
           throw new NotFoundException();
-        case 403:
-          throw new ForbiddenException();
-        case 400:
-          throw new BadRequestException();
         case 406:
           throw new GlobalResponseError(
             response.status,

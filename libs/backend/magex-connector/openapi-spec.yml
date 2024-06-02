@@ -237,7 +237,7 @@ paths:
         - `productVideo` (text, optional): Video link for the product.
 
         - `brand` (text, optional): The brand of the product.
-
+            
 
         ## Response
 
@@ -609,7 +609,7 @@ paths:
         - Content-Type: application/json
 
         - Body:
-
+            
             ``` json
             {
                 "name": {
@@ -617,7 +617,7 @@ paths:
                 },
                 "sortIndex": 0
             }
-
+            
              ```
       requestBody:
         content:
@@ -688,7 +688,7 @@ paths:
         - Content-Type: application/json
 
         - Body:
-
+            
             ``` json
             {
                 "name": {
@@ -696,7 +696,7 @@ paths:
                 },
                 "sortIndex": 0
             }
-
+            
              ```
       parameters:
         - name: auth-token
@@ -730,7 +730,7 @@ paths:
 
 
         - No specific parameters were provided for the form-data request body.
-
+            
 
         ### Response
 
@@ -794,7 +794,7 @@ paths:
 
 
         - `GET` {{baseUrl}}/groupsAndMachinesForReport/{{accountEmail}}
-
+            
 
         ## Response
 
@@ -802,7 +802,7 @@ paths:
         - Status: 200
 
         - Content-Type: application/json
-
+            
 
         ``` json
 
@@ -890,7 +890,7 @@ paths:
         - `id` (text): The ID of the order.
 
         - `ids` (text): Comma separated Machine IDs.
-
+            
 
         ### Response
 
@@ -900,7 +900,7 @@ paths:
         - Content Type: application/json
 
         - Body:
-
+            
             ``` json
             [
               {
@@ -956,7 +956,7 @@ paths:
                 "__v": 0
               }
             ]
-
+            
              ```
       requestBody:
         content:
@@ -977,12 +977,6 @@ paths:
                   type: string
                   description: Comma separated Machine IDs
                   example: 657ab833c7201f469894300d,657ab86ec7201f469894300f
-      parameters:
-        - name: auth-token
-          in: header
-          schema:
-            type: string
-          example: '{{accessToken}}'
       responses:
         '200':
           description: Successful response
@@ -1026,31 +1020,31 @@ paths:
               example: >-
                 "{\n    \"firstname\": \"John\",\n    \"lastname\":
                 \"Doh\",\n    \"password\": \"cb9b2c13\",\n    \"email\":
-                \"daken95777@abnovel.com\",\n    \"role\": \"User\",\n
+                \"daken95777@abnovel.com\",\n    \"role\": \"User\",\n   
                 \"addedToAdmin\": \"{{accountName}}\",\n    \"fullAccess\":
-                true,\n    \"mfa\": false,\n    \"limits\": {\n
+                true,\n    \"mfa\": false,\n    \"limits\": {\n       
                 \"view_machine\": true,\n        \"edit_machine\":
                 true,\n        \"view_prod\": true,\n        \"edit_prod\":
                 true,\n        \"view_cate\": true,\n        \"edit_cate\":
                 true,\n        \"view_brand\": true,\n        \"edit_brand\":
-                true,\n        \"view_receipt\": true,\n
-                \"edit_receipt\": true,\n        \"view_ss\": true,\n
-                \"edit_ss\": true,\n        \"edit_group\": true,\n
-                \"edit_user\": true,\n        \"view_plano\": true,\n
-                \"edit_plano\": true,\n        \"view_promo\": true,\n
-                \"edit_promo\": true,\n        \"view_proposal\": true,\n
+                true,\n        \"view_receipt\": true,\n       
+                \"edit_receipt\": true,\n        \"view_ss\": true,\n       
+                \"edit_ss\": true,\n        \"edit_group\": true,\n       
+                \"edit_user\": true,\n        \"view_plano\": true,\n       
+                \"edit_plano\": true,\n        \"view_promo\": true,\n       
+                \"edit_promo\": true,\n        \"view_proposal\": true,\n       
                 \"edit_proposal\": true,\n        \"view_report\":
                 true,\n        \"view_trans\": true\n    },\n    \"features\":
                 {\n        \"additionPrice\": false,\n        \"disablePromo\":
                 false,\n        \"disableMR\": false,\n        \"extra\":
-                false,\n        \"temperature\": true,\n
+                false,\n        \"temperature\": true,\n       
                 \"disableAudio\": true,\n        \"disablePlanogram\":
                 true,\n        \"disableAlert\": false,\n        \"advanced\":
                 false,\n        \"badges\": false\n    },\n    \"theme\":
                 \"0\",\n    \"stocking\": true,\n    \"stocking_write\":
                 false,\n    \"langs\": [],\n    \"dba\": false,\n    \"email2\":
-                null,\n    \"currency\": {\n        \"code\": \"KWD\",\n
-                \"name\": \"Kuwaiti Dinar\",\n        \"symbol\": \"د.ك\"\n
+                null,\n    \"currency\": {\n        \"code\": \"KWD\",\n       
+                \"name\": \"Kuwaiti Dinar\",\n        \"symbol\": \"د.ك\"\n   
                 },\n    \"lang1\": \"ar\",\n    \"lang2\": \"\",\n    \"lang3\":
                 \"\"\n}"
       parameters:
@@ -1097,7 +1091,7 @@ paths:
 
         - `to_date` (required, string) - The end date of the date range in the
         format YYYY-MM-DD.
-
+            
 
         ## Response
 
@@ -1105,7 +1099,7 @@ paths:
         - Status: 200 OK
 
         - Content-Type: application/json
-
+            
 
         ``` json
 
@@ -1192,7 +1186,7 @@ paths:
         - Status: 200
 
         - Content-Type: application/json
-
+            
 
         Example response body:
 

@@ -162,7 +162,6 @@ export type GetGroupsAndMachinesForReportByAccountEmailData = {
 export type GetGroupsAndMachinesForReportByAccountEmailResponse = unknown;
 
 export type PostOrdersData = {
-    authToken?: string;
     formData?: {
         start?: string;
         end?: string;

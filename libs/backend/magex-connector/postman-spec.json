@@ -975,7 +975,8 @@
 							{
 								"key": "auth-token",
 								"value": "{{accessToken}}",
-								"type": "text"
+								"type": "text",
+								"disabled": true
 							}
 						],
 						"body": {
