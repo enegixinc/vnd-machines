@@ -5,7 +5,7 @@ import {
 } from 'typeorm';
 import { BrandEntity } from './brand.entity';
 import { Inject } from '@nestjs/common';
-import { EntitySyncer } from '../../common/entities/entity-syncer/entitySyncer';
+import { EntitySyncer } from '../../common/entities/entity-syncer/entity-syncer';
 import { MagexService } from '../../services/magex/magex.service';
 
 @EventSubscriber()

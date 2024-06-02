@@ -4,7 +4,7 @@ import {
   EventSubscriber,
 } from 'typeorm';
 import { Inject } from '@nestjs/common';
-import { EntitySyncer } from '../../common/entities/entity-syncer/entitySyncer';
+import { EntitySyncer } from '../../common/entities/entity-syncer/entity-syncer';
 import { ProductEntity } from './product.entity';
 import { ISerializedMagexProduct } from '@core';
 import { CategoryEntity } from '../categories/category.entity';
@@ -21,7 +21,6 @@ export class ProductSubscriber
     @Inject(MagexService) protected magexService: MagexService
   ) {
     super(dataSource, magexService);
-    this.dataSource.subscribers.push(this);
   }
 
   listenTo() {

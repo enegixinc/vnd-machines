@@ -56,8 +56,21 @@ export class MagexService extends MagexConnector implements OnModuleInit {
           throw new ForbiddenException();
         case 400:
           throw new BadRequestException();
+        case 406:
+          throw new GlobalResponseError(
+            response.status,
+            response.data || response.statusText,
+            '406',
+            response.request
+          );
         default:
-          throw new Error('Unknown error');
+          console.error(response);
+          throw new GlobalResponseError(
+            response.status,
+            response.statusText,
+            '500',
+            response.request
+          );
       }
     }
 
