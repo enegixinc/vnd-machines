@@ -6,7 +6,7 @@ import {
   ObjectIdColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { IDataBaseEntity } from '@core';
+import { _IMagex_DatabaseEntity, IDataBaseEntity } from '@core';
 import { ApiProperty } from '@nestjs/swagger';
 import { decorate } from 'ts-mixer';
 import { MagexService } from '../services/magex/magex.service';
@@ -96,8 +96,10 @@ export class DatabaseEntity extends BaseEntity implements IDataBaseEntity {
 }
 
 export abstract class MagexDatabaseEntity extends DatabaseEntity {
-  abstract createMagexRecord(magexService: MagexService): Promise<unknown>;
-  abstract updateMagexRecord(magexService: MagexService): Promise<unknown>;
-  abstract deleteMagexRecord(magexService: MagexService): Promise<unknown>;
-  // abstract fetchMagexRecords(): Promise<unknown[]>;
+  abstract createMagexRecord(magexService: MagexService): Promise<void>;
+  abstract updateMagexRecord(magexService: MagexService): Promise<void>;
+  abstract deleteMagexRecord(magexService: MagexService): Promise<void>;
+  abstract fetchMagexRecords(
+    magexService: MagexService
+  ): Promise<_IMagex_DatabaseEntity[]>;
 }

@@ -23,10 +23,4 @@ export class BrandSubscriber
   listenTo() {
     return BrandEntity;
   }
-
-  async fetchMagexRecords() {
-    // this.magexRecords = await this.magexService.brands.getBrandsByAccountName({
-    //   accountName: 'tryvnd@point24h.com',
-    // });
-  }
 }

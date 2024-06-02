@@ -1,17 +1,12 @@
-import {
-  DataSource,
-  EntitySubscriberInterface,
-  InsertEvent,
-  RecoverEvent,
-  RemoveEvent,
-  UpdateEvent,
-} from 'typeorm';
+import { DataSource, EntitySubscriberInterface } from 'typeorm';
 import { Inject, OnModuleInit } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { timer } from 'execution-time-decorators';
 import * as process from 'node:process';
 import { MagexDatabaseEntity } from '../../database.entity';
 import { MagexService } from '../../../services/magex/magex.service';
+import { CRUDSyncer } from './crud-syncer';
+import { _IMagex_DatabaseEntity } from '@core';
 
 export interface EntitySyncer<Entity> {
   handleRelationships(record: unknown): Entity;
@@ -19,31 +14,29 @@ export interface EntitySyncer<Entity> {
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
 export abstract class EntitySyncer<
-  Entity extends MagexDatabaseEntity,
-  MagexRecord extends { _id: string; updatedAt: string } = {
-    _id: string;
-    updatedAt: string;
-  }
-> implements EntitySubscriberInterface<Entity>, OnModuleInit
+    Entity extends MagexDatabaseEntity,
+    MagexRecord extends _IMagex_DatabaseEntity = _IMagex_DatabaseEntity
+  >
+  extends CRUDSyncer<Entity>
+  implements EntitySubscriberInterface<Entity>, OnModuleInit
 {
   protected constructor(
     @Inject(DataSource) protected dataSource: DataSource,
     @Inject(MagexService) protected magexService: MagexService
   ) {
+    super(magexService);
     this.dataSource.subscribers.push(this);
   }
-  private get Entity() {
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  private get Entity(): string | Function {
     return this.listenTo();
   }
-  protected records: Entity[] = [];
+  private records: Entity[] = [];
   protected magexRecords: MagexRecord[] = [];
   protected get entityLookupTable() {
     return new Map(this.records.map((record) => [record._id, record]));
   }
-  protected get nowDate() {
-    return new Date().toISOString();
-  }
-  private get EntityClone() {
+  private get EntityClone(): MagexDatabaseEntity {
     return this.dataSource.manager.create(this.Entity);
   }
 
@@ -58,11 +51,12 @@ export abstract class EntitySyncer<
   async fetchOurRecords() {
     this.records = await this.dataSource.manager.find(this.listenTo());
   }
-
-  abstract fetchMagexRecords(): Promise<void>;
-  @timer()
-  private timedFetchMagexRecords() {
-    return this.fetchMagexRecords();
+  async fetchMagexRecords() {
+    console.log('fetching magex records', this.EntityClone);
+    // @ts-expect-error - TODO: fix this
+    this.magexRecords = await this.EntityClone.fetchMagexRecords(
+      this.magexService
+    );
   }
 
   @timer()
@@ -89,20 +83,20 @@ export abstract class EntitySyncer<
   }
 
   @timer()
-  prepareRecords(records: unknown[]) {
+  private prepareRecords(records: unknown[]) {
     return records.map((record) => {
       const entity = this.EntityClone;
       Object.assign(entity, this.assignRelations(record));
-      Object.assign(entity, { lastSyncAt: this.nowDate });
+      Object.assign(entity, { lastSyncAt: new Date().toISOString() });
       return entity;
     });
   }
-  assignRelations(record: unknown) {
+  private assignRelations(record: unknown) {
     return this.handleRelationships ? this.handleRelationships(record) : record;
   }
 
   @timer()
-  async saveRecords(records: unknown[]) {
+  private async saveRecords(records: unknown[]) {
     await this.dataSource.manager.save(records, {
       listeners: false,
       chunk: 1000,
@@ -115,9 +109,10 @@ export abstract class EntitySyncer<
       : CronExpression.EVERY_5_MINUTES
   )
   @timer()
-  async syncWithMagex() {
-    console.log('Syncing with Magex', this.Entity);
-    await Promise.all([this.fetchOurRecords(), this.timedFetchMagexRecords()]);
+  private async syncWithMagex() {
+    // @ts-expect-error - TODO: add type
+    console.log('Syncing with Magex', this.Entity.name);
+    await Promise.all([this.fetchOurRecords(), this.fetchMagexRecords()]);
 
     const { newRecords, updatedRecords } = this.identifyOutOfSyncRecords();
     const records = this.prepareRecords([...newRecords, ...updatedRecords]);
@@ -126,24 +121,5 @@ export abstract class EntitySyncer<
 
     // clear all records even soft deleted ones
     // await this.dataSource.manager.delete(this.listenTo(), {});
-  }
-
-  async beforeInsert(event: InsertEvent<Entity>) {
-    console.count('beforeInsert' + event.entity);
-    if (event.entity.lastSyncAt) return;
-    await event.entity.createMagexRecord(this.magexService);
-  }
-
-  async beforeUpdate(event: UpdateEvent<Entity>) {
-    console.count('beforeUpdate');
-    await event.entity.updateMagexRecord(this.magexService);
-  }
-
-  async beforeSoftRemove(event: RemoveEvent<Entity>) {
-    await event.entity.deleteMagexRecord(this.magexService);
-  }
-
-  async beforeRecovered(event: RecoverEvent<Entity>) {
-    await event.entity.createMagexRecord(this.magexService);
   }
 }

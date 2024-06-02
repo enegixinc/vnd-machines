@@ -12,6 +12,7 @@ import { UserEntity } from '../users/entities/user.entity';
 import { BrandEntity } from '../brands/brand.entity';
 import { Factory } from 'nestjs-seeder';
 import { fakerAR } from '@faker-js/faker';
+import { MagexService } from '../../services/magex/magex.service';
 
 @Entity('categories')
 export class CategoryEntity
@@ -24,7 +25,7 @@ export class CategoryEntity
 
   @Factory((faker) => faker.image.url())
   @Column({ type: 'varchar' })
-  categoryPicture: File | Blob;
+  categoryPicture: Blob | File;
 
   @Factory((faker) => ({
     en: faker.commerce.productName(),
@@ -96,15 +97,42 @@ export class CategoryEntity
   })
   products: ISerializedProduct[];
 
-  createMagexRecord(): Promise<unknown> {
-    return Promise.resolve(undefined);
+  async createMagexRecord(magexService: MagexService) {
+    // @ts-expect-error - to be fixed
+    const { newCategory } = await magexService.categories.postCategoriesCreate({
+      formData: {
+        name: JSON.stringify(this.name),
+        referTo: this.referTo,
+        auto: this.auto,
+        sortIndex: this.sortIndex,
+        categoryPicture: this.categoryPicture,
+      },
+    });
+    Object.assign(this, newCategory);
+    Object.assign(this, { lastSyncAt: newCategory.updatedAt });
   }
 
-  deleteMagexRecord(): Promise<unknown> {
-    return Promise.resolve(undefined);
+  async deleteMagexRecord(magexService: MagexService) {
+    await magexService.categories.deleteCategoriesDeleteById({
+      id: this._id,
+    });
   }
 
-  updateMagexRecord(): Promise<unknown> {
-    return Promise.resolve(undefined);
+  async updateMagexRecord(magexService: MagexService) {
+    await magexService.categories.putCategoriesEditById({
+      id: this._id,
+      formData: {
+        name: JSON.stringify(this.name),
+        referTo: this.referTo,
+        auto: this.auto ? 'true' : 'false',
+        sortIndex: this.sortIndex,
+      },
+    });
+  }
+
+  async fetchMagexRecords(magexService: MagexService) {
+    return (await magexService.categories.getCategoriesByAccountName({
+      accountName: 'tryvnd@point24h.com',
+    })) as Promise<ICategoryEntity[]>;
   }
 }

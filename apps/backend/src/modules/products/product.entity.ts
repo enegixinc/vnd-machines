@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne } from 'typeorm';
+import { Column, Entity, ManyToOne, ObjectLiteral } from 'typeorm';
 import {
   Dimension,
   IProductEntity,
@@ -15,7 +15,7 @@ import { MagexDatabaseEntity } from '../../common/database.entity';
 import { UserEntity } from '../users/entities/user.entity';
 import { BrandEntity } from '../brands/brand.entity';
 import { CategoryEntity } from '../categories/category.entity';
-import { undefined } from 'zod';
+import { MagexService } from '../../services/magex/magex.service';
 
 @Entity('products')
 export class ProductEntity
@@ -219,23 +219,55 @@ export class ProductEntity
   @Column({ type: 'integer', default: 0 })
   virtualProduct: number;
 
-  createMagexRecord() {
-    return Promise.resolve(undefined);
+  async createMagexRecord(magexService: MagexService) {
+    const formData = await this.handleMultiLangProps(this);
+    const { newProduct } = await magexService.products.postProductsCreate({
+      formData,
+    });
+
+    Object.assign(this, newProduct);
+    // @ts-expect-error - to be fixed
+    Object.assign(this, { lastSyncAt: newProduct.updatedAt });
   }
 
-  deleteMagexRecord() {
-    return Promise.resolve(undefined);
+  async updateMagexRecord(magexService: MagexService) {
+    const formData = await this.handleMultiLangProps(this);
+
+    await magexService.products.putProductsEditById({
+      id: formData._id,
+      formData,
+    });
   }
 
-  updateMagexRecord() {
-    return Promise.resolve(undefined);
+  async deleteMagexRecord(magexService: MagexService) {
+    await magexService.products.deleteProductsDeleteById({
+      id: this._id,
+    });
   }
 
-  // @DeleteDateColumn()
-  // @ApiProperty({
-  //   example: '2024-05-01T12:00:00.000Z',
-  //   description: 'Creation date of the product',
-  //   type: String,
-  // })
-  // deletedAt: string;
+  async fetchMagexRecords(magexService: MagexService) {
+    return magexService.products.getProductsByAccountName({
+      accountName: 'tryvnd@point24h.com',
+    }) as Promise<IProductEntity[]>;
+  }
+
+  private async handleMultiLangProps(product: ObjectLiteral) {
+    const multiLangProps = [
+      'name',
+      'description',
+      'ingredients',
+      'detail',
+      'include',
+      'keyFeatures',
+      'specification',
+    ];
+    return Object.fromEntries(
+      Object.entries(product).map(([key, value]) => {
+        if (multiLangProps.includes(key)) {
+          return [key, JSON.stringify(value)];
+        }
+        return [key, value];
+      })
+    );
+  }
 }

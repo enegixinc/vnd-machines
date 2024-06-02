@@ -61,14 +61,14 @@ export class BrandEntity extends MagexDatabaseEntity implements IBrandEntity {
 
   async createMagexRecord(magexService: MagexService) {
     console.count('createMagexRecord');
-    // @ts-ignore
-    const { newBrand } = await magexService.brands.postBrandsCreate({
+    const { newBrand } = (await magexService.brands.postBrandsCreate({
       formData: {
         name: JSON.stringify(this.name),
         referTo: this.referTo,
-        // picture: this.picture,
+        // @ts-expect-error - to be fixed
+        picture: this.picture,
       },
-    });
+    })) as { newBrand: IBrandEntity };
     Object.assign(this, newBrand);
     Object.assign(this, { lastSyncAt: newBrand.updatedAt });
   }
@@ -81,15 +81,20 @@ export class BrandEntity extends MagexDatabaseEntity implements IBrandEntity {
 
   async updateMagexRecord(magexService: MagexService) {
     console.count('updateMagexRecord');
-    // @ts-ignore
-    const { newBrand } = await magexService.brands.postBrandsEditById({
+    const { newBrand } = (await magexService.brands.postBrandsEditById({
       id: this._id,
       formData: {
         name: JSON.stringify(this.name),
         referTo: this.referTo,
       },
-    });
+    })) as { newBrand: IBrandEntity };
     Object.assign(this, newBrand);
     Object.assign(this, { lastSyncAt: newBrand.updatedAt });
+  }
+
+  async fetchMagexRecords(magexService: MagexService) {
+    return magexService.brands.getBrandsByAccountName({
+      accountName: 'tryvnd@point24h.com',
+    }) as Promise<IBrandEntity[]>;
   }
 }
