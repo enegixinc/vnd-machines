@@ -44,6 +44,10 @@
                     <input-text  name="prodType"  :field-label="$t('fields.prodType')"
                                 :placeholder="$t('placeHolders.enterProdType')"/>
                 </div>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <connect-supplier name="supplier._id"/>
+                </div>
+
                 <div class="mb-5">
                     <h5 class="font-semibold text-lg dark:text-white-light">{{ $t('productsPages.dimensions') }}</h5>
                 </div>
@@ -97,12 +101,13 @@
                     </template>
                 </submit-button>
             </form>
+
         </div>
     </div>
+    {{values}}
 </template>
 <script setup lang="ts">
 import TheBreadcrumbs from "@/components/ui/TheBreadcrumbs.vue";
-
 import {CreateProductDto} from "@frontend/api-sdk"
 import {useForm} from 'vee-validate'
 import {toTypedSchema} from "@vee-validate/zod"
@@ -208,9 +213,13 @@ const schema2 = computed(() => toTypedSchema(
             en:z.string().default(''),
             ar:z.string().default('')
         }),
+        supplier:z.object({
+            _id:z.string().default(''),
+
+        }),
     })
 ))
-const {handleSubmit} = useForm<CreateProductDto>({
+const {handleSubmit,values} = useForm<CreateProductDto>({
     validationSchema: schema2
 })
 const onSubmit = handleSubmit(values => {
