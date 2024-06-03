@@ -1,5 +1,4 @@
 <template>
-
     <div :class="{'has-error':errorMessage,'has-success':meta.dirty && meta.valid}">
         <label :for="name" >{{$t('fields.supplier')}}<span v-if="requierd" class="text-danger mx-1">*</span></label>
         <multiselect
