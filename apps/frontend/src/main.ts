@@ -56,10 +56,12 @@ const InputGroup = defineAsyncComponent(()=>import('@/components/ui/forms/InputG
 const InputText = defineAsyncComponent(()=>import('@/components/ui/forms/InputText.vue'))
 const SwitchInput = defineAsyncComponent(()=>import('@/components/ui/forms/SwitchInput.vue'))
 const SubmitButton = defineAsyncComponent(()=>import('@/components/ui/forms/SubmitButton.vue'))
+const ConnectSupplier = defineAsyncComponent(()=>import('@/components/ui/forms/ConnectSupplier.vue'))
 app.component('input-group',InputGroup)
 app.component('input-text',InputText)
 app.component('switch-input',SwitchInput)
 app.component('submit-button',SubmitButton)
+app.component('connect-supplier',ConnectSupplier)
 app.mount('#app');
 
 //

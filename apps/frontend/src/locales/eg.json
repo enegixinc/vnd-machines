@@ -208,7 +208,7 @@
         "include": "تشمل",
         "specification": "المواصفات",
         "ingredients": "المكونات",
-
+        "supplier": "المورد"
     },
     "placeHolders": {
         "enterEmail": "ادخل البريد الإلكتروني",
@@ -228,7 +228,8 @@
         "enterHeight": "ادخل الارتفاع",
         "enterWidth": "ادخل العرض",
         "enterAR": "ادخل {field} باللغة العربية",
-        "enterEn": "ادخل {field} English"
+        "enterEn": "ادخل {field} English",
+        "selectSupplier": "اختر المورد"
     },
     "allRightsReserved": "جميع الحقوق محفوظة",
     "errors": {
@@ -316,5 +317,7 @@
         "brands": "العلامات التجاريه",
         "deletedBrands": "العلامات التجاريه المحذوفة",
         "recoverBrand": "استعادة العلامة التجارية"
-    }
+    },
+    "noResults": "لم يتم العثور على عناصر. فكر في تغيير طلب البحث.",
+    "noOptions": "القائمة فارغة."
 }

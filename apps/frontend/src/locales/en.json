@@ -206,7 +206,8 @@
         "keyFeatures": "Key Features",
         "include": "Include",
         "specification": "Specification",
-        "ingredients": "Ingredients"
+        "ingredients": "Ingredients",
+        "supplier": "Supplier"
     },
     "placeHolders": {
         "enterEmail": "Enter Email",
@@ -225,8 +226,8 @@
         "enterHeight": "Enter Height",
         "enterWidth": "Enter Width",
         "enterAR": "Enter {field} باللغة العربية",
-        "enterEn": "Enter {field} English"
-
+        "enterEn": "Enter {field} English",
+        "selectSupplier": "Select Supplier"
     },
     "allRightsReserved": "All Rights Reserved",
     "errors": {
@@ -314,5 +315,7 @@
         "brands": "Brands",
         "deletedBrands": "Deleted Brands",
         "recoverBrand": "Recover Brand"
-    }
+    },
+    "noResults": "No elements found. Consider changing the search query.",
+    "noOptions": "List is empty."
 }
