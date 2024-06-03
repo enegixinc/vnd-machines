@@ -53,6 +53,9 @@ dependencies:
   '@nestjs/typeorm':
     specifier: ^10.0.2
     version: 10.0.2(@nestjs/common@10.3.8)(@nestjs/core@10.3.8)(reflect-metadata@0.1.14)(rxjs@7.8.1)(typeorm@0.3.20)
+  '@suadelabs/vue3-multiselect':
+    specifier: ^1.0.2
+    version: 1.0.2
   '@types/bcrypt':
     specifier: ^5.0.2
     version: 5.0.2
@@ -4174,6 +4177,11 @@ packages:
 
   /@sqltools/formatter@1.2.5:
     resolution: {integrity: sha512-Uy0+khmZqUrUGm5dmMqVlnvufZRSK0FbYzVgp0UMstm+F5+W2/jnEEQyc9vo1ZR/E5ZI/B1WjjoTqBqwJL6Krw==}
+    dev: false
+
+  /@suadelabs/vue3-multiselect@1.0.2:
+    resolution: {integrity: sha512-bRe5SOAkY/egKC4yMQ1lXg3BTlnulA+0CXbl9yM0X7oMh8oavJUlSgb7WV7EXyOzIH2Ot0k28hdF3/K6D/YEFA==}
+    engines: {node: '>= 4.0.0', npm: '>= 3.0.0'}
     dev: false
 
   /@swc-node/core@1.13.1(@swc/core@1.3.107)(@swc/types@0.1.7):
