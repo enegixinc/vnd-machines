@@ -229,7 +229,8 @@
         "enterWidth": "ادخل العرض",
         "enterAR": "ادخل {field} باللغة العربية",
         "enterEn": "ادخل {field} English",
-        "selectSupplier": "اختر المورد"
+        "selectSupplier": "اختر المورد",
+        "selectCategory": "اختر الفئه"
     },
     "allRightsReserved": "جميع الحقوق محفوظة",
     "errors": {

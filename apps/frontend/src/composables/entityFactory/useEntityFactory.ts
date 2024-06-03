@@ -35,7 +35,7 @@ export default function useEntityFactory<T, P extends object>(client: ApiClient<
             }
         };
 
-        const { t } = useI18n();
+        const { t,locale } = useI18n();
         const swal = Swal.mixin({
             customClass: {
                 popup: 'sweet-alerts',
@@ -112,7 +112,8 @@ export default function useEntityFactory<T, P extends object>(client: ApiClient<
             rowLoading,
             DataTable,
             TheBreadcrumbs,
-            t
+            t,
+            locale
         };
     };
 }

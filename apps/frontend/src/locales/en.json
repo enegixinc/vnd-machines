@@ -227,7 +227,8 @@
         "enterWidth": "Enter Width",
         "enterAR": "Enter {field} باللغة العربية",
         "enterEn": "Enter {field} English",
-        "selectSupplier": "Select Supplier"
+        "selectSupplier": "Select Supplier",
+        "selectCategory": "Select Category"
     },
     "allRightsReserved": "All Rights Reserved",
     "errors": {

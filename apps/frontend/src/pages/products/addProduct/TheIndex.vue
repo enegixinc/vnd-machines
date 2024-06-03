@@ -44,8 +44,9 @@
                     <input-text  name="prodType"  :field-label="$t('fields.prodType')"
                                 :placeholder="$t('placeHolders.enterProdType')"/>
                 </div>
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <connect-supplier name="supplier._id"/>
+                    <connect-category name="category._id"/>
                 </div>
 
                 <div class="mb-5">
@@ -215,7 +216,9 @@ const schema2 = computed(() => toTypedSchema(
         }),
         supplier:z.object({
             _id:z.string().default(''),
-
+        }),
+        category:z.object({
+            _id:z.string().default(''),
         }),
     })
 ))
