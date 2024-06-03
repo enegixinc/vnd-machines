@@ -13,7 +13,6 @@
             :maxHeight="150"
             open-direction="bottom"
             @search-change="getSuppliers"
-            label="firstName"
             track-by="_id"
             :loading="loading"
         >
@@ -50,11 +49,8 @@ import {useUser} from '@/composables/users/use-user2'
 const selectedSupplier = ref();
 interface props{
     name:string,
-    type?:'text' | 'number' | 'tel',
-    fieldLabel?:string,
-    placeholder?:string,
     requierd?: boolean;
-    textArea?:boolean
+
 }
 const data = defineProps<props>()
 import { useField } from 'vee-validate';
