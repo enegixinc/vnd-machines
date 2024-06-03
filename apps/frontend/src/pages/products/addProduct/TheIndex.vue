@@ -47,6 +47,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <connect-supplier name="supplier._id"/>
                     <connect-category name="category._id"/>
+                    <connect-brand name="brand._id"/>
                 </div>
 
                 <div class="mb-5">
@@ -218,6 +219,9 @@ const schema2 = computed(() => toTypedSchema(
             _id:z.string().default(''),
         }),
         category:z.object({
+            _id:z.string().default(''),
+        }),
+        brand:z.object({
             _id:z.string().default(''),
         }),
     })

@@ -183,7 +183,7 @@
         "barcode": "Barcode",
         "price": "Price",
         "category": "Category",
-        "brand": "brand",
+        "brand": "Brand",
         "pricePerKilo": "Price Per Kilo",
         "additionPrice": "Addition Price",
         "costPrice": "Cost Price",
@@ -228,7 +228,8 @@
         "enterAR": "Enter {field} باللغة العربية",
         "enterEn": "Enter {field} English",
         "selectSupplier": "Select Supplier",
-        "selectCategory": "Select Category"
+        "selectCategory": "Select Category",
+        "selectBrand": "Select Brand"
     },
     "allRightsReserved": "All Rights Reserved",
     "errors": {

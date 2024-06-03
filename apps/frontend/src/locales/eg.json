@@ -230,7 +230,8 @@
         "enterAR": "ادخل {field} باللغة العربية",
         "enterEn": "ادخل {field} English",
         "selectSupplier": "اختر المورد",
-        "selectCategory": "اختر الفئه"
+        "selectCategory": "اختر الفئه",
+        "selectBrand": "اختر العلامة التجاريه"
     },
     "allRightsReserved": "جميع الحقوق محفوظة",
     "errors": {
