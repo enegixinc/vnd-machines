@@ -49,7 +49,6 @@
                     <connect-category name="category._id"/>
                     <connect-brand name="brand._id"/>
                 </div>
-
                 <div class="mb-5">
                     <h5 class="font-semibold text-lg dark:text-white-light">{{ $t('productsPages.dimensions') }}</h5>
                 </div>
@@ -106,7 +105,7 @@
 
         </div>
     </div>
-    {{values}}
+
 </template>
 <script setup lang="ts">
 import TheBreadcrumbs from "@/components/ui/TheBreadcrumbs.vue";
@@ -226,7 +225,7 @@ const schema2 = computed(() => toTypedSchema(
         }),
     })
 ))
-const {handleSubmit,values} = useForm<CreateProductDto>({
+const {handleSubmit} = useForm<CreateProductDto>({
     validationSchema: schema2
 })
 const onSubmit = handleSubmit(values => {
