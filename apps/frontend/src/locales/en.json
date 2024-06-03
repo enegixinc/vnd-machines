@@ -156,6 +156,11 @@
         "English": "English",
         "Arabic": "اللغة العربية"
     },
+    "validations": {
+        "required": "{field} Required !",
+        "number": "{field} Must Be Number !",
+        "email": "Enter Valid Email !"
+    },
     "fields": {
         "email": "Email",
         "password": "Password",
@@ -184,11 +189,44 @@
         "costPrice": "Cost Price",
         "categoryName": "Category Name",
         "referTo": "Refer To",
-        "brandName": "Brand Name"
+        "brandName": "Brand Name",
+        "upc": "UPC",
+        "prodType": "Product Type",
+        "sortIndex": "Sort Index",
+        "ageControl": "Age Control",
+        "virtualProduct": "Virtual Product",
+        "vatIndex": "Vat Index",
+        "length": "Length",
+        "height": "Height",
+        "width": "Width",
+        "ar": "{field} باللغة العربية",
+        "en": "{field} English",
+        "details": "Details",
+        "description": "Description",
+        "keyFeatures": "Key Features",
+        "include": "Include",
+        "specification": "Specification",
+        "ingredients": "Ingredients"
     },
     "placeHolders": {
         "enterEmail": "Enter Email",
-        "enterPassword": "Enter Password"
+        "enterPassword": "Enter Password",
+        "enterUpc": "Enter UPC",
+        "enterBarcode": "Enter Barcode",
+        "enterAdditionPrice":" Enter Addition Price",
+        "enterCostPrice": "Enter Cost Price",
+        "enterPrice": "Enter Price",
+        "enterReferTo":"Enter Email",
+        "enterSortIndex": "Enter Sort Index",
+        "enterAgeControl": "Enter Age Control",
+        "enterVirtualProduct": "Enter Virtual Product",
+        "enterVatIndex": "Enter Vat Index",
+        "enterLength": "Enter Length",
+        "enterHeight": "Enter Height",
+        "enterWidth": "Enter Width",
+        "enterAR": "Enter {field} باللغة العربية",
+        "enterEn": "Enter {field} English"
+
     },
     "allRightsReserved": "All Rights Reserved",
     "errors": {
@@ -262,8 +300,9 @@
     "productsPages": {
         "products": "Products",
         "deletedProducts": "Deleted Products",
-        "recoverProducts": "Recover Product"
-
+        "recoverProducts": "Recover Product",
+        "dimensions": "Dimensions",
+        "addProduct": "Add Product"
     },
     "unknown": "Unknown",
     "categoriesPages": {

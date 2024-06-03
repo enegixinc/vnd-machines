@@ -47,7 +47,7 @@
 /*@import 'dragndrop.css';*/
 
 /* form element*/
-/*@import 'form-elements.css';*/
+@import 'form-elements.css';
 
 @tailwind base;
 @tailwind components;

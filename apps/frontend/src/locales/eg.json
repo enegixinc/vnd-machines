@@ -157,6 +157,11 @@
         "English": "English",
         "Arabic": "اللغة العربية"
     },
+    "validations": {
+        "required": "{field} مطلوب !",
+        "number": "{field} يجب ان يكون رقم",
+        "email": "ادخل البريد اﻹلكتروني بطريقة صحيحة !"
+    },
     "fields": {
         "email": "البريد الإلكتروني",
         "password": "كلمة المرور",
@@ -185,11 +190,45 @@
         "costPrice": "سعر التكلفة",
         "categoryName": "اسم الفئة",
         "referTo": "الرجوع إلى",
-        "brandName": "اسم العلامات التجاريه"
+        "brandName": "اسم العلامات التجاريه",
+        "upc": "رمز المنتج العالمي",
+        "prodType": "نوع المنتج",
+        "sortIndex": "ترتيب",
+        "ageControl": "مراقبة العمر",
+        "virtualProduct": "المنتج الافتراضي",
+        "vatIndex": "ضريبة القيمة المضافة",
+        "length": "الطول",
+        "height": "الارتفاع",
+        "width": "العرض",
+        "ar": "{field} باللغة العربية",
+        "en": "{field} English",
+        "details": "التفاصيل",
+        "description": "الوصف",
+        "keyFeatures": "الميزات الرئيسية",
+        "include": "تشمل",
+        "specification": "المواصفات",
+        "ingredients": "المكونات",
+
     },
     "placeHolders": {
         "enterEmail": "ادخل البريد الإلكتروني",
-        "enterPassword": "ادخل كلمة المرور"
+        "enterPassword": "ادخل كلمة المرور",
+        "enterUpc": "ادخل رمز المنتج العالمي",
+        "enterBarcode": "ادخل الباركود",
+        "enterAdditionPrice": "ادخل سعر إضافي",
+        "enterCostPrice": "ادخل سعر التكلفة",
+        "enterPrice": "ادخل السعر",
+        "enterReferTo": "ادخل البريد الإلكتروني",
+        "enterProdType": "ادخل نوع المنتج",
+        "enterSortIndex": "ادخل الترتيب",
+        "enterAgeControl": "ادخل مراقبة العمر",
+        "enterVirtualProduct": "ادخل المنتج الافتراضي",
+        "enterVatIndex": "ادخل القيمة المضافة",
+        "enterLength": "ادخل الطول",
+        "enterHeight": "ادخل الارتفاع",
+        "enterWidth": "ادخل العرض",
+        "enterAR": "ادخل {field} باللغة العربية",
+        "enterEn": "ادخل {field} English"
     },
     "allRightsReserved": "جميع الحقوق محفوظة",
     "errors": {
@@ -263,8 +302,9 @@
     "productsPages": {
         "products": "المنتجات",
         "deletedProducts": "المنتجات المحذوفة",
-        "recoverProducts": "استعادة المنتج"
-
+        "recoverProducts": "استعادة المنتج",
+        "dimensions": "الأبعاد",
+        "addProduct": "إضافة المنتج"
     },
     "Unknown": "غير معروف",
     "categoriesPages": {

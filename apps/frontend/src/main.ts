@@ -1,4 +1,4 @@
-import { createApp } from 'vue';
+import { createApp ,defineAsyncComponent} from 'vue';
 import App from '@/app/App.vue';
 // pinia store
 import { createPinia } from 'pinia';
@@ -52,7 +52,14 @@ app.use(
 );
 
 app.component('Popper', Popper);
-
+const InputGroup = defineAsyncComponent(()=>import('@/components/ui/forms/InputGroup.vue'))
+const InputText = defineAsyncComponent(()=>import('@/components/ui/forms/InputText.vue'))
+const SwitchInput = defineAsyncComponent(()=>import('@/components/ui/forms/SwitchInput.vue'))
+const SubmitButton = defineAsyncComponent(()=>import('@/components/ui/forms/SubmitButton.vue'))
+app.component('input-group',InputGroup)
+app.component('input-text',InputText)
+app.component('switch-input',SwitchInput)
+app.component('submit-button',SubmitButton)
 app.mount('#app');
 
 //
