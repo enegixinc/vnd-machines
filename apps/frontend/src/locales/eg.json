@@ -178,7 +178,7 @@
         "deletedAt": "تم الحذف في",
         "totalSales": "إجمالي المبيعات",
         "totalRevenue": "إجمالي الإيرادات",
-        "feePerSale": "رسوم البيع",
+        "feePerSale": "رسوم لكل عملية بيع",
         "feeType": "نوع الرسوم",
         "startDate": "تاريخ البدء",
         "endDate": "تاريخ الانتهاء",
@@ -246,7 +246,11 @@
         "enterLastName": "ادخل ااسم العائلة",
         "enterPhoneNo": "ادخل رقم الهاتف",
         "enterBusinessName": "ادخل اسم العمل",
-        "selectRole": "اختر الدور"
+        "selectRole": "اختر الدور",
+        "selectFeeType": "اختر نوع الرسوم",
+        "selectStatus": "اختر الحاله",
+        "enterFeePerSale": "ادخل الرسوم لكل عملية بيع",
+        "enterDescription": "ادخل الوصف"
     },
     "allRightsReserved": "جميع الحقوق محفوظة",
     "errors": {
@@ -311,7 +315,8 @@
     "contractsPages": {
         "contracts": "العقود",
         "deletedContracts": "العقود المحذوفة",
-        "recoverContract": "استعادة العقد"
+        "recoverContract": "استعادة العقد",
+        "addContract": "إضافة العقد"
     },
     "entitiesPages": {
         "TheEntityHasBeenSuccessfullyRecovered": "تم  المستخدم بنجاح.",
@@ -341,5 +346,14 @@
         "addNewBrandButton": "إضافة العلامة التجارية"
     },
     "noResults": "لم يتم العثور على عناصر. فكر في تغيير طلب البحث.",
-    "noOptions": "القائمة فارغة."
+    "noOptions": "القائمة فارغة.",
+    "feeType": {
+        "percentage": "نسبه",
+        "fixed": "ثابت"
+    },
+    "status": {
+        "terminated": "انهاء",
+        "expired": "منتهيه",
+        "active": "نشط"
+    }
 }

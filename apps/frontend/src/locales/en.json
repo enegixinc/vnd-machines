@@ -240,7 +240,11 @@
         "selectBrand": "Select Brand",
         "enterPhoneNo": "Enter Phone No",
         "enterBusinessName": "Enter Business Name",
-        "selectRole": "Select Role"
+        "selectRole": "Select Role",
+        "enterFeePerSale": "Enter Fee Per Sale",
+        "selectFeeType": "Select Fee Type",
+        "selectStatus": "Select Status",
+        "enterDescription": "Enter Description"
     },
     "allRightsReserved": "All Rights Reserved",
     "errors": {
@@ -305,7 +309,8 @@
     "contractsPages": {
         "contracts": "Contracts",
         "deletedContracts": "Deleted Contracts",
-        "recoverContract": "Recover Contract"
+        "recoverContract": "Recover Contract",
+        "addContract": "Add Contract"
     },
     "entitiesPages": {
         "TheEntityHasBeenSuccessfullyDeleted": "Successfully deleted.",
@@ -317,7 +322,7 @@
         "deletedProducts": "Deleted Products",
         "recoverProducts": "Recover Product",
         "dimensions": "Dimensions",
-        "addProduct": "Add Product",
+        "addProduct": "Add Product"
 
     },
     "unknown": "Unknown",
@@ -336,5 +341,14 @@
         "addNewBrandButton": "Add Brand"
     },
     "noResults": "No elements found. Consider changing the search query.",
-    "noOptions": "List is empty."
+    "noOptions": "List is empty.",
+    "feeType": {
+        "percentage": "Percentage",
+        "fixed": "Fixed"
+    },
+    "status": {
+        "terminated": "Terminated",
+        "expired": "Expired",
+        "active": "Active"
+    }
 }
