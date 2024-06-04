@@ -1,8 +1,9 @@
-import { Column, Entity, JoinTable, ManyToMany } from 'typeorm';
+import { Column, Entity, OneToMany } from 'typeorm';
 import { MagexDatabaseEntity } from '../../common/database.entity';
 import { MagexService } from '../../services/magex/magex.service';
 import { ApiProperty } from '@nestjs/swagger';
 import { ProductEntity } from '../products/product.entity';
+import { OrderProduct } from './order-product.entity';
 
 // @Entity()
 // class Machine {
@@ -18,6 +19,7 @@ import { ProductEntity } from '../products/product.entity';
 //   @Column()
 //   description: string;
 // }
+
 @Entity('orders')
 export class OrderEntity extends MagexDatabaseEntity {
   @ApiProperty({ type: String })
@@ -37,19 +39,8 @@ export class OrderEntity extends MagexDatabaseEntity {
   // machineID: Machine;
   //
   @ApiProperty({ type: [ProductEntity] })
-  @ManyToMany(() => ProductEntity, (product) => product.orders, {
-    onDelete: 'NO ACTION',
-  })
-  @JoinTable({
-    name: 'orders_products',
-    joinColumn: {
-      name: 'order_id',
-      referencedColumnName: '_id',
-    },
-    inverseJoinColumn: {
-      name: 'product_id',
-      referencedColumnName: '_id',
-    },
+  @OneToMany(() => OrderProduct, (orderProduct) => orderProduct.order, {
+    cascade: true,
   })
   products: ProductEntity[];
 

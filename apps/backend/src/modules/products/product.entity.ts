@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToMany, ManyToOne, ObjectLiteral } from 'typeorm';
+import { Column, Entity, ManyToOne, ObjectLiteral, OneToMany } from 'typeorm';
 import {
   Dimension,
   IProductEntity,
@@ -16,17 +16,15 @@ import { UserEntity } from '../users/entities/user.entity';
 import { BrandEntity } from '../brands/brand.entity';
 import { CategoryEntity } from '../categories/category.entity';
 import { MagexService } from '../../services/magex/magex.service';
-import { OrderEntity } from '../orders/orders.entity';
+import { OrderProduct } from '../orders/order-product.entity';
 
 @Entity('products')
 export class ProductEntity
   extends MagexDatabaseEntity
   implements IProductEntity
 {
-  @ManyToMany(() => OrderEntity, (order) => order.products, {
-    onDelete: 'NO ACTION',
-  })
-  orders: OrderEntity[];
+  @OneToMany(() => OrderProduct, (orderProduct) => orderProduct.product)
+  orders: OrderProduct[];
 
   @ManyToOne(() => UserEntity, (user) => user.products)
   supplier: ReferenceByID<ISerializedUser>[];
