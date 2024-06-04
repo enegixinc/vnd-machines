@@ -78,11 +78,7 @@ export type SharedCategoryDto = {
     /**
      * Category picture
      */
-    categoryPicture: string;
-    /**
-     * Email of the owner
-     */
-    referTo: string;
+    categoryPicture?: string;
     /**
      * Sort index
      */
@@ -97,17 +93,51 @@ export type SharedBrandDto = {
         [key: string]: unknown;
     };
     /**
-     * Email of the owner
+     * Brand picture
      */
-    referTo: string;
+    picture?: string;
     /**
      * Brand logo
      */
-    logo: string;
+    logo?: string;
+};
+
+export type GetManyOrderEntityResponseDto = {
+    data: Array<OrderEntity>;
+    count: number;
+    total: number;
+    page: number;
+    pageCount: number;
+};
+
+export type OrderEntity = {
+    _id: string;
     /**
-     * Brand picture
+     * Version
      */
-    picture: string;
+    __v: number;
+    createdAt: string;
+    updatedAt: string;
+    deletedAt: string | null;
+    lastSyncAt: string | null;
+    status: string;
+    payment_type: string;
+    lang: string;
+    products: Array<(unknown[])>;
+    referTo: string;
+    tax: number;
+    total: number;
+    currency: string;
+    createdAtUtc: string;
+    utcOffset: number;
+    payment_transaction_id: string;
+    payment_receipt: string;
+    cart_number: string;
+    card_number: string;
+    card_department: string;
+    email: string;
+    reservation_code: string;
+    return_code: string;
 };
 
 export type SerializedProductDto = {
@@ -205,10 +235,6 @@ export type SerializedProductDto = {
      */
     productPictures: Array<(string)>;
     /**
-     * Reference to another product
-     */
-    referTo: string;
-    /**
      * Index for sorting the product
      */
     sortIndex: number;
@@ -227,6 +253,11 @@ export type SerializedProductDto = {
     category: SharedCategoryDto;
     brand: SharedBrandDto;
     supplier: SharedUserDto;
+    orders: Array<OrderEntity>;
+    /**
+     * Reference to another product
+     */
+    referTo: string;
 };
 
 export type GetManyBrandEntityResponseDto = {
@@ -335,10 +366,6 @@ export type SharedProductDto = {
      */
     productPictures: Array<(string)>;
     /**
-     * Reference to another product
-     */
-    referTo: string;
-    /**
      * Index for sorting the product
      */
     sortIndex: number;
@@ -369,20 +396,20 @@ export type SerializedBrandDto = {
         [key: string]: unknown;
     };
     /**
-     * Email of the owner
+     * Brand picture
      */
-    referTo: string;
+    picture?: string;
     /**
      * Brand logo
      */
-    logo: string;
-    /**
-     * Brand picture
-     */
-    picture: string;
+    logo?: string;
     categories: Array<SharedCategoryDto>;
     products: Array<SharedProductDto>;
     suppliers: Array<SharedProductDto>;
+    /**
+     * Reference to another product
+     */
+    referTo: string;
 };
 
 export type GetManyContractEntityResponseDto = {
@@ -561,10 +588,6 @@ export type CreateProductDto = {
      */
     productPictures: Array<(string)>;
     /**
-     * Reference to another product
-     */
-    referTo: string;
-    /**
      * Index for sorting the product
      */
     sortIndex: number;
@@ -576,10 +599,10 @@ export type CreateProductDto = {
      * Virtual product indicator
      */
     virtualProduct: number;
-    supplier: PickTypeClass;
-    brand: PickTypeClass;
-    category: PickTypeClass;
-    productVideo: File;
+    supplier?: PickTypeClass;
+    brand?: PickTypeClass;
+    category?: PickTypeClass;
+    productVideo?: string;
 };
 
 export type CreateManyProductEntityDto = {
@@ -672,10 +695,6 @@ export type UpdateProductDto = {
      */
     productPictures?: Array<(string)>;
     /**
-     * Reference to another product
-     */
-    referTo?: string;
-    /**
      * Index for sorting the product
      */
     sortIndex?: number;
@@ -690,7 +709,7 @@ export type UpdateProductDto = {
     supplier?: PickTypeClass;
     brand?: PickTypeClass;
     category?: PickTypeClass;
-    productVideo?: File;
+    productVideo?: string;
 };
 
 export type CreateUserDto = {
@@ -797,11 +816,7 @@ export type SerializedCategoryDto = {
     /**
      * Category picture
      */
-    categoryPicture: string;
-    /**
-     * Email of the owner
-     */
-    referTo: string;
+    categoryPicture?: string;
     /**
      * Sort index
      */
@@ -809,6 +824,10 @@ export type SerializedCategoryDto = {
     products: Array<SharedProductDto>;
     suppliers: Array<SharedUserDto>;
     brands: Array<SharedBrandDto>;
+    /**
+     * Email of the owner
+     */
+    referTo: string;
 };
 
 export type CreateCategoryDto = {
@@ -822,11 +841,7 @@ export type CreateCategoryDto = {
     /**
      * Category picture
      */
-    categoryPicture: File;
-    /**
-     * Email of the owner
-     */
-    referTo: string;
+    categoryPicture?: string;
     /**
      * Sort index
      */
@@ -848,11 +863,7 @@ export type UpdateCategoryDto = {
     /**
      * Category picture
      */
-    categoryPicture?: File;
-    /**
-     * Email of the owner
-     */
-    referTo?: string;
+    categoryPicture?: string;
     /**
      * Sort index
      */
@@ -867,20 +878,13 @@ export type CreateBrandDto = {
         [key: string]: unknown;
     };
     /**
-     * Email of the owner
+     * Brand picture
      */
-    referTo: string;
+    picture?: string;
     /**
      * Brand logo
      */
-    logo: string;
-    /**
-     * Brand picture
-     */
-    picture: string;
-    suppliers: Array<PickTypeClass>;
-    products: Array<PickTypeClass>;
-    categories: Array<PickTypeClass>;
+    logo?: string;
 };
 
 export type CreateManyBrandEntityDto = {
@@ -1504,6 +1508,36 @@ export type $OpenApiTs = {
                  * Recover one base response
                  */
                 200: unknown;
+                /**
+                 * Forbidden.
+                 */
+                403: unknown;
+            };
+        };
+    };
+    '/orders/{id}': {
+        get: {
+            req: GetOneData;
+            res: {
+                /**
+                 * Get one base response
+                 */
+                200: OrderEntity;
+                /**
+                 * Forbidden.
+                 */
+                403: unknown;
+            };
+        };
+    };
+    '/orders': {
+        get: {
+            req: GetManyData;
+            res: {
+                /**
+                 * Get paginated response
+                 */
+                200: GetManyOrderEntityResponseDto;
                 /**
                  * Forbidden.
                  */

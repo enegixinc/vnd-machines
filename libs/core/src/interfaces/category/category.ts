@@ -20,7 +20,12 @@ export interface ISerializedCategory
   // categoryPicture: string;
 }
 
-export type ICreateCategory = ICreateMagexCategory;
+export type ICreateCategory = Omit<
+  ICreateMagexCategory,
+  'categoryPicture' | 'referTo'
+> & {
+  categoryPicture?: string;
+};
 
 export interface ICategoryResolvedEntities {
   suppliers: ISerializedUser[];

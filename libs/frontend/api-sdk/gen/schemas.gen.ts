@@ -167,7 +167,7 @@ export const $SharedCategoryDto = {
             type: 'object',
             example: {
                 en: 'Name of the Category in English',
-                fr: 'Name of the Category in French'
+                ar: 'Name of the Category in Arabic'
             },
             description: 'Name of the Category in multiple languages'
         },
@@ -179,18 +179,13 @@ export const $SharedCategoryDto = {
             example: 'https://www.local.com/image.jpg',
             description: 'Category picture'
         },
-        referTo: {
-            type: 'string',
-            example: 'example@email.com',
-            description: 'Email of the owner'
-        },
         sortIndex: {
             type: 'number',
             example: 1,
             description: 'Sort index'
         }
     },
-    required: ['name', 'auto', 'categoryPicture', 'referTo', 'sortIndex']
+    required: ['name', 'auto', 'sortIndex']
 } as const;
 
 export const $SharedBrandDto = {
@@ -200,27 +195,138 @@ export const $SharedBrandDto = {
             type: 'object',
             example: {
                 en: 'Name of the product in English',
-                fr: 'Name of the product in French'
+                ar: 'Name in Arabic'
             },
             description: 'Name of the product in multiple languages'
-        },
-        referTo: {
-            type: 'string',
-            example: 'example@email.com',
-            description: 'Email of the owner'
-        },
-        logo: {
-            type: 'string',
-            example: 'https://www.local.com/image.jpg',
-            description: 'Brand logo'
         },
         picture: {
             type: 'string',
             example: 'https://www.local.com/image.jpg',
             description: 'Brand picture'
+        },
+        logo: {
+            type: 'string',
+            example: 'https://www.local.com/image.jpg',
+            description: 'Brand logo'
         }
     },
-    required: ['name', 'referTo', 'logo', 'picture']
+    required: ['name']
+} as const;
+
+export const $GetManyOrderEntityResponseDto = {
+    type: 'object',
+    properties: {
+        data: {
+            type: 'array',
+            items: {
+                '$ref': '#/components/schemas/OrderEntity'
+            }
+        },
+        count: {
+            type: 'number'
+        },
+        total: {
+            type: 'number'
+        },
+        page: {
+            type: 'number'
+        },
+        pageCount: {
+            type: 'number'
+        }
+    },
+    required: ['data', 'count', 'total', 'page', 'pageCount']
+} as const;
+
+export const $OrderEntity = {
+    type: 'object',
+    properties: {
+        _id: {
+            type: 'string',
+            example: '6a909236-53f2-4727-b780-e41e115ee906'
+        },
+        __v: {
+            type: 'number',
+            example: 1,
+            description: 'Version'
+        },
+        createdAt: {
+            type: 'date',
+            example: '2021-07-01T00:00:00.000Z'
+        },
+        updatedAt: {
+            type: 'date',
+            example: '2021-07-01T00:00:00.000Z'
+        },
+        deletedAt: {
+            type: 'date',
+            example: '2021-07-01T00:00:00.000Z',
+            nullable: true
+        },
+        lastSyncAt: {
+            type: 'date',
+            example: '2021-07-01T00:00:00.000Z',
+            nullable: true
+        },
+        status: {
+            type: 'string'
+        },
+        payment_type: {
+            type: 'string'
+        },
+        lang: {
+            type: 'string'
+        },
+        products: {
+            type: 'array',
+            items: {
+                type: 'array'
+            }
+        },
+        referTo: {
+            type: 'string'
+        },
+        tax: {
+            type: 'number'
+        },
+        total: {
+            type: 'number'
+        },
+        currency: {
+            type: 'string'
+        },
+        createdAtUtc: {
+            type: 'string'
+        },
+        utcOffset: {
+            type: 'number'
+        },
+        payment_transaction_id: {
+            type: 'string'
+        },
+        payment_receipt: {
+            type: 'string'
+        },
+        cart_number: {
+            type: 'string'
+        },
+        card_number: {
+            type: 'string'
+        },
+        card_department: {
+            type: 'string'
+        },
+        email: {
+            type: 'string'
+        },
+        reservation_code: {
+            type: 'string'
+        },
+        return_code: {
+            type: 'string'
+        }
+    },
+    required: ['_id', '__v', 'createdAt', 'updatedAt', 'deletedAt', 'lastSyncAt', 'status', 'payment_type', 'lang', 'products', 'referTo', 'tax', 'total', 'currency', 'createdAtUtc', 'utcOffset', 'payment_transaction_id', 'payment_receipt', 'cart_number', 'card_number', 'card_department', 'email', 'reservation_code', 'return_code']
 } as const;
 
 export const $SerializedProductDto = {
@@ -272,7 +378,7 @@ export const $SerializedProductDto = {
             type: 'object',
             example: {
                 en: 'Name of the product in English',
-                fr: 'Name of the product in French'
+                ar: 'Name in Arabic'
             },
             description: 'Name of the product in multiple languages'
         },
@@ -290,7 +396,7 @@ export const $SerializedProductDto = {
             type: 'object',
             example: {
                 en: 'Description of the product in English',
-                fr: 'Description of the product in French'
+                ar: 'Name in Arabic'
             },
             description: 'Description of the product in multiple languages'
         },
@@ -298,7 +404,7 @@ export const $SerializedProductDto = {
             type: 'object',
             example: {
                 en: 'Description of the product in English',
-                fr: 'Description of the product in French'
+                ar: 'Name in Arabic'
             },
             description: 'Description of the product in multiple languages'
         },
@@ -306,7 +412,7 @@ export const $SerializedProductDto = {
             type: 'object',
             example: {
                 en: 'Description of the product in English',
-                fr: 'Description of the product in French'
+                ar: 'Name in Arabic'
             },
             description: 'Description of the product in multiple languages'
         },
@@ -314,7 +420,7 @@ export const $SerializedProductDto = {
             type: 'object',
             example: {
                 en: 'Description of the product in English',
-                fr: 'Description of the product in French'
+                ar: 'Name in Arabic'
             },
             description: 'Description of the product in multiple languages'
         },
@@ -322,7 +428,7 @@ export const $SerializedProductDto = {
             type: 'object',
             example: {
                 en: 'Description of the product in English',
-                fr: 'Description of the product in French'
+                ar: 'Name in Arabic'
             },
             description: 'Description of the product in multiple languages'
         },
@@ -330,7 +436,7 @@ export const $SerializedProductDto = {
             type: 'object',
             example: {
                 en: 'Description of the product in English',
-                fr: 'Description of the product in French'
+                ar: 'Name in Arabic'
             },
             description: 'Description of the product in multiple languages'
         },
@@ -362,11 +468,6 @@ export const $SerializedProductDto = {
                 type: 'string'
             }
         },
-        referTo: {
-            type: 'string',
-            example: 'Refer to some other product',
-            description: 'Reference to another product'
-        },
         sortIndex: {
             type: 'number',
             example: 1,
@@ -395,9 +496,20 @@ export const $SerializedProductDto = {
         },
         supplier: {
             '$ref': '#/components/schemas/SharedUserDto'
+        },
+        orders: {
+            type: 'array',
+            items: {
+                '$ref': '#/components/schemas/OrderEntity'
+            }
+        },
+        referTo: {
+            type: 'string',
+            example: 'tryvnd@point24h.com',
+            description: 'Reference to another product'
         }
     },
-    required: ['_id', '__v', 'createdAt', 'updatedAt', 'deletedAt', 'lastSyncAt', 'upc', 'additionPrice', 'ageControl', 'name', 'barcode', 'costPrice', 'description', 'detail', 'include', 'ingredients', 'keyFeatures', 'specification', 'dimension', 'price', 'pricePerKilo', 'prodType', 'productPictures', 'referTo', 'sortIndex', 'vatIndex', 'virtualProduct', 'productVideo', 'category', 'brand', 'supplier']
+    required: ['_id', '__v', 'createdAt', 'updatedAt', 'deletedAt', 'lastSyncAt', 'upc', 'additionPrice', 'ageControl', 'name', 'barcode', 'costPrice', 'description', 'detail', 'include', 'ingredients', 'keyFeatures', 'specification', 'dimension', 'price', 'pricePerKilo', 'prodType', 'productPictures', 'sortIndex', 'vatIndex', 'virtualProduct', 'productVideo', 'category', 'brand', 'supplier', 'orders', 'referTo']
 } as const;
 
 export const $GetManyBrandEntityResponseDto = {
@@ -481,7 +593,7 @@ export const $SharedProductDto = {
             type: 'object',
             example: {
                 en: 'Name of the product in English',
-                fr: 'Name of the product in French'
+                ar: 'Name in Arabic'
             },
             description: 'Name of the product in multiple languages'
         },
@@ -499,7 +611,7 @@ export const $SharedProductDto = {
             type: 'object',
             example: {
                 en: 'Description of the product in English',
-                fr: 'Description of the product in French'
+                ar: 'Name in Arabic'
             },
             description: 'Description of the product in multiple languages'
         },
@@ -507,7 +619,7 @@ export const $SharedProductDto = {
             type: 'object',
             example: {
                 en: 'Description of the product in English',
-                fr: 'Description of the product in French'
+                ar: 'Name in Arabic'
             },
             description: 'Description of the product in multiple languages'
         },
@@ -515,7 +627,7 @@ export const $SharedProductDto = {
             type: 'object',
             example: {
                 en: 'Description of the product in English',
-                fr: 'Description of the product in French'
+                ar: 'Name in Arabic'
             },
             description: 'Description of the product in multiple languages'
         },
@@ -523,7 +635,7 @@ export const $SharedProductDto = {
             type: 'object',
             example: {
                 en: 'Description of the product in English',
-                fr: 'Description of the product in French'
+                ar: 'Name in Arabic'
             },
             description: 'Description of the product in multiple languages'
         },
@@ -531,7 +643,7 @@ export const $SharedProductDto = {
             type: 'object',
             example: {
                 en: 'Description of the product in English',
-                fr: 'Description of the product in French'
+                ar: 'Name in Arabic'
             },
             description: 'Description of the product in multiple languages'
         },
@@ -539,7 +651,7 @@ export const $SharedProductDto = {
             type: 'object',
             example: {
                 en: 'Description of the product in English',
-                fr: 'Description of the product in French'
+                ar: 'Name in Arabic'
             },
             description: 'Description of the product in multiple languages'
         },
@@ -571,11 +683,6 @@ export const $SharedProductDto = {
                 type: 'string'
             }
         },
-        referTo: {
-            type: 'string',
-            example: 'Refer to some other product',
-            description: 'Reference to another product'
-        },
         sortIndex: {
             type: 'number',
             example: 1,
@@ -592,7 +699,7 @@ export const $SharedProductDto = {
             description: 'Virtual product indicator'
         }
     },
-    required: ['upc', 'additionPrice', 'ageControl', 'name', 'barcode', 'costPrice', 'description', 'detail', 'include', 'ingredients', 'keyFeatures', 'specification', 'dimension', 'price', 'pricePerKilo', 'prodType', 'productPictures', 'referTo', 'sortIndex', 'vatIndex', 'virtualProduct']
+    required: ['upc', 'additionPrice', 'ageControl', 'name', 'barcode', 'costPrice', 'description', 'detail', 'include', 'ingredients', 'keyFeatures', 'specification', 'dimension', 'price', 'pricePerKilo', 'prodType', 'productPictures', 'sortIndex', 'vatIndex', 'virtualProduct']
 } as const;
 
 export const $SerializedBrandDto = {
@@ -629,24 +736,19 @@ export const $SerializedBrandDto = {
             type: 'object',
             example: {
                 en: 'Name of the product in English',
-                fr: 'Name of the product in French'
+                ar: 'Name in Arabic'
             },
             description: 'Name of the product in multiple languages'
-        },
-        referTo: {
-            type: 'string',
-            example: 'example@email.com',
-            description: 'Email of the owner'
-        },
-        logo: {
-            type: 'string',
-            example: 'https://www.local.com/image.jpg',
-            description: 'Brand logo'
         },
         picture: {
             type: 'string',
             example: 'https://www.local.com/image.jpg',
             description: 'Brand picture'
+        },
+        logo: {
+            type: 'string',
+            example: 'https://www.local.com/image.jpg',
+            description: 'Brand logo'
         },
         categories: {
             type: 'array',
@@ -665,9 +767,14 @@ export const $SerializedBrandDto = {
             items: {
                 '$ref': '#/components/schemas/SharedProductDto'
             }
+        },
+        referTo: {
+            type: 'string',
+            example: 'tryvnd@point24h.com',
+            description: 'Reference to another product'
         }
     },
-    required: ['_id', '__v', 'createdAt', 'updatedAt', 'deletedAt', 'lastSyncAt', 'name', 'referTo', 'logo', 'picture', 'categories', 'products', 'suppliers']
+    required: ['_id', '__v', 'createdAt', 'updatedAt', 'deletedAt', 'lastSyncAt', 'name', 'categories', 'products', 'suppliers', 'referTo']
 } as const;
 
 export const $GetManyContractEntityResponseDto = {
@@ -943,7 +1050,7 @@ export const $CreateProductDto = {
             type: 'object',
             example: {
                 en: 'Name of the product in English',
-                fr: 'Name of the product in French'
+                ar: 'Name in Arabic'
             },
             description: 'Name of the product in multiple languages'
         },
@@ -961,7 +1068,7 @@ export const $CreateProductDto = {
             type: 'object',
             example: {
                 en: 'Description of the product in English',
-                fr: 'Description of the product in French'
+                ar: 'Name in Arabic'
             },
             description: 'Description of the product in multiple languages'
         },
@@ -969,7 +1076,7 @@ export const $CreateProductDto = {
             type: 'object',
             example: {
                 en: 'Description of the product in English',
-                fr: 'Description of the product in French'
+                ar: 'Name in Arabic'
             },
             description: 'Description of the product in multiple languages'
         },
@@ -977,7 +1084,7 @@ export const $CreateProductDto = {
             type: 'object',
             example: {
                 en: 'Description of the product in English',
-                fr: 'Description of the product in French'
+                ar: 'Name in Arabic'
             },
             description: 'Description of the product in multiple languages'
         },
@@ -985,7 +1092,7 @@ export const $CreateProductDto = {
             type: 'object',
             example: {
                 en: 'Description of the product in English',
-                fr: 'Description of the product in French'
+                ar: 'Name in Arabic'
             },
             description: 'Description of the product in multiple languages'
         },
@@ -993,7 +1100,7 @@ export const $CreateProductDto = {
             type: 'object',
             example: {
                 en: 'Description of the product in English',
-                fr: 'Description of the product in French'
+                ar: 'Name in Arabic'
             },
             description: 'Description of the product in multiple languages'
         },
@@ -1001,7 +1108,7 @@ export const $CreateProductDto = {
             type: 'object',
             example: {
                 en: 'Description of the product in English',
-                fr: 'Description of the product in French'
+                ar: 'Name in Arabic'
             },
             description: 'Description of the product in multiple languages'
         },
@@ -1033,11 +1140,6 @@ export const $CreateProductDto = {
                 type: 'string'
             }
         },
-        referTo: {
-            type: 'string',
-            example: 'Refer to some other product',
-            description: 'Reference to another product'
-        },
         sortIndex: {
             type: 'number',
             example: 1,
@@ -1063,10 +1165,10 @@ export const $CreateProductDto = {
             '$ref': '#/components/schemas/PickTypeClass'
         },
         productVideo: {
-            type: 'File'
+            type: 'string'
         }
     },
-    required: ['upc', 'additionPrice', 'ageControl', 'name', 'barcode', 'costPrice', 'description', 'detail', 'include', 'ingredients', 'keyFeatures', 'specification', 'dimension', 'price', 'pricePerKilo', 'prodType', 'productPictures', 'referTo', 'sortIndex', 'vatIndex', 'virtualProduct', 'supplier', 'brand', 'category', 'productVideo']
+    required: ['upc', 'additionPrice', 'ageControl', 'name', 'barcode', 'costPrice', 'description', 'detail', 'include', 'ingredients', 'keyFeatures', 'specification', 'dimension', 'price', 'pricePerKilo', 'prodType', 'productPictures', 'sortIndex', 'vatIndex', 'virtualProduct']
 } as const;
 
 export const $CreateManyProductEntityDto = {
@@ -1104,7 +1206,7 @@ export const $UpdateProductDto = {
             type: 'object',
             example: {
                 en: 'Name of the product in English',
-                fr: 'Name of the product in French'
+                ar: 'Name in Arabic'
             },
             description: 'Name of the product in multiple languages'
         },
@@ -1122,7 +1224,7 @@ export const $UpdateProductDto = {
             type: 'object',
             example: {
                 en: 'Description of the product in English',
-                fr: 'Description of the product in French'
+                ar: 'Name in Arabic'
             },
             description: 'Description of the product in multiple languages'
         },
@@ -1130,7 +1232,7 @@ export const $UpdateProductDto = {
             type: 'object',
             example: {
                 en: 'Description of the product in English',
-                fr: 'Description of the product in French'
+                ar: 'Name in Arabic'
             },
             description: 'Description of the product in multiple languages'
         },
@@ -1138,7 +1240,7 @@ export const $UpdateProductDto = {
             type: 'object',
             example: {
                 en: 'Description of the product in English',
-                fr: 'Description of the product in French'
+                ar: 'Name in Arabic'
             },
             description: 'Description of the product in multiple languages'
         },
@@ -1146,7 +1248,7 @@ export const $UpdateProductDto = {
             type: 'object',
             example: {
                 en: 'Description of the product in English',
-                fr: 'Description of the product in French'
+                ar: 'Name in Arabic'
             },
             description: 'Description of the product in multiple languages'
         },
@@ -1154,7 +1256,7 @@ export const $UpdateProductDto = {
             type: 'object',
             example: {
                 en: 'Description of the product in English',
-                fr: 'Description of the product in French'
+                ar: 'Name in Arabic'
             },
             description: 'Description of the product in multiple languages'
         },
@@ -1162,7 +1264,7 @@ export const $UpdateProductDto = {
             type: 'object',
             example: {
                 en: 'Description of the product in English',
-                fr: 'Description of the product in French'
+                ar: 'Name in Arabic'
             },
             description: 'Description of the product in multiple languages'
         },
@@ -1194,11 +1296,6 @@ export const $UpdateProductDto = {
                 type: 'string'
             }
         },
-        referTo: {
-            type: 'string',
-            example: 'Refer to some other product',
-            description: 'Reference to another product'
-        },
         sortIndex: {
             type: 'number',
             example: 1,
@@ -1224,7 +1321,7 @@ export const $UpdateProductDto = {
             '$ref': '#/components/schemas/PickTypeClass'
         },
         productVideo: {
-            type: 'File'
+            type: 'string'
         }
     }
 } as const;
@@ -1353,11 +1450,11 @@ export const $CreateContractDto = {
         },
         startDate: {
             type: 'date',
-            default: '2024-05-26T07:35:41.614Z'
+            default: '2024-06-04T14:32:54.201Z'
         },
         endDate: {
             type: 'date',
-            default: '2024-05-26T07:35:41.614Z'
+            default: '2024-06-04T14:32:54.201Z'
         },
         status: {
             type: 'string',
@@ -1464,7 +1561,7 @@ export const $SerializedCategoryDto = {
             type: 'object',
             example: {
                 en: 'Name of the Category in English',
-                fr: 'Name of the Category in French'
+                ar: 'Name of the Category in Arabic'
             },
             description: 'Name of the Category in multiple languages'
         },
@@ -1475,11 +1572,6 @@ export const $SerializedCategoryDto = {
             type: 'string',
             example: 'https://www.local.com/image.jpg',
             description: 'Category picture'
-        },
-        referTo: {
-            type: 'string',
-            example: 'example@email.com',
-            description: 'Email of the owner'
         },
         sortIndex: {
             type: 'number',
@@ -1503,9 +1595,14 @@ export const $SerializedCategoryDto = {
             items: {
                 '$ref': '#/components/schemas/SharedBrandDto'
             }
+        },
+        referTo: {
+            type: 'string',
+            example: 'tryvnd@point24h.com',
+            description: 'Email of the owner'
         }
     },
-    required: ['_id', '__v', 'createdAt', 'updatedAt', 'deletedAt', 'lastSyncAt', 'name', 'auto', 'categoryPicture', 'referTo', 'sortIndex', 'products', 'suppliers', 'brands']
+    required: ['_id', '__v', 'createdAt', 'updatedAt', 'deletedAt', 'lastSyncAt', 'name', 'auto', 'sortIndex', 'products', 'suppliers', 'brands', 'referTo']
 } as const;
 
 export const $CreateCategoryDto = {
@@ -1515,7 +1612,7 @@ export const $CreateCategoryDto = {
             type: 'object',
             example: {
                 en: 'Name of the Category in English',
-                fr: 'Name of the Category in French'
+                ar: 'Name of the Category in Arabic'
             },
             description: 'Name of the Category in multiple languages'
         },
@@ -1523,14 +1620,9 @@ export const $CreateCategoryDto = {
             type: 'boolean'
         },
         categoryPicture: {
-            type: 'File',
+            type: 'string',
             example: 'https://www.local.com/image.jpg',
             description: 'Category picture'
-        },
-        referTo: {
-            type: 'string',
-            example: 'example@email.com',
-            description: 'Email of the owner'
         },
         sortIndex: {
             type: 'number',
@@ -1538,7 +1630,7 @@ export const $CreateCategoryDto = {
             description: 'Sort index'
         }
     },
-    required: ['name', 'auto', 'categoryPicture', 'referTo', 'sortIndex']
+    required: ['name', 'auto', 'sortIndex']
 } as const;
 
 export const $CreateManyCategoryEntityDto = {
@@ -1561,7 +1653,7 @@ export const $UpdateCategoryDto = {
             type: 'object',
             example: {
                 en: 'Name of the Category in English',
-                fr: 'Name of the Category in French'
+                ar: 'Name of the Category in Arabic'
             },
             description: 'Name of the Category in multiple languages'
         },
@@ -1569,14 +1661,9 @@ export const $UpdateCategoryDto = {
             type: 'boolean'
         },
         categoryPicture: {
-            type: 'File',
+            type: 'string',
             example: 'https://www.local.com/image.jpg',
             description: 'Category picture'
-        },
-        referTo: {
-            type: 'string',
-            example: 'example@email.com',
-            description: 'Email of the owner'
         },
         sortIndex: {
             type: 'number',
@@ -1593,45 +1680,22 @@ export const $CreateBrandDto = {
             type: 'object',
             example: {
                 en: 'Name of the product in English',
-                fr: 'Name of the product in French'
+                ar: 'Name in Arabic'
             },
             description: 'Name of the product in multiple languages'
-        },
-        referTo: {
-            type: 'string',
-            example: 'example@email.com',
-            description: 'Email of the owner'
-        },
-        logo: {
-            type: 'string',
-            example: 'https://www.local.com/image.jpg',
-            description: 'Brand logo'
         },
         picture: {
             type: 'string',
             example: 'https://www.local.com/image.jpg',
             description: 'Brand picture'
         },
-        suppliers: {
-            type: 'array',
-            items: {
-                '$ref': '#/components/schemas/PickTypeClass'
-            }
-        },
-        products: {
-            type: 'array',
-            items: {
-                '$ref': '#/components/schemas/PickTypeClass'
-            }
-        },
-        categories: {
-            type: 'array',
-            items: {
-                '$ref': '#/components/schemas/PickTypeClass'
-            }
+        logo: {
+            type: 'string',
+            example: 'https://www.local.com/image.jpg',
+            description: 'Brand logo'
         }
     },
-    required: ['name', 'referTo', 'logo', 'picture', 'suppliers', 'products', 'categories']
+    required: ['name']
 } as const;
 
 export const $CreateManyBrandEntityDto = {

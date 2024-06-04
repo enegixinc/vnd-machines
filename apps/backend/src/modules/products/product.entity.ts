@@ -222,7 +222,12 @@ export class ProductEntity
   async createMagexRecord(magexService: MagexService) {
     const formData = await this.handleMultiLangProps(this);
     const { newProduct } = await magexService.products.postProductsCreate({
-      formData,
+      formData: {
+        ...formData,
+        category: this.category?._id || '',
+        brand: this.brand?._id || '',
+        referTo: 'tryvnd@point24h.com',
+      },
     });
 
     Object.assign(this, newProduct);
@@ -247,6 +252,7 @@ export class ProductEntity
 
   async fetchMagexRecords(magexService: MagexService) {
     return magexService.products.getProductsByAccountName({
+      // TODO: make env
       accountName: 'tryvnd@point24h.com',
     }) as Promise<IProductEntity[]>;
   }

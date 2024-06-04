@@ -13,7 +13,7 @@ export class SharedCategoryDto {
     ApiProperty({
       example: {
         en: 'Name of the Category in English',
-        fr: 'Name of the Category in French',
+        ar: 'Name of the Category in Arabic',
       },
       description: 'Name of the Category in multiple languages',
       type: Object,
@@ -37,20 +37,10 @@ export class SharedCategoryDto {
       example: 'https://www.local.com/image.jpg',
       description: 'Category picture',
       type: String,
+      required: false,
     })
   )
-  categoryPicture: string;
-
-  @decorate(IsOptional({ groups: [UPDATE] }))
-  @decorate(IsNotEmpty({ groups: [CREATE] }))
-  @decorate(
-    ApiProperty({
-      example: 'tryvnd@point24h.com',
-      description: 'Email of the owner',
-      type: String,
-    })
-  )
-  referTo: string;
+  categoryPicture?: string;
 
   @decorate(IsOptional({ groups: [UPDATE] }))
   @decorate(IsNotEmpty({ groups: [CREATE] }))

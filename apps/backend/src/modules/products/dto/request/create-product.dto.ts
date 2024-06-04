@@ -24,6 +24,7 @@ export class CreateProductDto
   @decorate(
     ApiProperty({
       type: () => PickType(SerializedUserDto, ['_id']),
+      required: false,
     })
   )
   @decorate(Validate(UserExistsValidator))
@@ -34,6 +35,7 @@ export class CreateProductDto
   @decorate(
     ApiProperty({
       type: () => PickType(SerializedBrandDto, ['_id']),
+      required: false,
     })
   )
   brand: ReferenceByID<ISerializedBrand>;
@@ -42,6 +44,7 @@ export class CreateProductDto
   @decorate(
     ApiProperty({
       type: () => PickType(SerializedCategoryDto, ['_id']),
+      required: false,
     })
   )
   category: ReferenceByID<ISerializedCategory>;
@@ -49,7 +52,8 @@ export class CreateProductDto
   @decorate(IsOptional({ groups: [UPDATE, CREATE] }))
   @decorate(
     ApiProperty({
-      type: 'File',
+      type: 'string',
+      required: false,
     })
   )
   productVideo: File | Blob;

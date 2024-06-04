@@ -22,7 +22,10 @@ export interface ISerializedProduct
 }
 
 export interface ICreateProduct
-  extends Omit<ICreateMagexProduct, keyof IMagexProductResolvedEntities> {
+  extends Omit<
+    ICreateMagexProduct,
+    keyof IMagexProductResolvedEntities | 'referTo'
+  > {
   supplier: ReferenceByID<ISerializedUser>[];
   brand: ReferenceByID<ISerializedBrand>;
   category: ReferenceByID<ISerializedMagexCategory>;

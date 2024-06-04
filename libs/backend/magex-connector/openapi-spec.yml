@@ -421,10 +421,10 @@ paths:
                   example: '{"ar":"ساندوتش برجر دجاج"}'
                 category:
                   type: string
-                  example: 6608a4e9e0cde61fd03f1a81
+                  example: 665f0268c20d3d201c0107ae
                 brand:
                   type: string
-                  example: 661c2a7345f6ce15dc3df34e
+                  example: 665f0268c20d3d201c0107ae
                 pp:
                   type: string
                   example: prod

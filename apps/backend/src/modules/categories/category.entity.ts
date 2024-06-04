@@ -25,7 +25,7 @@ export class CategoryEntity
 
   @Factory((faker) => faker.image.url())
   @Column({ type: 'varchar' })
-  categoryPicture: Blob | File;
+  categoryPicture: string;
 
   @Factory((faker) => ({
     en: faker.commerce.productName(),
@@ -102,9 +102,10 @@ export class CategoryEntity
     const { newCategory } = await magexService.categories.postCategoriesCreate({
       formData: {
         name: JSON.stringify(this.name),
-        referTo: this.referTo,
+        referTo: 'tryvnd@point24h.com',
         auto: this.auto,
         sortIndex: this.sortIndex,
+        // @ts-expect-error - to be fixed
         categoryPicture: this.categoryPicture,
       },
     });
@@ -123,7 +124,7 @@ export class CategoryEntity
       id: this._id,
       formData: {
         name: JSON.stringify(this.name),
-        referTo: this.referTo,
+        referTo: 'tryvnd@point24h.com',
         auto: this.auto ? 'true' : 'false',
         sortIndex: this.sortIndex,
       },

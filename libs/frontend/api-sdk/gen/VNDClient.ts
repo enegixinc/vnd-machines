@@ -8,6 +8,7 @@ import { BrandsService } from './services.gen';
 import { CategoriesService } from './services.gen';
 import { ContractsService } from './services.gen';
 import { MachinesService } from './services.gen';
+import { OrdersService } from './services.gen';
 import { ProductsService } from './services.gen';
 import { UsersService } from './services.gen';
 
@@ -20,6 +21,7 @@ export class VNDClient {
 	public readonly categories: CategoriesService;
 	public readonly contracts: ContractsService;
 	public readonly machines: MachinesService;
+	public readonly orders: OrdersService;
 	public readonly products: ProductsService;
 	public readonly users: UsersService;
 
@@ -28,7 +30,7 @@ export class VNDClient {
 	constructor(config?: Partial<OpenAPIConfig>, HttpRequest: HttpRequestConstructor = AxiosHttpRequest) {
 		this.request = new HttpRequest({
 			BASE: config?.BASE ?? '',
-			VERSION: config?.VERSION ?? '1.0',
+			VERSION: config?.VERSION ?? '2.0',
 			WITH_CREDENTIALS: config?.WITH_CREDENTIALS ?? false,
 			CREDENTIALS: config?.CREDENTIALS ?? 'include',
 			TOKEN: config?.TOKEN,
@@ -47,6 +49,7 @@ export class VNDClient {
 		this.categories = new CategoriesService(this.request);
 		this.contracts = new ContractsService(this.request);
 		this.machines = new MachinesService(this.request);
+		this.orders = new OrdersService(this.request);
 		this.products = new ProductsService(this.request);
 		this.users = new UsersService(this.request);
 	}

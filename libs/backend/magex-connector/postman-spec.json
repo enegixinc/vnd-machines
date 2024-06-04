@@ -508,6 +508,16 @@
 									"key": "image1",
 									"type": "file",
 									"src": "images (1).jpeg"
+								},
+								{
+									"key": "brand",
+									"value": "665f0268c20d3d201c0107ae",
+									"type": "text"
+								},
+								{
+									"key": "category",
+									"value": "665f0268c20d3d201c0107ae",
+									"type": "text"
 								}
 							]
 						},

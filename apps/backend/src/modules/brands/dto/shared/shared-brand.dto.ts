@@ -13,7 +13,7 @@ export class SharedBrandDto {
     ApiProperty({
       example: {
         en: 'Name of the product in English',
-        fr: 'Name of the product in French',
+        ar: 'Name in Arabic',
       },
       description: 'Name of the product in multiple languages',
       type: Object,
@@ -21,32 +21,25 @@ export class SharedBrandDto {
   )
   name: MultiLang;
 
-  @decorate(IsOptional({ groups: [UPDATE] }))
-  @decorate(IsNotEmpty({ groups: [CREATE] }))
-  @decorate(
-    ApiProperty({
-      example: 'tryvnd@point24h.com',
-      description: 'Email of the owner',
-      type: String,
-    })
-  )
-  referTo: string;
-
-  @decorate(
-    ApiProperty({
-      example: 'https://www.local.com/image.jpg',
-      description: 'Brand logo',
-      type: String,
-    })
-  )
-  logo: string;
-
+  @decorate(IsOptional({ groups: [UPDATE, CREATE] }))
   @decorate(
     ApiProperty({
       example: 'https://www.local.com/image.jpg',
       description: 'Brand picture',
       type: String,
+      required: false,
     })
   )
   picture: string;
+
+  @decorate(IsOptional({ groups: [UPDATE, CREATE] }))
+  @decorate(
+    ApiProperty({
+      example: 'https://www.local.com/image.jpg',
+      description: 'Brand logo',
+      type: String,
+      required: false,
+    })
+  )
+  logo: string;
 }

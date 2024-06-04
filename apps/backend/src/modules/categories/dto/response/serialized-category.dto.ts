@@ -36,4 +36,13 @@ export class SerializedCategoryDto
     })
   )
   brands: ISerializedBrand[];
+
+  @decorate(
+    ApiProperty({
+      example: 'tryvnd@point24h.com',
+      description: 'Email of the owner',
+      type: String,
+    })
+  )
+  referTo: string;
 }

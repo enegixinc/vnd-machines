@@ -886,3 +886,76 @@ export class BrandsService {
     }
     
 }
+
+export class OrdersService {
+    constructor(public readonly httpRequest: BaseHttpRequest) { }
+    
+    /**
+     * @param data The data for the request.
+     * @param data.id
+     * @param data.fields Selects resource fields. <a href="https://github.com/nestjsx/crud/wiki/Requests#select" target="_blank">Docs</a>
+     * @param data.join Adds relational resources. <a href="https://github.com/nestjsx/crud/wiki/Requests#join" target="_blank">Docs</a>
+     * @param data.cache Reset cache (if was enabled). <a href="https://github.com/nestjsx/crud/wiki/Requests#cache" target="_blank">Docs</a>
+     * @param data.includeDeleted Include deleted. <a href="https://github.com/nestjsx/crud/wiki/Requests#includeDeleted" target="_blank">Docs</a>
+     * @returns OrderEntity Get one base response
+     * @throws ApiError
+     */
+    public getOne(data: GetOneData): CancelablePromise<GetOneResponse> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/orders/{id}',
+            path: {
+                id: data.id
+            },
+            query: {
+                fields: data.fields,
+                join: data.join,
+                cache: data.cache,
+                include_deleted: data.includeDeleted
+            },
+            errors: {
+                403: 'Forbidden.'
+            }
+        });
+    }
+    
+    /**
+     * @param data The data for the request.
+     * @param data.fields Selects resource fields. <a href="https://github.com/nestjsx/crud/wiki/Requests#select" target="_blank">Docs</a>
+     * @param data.s Adds search condition. <a href="https://github.com/nestjsx/crud/wiki/Requests#search" target="_blank">Docs</a>
+     * @param data.filter Adds filter condition. <a href="https://github.com/nestjsx/crud/wiki/Requests#filter" target="_blank">Docs</a>
+     * @param data.or Adds OR condition. <a href="https://github.com/nestjsx/crud/wiki/Requests#or" target="_blank">Docs</a>
+     * @param data.sort Adds sort by field. <a href="https://github.com/nestjsx/crud/wiki/Requests#sort" target="_blank">Docs</a>
+     * @param data.join Adds relational resources. <a href="https://github.com/nestjsx/crud/wiki/Requests#join" target="_blank">Docs</a>
+     * @param data.limit Limit amount of resources. <a href="https://github.com/nestjsx/crud/wiki/Requests#limit" target="_blank">Docs</a>
+     * @param data.offset Offset amount of resources. <a href="https://github.com/nestjsx/crud/wiki/Requests#offset" target="_blank">Docs</a>
+     * @param data.page Page portion of resources. <a href="https://github.com/nestjsx/crud/wiki/Requests#page" target="_blank">Docs</a>
+     * @param data.cache Reset cache (if was enabled). <a href="https://github.com/nestjsx/crud/wiki/Requests#cache" target="_blank">Docs</a>
+     * @param data.includeDeleted Include deleted. <a href="https://github.com/nestjsx/crud/wiki/Requests#includeDeleted" target="_blank">Docs</a>
+     * @returns GetManyOrderEntityResponseDto Get paginated response
+     * @throws ApiError
+     */
+    public getMany(data: GetManyData = {}): CancelablePromise<GetManyResponse> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/orders',
+            query: {
+                fields: data.fields,
+                s: data.s,
+                filter: data.filter,
+                or: data.or,
+                sort: data.sort,
+                join: data.join,
+                limit: data.limit,
+                offset: data.offset,
+                page: data.page,
+                cache: data.cache,
+                include_deleted: data.includeDeleted
+            },
+            errors: {
+                403: 'Forbidden.'
+            }
+        });
+    }
+    
+}
