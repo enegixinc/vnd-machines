@@ -602,7 +602,7 @@ export class OrdersService {
      *
      * ```
      * @param data The data for the request.
-     * @param data.formData
+     * @param data.requestBody
      * @returns unknown Successful response
      * @throws ApiError
      */
@@ -610,8 +610,8 @@ export class OrdersService {
         return this.httpRequest.request({
             method: 'POST',
             url: '/orders',
-            formData: data.formData,
-            mediaType: 'application/x-www-form-urlencoded'
+            body: data.requestBody,
+            mediaType: 'application/json'
         });
     }
     

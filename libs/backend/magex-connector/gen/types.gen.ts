@@ -162,14 +162,8 @@ export type GetGroupsAndMachinesForReportByAccountEmailData = {
 export type GetGroupsAndMachinesForReportByAccountEmailResponse = unknown;
 
 export type PostOrdersData = {
-    formData?: {
-        start?: string;
-        end?: string;
-        id?: string;
-        /**
-         * Comma separated Machine IDs
-         */
-        ids?: string;
+    requestBody?: {
+        [key: string]: unknown;
     };
 };
 
