@@ -1,6 +1,6 @@
 <template>
 
-    <button type="submit" class="btn btn-primary  uppercase disabled:opacity-60 w-1/4" :disabled="loading">
+    <button type="submit" class="btn btn-primary  uppercase disabled:opacity-60 w-full sm:w-1/4" :disabled="loading">
         <template v-if="loading">
             <icon-loader class="animate-[spin_2s_linear_infinite] inline-block align-middle ltr:mr-2 rtl:ml-2 shrink-0" />
             {{ $t('wait') }}
