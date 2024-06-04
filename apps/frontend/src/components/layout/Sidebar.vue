@@ -293,7 +293,7 @@
                                         <router-link :to="{name:'deletedBrands'}" @click="toggleMobileMenu">{{ $t('links.deletedBrands') }}</router-link>
                                     </li>
                                     <li>
-                                        <router-link to="/datatables/advanced31" @click="toggleMobileMenu">{{ $t('links.newBrands') }}</router-link>
+                                        <router-link :to="{name:'addBrands'}" @click="toggleMobileMenu">{{ $t('links.newBrands') }}</router-link>
                                     </li>
                                 </ul>
                             </vue-collapsible>

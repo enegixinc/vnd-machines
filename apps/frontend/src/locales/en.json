@@ -325,7 +325,9 @@
     "brandsPages": {
         "brands": "Brands",
         "deletedBrands": "Deleted Brands",
-        "recoverBrand": "Recover Brand"
+        "recoverBrand": "Recover Brand",
+        "addNewBrand": "Add New Brand",
+        "addNewBrandButton": "Add Brand"
     },
     "noResults": "No elements found. Consider changing the search query.",
     "noOptions": "List is empty."
