@@ -155,6 +155,9 @@ dependencies:
   vue:
     specifier: ^3.3.4
     version: 3.4.27(typescript@5.4.5)
+  vue-flatpickr-component:
+    specifier: ^11.0.1
+    version: 11.0.5(vue@3.4.27)
   vue-height-collapsible:
     specifier: ^0.1.1
     version: 0.1.1(vue@3.4.27)
@@ -8338,6 +8341,10 @@ packages:
     hasBin: true
     dev: true
 
+  /flatpickr@4.6.13:
+    resolution: {integrity: sha512-97PMG/aywoYpB4IvbvUJi0RQi8vearvU0oov1WW3k0WZPBMrTQVqekSX5CjSG/M4Q3i6A/0FKXC7RyAoAUUSPw==}
+    dev: false
+
   /flatted@3.3.1:
     resolution: {integrity: sha512-X8cqMLLie7KsNUDSdzeN8FYK9rEt4Dt67OsG/DNGnYTSDBG4uFAJFBnUeiV+zCVAvwFy56IjM9sH51jVaEhNxw==}
     dev: true
@@ -14172,6 +14179,16 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
+
+  /vue-flatpickr-component@11.0.5(vue@3.4.27):
+    resolution: {integrity: sha512-Vfwg5uVU+sanKkkLzUGC5BUlWd5wlqAMq/UpQ6lI2BCZq0DDrXhOMX7hrevt8bEgglIq2QUv0K2Nl84Me/VnlA==}
+    engines: {node: '>=14.13.0'}
+    peerDependencies:
+      vue: ^3.2.0
+    dependencies:
+      flatpickr: 4.6.13
+      vue: 3.4.27(typescript@5.4.5)
+    dev: false
 
   /vue-height-collapsible@0.1.1(vue@3.4.27):
     resolution: {integrity: sha512-GnjExhRPMA/YaGkOb18AImeGGyjnHLsUKtKHSmnqGPpaSbRgh44nlLqgXOl9nL+HFAlTZ4a4gpUaDno1HyZnHw==}
