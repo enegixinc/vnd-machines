@@ -1,7 +1,7 @@
 <template>
     <div :class="{'has-error':errorMessage,'has-success':meta.dirty && meta.valid}">
         <label :for="name" v-if="!!fieldLabel">{{fieldLabel}}<span v-if="requierd" class="text-danger mx-1">*</span></label>
-        <input  class="form-input"
+        <input  class="form-input ltr:text-left rtl:text-right"
                :type="type || 'text'"
                v-model.trim="value"
                @change="handleChange"
@@ -24,7 +24,7 @@
 <script setup lang="ts">
 interface props{
     name:string,
-    type?:'text' | 'number' | 'tel',
+    type?:'text' | 'number' | 'tel' | 'password',
     fieldLabel?:string,
     placeholder?:string,
     requierd?: boolean;
