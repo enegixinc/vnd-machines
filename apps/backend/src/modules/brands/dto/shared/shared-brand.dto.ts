@@ -21,17 +21,6 @@ export class SharedBrandDto {
   )
   name: MultiLang;
 
-  @decorate(IsOptional({ groups: [UPDATE] }))
-  @decorate(IsNotEmpty({ groups: [CREATE] }))
-  @decorate(
-    ApiProperty({
-      example: 'tryvnd@point24h.com',
-      description: 'Email of the owner',
-      type: String,
-    })
-  )
-  referTo: string;
-
   @decorate(
     ApiProperty({
       example: 'https://www.local.com/image.jpg',

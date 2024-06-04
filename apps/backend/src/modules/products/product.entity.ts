@@ -251,6 +251,7 @@ export class ProductEntity
 
   async fetchMagexRecords(magexService: MagexService) {
     return magexService.products.getProductsByAccountName({
+      // TODO: make env
       accountName: 'tryvnd@point24h.com',
     }) as Promise<IProductEntity[]>;
   }

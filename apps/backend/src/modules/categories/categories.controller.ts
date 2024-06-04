@@ -2,7 +2,6 @@ import { Controller } from '@nestjs/common';
 import { Crud, CrudController } from '@dataui/crud';
 import { CategoryEntity } from './category.entity';
 import { CategoriesService } from './categories.service';
-import { CreateCategoryDto } from './dto/request/create-category.dto';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { SerializedCategoryDto } from './dto/response/serialized-category.dto';
 import { saneOperationsId } from '../../common/swagger.config';
@@ -13,7 +12,6 @@ import { UpdateCategoryDto } from './dto/response/update-category.dto';
     type: CategoryEntity,
   },
   dto: {
-    create: CreateCategoryDto,
     update: UpdateCategoryDto,
   },
   params: {

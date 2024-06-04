@@ -25,7 +25,7 @@ export class CategoryEntity
 
   @Factory((faker) => faker.image.url())
   @Column({ type: 'varchar' })
-  categoryPicture: Blob | File;
+  categoryPicture: string;
 
   @Factory((faker) => ({
     en: faker.commerce.productName(),
@@ -105,6 +105,7 @@ export class CategoryEntity
         referTo: this.referTo,
         auto: this.auto,
         sortIndex: this.sortIndex,
+        // @ts-expect-error - to be fixed
         categoryPicture: this.categoryPicture,
       },
     });
