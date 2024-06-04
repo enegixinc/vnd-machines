@@ -138,7 +138,12 @@
         "addUser": "Add User",
         "recoverUser": "Recover User",
         "TheUserHasBeenSuccessfullyRecovered": "The user has been successfully recovered.",
-        "TheUserHasBeenSuccessfullyDeleted": "The user has been successfully deleted."
+        "TheUserHasBeenSuccessfullyDeleted": "The user has been successfully deleted.",
+        "addNewUser": "Add New User"
+    },
+    "roles": {
+        "admin": "Admin",
+        "supplier": "Supplier"
     },
     "authPages": {
         "signIn": "SIGN IN",
@@ -229,7 +234,10 @@
         "enterEn": "Enter {field} English",
         "selectSupplier": "Select Supplier",
         "selectCategory": "Select Category",
-        "selectBrand": "Select Brand"
+        "selectBrand": "Select Brand",
+        "enterPhoneNo": "Enter Phone No",
+        "enterBusinessName": "Enter Business Name",
+        "selectRole": "Select Role"
     },
     "allRightsReserved": "All Rights Reserved",
     "errors": {
@@ -297,8 +305,9 @@
         "recoverContract": "Recover Contract"
     },
     "entitiesPages": {
-        "TheEntityHasBeenSuccessfullyDeleted": "The user has been successfully deleted.",
-        "TheEntityHasBeenSuccessfullyRecovered": "The user has been successfully recovered."
+        "TheEntityHasBeenSuccessfullyDeleted": "Successfully deleted.",
+        "TheEntityHasBeenSuccessfullyRecovered": "Successfully recovered.",
+        "TheEntityHasBeenSuccessfullyAdded": "Successfully added."
     },
     "productsPages": {
         "products": "Products",

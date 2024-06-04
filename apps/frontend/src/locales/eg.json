@@ -138,7 +138,8 @@
         "addUser": "إضافة مستخدم",
         "recoverUser": "استعادة المستخدم",
         "TheUserHasBeenSuccessfullyRecovered": "تم استعادة المستخدم بنجاح.",
-        "TheUserHasBeenSuccessfullyDeleted": "تم حذف المستخدم بنجاح."
+        "TheUserHasBeenSuccessfullyDeleted": "تم حذف المستخدم بنجاح.",
+        "addNewUser": "إضافة مستخدم جديد"
     },
     "authPages": {
         "signIn": "تسجيل الدخول",
@@ -208,7 +209,13 @@
         "include": "تشمل",
         "specification": "المواصفات",
         "ingredients": "المكونات",
-        "supplier": "المورد"
+        "supplier": "المورد",
+        "firstName": "الاسم الأول",
+        "lastName": "اسم العائلة"
+    },
+    "roles": {
+        "admin": "مدير",
+        "supplier": "مورد"
     },
     "placeHolders": {
         "enterEmail": "ادخل البريد الإلكتروني",
@@ -231,7 +238,12 @@
         "enterEn": "ادخل {field} English",
         "selectSupplier": "اختر المورد",
         "selectCategory": "اختر الفئه",
-        "selectBrand": "اختر العلامة التجاريه"
+        "selectBrand": "اختر العلامة التجاريه",
+        "enterFirstName": "ادخل الاسم الأول",
+        "enterLastName": "ادخل ااسم العائلة",
+        "enterPhoneNo": "ادخل رقم الهاتف",
+        "enterBusinessName": "ادخل اسم العمل",
+        "selectRole": "اختر الدور"
     },
     "allRightsReserved": "جميع الحقوق محفوظة",
     "errors": {
@@ -300,7 +312,8 @@
     },
     "entitiesPages": {
         "TheEntityHasBeenSuccessfullyRecovered": "تم  المستخدم بنجاح.",
-        "TheEntityHasBeenSuccessfullyDeleted": "تم حذف  بنجاح."
+        "TheEntityHasBeenSuccessfullyDeleted": "تم حذف  بنجاح.",
+        "TheEntityHasBeenSuccessfullyDeleted": "تم الإضافة  بنجاح."
     },
     "productsPages": {
         "products": "المنتجات",

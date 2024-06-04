@@ -59,6 +59,7 @@ const SubmitButton = defineAsyncComponent(()=>import('@/components/ui/forms/Subm
 const ConnectSupplier = defineAsyncComponent(()=>import('@/components/ui/forms/ConnectSupplier.vue'))
 const ConnectCategory = defineAsyncComponent(()=>import('@/components/ui/forms/ConnectCategory.vue'))
 const ConnectBrand = defineAsyncComponent(()=>import('@/components/ui/forms/ConnectBrand.vue'))
+const SelectInput = defineAsyncComponent(()=>import('@/components/ui/forms/SelectInput.vue'))
 app.component('input-group',InputGroup)
 app.component('input-text',InputText)
 app.component('switch-input',SwitchInput)
@@ -66,6 +67,7 @@ app.component('submit-button',SubmitButton)
 app.component('connect-supplier',ConnectSupplier)
 app.component('connect-category',ConnectCategory)
 app.component('connect-brand',ConnectBrand)
+app.component('input-select',SelectInput)
 app.mount('#app');
 
 //
