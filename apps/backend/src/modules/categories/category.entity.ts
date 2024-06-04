@@ -102,7 +102,7 @@ export class CategoryEntity
     const { newCategory } = await magexService.categories.postCategoriesCreate({
       formData: {
         name: JSON.stringify(this.name),
-        referTo: this.referTo,
+        referTo: 'trtryvnd@point24h.com',
         auto: this.auto,
         sortIndex: this.sortIndex,
         // @ts-expect-error - to be fixed
@@ -124,7 +124,7 @@ export class CategoryEntity
       id: this._id,
       formData: {
         name: JSON.stringify(this.name),
-        referTo: this.referTo,
+        referTo: 'trtryvnd@point24h.com',
         auto: this.auto ? 'true' : 'false',
         sortIndex: this.sortIndex,
       },
