@@ -1465,11 +1465,11 @@ export const $CreateContractDto = {
         },
         startDate: {
             type: 'date',
-            default: '2024-06-04T14:09:58.182Z'
+            default: '2024-06-04T14:12:01.855Z'
         },
         endDate: {
             type: 'date',
-            default: '2024-06-04T14:09:58.182Z'
+            default: '2024-06-04T14:12:01.855Z'
         },
         status: {
             type: 'string',
@@ -1620,13 +1620,41 @@ export const $SerializedCategoryDto = {
     required: ['_id', '__v', 'createdAt', 'updatedAt', 'deletedAt', 'lastSyncAt', 'name', 'auto', 'sortIndex', 'products', 'suppliers', 'brands', 'referTo']
 } as const;
 
+export const $CreateCategoryDto = {
+    type: 'object',
+    properties: {
+        name: {
+            type: 'object',
+            example: {
+                en: 'Name of the Category in English',
+                ar: 'Name of the Category in Arabic'
+            },
+            description: 'Name of the Category in multiple languages'
+        },
+        auto: {
+            type: 'boolean'
+        },
+        categoryPicture: {
+            type: 'string',
+            example: 'https://www.local.com/image.jpg',
+            description: 'Category picture'
+        },
+        sortIndex: {
+            type: 'number',
+            example: 1,
+            description: 'Sort index'
+        }
+    },
+    required: ['name', 'auto', 'sortIndex']
+} as const;
+
 export const $CreateManyCategoryEntityDto = {
     type: 'object',
     properties: {
         bulk: {
             type: 'array',
             items: {
-                '$ref': '#/components/schemas/CategoryEntity'
+                '$ref': '#/components/schemas/CreateCategoryDto'
             }
         }
     },

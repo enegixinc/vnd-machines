@@ -6,12 +6,14 @@ import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { SerializedCategoryDto } from './dto/response/serialized-category.dto';
 import { saneOperationsId } from '../../common/swagger.config';
 import { UpdateCategoryDto } from './dto/response/update-category.dto';
+import { CreateCategoryDto } from './dto/request/create-category.dto';
 
 @Crud({
   model: {
     type: CategoryEntity,
   },
   dto: {
+    create: CreateCategoryDto,
     update: UpdateCategoryDto,
   },
   params: {

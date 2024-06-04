@@ -842,8 +842,26 @@ export type SerializedCategoryDto = {
     referTo: string;
 };
 
+export type CreateCategoryDto = {
+    /**
+     * Name of the Category in multiple languages
+     */
+    name: {
+        [key: string]: unknown;
+    };
+    auto: boolean;
+    /**
+     * Category picture
+     */
+    categoryPicture?: string;
+    /**
+     * Sort index
+     */
+    sortIndex: number;
+};
+
 export type CreateManyCategoryEntityDto = {
-    bulk: Array<CategoryEntity>;
+    bulk: Array<CreateCategoryDto>;
 };
 
 export type UpdateCategoryDto = {
