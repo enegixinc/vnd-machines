@@ -3,7 +3,6 @@ import { Crud, CrudController } from '@dataui/crud';
 import { OrdersService } from './orders.service';
 import { OrderEntity } from './orders.entity';
 import { saneOperationsId } from '../../common/swagger.config';
-import { SerializedBrandDto } from '../brands/dto/response/serialized-brand.dto';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @Crud({
@@ -30,7 +29,13 @@ import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
     limit: 20,
     maxLimit: 100,
     join: {
-      products: {},
+      products: {
+        alias: 'products',
+        eager: true,
+      },
+      'products.product': {
+        alias: 'product',
+      },
     },
   },
   routes: {
@@ -43,11 +48,6 @@ import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
       'recoverOneBase',
       'createOneBase',
     ],
-  },
-  serialize: {
-    get: SerializedBrandDto,
-    create: SerializedBrandDto,
-    update: SerializedBrandDto,
   },
 })
 @Controller('orders')
