@@ -2,8 +2,9 @@ import { ref } from 'vue';
 import Swal from 'sweetalert2';
 import { useI18n } from 'vue-i18n';
 import { ApiClient } from '@/types/api';
-import DataTable from "@/components/ui/DataTable.vue";
-import TheBreadcrumbs from "@/components/ui/TheBreadcrumbs.vue";
+import DataTable from '@/components/ui/DataTable.vue';
+import TheBreadcrumbs from '@/components/ui/TheBreadcrumbs.vue';
+
 export default function useEntityFactory<T, P extends object>(client: ApiClient<T>) {
     return function useEntity(defaultSettings: P = {} as P) {
         const loading = ref(false);
@@ -35,7 +36,7 @@ export default function useEntityFactory<T, P extends object>(client: ApiClient<
             }
         };
 
-        const { t,locale } = useI18n();
+        const { t, locale } = useI18n();
         const swal = Swal.mixin({
             customClass: {
                 popup: 'sweet-alerts',
@@ -100,21 +101,22 @@ export default function useEntityFactory<T, P extends object>(client: ApiClient<
                 rowLoading.value = null;
             }
         }
-        type ResestForm = ()=>void
-        async function addEntity(data,resetForm:ResestForm){
+        type ResestForm = () => void;
+        async function addEntity(data, resetForm: ResestForm) {
             try {
-                loading.value= true
-               await client.createOne({
-                 requestBody: data,
-             });
-               showSuccessNotification(t('entitiesPages.TheEntityHasBeenSuccessfullyAdded'));
-               resetForm()
-            }catch (err){
-                console.error(err)
-            }finally {
-                loading.value = false
+                loading.value = true;
+                await client.createOne({
+                    requestBody: data,
+                });
+                showSuccessNotification(t('entitiesPages.TheEntityHasBeenSuccessfullyAdded'));
+                resetForm();
+            } catch (err) {
+                console.error(err);
+            } finally {
+                loading.value = false;
             }
         }
+
         return {
             deleteEntity,
             fetchEntities,
@@ -128,7 +130,7 @@ export default function useEntityFactory<T, P extends object>(client: ApiClient<
             TheBreadcrumbs,
             t,
             locale,
-            addEntity
+            addEntity,
         };
     };
 }

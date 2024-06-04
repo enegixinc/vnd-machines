@@ -313,7 +313,7 @@
     "entitiesPages": {
         "TheEntityHasBeenSuccessfullyRecovered": "تم  المستخدم بنجاح.",
         "TheEntityHasBeenSuccessfullyDeleted": "تم حذف  بنجاح.",
-        "TheEntityHasBeenSuccessfullyDeleted": "تم الإضافة  بنجاح."
+        "TheEntityHasBeenSuccessfullyAdded": "تم الإضافة  بنجاح."
     },
     "productsPages": {
         "products": "المنتجات",
