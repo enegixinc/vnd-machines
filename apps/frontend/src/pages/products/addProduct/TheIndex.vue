@@ -225,7 +225,7 @@ const schema2 = computed(() => toTypedSchema(
         }),
     })
 ))
-const {handleSubmit} = useForm<CreateProductDto>({
+const {handleSubmit,resetForm} = useForm<CreateProductDto>({
     validationSchema: schema2
 })
 const onSubmit = handleSubmit(values => {
@@ -233,6 +233,6 @@ const onSubmit = handleSubmit(values => {
             "image1.jpg",
             "image2.jpg"
         ],
-        "productVideo": "Unknown Type: File"})
+        "productVideo": "Unknown Type: File"},resetForm)
 },()=>{})
 </script>
