@@ -1450,11 +1450,11 @@ export const $CreateContractDto = {
         },
         startDate: {
             type: 'date',
-            default: '2024-06-04T14:25:02.914Z'
+            default: '2024-06-04T14:32:54.201Z'
         },
         endDate: {
             type: 'date',
-            default: '2024-06-04T14:25:02.914Z'
+            default: '2024-06-04T14:32:54.201Z'
         },
         status: {
             type: 'string',

@@ -63,7 +63,7 @@ export class BrandEntity extends MagexDatabaseEntity implements IBrandEntity {
     const { newBrand } = (await magexService.brands.postBrandsCreate({
       formData: {
         name: JSON.stringify(this.name),
-        referTo: 'trtryvnd@point24h.com',
+        referTo: 'tryvnd@point24h.com',
         // @ts-expect-error - to be fixed
         picture: this.picture,
       },
@@ -84,7 +84,7 @@ export class BrandEntity extends MagexDatabaseEntity implements IBrandEntity {
       id: this._id,
       formData: {
         name: JSON.stringify(this.name),
-        referTo: 'trtryvnd@point24h.com',
+        referTo: 'tryvnd@point24h.com',
       },
     })) as { newBrand: IBrandEntity };
     Object.assign(this, newBrand);

@@ -226,7 +226,7 @@ export class ProductEntity
         ...formData,
         category: this.category?._id || '',
         brand: this.brand?._id || '',
-        referTo: 'trtryvnd@point24h.com',
+        referTo: 'tryvnd@point24h.com',
       },
     });
 
