@@ -6,7 +6,6 @@ import {
   ISerializedProduct,
   ISerializedUser,
   MultiLang,
-  ReferenceByID,
 } from '@core';
 import { ProductEntity } from '../products/product.entity';
 import { UserEntity } from '../users/entities/user.entity';
@@ -27,7 +26,7 @@ export class BrandEntity extends MagexDatabaseEntity implements IBrandEntity {
   @OneToMany(() => ProductEntity, (product) => product.brand, {
     nullable: true,
   })
-  products: ReferenceByID<ISerializedProduct>[] | null;
+  products: ISerializedProduct[];
 
   @ManyToMany(() => CategoryEntity, (category) => category.brands, {
     nullable: true,
@@ -42,7 +41,7 @@ export class BrandEntity extends MagexDatabaseEntity implements IBrandEntity {
       referencedColumnName: '_id',
     },
   })
-  categories: ReferenceByID<ISerializedCategory>[] | null;
+  categories: ISerializedCategory[];
 
   @ManyToMany(() => UserEntity, (user) => user.brands, {
     nullable: true,
@@ -57,7 +56,7 @@ export class BrandEntity extends MagexDatabaseEntity implements IBrandEntity {
       referencedColumnName: '_id',
     },
   })
-  suppliers: ReferenceByID<ISerializedUser>[] | null;
+  suppliers: ISerializedUser[];
 
   async createMagexRecord(magexService: MagexService) {
     console.count('createMagexRecord');

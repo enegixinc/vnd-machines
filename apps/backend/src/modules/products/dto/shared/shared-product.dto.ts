@@ -42,7 +42,7 @@ export class SharedProductDto {
     ApiProperty({
       example: {
         en: 'Name of the product in English',
-        fr: 'Name of the product in French',
+        ar: 'Name in Arabic',
       },
       description: 'Name of the product in multiple languages',
       type: Object,
@@ -75,7 +75,7 @@ export class SharedProductDto {
     ApiProperty({
       example: {
         en: 'Description of the product in English',
-        fr: 'Description of the product in French',
+        ar: 'Name in Arabic',
       },
       description: 'Description of the product in multiple languages',
       type: Object,
@@ -88,7 +88,7 @@ export class SharedProductDto {
     ApiProperty({
       example: {
         en: 'Description of the product in English',
-        fr: 'Description of the product in French',
+        ar: 'Name in Arabic',
       },
       description: 'Description of the product in multiple languages',
       type: Object,
@@ -101,7 +101,7 @@ export class SharedProductDto {
     ApiProperty({
       example: {
         en: 'Description of the product in English',
-        fr: 'Description of the product in French',
+        ar: 'Name in Arabic',
       },
       description: 'Description of the product in multiple languages',
       type: Object,
@@ -114,7 +114,7 @@ export class SharedProductDto {
     ApiProperty({
       example: {
         en: 'Description of the product in English',
-        fr: 'Description of the product in French',
+        ar: 'Name in Arabic',
       },
       description: 'Description of the product in multiple languages',
       type: Object,
@@ -127,7 +127,7 @@ export class SharedProductDto {
     ApiProperty({
       example: {
         en: 'Description of the product in English',
-        fr: 'Description of the product in French',
+        ar: 'Name in Arabic',
       },
       description: 'Description of the product in multiple languages',
       type: Object,
@@ -140,7 +140,7 @@ export class SharedProductDto {
     ApiProperty({
       example: {
         en: 'Description of the product in English',
-        fr: 'Description of the product in French',
+        ar: 'Name in Arabic',
       },
       description: 'Description of the product in multiple languages',
       type: Object,

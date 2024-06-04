@@ -13,7 +13,7 @@ export class SharedCategoryDto {
     ApiProperty({
       example: {
         en: 'Name of the Category in English',
-        fr: 'Name of the Category in French',
+        ar: 'Name of the Category in Arabic',
       },
       description: 'Name of the Category in multiple languages',
       type: Object,

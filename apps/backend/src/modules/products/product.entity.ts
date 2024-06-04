@@ -222,7 +222,11 @@ export class ProductEntity
   async createMagexRecord(magexService: MagexService) {
     const formData = await this.handleMultiLangProps(this);
     const { newProduct } = await magexService.products.postProductsCreate({
-      formData,
+      formData: {
+        ...formData,
+        category: this.category?._id || '',
+        brand: this.brand?._id || '',
+      },
     });
 
     Object.assign(this, newProduct);

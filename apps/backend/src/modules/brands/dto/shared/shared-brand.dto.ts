@@ -13,7 +13,7 @@ export class SharedBrandDto {
     ApiProperty({
       example: {
         en: 'Name of the product in English',
-        fr: 'Name of the product in French',
+        ar: 'Name in Arabic',
       },
       description: 'Name of the product in multiple languages',
       type: Object,
