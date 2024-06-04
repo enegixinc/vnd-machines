@@ -1,5 +1,6 @@
 import { RouteRecordRaw } from 'vue-router';
-export const categoriesLinks :RouteRecordRaw[] = [
+
+export const categoriesLinks: RouteRecordRaw[] = [
     {
         path: '/categories',
         name: 'manageCategories',
@@ -10,4 +11,9 @@ export const categoriesLinks :RouteRecordRaw[] = [
         name: 'deletedCategories',
         component: () => import('@/pages/categories/DeletedCategories/TheIndex.vue'),
     },
-]
+    {
+        path: '/add-categories',
+        name: 'addCategories',
+        component: () => import('@/pages/categories/addCategory/index.vue'),
+    },
+];
