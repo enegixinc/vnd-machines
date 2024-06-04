@@ -52,12 +52,15 @@ export class OrdersSubscriber
 
     order.products = record.products.map((productData, index) => {
       const product = products.find((p) => p._id === productData?.product?._id);
-      return this.dataSource.manager.create(OrderProduct, {
-        order,
+      const orderProduct = this.dataSource.manager.create(OrderProduct);
+
+      Object.assign(orderProduct, {
+        ...productData,
         product,
-        quantity: productData.quantity,
-        discount: productData.discount,
+        order,
       });
+
+      return orderProduct;
     });
 
     return order;
