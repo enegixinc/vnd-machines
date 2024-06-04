@@ -10,4 +10,8 @@ export class UserExistsValidator extends EntityExistsValidator {
   constructor(protected readonly userService: UsersService) {
     super(userService);
   }
+
+  protected get EntityName(): string {
+    return 'User';
+  }
 }

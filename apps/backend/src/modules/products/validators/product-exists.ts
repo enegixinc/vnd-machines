@@ -9,4 +9,8 @@ export class ProductExistsValidator extends EntityExistsValidator {
   constructor(protected readonly productService: ProductsService) {
     super(productService);
   }
+
+  protected get EntityName(): string {
+    return 'Product';
+  }
 }
