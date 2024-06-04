@@ -235,10 +235,6 @@ export type SerializedProductDto = {
      */
     productPictures: Array<(string)>;
     /**
-     * Reference to another product
-     */
-    referTo: string;
-    /**
      * Index for sorting the product
      */
     sortIndex: number;
@@ -258,6 +254,10 @@ export type SerializedProductDto = {
     brand: SharedBrandDto;
     supplier: SharedUserDto;
     orders: Array<OrderEntity>;
+    /**
+     * Reference to another product
+     */
+    referTo: string;
 };
 
 export type GetManyBrandEntityResponseDto = {
@@ -365,10 +365,6 @@ export type SharedProductDto = {
      * Array of product picture URLs
      */
     productPictures: Array<(string)>;
-    /**
-     * Reference to another product
-     */
-    referTo: string;
     /**
      * Index for sorting the product
      */
@@ -592,10 +588,6 @@ export type CreateProductDto = {
      */
     productPictures: Array<(string)>;
     /**
-     * Reference to another product
-     */
-    referTo: string;
-    /**
      * Index for sorting the product
      */
     sortIndex: number;
@@ -607,10 +599,10 @@ export type CreateProductDto = {
      * Virtual product indicator
      */
     virtualProduct: number;
-    supplier: PickTypeClass;
-    brand: PickTypeClass;
-    category: PickTypeClass;
-    productVideo: File;
+    supplier?: PickTypeClass;
+    brand?: PickTypeClass;
+    category?: PickTypeClass;
+    productVideo?: string;
 };
 
 export type CreateManyProductEntityDto = {
@@ -703,10 +695,6 @@ export type UpdateProductDto = {
      */
     productPictures?: Array<(string)>;
     /**
-     * Reference to another product
-     */
-    referTo?: string;
-    /**
      * Index for sorting the product
      */
     sortIndex?: number;
@@ -721,7 +709,7 @@ export type UpdateProductDto = {
     supplier?: PickTypeClass;
     brand?: PickTypeClass;
     category?: PickTypeClass;
-    productVideo?: File;
+    productVideo?: string;
 };
 
 export type CreateUserDto = {

@@ -468,11 +468,6 @@ export const $SerializedProductDto = {
                 type: 'string'
             }
         },
-        referTo: {
-            type: 'string',
-            example: 'tryvnd@point24h.com',
-            description: 'Reference to another product'
-        },
         sortIndex: {
             type: 'number',
             example: 1,
@@ -507,9 +502,14 @@ export const $SerializedProductDto = {
             items: {
                 '$ref': '#/components/schemas/OrderEntity'
             }
+        },
+        referTo: {
+            type: 'string',
+            example: 'tryvnd@point24h.com',
+            description: 'Reference to another product'
         }
     },
-    required: ['_id', '__v', 'createdAt', 'updatedAt', 'deletedAt', 'lastSyncAt', 'upc', 'additionPrice', 'ageControl', 'name', 'barcode', 'costPrice', 'description', 'detail', 'include', 'ingredients', 'keyFeatures', 'specification', 'dimension', 'price', 'pricePerKilo', 'prodType', 'productPictures', 'referTo', 'sortIndex', 'vatIndex', 'virtualProduct', 'productVideo', 'category', 'brand', 'supplier', 'orders']
+    required: ['_id', '__v', 'createdAt', 'updatedAt', 'deletedAt', 'lastSyncAt', 'upc', 'additionPrice', 'ageControl', 'name', 'barcode', 'costPrice', 'description', 'detail', 'include', 'ingredients', 'keyFeatures', 'specification', 'dimension', 'price', 'pricePerKilo', 'prodType', 'productPictures', 'sortIndex', 'vatIndex', 'virtualProduct', 'productVideo', 'category', 'brand', 'supplier', 'orders', 'referTo']
 } as const;
 
 export const $GetManyBrandEntityResponseDto = {
@@ -683,11 +683,6 @@ export const $SharedProductDto = {
                 type: 'string'
             }
         },
-        referTo: {
-            type: 'string',
-            example: 'tryvnd@point24h.com',
-            description: 'Reference to another product'
-        },
         sortIndex: {
             type: 'number',
             example: 1,
@@ -704,7 +699,7 @@ export const $SharedProductDto = {
             description: 'Virtual product indicator'
         }
     },
-    required: ['upc', 'additionPrice', 'ageControl', 'name', 'barcode', 'costPrice', 'description', 'detail', 'include', 'ingredients', 'keyFeatures', 'specification', 'dimension', 'price', 'pricePerKilo', 'prodType', 'productPictures', 'referTo', 'sortIndex', 'vatIndex', 'virtualProduct']
+    required: ['upc', 'additionPrice', 'ageControl', 'name', 'barcode', 'costPrice', 'description', 'detail', 'include', 'ingredients', 'keyFeatures', 'specification', 'dimension', 'price', 'pricePerKilo', 'prodType', 'productPictures', 'sortIndex', 'vatIndex', 'virtualProduct']
 } as const;
 
 export const $SerializedBrandDto = {
@@ -1145,11 +1140,6 @@ export const $CreateProductDto = {
                 type: 'string'
             }
         },
-        referTo: {
-            type: 'string',
-            example: 'tryvnd@point24h.com',
-            description: 'Reference to another product'
-        },
         sortIndex: {
             type: 'number',
             example: 1,
@@ -1175,10 +1165,10 @@ export const $CreateProductDto = {
             '$ref': '#/components/schemas/PickTypeClass'
         },
         productVideo: {
-            type: 'File'
+            type: 'string'
         }
     },
-    required: ['upc', 'additionPrice', 'ageControl', 'name', 'barcode', 'costPrice', 'description', 'detail', 'include', 'ingredients', 'keyFeatures', 'specification', 'dimension', 'price', 'pricePerKilo', 'prodType', 'productPictures', 'referTo', 'sortIndex', 'vatIndex', 'virtualProduct', 'supplier', 'brand', 'category', 'productVideo']
+    required: ['upc', 'additionPrice', 'ageControl', 'name', 'barcode', 'costPrice', 'description', 'detail', 'include', 'ingredients', 'keyFeatures', 'specification', 'dimension', 'price', 'pricePerKilo', 'prodType', 'productPictures', 'sortIndex', 'vatIndex', 'virtualProduct']
 } as const;
 
 export const $CreateManyProductEntityDto = {
@@ -1306,11 +1296,6 @@ export const $UpdateProductDto = {
                 type: 'string'
             }
         },
-        referTo: {
-            type: 'string',
-            example: 'tryvnd@point24h.com',
-            description: 'Reference to another product'
-        },
         sortIndex: {
             type: 'number',
             example: 1,
@@ -1336,7 +1321,7 @@ export const $UpdateProductDto = {
             '$ref': '#/components/schemas/PickTypeClass'
         },
         productVideo: {
-            type: 'File'
+            type: 'string'
         }
     }
 } as const;
@@ -1465,11 +1450,11 @@ export const $CreateContractDto = {
         },
         startDate: {
             type: 'date',
-            default: '2024-06-04T14:12:01.855Z'
+            default: '2024-06-04T14:25:02.914Z'
         },
         endDate: {
             type: 'date',
-            default: '2024-06-04T14:12:01.855Z'
+            default: '2024-06-04T14:25:02.914Z'
         },
         status: {
             type: 'string',

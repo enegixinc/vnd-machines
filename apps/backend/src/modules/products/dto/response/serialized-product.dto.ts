@@ -55,4 +55,13 @@ export class SerializedProductDto
     })
   )
   orders: OrderEntity[];
+
+  @decorate(
+    ApiProperty({
+      example: 'tryvnd@point24h.com',
+      description: 'Reference to another product',
+      type: String,
+    })
+  )
+  referTo: string;
 }
