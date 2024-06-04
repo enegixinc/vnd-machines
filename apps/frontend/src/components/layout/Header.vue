@@ -283,7 +283,7 @@
                             <router-link :to="{name:'deletedUsers'}">{{$t('usersPages.deletedUsers')}}</router-link>
                         </li>
                         <li>
-                            <router-link to="/supplierss">{{$t('usersPages.addUser')}}</router-link>
+                            <router-link :to="{name:'addUser'}">{{$t('usersPages.addUser')}}</router-link>
                         </li>
                         <li>
                             <router-link to="/supplierss">{{$t('usersPages.profile')}}</router-link>
