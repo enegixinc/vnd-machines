@@ -22,6 +22,10 @@ export abstract class EntitySyncer<
 {
   protected records: Entity[] = [];
   protected magexRecords: MagexRecord[] = [];
+  protected syncedEntities: string[] = [];
+  protected dependsOn: (string | Function)[] = [];
+  private static syncStatusMap: Map<string | Function, Promise<void>> =
+    new Map();
 
   protected constructor(
     @Inject(DataSource) protected readonly dataSource: DataSource,
@@ -51,7 +55,7 @@ export abstract class EntitySyncer<
     await this.syncWithMagex();
   }
 
-  @timer()
+  // @timer()
   async fetchOurRecords() {
     this.records = await this.dataSource.manager.find(this.entity);
   }
@@ -64,7 +68,7 @@ export abstract class EntitySyncer<
     );
   }
 
-  @timer()
+  // @timer()
   identifyOutOfSyncRecords() {
     const newRecords = new Set<MagexRecord>();
     const updatedRecords = new Set<MagexRecord>();
@@ -90,7 +94,7 @@ export abstract class EntitySyncer<
     };
   }
 
-  @timer()
+  // @timer()
   async prepareRecords(records: MagexRecord[]) {
     return Promise.all(
       records.map(async (record) => {
@@ -116,24 +120,39 @@ export abstract class EntitySyncer<
     });
   }
 
+  private async runDependencies() {
+    for (const dependency of this.dependsOn) {
+      const dependencySync = EntitySyncer.syncStatusMap.get(dependency);
+      if (dependencySync) {
+        await dependencySync;
+      }
+    }
+  }
+
   @Cron(
     process.env.NODE_ENV === 'production'
       ? CronExpression.EVERY_SECOND
       : CronExpression.EVERY_5_MINUTES
   )
-  @timer()
+  // @timer()
   async syncWithMagex() {
-    // @ts-expect-error - TODO: add type
-    console.log('Syncing with Magex', this.entity.name);
-    await Promise.all([this.fetchOurRecords(), this.fetchMagexRecords()]);
+    const syncPromise = (async () => {
+      // @ts-expect-error - TODO: fix this
+      console.log('Syncing with Magex', this.entity.name);
+      await this.runDependencies();
+      await Promise.all([this.fetchOurRecords(), this.fetchMagexRecords()]);
 
-    const { newRecords, updatedRecords } = this.identifyOutOfSyncRecords();
-    const preparedRecords = await this.prepareRecords([
-      ...newRecords,
-      ...updatedRecords,
-    ]);
+      const { newRecords, updatedRecords } = this.identifyOutOfSyncRecords();
+      const preparedRecords = await this.prepareRecords([
+        ...newRecords,
+        ...updatedRecords,
+      ]);
 
-    await this.saveRecords(preparedRecords);
+      await this.saveRecords(preparedRecords);
+    })();
+
+    EntitySyncer.syncStatusMap.set(this.entity, syncPromise);
+    await syncPromise;
 
     // Uncomment this if you want to delete all records including soft deleted ones
     // await this.dataSource.manager.delete(this.entity, {});

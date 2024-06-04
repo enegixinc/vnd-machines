@@ -1,13 +1,13 @@
 import { Module } from '@nestjs/common';
 import { OrdersController } from './orders.controller';
-import { OrdersService } from '@backend/magex-connector';
 import { OrdersSubscriber } from './orders.subscriber';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { OrderEntity } from './orders.entity';
+import { OrdersService } from './orders.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([OrderEntity])],
   controllers: [OrdersController],
-  providers: [OrdersService, OrdersSubscriber],
+  providers: [OrdersSubscriber, OrdersService],
 })
 export class OrdersModule {}
