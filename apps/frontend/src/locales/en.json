@@ -164,7 +164,9 @@
     "validations": {
         "required": "{field} Required !",
         "number": "{field} Must Be Number !",
-        "email": "Enter Valid Email !"
+        "email": "Enter Valid Email !",
+        "maxLength": "{field} cannot exceed {max} characters !",
+        "minLength": "{field} must be at least {min} characters long !"
     },
     "fields": {
         "email": "Email",
