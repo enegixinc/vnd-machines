@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne } from 'typeorm';
+import { Column, Entity, ManyToOne, ObjectLiteral, OneToMany } from 'typeorm';
 import {
   Dimension,
   IProductEntity,
@@ -11,17 +11,21 @@ import {
 import { fakerAR } from '@faker-js/faker';
 import { Factory } from 'nestjs-seeder';
 
-import { DatabaseEntity } from '../../common/database.entity';
+import { MagexDatabaseEntity } from '../../common/database.entity';
 import { UserEntity } from '../users/entities/user.entity';
 import { BrandEntity } from '../brands/brand.entity';
 import { CategoryEntity } from '../categories/category.entity';
+import { MagexService } from '../../services/magex/magex.service';
+import { OrderProduct } from '../orders/order-product.entity';
 
 @Entity('products')
-export class ProductEntity extends DatabaseEntity implements IProductEntity {
-  // @Factory((faker) => ({
-  //   _id: faker.database.mongodbObjectId(),
-  // }))
-  //
+export class ProductEntity
+  extends MagexDatabaseEntity
+  implements IProductEntity
+{
+  @OneToMany(() => OrderProduct, (orderProduct) => orderProduct.product)
+  orders: OrderProduct[];
+
   @ManyToOne(() => UserEntity, (user) => user.products)
   supplier: ReferenceByID<ISerializedUser>[];
 
@@ -215,11 +219,55 @@ export class ProductEntity extends DatabaseEntity implements IProductEntity {
   @Column({ type: 'integer', default: 0 })
   virtualProduct: number;
 
-  // @DeleteDateColumn()
-  // @ApiProperty({
-  //   example: '2024-05-01T12:00:00.000Z',
-  //   description: 'Creation date of the product',
-  //   type: String,
-  // })
-  // deletedAt: string;
+  async createMagexRecord(magexService: MagexService) {
+    const formData = await this.handleMultiLangProps(this);
+    const { newProduct } = await magexService.products.postProductsCreate({
+      formData,
+    });
+
+    Object.assign(this, newProduct);
+    // @ts-expect-error - to be fixed
+    Object.assign(this, { lastSyncAt: newProduct.updatedAt });
+  }
+
+  async updateMagexRecord(magexService: MagexService) {
+    const formData = await this.handleMultiLangProps(this);
+
+    await magexService.products.putProductsEditById({
+      id: formData._id,
+      formData,
+    });
+  }
+
+  async deleteMagexRecord(magexService: MagexService) {
+    await magexService.products.deleteProductsDeleteById({
+      id: this._id,
+    });
+  }
+
+  async fetchMagexRecords(magexService: MagexService) {
+    return magexService.products.getProductsByAccountName({
+      accountName: 'tryvnd@point24h.com',
+    }) as Promise<IProductEntity[]>;
+  }
+
+  private async handleMultiLangProps(product: ObjectLiteral) {
+    const multiLangProps = [
+      'name',
+      'description',
+      'ingredients',
+      'detail',
+      'include',
+      'keyFeatures',
+      'specification',
+    ];
+    return Object.fromEntries(
+      Object.entries(product).map(([key, value]) => {
+        if (multiLangProps.includes(key)) {
+          return [key, JSON.stringify(value)];
+        }
+        return [key, value];
+      })
+    );
+  }
 }

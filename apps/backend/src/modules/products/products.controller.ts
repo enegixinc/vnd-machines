@@ -36,6 +36,7 @@ import { UpdateProductDto } from './dto/request/update-product.dto';
     limit: 20,
     maxLimit: 100,
     join: {
+      // TODO: deprecate these aliases and use the actual entity names
       supplier: {
         alias: 'users',
         exclude: ['password'],
@@ -46,6 +47,7 @@ import { UpdateProductDto } from './dto/request/update-product.dto';
       category: {
         alias: 'categories',
       },
+      orders: {},
 
       // 'suppliers.brands': {
       //   eager: true,

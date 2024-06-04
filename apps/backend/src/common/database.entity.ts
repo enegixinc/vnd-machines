@@ -6,9 +6,10 @@ import {
   ObjectIdColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { IDataBaseEntity } from '@core';
+import { _IMagex_DatabaseEntity, IDataBaseEntity } from '@core';
 import { ApiProperty } from '@nestjs/swagger';
 import { decorate } from 'ts-mixer';
+import { MagexService } from '../services/magex/magex.service';
 
 export class DatabaseEntity extends BaseEntity implements IDataBaseEntity {
   @decorate(
@@ -92,4 +93,13 @@ export class DatabaseEntity extends BaseEntity implements IDataBaseEntity {
     })
   )
   lastSyncAt: string | null;
+}
+
+export abstract class MagexDatabaseEntity extends DatabaseEntity {
+  abstract createMagexRecord(magexService: MagexService): Promise<void>;
+  abstract updateMagexRecord(magexService: MagexService): Promise<void>;
+  abstract deleteMagexRecord(magexService: MagexService): Promise<void>;
+  abstract fetchMagexRecords(
+    magexService: MagexService
+  ): Promise<_IMagex_DatabaseEntity[]>;
 }

@@ -2,15 +2,11 @@ import {
   DataSource,
   EntitySubscriberInterface,
   EventSubscriber,
-  InsertEvent,
-  RecoverEvent,
-  RemoveEvent,
-  UpdateEvent,
 } from 'typeorm';
 import { BrandEntity } from './brand.entity';
-import { MagexService } from '../../services/magex/magex.service';
 import { Inject } from '@nestjs/common';
-import { EntitySyncer } from '../../common/entities/entity-syncer/entitySyncer';
+import { EntitySyncer } from '../../common/entities/entity-syncer/entity-syncer';
+import { MagexService } from '../../services/magex/magex.service';
 
 @EventSubscriber()
 export class BrandSubscriber
@@ -18,67 +14,13 @@ export class BrandSubscriber
   implements EntitySubscriberInterface<BrandEntity>
 {
   constructor(
-    @Inject(MagexService) private readonly magexService: MagexService,
-    @Inject(DataSource) protected dataSource: DataSource
+    @Inject(DataSource) protected dataSource: DataSource,
+    @Inject(MagexService) protected magexService: MagexService
   ) {
-    super(dataSource);
-    this.dataSource.subscribers.push(this);
+    super(dataSource, magexService);
   }
 
   listenTo() {
     return BrandEntity;
-  }
-
-  private async createBrand(
-    event: InsertEvent<BrandEntity> | RecoverEvent<BrandEntity>
-  ) {
-    const brand = event.entity;
-    // @ts-expect-error - to be fixed
-    const { newBrand } = await this.magexService.brands.postBrandsCreate({
-      formData: {
-        name: JSON.stringify(brand.name),
-        referTo: brand.referTo,
-      },
-    });
-    Object.assign(brand, newBrand);
-    event.entity.lastSyncAt = newBrand.updatedAt;
-  }
-
-  async beforeInsert(event: InsertEvent<BrandEntity>) {
-    if (event.entity.lastSyncAt) return;
-    await this.createBrand(event);
-  }
-
-  async beforeSoftRemove(event: RemoveEvent<BrandEntity>) {
-    const brand = event.entity;
-    await this.magexService.brands.deleteBrandsDeleteById({
-      id: brand._id,
-    });
-  }
-
-  async beforeUpdate(event: UpdateEvent<BrandEntity>) {
-    const brand = event.entity;
-
-    await this.magexService.brands.postBrandsEditById({
-      id: brand._id,
-      formData: {
-        name: JSON.stringify(brand.name),
-        referTo: brand.referTo,
-      },
-    });
-  }
-
-  async beforeRecover(event: RecoverEvent<BrandEntity>) {
-    await this.dataSource.manager.remove(event.entity, {
-      listeners: false,
-    });
-    await this.createBrand(event);
-  }
-
-  async fetchMagexRecords() {
-    // @ts-expect-error - TODO: add type
-    this.magexRecords = await this.magexService.brands.getBrandsByAccountName({
-      accountName: 'tryvnd@point24h.com',
-    });
   }
 }

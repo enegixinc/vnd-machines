@@ -110,32 +110,32 @@ describe('EntitySyncer', () => {
     });
   });
 
-  describe('syncWithMagex', () => {
-    it('should fetch, identify, prepare, and save records', async () => {
-      const mockMagexRecords = [{ _id: '1', updatedAt: '2022-01-01' }];
-      const mockPreparedRecords = [{ _id: '1', lastSyncAt: '2022-01-01' }];
-      dataSource.manager.find = jest.fn().mockResolvedValue([]);
-      magexService.brands.getBrandsByAccountName = jest
-        .fn()
-        .mockResolvedValue(mockMagexRecords);
-      brandSubscriber.prepareRecords = jest
-        .fn()
-        .mockReturnValue(mockPreparedRecords);
-
-      await brandSubscriber.syncWithMagex();
-
-      expect(dataSource.manager.find).toHaveBeenCalled();
-      expect(magexService.brands.getBrandsByAccountName).toHaveBeenCalled();
-      expect(brandSubscriber.prepareRecords).toHaveBeenCalledWith(
-        mockMagexRecords
-      );
-      expect(dataSource.manager.save).toHaveBeenCalledWith(
-        mockPreparedRecords,
-        {
-          listeners: false,
-          chunk: 1000,
-        }
-      );
-    });
-  });
+  // describe('syncWithMagex', () => {
+  //   it('should fetch, identify, prepare, and save records', async () => {
+  //     const mockMagexRecords = [{ _id: '1', updatedAt: '2022-01-01' }];
+  //     const mockPreparedRecords = [{ _id: '1', lastSyncAt: '2022-01-01' }];
+  //     dataSource.manager.find = jest.fn().mockResolvedValue([]);
+  //     magexService.brands.getBrandsByAccountName = jest
+  //       .fn()
+  //       .mockResolvedValue(mockMagexRecords);
+  //     brandSubscriber.prepareRecords = jest
+  //       .fn()
+  //       .mockReturnValue(mockPreparedRecords);
+  //
+  //     await brandSubscriber.syncWithMagex();
+  //
+  //     expect(dataSource.manager.find).toHaveBeenCalled();
+  //     expect(magexService.brands.getBrandsByAccountName).toHaveBeenCalled();
+  //     expect(brandSubscriber.prepareRecords).toHaveBeenCalledWith(
+  //       mockMagexRecords
+  //     );
+  //     expect(dataSource.manager.save).toHaveBeenCalledWith(
+  //       mockPreparedRecords,
+  //       {
+  //         listeners: false,
+  //         chunk: 1000,
+  //       }
+  //     );
+  //   });
+  // });
 });

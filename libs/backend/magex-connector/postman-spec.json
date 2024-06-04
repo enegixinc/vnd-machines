@@ -975,34 +975,17 @@
 							{
 								"key": "auth-token",
 								"value": "{{accessToken}}",
-								"type": "text"
+								"disabled": true
 							}
 						],
 						"body": {
-							"mode": "urlencoded",
-							"urlencoded": [
-								{
-									"key": "start",
-									"value": "2024-04-10T00:00:00.000Z",
-									"type": "text"
-								},
-								{
-									"key": "end",
-									"value": "2024-04-14T23:59:59.999Z",
-									"type": "text"
-								},
-								{
-									"key": "id",
-									"value": "{{accountName}}",
-									"type": "text"
-								},
-								{
-									"key": "ids",
-									"value": "657ab833c7201f469894300d,657ab86ec7201f469894300f",
-									"description": "Comma separated Machine IDs",
-									"type": "text"
+							"mode": "raw",
+							"raw": "{\r\n  \"start\": \"2024-04-10T00:00:00.000Z\",\r\n  \"end\": \"2024-04-14T23:59:59.999Z\",\r\n  \"id\": \"tryvnd@point24h.com\",\r\n  \"ids\": \"657ab833c7201f469894300d,657ab86ec7201f469894300f\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
 								}
-							]
+							}
 						},
 						"url": {
 							"raw": "{{baseUrl}}/orders",

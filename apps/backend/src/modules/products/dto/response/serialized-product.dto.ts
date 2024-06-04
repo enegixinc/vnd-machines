@@ -12,6 +12,7 @@ import { SharedProductDto } from '../shared/shared-product.dto';
 import { SharedBrandDto } from '../../../brands/dto/shared/shared-brand.dto';
 import { SharedUserDto } from '../../../users/dto/shared/shared-user.dto';
 import { SharedCategoryDto } from '../../../categories/dto/shared/shared-category.dto';
+import { OrderEntity } from '../../../orders/orders.entity';
 
 export class SerializedProductDto
   extends Mixin(DatabaseEntity, SharedProductDto)
@@ -46,4 +47,12 @@ export class SerializedProductDto
     })
   )
   supplier: ISerializedUser[];
+
+  @decorate(
+    ApiProperty({
+      type: () => OrderEntity,
+      isArray: true,
+    })
+  )
+  orders: OrderEntity[];
 }

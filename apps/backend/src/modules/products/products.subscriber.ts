@@ -2,19 +2,14 @@ import {
   DataSource,
   EntitySubscriberInterface,
   EventSubscriber,
-  InsertEvent,
-  ObjectLiteral,
-  RecoverEvent,
-  RemoveEvent,
-  UpdateEvent,
 } from 'typeorm';
-import { MagexService } from '../../services/magex/magex.service';
 import { Inject } from '@nestjs/common';
-import { EntitySyncer } from '../../common/entities/entity-syncer/entitySyncer';
+import { EntitySyncer } from '../../common/entities/entity-syncer/entity-syncer';
 import { ProductEntity } from './product.entity';
 import { ISerializedMagexProduct } from '@core';
 import { CategoryEntity } from '../categories/category.entity';
 import { BrandEntity } from '../brands/brand.entity';
+import { MagexService } from '../../services/magex/magex.service';
 
 @EventSubscriber()
 export class ProductSubscriber
@@ -22,83 +17,14 @@ export class ProductSubscriber
   implements EntitySubscriberInterface<ProductEntity>
 {
   constructor(
-    @Inject(MagexService) private readonly magexService: MagexService,
-    @Inject(DataSource) protected dataSource: DataSource
+    @Inject(DataSource) protected dataSource: DataSource,
+    @Inject(MagexService) protected magexService: MagexService
   ) {
-    super(dataSource);
-    this.dataSource.subscribers.push(this);
-  }
-
-  async beforeInsert(event: InsertEvent<ProductEntity>) {
-    if (event.entity.lastSyncAt) return;
-    await this.createProduct(event);
-  }
-
-  async beforeSoftRemove(event: RemoveEvent<ProductEntity>) {
-    const product = event.entity;
-    await this.magexService.products.deleteProductsDeleteById({
-      id: product._id,
-    });
-  }
-
-  async beforeUpdate(event: UpdateEvent<ProductEntity>) {
-    const formData = await this.handleMultiLangProps(event.entity);
-
-    await this.magexService.products.putProductsEditById({
-      id: formData._id,
-      formData,
-    });
-  }
-
-  async beforeRecover(event: RecoverEvent<ProductEntity>) {
-    await this.dataSource.manager.remove(event.entity, {
-      listeners: false,
-    });
-    await this.createProduct(event);
+    super(dataSource, magexService);
   }
 
   listenTo() {
     return ProductEntity;
-  }
-  private async createProduct(
-    event: InsertEvent<ProductEntity> | RecoverEvent<ProductEntity>
-  ) {
-    const formData = await this.handleMultiLangProps(event.entity);
-    const { newProduct } = await this.magexService.products.postProductsCreate({
-      formData,
-    });
-
-    Object.assign(event.entity, newProduct);
-    // @ts-expect-error - to be fixed
-    event.entity.lastSyncAt = newProduct.updatedAt;
-  }
-
-  private async handleMultiLangProps(product: ObjectLiteral) {
-    const multiLangProps = [
-      'name',
-      'description',
-      'ingredients',
-      'detail',
-      'include',
-      'keyFeatures',
-      'specification',
-    ];
-    return Object.fromEntries(
-      Object.entries(product).map(([key, value]) => {
-        if (multiLangProps.includes(key)) {
-          return [key, JSON.stringify(value)];
-        }
-        return [key, value];
-      })
-    );
-  }
-
-  async fetchMagexRecords() {
-    // @ts-expect-error - TODO: add type
-    this.magexRecords =
-      await this.magexService.products.getProductsByAccountName({
-        accountName: 'tryvnd@point24h.com',
-      });
   }
 
   handleRelationships(record: ISerializedMagexProduct) {

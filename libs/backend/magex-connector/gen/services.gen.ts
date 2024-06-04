@@ -6,7 +6,7 @@ import type { PostUsersLoginData, PostUsersLoginResponse, GetGroupsAndMachinesBy
 
 export class AuthService {
     constructor(public readonly httpRequest: BaseHttpRequest) { }
-
+    
     /**
      * Login
      * @param data The data for the request.
@@ -22,12 +22,12 @@ export class AuthService {
             mediaType: 'application/x-www-form-urlencoded'
         });
     }
-
+    
 }
 
 export class MachinesService {
     constructor(public readonly httpRequest: BaseHttpRequest) { }
-
+    
     /**
      * List
      * @param data The data for the request.
@@ -48,7 +48,7 @@ export class MachinesService {
             }
         });
     }
-
+    
     /**
      * Edit
      * @param data The data for the request.
@@ -68,7 +68,7 @@ export class MachinesService {
             mediaType: 'application/x-www-form-urlencoded'
         });
     }
-
+    
     /**
      * View
      * @param data The data for the request.
@@ -89,12 +89,12 @@ export class MachinesService {
             }
         });
     }
-
+    
 }
 
 export class ProductsService {
     constructor(public readonly httpRequest: BaseHttpRequest) { }
-
+    
     /**
      * List
      * @param data The data for the request.
@@ -111,7 +111,7 @@ export class ProductsService {
             }
         });
     }
-
+    
     /**
      * View
      * @param data The data for the request.
@@ -128,7 +128,7 @@ export class ProductsService {
             }
         });
     }
-
+    
     /**
      * Edit
      * # Edit Product
@@ -195,7 +195,7 @@ export class ProductsService {
             mediaType: 'multipart/form-data'
         });
     }
-
+    
     /**
      * Create
      *
@@ -250,7 +250,7 @@ export class ProductsService {
             mediaType: 'multipart/form-data'
         });
     }
-
+    
     /**
      * Delete
      * @param data The data for the request.
@@ -267,12 +267,12 @@ export class ProductsService {
             }
         });
     }
-
+    
 }
 
 export class CategoriesService {
     constructor(public readonly httpRequest: BaseHttpRequest) { }
-
+    
     /**
      * List
      * @param data The data for the request.
@@ -293,7 +293,7 @@ export class CategoriesService {
             }
         });
     }
-
+    
     /**
      * Edit
      * ### Update Category
@@ -346,7 +346,7 @@ export class CategoriesService {
             mediaType: 'multipart/form-data'
         });
     }
-
+    
     /**
      * Delete
      * ### Update Category
@@ -396,7 +396,7 @@ export class CategoriesService {
             }
         });
     }
-
+    
     /**
      * Create
      * This endpoint makes an HTTP POST request to create a new category. The request should be sent to {{baseUrl}}/categories/create with a form-data request body type.
@@ -429,12 +429,12 @@ export class CategoriesService {
             mediaType: 'multipart/form-data'
         });
     }
-
+    
 }
 
 export class ReportsService {
     constructor(public readonly httpRequest: BaseHttpRequest) { }
-
+    
     /**
      * Machines Groups
      * # Get Groups and Machines for Report
@@ -518,12 +518,12 @@ export class ReportsService {
             }
         });
     }
-
+    
 }
 
 export class OrdersService {
     constructor(public readonly httpRequest: BaseHttpRequest) { }
-
+    
     /**
      * List
      * ## Add Order
@@ -602,8 +602,7 @@ export class OrdersService {
      *
      * ```
      * @param data The data for the request.
-     * @param data.authToken
-     * @param data.formData
+     * @param data.requestBody
      * @returns unknown Successful response
      * @throws ApiError
      */
@@ -611,19 +610,16 @@ export class OrdersService {
         return this.httpRequest.request({
             method: 'POST',
             url: '/orders',
-            headers: {
-                'auth-token': data.authToken
-            },
-            formData: data.formData,
-            mediaType: 'application/x-www-form-urlencoded'
+            body: data.requestBody,
+            mediaType: 'application/json'
         });
     }
-
+    
 }
 
 export class UsersService {
     constructor(public readonly httpRequest: BaseHttpRequest) { }
-
+    
     /**
      * List
      * @param data The data for the request.
@@ -643,7 +639,7 @@ export class UsersService {
             mediaType: 'application/x-www-form-urlencoded'
         });
     }
-
+    
     /**
      * Create
      * @param data The data for the request.
@@ -663,12 +659,12 @@ export class UsersService {
             mediaType: '*/*'
         });
     }
-
+    
 }
 
 export class StockingService {
     constructor(public readonly httpRequest: BaseHttpRequest) { }
-
+    
     /**
      * Log
      * # Retrieve Stock Log by Machine and Date Range
@@ -747,12 +743,12 @@ export class StockingService {
             }
         });
     }
-
+    
 }
 
 export class BrandsService {
     constructor(public readonly httpRequest: BaseHttpRequest) { }
-
+    
     /**
      * List
      * This endpoint retrieves information about a specific brand associated with the account.
@@ -804,7 +800,7 @@ export class BrandsService {
             }
         });
     }
-
+    
     /**
      * Edit
      * @param data The data for the request.
@@ -828,7 +824,7 @@ export class BrandsService {
             mediaType: 'multipart/form-data'
         });
     }
-
+    
     /**
      * Delete
      * @param data The data for the request.
@@ -849,7 +845,7 @@ export class BrandsService {
             }
         });
     }
-
+    
     /**
      * Create
      * @param data The data for the request.
@@ -869,5 +865,5 @@ export class BrandsService {
             mediaType: 'multipart/form-data'
         });
     }
-
+    
 }
