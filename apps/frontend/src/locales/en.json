@@ -214,7 +214,8 @@
         "include": "Include",
         "specification": "Specification",
         "ingredients": "Ingredients",
-        "supplier": "Supplier"
+        "supplier": "Supplier",
+        "auto": "Auto"
     },
     "placeHolders": {
         "enterEmail": "Enter Email",
@@ -316,13 +317,16 @@
         "deletedProducts": "Deleted Products",
         "recoverProducts": "Recover Product",
         "dimensions": "Dimensions",
-        "addProduct": "Add Product"
+        "addProduct": "Add Product",
+
     },
     "unknown": "Unknown",
     "categoriesPages": {
         "categories": "Categories",
         "deletedCategories": "Deleted Categories",
-        "recoverCategory": "Recover Category"
+        "recoverCategory": "Recover Category",
+        "addNewCategory": "Add New Category",
+        "addNewCategoryButton": "Add Category"
     },
     "brandsPages": {
         "brands": "Brands",

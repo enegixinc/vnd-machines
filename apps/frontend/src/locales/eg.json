@@ -213,7 +213,8 @@
         "ingredients": "المكونات",
         "supplier": "المورد",
         "firstName": "الاسم الأول",
-        "lastName": "اسم العائلة"
+        "lastName": "اسم العائلة",
+        "auto": "تلقائي"
     },
     "roles": {
         "admin": "مدير",
@@ -328,7 +329,9 @@
     "categoriesPages": {
         "categories": "الفئات",
         "deletedCategories": "الفئات المحذوفة",
-        "recoverCategory": "استعادة الفئة"
+        "recoverCategory": "استعادة الفئة",
+        "addNewCategory": "إضافة فئة جديدة",
+        "addNewCategoryButton": "إضافة الفئة"
     },
     "brandsPages": {
         "brands": "العلامات التجاريه",
