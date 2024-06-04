@@ -100,12 +100,15 @@ export default function useEntityFactory<T, P extends object>(client: ApiClient<
                 rowLoading.value = null;
             }
         }
-        async function addEntity(data){
+        type ResestForm = ()=>void
+        async function addEntity(data,resetForm:ResestForm){
             try {
-             const res =  await client.createOne({
+                loading.value= true
+               await client.createOne({
                  requestBody: data,
              });
-                console.log(res)
+               showSuccessNotification(t('entitiesPages.TheEntityHasBeenSuccessfullyAdded'));
+               resetForm()
             }catch (err){
                 console.error(err)
             }finally {
