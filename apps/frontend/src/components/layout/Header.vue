@@ -331,7 +331,7 @@
                                     <router-link :to="{ name: 'deletedContracts' }">{{ $t('links.deletedContracts') }}</router-link>
                                 </li>
                                 <li>
-                                    <router-link to="/datatables/advanced">{{ $t('links.newContract') }}</router-link>
+                                    <router-link :to="{ name: 'addContracts' }">{{ $t('links.newContract') }}</router-link>
                                 </li>
                             </ul>
                         </li>

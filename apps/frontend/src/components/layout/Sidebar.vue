@@ -136,7 +136,7 @@
                                                             <router-link :to="{ name: 'deletedContracts' }">{{ $t('links.deletedContracts') }}</router-link>
                                                         </li>
                                                         <li @click="toggleMobileMenu">
-                                                            <router-link to="/pages/error500">{{ $t('links.newContract') }}</router-link>
+                                                            <router-link :to="{ name: 'addContracts' }">{{ $t('links.newContract') }}</router-link>
                                                         </li>
                                                     </ul>
                                                 </vue-collapsible>
