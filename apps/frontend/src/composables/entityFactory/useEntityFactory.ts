@@ -100,7 +100,18 @@ export default function useEntityFactory<T, P extends object>(client: ApiClient<
                 rowLoading.value = null;
             }
         }
-
+        async function addEntity(data){
+            try {
+             const res =  await client.createOne({
+                 requestBody: data,
+             });
+                console.log(res)
+            }catch (err){
+                console.error(err)
+            }finally {
+                loading.value = false
+            }
+        }
         return {
             deleteEntity,
             fetchEntities,
@@ -113,7 +124,8 @@ export default function useEntityFactory<T, P extends object>(client: ApiClient<
             DataTable,
             TheBreadcrumbs,
             t,
-            locale
+            locale,
+            addEntity
         };
     };
 }

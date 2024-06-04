@@ -96,7 +96,7 @@
                     <input-text name="ingredients.en" text-area :field-label="$t('fields.en',{field:$t('fields.ingredients')})"
                                 :placeholder="$t('placeHolders.enterEn',{field:$t('fields.ingredients')})"/>
                 </div>
-                <submit-button :label="$t('productsPages.addProduct')" :loading="false">
+                <submit-button :label="$t('productsPages.addProduct')" :loading="loading">
                     <template #icon="{classes}">
                         <icon-menu-box class="group-hover:!text-primary shrink-0" :class="classes"/>
                     </template>
@@ -116,8 +116,8 @@ import {z} from 'zod'
 import {useI18n} from "vue-i18n";
 import {computed} from "vue";
 import IconMenuBox from "@/components/icon/icon-box.vue";
-
-
+import {useProducts} from "@/composables/products/use-products"
+const {loading,addEntity} = useProducts({})
 const {t} = useI18n()
 const schema2 = computed(() => toTypedSchema(
     z.object({
@@ -229,6 +229,10 @@ const {handleSubmit} = useForm<CreateProductDto>({
     validationSchema: schema2
 })
 const onSubmit = handleSubmit(values => {
-    console.log(values)
-})
+    addEntity({...values, "productPictures": [
+            "image1.jpg",
+            "image2.jpg"
+        ],
+        "productVideo": "Unknown Type: File"})
+},()=>{})
 </script>
