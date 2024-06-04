@@ -17,7 +17,13 @@ export interface ISerializedBrand
   logo: string;
 }
 
-export type ICreateBrand = ICreateMagexBrand;
+export type ICreateBrand = Omit<
+  ICreateMagexBrand,
+  'referTo' | 'logo' | 'picture'
+> & {
+  logo?: string;
+  picture?: string;
+};
 
 export interface IBrandResolvedEntities {
   suppliers: ISerializedUser[];

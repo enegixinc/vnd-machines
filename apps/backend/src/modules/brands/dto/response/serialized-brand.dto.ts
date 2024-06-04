@@ -32,6 +32,15 @@ class ResolvedBrandDto {
     })
   )
   suppliers: ISerializedUser[];
+
+  @decorate(
+    ApiProperty({
+      example: 'tryvnd@point24h.com',
+      description: 'Reference to another product',
+      type: String,
+    })
+  )
+  referTo: string;
 }
 
 export class SerializedBrandDto

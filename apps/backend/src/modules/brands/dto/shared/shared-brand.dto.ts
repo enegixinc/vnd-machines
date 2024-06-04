@@ -21,21 +21,25 @@ export class SharedBrandDto {
   )
   name: MultiLang;
 
-  @decorate(
-    ApiProperty({
-      example: 'https://www.local.com/image.jpg',
-      description: 'Brand logo',
-      type: String,
-    })
-  )
-  logo: string;
-
+  @decorate(IsOptional({ groups: [UPDATE, CREATE] }))
   @decorate(
     ApiProperty({
       example: 'https://www.local.com/image.jpg',
       description: 'Brand picture',
       type: String,
+      required: false,
     })
   )
   picture: string;
+
+  @decorate(IsOptional({ groups: [UPDATE, CREATE] }))
+  @decorate(
+    ApiProperty({
+      example: 'https://www.local.com/image.jpg',
+      description: 'Brand logo',
+      type: String,
+      required: false,
+    })
+  )
+  logo: string;
 }

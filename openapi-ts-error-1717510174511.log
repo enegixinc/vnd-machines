@@ -1,0 +1,9 @@
+"d:/vnd-machines/libs/frontend/api-sdk/openapi-spec.json" is not a valid JSON Schema
+SyntaxError: "d:/vnd-machines/libs/frontend/api-sdk/openapi-spec.json" is not a valid JSON Schema
+    at $RefParser.parse (D:\vnd-machines\node_modules\.pnpm\@apidevtools+json-schema-ref-parser@11.6.1\node_modules\@apidevtools\json-schema-ref-parser\dist\lib\index.js:125:33)
+    at async $RefParser.resolve (D:\vnd-machines\node_modules\.pnpm\@apidevtools+json-schema-ref-parser@11.6.1\node_modules\@apidevtools\json-schema-ref-parser\dist\lib\index.js:145:13)
+    at async $RefParser.bundle (D:\vnd-machines\node_modules\.pnpm\@apidevtools+json-schema-ref-parser@11.6.1\node_modules\@apidevtools\json-schema-ref-parser\dist\lib\index.js:165:13)
+    at async D:\vnd-machines\node_modules\.pnpm\@hey-api+openapi-ts@0.45.1_typescript@5.4.5\node_modules\@hey-api\openapi-ts\dist\node\index.cjs:1:154017
+    at async D:\vnd-machines\node_modules\.pnpm\@hey-api+openapi-ts@0.45.1_typescript@5.4.5\node_modules\@hey-api\openapi-ts\dist\node\index.cjs:1:153955
+    at async exports.createClient (D:\vnd-machines\node_modules\.pnpm\@hey-api+openapi-ts@0.45.1_typescript@5.4.5\node_modules\@hey-api\openapi-ts\dist\node\index.cjs:1:157344)
+    at async start (D:\vnd-machines\node_modules\.pnpm\@hey-api+openapi-ts@0.45.1_typescript@5.4.5\node_modules\@hey-api\openapi-ts\bin\index.cjs:76:5)
