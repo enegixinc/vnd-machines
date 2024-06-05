@@ -43,9 +43,7 @@ import { SharedUserDto } from './dto/shared/shared-user.dto';
       categories: {},
       brands: {},
       contracts: {},
-      orders: {
-        eager: true,
-      },
+      orders: {},
     },
   },
   routes: {

@@ -16,15 +16,15 @@ import { UserEntity } from '../users/entities/user.entity';
 import { BrandEntity } from '../brands/brand.entity';
 import { CategoryEntity } from '../categories/category.entity';
 import { MagexService } from '../../services/magex/magex.service';
-import { OrderProduct } from '../orders/order-product.entity';
+import { OrderDetails } from '../orders/order-details.entity';
 
 @Entity('products')
 export class ProductEntity
   extends MagexDatabaseEntity
   implements IProductEntity
 {
-  @OneToMany(() => OrderProduct, (orderProduct) => orderProduct.product)
-  orders: OrderProduct[];
+  @OneToMany(() => OrderDetails, (orderProduct) => orderProduct.product, {})
+  orders: OrderDetails[];
 
   @ManyToOne(() => UserEntity, (user) => user.products)
   supplier: ReferenceByID<ISerializedUser>[];
@@ -35,6 +35,7 @@ export class ProductEntity
   brand: ReferenceByID<ISerializedBrand>;
 
   @ManyToOne(() => CategoryEntity, (category) => category.products, {
+    onDelete: 'CASCADE',
     cascade: true,
   })
   category: ReferenceByID<ISerializedCategory>;
@@ -218,6 +219,24 @@ export class ProductEntity
   )
   @Column({ type: 'integer', default: 0 })
   virtualProduct: number;
+
+  @Factory((faker) =>
+    faker.number.int({
+      min: 0,
+      max: 13,
+    })
+  )
+  @Column({ type: 'integer', default: 0 })
+  quantity: number;
+
+  @Factory((faker) =>
+    faker.number.int({
+      min: 0,
+      max: 100,
+    })
+  )
+  @Column({ type: 'integer', default: 0 })
+  stock: number;
 
   async createMagexRecord(magexService: MagexService) {
     const formData = await this.handleMultiLangProps(this);

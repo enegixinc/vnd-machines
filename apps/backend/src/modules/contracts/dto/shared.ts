@@ -40,6 +40,7 @@ export class SharedContractDto implements Partial<ISerializedContract> {
   feeType: FeeType;
 
   @IsDateString()
+  // @Validate(IsStartDateValidConstraint)
   @IsOptional({ groups: [UPDATE] })
   @IsNotEmpty({ groups: [CREATE] })
   @ApiProperty({
@@ -58,9 +59,10 @@ export class SharedContractDto implements Partial<ISerializedContract> {
   endDate: string;
 
   @IsEnum(ContractStatus)
-  @IsOptional({ groups: [UPDATE, CREATE] })
+  @IsOptional({ groups: [UPDATE] })
   @ApiProperty({
     enum: ContractStatus,
+    required: false,
     default: ContractStatus.ACTIVE,
   })
   status: ContractStatus;

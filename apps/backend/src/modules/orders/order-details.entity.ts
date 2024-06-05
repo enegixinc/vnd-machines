@@ -6,8 +6,8 @@ import { UserEntity } from '../users/entities/user.entity';
 import { CategoryEntity } from '../categories/category.entity';
 import { BrandEntity } from '../brands/brand.entity';
 
-@Entity('orders_products')
-export class OrderProduct extends DatabaseEntity {
+@Entity('order_details')
+export class OrderDetails extends DatabaseEntity {
   @Column({
     type: 'int',
   })
@@ -54,8 +54,10 @@ export class OrderProduct extends DatabaseEntity {
   })
   retail_price: number;
 
-  @ManyToOne(() => OrderEntity, (order) => order.products, {
+  @ManyToOne(() => OrderEntity, (order) => order.orders, {
     eager: true,
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
   })
   order: OrderEntity;
 
@@ -64,17 +66,15 @@ export class OrderProduct extends DatabaseEntity {
   })
   product: ProductEntity;
 
-  @ManyToOne(() => UserEntity, (supplier) => supplier.products, {
-    eager: true,
-  })
+  @ManyToOne(() => UserEntity, (supplier) => supplier.orders, {})
   supplier: UserEntity;
 
-  @ManyToOne(() => CategoryEntity, (category) => category.products, {
+  @ManyToOne(() => CategoryEntity, (category) => category.orders, {
     eager: true,
   })
   category: CategoryEntity;
 
-  @ManyToOne(() => BrandEntity, (brand) => brand.products, {
+  @ManyToOne(() => BrandEntity, (brand) => brand.orders, {
     eager: true,
   })
   brand: BrandEntity;

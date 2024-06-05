@@ -3,7 +3,7 @@ import { MagexDatabaseEntity } from '../../common/database.entity';
 import { MagexService } from '../../services/magex/magex.service';
 import { ApiProperty } from '@nestjs/swagger';
 import { ProductEntity } from '../products/product.entity';
-import { OrderProduct } from './order-product.entity';
+import { OrderDetails } from './order-details.entity';
 
 // @Entity()
 // class Machine {
@@ -39,10 +39,15 @@ export class OrderEntity extends MagexDatabaseEntity {
   // machineID: Machine;
   //
   @ApiProperty({ type: [ProductEntity] })
-  @OneToMany(() => OrderProduct, (orderProduct) => orderProduct.order, {
+  @OneToMany(() => OrderDetails, (orderProduct) => orderProduct.order, {
     cascade: true,
   })
   products: ProductEntity[];
+
+  @OneToMany(() => OrderDetails, (orderProduct) => orderProduct.order, {
+    cascade: true,
+  })
+  orders: OrderDetails[];
 
   @ApiProperty({ type: String })
   @Column()

@@ -8,7 +8,7 @@ import { Inject } from '@nestjs/common';
 import { EntitySyncer } from '../../common/entities/entity-syncer/entity-syncer';
 import { OrderEntity } from './orders.entity';
 import { ProductEntity } from '../products/product.entity';
-import { OrderProduct } from './order-product.entity';
+import { OrderDetails } from './order-details.entity';
 
 @EventSubscriber()
 export class OrdersSubscriber
@@ -27,14 +27,12 @@ export class OrdersSubscriber
     return OrderEntity;
   }
 
-  private fullOrderDetails: OrderProduct;
-
   async preloadProducts(productIds: string[]) {
     const promises = productIds.map(async (_id) => {
       return await this.dataSource.manager.findOne(ProductEntity, {
         withDeleted: true,
         where: { _id },
-        relations: ['brand', 'category', 'supplier', 'supplier.contacts'],
+        relations: ['brand', 'category', 'supplier'],
       });
     });
     return Promise.all(promises);
@@ -54,8 +52,10 @@ export class OrdersSubscriber
     });
 
     order.products = record.products.map((productData, index) => {
-      const product = products.find((p) => p._id === productData?.product?._id);
-      const orderProduct = this.dataSource.manager.create(OrderProduct);
+      const product = products.find(
+        (p) => p?._id === productData?.product?._id
+      );
+      const orderProduct = this.dataSource.manager.create(OrderDetails);
 
       Object.assign(orderProduct, {
         ...productData,
@@ -65,6 +65,19 @@ export class OrdersSubscriber
         brand: product?.brand,
         category: product?.category,
       });
+      //
+      // this.dataSource.manager.increment(
+      //   ProductEntity,
+      //   { _id: product._id },
+      //   'quantity',
+      //   -productData.quantity
+      // );
+      // this.dataSource.manager.increment(
+      //   ProductEntity,
+      //   { _id: product._id },
+      //   'sold',
+      //   productData.quantity
+      // );
 
       return orderProduct;
     });

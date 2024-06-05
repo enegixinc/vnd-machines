@@ -14,7 +14,7 @@ import { Factory } from 'nestjs-seeder';
 import { fakerAR } from '@faker-js/faker';
 import { MagexService } from '../../services/magex/magex.service';
 import { OrderEntity } from '../orders/orders.entity';
-import { OrderProduct } from '../orders/order-product.entity';
+import { OrderDetails } from '../orders/order-details.entity';
 
 @Entity('categories')
 export class CategoryEntity
@@ -95,11 +95,11 @@ export class CategoryEntity
     },
   ])
   @OneToMany(() => ProductEntity, (product) => product.category, {
-    nullable: true,
+    onDelete: 'CASCADE',
   })
   products: ISerializedProduct[];
 
-  @OneToMany(() => OrderProduct, (order) => order.category, {})
+  @OneToMany(() => OrderDetails, (order) => order.category, {})
   orders: OrderEntity[];
 
   async createMagexRecord(magexService: MagexService) {
