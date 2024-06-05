@@ -32,6 +32,7 @@ export class OrdersSubscriber
       return await this.dataSource.manager.findOne(ProductEntity, {
         withDeleted: true,
         where: { _id },
+        relations: ['brand', 'category', 'supplier'],
       });
     });
     return Promise.all(promises);
@@ -58,6 +59,9 @@ export class OrdersSubscriber
         ...productData,
         product,
         order,
+        supplier: product?.supplier,
+        brand: product?.brand,
+        category: product?.category,
       });
 
       return orderProduct;

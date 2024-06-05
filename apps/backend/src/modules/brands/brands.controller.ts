@@ -40,6 +40,9 @@ import { saneOperationsId } from '../../common/swagger.config';
       },
       products: {},
       categories: {},
+      orders: {
+        eager: true,
+      },
     },
   },
   routes: {
