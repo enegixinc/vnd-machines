@@ -1,5 +1,4 @@
 import {
-  AfterLoad,
   BeforeInsert,
   Column,
   Entity,
@@ -20,14 +19,14 @@ import { OrderProduct } from '../../orders/order-product.entity';
 
 @Entity('users')
 export class UserEntity extends DatabaseEntity implements IUserEntity {
-  @AfterLoad()
-  async calculateTotalOrders() {
-    this.totalOrders = this.orders.length;
-    this.totalRevenue = this.orders.reduce(
-      (acc, order) => acc + order.soldPrice,
-      0
-    );
-  }
+  // @AfterLoad()
+  // async calculateTotalOrders() {
+  //   this.totalOrders = this.orders.length;
+  //   this.totalRevenue = this.orders.reduce(
+  //     (acc, order) => acc + order.soldPrice,
+  //     0
+  //   );
+  // }
 
   @BeforeInsert()
   async hashPassword() {
