@@ -94,6 +94,13 @@
     -webkit-animation-duration: calc(var(--animate-duration) * 3);
     animation-duration: calc(var(--animate-duration) * 3);
 }
+.error-enter-active, .error-leave-active {
+    transition: 0.5s ease;
+}
+.error-enter-from, .error-leave-to {
+    opacity: 0;
+    transform: translateY(-30px);
+}
 @media (prefers-reduced-motion: reduce), print {
     .animate__animated {
         -webkit-animation-duration: 1ms !important;

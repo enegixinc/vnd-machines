@@ -27,11 +27,14 @@ export class OrdersSubscriber
     return OrderEntity;
   }
 
+  private fullOrderDetails: OrderProduct;
+
   async preloadProducts(productIds: string[]) {
     const promises = productIds.map(async (_id) => {
       return await this.dataSource.manager.findOne(ProductEntity, {
         withDeleted: true,
         where: { _id },
+        relations: ['brand', 'category', 'supplier', 'supplier.contacts'],
       });
     });
     return Promise.all(promises);
@@ -58,6 +61,9 @@ export class OrdersSubscriber
         ...productData,
         product,
         order,
+        supplier: product?.supplier,
+        brand: product?.brand,
+        category: product?.category,
       });
 
       return orderProduct;

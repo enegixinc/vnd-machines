@@ -15,7 +15,7 @@ export const vndClient = new VNDClient({
 });
 const errorHandler: Middleware<AxiosResponse> = async (response) => {
 
-    if (response.status !== 200) {
+    if (response.status !== 200 &&  response.status !== 201) {
         Swal.fire({
             icon: 'error',
             title: getTranslation('errors.ops'),

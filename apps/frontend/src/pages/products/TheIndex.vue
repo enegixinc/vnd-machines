@@ -28,7 +28,9 @@ const {t,
     DataTable,
     TheBreadcrumbs,
     rowLoading,
-    deleteEntity} = useProducts({})
+    deleteEntity} = useProducts({
+    join:['supplier||firstName','category||name','brand||name']
+})
 const tableFields=computed(()=>{
         return [
             { field: 'barcode', title: t("fields.barcode") ,condition:"equal",hide: false,cellRenderer:(item)=>item?.barcode || 'ــ'},

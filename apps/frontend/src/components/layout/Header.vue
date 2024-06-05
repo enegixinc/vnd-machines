@@ -4,8 +4,8 @@
             <div class="relative bg-white flex w-full items-center px-5 py-2.5 dark:bg-[#0e1726]">
                 <div class="horizontal-logo flex lg:hidden justify-between items-center ltr:mr-2 rtl:ml-2">
                     <router-link to="/" class="main-logo flex items-center shrink-0">
-                        <img class="w-24  inline dark:hidden " src="/assets/images/logo/vnd-logo-color.svg" alt="logo-light-mode">
-                        <img class="w-24  hidden dark:inline" src="/assets/images/logo/vnd-logo-white.svg" alt="logo-dark-mode">
+                        <img class="w-24 inline dark:hidden" src="/assets/images/logo/vnd-logo-color.svg" alt="logo-light-mode" />
+                        <img class="w-24 hidden dark:inline" src="/assets/images/logo/vnd-logo-white.svg" alt="logo-dark-mode" />
                     </router-link>
                     <a
                         href="javascript:;"
@@ -235,7 +235,14 @@
                                         </router-link>
                                     </li>
                                     <li class="border-t border-white-light dark:border-white-light/10">
-                                        <router-link to="/auth/boxed-signin" class="text-danger !py-3" @click="logout();close()">
+                                        <router-link
+                                            to="/auth/boxed-signin"
+                                            class="text-danger !py-3"
+                                            @click="
+                                                logout();
+                                                close();
+                                            "
+                                        >
                                             <icon-logout class="w-4.5 h-4.5 ltr:mr-2 rtl:ml-2 rotate-90 shrink-0" />
 
                                             {{ $t('authPages.signOut') }}
@@ -253,7 +260,7 @@
                 class="horizontal-menu hidden py-1.5 font-semibold px-6 lg:space-x-1.5 xl:space-x-8 rtl:space-x-reverse bg-white border-t border-[#ebedf2] dark:border-[#191e3a] dark:bg-[#0e1726] text-black dark:text-white-dark"
             >
                 <li class="menu nav-item relative">
-                    <router-link :to="{name:'home'}" class="nav-link">
+                    <router-link :to="{ name: 'home' }" class="nav-link">
                         <div class="flex items-center">
                             <icon-menu-home class="shrink-0" />
 
@@ -274,22 +281,22 @@
                     </a>
                     <ul class="sub-menu">
                         <li>
-                            <router-link :to="{name:'users'}">{{ $t('links.mangeUsers') }}</router-link>
+                            <router-link :to="{ name: 'users' }">{{ $t('links.mangeUsers') }}</router-link>
                         </li>
                         <li>
-                            <router-link :to="{name:'suppliers'}">{{$t('usersPages.suppliers')}}</router-link>
+                            <router-link :to="{ name: 'suppliers' }">{{ $t('usersPages.suppliers') }}</router-link>
                         </li>
                         <li>
-                            <router-link :to="{name:'deletedUsers'}">{{$t('usersPages.deletedUsers')}}</router-link>
+                            <router-link :to="{ name: 'deletedUsers' }">{{ $t('usersPages.deletedUsers') }}</router-link>
                         </li>
                         <li>
-                            <router-link to="/supplierss">{{$t('usersPages.addUser')}}</router-link>
+                            <router-link :to="{ name: 'addUser' }">{{ $t('usersPages.addUser') }}</router-link>
                         </li>
                         <li>
-                            <router-link to="/supplierss">{{$t('usersPages.profile')}}</router-link>
+                            <router-link to="/supplierss">{{ $t('usersPages.profile') }}</router-link>
                         </li>
                         <li>
-                            <router-link to="/supplierss">{{$t('usersPages.account_settings')}}</router-link>
+                            <router-link to="/supplierss">{{ $t('usersPages.account_settings') }}</router-link>
                         </li>
                     </ul>
                 </li>
@@ -305,11 +312,11 @@
                     </a>
                     <ul class="sub-menu">
                         <li>
-                            <router-link :to="{name:'suppliers'}">{{$t('links.manageSuppliers')}}</router-link>
+                            <router-link :to="{ name: 'suppliers' }">{{ $t('links.manageSuppliers') }}</router-link>
                         </li>
                         <li class="relative">
                             <a href="javascript:;"
-                            >{{ $t('links.contracts') }}
+                                >{{ $t('links.contracts') }}
                                 <div class="ltr:ml-auto rtl:mr-auto rtl:rotate-90 -rotate-90">
                                     <icon-caret-down />
                                 </div>
@@ -318,13 +325,13 @@
                                 class="rounded absolute top-0 ltr:left-[95%] rtl:right-[95%] min-w-[180px] bg-white z-[10] text-dark dark:text-white-dark dark:bg-[#1b2e4b] shadow p-0 py-2 hidden"
                             >
                                 <li>
-                                    <router-link :to="{name:'manage-contracts'}">{{ $t('links.manageContracts') }}</router-link>
+                                    <router-link :to="{ name: 'manage-contracts' }">{{ $t('links.manageContracts') }}</router-link>
                                 </li>
                                 <li>
-                                    <router-link :to="{name:'deletedContracts'}">{{ $t('links.deletedContracts') }}</router-link>
+                                    <router-link :to="{ name: 'deletedContracts' }">{{ $t('links.deletedContracts') }}</router-link>
                                 </li>
                                 <li>
-                                    <router-link to="/datatables/advanced">{{ $t('links.newContract') }}</router-link>
+                                    <router-link :to="{ name: 'addContracts' }">{{ $t('links.newContract') }}</router-link>
                                 </li>
                             </ul>
                         </li>
@@ -343,7 +350,7 @@
                     <ul class="sub-menu">
                         <li class="relative">
                             <a href="javascript:;"
-                            >{{ $t('links.machines') }}
+                                >{{ $t('links.machines') }}
                                 <div class="ltr:ml-auto rtl:mr-auto rtl:rotate-90 -rotate-90">
                                     <icon-caret-down />
                                 </div>
@@ -361,7 +368,7 @@
                         </li>
                         <li class="relative">
                             <a href="javascript:;"
-                            >{{ $t('links.products') }}
+                                >{{ $t('links.products') }}
                                 <div class="ltr:ml-auto rtl:mr-auto rtl:rotate-90 -rotate-90">
                                     <icon-caret-down />
                                 </div>
@@ -370,13 +377,13 @@
                                 class="rounded absolute top-0 ltr:left-[95%] rtl:right-[95%] min-w-[180px] bg-white z-[10] text-dark dark:text-white-dark dark:bg-[#1b2e4b] shadow p-0 py-2 hidden"
                             >
                                 <li>
-                                    <router-link :to="{name:'manageProducts'}">{{ $t('links.manageProducts') }}</router-link>
+                                    <router-link :to="{ name: 'manageProducts' }">{{ $t('links.manageProducts') }}</router-link>
                                 </li>
                                 <li>
-                                    <router-link :to="{name:'deletedProducts'}">{{ $t('links.deletedProducts') }}</router-link>
+                                    <router-link :to="{ name: 'deletedProducts' }">{{ $t('links.deletedProducts') }}</router-link>
                                 </li>
                                 <li>
-                                    <router-link to="/datatables/advanced">{{ $t('links.newProducts') }}</router-link>
+                                    <router-link :to="{ name: 'addProduct' }">{{ $t('links.newProducts') }}</router-link>
                                 </li>
                             </ul>
                         </li>
@@ -395,7 +402,7 @@
                     <ul class="sub-menu">
                         <li class="relative">
                             <a href="javascript:;"
-                            >{{ $t('links.categories') }}
+                                >{{ $t('links.categories') }}
                                 <div class="ltr:ml-auto rtl:mr-auto rtl:rotate-90 -rotate-90">
                                     <icon-caret-down />
                                 </div>
@@ -404,19 +411,19 @@
                                 class="rounded absolute top-0 ltr:left-[95%] rtl:right-[95%] min-w-[180px] bg-white z-[10] text-dark dark:text-white-dark dark:bg-[#1b2e4b] shadow p-0 py-2 hidden"
                             >
                                 <li>
-                                    <router-link :to="{name:'manageCategories'}">{{ $t('links.manageCategories') }}</router-link>
+                                    <router-link :to="{ name: 'manageCategories' }">{{ $t('links.manageCategories') }}</router-link>
                                 </li>
                                 <li>
-                                    <router-link :to="{name:'deletedCategories'}">{{ $t('links.deletedCategories') }}</router-link>
+                                    <router-link :to="{ name: 'deletedCategories' }">{{ $t('links.deletedCategories') }}</router-link>
                                 </li>
                                 <li>
-                                    <router-link to="/datatables/advanced">{{ $t('links.newCategories') }}</router-link>
+                                    <router-link :to="{ name: 'addCategories' }">{{ $t('links.newCategories') }}</router-link>
                                 </li>
                             </ul>
                         </li>
                         <li class="relative">
                             <a href="javascript:;"
-                            >{{ $t('links.brands') }}
+                                >{{ $t('links.brands') }}
                                 <div class="ltr:ml-auto rtl:mr-auto rtl:rotate-90 -rotate-90">
                                     <icon-caret-down />
                                 </div>
@@ -425,13 +432,13 @@
                                 class="rounded absolute top-0 ltr:left-[95%] rtl:right-[95%] min-w-[180px] bg-white z-[10] text-dark dark:text-white-dark dark:bg-[#1b2e4b] shadow p-0 py-2 hidden"
                             >
                                 <li>
-                                    <router-link :to="{name:'manageBrands'}">{{ $t('links.manageBrands') }}</router-link>
+                                    <router-link :to="{ name: 'manageBrands' }">{{ $t('links.manageBrands') }}</router-link>
                                 </li>
                                 <li>
-                                    <router-link :to="{name:'deletedBrands'}">{{ $t('links.deletedBrands') }}</router-link>
+                                    <router-link :to="{ name: 'deletedBrands' }">{{ $t('links.deletedBrands') }}</router-link>
                                 </li>
                                 <li>
-                                    <router-link to="/datatables/advanced">{{ $t('links.newBrands') }}</router-link>
+                                    <router-link :to="{ name: 'addBrands' }">{{ $t('links.newBrands') }}</router-link>
                                 </li>
                             </ul>
                         </li>
@@ -450,7 +457,7 @@
                     <ul class="sub-menu">
                         <li class="relative">
                             <a href="javascript:;"
-                            >{{ $t('links.requests') }}
+                                >{{ $t('links.requests') }}
                                 <div class="ltr:ml-auto rtl:mr-auto rtl:rotate-90 -rotate-90">
                                     <icon-caret-down />
                                 </div>
@@ -467,7 +474,7 @@
                             </ul>
                         </li>
                         <li>
-                            <router-link to="/supplierss">{{$t('links.reports')}}</router-link>
+                            <router-link to="/supplierss">{{ $t('links.reports') }}</router-link>
                         </li>
                     </ul>
                 </li>
@@ -477,12 +484,12 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, computed, reactive, watch } from 'vue';
+    import { computed, onMounted, reactive, ref, watch } from 'vue';
     import { useI18n } from 'vue-i18n';
 
     import appSetting from '@/app-setting';
 
-    import { useRoute,useRouter } from 'vue-router';
+    import { useRoute, useRouter } from 'vue-router';
     import { useAppStore } from '@/stores/index';
     import IconMenu from '@/components/icon/icon-menu.vue';
     import IconSearch from '@/components/icon/icon-search.vue';
@@ -499,11 +506,12 @@ import { ref, onMounted, computed, reactive, watch } from 'vue';
     import IconCaretDown from '@/components/icon/icon-caret-down.vue';
     import IconMenuUsersGroup from '@/components/icon/icon-users-group.vue';
     import IconMenuUsers from '@/components/icon/icon-users.vue';
-    import IconMenuApps from "@/components/icon/menu/icon-menu-apps.vue";
-import IconMenuNotesEdit from '@/components/icon/icon-notes-edit.vue';
-import IconMenuLayoutGrid from '@/components/icon/icon-layout-grid.vue';
-    import {useUser} from"@/stores/user"
-import IconMenuHome from "@/components/icon/icon-home.vue";
+    import IconMenuApps from '@/components/icon/menu/icon-menu-apps.vue';
+    import IconMenuNotesEdit from '@/components/icon/icon-notes-edit.vue';
+    import IconMenuLayoutGrid from '@/components/icon/icon-layout-grid.vue';
+    import { useUser } from '@/stores/user';
+    import IconMenuHome from '@/components/icon/icon-home.vue';
+
     const store = useAppStore();
     const route = useRoute();
     const search = ref(false);
@@ -539,7 +547,6 @@ import IconMenuHome from "@/components/icon/icon-home.vue";
         },
     ]);
 
-
     onMounted(() => {
         setActiveDropdown();
     });
@@ -572,10 +579,10 @@ import IconMenuHome from "@/components/icon/icon-home.vue";
     const removeNotification = (value: number) => {
         notifications.value = notifications.value.filter((d) => d.id !== value);
     };
-const user = useUser();
-const router = useRouter();
-function logout (){
-    user.logout();
-    router.push({name:'signin'})
-}
+    const user = useUser();
+    const router = useRouter();
+    function logout() {
+        user.logout();
+        router.push({ name: 'signin' });
+    }
 </script>

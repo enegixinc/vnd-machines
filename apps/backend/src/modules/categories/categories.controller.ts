@@ -42,6 +42,9 @@ import { CreateCategoryDto } from './dto/request/create-category.dto';
       },
       products: {},
       brands: {},
+      orders: {
+        eager: true,
+      },
     },
   },
   routes: {

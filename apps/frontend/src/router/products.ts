@@ -10,4 +10,9 @@ export const productsLinks :RouteRecordRaw[] = [
         name: 'deletedProducts',
         component: () => import('@/pages/products/DeletedProducts/TheIndex.vue'),
     },
+    {
+        path: '/add-product',
+        name: 'addProduct',
+        component: () => import('@/pages/products/addProduct/TheIndex.vue'),
+    },
 ]

@@ -10,4 +10,9 @@ export const brandsLinks :RouteRecordRaw[] = [
         name: 'deletedBrands',
         component: () => import('@/pages/brands/DeletedBrands/TheIndex.vue'),
     },
+    {
+        path: '/add-brands',
+        name: 'addBrands',
+        component: () => import('@/pages/brands/addBrands/Theindex.vue'),
+    },
 ]

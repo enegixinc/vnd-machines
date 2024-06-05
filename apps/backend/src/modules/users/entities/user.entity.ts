@@ -1,4 +1,5 @@
 import {
+  AfterLoad,
   BeforeInsert,
   Column,
   Entity,
@@ -15,9 +16,19 @@ import { ProductEntity } from '../../products/product.entity';
 import { CategoryEntity } from '../../categories/category.entity';
 import { BrandEntity } from '../../brands/brand.entity';
 import { ContractEntity } from '../../contracts/entities/contract.entity';
+import { OrderProduct } from '../../orders/order-product.entity';
 
 @Entity('users')
 export class UserEntity extends DatabaseEntity implements IUserEntity {
+  @AfterLoad()
+  async calculateTotalOrders() {
+    this.totalOrders = this.orders.length;
+    this.totalRevenue = this.orders.reduce(
+      (acc, order) => acc + order.soldPrice,
+      0
+    );
+  }
+
   @BeforeInsert()
   async hashPassword() {
     this.password = await bcrypt.hash(this.password, 10);
@@ -77,7 +88,16 @@ export class UserEntity extends DatabaseEntity implements IUserEntity {
     cascade: ['insert', 'update', 'recover', 'remove', 'soft-remove'],
   })
   @JoinColumn()
-  contracts: string[];
+  contracts: ContractEntity[];
+
+  @OneToMany(() => OrderProduct, (order) => order.supplier, {})
+  orders: OrderProduct[];
 
   documents: string[];
+
+  totalOrders: number;
+  totalOrdersInContract: number;
+
+  totalRevenue: number;
+  totalRevenueInContract: number;
 }
