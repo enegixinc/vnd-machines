@@ -45,7 +45,8 @@ const {t,
     recoverEntity:recoverProduct} =
     useProducts({
         filter:['deletedAt||$notnull'],
-        includeDeleted:1
+        includeDeleted:1,
+        join:['supplier||firstName','category||name','brand||name']
     })
 const tableFields=computed(()=>{
     return [

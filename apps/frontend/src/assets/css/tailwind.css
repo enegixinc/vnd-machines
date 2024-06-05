@@ -20,7 +20,7 @@
 /*@import 'range-slider.css';*/
 
 /* flatpickr */
-/*@import 'flatpickr.css';*/
+@import 'flatpickr.css';
 
 /* file upload with preview */
 /*@import 'file-upload-preview.css';*/
@@ -29,7 +29,7 @@
 /*@import 'markdown-editor.css';*/
 
 /* select2 */
-/*@import 'select2.css';*/
+@import 'select2.css';
 
 /* wizard */
 /*@import 'wizard.css';*/
@@ -47,7 +47,7 @@
 /*@import 'dragndrop.css';*/
 
 /* form element*/
-/*@import 'form-elements.css';*/
+@import 'form-elements.css';
 
 @tailwind base;
 @tailwind components;

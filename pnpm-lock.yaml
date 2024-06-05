@@ -14,6 +14,9 @@ dependencies:
   '@dataui/crud-typeorm':
     specifier: ^5.3.4
     version: 5.3.4
+  '@headlessui/vue':
+    specifier: ^1.7.3
+    version: 1.7.22(vue@3.4.27)
   '@liaoliaots/nestjs-redis':
     specifier: ^9.0.5
     version: 9.0.5(@nestjs/common@10.3.8)(@nestjs/core@10.3.8)(ioredis@5.4.1)
@@ -53,6 +56,9 @@ dependencies:
   '@nestjs/typeorm':
     specifier: ^10.0.2
     version: 10.0.2(@nestjs/common@10.3.8)(@nestjs/core@10.3.8)(reflect-metadata@0.1.14)(rxjs@7.8.1)(typeorm@0.3.20)
+  '@suadelabs/vue3-multiselect':
+    specifier: ^1.0.2
+    version: 1.0.2
   '@types/bcrypt':
     specifier: '*'
     version: 5.0.2
@@ -149,6 +155,9 @@ dependencies:
   vue:
     specifier: ^3.3.4
     version: 3.4.27(typescript@5.4.5)
+  vue-flatpickr-component:
+    specifier: ^11.0.1
+    version: 11.0.5(vue@3.4.27)
   vue-height-collapsible:
     specifier: ^0.1.1
     version: 0.1.1(vue@3.4.27)
@@ -2263,6 +2272,16 @@ packages:
     resolution: {integrity: sha512-XQ3cU+Q8Uqmrbf2e0cIC/QN43sTBSC8KF12u29Mb47tWrt2hAgBXSgpZMj4Ao8Uk0iJcU99QsOCaIL8934obCg==}
     engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0, npm: '>=6.14.13'}
 
+  /@headlessui/vue@1.7.22(vue@3.4.27):
+    resolution: {integrity: sha512-Hoffjoolq1rY+LOfJ+B/OvkhuBXXBFgd8oBlN+l1TApma2dB0En0ucFZrwQtb33SmcCqd32EQd0y07oziXWNYg==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      vue: ^3.2.0
+    dependencies:
+      '@tanstack/vue-virtual': 3.5.0(vue@3.4.27)
+      vue: 3.4.27(typescript@5.4.5)
+    dev: false
+
   /@hey-api/openapi-ts@0.45.1(typescript@5.4.5):
     resolution: {integrity: sha512-TT4YC9SshgruHnr/z47LD945hFhefuD6xSfdt9+fv/sU+shP0nPJhNdyt71oMGTAB9h6nsrjC8z84ZnoAGKHrg==}
     engines: {node: ^18.0.0 || >=20.0.0}
@@ -4176,6 +4195,11 @@ packages:
     resolution: {integrity: sha512-Uy0+khmZqUrUGm5dmMqVlnvufZRSK0FbYzVgp0UMstm+F5+W2/jnEEQyc9vo1ZR/E5ZI/B1WjjoTqBqwJL6Krw==}
     dev: false
 
+  /@suadelabs/vue3-multiselect@1.0.2:
+    resolution: {integrity: sha512-bRe5SOAkY/egKC4yMQ1lXg3BTlnulA+0CXbl9yM0X7oMh8oavJUlSgb7WV7EXyOzIH2Ot0k28hdF3/K6D/YEFA==}
+    engines: {node: '>= 4.0.0', npm: '>= 3.0.0'}
+    dev: false
+
   /@swc-node/core@1.13.1(@swc/core@1.3.107)(@swc/types@0.1.7):
     resolution: {integrity: sha512-emB5l2nZsXjUEAuusqjYvWnQMLWZp6K039Mv8aq5SX1rsNM/N7DNhw1i4/DX7AyzNZ0tT+ASWyTvqEURldp5HA==}
     engines: {node: '>= 10'}
@@ -4351,6 +4375,19 @@ packages:
       postcss-selector-parser: 6.0.10
       tailwindcss: 3.4.3(ts-node@10.9.1)
     dev: true
+
+  /@tanstack/virtual-core@3.5.0:
+    resolution: {integrity: sha512-KnPRCkQTyqhanNC0K63GBG3wA8I+D1fQuVnAvcBF8f13akOKeQp1gSbu6f77zCxhEk727iV5oQnbHLYzHrECLg==}
+    dev: false
+
+  /@tanstack/vue-virtual@3.5.0(vue@3.4.27):
+    resolution: {integrity: sha512-wvRQ8sFxn/NDr3WvI5XabhFovZ5MBmpEck2GHpTxYunmV63Ovpl30lRu6W5BPQo35a1GqDZ+Pvzlz6WDWRNqqw==}
+    peerDependencies:
+      vue: ^2.7.0 || ^3.0.0
+    dependencies:
+      '@tanstack/virtual-core': 3.5.0
+      vue: 3.4.27(typescript@5.4.5)
+    dev: false
 
   /@tootallnate/once@2.0.0:
     resolution: {integrity: sha512-XCuKFP5PS55gnMVu3dty8KPatLqUoy/ZYzDzAGCQ8JNFCkLXzmI7vNHCR+XpbZaMWQK/vQubr7PkYq8g470J/A==}
@@ -8303,6 +8340,10 @@ packages:
     resolution: {integrity: sha512-b6suED+5/3rTpUBdG1gupIl8MPFCAMA0QXwmljLhvCUKcUvdE4gWky9zpuGCcXHOsz4J9wPGNWq6OKpmIzz3hQ==}
     hasBin: true
     dev: true
+
+  /flatpickr@4.6.13:
+    resolution: {integrity: sha512-97PMG/aywoYpB4IvbvUJi0RQi8vearvU0oov1WW3k0WZPBMrTQVqekSX5CjSG/M4Q3i6A/0FKXC7RyAoAUUSPw==}
+    dev: false
 
   /flatted@3.3.1:
     resolution: {integrity: sha512-X8cqMLLie7KsNUDSdzeN8FYK9rEt4Dt67OsG/DNGnYTSDBG4uFAJFBnUeiV+zCVAvwFy56IjM9sH51jVaEhNxw==}
@@ -14138,6 +14179,16 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
+
+  /vue-flatpickr-component@11.0.5(vue@3.4.27):
+    resolution: {integrity: sha512-Vfwg5uVU+sanKkkLzUGC5BUlWd5wlqAMq/UpQ6lI2BCZq0DDrXhOMX7hrevt8bEgglIq2QUv0K2Nl84Me/VnlA==}
+    engines: {node: '>=14.13.0'}
+    peerDependencies:
+      vue: ^3.2.0
+    dependencies:
+      flatpickr: 4.6.13
+      vue: 3.4.27(typescript@5.4.5)
+    dev: false
 
   /vue-height-collapsible@0.1.1(vue@3.4.27):
     resolution: {integrity: sha512-GnjExhRPMA/YaGkOb18AImeGGyjnHLsUKtKHSmnqGPpaSbRgh44nlLqgXOl9nL+HFAlTZ4a4gpUaDno1HyZnHw==}

@@ -138,7 +138,12 @@
         "addUser": "Add User",
         "recoverUser": "Recover User",
         "TheUserHasBeenSuccessfullyRecovered": "The user has been successfully recovered.",
-        "TheUserHasBeenSuccessfullyDeleted": "The user has been successfully deleted."
+        "TheUserHasBeenSuccessfullyDeleted": "The user has been successfully deleted.",
+        "addNewUser": "Add New User"
+    },
+    "roles": {
+        "admin": "Admin",
+        "supplier": "Supplier"
     },
     "authPages": {
         "signIn": "SIGN IN",
@@ -155,6 +160,13 @@
     "languages": {
         "English": "English",
         "Arabic": "اللغة العربية"
+    },
+    "validations": {
+        "required": "{field} Required !",
+        "number": "{field} Must Be Number !",
+        "email": "Enter Valid Email !",
+        "maxLength": "{field} cannot exceed {max} characters !",
+        "minLength": "{field} must be at least {min} characters long !"
     },
     "fields": {
         "email": "Email",
@@ -178,17 +190,61 @@
         "barcode": "Barcode",
         "price": "Price",
         "category": "Category",
-        "brand": "brand",
+        "brand": "Brand",
         "pricePerKilo": "Price Per Kilo",
         "additionPrice": "Addition Price",
         "costPrice": "Cost Price",
         "categoryName": "Category Name",
         "referTo": "Refer To",
-        "brandName": "Brand Name"
+        "brandName": "Brand Name",
+        "upc": "UPC",
+        "prodType": "Product Type",
+        "sortIndex": "Sort Index",
+        "ageControl": "Age Control",
+        "virtualProduct": "Virtual Product",
+        "vatIndex": "Vat Index",
+        "length": "Length",
+        "height": "Height",
+        "width": "Width",
+        "ar": "{field} باللغة العربية",
+        "en": "{field} English",
+        "details": "Details",
+        "description": "Description",
+        "keyFeatures": "Key Features",
+        "include": "Include",
+        "specification": "Specification",
+        "ingredients": "Ingredients",
+        "supplier": "Supplier",
+        "auto": "Auto"
     },
     "placeHolders": {
         "enterEmail": "Enter Email",
-        "enterPassword": "Enter Password"
+        "enterPassword": "Enter Password",
+        "enterUpc": "Enter UPC",
+        "enterBarcode": "Enter Barcode",
+        "enterAdditionPrice":" Enter Addition Price",
+        "enterCostPrice": "Enter Cost Price",
+        "enterPrice": "Enter Price",
+        "enterReferTo":"Enter Email",
+        "enterSortIndex": "Enter Sort Index",
+        "enterAgeControl": "Enter Age Control",
+        "enterVirtualProduct": "Enter Virtual Product",
+        "enterVatIndex": "Enter Vat Index",
+        "enterLength": "Enter Length",
+        "enterHeight": "Enter Height",
+        "enterWidth": "Enter Width",
+        "enterAR": "Enter {field} باللغة العربية",
+        "enterEn": "Enter {field} English",
+        "selectSupplier": "Select Supplier",
+        "selectCategory": "Select Category",
+        "selectBrand": "Select Brand",
+        "enterPhoneNo": "Enter Phone No",
+        "enterBusinessName": "Enter Business Name",
+        "selectRole": "Select Role",
+        "enterFeePerSale": "Enter Fee Per Sale",
+        "selectFeeType": "Select Fee Type",
+        "selectStatus": "Select Status",
+        "enterDescription": "Enter Description"
     },
     "allRightsReserved": "All Rights Reserved",
     "errors": {
@@ -253,27 +309,46 @@
     "contractsPages": {
         "contracts": "Contracts",
         "deletedContracts": "Deleted Contracts",
-        "recoverContract": "Recover Contract"
+        "recoverContract": "Recover Contract",
+        "addContract": "Add Contract"
     },
     "entitiesPages": {
-        "TheEntityHasBeenSuccessfullyDeleted": "The user has been successfully deleted.",
-        "TheEntityHasBeenSuccessfullyRecovered": "The user has been successfully recovered."
+        "TheEntityHasBeenSuccessfullyDeleted": "Successfully deleted.",
+        "TheEntityHasBeenSuccessfullyRecovered": "Successfully recovered.",
+        "TheEntityHasBeenSuccessfullyAdded": "Successfully added."
     },
     "productsPages": {
         "products": "Products",
         "deletedProducts": "Deleted Products",
-        "recoverProducts": "Recover Product"
+        "recoverProducts": "Recover Product",
+        "dimensions": "Dimensions",
+        "addProduct": "Add Product"
 
     },
     "unknown": "Unknown",
     "categoriesPages": {
         "categories": "Categories",
         "deletedCategories": "Deleted Categories",
-        "recoverCategory": "Recover Category"
+        "recoverCategory": "Recover Category",
+        "addNewCategory": "Add New Category",
+        "addNewCategoryButton": "Add Category"
     },
     "brandsPages": {
         "brands": "Brands",
         "deletedBrands": "Deleted Brands",
-        "recoverBrand": "Recover Brand"
+        "recoverBrand": "Recover Brand",
+        "addNewBrand": "Add New Brand",
+        "addNewBrandButton": "Add Brand"
+    },
+    "noResults": "No elements found. Consider changing the search query.",
+    "noOptions": "List is empty.",
+    "feeType": {
+        "percentage": "Percentage",
+        "fixed": "Fixed"
+    },
+    "status": {
+        "terminated": "Terminated",
+        "expired": "Expired",
+        "active": "Active"
     }
 }

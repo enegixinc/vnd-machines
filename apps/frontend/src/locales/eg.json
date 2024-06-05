@@ -138,7 +138,8 @@
         "addUser": "إضافة مستخدم",
         "recoverUser": "استعادة المستخدم",
         "TheUserHasBeenSuccessfullyRecovered": "تم استعادة المستخدم بنجاح.",
-        "TheUserHasBeenSuccessfullyDeleted": "تم حذف المستخدم بنجاح."
+        "TheUserHasBeenSuccessfullyDeleted": "تم حذف المستخدم بنجاح.",
+        "addNewUser": "إضافة مستخدم جديد"
     },
     "authPages": {
         "signIn": "تسجيل الدخول",
@@ -157,6 +158,13 @@
         "English": "English",
         "Arabic": "اللغة العربية"
     },
+    "validations": {
+        "required": "{field} مطلوب !",
+        "number": "{field} يجب ان يكون رقم",
+        "email": "ادخل البريد اﻹلكتروني بطريقة صحيحة !",
+        "maxLength": "{field}  لا يمكن أن يتجاوز {max} حرفًا !",
+        "minLength": "{field} يجب أن يكون طوله {min} أحرف على الأقل !"
+    },
     "fields": {
         "email": "البريد الإلكتروني",
         "password": "كلمة المرور",
@@ -170,7 +178,7 @@
         "deletedAt": "تم الحذف في",
         "totalSales": "إجمالي المبيعات",
         "totalRevenue": "إجمالي الإيرادات",
-        "feePerSale": "رسوم البيع",
+        "feePerSale": "رسوم لكل عملية بيع",
         "feeType": "نوع الرسوم",
         "startDate": "تاريخ البدء",
         "endDate": "تاريخ الانتهاء",
@@ -179,17 +187,70 @@
         "barcode": "الباركود",
         "price": "السعر",
         "category": "الفئه",
-        "brand": "ماركه",
+        "brand": "العلامة التجاريه",
         "pricePerKilo": "السعر لكل كيلو",
         "additionPrice": "سعر إضافي",
         "costPrice": "سعر التكلفة",
         "categoryName": "اسم الفئة",
         "referTo": "الرجوع إلى",
-        "brandName": "اسم العلامات التجاريه"
+        "brandName": "اسم العلامات التجاريه",
+        "upc": "رمز المنتج العالمي",
+        "prodType": "نوع المنتج",
+        "sortIndex": "ترتيب",
+        "ageControl": "مراقبة العمر",
+        "virtualProduct": "المنتج الافتراضي",
+        "vatIndex": "ضريبة القيمة المضافة",
+        "length": "الطول",
+        "height": "الارتفاع",
+        "width": "العرض",
+        "ar": "{field} باللغة العربية",
+        "en": "{field} English",
+        "details": "التفاصيل",
+        "description": "الوصف",
+        "keyFeatures": "الميزات الرئيسية",
+        "include": "تشمل",
+        "specification": "المواصفات",
+        "ingredients": "المكونات",
+        "supplier": "المورد",
+        "firstName": "الاسم الأول",
+        "lastName": "اسم العائلة",
+        "auto": "تلقائي"
+    },
+    "roles": {
+        "admin": "مدير",
+        "supplier": "مورد"
     },
     "placeHolders": {
         "enterEmail": "ادخل البريد الإلكتروني",
-        "enterPassword": "ادخل كلمة المرور"
+        "enterPassword": "ادخل كلمة المرور",
+        "enterUpc": "ادخل رمز المنتج العالمي",
+        "enterBarcode": "ادخل الباركود",
+        "enterAdditionPrice": "ادخل سعر إضافي",
+        "enterCostPrice": "ادخل سعر التكلفة",
+        "enterPrice": "ادخل السعر",
+        "enterReferTo": "ادخل البريد الإلكتروني",
+        "enterProdType": "ادخل نوع المنتج",
+        "enterSortIndex": "ادخل الترتيب",
+        "enterAgeControl": "ادخل مراقبة العمر",
+        "enterVirtualProduct": "ادخل المنتج الافتراضي",
+        "enterVatIndex": "ادخل القيمة المضافة",
+        "enterLength": "ادخل الطول",
+        "enterHeight": "ادخل الارتفاع",
+        "enterWidth": "ادخل العرض",
+        "enterAR": "ادخل {field} باللغة العربية",
+        "enterEn": "ادخل {field} English",
+        "selectSupplier": "اختر المورد",
+        "selectCategory": "اختر الفئه",
+        "selectBrand": "اختر العلامة التجاريه",
+        "enterFirstName": "ادخل الاسم الأول",
+        "enterLastName": "ادخل ااسم العائلة",
+        "enterPhoneNo": "ادخل رقم الهاتف",
+        "enterBusinessName": "ادخل اسم العمل",
+        "selectRole": "اختر الدور",
+        "selectFeeType": "اختر نوع الرسوم",
+        "selectStatus": "اختر الحاله",
+        "enterFeePerSale": "ادخل الرسوم لكل عملية بيع",
+        "enterDescription": "ادخل الوصف"
     },
     "allRightsReserved": "جميع الحقوق محفوظة",
     "errors": {
@@ -254,27 +315,45 @@
     "contractsPages": {
         "contracts": "العقود",
         "deletedContracts": "العقود المحذوفة",
-        "recoverContract": "استعادة العقد"
+        "recoverContract": "استعادة العقد",
+        "addContract": "إضافة العقد"
     },
     "entitiesPages": {
         "TheEntityHasBeenSuccessfullyRecovered": "تم  المستخدم بنجاح.",
-        "TheEntityHasBeenSuccessfullyDeleted": "تم حذف  بنجاح."
+        "TheEntityHasBeenSuccessfullyDeleted": "تم حذف  بنجاح.",
+        "TheEntityHasBeenSuccessfullyAdded": "تم الإضافة  بنجاح."
     },
     "productsPages": {
         "products": "المنتجات",
         "deletedProducts": "المنتجات المحذوفة",
-        "recoverProducts": "استعادة المنتج"
-
+        "recoverProducts": "استعادة المنتج",
+        "dimensions": "الأبعاد",
+        "addProduct": "إضافة المنتج"
     },
     "Unknown": "غير معروف",
     "categoriesPages": {
         "categories": "الفئات",
         "deletedCategories": "الفئات المحذوفة",
-        "recoverCategory": "استعادة الفئة"
+        "recoverCategory": "استعادة الفئة",
+        "addNewCategory": "إضافة فئة جديدة",
+        "addNewCategoryButton": "إضافة الفئة"
     },
     "brandsPages": {
         "brands": "العلامات التجاريه",
         "deletedBrands": "العلامات التجاريه المحذوفة",
-        "recoverBrand": "استعادة العلامة التجارية"
+        "recoverBrand": "استعادة العلامة التجارية",
+        "addNewBrand": "إضافة علامة تجارية جديدة",
+        "addNewBrandButton": "إضافة العلامة التجارية"
+    },
+    "noResults": "لم يتم العثور على عناصر. فكر في تغيير طلب البحث.",
+    "noOptions": "القائمة فارغة.",
+    "feeType": {
+        "percentage": "نسبه",
+        "fixed": "ثابت"
+    },
+    "status": {
+        "terminated": "انهاء",
+        "expired": "منتهيه",
+        "active": "نشط"
     }
 }

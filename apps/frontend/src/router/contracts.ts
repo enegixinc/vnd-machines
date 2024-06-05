@@ -1,5 +1,6 @@
 import { RouteRecordRaw } from 'vue-router';
-export const contractsLinks :RouteRecordRaw[] = [
+
+export const contractsLinks: RouteRecordRaw[] = [
     {
         path: '/contracts',
         name: 'manage-contracts',
@@ -10,4 +11,9 @@ export const contractsLinks :RouteRecordRaw[] = [
         name: 'deletedContracts',
         component: () => import('@/pages/contracts/DeletedContracts/TheIndex.vue'),
     },
-]
+    {
+        path: '/add-contracts',
+        name: 'addContracts',
+        component: () => import('@/pages/contracts/addContract/TheIndex.vue'),
+    },
+];
