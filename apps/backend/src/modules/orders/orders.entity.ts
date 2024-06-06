@@ -39,22 +39,11 @@ export class OrderEntity extends MagexDatabaseEntity {
   //
 
   @OneToMany(() => OrderProductsDetails, (orderProduct) => orderProduct.order, {
-    cascade: true,
+    onDelete: 'NO ACTION',
+    onUpdate: 'NO ACTION',
+    cascade: true
   })
   products: OrderProductsDetails[];
-
-  // @ManyToOne(() => UserEntity, (supplier) => supplier.orders, {})
-  // supplier: UserEntity;
-  //
-  // @ManyToOne(() => CategoryEntity, (category) => category.orders, {
-  //   eager: true,
-  // })
-  // category: CategoryEntity;
-  //
-  // @ManyToOne(() => BrandEntity, (brand) => brand.orders, {
-  //   eager: true,
-  // })
-  // brand: BrandEntity;
 
   @ApiProperty({ type: String })
   @Column()

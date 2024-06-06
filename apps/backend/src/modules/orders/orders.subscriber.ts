@@ -1,8 +1,4 @@
-import {
-  DataSource,
-  EntitySubscriberInterface,
-  EventSubscriber,
-} from 'typeorm';
+import { DataSource, EntitySubscriberInterface, EventSubscriber } from 'typeorm';
 import { MagexService } from '../../services/magex/magex.service';
 import { Inject } from '@nestjs/common';
 import { EntitySyncer } from '../../common/entities/entity-syncer/entity-syncer';
@@ -60,11 +56,9 @@ export class OrdersSubscriber
 
       return orderProduct;
     });
-    console.log('productsInOrder', productsDetails);
 
     Object.assign(order, record);
     order.products = productsDetails;
-    console.log('order', order);
     return order;
   }
 }

@@ -84,7 +84,10 @@ export class ProductEntity
   @OneToMany(
     () => OrderProductsDetails,
     (orderProduct) => orderProduct.product,
-    {}
+    {
+      onDelete: 'NO ACTION',
+      
+    }
   )
   orders: OrderProductsDetails[];
 
