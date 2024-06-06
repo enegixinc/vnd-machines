@@ -1,4 +1,9 @@
-import { ISerializedBrand, ISerializedCategory, ISerializedProduct, ISerializedUser } from '@core';
+import {
+  ISerializedBrand,
+  ISerializedCategory,
+  ISerializedProduct,
+  ISerializedUser,
+} from '@core';
 
 import { ApiProperty } from '@nestjs/swagger';
 import { decorate, Mixin } from 'ts-mixer';
@@ -7,7 +12,7 @@ import { SharedProductDto } from '../shared/shared-product.dto';
 import { SharedBrandDto } from '../../../brands/dto/shared/shared-brand.dto';
 import { SharedUserDto } from '../../../users/dto/shared/shared-user.dto';
 import { SharedCategoryDto } from '../../../categories/dto/shared/shared-category.dto';
-import { OrderEntity } from '../../../orders/orders.entity';
+import { OrderEntity } from '../../../orders/order.entity';
 import { FormatMoney } from 'format-money-js';
 
 export class SerializedProductDto
@@ -40,7 +45,6 @@ export class SerializedProductDto
     })
   )
   totalOrders: number;
-
 
   @decorate(
     ApiProperty({

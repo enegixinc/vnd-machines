@@ -17,6 +17,7 @@ import { BrandEntity } from '../brands/brand.entity';
 import { CategoryEntity } from '../categories/category.entity';
 import { MagexService } from '../../services/magex/magex.service';
 import { OrderProductsDetails } from '../orders/order-details.entity';
+import { MachineProduct } from '../machines/entities/machine-product.entity';
 
 @Entity('products')
 export class ProductEntity
@@ -86,10 +87,20 @@ export class ProductEntity
     (orderProduct) => orderProduct.product,
     {
       onDelete: 'NO ACTION',
-      
+
     }
   )
   orders: OrderProductsDetails[];
+
+  @OneToMany(
+    () => MachineProduct,
+    (machineProduct) => machineProduct.product,
+    {
+      onDelete: 'NO ACTION',
+
+    }
+  )
+  machines: MachineProduct[];
 
   @ManyToOne(() => UserEntity, (user) => user.products)
   supplier: ReferenceByID<ISerializedUser>[];

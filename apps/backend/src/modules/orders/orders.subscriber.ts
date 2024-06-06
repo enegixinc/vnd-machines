@@ -1,10 +1,15 @@
-import { DataSource, EntitySubscriberInterface, EventSubscriber } from 'typeorm';
+import {
+  DataSource,
+  EntitySubscriberInterface,
+  EventSubscriber,
+} from 'typeorm';
 import { MagexService } from '../../services/magex/magex.service';
 import { Inject } from '@nestjs/common';
 import { EntitySyncer } from '../../common/entities/entity-syncer/entity-syncer';
-import { OrderEntity } from './orders.entity';
+import { OrderEntity } from './order.entity';
 import { ProductEntity } from '../products/product.entity';
 import { OrderProductsDetails } from './order-details.entity';
+import { MachineEntity } from '../machines/entities/machine.entity';
 
 @EventSubscriber()
 export class OrdersSubscriber
@@ -33,6 +38,13 @@ export class OrdersSubscriber
     return Promise.all(promises);
   }
 
+  async preloadMachine(machineId: string) {
+    return await this.dataSource.manager.findOne(MachineEntity, {
+      withDeleted: true,
+      where: { _id: machineId },
+    });
+  }
+
   async handleRelationships(record: any): Promise<OrderEntity> {
     const productIds = record.products.map((p) => {
       if (p.product) {
@@ -59,6 +71,8 @@ export class OrdersSubscriber
 
     Object.assign(order, record);
     order.products = productsDetails;
+    order.machine = await this.preloadMachine(record?.machineID?._id);
+    console.log('machine', order.machine);
     return order;
   }
 }

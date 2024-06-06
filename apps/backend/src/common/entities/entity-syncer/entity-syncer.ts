@@ -152,7 +152,7 @@ export abstract class EntitySyncer<
   @Cron(
     process.env.NODE_ENV === 'production'
       ? CronExpression.EVERY_SECOND
-      : CronExpression.EVERY_SECOND
+      : CronExpression.EVERY_5_MINUTES
   )
   // @timer()
   async syncWithMagex() {

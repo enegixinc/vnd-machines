@@ -1,4 +1,4 @@
-export interface Root {
+export interface MachinesEndpointResponse {
   groups: any[];
   machines: Machine[];
 }
