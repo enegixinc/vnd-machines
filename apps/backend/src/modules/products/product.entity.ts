@@ -17,12 +17,19 @@ import { BrandEntity } from '../brands/brand.entity';
 import { CategoryEntity } from '../categories/category.entity';
 import { MagexService } from '../../services/magex/magex.service';
 import { OrderDetails } from '../orders/order-details.entity';
+import { TotalRevenue, TotalSales } from '../categories/decorators';
 
 @Entity('products')
 export class ProductEntity
   extends MagexDatabaseEntity
   implements IProductEntity
 {
+  @TotalSales('product_id')
+  totalSales: number;
+
+  @TotalRevenue('product_id')
+  totalRevenue: number;
+
   @OneToMany(() => OrderDetails, (orderProduct) => orderProduct.product, {})
   orders: OrderDetails[];
 

@@ -16,6 +16,7 @@ import { CategoryEntity } from '../../categories/category.entity';
 import { BrandEntity } from '../../brands/brand.entity';
 import { ContractEntity } from '../../contracts/entities/contract.entity';
 import { OrderDetails } from '../../orders/order-details.entity';
+import { TotalRevenue, TotalSales } from '../../categories/decorators';
 
 @Entity('users')
 export class UserEntity extends DatabaseEntity implements IUserEntity {
@@ -23,6 +24,12 @@ export class UserEntity extends DatabaseEntity implements IUserEntity {
   async hashPassword() {
     this.password = await bcrypt.hash(this.password, 10);
   }
+
+  @TotalSales('supplier_id')
+  totalSales: number;
+
+  @TotalRevenue('supplier_id')
+  totalRevenue: number;
 
   @Factory((faker) => faker.person.fullName())
   @Column({ type: 'varchar', length: 100, nullable: false })
@@ -86,10 +93,4 @@ export class UserEntity extends DatabaseEntity implements IUserEntity {
   orders: OrderDetails[];
 
   documents: string[];
-
-  @Column({ type: 'numeric', nullable: false, default: 0 })
-  totalSales: number;
-
-  @Column({ type: 'numeric', nullable: false, default: 0 })
-  totalRevenue: number;
 }

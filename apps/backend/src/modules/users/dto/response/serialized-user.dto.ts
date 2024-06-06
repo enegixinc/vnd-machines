@@ -14,11 +14,31 @@ import { SharedUserDto } from '../shared/shared-user.dto';
 import { UserEntity } from '../../entities/user.entity';
 import { SerializedBrandDto } from '../../../brands/dto/response/serialized-brand.dto';
 import { SerializedContractDto } from '../../../contracts/dto/response/serialized-contract.dto';
+import { FormatMoney } from 'format-money-js';
 
 export class SerializedUserDto
   extends Mixin(DatabaseEntity, SharedUserDto)
   implements ISerializedUser
 {
+  @decorate(
+    ApiProperty({
+      type: 'number',
+      example: 0,
+    })
+  )
+  totalSales: number;
+
+  @decorate(
+    ApiProperty({
+      type: 'number',
+      example: new FormatMoney().un(33421.233, {
+        decimals: 2,
+        decimalPoint: '.',
+      }),
+    })
+  )
+  totalRevenue: number;
+
   @decorate(
     ApiProperty({
       type: () => [SerializedProductDto],

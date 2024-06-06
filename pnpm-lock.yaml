@@ -92,6 +92,9 @@ dependencies:
   express:
     specifier: ^4.19.2
     version: 4.19.2
+  format-money-js:
+    specifier: ^1.6.3
+    version: 1.6.3
   http-server:
     specifier: ^14.1.1
     version: 14.1.1
@@ -8412,6 +8415,10 @@ packages:
       asynckit: 0.4.0
       combined-stream: 1.0.8
       mime-types: 2.1.35
+
+  /format-money-js@1.6.3:
+    resolution: {integrity: sha512-neeYRPJ5zeepUooQaYmQQLmISmA4d8SbhyMGbr+dCXoQG0eVDYItWMK8HcMbBJTAn15l5Xf76pqJGoAtu+e8Vg==}
+    dev: false
 
   /forwarded@0.2.0:
     resolution: {integrity: sha512-buRG0fpBtRHSTCOASe6hD258tEubFoRLb4ZNA6NxMVHNw2gOcwHo9wyablzMzOA5z9xA9L1KNjk/Nt6MT9aYow==}
