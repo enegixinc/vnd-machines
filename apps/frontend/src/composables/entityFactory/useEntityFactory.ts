@@ -101,12 +101,17 @@ export default function useEntityFactory<T, P extends object>(client: ApiClient<
                 rowLoading.value = null;
             }
         }
-        type ResestForm = () => void;
+        type ResestForm = (state?: unknown, options?: unknown) => void;
         async function addEntity(data, resetForm: ResestForm) {
             try {
+                const filledData = handleEmptyLang(data);
+                resetForm({
+                    values: filledData,
+                });
+                const cleanedDate = cleanResource(filledData);
                 loading.value = true;
                 await client.createOne({
-                    requestBody: data,
+                    requestBody: cleanedDate,
                 });
                 showSuccessNotification(t('entitiesPages.TheEntityHasBeenSuccessfullyAdded'));
                 resetForm();
@@ -115,6 +120,47 @@ export default function useEntityFactory<T, P extends object>(client: ApiClient<
             } finally {
                 loading.value = false;
             }
+        }
+
+        type AnyObject = { [key: string]: any };
+
+        function cleanResource(obj: AnyObject): AnyObject {
+            if (Array.isArray(obj)) {
+                return obj.map(cleanResource);
+            } else if (typeof obj === 'object' && obj !== null) {
+                const newObj: AnyObject = {};
+                for (const key in obj) {
+                    if (obj[key] && typeof obj[key] === 'object') {
+                        const nestedObj = cleanResource(obj[key]);
+                        if (Object.keys(nestedObj).length > 0 || Array.isArray(nestedObj)) {
+                            newObj[key] = nestedObj;
+                        }
+                    } else if (obj[key] !== '' && obj[key] !== null && obj[key] !== undefined) {
+                        newObj[key] = obj[key];
+                    }
+                }
+                return newObj;
+            }
+            return obj;
+        }
+
+        function handleEmptyLang(obj: AnyObject): AnyObject {
+            const filledData: AnyObject = {};
+            if (typeof obj === 'object' && obj !== null) {
+                for (const key in obj) {
+                    const newObject = obj[key] && Object.hasOwn(obj[key], 'ar') && obj[key];
+                    if (newObject) {
+                        if (newObject['en'] === '' && newObject['ar'] !== '') {
+                            newObject['en'] = newObject['ar'];
+                        }
+                        if (newObject['ar'] === '' && newObject['en'] !== '') {
+                            newObject['ar'] = newObject['en'];
+                        }
+                        filledData[key] = newObject;
+                    }
+                }
+            }
+            return { ...obj, ...filledData };
         }
 
         return {
