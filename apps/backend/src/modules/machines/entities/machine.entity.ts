@@ -1,32 +1,66 @@
 import { MagexDatabaseEntity } from '../../../common/database.entity';
 import { MagexService } from '../../../services/magex/magex.service';
 import { MachinesEndpointResponse } from '../../../../../../libs/core/src/interfaces/machine';
-import { Column, Entity, OneToMany } from 'typeorm';
+import { Column, Entity, OneToMany, VirtualColumn } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { MachineProduct } from './machine-product.entity';
-import {
-  TotalOrders,
-  TotalRevenue,
-  TotalSoldProducts,
-} from '../../categories/decorators';
 import { OrderEntity } from '../../orders/order.entity';
-
-// integers
-// "laneLength": 7.8,
-//   "height": 85,
-//   "slot_height": 2.54,
-//   "step_depth": 2.4,
-//   "step_num": 19,
 
 @Entity('machines')
 export class MachineEntity extends MagexDatabaseEntity {
-  @TotalSoldProducts('machines', 'machine_id')
-  totalSoldProducts: number;
-
-  @TotalRevenue('machines', 'machine_id')
+  @VirtualColumn({
+    type: 'int',
+    query: (entity) => `
+        SELECT
+            COALESCE(SUM(O.total), 0)
+        FROM
+            ORDERS O
+            JOIN MACHINES M ON M._ID = O.MACHINE_ID
+        WHERE
+            M._id = ${entity}._id
+    `,
+    transformer: {
+      from: (value) => Number(value),
+      to: (value) => value,
+    },
+  })
   totalRevenue: number;
 
-  @TotalOrders('machines', 'machine_id')
+  @VirtualColumn({
+    type: 'int',
+    query: (entity) => `
+        SELECT
+            COALESCE(SUM(OD.quantity), 0)
+        FROM
+            ORDERS O
+            JOIN MACHINES M ON M._ID = O.MACHINE_ID
+            JOIN ORDER_DETAILS OD ON OD.ORDER_ID = O._ID
+        WHERE
+            M._id = ${entity}._id
+    `,
+    transformer: {
+      from: (value) => Number(value),
+      to: (value) => value,
+    },
+  })
+  totalSoldProducts: number;
+
+  @VirtualColumn({
+    type: 'int',
+    query: (entity) => `
+        SELECT
+            COALESCE(COUNT(*), 0)
+        FROM
+            ORDERS O
+            JOIN MACHINES M ON M._ID = O.MACHINE_ID
+        WHERE
+            M._id = ${entity}._id
+    `,
+    transformer: {
+      from: (value) => Number(value),
+      to: (value) => value,
+    },
+  })
   totalOrders: number;
 
   @ApiProperty({ type: () => [MachineProduct] })
