@@ -16,7 +16,11 @@ import { CategoryEntity } from '../../categories/category.entity';
 import { BrandEntity } from '../../brands/brand.entity';
 import { ContractEntity } from '../../contracts/entities/contract.entity';
 import { OrderDetails } from '../../orders/order-details.entity';
-import { TotalRevenue, TotalSales } from '../../categories/decorators';
+import {
+  TotalOrders,
+  TotalRevenue,
+  TotalSales,
+} from '../../categories/decorators';
 
 @Entity('users')
 export class UserEntity extends DatabaseEntity implements IUserEntity {
@@ -30,6 +34,9 @@ export class UserEntity extends DatabaseEntity implements IUserEntity {
 
   @TotalRevenue('supplier_id')
   totalRevenue: number;
+
+  @TotalOrders('supplier_id')
+  totalOrders: number;
 
   @Factory((faker) => faker.person.fullName())
   @Column({ type: 'varchar', length: 100, nullable: false })

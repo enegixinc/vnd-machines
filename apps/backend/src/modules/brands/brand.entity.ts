@@ -13,7 +13,11 @@ import { CategoryEntity } from '../categories/category.entity';
 import { MagexService } from '../../services/magex/magex.service';
 import { OrderEntity } from '../orders/orders.entity';
 import { OrderDetails } from '../orders/order-details.entity';
-import { TotalRevenue, TotalSales } from '../categories/decorators';
+import {
+  TotalOrders,
+  TotalRevenue,
+  TotalSales,
+} from '../categories/decorators';
 
 @Entity('brands')
 export class BrandEntity extends MagexDatabaseEntity implements IBrandEntity {
@@ -22,6 +26,9 @@ export class BrandEntity extends MagexDatabaseEntity implements IBrandEntity {
 
   @TotalRevenue('brand_id')
   totalRevenue: number;
+
+  @TotalOrders('brand_id')
+  totalOrders: number;
 
   @Column({ type: 'varchar', nullable: true })
   logo: string;

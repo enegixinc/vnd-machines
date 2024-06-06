@@ -1,11 +1,4 @@
-import {
-  Column,
-  Entity,
-  JoinTable,
-  ManyToMany,
-  OneToMany,
-  VirtualColumn,
-} from 'typeorm';
+import { Column, Entity, JoinTable, ManyToMany, OneToMany } from 'typeorm';
 import {
   ICategoryEntity,
   ISerializedBrand,
@@ -22,44 +15,21 @@ import { fakerAR } from '@faker-js/faker';
 import { MagexService } from '../../services/magex/magex.service';
 import { OrderEntity } from '../orders/orders.entity';
 import { OrderDetails } from '../orders/order-details.entity';
-import { FormatMoney } from 'format-money-js';
+import { TotalOrders, TotalRevenue, TotalSales } from './decorators';
 
 @Entity('categories')
 export class CategoryEntity
   extends MagexDatabaseEntity
   implements ICategoryEntity
 {
-  @VirtualColumn({
-    type: 'numeric',
-    query: (category) =>
-      `SELECT SUM(quantity) FROM order_details WHERE category_id = ${category}._id`,
-    transformer: {
-      from: (value) => Number(value),
-      to: (value) => value,
-    },
-  })
+  @TotalSales('category_id')
   totalSales: number;
 
-  @VirtualColumn({
-    type: 'numeric',
-    query: (category) => {
-      console.log('category', category);
-      console.log(
-        'sql',
-        `SELECT SUM("soldPrice") FROM order_details WHERE category_id = ${category}._id`
-      );
-      return `SELECT SUM("soldPrice") FROM order_details WHERE category_id = ${category}._id`;
-    },
-    transformer: {
-      from: (value) =>
-        new FormatMoney().un(value ?? 0, {
-          decimals: 2,
-          decimalPoint: '.',
-        }),
-      to: (value) => value,
-    },
-  })
+  @TotalRevenue('category_id')
   totalRevenue: number;
+
+  @TotalOrders('category_id')
+  totalOrders: number;
 
   @Factory((faker) => faker.datatype.boolean())
   @Column({ type: 'boolean', default: false })
