@@ -71,9 +71,9 @@
                     <h5 class="font-semibold text-lg dark:text-white-light">{{ $t('productsPages.dimensions') }}</h5>
                 </div>
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                    <input-text name="dimensions.width" type="number" :field-label="$t('fields.width')" :placeholder="$t('placeHolders.enterWidth')" />
-                    <input-text name="dimensions.height" type="number" :field-label="$t('fields.height')" :placeholder="$t('placeHolders.enterHeight')" />
-                    <input-text name="dimensions.length" type="number" :field-label="$t('fields.length')" :placeholder="$t('placeHolders.enterLength')" />
+                    <input-text name="dimension.width" type="number" :field-label="$t('fields.width')" :placeholder="$t('placeHolders.enterWidth')" />
+                    <input-text name="dimension.height" type="number" :field-label="$t('fields.height')" :placeholder="$t('placeHolders.enterHeight')" />
+                    <input-text name="dimension.length" type="number" :field-label="$t('fields.length')" :placeholder="$t('placeHolders.enterLength')" />
                 </div>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <input-text
@@ -249,7 +249,7 @@
                         }),
                     })
                     .default(0),
-                dimensions: z.object({
+                dimension: z.object({
                     width: z
                         .number({
                             message: t('validations.number', {
