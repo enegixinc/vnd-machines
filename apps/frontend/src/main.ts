@@ -1,4 +1,4 @@
-import { createApp ,defineAsyncComponent} from 'vue';
+import { createApp, defineAsyncComponent } from 'vue';
 import App from '@/app/App.vue';
 // pinia store
 import { createPinia } from 'pinia';
@@ -52,22 +52,24 @@ app.use(
 );
 
 app.component('Popper', Popper);
-const InputGroup = defineAsyncComponent(()=>import('@/components/ui/forms/InputGroup.vue'))
-const InputText = defineAsyncComponent(()=>import('@/components/ui/forms/InputText.vue'))
-const SwitchInput = defineAsyncComponent(()=>import('@/components/ui/forms/SwitchInput.vue'))
-const SubmitButton = defineAsyncComponent(()=>import('@/components/ui/forms/SubmitButton.vue'))
-const ConnectSupplier = defineAsyncComponent(()=>import('@/components/ui/forms/ConnectSupplier.vue'))
-const ConnectCategory = defineAsyncComponent(()=>import('@/components/ui/forms/ConnectCategory.vue'))
-const ConnectBrand = defineAsyncComponent(()=>import('@/components/ui/forms/ConnectBrand.vue'))
-const SelectInput = defineAsyncComponent(()=>import('@/components/ui/forms/SelectInput.vue'))
-app.component('input-group',InputGroup)
-app.component('input-text',InputText)
-app.component('switch-input',SwitchInput)
-app.component('submit-button',SubmitButton)
-app.component('connect-supplier',ConnectSupplier)
-app.component('connect-category',ConnectCategory)
-app.component('connect-brand',ConnectBrand)
-app.component('input-select',SelectInput)
+const InputGroup = defineAsyncComponent(() => import('@/components/ui/forms/InputGroup.vue'));
+const InputText = defineAsyncComponent(() => import('@/components/ui/forms/InputText.vue'));
+const SwitchInput = defineAsyncComponent(() => import('@/components/ui/forms/SwitchInput.vue'));
+const SubmitButton = defineAsyncComponent(() => import('@/components/ui/forms/SubmitButton.vue'));
+const ConnectSupplier = defineAsyncComponent(() => import('@/components/ui/forms/ConnectSupplier.vue'));
+const ConnectCategory = defineAsyncComponent(() => import('@/components/ui/forms/ConnectCategory.vue'));
+const ConnectBrand = defineAsyncComponent(() => import('@/components/ui/forms/ConnectBrand.vue'));
+const SelectInput = defineAsyncComponent(() => import('@/components/ui/forms/SelectInput.vue'));
+const DateRangeInput = defineAsyncComponent(() => import('@/components/ui/forms/DateRangeInput.vue'));
+app.component('input-group', InputGroup);
+app.component('input-text', InputText);
+app.component('switch-input', SwitchInput);
+app.component('submit-button', SubmitButton);
+app.component('connect-supplier', ConnectSupplier);
+app.component('connect-category', ConnectCategory);
+app.component('connect-brand', ConnectBrand);
+app.component('input-select', SelectInput);
+app.component('date-range-input', DateRangeInput);
 app.mount('#app');
 
 //
