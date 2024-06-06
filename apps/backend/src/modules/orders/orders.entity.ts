@@ -2,8 +2,7 @@ import { Column, Entity, OneToMany } from 'typeorm';
 import { MagexDatabaseEntity } from '../../common/database.entity';
 import { MagexService } from '../../services/magex/magex.service';
 import { ApiProperty } from '@nestjs/swagger';
-import { ProductEntity } from '../products/product.entity';
-import { OrderDetails } from './order-details.entity';
+import { OrderProductsDetails } from './order-details.entity';
 
 // @Entity()
 // class Machine {
@@ -38,16 +37,24 @@ export class OrderEntity extends MagexDatabaseEntity {
   // @Column((type) => Machine)
   // machineID: Machine;
   //
-  @ApiProperty({ type: [ProductEntity] })
-  @OneToMany(() => OrderDetails, (orderProduct) => orderProduct.order, {
-    cascade: true,
-  })
-  products: ProductEntity[];
 
-  @OneToMany(() => OrderDetails, (orderProduct) => orderProduct.order, {
+  @OneToMany(() => OrderProductsDetails, (orderProduct) => orderProduct.order, {
     cascade: true,
   })
-  orders: OrderDetails[];
+  products: OrderProductsDetails[];
+
+  // @ManyToOne(() => UserEntity, (supplier) => supplier.orders, {})
+  // supplier: UserEntity;
+  //
+  // @ManyToOne(() => CategoryEntity, (category) => category.orders, {
+  //   eager: true,
+  // })
+  // category: CategoryEntity;
+  //
+  // @ManyToOne(() => BrandEntity, (brand) => brand.orders, {
+  //   eager: true,
+  // })
+  // brand: BrandEntity;
 
   @ApiProperty({ type: String })
   @Column()

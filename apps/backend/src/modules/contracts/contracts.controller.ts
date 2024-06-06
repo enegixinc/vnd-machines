@@ -34,12 +34,7 @@ import { UpdateContractDto } from './dto/request/update-contract.dto';
     maxLimit: 100,
     join: {
       supplier: {
-        eager: true,
         exclude: ['password'],
-      },
-      'supplier.orders': {
-        alias: 'orders',
-        eager: true,
       },
     },
   },

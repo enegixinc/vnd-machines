@@ -13,8 +13,6 @@ import { BrandEntity } from '../brands/brand.entity';
 import { Factory } from 'nestjs-seeder';
 import { fakerAR } from '@faker-js/faker';
 import { MagexService } from '../../services/magex/magex.service';
-import { OrderEntity } from '../orders/orders.entity';
-import { OrderDetails } from '../orders/order-details.entity';
 import { TotalOrders, TotalRevenue, TotalSales } from './decorators';
 
 @Entity('categories')
@@ -109,8 +107,8 @@ export class CategoryEntity
   })
   products: ISerializedProduct[];
 
-  @OneToMany(() => OrderDetails, (order) => order.category, {})
-  orders: OrderEntity[];
+  // @OneToMany(() => OrderEntity, (order) => order.category, {})
+  // orders: OrderEntity[];
 
   async createMagexRecord(magexService: MagexService) {
     // @ts-expect-error - to be fixed

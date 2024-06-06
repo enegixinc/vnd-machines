@@ -16,7 +16,7 @@ import { UserEntity } from '../users/entities/user.entity';
 import { BrandEntity } from '../brands/brand.entity';
 import { CategoryEntity } from '../categories/category.entity';
 import { MagexService } from '../../services/magex/magex.service';
-import { OrderDetails } from '../orders/order-details.entity';
+import { OrderProductsDetails } from '../orders/order-details.entity';
 import { TotalRevenue, TotalSales } from '../categories/decorators';
 
 @Entity('products')
@@ -30,8 +30,12 @@ export class ProductEntity
   @TotalRevenue('product_id')
   totalRevenue: number;
 
-  @OneToMany(() => OrderDetails, (orderProduct) => orderProduct.product, {})
-  orders: OrderDetails[];
+  @OneToMany(
+    () => OrderProductsDetails,
+    (orderProduct) => orderProduct.product,
+    {}
+  )
+  orders: OrderProductsDetails[];
 
   @ManyToOne(() => UserEntity, (user) => user.products)
   supplier: ReferenceByID<ISerializedUser>[];

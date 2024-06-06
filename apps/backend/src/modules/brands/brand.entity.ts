@@ -12,7 +12,6 @@ import { UserEntity } from '../users/entities/user.entity';
 import { CategoryEntity } from '../categories/category.entity';
 import { MagexService } from '../../services/magex/magex.service';
 import { OrderEntity } from '../orders/orders.entity';
-import { OrderDetails } from '../orders/order-details.entity';
 import {
   TotalOrders,
   TotalRevenue,
@@ -74,7 +73,7 @@ export class BrandEntity extends MagexDatabaseEntity implements IBrandEntity {
   })
   suppliers: ISerializedUser[];
 
-  @OneToMany(() => OrderDetails, (order) => order.brand, {})
+  // @OneToMany(() => OrderEntity, (order) => order.brand, {})
   orders: OrderEntity[];
 
   async createMagexRecord(magexService: MagexService) {

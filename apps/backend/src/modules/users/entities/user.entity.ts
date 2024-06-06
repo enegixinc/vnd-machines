@@ -15,7 +15,6 @@ import { ProductEntity } from '../../products/product.entity';
 import { CategoryEntity } from '../../categories/category.entity';
 import { BrandEntity } from '../../brands/brand.entity';
 import { ContractEntity } from '../../contracts/entities/contract.entity';
-import { OrderDetails } from '../../orders/order-details.entity';
 import {
   TotalOrders,
   TotalRevenue,
@@ -94,10 +93,10 @@ export class UserEntity extends DatabaseEntity implements IUserEntity {
   @JoinColumn()
   contracts: ContractEntity[];
 
-  @OneToMany(() => OrderDetails, (order) => order.supplier, {
-    eager: true,
-  })
-  orders: OrderDetails[];
+  // @OneToMany(() => OrderEntity, (order) => order.supplier, {
+  //   eager: true,
+  // })
+  // orders: OrderProductsDetails[];
 
   documents: string[];
 }

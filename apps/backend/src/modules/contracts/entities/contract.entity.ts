@@ -1,4 +1,4 @@
-import { AfterLoad, Column, Entity, ManyToOne } from 'typeorm';
+import { Column, Entity, ManyToOne, VirtualColumn } from 'typeorm';
 import { DatabaseEntity } from '../../../common/database.entity';
 import { UserEntity } from '../../users/entities/user.entity';
 import { ContractStatus, FeeType, IContractEntity } from '@core';
@@ -30,33 +30,38 @@ export class ContractEntity extends DatabaseEntity implements IContractEntity {
   @ManyToOne(() => UserEntity, (user) => user.contracts, {})
   supplier: UserEntity;
 
-  @Column({ type: 'numeric', nullable: false, default: 0 })
+  @VirtualColumn({
+    type: 'numeric',
+    query: (entity) => `
+    SELECT  COALESCE(COUNT(*), 0)
+     FROM  ORDERS O
+     JOIN ORDER_DETAILS OD ON OD.ORDER_ID = O._ID
+     JOIN PRODUCTS P ON P._ID = OD.PRODUCT_ID
+     JOIN USERS SUPPLIER ON SUPPLIER._ID = P.SUPPLIER_ID
+     JOIN CONTRACTS C ON C.SUPPLIER_ID = SUPPLIER._ID
+     WHERE  C.STATUS = 'active'  AND ${entity}."startDate" <= O."createdAt"  AND O."createdAt" <= ${entity}."endDate"
+     LIMIT  1
+    `,
+    transformer: {
+      from: (value) => Number(value),
+      to: (value) => value,
+    },
+  })
   totalSales: number;
-
-  @Column({ type: 'numeric', nullable: false, default: 0 })
+  //
+  // @TotalRevenue('contract_id')
   totalRevenue: number;
+  //
+  // @TotalOrders('contract_id')
+  totalOrders: number;
 
-  dueToSupplier: number;
-
-  profit: number;
-
-  @AfterLoad()
-  calculateComputedFields() {
-    this.totalSales = this.ordersInTime.length;
-    this.totalRevenue = this.ordersInTime.reduce(
-      (acc, order) => acc + order.soldPrice,
-      0
-    );
-    this.profit = this.computedProfit;
-  }
-
-  private get ordersInTime() {
-    return getRecordsInBetweenTime(
-      this.supplier?.orders ?? [],
-      this.startDate,
-      this.endDate
-    );
-  }
+  // private get ordersInTime() {
+  //   return getRecordsInBetweenTime(
+  //     this.supplier?.orders ?? [],
+  //     this.startDate,
+  //     this.endDate
+  //   );
+  // }
 
   private get computedProfit() {
     const isPercentage = this.feeType === FeeType.PERCENTAGE;

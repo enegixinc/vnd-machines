@@ -8,7 +8,7 @@ import { Inject } from '@nestjs/common';
 import { EntitySyncer } from '../../common/entities/entity-syncer/entity-syncer';
 import { OrderEntity } from './orders.entity';
 import { ProductEntity } from '../products/product.entity';
-import { OrderDetails } from './order-details.entity';
+import { OrderProductsDetails } from './order-details.entity';
 
 @EventSubscriber()
 export class OrdersSubscriber
@@ -32,7 +32,6 @@ export class OrdersSubscriber
       return await this.dataSource.manager.findOne(ProductEntity, {
         withDeleted: true,
         where: { _id },
-        relations: ['brand', 'category', 'supplier'],
       });
     });
     return Promise.all(promises);
@@ -45,43 +44,27 @@ export class OrdersSubscriber
       }
     });
 
-    const products = await this.preloadProducts(productIds);
+    const allProducts = await this.preloadProducts(productIds);
 
-    const order = this.dataSource.manager.create(OrderEntity, {
-      ...record,
-    });
+    const order = this.dataSource.manager.create(OrderEntity);
 
-    order.products = record.products.map((productData, index) => {
-      const product = products.find(
-        (p) => p?._id === productData?.product?._id
+    const productsDetails = record.products.map((soldProductData, index) => {
+      const product = allProducts.find(
+        (p) => p?._id === soldProductData?.product?._id
       );
-      const orderProduct = this.dataSource.manager.create(OrderDetails);
-
-      Object.assign(orderProduct, {
-        ...productData,
-        product,
-        order,
-        supplier: product?.supplier,
-        brand: product?.brand,
-        category: product?.category,
-      });
-      //
-      // this.dataSource.manager.increment(
-      //   ProductEntity,
-      //   { _id: product._id },
-      //   'quantity',
-      //   -productData.quantity
-      // );
-      // this.dataSource.manager.increment(
-      //   ProductEntity,
-      //   { _id: product._id },
-      //   'sold',
-      //   productData.quantity
-      // );
+      const orderProduct = this.dataSource.manager.create(
+        OrderProductsDetails,
+        soldProductData
+      );
+      orderProduct.product = product;
 
       return orderProduct;
     });
+    console.log('productsInOrder', productsDetails);
 
+    Object.assign(order, record);
+    order.products = productsDetails;
+    console.log('order', order);
     return order;
   }
 }
