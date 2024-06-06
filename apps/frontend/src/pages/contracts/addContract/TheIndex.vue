@@ -113,12 +113,12 @@
             })
         )
     );
-    const { handleSubmit, resetForm } = useForm<CreateContractDto>({
+    const { handleSubmit, resetForm, setValues } = useForm<CreateContractDto>({
         validationSchema: schema2,
     });
     const onSubmit = handleSubmit(
         (values) => {
-            addEntity(values, resetForm);
+            addEntity(values, resetForm, setValues);
         },
         () => {}
     );

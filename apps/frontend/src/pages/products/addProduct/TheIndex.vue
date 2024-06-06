@@ -312,12 +312,12 @@
             })
         )
     );
-    const { handleSubmit, resetForm } = useForm<CreateProductDto>({
+    const { handleSubmit, resetForm, setValues } = useForm<CreateProductDto>({
         validationSchema: schema2,
     });
     const onSubmit = handleSubmit(
         (values) => {
-            addEntity({ ...values, productPictures: ['image1.jpg', 'image2.jpg'], productVideo: 'Unknown Type: File' }, resetForm);
+            addEntity({ ...values, productPictures: ['image1.jpg', 'image2.jpg'], productVideo: 'Unknown Type: File' }, resetForm, setValues);
         },
         () => {}
     );

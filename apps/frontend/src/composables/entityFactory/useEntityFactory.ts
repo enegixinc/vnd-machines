@@ -101,13 +101,13 @@ export default function useEntityFactory<T, P extends object>(client: ApiClient<
                 rowLoading.value = null;
             }
         }
-        type ResestForm = (state?: unknown, options?: unknown) => void;
-        async function addEntity(data, resetForm: ResestForm) {
+        type ResestForm = (state?: any, opts?: any) => void;
+        type setValues = (fields: any, shouldValidate?: boolean) => void;
+        async function addEntity(data, resetForm: ResestForm, setValues: setValues) {
             try {
                 const filledData = handleEmptyLang(data);
-                resetForm({
-                    values: filledData,
-                });
+                setValues(filledData);
+
                 const cleanedDate = cleanResource(filledData);
                 loading.value = true;
                 await client.createOne({
