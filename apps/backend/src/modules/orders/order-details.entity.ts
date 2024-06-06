@@ -1,10 +1,10 @@
 import { Column, Entity, ManyToOne } from 'typeorm';
 import { DatabaseEntity } from '../../common/database.entity';
+import { OrderEntity } from './order.entity';
 import { ProductEntity } from '../products/product.entity';
-import { OrderEntity } from './orders.entity';
 
-@Entity('orders_products')
-export class OrderProduct extends DatabaseEntity {
+@Entity('order_details')
+export class OrderProductsDetails extends DatabaseEntity {
   @Column({
     type: 'int',
   })
@@ -13,6 +13,7 @@ export class OrderProduct extends DatabaseEntity {
   @Column({
     type: 'numeric',
   })
+  // TODO: ask client to clarify what this field is
   discount: number;
 
   @Column({
@@ -53,11 +54,15 @@ export class OrderProduct extends DatabaseEntity {
 
   @ManyToOne(() => OrderEntity, (order) => order.products, {
     eager: true,
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
   })
   order: OrderEntity;
 
   @ManyToOne(() => ProductEntity, (product) => product.orders, {
     eager: true,
+    cascade: false,
+    nullable: true,
   })
   product: ProductEntity;
 }

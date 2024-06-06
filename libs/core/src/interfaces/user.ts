@@ -1,6 +1,6 @@
 import { ISerializedProduct } from './product';
 import { IDataBaseEntity } from './common';
-import { ISerializedContract } from './contract';
+import { IContractEntity, ISerializedContract } from './contract';
 
 export interface ISerializedUser
   extends Omit<IUserEntity, 'password' | keyof IUserResolvedEntities>,
@@ -23,7 +23,7 @@ export interface IUserEntity extends IDataBaseEntity {
   active: boolean;
   products: string[] | ISerializedProduct[];
   documents: string[] | IDocument[];
-  contracts: string[] | ISerializedContract[];
+  contracts: IContractEntity[];
 }
 
 export type ICreateUser = Omit<

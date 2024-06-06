@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, ObjectLiteral, OneToMany } from 'typeorm';
+import { Column, Entity, ManyToOne, ObjectLiteral, OneToMany, VirtualColumn } from 'typeorm';
 import {
   Dimension,
   IProductEntity,
@@ -6,7 +6,7 @@ import {
   ISerializedCategory,
   ISerializedUser,
   MultiLang,
-  ReferenceByID,
+  ReferenceByID
 } from '@core';
 import { fakerAR } from '@faker-js/faker';
 import { Factory } from 'nestjs-seeder';
@@ -16,15 +16,91 @@ import { UserEntity } from '../users/entities/user.entity';
 import { BrandEntity } from '../brands/brand.entity';
 import { CategoryEntity } from '../categories/category.entity';
 import { MagexService } from '../../services/magex/magex.service';
-import { OrderProduct } from '../orders/order-product.entity';
+import { OrderProductsDetails } from '../orders/order-details.entity';
+import { MachineProduct } from '../machines/entities/machine-product.entity';
 
 @Entity('products')
 export class ProductEntity
   extends MagexDatabaseEntity
   implements IProductEntity
 {
-  @OneToMany(() => OrderProduct, (orderProduct) => orderProduct.product)
-  orders: OrderProduct[];
+  @VirtualColumn({
+    type: 'numeric',
+    query: (entity) =>`
+        SELECT
+            COALESCE(SUM(OD.quantity), 0)
+        FROM
+            ORDERS O
+            JOIN ORDER_DETAILS OD ON OD.ORDER_ID = O._ID
+            JOIN PRODUCTS P ON P._ID = OD.PRODUCT_ID
+        WHERE
+            P._id = ${entity}._id
+    `,
+    transformer: {
+      from: (value) => Number(value),
+      to: (value) => value,
+    },
+  })
+  totalSoldProducts: number;
+
+  @VirtualColumn({
+    type: 'numeric',
+    query: (entity) =>`
+        SELECT
+            COALESCE(SUM(O.total), 0)
+        FROM
+            ORDERS O
+            JOIN ORDER_DETAILS OD ON OD.ORDER_ID = O._ID
+            JOIN PRODUCTS P ON P._ID = OD.PRODUCT_ID
+        WHERE
+            P._id = ${entity}._id
+    `,
+    transformer: {
+      from: (value) => Number(value),
+      to: (value) => value,
+    },
+  })
+  totalRevenue: number;
+
+  @VirtualColumn({
+    type: 'int',
+    query: (entity) =>`
+        SELECT
+            COALESCE(COUNT(*), 0)
+        FROM
+            ORDERS O
+            JOIN ORDER_DETAILS OD ON OD.ORDER_ID = O._ID
+            JOIN PRODUCTS P ON P._ID = OD.PRODUCT_ID
+        WHERE
+            P._id = ${entity}._id
+    `,
+    transformer: {
+      from: (value) => Number(value),
+      to: (value) => value,
+    },
+  })
+  totalOrders: number;
+
+
+  @OneToMany(
+    () => OrderProductsDetails,
+    (orderProduct) => orderProduct.product,
+    {
+      onDelete: 'NO ACTION',
+
+    }
+  )
+  orders: OrderProductsDetails[];
+
+  @OneToMany(
+    () => MachineProduct,
+    (machineProduct) => machineProduct.product,
+    {
+      onDelete: 'NO ACTION',
+
+    }
+  )
+  machines: MachineProduct[];
 
   @ManyToOne(() => UserEntity, (user) => user.products)
   supplier: ReferenceByID<ISerializedUser>[];
@@ -35,6 +111,7 @@ export class ProductEntity
   brand: ReferenceByID<ISerializedBrand>;
 
   @ManyToOne(() => CategoryEntity, (category) => category.products, {
+    onDelete: 'CASCADE',
     cascade: true,
   })
   category: ReferenceByID<ISerializedCategory>;
@@ -219,6 +296,24 @@ export class ProductEntity
   @Column({ type: 'integer', default: 0 })
   virtualProduct: number;
 
+  @Factory((faker) =>
+    faker.number.int({
+      min: 0,
+      max: 13,
+    })
+  )
+  @Column({ type: 'integer', default: 0 })
+  quantity: number;
+
+  @Factory((faker) =>
+    faker.number.int({
+      min: 0,
+      max: 100,
+    })
+  )
+  @Column({ type: 'integer', default: 0 })
+  stock: number;
+
   async createMagexRecord(magexService: MagexService) {
     const formData = await this.handleMultiLangProps(this);
     const { newProduct } = await magexService.products.postProductsCreate({
@@ -240,7 +335,12 @@ export class ProductEntity
 
     await magexService.products.putProductsEditById({
       id: formData._id,
-      formData,
+      formData:{
+        ...formData,
+        category: this.category?._id || '',
+        brand: this.brand?._id || '',
+        referTo: 'tryvnd@point24h.com',
+      },
     });
   }
 

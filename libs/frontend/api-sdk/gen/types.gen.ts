@@ -68,6 +68,9 @@ export type ProductEntity = {
 };
 
 export type SharedCategoryDto = {
+    totalSoldProducts: number;
+    totalRevenue: number;
+    totalOrders: number;
     /**
      * Name of the Category in multiple languages
      */
@@ -123,7 +126,6 @@ export type OrderEntity = {
     status: string;
     payment_type: string;
     lang: string;
-    products: Array<(unknown[])>;
     referTo: string;
     tax: number;
     total: number;
@@ -215,7 +217,7 @@ export type SerializedProductDto = {
     /**
      * Dimensions of the product
      */
-    dimension: {
+    dimension?: {
         [key: string]: unknown;
     };
     /**
@@ -246,6 +248,9 @@ export type SerializedProductDto = {
      * Virtual product indicator
      */
     virtualProduct: number;
+    totalSoldProducts: number;
+    totalRevenue: number;
+    totalOrders: number;
     /**
      * Video of the product
      */
@@ -346,7 +351,7 @@ export type SharedProductDto = {
     /**
      * Dimensions of the product
      */
-    dimension: {
+    dimension?: {
         [key: string]: unknown;
     };
     /**
@@ -403,6 +408,9 @@ export type SerializedBrandDto = {
      * Brand logo
      */
     logo?: string;
+    totalSoldProducts: number;
+    totalRevenue: number;
+    totalOrders: number;
     categories: Array<SharedCategoryDto>;
     products: Array<SharedProductDto>;
     suppliers: Array<SharedProductDto>;
@@ -461,6 +469,9 @@ export type SerializedUserDto = {
      * Business name of the user
      */
     businessName: string | null;
+    totalSoldProducts: number;
+    totalRevenue: number;
+    totalOrders: number;
     products: Array<SerializedProductDto>;
     brand: Array<SerializedBrandDto>;
     contracts: Array<SerializedContractDto>;
@@ -476,9 +487,10 @@ export type SerializedContractDto = {
     updatedAt: string;
     deletedAt: string | null;
     lastSyncAt: string | null;
+    totalSoldProducts: number;
+    totalRevenue: number;
+    totalOrders: number;
     supplier: SerializedUserDto;
-    totalRevenue: string;
-    totalSales: string;
 };
 
 export type Object = unknown;
@@ -500,6 +512,82 @@ export type NotificationRequest = {
 export type FillRequestDto = {
     products: Array<ProductsRequest>;
     notify: NotificationRequest;
+};
+
+export type GetManyMachineEntityResponseDto = {
+    data: Array<MachineEntity>;
+    count: number;
+    total: number;
+    page: number;
+    pageCount: number;
+};
+
+export type MachineProduct = {
+    _id: string;
+    /**
+     * Version
+     */
+    __v: number;
+    createdAt: string;
+    updatedAt: string;
+    deletedAt: string | null;
+    lastSyncAt: string | null;
+    current_stock: number;
+    max_stock: number;
+    upc: string;
+    stock: number;
+    floor: number;
+    lane: number;
+    name: string;
+    motor: string;
+    expiration_date: string;
+};
+
+export type MachineEntity = {
+    _id: string;
+    /**
+     * Version
+     */
+    __v: number;
+    createdAt: string;
+    updatedAt: string;
+    deletedAt: string | null;
+    lastSyncAt: string | null;
+    product: Array<MachineProduct>;
+    orders: Array<OrderEntity>;
+    status: boolean;
+    alertSent: boolean;
+    machineOnline: boolean;
+    machineOnlineAlert: boolean;
+    category: Array<(string)>;
+    brand: Array<(string)>;
+    products_bs: Array<(string)>;
+    tax: number;
+    group: Array<(string)>;
+    stock: number;
+    time_to_idle: number;
+    enablePriceChange: boolean;
+    alertEmail: string;
+    alertEmail2: string;
+    name: string;
+    description: string;
+    belongTo: string;
+    lane: number;
+    floor: number;
+    laneLength: number;
+    height: number;
+    slot_height: number;
+    step_depth: number;
+    step_num: number;
+    model: string;
+    products_price: Array<(string)>;
+    products_plan: Array<(string)>;
+    stocking: string;
+    active: string;
+    gui_version: string;
+    master_version: string;
+    diff: boolean;
+    screenSaver: string;
 };
 
 export type CreateProductDto = {
@@ -568,7 +656,7 @@ export type CreateProductDto = {
     /**
      * Dimensions of the product
      */
-    dimension: {
+    dimension?: {
         [key: string]: unknown;
     };
     /**
@@ -763,18 +851,28 @@ export type UpdateUserDto = {
 };
 
 export type CreateContractDto = {
-    description: string;
+    description?: string;
     feePerSale: number;
     feeType: 'percentage' | 'fixed';
     startDate: string;
     endDate: string;
-    status: 'active' | 'expired' | 'terminated';
+    status?: 'active' | 'expired' | 'terminated';
     supplier: PickTypeClass;
 };
 
 export type feeType = 'percentage' | 'fixed';
 
 export type status = 'active' | 'expired' | 'terminated';
+
+export type UpdateContractDto = {
+    description?: string;
+    feePerSale?: number;
+    feeType?: 'percentage' | 'fixed';
+    startDate?: string;
+    endDate?: string;
+    status?: 'active' | 'expired' | 'terminated';
+    supplier?: PickTypeClass;
+};
 
 export type GetManyCategoryEntityResponseDto = {
     data: Array<SerializedCategoryDto>;
@@ -806,6 +904,9 @@ export type SerializedCategoryDto = {
     updatedAt: string;
     deletedAt: string | null;
     lastSyncAt: string | null;
+    totalSoldProducts: number;
+    totalRevenue: number;
+    totalOrders: number;
     /**
      * Name of the Category in multiple languages
      */
@@ -831,6 +932,9 @@ export type SerializedCategoryDto = {
 };
 
 export type CreateCategoryDto = {
+    totalSoldProducts: number;
+    totalRevenue: number;
+    totalOrders: number;
     /**
      * Name of the Category in multiple languages
      */
@@ -853,6 +957,9 @@ export type CreateManyCategoryEntityDto = {
 };
 
 export type UpdateCategoryDto = {
+    totalSoldProducts?: number;
+    totalRevenue?: number;
+    totalOrders?: number;
     /**
      * Name of the Category in multiple languages
      */
@@ -935,20 +1042,7 @@ export type GetOneData = {
     join?: Array<(string)>;
 };
 
-export type GetOneResponse = SerializedProductDto;
-
-export type UpdateOneData = {
-    id: string;
-    requestBody: UpdateProductDto;
-};
-
-export type UpdateOneResponse = SerializedProductDto;
-
-export type DeleteOneData = {
-    id: string;
-};
-
-export type DeleteOneResponse = unknown;
+export type GetOneResponse = MachineEntity;
 
 export type GetManyData = {
     /**
@@ -997,7 +1091,20 @@ export type GetManyData = {
     sort?: Array<(string)>;
 };
 
-export type GetManyResponse = GetManyProductEntityResponseDto;
+export type GetManyResponse = GetManyMachineEntityResponseDto;
+
+export type UpdateOneData = {
+    id: string;
+    requestBody: UpdateProductDto;
+};
+
+export type UpdateOneResponse = SerializedProductDto;
+
+export type DeleteOneData = {
+    id: string;
+};
+
+export type DeleteOneResponse = unknown;
 
 export type CreateOneData = {
     requestBody: CreateProductDto;
@@ -1051,11 +1158,45 @@ export type $OpenApiTs = {
             };
         };
     };
-    '/fill/{machineId}': {
+    '/machines/fill/{machineId}': {
         post: {
             req: FillData;
             res: {
                 201: unknown;
+                /**
+                 * Forbidden.
+                 */
+                403: unknown;
+            };
+        };
+    };
+    '/machines/{id}': {
+        get: {
+            req: GetOneData;
+            res: {
+                /**
+                 * Get one base response
+                 */
+                200: MachineEntity;
+                /**
+                 * Forbidden.
+                 */
+                403: unknown;
+            };
+        };
+    };
+    '/machines': {
+        get: {
+            req: GetManyData;
+            res: {
+                /**
+                 * Get paginated response
+                 */
+                200: GetManyMachineEntityResponseDto;
+                /**
+                 * Forbidden.
+                 */
+                403: unknown;
             };
         };
     };

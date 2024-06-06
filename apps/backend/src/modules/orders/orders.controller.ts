@@ -1,7 +1,7 @@
 import { Controller } from '@nestjs/common';
 import { Crud, CrudController } from '@dataui/crud';
 import { OrdersService } from './orders.service';
-import { OrderEntity } from './orders.entity';
+import { OrderEntity } from './order.entity';
 import { saneOperationsId } from '../../common/swagger.config';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 

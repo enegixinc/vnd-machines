@@ -4,6 +4,7 @@ import { decorate, Mixin } from 'ts-mixer';
 import { SharedContractDto } from '../shared';
 import { ApiProperty } from '@nestjs/swagger';
 import { SerializedUserDto } from '../../../users/dto/response/serialized-user.dto';
+import { FormatMoney } from 'format-money-js';
 
 export class SerializedContractDto
   extends Mixin(DatabaseEntity, SharedContractDto)
@@ -11,24 +12,36 @@ export class SerializedContractDto
 {
   @decorate(
     ApiProperty({
-      type: () => SerializedUserDto,
+      type: 'number',
+      example: 0,
     })
   )
-  supplier: ISerializedUser;
+  totalSoldProducts: number;
 
   @decorate(
     ApiProperty({
-      type: () => String,
-      example: 4213,
+      type: 'number',
+      example: new FormatMoney().un(33421.233, {
+        decimals: 2,
+        decimalPoint: '.',
+      }),
     })
   )
   totalRevenue: number;
 
   @decorate(
     ApiProperty({
-      type: () => String,
-      example: 213,
+      type: 'number',
+      example: 0,
     })
   )
-  totalSales: number;
+  totalOrders: number;
+
+
+  @decorate(
+    ApiProperty({
+      type: () => SerializedUserDto,
+    })
+  )
+  supplier: ISerializedUser;
 }

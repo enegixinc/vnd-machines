@@ -7,6 +7,7 @@ import { CreateContractDto } from './dto/request/create-contract.dto';
 import { Public } from '../auth/decorators/public.decorator';
 import { SerializedContractDto } from './dto/response/serialized-contract.dto';
 import { ContractsService } from './contracts.service';
+import { UpdateContractDto } from './dto/request/update-contract.dto';
 
 @Crud({
   model: {
@@ -33,17 +34,7 @@ import { ContractsService } from './contracts.service';
     maxLimit: 100,
     join: {
       supplier: {
-        alias: 'users',
         exclude: ['password'],
-      },
-      'supplier.brands': {
-        alias: 'brands',
-      },
-      'supplier.products': {
-        alias: 'products',
-      },
-      'supplier.categories': {
-        alias: 'categories',
       },
     },
   },
@@ -56,6 +47,7 @@ import { ContractsService } from './contracts.service';
   },
   dto: {
     create: CreateContractDto,
+    update: UpdateContractDto,
   },
   serialize: {
     get: SerializedContractDto,

@@ -1,11 +1,5 @@
 import { Column, Entity, JoinTable, ManyToMany, OneToMany } from 'typeorm';
-import {
-  ICategoryEntity,
-  ISerializedBrand,
-  ISerializedProduct,
-  ISerializedUser,
-  MultiLang,
-} from '@core';
+import { ICategoryEntity, ISerializedBrand, ISerializedProduct, ISerializedUser, MultiLang } from '@core';
 import { MagexDatabaseEntity } from '../../common/database.entity';
 import { ProductEntity } from '../products/product.entity';
 import { UserEntity } from '../users/entities/user.entity';
@@ -13,12 +7,22 @@ import { BrandEntity } from '../brands/brand.entity';
 import { Factory } from 'nestjs-seeder';
 import { fakerAR } from '@faker-js/faker';
 import { MagexService } from '../../services/magex/magex.service';
+import { TotalOrders, TotalRevenue, TotalSoldProducts } from './decorators';
 
 @Entity('categories')
 export class CategoryEntity
   extends MagexDatabaseEntity
   implements ICategoryEntity
 {
+  @TotalSoldProducts('categories', 'category_id')
+  totalSoldProducts: number;
+
+  @TotalRevenue('categories', 'category_id')
+  totalRevenue: number;
+
+  @TotalOrders('categories', 'category_id')
+  totalOrders: number;
+
   @Factory((faker) => faker.datatype.boolean())
   @Column({ type: 'boolean', default: false })
   auto: boolean;
@@ -93,9 +97,12 @@ export class CategoryEntity
     },
   ])
   @OneToMany(() => ProductEntity, (product) => product.category, {
-    nullable: true,
+    onDelete: 'CASCADE',
   })
   products: ISerializedProduct[];
+
+  // @OneToMany(() => OrderEntity, (order) => order.category, {})
+  // orders: OrderEntity[];
 
   async createMagexRecord(magexService: MagexService) {
     // @ts-expect-error - to be fixed

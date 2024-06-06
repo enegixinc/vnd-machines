@@ -1,20 +1,7 @@
-import {
-  Column,
-  Entity,
-  EntitySubscriberInterface,
-  EventSubscriber,
-  ManyToOne,
-} from 'typeorm';
+import { Column, Entity, ManyToOne, VirtualColumn } from 'typeorm';
 import { DatabaseEntity } from '../../../common/database.entity';
 import { UserEntity } from '../../users/entities/user.entity';
-import { Post } from '@nestjs/common';
-import {
-  ContractStatus,
-  FeeType,
-  IContractEntity,
-  IUserEntity,
-  ReferenceByID,
-} from '@core';
+import { ContractStatus, FeeType, IContractEntity } from '@core';
 
 @Entity('contracts')
 export class ContractEntity extends DatabaseEntity implements IContractEntity {
@@ -40,40 +27,78 @@ export class ContractEntity extends DatabaseEntity implements IContractEntity {
   @Column({ type: 'enum', enum: FeeType, nullable: false })
   feeType: FeeType;
 
-  @ManyToOne(() => UserEntity, (user) => user.contracts, {
-    // nullable: false,
+  @ManyToOne(() => UserEntity, (user) => user.contracts, {})
+  supplier: UserEntity;
+
+  @VirtualColumn({
+    type: 'numeric',
+    query: (entity) => `
+        SELECT
+            COALESCE(COUNT(*), 0)
+        FROM
+            ORDERS O
+            JOIN ORDER_DETAILS OD ON OD.ORDER_ID = O._ID
+            JOIN PRODUCTS P ON P._ID = OD.PRODUCT_ID
+            JOIN USERS SUPPLIER ON SUPPLIER._ID = P.SUPPLIER_ID
+            JOIN CONTRACTS C ON C.SUPPLIER_ID = SUPPLIER._ID
+        WHERE
+            C.STATUS = 'active'
+            AND ${entity}."startDate" <= O."createdAt"
+            AND O."createdAt" <= ${entity}."endDate"
+        LIMIT 1
+    `,
+    transformer: {
+      from: (value) => Number(value),
+      to: (value) => value,
+    },
   })
-  supplier: ReferenceByID<IUserEntity>;
-  // @Column({ type: 'boolean', default: false })
-  // autoRenew: boolean;
+  totalOrders: number;
 
-  @Column({ type: 'numeric', nullable: false, default: 0 })
-  totalSales: number;
+  @VirtualColumn({
+    type: 'numeric',
+    query: (entity) => `
+        SELECT
+            COALESCE(SUM(OD.quantity), 0)
+        FROM
+            ORDERS O
+            JOIN ORDER_DETAILS OD ON OD.ORDER_ID = O._ID
+            JOIN PRODUCTS P ON P._ID = OD.PRODUCT_ID
+            JOIN USERS SUPPLIER ON SUPPLIER._ID = P.SUPPLIER_ID
+            JOIN CONTRACTS C ON C.SUPPLIER_ID = SUPPLIER._ID
+        WHERE
+            C.STATUS = 'active'
+            AND ${entity}."startDate" <= O."createdAt"
+            AND O."createdAt" <= ${entity}."endDate"
+        LIMIT 1
+    `,
+    transformer: {
+      from: (value) => Number(value),
+      to: (value) => value,
+    },
+  })
+  totalSoldProducts: number;
 
-  @Column({ type: 'numeric', nullable: false, default: 0 })
+  @VirtualColumn({
+    type: 'numeric',
+    query: (entity) => `
+        SELECT
+	          COALESCE(SUM(O.total), 0)
+        FROM
+	          ORDERS O
+	          JOIN ORDER_DETAILS OD ON OD.ORDER_ID = O._ID
+	          JOIN PRODUCTS P ON P._ID = OD.PRODUCT_ID
+	          JOIN USERS SUPPLIER ON SUPPLIER._ID = P.SUPPLIER_ID
+	          JOIN CONTRACTS C ON C.SUPPLIER_ID = SUPPLIER._ID
+        WHERE
+	          C.STATUS = 'active'
+	          AND ${entity}."startDate" <= O."createdAt"
+	          AND O."createdAt" <= ${entity}."endDate"
+        LIMIT 1
+    `,
+    transformer: {
+      from: (value) => Number(value),
+      to: (value) => value,
+    },
+  })
   totalRevenue: number;
-}
-
-@EventSubscriber()
-export class PostSubscriber implements EntitySubscriberInterface {
-  listenTo() {
-    return Post;
-  }
-  //
-  // async afterInsert(event: InsertEvent<ContractEntity>) {
-  //   await event.queryRunner.startTransaction();
-  //   try {
-  //     await event.queryRunner.manager.increment(
-  //       UserEntity,
-  //       { id: event.entity.supplier.id },
-  //       'totalContracts',
-  //       1
-  //     );
-  //     await event.queryRunner.commitTransaction();
-  //   } catch (error) {
-  //     await event.queryRunner.rollbackTransaction();
-  //   } finally {
-  //     await event.queryRunner.release();
-  //   }
-  // }
 }

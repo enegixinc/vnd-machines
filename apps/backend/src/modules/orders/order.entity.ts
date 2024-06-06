@@ -1,9 +1,9 @@
-import { Column, Entity, OneToMany } from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 import { MagexDatabaseEntity } from '../../common/database.entity';
 import { MagexService } from '../../services/magex/magex.service';
 import { ApiProperty } from '@nestjs/swagger';
-import { ProductEntity } from '../products/product.entity';
-import { OrderProduct } from './order-product.entity';
+import { OrderProductsDetails } from './order-details.entity';
+import { MachineEntity } from '../machines/entities/machine.entity';
 
 // @Entity()
 // class Machine {
@@ -34,15 +34,15 @@ export class OrderEntity extends MagexDatabaseEntity {
   @Column()
   lang: string;
 
-  // @ApiProperty({ type: Machine })
-  // @Column((type) => Machine)
-  // machineID: Machine;
-  //
-  @ApiProperty({ type: [ProductEntity] })
-  @OneToMany(() => OrderProduct, (orderProduct) => orderProduct.order, {
+  @ManyToOne(() => MachineEntity, (machine) => machine.orders)
+  machine: MachineEntity;
+
+  @OneToMany(() => OrderProductsDetails, (orderProduct) => orderProduct.order, {
+    onDelete: 'NO ACTION',
+    onUpdate: 'NO ACTION',
     cascade: true,
   })
-  products: ProductEntity[];
+  products: OrderProductsDetails[];
 
   @ApiProperty({ type: String })
   @Column()

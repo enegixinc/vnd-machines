@@ -14,9 +14,9 @@ export interface EntitySyncer<Entity> {
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
 export abstract class EntitySyncer<
-    Entity extends MagexDatabaseEntity,
-    MagexRecord extends _IMagex_DatabaseEntity = _IMagex_DatabaseEntity
-  >
+  Entity extends MagexDatabaseEntity,
+  MagexRecord extends _IMagex_DatabaseEntity = _IMagex_DatabaseEntity
+>
   extends CRUDSyncer<Entity>
   implements EntitySubscriberInterface<Entity>, OnModuleInit
 {
@@ -94,6 +94,26 @@ export abstract class EntitySyncer<
     };
   }
 
+  // New method to identify deleted records
+  identifyDeletedRecords() {
+    const magexIds = new Set(this.magexRecords.map((record) => record._id));
+    const deletedRecords = this.records.filter(record => !magexIds.has(record._id));
+
+    console.log('deleted records:', deletedRecords.length);
+
+    return deletedRecords;
+  }
+
+  async softDeleteRecords(records: Entity[]) {
+    await Promise.all(
+      records.map(async (record) => {
+        await this.dataSource.manager.softRemove(record, {
+          listeners: false,
+        });
+      })
+    );
+  }
+
   // @timer()
   async prepareRecords(records: MagexRecord[]) {
     return Promise.all(
@@ -149,6 +169,9 @@ export abstract class EntitySyncer<
       ]);
 
       await this.saveRecords(preparedRecords);
+
+      const deletedRecords = this.identifyDeletedRecords();
+      await this.softDeleteRecords(deletedRecords);
     })();
 
     EntitySyncer.syncStatusMap.set(this.entity, syncPromise);

@@ -1,9 +1,4 @@
-import {
-  IDataBaseEntity,
-  ISerializedUser,
-  IUserEntity,
-  ReferenceByID,
-} from '@core';
+import { IDataBaseEntity, ISerializedUser, IUserEntity, ReferenceByID } from '@core';
 
 export interface ICreateContract {
   startDate: string;
@@ -16,7 +11,7 @@ export interface ICreateContract {
 }
 
 export interface IContractComputedFields {
-  totalSales: number;
+  totalOrders: number;
   totalRevenue: number;
 }
 

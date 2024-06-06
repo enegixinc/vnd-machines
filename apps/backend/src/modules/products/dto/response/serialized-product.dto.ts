@@ -12,12 +12,40 @@ import { SharedProductDto } from '../shared/shared-product.dto';
 import { SharedBrandDto } from '../../../brands/dto/shared/shared-brand.dto';
 import { SharedUserDto } from '../../../users/dto/shared/shared-user.dto';
 import { SharedCategoryDto } from '../../../categories/dto/shared/shared-category.dto';
-import { OrderEntity } from '../../../orders/orders.entity';
+import { OrderEntity } from '../../../orders/order.entity';
+import { FormatMoney } from 'format-money-js';
 
 export class SerializedProductDto
   extends Mixin(DatabaseEntity, SharedProductDto)
   implements ISerializedProduct
 {
+  @decorate(
+    ApiProperty({
+      type: 'number',
+      example: 0,
+    })
+  )
+  totalSoldProducts: number;
+
+  @decorate(
+    ApiProperty({
+      type: 'number',
+      example: new FormatMoney().un(33421.233, {
+        decimals: 2,
+        decimalPoint: '.',
+      }),
+    })
+  )
+  totalRevenue: number;
+
+  @decorate(
+    ApiProperty({
+      type: 'number',
+      example: 0,
+    })
+  )
+  totalOrders: number;
+
   @decorate(
     ApiProperty({
       example: 'https://www.youtube.com/watch?v=1234567890',

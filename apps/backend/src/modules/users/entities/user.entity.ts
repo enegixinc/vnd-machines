@@ -1,11 +1,4 @@
-import {
-  BeforeInsert,
-  Column,
-  Entity,
-  JoinColumn,
-  ManyToMany,
-  OneToMany,
-} from 'typeorm';
+import { BeforeInsert, Column, Entity, JoinColumn, ManyToMany, OneToMany } from 'typeorm';
 import { IUserEntity, UserRole } from '@core';
 import { Factory } from 'nestjs-seeder';
 import bcrypt from 'bcrypt';
@@ -15,6 +8,7 @@ import { ProductEntity } from '../../products/product.entity';
 import { CategoryEntity } from '../../categories/category.entity';
 import { BrandEntity } from '../../brands/brand.entity';
 import { ContractEntity } from '../../contracts/entities/contract.entity';
+import { TotalOrders, TotalRevenue, TotalSoldProducts } from '../../categories/decorators';
 
 @Entity('users')
 export class UserEntity extends DatabaseEntity implements IUserEntity {
@@ -22,6 +16,15 @@ export class UserEntity extends DatabaseEntity implements IUserEntity {
   async hashPassword() {
     this.password = await bcrypt.hash(this.password, 10);
   }
+
+  @TotalSoldProducts('users', 'supplier_id')
+  totalSoldProducts: number;
+
+  @TotalRevenue('users', 'supplier_id')
+  totalRevenue: number;
+
+  @TotalOrders('users', 'supplier_id')
+  totalOrders: number;
 
   @Factory((faker) => faker.person.fullName())
   @Column({ type: 'varchar', length: 100, nullable: false })
@@ -77,7 +80,11 @@ export class UserEntity extends DatabaseEntity implements IUserEntity {
     cascade: ['insert', 'update', 'recover', 'remove', 'soft-remove'],
   })
   @JoinColumn()
-  contracts: string[];
+  contracts: ContractEntity[];
 
   documents: string[];
+
+  // @TotalSoldProducts('supplier_id')
+  // totalSoldProducts: number;
+
 }
