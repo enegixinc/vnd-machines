@@ -214,7 +214,8 @@
         "supplier": "المورد",
         "firstName": "الاسم الأول",
         "lastName": "اسم العائلة",
-        "auto": "تلقائي"
+        "auto": "تلقائي",
+        "duration": "المدة"
     },
     "roles": {
         "admin": "مدير",
@@ -250,7 +251,9 @@
         "selectFeeType": "اختر نوع الرسوم",
         "selectStatus": "اختر الحاله",
         "enterFeePerSale": "ادخل الرسوم لكل عملية بيع",
-        "enterDescription": "ادخل الوصف"
+        "enterDescription": "ادخل الوصف",
+        "enterTheContractDuration": "ادخل مدة العقد"
+
     },
     "allRightsReserved": "جميع الحقوق محفوظة",
     "errors": {
@@ -262,7 +265,10 @@
     "dataTable": {
         "reset": "إعادة ضبط",
         "search": "بحث...",
-        "columns": "الاعمده"
+        "columns": "الاعمده",
+        "noData": "لا بوحد بيانات",
+        "showing": "عرض",
+        "results": "نتائج"
     },
     "wait": "انتظر من فضلك..",
     "links": {
