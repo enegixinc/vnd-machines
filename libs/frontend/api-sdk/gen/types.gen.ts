@@ -514,6 +514,82 @@ export type FillRequestDto = {
     notify: NotificationRequest;
 };
 
+export type GetManyMachineEntityResponseDto = {
+    data: Array<MachineEntity>;
+    count: number;
+    total: number;
+    page: number;
+    pageCount: number;
+};
+
+export type MachineProduct = {
+    _id: string;
+    /**
+     * Version
+     */
+    __v: number;
+    createdAt: string;
+    updatedAt: string;
+    deletedAt: string | null;
+    lastSyncAt: string | null;
+    current_stock: number;
+    max_stock: number;
+    upc: string;
+    stock: number;
+    floor: number;
+    lane: number;
+    name: string;
+    motor: string;
+    expiration_date: string;
+};
+
+export type MachineEntity = {
+    _id: string;
+    /**
+     * Version
+     */
+    __v: number;
+    createdAt: string;
+    updatedAt: string;
+    deletedAt: string | null;
+    lastSyncAt: string | null;
+    product: Array<MachineProduct>;
+    orders: Array<OrderEntity>;
+    status: boolean;
+    alertSent: boolean;
+    machineOnline: boolean;
+    machineOnlineAlert: boolean;
+    category: Array<(string)>;
+    brand: Array<(string)>;
+    products_bs: Array<(string)>;
+    tax: number;
+    group: Array<(string)>;
+    stock: number;
+    time_to_idle: number;
+    enablePriceChange: boolean;
+    alertEmail: string;
+    alertEmail2: string;
+    name: string;
+    description: string;
+    belongTo: string;
+    lane: number;
+    floor: number;
+    laneLength: number;
+    height: number;
+    slot_height: number;
+    step_depth: number;
+    step_num: number;
+    model: string;
+    products_price: Array<(string)>;
+    products_plan: Array<(string)>;
+    stocking: string;
+    active: string;
+    gui_version: string;
+    master_version: string;
+    diff: boolean;
+    screenSaver: string;
+};
+
 export type CreateProductDto = {
     /**
      * UPC of the product
@@ -775,7 +851,7 @@ export type UpdateUserDto = {
 };
 
 export type CreateContractDto = {
-    description: string;
+    description?: string;
     feePerSale: number;
     feeType: 'percentage' | 'fixed';
     startDate: string;
@@ -966,20 +1042,7 @@ export type GetOneData = {
     join?: Array<(string)>;
 };
 
-export type GetOneResponse = SerializedProductDto;
-
-export type UpdateOneData = {
-    id: string;
-    requestBody: UpdateProductDto;
-};
-
-export type UpdateOneResponse = SerializedProductDto;
-
-export type DeleteOneData = {
-    id: string;
-};
-
-export type DeleteOneResponse = unknown;
+export type GetOneResponse = MachineEntity;
 
 export type GetManyData = {
     /**
@@ -1028,7 +1091,20 @@ export type GetManyData = {
     sort?: Array<(string)>;
 };
 
-export type GetManyResponse = GetManyProductEntityResponseDto;
+export type GetManyResponse = GetManyMachineEntityResponseDto;
+
+export type UpdateOneData = {
+    id: string;
+    requestBody: UpdateProductDto;
+};
+
+export type UpdateOneResponse = SerializedProductDto;
+
+export type DeleteOneData = {
+    id: string;
+};
+
+export type DeleteOneResponse = unknown;
 
 export type CreateOneData = {
     requestBody: CreateProductDto;
@@ -1082,11 +1158,45 @@ export type $OpenApiTs = {
             };
         };
     };
-    '/fill/{machineId}': {
+    '/machines/fill/{machineId}': {
         post: {
             req: FillData;
             res: {
                 201: unknown;
+                /**
+                 * Forbidden.
+                 */
+                403: unknown;
+            };
+        };
+    };
+    '/machines/{id}': {
+        get: {
+            req: GetOneData;
+            res: {
+                /**
+                 * Get one base response
+                 */
+                200: MachineEntity;
+                /**
+                 * Forbidden.
+                 */
+                403: unknown;
+            };
+        };
+    };
+    '/machines': {
+        get: {
+            req: GetManyData;
+            res: {
+                /**
+                 * Get paginated response
+                 */
+                200: GetManyMachineEntityResponseDto;
+                /**
+                 * Forbidden.
+                 */
+                403: unknown;
             };
         };
     };

@@ -101,31 +101,4 @@ export class ContractEntity extends DatabaseEntity implements IContractEntity {
     },
   })
   totalRevenue: number;
-  //
-  // @TotalOrders('contract_id')
-
-  // private get ordersInTime() {
-  //   return getRecordsInBetweenTime(
-  //     this.supplier?.orders ?? [],
-  //     this.startDate,
-  //     this.endDate
-  //   );
-  // }
-
-  private get computedProfit() {
-    const isPercentage = this.feeType === FeeType.PERCENTAGE;
-    return (
-      this.totalRevenue *
-      (isPercentage ? this.feePerSale / 100 : this.feePerSale)
-    );
-  }
-}
-function getRecordsInBetweenTime<T extends DatabaseEntity>(
-  records: T[],
-  start: string,
-  end: string
-) {
-  return records.filter((record) => {
-    return record.createdAt >= start && record.createdAt <= end;
-  });
 }

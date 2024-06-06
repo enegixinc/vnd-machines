@@ -18,6 +18,7 @@ export class SharedContractDto implements Partial<ISerializedContract> {
   @ApiProperty({
     type: 'string',
     default: 'Contract Description',
+    required: false,
   })
   description: string;
 

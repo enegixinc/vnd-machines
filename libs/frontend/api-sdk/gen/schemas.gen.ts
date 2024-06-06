@@ -1074,6 +1074,264 @@ export const $FillRequestDto = {
     required: ['products', 'notify']
 } as const;
 
+export const $GetManyMachineEntityResponseDto = {
+    type: 'object',
+    properties: {
+        data: {
+            type: 'array',
+            items: {
+                '$ref': '#/components/schemas/MachineEntity'
+            }
+        },
+        count: {
+            type: 'number'
+        },
+        total: {
+            type: 'number'
+        },
+        page: {
+            type: 'number'
+        },
+        pageCount: {
+            type: 'number'
+        }
+    },
+    required: ['data', 'count', 'total', 'page', 'pageCount']
+} as const;
+
+export const $MachineProduct = {
+    type: 'object',
+    properties: {
+        _id: {
+            type: 'string',
+            example: '6a909236-53f2-4727-b780-e41e115ee906'
+        },
+        __v: {
+            type: 'number',
+            example: 1,
+            description: 'Version'
+        },
+        createdAt: {
+            type: 'date',
+            example: '2021-07-01T00:00:00.000Z'
+        },
+        updatedAt: {
+            type: 'date',
+            example: '2021-07-01T00:00:00.000Z'
+        },
+        deletedAt: {
+            type: 'date',
+            example: '2021-07-01T00:00:00.000Z',
+            nullable: true
+        },
+        lastSyncAt: {
+            type: 'date',
+            example: '2021-07-01T00:00:00.000Z',
+            nullable: true
+        },
+        current_stock: {
+            type: 'number'
+        },
+        max_stock: {
+            type: 'number'
+        },
+        upc: {
+            type: 'string'
+        },
+        stock: {
+            type: 'number'
+        },
+        floor: {
+            type: 'number'
+        },
+        lane: {
+            type: 'number'
+        },
+        name: {
+            type: 'string'
+        },
+        motor: {
+            type: 'string'
+        },
+        expiration_date: {
+            format: 'date-time',
+            type: 'string'
+        }
+    },
+    required: ['_id', '__v', 'createdAt', 'updatedAt', 'deletedAt', 'lastSyncAt', 'current_stock', 'max_stock', 'upc', 'stock', 'floor', 'lane', 'name', 'motor', 'expiration_date']
+} as const;
+
+export const $MachineEntity = {
+    type: 'object',
+    properties: {
+        _id: {
+            type: 'string',
+            example: '6a909236-53f2-4727-b780-e41e115ee906'
+        },
+        __v: {
+            type: 'number',
+            example: 1,
+            description: 'Version'
+        },
+        createdAt: {
+            type: 'date',
+            example: '2021-07-01T00:00:00.000Z'
+        },
+        updatedAt: {
+            type: 'date',
+            example: '2021-07-01T00:00:00.000Z'
+        },
+        deletedAt: {
+            type: 'date',
+            example: '2021-07-01T00:00:00.000Z',
+            nullable: true
+        },
+        lastSyncAt: {
+            type: 'date',
+            example: '2021-07-01T00:00:00.000Z',
+            nullable: true
+        },
+        product: {
+            type: 'array',
+            items: {
+                '$ref': '#/components/schemas/MachineProduct'
+            }
+        },
+        orders: {
+            type: 'array',
+            items: {
+                '$ref': '#/components/schemas/OrderEntity'
+            }
+        },
+        status: {
+            type: 'boolean'
+        },
+        alertSent: {
+            type: 'boolean'
+        },
+        machineOnline: {
+            type: 'boolean'
+        },
+        machineOnlineAlert: {
+            type: 'boolean'
+        },
+        category: {
+            type: 'array',
+            items: {
+                type: 'string'
+            }
+        },
+        brand: {
+            type: 'array',
+            items: {
+                type: 'string'
+            }
+        },
+        products_bs: {
+            type: 'array',
+            items: {
+                type: 'string'
+            }
+        },
+        tax: {
+            type: 'number'
+        },
+        group: {
+            type: 'array',
+            items: {
+                type: 'string'
+            }
+        },
+        stock: {
+            type: 'number'
+        },
+        time_to_idle: {
+            type: 'number'
+        },
+        enablePriceChange: {
+            type: 'boolean'
+        },
+        alertEmail: {
+            type: 'string'
+        },
+        alertEmail2: {
+            type: 'string'
+        },
+        name: {
+            type: 'string'
+        },
+        description: {
+            type: 'string'
+        },
+        belongTo: {
+            type: 'string'
+        },
+        lane: {
+            type: 'number',
+            example: 3
+        },
+        floor: {
+            type: 'number',
+            example: 3
+        },
+        laneLength: {
+            type: 'number',
+            example: 7.8
+        },
+        height: {
+            type: 'number',
+            example: 7.8
+        },
+        slot_height: {
+            type: 'number',
+            example: 7.8
+        },
+        step_depth: {
+            type: 'number',
+            example: 7.8
+        },
+        step_num: {
+            type: 'number',
+            example: 7.8
+        },
+        model: {
+            type: 'string'
+        },
+        products_price: {
+            type: 'array',
+            items: {
+                type: 'string'
+            }
+        },
+        products_plan: {
+            type: 'array',
+            items: {
+                type: 'string'
+            }
+        },
+        stocking: {
+            type: 'string'
+        },
+        active: {
+            format: 'date-time',
+            type: 'string'
+        },
+        gui_version: {
+            type: 'string'
+        },
+        master_version: {
+            type: 'string'
+        },
+        diff: {
+            type: 'boolean'
+        },
+        screenSaver: {
+            type: 'string'
+        }
+    },
+    required: ['_id', '__v', 'createdAt', 'updatedAt', 'deletedAt', 'lastSyncAt', 'product', 'orders', 'status', 'alertSent', 'machineOnline', 'machineOnlineAlert', 'category', 'brand', 'products_bs', 'tax', 'group', 'stock', 'time_to_idle', 'enablePriceChange', 'alertEmail', 'alertEmail2', 'name', 'description', 'belongTo', 'lane', 'floor', 'laneLength', 'height', 'slot_height', 'step_depth', 'step_num', 'model', 'products_price', 'products_plan', 'stocking', 'active', 'gui_version', 'master_version', 'diff', 'screenSaver']
+} as const;
+
 export const $CreateProductDto = {
     type: 'object',
     properties: {
@@ -1496,11 +1754,11 @@ export const $CreateContractDto = {
         },
         startDate: {
             type: 'date',
-            default: '2024-06-06T06:08:04.502Z'
+            default: '2024-06-06T09:17:45.367Z'
         },
         endDate: {
             type: 'date',
-            default: '2024-06-06T06:08:04.502Z'
+            default: '2024-06-06T09:17:45.367Z'
         },
         status: {
             type: 'string',
@@ -1511,7 +1769,7 @@ export const $CreateContractDto = {
             '$ref': '#/components/schemas/PickTypeClass'
         }
     },
-    required: ['description', 'feePerSale', 'feeType', 'startDate', 'endDate', 'supplier']
+    required: ['feePerSale', 'feeType', 'startDate', 'endDate', 'supplier']
 } as const;
 
 export const $UpdateContractDto = {
@@ -1532,11 +1790,11 @@ export const $UpdateContractDto = {
         },
         startDate: {
             type: 'date',
-            default: '2024-06-06T06:08:04.502Z'
+            default: '2024-06-06T09:17:45.367Z'
         },
         endDate: {
             type: 'date',
-            default: '2024-06-06T06:08:04.502Z'
+            default: '2024-06-06T09:17:45.367Z'
         },
         status: {
             type: 'string',
