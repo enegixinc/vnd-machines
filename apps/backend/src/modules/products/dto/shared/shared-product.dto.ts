@@ -151,9 +151,14 @@ export class SharedProductDto {
   @decorate(IsOptional({ groups: [UPDATE, CREATE] }))
   @decorate(
     ApiProperty({
-      example: {},
+      example: {
+        height: 10,
+        length: 20,
+        width: 30,
+      },
       description: 'Dimensions of the product',
       type: Object,
+      required: false,
     })
   )
   dimension: Dimension;
