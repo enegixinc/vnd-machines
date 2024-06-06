@@ -321,7 +321,12 @@ export class ProductEntity
 
     await magexService.products.putProductsEditById({
       id: formData._id,
-      formData,
+      formData:{
+        ...formData,
+        category: this.category?._id || '',
+        brand: this.brand?._id || '',
+        referTo: 'tryvnd@point24h.com',
+      },
     });
   }
 
