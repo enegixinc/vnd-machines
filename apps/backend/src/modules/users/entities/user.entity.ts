@@ -18,7 +18,7 @@ export class UserEntity extends DatabaseEntity implements IUserEntity {
   }
 
   @TotalSoldProducts('users', 'supplier_id')
-  totalSales: number;
+  totalSoldProducts: number;
 
   @TotalRevenue('users', 'supplier_id')
   totalRevenue: number;

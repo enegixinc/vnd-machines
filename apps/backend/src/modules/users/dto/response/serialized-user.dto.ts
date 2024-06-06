@@ -1,12 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { SerializedProductDto } from '../../../products/dto/response/serialized-product.dto';
-import {
-  IDocument,
-  ISerializedBrand,
-  ISerializedContract,
-  ISerializedProduct,
-  ISerializedUser,
-} from '@core';
+import { IDocument, ISerializedBrand, ISerializedContract, ISerializedProduct, ISerializedUser } from '@core';
 import { DatabaseEntity } from '../../../../common/database.entity';
 import { decorate, Mixin } from 'ts-mixer';
 
@@ -26,7 +20,7 @@ export class SerializedUserDto
       example: 0,
     })
   )
-  totalSales: number;
+  totalSoldProducts: number;
 
   @decorate(
     ApiProperty({
@@ -38,6 +32,14 @@ export class SerializedUserDto
     })
   )
   totalRevenue: number;
+
+  @decorate(
+    ApiProperty({
+      type: 'number',
+      example: 0,
+    })
+  )
+  totalOrders: number;
 
   @decorate(
     ApiProperty({

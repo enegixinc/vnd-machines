@@ -3,10 +3,39 @@ import { MultiLang } from '@core';
 import { decorate } from 'ts-mixer';
 import { IsNotEmpty, IsOptional } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { FormatMoney } from 'format-money-js';
 
 const { CREATE, UPDATE } = CrudValidationGroups;
 
 export class SharedCategoryDto {
+  @decorate(
+    ApiProperty({
+      type: 'number',
+      example: 0,
+    })
+  )
+  totalSoldProducts: number;
+
+  @decorate(
+    ApiProperty({
+      type: 'number',
+      example: new FormatMoney().un(33421.233, {
+        decimals: 2,
+        decimalPoint: '.',
+      }),
+    })
+  )
+  totalRevenue: number;
+
+  @decorate(
+    ApiProperty({
+      type: 'number',
+      example: 0,
+    })
+  )
+  totalOrders: number;
+
+
   @decorate(IsNotEmpty({ groups: [CREATE] }))
   @decorate(IsOptional({ groups: [UPDATE] }))
   @decorate(

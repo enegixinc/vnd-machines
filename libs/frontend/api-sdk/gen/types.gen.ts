@@ -68,6 +68,9 @@ export type ProductEntity = {
 };
 
 export type SharedCategoryDto = {
+    totalSoldProducts: number;
+    totalRevenue: number;
+    totalOrders: number;
     /**
      * Name of the Category in multiple languages
      */
@@ -123,7 +126,6 @@ export type OrderEntity = {
     status: string;
     payment_type: string;
     lang: string;
-    products: Array<(unknown[])>;
     referTo: string;
     tax: number;
     total: number;
@@ -246,6 +248,9 @@ export type SerializedProductDto = {
      * Virtual product indicator
      */
     virtualProduct: number;
+    totalSoldProducts: number;
+    totalRevenue: number;
+    totalOrders: number;
     /**
      * Video of the product
      */
@@ -403,6 +408,9 @@ export type SerializedBrandDto = {
      * Brand logo
      */
     logo?: string;
+    totalSoldProducts: number;
+    totalRevenue: number;
+    totalOrders: number;
     categories: Array<SharedCategoryDto>;
     products: Array<SharedProductDto>;
     suppliers: Array<SharedProductDto>;
@@ -461,6 +469,9 @@ export type SerializedUserDto = {
      * Business name of the user
      */
     businessName: string | null;
+    totalSoldProducts: number;
+    totalRevenue: number;
+    totalOrders: number;
     products: Array<SerializedProductDto>;
     brand: Array<SerializedBrandDto>;
     contracts: Array<SerializedContractDto>;
@@ -476,9 +487,10 @@ export type SerializedContractDto = {
     updatedAt: string;
     deletedAt: string | null;
     lastSyncAt: string | null;
+    totalSoldProducts: number;
+    totalRevenue: number;
+    totalOrders: number;
     supplier: SerializedUserDto;
-    totalRevenue: string;
-    totalSales: string;
 };
 
 export type Object = unknown;
@@ -768,13 +780,23 @@ export type CreateContractDto = {
     feeType: 'percentage' | 'fixed';
     startDate: string;
     endDate: string;
-    status: 'active' | 'expired' | 'terminated';
+    status?: 'active' | 'expired' | 'terminated';
     supplier: PickTypeClass;
 };
 
 export type feeType = 'percentage' | 'fixed';
 
 export type status = 'active' | 'expired' | 'terminated';
+
+export type UpdateContractDto = {
+    description?: string;
+    feePerSale?: number;
+    feeType?: 'percentage' | 'fixed';
+    startDate?: string;
+    endDate?: string;
+    status?: 'active' | 'expired' | 'terminated';
+    supplier?: PickTypeClass;
+};
 
 export type GetManyCategoryEntityResponseDto = {
     data: Array<SerializedCategoryDto>;
@@ -806,6 +828,9 @@ export type SerializedCategoryDto = {
     updatedAt: string;
     deletedAt: string | null;
     lastSyncAt: string | null;
+    totalSoldProducts: number;
+    totalRevenue: number;
+    totalOrders: number;
     /**
      * Name of the Category in multiple languages
      */
@@ -831,6 +856,9 @@ export type SerializedCategoryDto = {
 };
 
 export type CreateCategoryDto = {
+    totalSoldProducts: number;
+    totalRevenue: number;
+    totalOrders: number;
     /**
      * Name of the Category in multiple languages
      */
@@ -853,6 +881,9 @@ export type CreateManyCategoryEntityDto = {
 };
 
 export type UpdateCategoryDto = {
+    totalSoldProducts?: number;
+    totalRevenue?: number;
+    totalOrders?: number;
     /**
      * Name of the Category in multiple languages
      */
