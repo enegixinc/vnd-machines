@@ -51,9 +51,9 @@
     import { toTypedSchema } from '@vee-validate/zod';
     import { z } from 'zod';
     import { computed } from 'vue';
-    import { useCategories } from '@/composables/categories/use-categories';
+    import { useContract } from '@/composables/contracts/use-contracts';
 
-    const { loading, addEntity, t } = useCategories({});
+    const { loading, addEntity, t } = useContract({});
     const feeType = computed(() => [
         { text: t('feeType.fixed'), value: 'fixed' },
         { text: t('feeType.percentage'), value: 'percentage' },
