@@ -1,11 +1,19 @@
 import { VirtualColumn } from 'typeorm';
-import { FormatMoney } from 'format-money-js';
 
-export function TotalSales(entity_fk: string) {
+export function TotalSoldProducts(relation: string, f_key: string) {
   return VirtualColumn({
     type: 'numeric',
-    query: (entity) =>
-      `SELECT COALESCE(SUM(quantity::int), 0) FROM order_details WHERE ${entity_fk} = ${entity}._id`,
+    query: (entity) =>`
+        SELECT
+            COALESCE(SUM(OD.quantity), 0)
+        FROM
+            ORDERS O
+            JOIN ORDER_DETAILS OD ON OD.ORDER_ID = O._ID
+            JOIN PRODUCTS P ON P._ID = OD.PRODUCT_ID
+            JOIN ${relation} ENTITY ON ENTITY._ID = P.${f_key}
+        WHERE
+            ENTITY._id = ${entity}._id
+    `,
     transformer: {
       from: (value) => Number(value),
       to: (value) => value,
@@ -13,27 +21,41 @@ export function TotalSales(entity_fk: string) {
   });
 }
 
-export function TotalRevenue(entity_fk: string) {
+export function TotalRevenue(relation: string, f_key: string) {
   return VirtualColumn({
     type: 'numeric',
-    query: (entity) =>
-      `SELECT COALESCE(SUM("soldPrice")::numeric, 0) FROM order_details WHERE ${entity_fk} = ${entity}._id`,
+    query: (entity) =>`
+        SELECT
+            COALESCE(SUM(O.total), 0)
+        FROM
+            ORDERS O
+            JOIN ORDER_DETAILS OD ON OD.ORDER_ID = O._ID
+            JOIN PRODUCTS P ON P._ID = OD.PRODUCT_ID
+            JOIN ${relation} ENTITY ON ENTITY._ID = P.${f_key}
+        WHERE
+            ENTITY._id = ${entity}._id
+    `,
     transformer: {
-      from: (value) =>
-        new FormatMoney().un(value ?? 0, {
-          decimals: 2,
-          decimalPoint: '.',
-        }),
+      from: (value) => Number(value),
       to: (value) => value,
     },
   });
 }
 
-export function TotalOrders(entity_fk: string) {
+export function TotalOrders(relation: string, f_key: string) {
   return VirtualColumn({
     type: 'int',
-    query: (entity) =>
-      `SELECT COALESCE(COUNT(*), 0) FROM order_details WHERE ${entity_fk} = ${entity}._id`,
+    query: (entity) =>`
+        SELECT
+            COALESCE(COUNT(*), 0)
+        FROM
+            ORDERS O
+            JOIN ORDER_DETAILS OD ON OD.ORDER_ID = O._ID
+            JOIN PRODUCTS P ON P._ID = OD.PRODUCT_ID
+            JOIN ${relation} ENTITY ON ENTITY._ID = P.${f_key}
+        WHERE
+            ENTITY._id = ${entity}._id
+    `,
     transformer: {
       from: (value) => Number(value),
       to: (value) => value,

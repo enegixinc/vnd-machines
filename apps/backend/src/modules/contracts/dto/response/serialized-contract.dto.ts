@@ -30,5 +30,5 @@ export class SerializedContractDto
       example: 213,
     })
   )
-  totalSales: number;
+  totalOrders: number;
 }

@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, ObjectLiteral, OneToMany } from 'typeorm';
+import { Column, Entity, ManyToOne, ObjectLiteral, OneToMany, VirtualColumn } from 'typeorm';
 import {
   Dimension,
   IProductEntity,
@@ -6,7 +6,7 @@ import {
   ISerializedCategory,
   ISerializedUser,
   MultiLang,
-  ReferenceByID,
+  ReferenceByID
 } from '@core';
 import { fakerAR } from '@faker-js/faker';
 import { Factory } from 'nestjs-seeder';
@@ -17,18 +17,69 @@ import { BrandEntity } from '../brands/brand.entity';
 import { CategoryEntity } from '../categories/category.entity';
 import { MagexService } from '../../services/magex/magex.service';
 import { OrderProductsDetails } from '../orders/order-details.entity';
-import { TotalRevenue, TotalSales } from '../categories/decorators';
 
 @Entity('products')
 export class ProductEntity
   extends MagexDatabaseEntity
   implements IProductEntity
 {
-  @TotalSales('product_id')
-  totalSales: number;
+  @VirtualColumn({
+    type: 'numeric',
+    query: (entity) =>`
+        SELECT
+            COALESCE(SUM(OD.quantity), 0)
+        FROM
+            ORDERS O
+            JOIN ORDER_DETAILS OD ON OD.ORDER_ID = O._ID
+            JOIN PRODUCTS P ON P._ID = OD.PRODUCT_ID
+        WHERE
+            P._id = ${entity}._id
+    `,
+    transformer: {
+      from: (value) => Number(value),
+      to: (value) => value,
+    },
+  })
+  totalSoldProducts: number;
 
-  @TotalRevenue('product_id')
+  @VirtualColumn({
+    type: 'numeric',
+    query: (entity) =>`
+        SELECT
+            COALESCE(SUM(O.total), 0)
+        FROM
+            ORDERS O
+            JOIN ORDER_DETAILS OD ON OD.ORDER_ID = O._ID
+            JOIN PRODUCTS P ON P._ID = OD.PRODUCT_ID
+        WHERE
+            P._id = ${entity}._id
+    `,
+    transformer: {
+      from: (value) => Number(value),
+      to: (value) => value,
+    },
+  })
   totalRevenue: number;
+
+  @VirtualColumn({
+    type: 'int',
+    query: (entity) =>`
+        SELECT
+            COALESCE(COUNT(*), 0)
+        FROM
+            ORDERS O
+            JOIN ORDER_DETAILS OD ON OD.ORDER_ID = O._ID
+            JOIN PRODUCTS P ON P._ID = OD.PRODUCT_ID
+        WHERE
+            P._id = ${entity}._id
+    `,
+    transformer: {
+      from: (value) => Number(value),
+      to: (value) => value,
+    },
+  })
+  totalOrders: number;
+
 
   @OneToMany(
     () => OrderProductsDetails,

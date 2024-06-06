@@ -1,32 +1,23 @@
 import { Column, Entity, JoinTable, ManyToMany, OneToMany } from 'typeorm';
 import { MagexDatabaseEntity } from '../../common/database.entity';
-import {
-  IBrandEntity,
-  ISerializedCategory,
-  ISerializedProduct,
-  ISerializedUser,
-  MultiLang,
-} from '@core';
+import { IBrandEntity, ISerializedCategory, ISerializedProduct, ISerializedUser, MultiLang } from '@core';
 import { ProductEntity } from '../products/product.entity';
 import { UserEntity } from '../users/entities/user.entity';
 import { CategoryEntity } from '../categories/category.entity';
 import { MagexService } from '../../services/magex/magex.service';
 import { OrderEntity } from '../orders/orders.entity';
-import {
-  TotalOrders,
-  TotalRevenue,
-  TotalSales,
-} from '../categories/decorators';
+import { TotalOrders, TotalRevenue, TotalSoldProducts } from '../categories/decorators';
 
 @Entity('brands')
 export class BrandEntity extends MagexDatabaseEntity implements IBrandEntity {
-  @TotalSales('brand_id')
-  totalSales: number;
 
-  @TotalRevenue('brand_id')
+  @TotalSoldProducts('brands', 'brand_id')
+  totalSoldProducts: number;
+
+  @TotalRevenue('brands', 'brand_id')
   totalRevenue: number;
 
-  @TotalOrders('brand_id')
+  @TotalOrders('brands', 'brand_id')
   totalOrders: number;
 
   @Column({ type: 'varchar', nullable: true })

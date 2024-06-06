@@ -33,27 +33,76 @@ export class ContractEntity extends DatabaseEntity implements IContractEntity {
   @VirtualColumn({
     type: 'numeric',
     query: (entity) => `
-    SELECT  COALESCE(COUNT(*), 0)
-     FROM  ORDERS O
-     JOIN ORDER_DETAILS OD ON OD.ORDER_ID = O._ID
-     JOIN PRODUCTS P ON P._ID = OD.PRODUCT_ID
-     JOIN USERS SUPPLIER ON SUPPLIER._ID = P.SUPPLIER_ID
-     JOIN CONTRACTS C ON C.SUPPLIER_ID = SUPPLIER._ID
-     WHERE  C.STATUS = 'active'  AND ${entity}."startDate" <= O."createdAt"  AND O."createdAt" <= ${entity}."endDate"
-     LIMIT  1
+        SELECT
+            COALESCE(COUNT(*), 0)
+        FROM
+            ORDERS O
+            JOIN ORDER_DETAILS OD ON OD.ORDER_ID = O._ID
+            JOIN PRODUCTS P ON P._ID = OD.PRODUCT_ID
+            JOIN USERS SUPPLIER ON SUPPLIER._ID = P.SUPPLIER_ID
+            JOIN CONTRACTS C ON C.SUPPLIER_ID = SUPPLIER._ID
+        WHERE
+            C.STATUS = 'active'
+            AND ${entity}."startDate" <= O."createdAt"
+            AND O."createdAt" <= ${entity}."endDate"
+        LIMIT 1
     `,
     transformer: {
       from: (value) => Number(value),
       to: (value) => value,
     },
   })
-  totalSales: number;
-  //
-  // @TotalRevenue('contract_id')
+  totalOrders: number;
+
+  @VirtualColumn({
+    type: 'numeric',
+    query: (entity) => `
+        SELECT
+            COALESCE(SUM(OD.quantity), 0)
+        FROM
+            ORDERS O
+            JOIN ORDER_DETAILS OD ON OD.ORDER_ID = O._ID
+            JOIN PRODUCTS P ON P._ID = OD.PRODUCT_ID
+            JOIN USERS SUPPLIER ON SUPPLIER._ID = P.SUPPLIER_ID
+            JOIN CONTRACTS C ON C.SUPPLIER_ID = SUPPLIER._ID
+        WHERE
+            C.STATUS = 'active'
+            AND ${entity}."startDate" <= O."createdAt"
+            AND O."createdAt" <= ${entity}."endDate"
+        LIMIT 1
+    `,
+    transformer: {
+      from: (value) => Number(value),
+      to: (value) => value,
+    },
+  })
+  totalSoldProducts: number;
+
+  @VirtualColumn({
+    type: 'numeric',
+    query: (entity) => `
+        SELECT
+	          COALESCE(SUM(O.total), 0)
+        FROM
+	          ORDERS O
+	          JOIN ORDER_DETAILS OD ON OD.ORDER_ID = O._ID
+	          JOIN PRODUCTS P ON P._ID = OD.PRODUCT_ID
+	          JOIN USERS SUPPLIER ON SUPPLIER._ID = P.SUPPLIER_ID
+	          JOIN CONTRACTS C ON C.SUPPLIER_ID = SUPPLIER._ID
+        WHERE
+	          C.STATUS = 'active'
+	          AND ${entity}."startDate" <= O."createdAt"
+	          AND O."createdAt" <= ${entity}."endDate"
+        LIMIT 1
+    `,
+    transformer: {
+      from: (value) => Number(value),
+      to: (value) => value,
+    },
+  })
   totalRevenue: number;
   //
   // @TotalOrders('contract_id')
-  totalOrders: number;
 
   // private get ordersInTime() {
   //   return getRecordsInBetweenTime(
