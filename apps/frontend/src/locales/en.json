@@ -179,7 +179,7 @@
         "status": "Status",
         "actions": "Actions",
         "deletedAt": "Deleted At",
-        "totalSales": "Total Sales",
+        "totalOrders": "Total Orders",
         "totalRevenue": "Total Revenue",
         "feePerSale": "Fee Per Sale",
         "feeType": "Fee Type",
@@ -216,7 +216,8 @@
         "ingredients": "Ingredients",
         "supplier": "Supplier",
         "auto": "Auto",
-        "duration": "Duration"
+        "duration": "Duration",
+        "totalSoldProducts": "Total Sold Products"
     },
     "placeHolders": {
         "enterEmail": "Enter Email",
