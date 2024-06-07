@@ -5,9 +5,13 @@ import { Column, Entity, OneToMany, VirtualColumn } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { MachineProduct } from './machine-product.entity';
 import { OrderEntity } from '../../orders/order.entity';
+import { FillRequestEntity } from '../../requests/request.entity';
 
 @Entity('machines')
 export class MachineEntity extends MagexDatabaseEntity {
+  @OneToMany(() => FillRequestEntity, (fillRequest) => fillRequest.machine)
+  requests: FillRequestEntity[];
+
   @VirtualColumn({
     type: 'int',
     query: (entity) => `

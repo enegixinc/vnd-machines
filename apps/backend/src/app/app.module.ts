@@ -9,6 +9,7 @@ import { JwtGuard } from '../modules/auth/guards/jwt.guard';
 import { MagexModule } from '../services/magex/magex.module';
 import { RedisModule } from '@liaoliaots/nestjs-redis';
 import { ScheduleModule } from '@nestjs/schedule';
+import { BullModule } from '@nestjs/bullmq';
 
 @Module({
   imports: [
@@ -29,13 +30,25 @@ import { ScheduleModule } from '@nestjs/schedule';
     }),
 
     RedisModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
         config: {
           url: configService.get('REDIS_URL'),
         },
       }),
+    }),
+
+    BullModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
+      useFactory: async (configService: ConfigService) => ({
+        connection: {
+          host: configService.get('REDIS_HOST'),
+          port: configService.get('REDIS_PORT'),
+          password: configService.get('REDIS_PASSWORD'),
+        },
+      }),
     }),
 
     ScheduleModule.forRoot(),
