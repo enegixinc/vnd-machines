@@ -22,6 +22,11 @@ export class OrdersSubscriber
   ) {
     super(dataSource, magexService);
     this.dependsOn = [ProductEntity];
+    this.syncConfig = {
+      added: true,
+      updated: true,
+      deleted: true,
+    };
   }
 
   listenTo() {
