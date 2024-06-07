@@ -148,7 +148,7 @@ export default function useEntityFactory<T, P extends object>(client: ApiClient<
             const filledData: AnyObject = {};
             if (typeof obj === 'object' && obj !== null) {
                 for (const key in obj) {
-                    const newObject = obj[key] && Object.hasOwn(obj[key], 'ar') && obj[key];
+                    const newObject = obj[key] && (Object.hasOwn(obj[key], 'ar') || Object.hasOwn(obj[key], 'en')) && obj[key];
                     if (newObject) {
                         if (newObject['en'] === '' && newObject['ar'] !== '') {
                             newObject['en'] = newObject['ar'];
