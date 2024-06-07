@@ -217,7 +217,7 @@ export type SerializedProductDto = {
     /**
      * Dimensions of the product
      */
-    dimension: {
+    dimension?: {
         [key: string]: unknown;
     };
     /**
@@ -351,7 +351,7 @@ export type SharedProductDto = {
     /**
      * Dimensions of the product
      */
-    dimension: {
+    dimension?: {
         [key: string]: unknown;
     };
     /**
@@ -656,7 +656,7 @@ export type CreateProductDto = {
     /**
      * Dimensions of the product
      */
-    dimension: {
+    dimension?: {
         [key: string]: unknown;
     };
     /**

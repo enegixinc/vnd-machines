@@ -448,7 +448,11 @@ export const $SerializedProductDto = {
         },
         dimension: {
             type: 'object',
-            example: {},
+            example: {
+                height: 10,
+                length: 20,
+                width: 30
+            },
             description: 'Dimensions of the product'
         },
         price: {
@@ -527,7 +531,7 @@ export const $SerializedProductDto = {
             description: 'Reference to another product'
         }
     },
-    required: ['_id', '__v', 'createdAt', 'updatedAt', 'deletedAt', 'lastSyncAt', 'upc', 'additionPrice', 'ageControl', 'name', 'barcode', 'costPrice', 'description', 'detail', 'include', 'ingredients', 'keyFeatures', 'specification', 'dimension', 'price', 'pricePerKilo', 'prodType', 'productPictures', 'sortIndex', 'vatIndex', 'virtualProduct', 'totalSoldProducts', 'totalRevenue', 'totalOrders', 'productVideo', 'category', 'brand', 'supplier', 'orders', 'referTo']
+    required: ['_id', '__v', 'createdAt', 'updatedAt', 'deletedAt', 'lastSyncAt', 'upc', 'additionPrice', 'ageControl', 'name', 'barcode', 'costPrice', 'description', 'detail', 'include', 'ingredients', 'keyFeatures', 'specification', 'price', 'pricePerKilo', 'prodType', 'productPictures', 'sortIndex', 'vatIndex', 'virtualProduct', 'totalSoldProducts', 'totalRevenue', 'totalOrders', 'productVideo', 'category', 'brand', 'supplier', 'orders', 'referTo']
 } as const;
 
 export const $GetManyBrandEntityResponseDto = {
@@ -675,7 +679,11 @@ export const $SharedProductDto = {
         },
         dimension: {
             type: 'object',
-            example: {},
+            example: {
+                height: 10,
+                length: 20,
+                width: 30
+            },
             description: 'Dimensions of the product'
         },
         price: {
@@ -717,7 +725,7 @@ export const $SharedProductDto = {
             description: 'Virtual product indicator'
         }
     },
-    required: ['upc', 'additionPrice', 'ageControl', 'name', 'barcode', 'costPrice', 'description', 'detail', 'include', 'ingredients', 'keyFeatures', 'specification', 'dimension', 'price', 'pricePerKilo', 'prodType', 'productPictures', 'sortIndex', 'vatIndex', 'virtualProduct']
+    required: ['upc', 'additionPrice', 'ageControl', 'name', 'barcode', 'costPrice', 'description', 'detail', 'include', 'ingredients', 'keyFeatures', 'specification', 'price', 'pricePerKilo', 'prodType', 'productPictures', 'sortIndex', 'vatIndex', 'virtualProduct']
 } as const;
 
 export const $SerializedBrandDto = {
@@ -1418,7 +1426,11 @@ export const $CreateProductDto = {
         },
         dimension: {
             type: 'object',
-            example: {},
+            example: {
+                height: 10,
+                length: 20,
+                width: 30
+            },
             description: 'Dimensions of the product'
         },
         price: {
@@ -1472,7 +1484,7 @@ export const $CreateProductDto = {
             type: 'string'
         }
     },
-    required: ['upc', 'additionPrice', 'ageControl', 'name', 'barcode', 'costPrice', 'description', 'detail', 'include', 'ingredients', 'keyFeatures', 'specification', 'dimension', 'price', 'pricePerKilo', 'prodType', 'productPictures', 'sortIndex', 'vatIndex', 'virtualProduct']
+    required: ['upc', 'additionPrice', 'ageControl', 'name', 'barcode', 'costPrice', 'description', 'detail', 'include', 'ingredients', 'keyFeatures', 'specification', 'price', 'pricePerKilo', 'prodType', 'productPictures', 'sortIndex', 'vatIndex', 'virtualProduct']
 } as const;
 
 export const $CreateManyProductEntityDto = {
@@ -1574,7 +1586,11 @@ export const $UpdateProductDto = {
         },
         dimension: {
             type: 'object',
-            example: {},
+            example: {
+                height: 10,
+                length: 20,
+                width: 30
+            },
             description: 'Dimensions of the product'
         },
         price: {
@@ -1754,11 +1770,11 @@ export const $CreateContractDto = {
         },
         startDate: {
             type: 'date',
-            default: '2024-06-06T09:17:45.367Z'
+            default: '2024-06-06T11:37:49.154Z'
         },
         endDate: {
             type: 'date',
-            default: '2024-06-06T09:17:45.367Z'
+            default: '2024-06-06T11:37:49.154Z'
         },
         status: {
             type: 'string',
@@ -1790,11 +1806,11 @@ export const $UpdateContractDto = {
         },
         startDate: {
             type: 'date',
-            default: '2024-06-06T09:17:45.367Z'
+            default: '2024-06-06T11:37:49.154Z'
         },
         endDate: {
             type: 'date',
-            default: '2024-06-06T09:17:45.367Z'
+            default: '2024-06-06T11:37:49.154Z'
         },
         status: {
             type: 'string',

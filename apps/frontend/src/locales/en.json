@@ -215,7 +215,8 @@
         "specification": "Specification",
         "ingredients": "Ingredients",
         "supplier": "Supplier",
-        "auto": "Auto"
+        "auto": "Auto",
+        "duration": "Duration"
     },
     "placeHolders": {
         "enterEmail": "Enter Email",
@@ -244,7 +245,8 @@
         "enterFeePerSale": "Enter Fee Per Sale",
         "selectFeeType": "Select Fee Type",
         "selectStatus": "Select Status",
-        "enterDescription": "Enter Description"
+        "enterDescription": "Enter Description",
+        "enterTheContractDuration": "Enter The Contract Duration"
     },
     "allRightsReserved": "All Rights Reserved",
     "errors": {
@@ -256,7 +258,10 @@
     "dataTable": {
         "reset": "Reset",
         "search": "Search...",
-        "columns": "Columns"
+        "columns": "Columns",
+        "noData": "No data to show",
+        "showing": "Showing",
+        "results": "Results"
     },
     "wait": "Please wait..",
     "links": {
