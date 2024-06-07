@@ -27,6 +27,9 @@
                     <input-select :options="status" name="status" :field-label="$t('fields.status')" requierd :placeholder="$t('placeHolders.selectStatus')" />
                 </div>
                 <div class="grid grid-cols-1">
+                    <date-range-input end-date="endDate" start-date="startDate" requierd />
+                </div>
+                <div class="grid grid-cols-1">
                     <input-text
                         name="description"
                         text-area
@@ -37,6 +40,7 @@
                 </div>
                 <submit-button :label="$t('contractsPages.addContract')" :loading="loading" />
             </form>
+            <div class="pb-5"></div>
         </div>
     </div>
 </template>
@@ -47,10 +51,9 @@
     import { toTypedSchema } from '@vee-validate/zod';
     import { z } from 'zod';
     import { computed } from 'vue';
-    import { useCategories } from '@/composables/categories/use-categories';
+    import { useContract } from '@/composables/contracts/use-contracts';
 
-    const { loading, addEntity, t } = useCategories({});
-
+    const { loading, addEntity, t } = useContract({});
     const feeType = computed(() => [
         { text: t('feeType.fixed'), value: 'fixed' },
         { text: t('feeType.percentage'), value: 'percentage' },
@@ -91,15 +94,31 @@
                         }),
                     })
                     .default(''),
+                startDate: z
+                    .string()
+                    .min(1, {
+                        message: t('validations.required', {
+                            field: t('fields.duration'),
+                        }),
+                    })
+                    .default(''),
+                endDate: z
+                    .string()
+                    .min(1, {
+                        message: t('validations.required', {
+                            field: t('fields.duration'),
+                        }),
+                    })
+                    .default(''),
             })
         )
     );
-    const { handleSubmit, resetForm } = useForm<CreateContractDto>({
+    const { handleSubmit, resetForm, setValues } = useForm<CreateContractDto>({
         validationSchema: schema2,
     });
     const onSubmit = handleSubmit(
         (values) => {
-            addEntity(values, resetForm);
+            addEntity(values, resetForm, setValues);
         },
         () => {}
     );

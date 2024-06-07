@@ -65,12 +65,12 @@
             })
         )
     );
-    const { handleSubmit, resetForm } = useForm<CreateBrandDto>({
+    const { handleSubmit, resetForm, setValues } = useForm<CreateBrandDto>({
         validationSchema: schema2,
     });
     const onSubmit = handleSubmit(
         (values) => {
-            addEntity(values, resetForm);
+            addEntity(values, resetForm, setValues);
         },
         () => {}
     );
