@@ -216,7 +216,8 @@
         "ingredients": "Ingredients",
         "supplier": "Supplier",
         "auto": "Auto",
-        "duration": "Duration"
+        "duration": "Duration",
+        "totalSoldProducts": "Total Sold Products"
     },
     "placeHolders": {
         "enterEmail": "Enter Email",

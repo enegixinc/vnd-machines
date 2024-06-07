@@ -215,7 +215,8 @@
         "firstName": "الاسم الأول",
         "lastName": "اسم العائلة",
         "auto": "تلقائي",
-        "duration": "المدة"
+        "duration": "المدة",
+        "totalSoldProducts": "اجمالي المنتجاب المباعة"
     },
     "roles": {
         "admin": "مدير",

@@ -37,6 +37,7 @@
             { field: 'supplier.firstName', title: t('fields.supplierName'), condition: 'equal', hide: false, filter: false, sort: false },
             { field: 'totalOrders', title: t('fields.totalOrders'), hide: false, type: 'number' },
             { field: 'totalRevenue', title: t('fields.totalRevenue'), hide: false, type: 'number' },
+            { field: 'totalSoldProducts', title: t('fields.totalSoldProducts'), hide: false, type: 'number' },
             { field: 'feePerSale', title: t('fields.feePerSale'), hide: false, type: 'number' },
             { field: 'feeType', title: t('fields.feeType'), hide: false },
             { field: 'startDate', title: t('fields.startDate'), hide: false, filter: false, type: 'date' },
