@@ -1,4 +1,12 @@
-import { Column, Entity, ManyToOne, ObjectLiteral, OneToMany, VirtualColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  ManyToMany,
+  ManyToOne,
+  ObjectLiteral,
+  OneToMany,
+  VirtualColumn,
+} from 'typeorm';
 import {
   Dimension,
   IProductEntity,
@@ -6,7 +14,7 @@ import {
   ISerializedCategory,
   ISerializedUser,
   MultiLang,
-  ReferenceByID
+  ReferenceByID,
 } from '@core';
 import { fakerAR } from '@faker-js/faker';
 import { Factory } from 'nestjs-seeder';
@@ -18,15 +26,19 @@ import { CategoryEntity } from '../categories/category.entity';
 import { MagexService } from '../../services/magex/magex.service';
 import { OrderProductsDetails } from '../orders/order-details.entity';
 import { MachineProduct } from '../machines/entities/machine-product.entity';
+import { FillRequestEntity } from '../requests/request.entity';
 
 @Entity('products')
 export class ProductEntity
   extends MagexDatabaseEntity
   implements IProductEntity
 {
+  @ManyToMany(() => FillRequestEntity, (fillRequest) => fillRequest.products)
+  requests: FillRequestEntity[];
+
   @VirtualColumn({
     type: 'numeric',
-    query: (entity) =>`
+    query: (entity) => `
         SELECT
             COALESCE(SUM(OD.quantity), 0)
         FROM
@@ -45,7 +57,7 @@ export class ProductEntity
 
   @VirtualColumn({
     type: 'numeric',
-    query: (entity) =>`
+    query: (entity) => `
         SELECT
             COALESCE(SUM(O.total), 0)
         FROM
@@ -64,7 +76,7 @@ export class ProductEntity
 
   @VirtualColumn({
     type: 'int',
-    query: (entity) =>`
+    query: (entity) => `
         SELECT
             COALESCE(COUNT(*), 0)
         FROM
@@ -81,25 +93,18 @@ export class ProductEntity
   })
   totalOrders: number;
 
-
   @OneToMany(
     () => OrderProductsDetails,
     (orderProduct) => orderProduct.product,
     {
       onDelete: 'NO ACTION',
-
     }
   )
   orders: OrderProductsDetails[];
 
-  @OneToMany(
-    () => MachineProduct,
-    (machineProduct) => machineProduct.product,
-    {
-      onDelete: 'NO ACTION',
-
-    }
-  )
+  @OneToMany(() => MachineProduct, (machineProduct) => machineProduct.product, {
+    onDelete: 'NO ACTION',
+  })
   machines: MachineProduct[];
 
   @ManyToOne(() => UserEntity, (user) => user.products)
@@ -335,7 +340,7 @@ export class ProductEntity
 
     await magexService.products.putProductsEditById({
       id: formData._id,
-      formData:{
+      formData: {
         ...formData,
         category: this.category?._id || '',
         brand: this.brand?._id || '',

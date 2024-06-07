@@ -1,8 +1,4 @@
-import {
-  DataSource,
-  EntitySubscriberInterface,
-  EventSubscriber,
-} from 'typeorm';
+import { DataSource, EventSubscriber } from 'typeorm';
 import { Inject } from '@nestjs/common';
 import { EntitySyncer } from '../../common/entities/entity-syncer/entity-syncer';
 import { ProductEntity } from './product.entity';
@@ -12,10 +8,7 @@ import { BrandEntity } from '../brands/brand.entity';
 import { MagexService } from '../../services/magex/magex.service';
 
 @EventSubscriber()
-export class ProductSubscriber
-  extends EntitySyncer<ProductEntity>
-  implements EntitySubscriberInterface<ProductEntity>
-{
+export class ProductSubscriber extends EntitySyncer<ProductEntity> {
   constructor(
     @Inject(DataSource) protected dataSource: DataSource,
     @Inject(MagexService) protected magexService: MagexService

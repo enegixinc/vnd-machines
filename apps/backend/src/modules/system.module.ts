@@ -10,11 +10,13 @@ import { ContractsModule } from './contracts/contracts.module';
 import { ProductsModule } from './products/products.module';
 import { CategoriesModule } from './categories/categories.module';
 import { OrdersModule } from './orders/orders.module';
+import { RequestsModule } from './requests/requests.module';
 
 @Module({
   imports: [
     AuthModule,
     MachinesModule,
+    RequestsModule,
     UsersModule,
     ContractsModule,
     ProductsModule,
