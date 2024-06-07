@@ -1,0 +1,1 @@
+{"description":"Role of the user","type":"string","default":"supplier","enum":["admin","supplier"],"x-readme-ref-name":"UserRole"}
