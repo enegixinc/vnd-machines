@@ -179,7 +179,7 @@
         "status": "Status",
         "actions": "Actions",
         "deletedAt": "Deleted At",
-        "totalSales": "Total Sales",
+        "totalOrders": "Total Orders",
         "totalRevenue": "Total Revenue",
         "feePerSale": "Fee Per Sale",
         "feeType": "Fee Type",

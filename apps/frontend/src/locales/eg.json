@@ -176,7 +176,7 @@
         "status": "الحالة",
         "actions": "الاجراءات",
         "deletedAt": "تم الحذف في",
-        "totalSales": "إجمالي المبيعات",
+        "totalOrders": "إجمالي الطلبات",
         "totalRevenue": "إجمالي الإيرادات",
         "feePerSale": "رسوم لكل عملية بيع",
         "feeType": "نوع الرسوم",
