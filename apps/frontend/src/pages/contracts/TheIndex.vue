@@ -31,7 +31,9 @@
         TheBreadcrumbs,
         rowLoading,
         deleteEntity,
-    } = useContract({});
+    } = useContract({
+        join: ['supplier||firstName'],
+    });
     const tableFields = computed(() => {
         return [
             { field: 'supplier.firstName', title: t('fields.supplierName'), condition: 'equal', hide: false, filter: false, sort: false },
