@@ -1,15 +1,15 @@
-import React from "react";
+import React from 'react';
 
-import type { RefineLayoutThemedTitleProps } from "@refinedev/antd";
-import { useLink } from "@refinedev/core";
+import type { RefineLayoutThemedTitleProps } from '@refinedev/antd';
+import { useLink } from '@refinedev/core';
 
-import { Space, theme, Typography } from "antd";
+import { Space, theme, Typography } from 'antd';
 
-import { Logo } from "./logo";
+import { Logo } from './logo';
 
 const { useToken } = theme;
 
-const name = "Globex Corporation";
+export const PLATFORM_TITLE = 'VND Machines';
 
 export const Title: React.FC<RefineLayoutThemedTitleProps> = ({
   collapsed,
@@ -22,22 +22,22 @@ export const Title: React.FC<RefineLayoutThemedTitleProps> = ({
     <Link
       to="/login"
       style={{
-        display: "inline-block",
-        textDecoration: "none",
+        display: 'inline-block',
+        textDecoration: 'none',
       }}
     >
       <Space
         style={{
-          display: "flex",
-          alignItems: "center",
-          fontSize: "inherit",
+          display: 'flex',
+          alignItems: 'center',
+          fontSize: 'inherit',
           ...wrapperStyles,
         }}
       >
         <div
           style={{
-            height: "24px",
-            width: "24px",
+            height: '24px',
+            width: '24px',
             color: token.colorPrimary,
           }}
         >
@@ -47,12 +47,12 @@ export const Title: React.FC<RefineLayoutThemedTitleProps> = ({
         {!collapsed && (
           <Typography.Title
             style={{
-              fontSize: "inherit",
+              fontSize: 'inherit',
               marginBottom: 0,
               fontWeight: 700,
             }}
           >
-            {name}
+            {PLATFORM_TITLE}
           </Typography.Title>
         )}
       </Space>

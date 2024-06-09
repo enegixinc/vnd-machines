@@ -1,6 +1,6 @@
-import { FilterDropdown, useTable } from "@refinedev/antd";
-import { getDefaultFilter } from "@refinedev/core";
-import type { GetFieldsFromList } from "@refinedev/nestjs-query";
+import { FilterDropdown, useTable } from '@refinedev/antd';
+import { getDefaultFilter } from '@refinedev/core';
+import type { GetFieldsFromList } from '@refinedev/nestjs-query';
 
 import {
   EnvironmentOutlined,
@@ -10,16 +10,16 @@ import {
   SearchOutlined,
   ShopOutlined,
   TeamOutlined,
-} from "@ant-design/icons";
-import { Card, Col, Input, Row, Select, Space, Table } from "antd";
-import cn from "classnames";
+} from '@ant-design/icons';
+import { Card, Col, Input, Row, Select, Space, Table } from 'antd';
+import cn from 'classnames';
 
-import { CustomAvatar, Logo, Text } from "@/components";
-import type { AdministrationUsersQuery } from "@/graphql/types";
+import { CustomAvatar, Logo, PLATFORM_TITLE, Text } from '@/components';
+import type { AdministrationUsersQuery } from '@/graphql/types';
 
-import { RoleTag } from "./components";
-import { ADMINISTRATION_USERS_QUERY } from "./queries";
-import styles from "./settings.module.css";
+import { RoleTag } from './components';
+import { ADMINISTRATION_USERS_QUERY } from './queries';
+import styles from './settings.module.css';
 
 type User = GetFieldsFromList<AdministrationUsersQuery>;
 
@@ -29,14 +29,14 @@ export const SettingsPage = () => {
       <Space
         size={16}
         style={{
-          width: "100%",
-          paddingBottom: "24px",
-          borderBottom: "1px solid #D9D9D9",
+          width: '100%',
+          paddingBottom: '24px',
+          borderBottom: '1px solid #D9D9D9',
         }}
       >
         <Logo width={96} height={96} />
-        <Text style={{ fontSize: "32px", fontWeight: 700 }}>
-          Globex Corporation
+        <Text style={{ fontSize: '32px', fontWeight: 700 }}>
+          {PLATFORM_TITLE}
         </Text>
       </Space>
       <Row
@@ -68,53 +68,53 @@ export const SettingsPage = () => {
 
 const roleOptions: {
   label: string;
-  value: User["role"];
+  value: User['role'];
 }[] = [
   {
-    label: "Admin",
-    value: "ADMIN",
+    label: 'Admin',
+    value: 'ADMIN',
   },
   {
-    label: "Sales Intern",
-    value: "SALES_INTERN",
+    label: 'Sales Intern',
+    value: 'SALES_INTERN',
   },
   {
-    label: "Sales Person",
-    value: "SALES_PERSON",
+    label: 'Sales Person',
+    value: 'SALES_PERSON',
   },
   {
-    label: "Sales Manager",
-    value: "SALES_MANAGER",
+    label: 'Sales Manager',
+    value: 'SALES_MANAGER',
   },
 ];
 
 const UsersTable = () => {
   const { tableProps, filters } = useTable<User>({
-    resource: "users",
+    resource: 'users',
     sorters: {
       initial: [
         {
-          field: "createdAt",
-          order: "desc",
+          field: 'createdAt',
+          order: 'desc',
         },
       ],
     },
     filters: {
       initial: [
         {
-          field: "jobTitle",
-          value: "",
-          operator: "contains",
+          field: 'jobTitle',
+          value: '',
+          operator: 'contains',
         },
         {
-          field: "name",
-          value: "",
-          operator: "contains",
+          field: 'name',
+          value: '',
+          operator: 'contains',
         },
         {
-          field: "status",
+          field: 'status',
           value: undefined,
-          operator: "in",
+          operator: 'in',
         },
       ],
     },
@@ -127,8 +127,8 @@ const UsersTable = () => {
     <Card
       bodyStyle={{ padding: 0 }}
       headStyle={{
-        borderBottom: "1px solid #D9D9D9",
-        marginBottom: "1px",
+        borderBottom: '1px solid #D9D9D9',
+        marginBottom: '1px',
       }}
       title={
         <Space size="middle">
@@ -150,7 +150,7 @@ const UsersTable = () => {
         <Table.Column<User>
           dataIndex="name"
           title="Name"
-          defaultFilteredValue={getDefaultFilter("name", filters, "contains")}
+          defaultFilteredValue={getDefaultFilter('name', filters, 'contains')}
           // @ts-expect-error Ant Design Icon's v5.0.1 has an issue with @types/react@^18.2.66
           filterIcon={<SearchOutlined />}
           filterDropdown={(props) => (
@@ -162,9 +162,9 @@ const UsersTable = () => {
             return (
               <div
                 style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "8px",
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
                 }}
               >
                 <CustomAvatar src={record.avatarUrl} name={record.name} />
@@ -177,9 +177,9 @@ const UsersTable = () => {
           dataIndex="jobTitle"
           title="Title"
           defaultFilteredValue={getDefaultFilter(
-            "jobTitle",
+            'jobTitle',
             filters,
-            "contains",
+            'contains'
           )}
           // @ts-expect-error Ant Design Icon's v5.0.1 has an issue with @types/react@^18.2.66
           filterIcon={<SearchOutlined />}
@@ -192,11 +192,11 @@ const UsersTable = () => {
         <Table.Column<User>
           dataIndex="role"
           title="Role"
-          defaultFilteredValue={getDefaultFilter("role", filters, "in")}
+          defaultFilteredValue={getDefaultFilter('role', filters, 'in')}
           filterDropdown={(props) => (
             <FilterDropdown {...props}>
               <Select
-                style={{ width: "200px" }}
+                style={{ width: '200px' }}
                 mode="multiple"
                 placeholder="Select Stage"
                 options={roleOptions}
@@ -214,26 +214,26 @@ const UsersTable = () => {
 
 const companyInfo = [
   {
-    label: "Address",
-    value: "2158 Mount Tabor, Westbury, New York, USA 11590",
+    label: 'Address',
+    value: '2158 Mount Tabor, Westbury, New York, USA 11590',
     // @ts-expect-error Ant Design Icon's v5.0.1 has an issue with @types/react@^18.2.66
     icon: <EnvironmentOutlined className="tertiary" />,
   },
   {
-    label: "Phone",
-    value: "+123 456 789 01 23",
+    label: 'Phone',
+    value: '+123 456 789 01 23',
     // @ts-expect-error Ant Design Icon's v5.0.1 has an issue with @types/react@^18.2.66
     icon: <PhoneOutlined className="tertiary" />,
   },
   {
-    label: "Email",
-    value: "info@globexcorp.com",
+    label: 'Email',
+    value: 'info@globexcorp.com',
     // @ts-expect-error Ant Design Icon's v5.0.1 has an issue with @types/react@^18.2.66
     icon: <MailOutlined className="tertiary" />,
   },
   {
-    label: "Website",
-    value: "https://globexcorp.com",
+    label: 'Website',
+    value: 'https://globexcorp.com',
     // @ts-expect-error Ant Design Icon's v5.0.1 has an issue with @types/react@^18.2.66
     icon: <GlobalOutlined className="tertiary" />,
   },
@@ -250,10 +250,10 @@ export const CompanyInfo = () => {
         </Space>
       }
       headStyle={{
-        padding: "1rem",
+        padding: '1rem',
       }}
       bodyStyle={{
-        padding: "0",
+        padding: '0',
       }}
     >
       <div className={styles.list}>
@@ -265,7 +265,7 @@ export const CompanyInfo = () => {
                 <Text size="xs" className="tertiary">
                   {item.label}
                 </Text>
-                <Text className={cn(styles.listItemContent, "primary")}>
+                <Text className={cn(styles.listItemContent, 'primary')}>
                   {item.value}
                 </Text>
               </div>

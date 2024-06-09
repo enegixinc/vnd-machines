@@ -1,4 +1,5 @@
 {
+  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "target": "ESNext",
     "useDefineForClassFields": true,
@@ -17,7 +18,8 @@
     "jsx": "react-jsx",
     "baseUrl": "./src",
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["./*"],
+      "@api-sdk/*": ["libs/frontend/api-sdk/src/*"]
     }
   },
   "include": ["src", "vite.config.ts"],
