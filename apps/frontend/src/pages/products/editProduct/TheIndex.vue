@@ -166,7 +166,6 @@
             </form>
         </div>
     </div>
-    {{ values }}
 </template>
 <script setup lang="ts">
     import TheBreadcrumbs from '@/components/ui/TheBreadcrumbs.vue';
@@ -182,7 +181,7 @@
         id: string;
     }
     const pageProps = defineProps<props>();
-    const { loading, getOneEntity, t, handleEmptyLang } = useProducts({});
+    const { loading, getOneEntity, t, handleEmptyLang, cleanResource, updateEntity } = useProducts({});
     const schema2 = computed(() =>
         toTypedSchema(
             z.object({
@@ -322,16 +321,45 @@
             })
         )
     );
-    const { handleSubmit, resetForm, setValues } = useForm<CreateProductDto>({
+    const { handleSubmit, resetForm, setValues, values } = useForm<CreateProductDto>({
         validationSchema: schema2,
     });
     const onSubmit = handleSubmit(
-        (values) => {
+        () => {
+            const id = values._id;
             const filledData = handleEmptyLang(values);
             setValues(filledData);
-            console.log(filledData);
+            const cleanedData = cleanResource(filledData);
 
-            // addEntity({ ...values, productPictures: ['image1.jpg', 'image2.jpg'], productVideo: 'Unknown Type: File' }, resetForm, setValues);
+            updateEntity({
+                id: id,
+                requestBody: {
+                    name: cleanedData.name,
+                    price: cleanedData.price,
+                    additionPrice: cleanedData.additionPrice,
+                    ageControl: cleanedData.ageControl,
+                    barcode: cleanedData.barcode,
+                    brand: cleanedData.brand || null,
+                    category: cleanedData.category || null,
+                    costPrice: cleanedData.costPrice,
+                    description: cleanedData.description,
+                    detail: cleanedData.detail,
+                    dimension: cleanedData.dimension,
+                    include: cleanedData.include,
+                    ingredients: cleanedData.ingredients,
+                    keyFeatures: cleanedData.keyFeatures,
+                    pricePerKilo: cleanedData.pricePerKilo,
+                    prodType: cleanedData.prodType,
+                    productPictures: cleanedData.productPictures,
+                    productVideo: cleanedData.productVideo,
+                    sortIndex: cleanedData.sortIndex,
+                    specification: cleanedData.specification,
+                    upc: cleanedData.upc,
+                    supplier: cleanedData.supplier || null,
+                    vatIndex: cleanedData.vatIndex,
+                    virtualProduct: cleanedData.virtualProduct,
+                },
+            });
         },
         () => {}
     );
