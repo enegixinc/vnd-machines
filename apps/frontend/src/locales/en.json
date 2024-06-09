@@ -247,14 +247,16 @@
         "selectFeeType": "Select Fee Type",
         "selectStatus": "Select Status",
         "enterDescription": "Enter Description",
-        "enterTheContractDuration": "Enter The Contract Duration"
+        "enterTheContractDuration": "Enter The Contract Duration",
+        "enterProdType": "Enter Prod Type"
     },
     "allRightsReserved": "All Rights Reserved",
     "errors": {
         "ops": "Ops...",
         "errorHappened": "Some error happened please call technical support",
         "pleaseEnterValidEmail": "Please Enter Valid Email",
-        "passwordRequired": "Password Required"
+        "passwordRequired": "Password Required",
+        "thePageYouRequestedWasNotFound": "The page you requested was not found!"
     },
     "dataTable": {
         "reset": "Reset",
@@ -290,7 +292,8 @@
         "manageRequests": "Manage Requests",
         "createRequest": "Create Request",
         "reports": "Reports",
-        "mangeUsers": "Manage Users"
+        "mangeUsers": "Manage Users",
+        "home": "Home"
     },
     "headings": {
         "machinesAndProducts": "Machines & Products",
@@ -328,7 +331,8 @@
         "deletedProducts": "Deleted Products",
         "recoverProducts": "Recover Product",
         "dimensions": "Dimensions",
-        "addProduct": "Add Product"
+        "addProduct": "Add Product",
+        "editProduct": "Edit Product"
 
     },
     "unknown": "Unknown",
