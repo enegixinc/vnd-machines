@@ -63,7 +63,7 @@
 
                 <!--  BEGIN CONTENT AREA  -->
                 <div class="p-6 animation">
-                    <router-view></router-view>
+                    <router-view :key="$route.path"></router-view>
                 </div>
                 <!--  END CONTENT AREA  -->
 
@@ -75,7 +75,7 @@
     </div>
 </template>
 <script setup lang="ts">
-    import { ref, onMounted } from 'vue';
+    import { onMounted, ref } from 'vue';
     import Sidebar from '@/components/layout/Sidebar.vue';
     import Header from '@/components/layout/Header.vue';
     import Footer from '@/components/layout/Footer.vue';
@@ -83,6 +83,7 @@
     import appSetting from '@/app-setting';
 
     import { useAppStore } from '@/stores/index';
+
     const store = useAppStore();
     const showTopButton = ref(false);
     onMounted(() => {
