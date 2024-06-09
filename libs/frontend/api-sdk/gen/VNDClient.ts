@@ -10,6 +10,7 @@ import { ContractsService } from './services.gen';
 import { MachinesService } from './services.gen';
 import { OrdersService } from './services.gen';
 import { ProductsService } from './services.gen';
+import { RequestsService } from './services.gen';
 import { UsersService } from './services.gen';
 
 type HttpRequestConstructor = new (config: OpenAPIConfig) => BaseHttpRequest;
@@ -23,6 +24,7 @@ export class VNDClient {
 	public readonly machines: MachinesService;
 	public readonly orders: OrdersService;
 	public readonly products: ProductsService;
+	public readonly requests: RequestsService;
 	public readonly users: UsersService;
 
 	public readonly request: BaseHttpRequest;
@@ -51,6 +53,7 @@ export class VNDClient {
 		this.machines = new MachinesService(this.request);
 		this.orders = new OrdersService(this.request);
 		this.products = new ProductsService(this.request);
+		this.requests = new RequestsService(this.request);
 		this.users = new UsersService(this.request);
 	}
 }

@@ -850,6 +850,32 @@ export type UpdateUserDto = {
     password?: string;
 };
 
+export type GetManyRequestEntityResponseDto = {
+    data: Array<RequestEntity>;
+    count: number;
+    total: number;
+    page: number;
+    pageCount: number;
+};
+
+export type RequestEntity = {
+    _id: string;
+    /**
+     * Version
+     */
+    __v: number;
+    createdAt: string;
+    updatedAt: string;
+    deletedAt: string | null;
+    lastSyncAt: string | null;
+};
+
+export type CreateRequestDto = unknown;
+
+export type CreateManyRequestEntityDto = {
+    bulk: Array<CreateRequestDto>;
+};
+
 export type CreateContractDto = {
     description?: string;
     feePerSale: number;
@@ -1384,6 +1410,105 @@ export type $OpenApiTs = {
         };
     };
     '/users/{id}/recover': {
+        patch: {
+            req: RecoverOneData;
+            res: {
+                /**
+                 * Recover one base response
+                 */
+                200: unknown;
+                /**
+                 * Forbidden.
+                 */
+                403: unknown;
+            };
+        };
+    };
+    '/requests/{id}': {
+        get: {
+            req: GetOneData;
+            res: {
+                /**
+                 * Get one base response
+                 */
+                200: RequestEntity;
+                /**
+                 * Forbidden.
+                 */
+                403: unknown;
+            };
+        };
+        patch: {
+            req: UpdateOneData;
+            res: {
+                /**
+                 * Response
+                 */
+                200: RequestEntity;
+                /**
+                 * Forbidden.
+                 */
+                403: unknown;
+            };
+        };
+        delete: {
+            req: DeleteOneData;
+            res: {
+                /**
+                 * Delete one base response
+                 */
+                200: unknown;
+                /**
+                 * Forbidden.
+                 */
+                403: unknown;
+            };
+        };
+    };
+    '/requests': {
+        get: {
+            req: GetManyData;
+            res: {
+                /**
+                 * Get paginated response
+                 */
+                200: GetManyRequestEntityResponseDto;
+                /**
+                 * Forbidden.
+                 */
+                403: unknown;
+            };
+        };
+        post: {
+            req: CreateOneData;
+            res: {
+                /**
+                 * Get create one base response
+                 */
+                201: RequestEntity;
+                /**
+                 * Forbidden.
+                 */
+                403: unknown;
+            };
+        };
+    };
+    '/requests/bulk': {
+        post: {
+            req: CreateManyData;
+            res: {
+                /**
+                 * Get create many base response
+                 */
+                201: Array<RequestEntity>;
+                /**
+                 * Forbidden.
+                 */
+                403: unknown;
+            };
+        };
+    };
+    '/requests/{id}/recover': {
         patch: {
             req: RecoverOneData;
             res: {

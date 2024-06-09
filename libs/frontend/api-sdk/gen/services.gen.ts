@@ -487,6 +487,175 @@ export class UsersService {
     
 }
 
+export class RequestsService {
+    constructor(public readonly httpRequest: BaseHttpRequest) { }
+    
+    /**
+     * @param data The data for the request.
+     * @param data.id
+     * @param data.fields Selects resource fields. <a href="https://github.com/nestjsx/crud/wiki/Requests#select" target="_blank">Docs</a>
+     * @param data.join Adds relational resources. <a href="https://github.com/nestjsx/crud/wiki/Requests#join" target="_blank">Docs</a>
+     * @param data.cache Reset cache (if was enabled). <a href="https://github.com/nestjsx/crud/wiki/Requests#cache" target="_blank">Docs</a>
+     * @param data.includeDeleted Include deleted. <a href="https://github.com/nestjsx/crud/wiki/Requests#includeDeleted" target="_blank">Docs</a>
+     * @returns RequestEntity Get one base response
+     * @throws ApiError
+     */
+    public getOne(data: GetOneData): CancelablePromise<GetOneResponse> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/requests/{id}',
+            path: {
+                id: data.id
+            },
+            query: {
+                fields: data.fields,
+                join: data.join,
+                cache: data.cache,
+                include_deleted: data.includeDeleted
+            },
+            errors: {
+                403: 'Forbidden.'
+            }
+        });
+    }
+    
+    /**
+     * @param data The data for the request.
+     * @param data.id
+     * @param data.requestBody
+     * @returns RequestEntity Response
+     * @throws ApiError
+     */
+    public updateOne(data: UpdateOneData): CancelablePromise<UpdateOneResponse> {
+        return this.httpRequest.request({
+            method: 'PATCH',
+            url: '/requests/{id}',
+            path: {
+                id: data.id
+            },
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                403: 'Forbidden.'
+            }
+        });
+    }
+    
+    /**
+     * @param data The data for the request.
+     * @param data.id
+     * @returns unknown Delete one base response
+     * @throws ApiError
+     */
+    public deleteOne(data: DeleteOneData): CancelablePromise<DeleteOneResponse> {
+        return this.httpRequest.request({
+            method: 'DELETE',
+            url: '/requests/{id}',
+            path: {
+                id: data.id
+            },
+            errors: {
+                403: 'Forbidden.'
+            }
+        });
+    }
+    
+    /**
+     * @param data The data for the request.
+     * @param data.fields Selects resource fields. <a href="https://github.com/nestjsx/crud/wiki/Requests#select" target="_blank">Docs</a>
+     * @param data.s Adds search condition. <a href="https://github.com/nestjsx/crud/wiki/Requests#search" target="_blank">Docs</a>
+     * @param data.filter Adds filter condition. <a href="https://github.com/nestjsx/crud/wiki/Requests#filter" target="_blank">Docs</a>
+     * @param data.or Adds OR condition. <a href="https://github.com/nestjsx/crud/wiki/Requests#or" target="_blank">Docs</a>
+     * @param data.sort Adds sort by field. <a href="https://github.com/nestjsx/crud/wiki/Requests#sort" target="_blank">Docs</a>
+     * @param data.join Adds relational resources. <a href="https://github.com/nestjsx/crud/wiki/Requests#join" target="_blank">Docs</a>
+     * @param data.limit Limit amount of resources. <a href="https://github.com/nestjsx/crud/wiki/Requests#limit" target="_blank">Docs</a>
+     * @param data.offset Offset amount of resources. <a href="https://github.com/nestjsx/crud/wiki/Requests#offset" target="_blank">Docs</a>
+     * @param data.page Page portion of resources. <a href="https://github.com/nestjsx/crud/wiki/Requests#page" target="_blank">Docs</a>
+     * @param data.cache Reset cache (if was enabled). <a href="https://github.com/nestjsx/crud/wiki/Requests#cache" target="_blank">Docs</a>
+     * @param data.includeDeleted Include deleted. <a href="https://github.com/nestjsx/crud/wiki/Requests#includeDeleted" target="_blank">Docs</a>
+     * @returns GetManyRequestEntityResponseDto Get paginated response
+     * @throws ApiError
+     */
+    public getMany(data: GetManyData = {}): CancelablePromise<GetManyResponse> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/requests',
+            query: {
+                fields: data.fields,
+                s: data.s,
+                filter: data.filter,
+                or: data.or,
+                sort: data.sort,
+                join: data.join,
+                limit: data.limit,
+                offset: data.offset,
+                page: data.page,
+                cache: data.cache,
+                include_deleted: data.includeDeleted
+            },
+            errors: {
+                403: 'Forbidden.'
+            }
+        });
+    }
+    
+    /**
+     * @param data The data for the request.
+     * @param data.requestBody
+     * @returns RequestEntity Get create one base response
+     * @throws ApiError
+     */
+    public createOne(data: CreateOneData): CancelablePromise<CreateOneResponse> {
+        return this.httpRequest.request({
+            method: 'POST',
+            url: '/requests',
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                403: 'Forbidden.'
+            }
+        });
+    }
+    
+    /**
+     * @param data The data for the request.
+     * @param data.requestBody
+     * @returns RequestEntity Get create many base response
+     * @throws ApiError
+     */
+    public createMany(data: CreateManyData): CancelablePromise<CreateManyResponse> {
+        return this.httpRequest.request({
+            method: 'POST',
+            url: '/requests/bulk',
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                403: 'Forbidden.'
+            }
+        });
+    }
+    
+    /**
+     * @param data The data for the request.
+     * @param data.id
+     * @returns unknown Recover one base response
+     * @throws ApiError
+     */
+    public recoverOne(data: RecoverOneData): CancelablePromise<RecoverOneResponse> {
+        return this.httpRequest.request({
+            method: 'PATCH',
+            url: '/requests/{id}/recover',
+            path: {
+                id: data.id
+            },
+            errors: {
+                403: 'Forbidden.'
+            }
+        });
+    }
+    
+}
+
 export class ContractsService {
     constructor(public readonly httpRequest: BaseHttpRequest) { }
     
