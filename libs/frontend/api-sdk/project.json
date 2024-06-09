@@ -34,7 +34,8 @@
       "options": {
         "cwd": "libs/frontend/api-sdk",
         "color": true,
-        "command": "node -e \"require('fs').rmSync('./gen', { recursive: true, force: true }); process.exit();\" && curl -o openapi-spec.json http://localhost:3000/-json"        }
+        "command": "node -e \"require('fs').rmSync('./gen', { recursive: true, force: true }); process.exit();\" && curl -o openapi-spec.json http://localhost:3000/-json"
+      }
     },
     "generate": {
       "executor": "nx:run-commands",

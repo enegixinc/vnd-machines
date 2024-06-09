@@ -31,7 +31,7 @@
     "convert": {
       "executor": "nx:run-commands",
       "options": {
-       "cwd": "libs/backend/magex-connector",
+        "cwd": "libs/backend/magex-connector",
         "color": true,
         "command": "node -e \"require('fs').rmSync('./gen', { recursive: true, force: true }); process.exit();\" && p2o postman-spec.json -f openapi-spec.yml"
       }
