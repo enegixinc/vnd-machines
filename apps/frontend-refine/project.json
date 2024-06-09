@@ -1,0 +1,45 @@
+{
+  "name": "frontend-refine",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/frontend-refine/src",
+  "// targets": "to see all targets run: nx show project frontend --web",
+  "targets": {
+      "deploy": {
+          "executor": "nx:run-commands",
+          "defaultConfiguration": "dev",
+          "options": {
+              "parallel": false,
+              "commands": [
+                  "docker build -f apps/frontend/Dockerfile . -t {args.DockerContainerRegistry}",
+                  "docker push {args.DockerContainerRegistry}"
+              ]
+          },
+          "configurations": {
+              "dev": {
+                  "DockerContainerRegistry": "abdelrahmanessawy/vnd-frontend-dev"
+              },
+              "staging": {
+                  "DockerContainerRegistry": "abdelrahmanessawy/vnd-frontend-staging"
+              },
+              "production": {
+                  "DockerContainerRegistry": "abdelrahmanessawy/vnd-frontend-production"
+              }
+          }
+      },
+      "notify": {
+          "executor": "nx:run-commands",
+          "options": {
+              "commands": [
+                  "node scripts/coolify.js -w '{args.DEV_FRONTEND_COOLIFY_WEBHOOK}'"
+              ]
+          }
+      },
+      "start": {
+          "executor": "nx:run-commands",
+          "options": {
+              "command": "NODE_ENV=production http-server -p 80 -c-1 dist/apps/frontend --proxy http://localhost:80?"
+          }
+      }
+  }
+}
