@@ -4,6 +4,7 @@ import { useI18n } from 'vue-i18n';
 import { ApiClient } from '@/types/api';
 import DataTable from '@/components/ui/DataTable.vue';
 import TheBreadcrumbs from '@/components/ui/TheBreadcrumbs.vue';
+import { useRouter } from 'vue-router';
 
 export default function useEntityFactory<T, P extends object>(client: ApiClient<T>) {
     return function useEntity(defaultSettings: P = {} as P) {
@@ -11,7 +12,8 @@ export default function useEntityFactory<T, P extends object>(client: ApiClient<
         const totalPages = ref(1);
         const pageSize = ref<number | undefined>(10);
         const entityData = ref<T[]>([]);
-        const rowLoading = ref<string | unknown>(null);
+        const rowLoading = ref<string | unknown>(null),
+            router = useRouter();
 
         const fetchEntities = async (data: P) => {
             try {
@@ -162,6 +164,13 @@ export default function useEntityFactory<T, P extends object>(client: ApiClient<
             }
             return { ...obj, ...filledData };
         }
+        function goTo(pathName: string, routePropName?: string, routePropValue?: string): void {
+            if (routePropName && routePropValue) {
+                router.push({ name: pathName, params: { [routePropName]: routePropValue } });
+            } else {
+                router.push({ name: pathName });
+            }
+        }
 
         return {
             deleteEntity,
@@ -177,6 +186,7 @@ export default function useEntityFactory<T, P extends object>(client: ApiClient<
             t,
             locale,
             addEntity,
+            goTo,
         };
     };
 }
