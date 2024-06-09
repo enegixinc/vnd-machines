@@ -1,7 +1,6 @@
 import {
   Column,
   Entity,
-  ManyToMany,
   ManyToOne,
   ObjectLiteral,
   OneToMany,
@@ -26,15 +25,18 @@ import { CategoryEntity } from '../categories/category.entity';
 import { MagexService } from '../../services/magex/magex.service';
 import { OrderProductsDetails } from '../orders/order-details.entity';
 import { MachineProduct } from '../machines/entities/machine-product.entity';
-import { FillRequestEntity } from '../requests/request.entity';
+import { FillRequestProducts } from '../requests/fill-requests/fill-request.entity';
 
 @Entity('products')
 export class ProductEntity
   extends MagexDatabaseEntity
   implements IProductEntity
 {
-  @ManyToMany(() => FillRequestEntity, (fillRequest) => fillRequest.products)
-  requests: FillRequestEntity[];
+  @OneToMany(
+    () => FillRequestProducts,
+    (fillRequestProducts) => fillRequestProducts.product
+  )
+  fillRequestProducts: FillRequestProducts[];
 
   @VirtualColumn({
     type: 'numeric',

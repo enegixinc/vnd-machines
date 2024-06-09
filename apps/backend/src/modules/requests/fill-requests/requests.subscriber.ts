@@ -1,8 +1,8 @@
 import { DataSource, EntitySubscriberInterface, InsertEvent } from 'typeorm';
-import { RequestEntity } from './request.entity';
+import { FillRequestEntity } from './fill-request.entity';
 import { Inject } from '@nestjs/common';
 import { InjectQueue } from '@nestjs/bullmq';
-import { QUEUES } from '../../common/constants';
+import { QUEUES } from '../../../common/constants';
 import { Queue } from 'bullmq';
 
 export class RequestsSubscriber implements EntitySubscriberInterface {
@@ -13,10 +13,10 @@ export class RequestsSubscriber implements EntitySubscriberInterface {
     this.dataSource.subscribers.push(this);
   }
   listenTo() {
-    return RequestEntity;
+    return FillRequestEntity;
   }
 
-  async afterInsert(event: InsertEvent<RequestEntity>) {
+  async afterInsert(event: InsertEvent<FillRequestEntity>) {
     await this.requestsQueue.add('requests', {
       requestId: event.entity._id,
     });
