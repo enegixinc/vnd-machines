@@ -1,5 +1,5 @@
 <template>
-    <div :class="{ 'has-error': errorMessage, 'has-success': meta.dirty && meta.valid }">
+    <div :class="{ 'has-error': errorMessage }">
         <label :for="name">{{ $t('fields.supplier') }}<span v-if="requierd" class="text-danger mx-1">*</span></label>
         <multiselect
             v-model="selectedSupplier"
@@ -55,7 +55,8 @@
         requierd?: boolean;
     }
     const data = defineProps<props>();
-    const { errorMessage, meta, resetField } = useField(() => data.name, undefined, {});
+    const { errorMessage, setValue, value } = useField(() => data.name, undefined, {});
+
     const {
         loading,
         fetchEntities: fetchSuppliers,
@@ -79,10 +80,22 @@
             });
         }
     };
-    const setValue = (newVal) => {
-        resetField({
-            value: newVal?._id || '',
-        });
+    const setInputValue = (newVal) => {
+        setValue(newVal?._id || '');
     };
-    watch(selectedSupplier, setValue);
+    watch(selectedSupplier, setInputValue);
+    watch(value, (newVal) => {
+        if (!newVal) {
+            selectedSupplier.value = null;
+        }
+    });
+    const { value: supplierAllInfo, setValue: setSupplier } = useField(() => 'supplier', undefined, {});
+    watch(supplierAllInfo, (newVal) => {
+        if (typeof newVal === 'object' && newVal !== null && newVal !== undefined && Object.keys(newVal).length > 1 && newVal._id) {
+            selectedSupplier.value = newVal;
+            //@ts-ignore
+            Suppliers.value.push({ ...newVal });
+            setSupplier({ _id: newVal?._id || '' });
+        }
+    });
 </script>
