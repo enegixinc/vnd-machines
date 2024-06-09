@@ -1752,6 +1752,83 @@ export const $UpdateUserDto = {
     }
 } as const;
 
+export const $GetManyRequestEntityResponseDto = {
+    type: 'object',
+    properties: {
+        data: {
+            type: 'array',
+            items: {
+                '$ref': '#/components/schemas/RequestEntity'
+            }
+        },
+        count: {
+            type: 'number'
+        },
+        total: {
+            type: 'number'
+        },
+        page: {
+            type: 'number'
+        },
+        pageCount: {
+            type: 'number'
+        }
+    },
+    required: ['data', 'count', 'total', 'page', 'pageCount']
+} as const;
+
+export const $RequestEntity = {
+    type: 'object',
+    properties: {
+        _id: {
+            type: 'string',
+            example: '6a909236-53f2-4727-b780-e41e115ee906'
+        },
+        __v: {
+            type: 'number',
+            example: 1,
+            description: 'Version'
+        },
+        createdAt: {
+            type: 'date',
+            example: '2021-07-01T00:00:00.000Z'
+        },
+        updatedAt: {
+            type: 'date',
+            example: '2021-07-01T00:00:00.000Z'
+        },
+        deletedAt: {
+            type: 'date',
+            example: '2021-07-01T00:00:00.000Z',
+            nullable: true
+        },
+        lastSyncAt: {
+            type: 'date',
+            example: '2021-07-01T00:00:00.000Z',
+            nullable: true
+        }
+    },
+    required: ['_id', '__v', 'createdAt', 'updatedAt', 'deletedAt', 'lastSyncAt']
+} as const;
+
+export const $CreateRequestDto = {
+    type: 'object',
+    properties: {}
+} as const;
+
+export const $CreateManyRequestEntityDto = {
+    type: 'object',
+    properties: {
+        bulk: {
+            type: 'array',
+            items: {
+                '$ref': '#/components/schemas/CreateRequestDto'
+            }
+        }
+    },
+    required: ['bulk']
+} as const;
+
 export const $CreateContractDto = {
     type: 'object',
     properties: {
@@ -1770,11 +1847,11 @@ export const $CreateContractDto = {
         },
         startDate: {
             type: 'date',
-            default: '2024-06-06T11:37:49.154Z'
+            default: '2024-06-07T20:23:06.596Z'
         },
         endDate: {
             type: 'date',
-            default: '2024-06-06T11:37:49.154Z'
+            default: '2024-06-07T20:23:06.596Z'
         },
         status: {
             type: 'string',
@@ -1806,11 +1883,11 @@ export const $UpdateContractDto = {
         },
         startDate: {
             type: 'date',
-            default: '2024-06-06T11:37:49.154Z'
+            default: '2024-06-07T20:23:06.596Z'
         },
         endDate: {
             type: 'date',
-            default: '2024-06-06T11:37:49.154Z'
+            default: '2024-06-07T20:23:06.596Z'
         },
         status: {
             type: 'string',

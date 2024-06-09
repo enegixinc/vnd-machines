@@ -176,7 +176,7 @@
         "status": "الحالة",
         "actions": "الاجراءات",
         "deletedAt": "تم الحذف في",
-        "totalSales": "إجمالي المبيعات",
+        "totalOrders": "إجمالي الطلبات",
         "totalRevenue": "إجمالي الإيرادات",
         "feePerSale": "رسوم لكل عملية بيع",
         "feeType": "نوع الرسوم",
@@ -215,7 +215,8 @@
         "firstName": "الاسم الأول",
         "lastName": "اسم العائلة",
         "auto": "تلقائي",
-        "duration": "المدة"
+        "duration": "المدة",
+        "totalSoldProducts": "اجمالي المنتجاب المباعة"
     },
     "roles": {
         "admin": "مدير",
@@ -260,7 +261,8 @@
         "ops": "عفواً..",
         "errorHappened": "حدث خطأ ما, يرجي الاتصال بالدعم الفني",
         "pleaseEnterValidEmail": "الرجاء ادخال بريد الكتروني صحيح",
-        "passwordRequired": "كلمة المرور مطلوبة"
+        "passwordRequired": "كلمة المرور مطلوبة",
+        "thePageYouRequestedWasNotFound": "لم يتم العثور على الصفحة التي طلبتها!"
     },
     "dataTable": {
         "reset": "إعادة ضبط",
@@ -296,7 +298,8 @@
         "manageRequests": "إدارة الطلبات",
         "createRequest": "إنشاء طلب",
         "reports": "التقارير",
-        "mangeUsers": "إدارة المستخدمون"
+        "mangeUsers": "إدارة المستخدمون",
+        "home": "الرئيسية"
     },
     "headings": {
         "machinesAndProducts": "الماكينات و المنتجات",
@@ -334,7 +337,8 @@
         "deletedProducts": "المنتجات المحذوفة",
         "recoverProducts": "استعادة المنتج",
         "dimensions": "الأبعاد",
-        "addProduct": "إضافة المنتج"
+        "addProduct": "إضافة المنتج",
+        "editProduct": "تعديل المنتج"
     },
     "Unknown": "غير معروف",
     "categoriesPages": {

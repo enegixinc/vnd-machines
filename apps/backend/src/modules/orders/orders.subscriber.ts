@@ -1,8 +1,4 @@
-import {
-  DataSource,
-  EntitySubscriberInterface,
-  EventSubscriber,
-} from 'typeorm';
+import { DataSource, EventSubscriber } from 'typeorm';
 import { MagexService } from '../../services/magex/magex.service';
 import { Inject } from '@nestjs/common';
 import { EntitySyncer } from '../../common/entities/entity-syncer/entity-syncer';
@@ -12,16 +8,18 @@ import { OrderProductsDetails } from './order-details.entity';
 import { MachineEntity } from '../machines/entities/machine.entity';
 
 @EventSubscriber()
-export class OrdersSubscriber
-  extends EntitySyncer<OrderEntity>
-  implements EntitySubscriberInterface<OrderEntity>
-{
+export class OrdersSubscriber extends EntitySyncer<OrderEntity> {
   constructor(
     @Inject(MagexService) protected readonly magexService: MagexService,
     @Inject(DataSource) protected dataSource: DataSource
   ) {
     super(dataSource, magexService);
     this.dependsOn = [ProductEntity];
+    this.syncConfig = {
+      added: true,
+      updated: true,
+      deleted: true,
+    };
   }
 
   listenTo() {

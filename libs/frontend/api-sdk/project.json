@@ -47,6 +47,13 @@
         "command": "openapi-ts --input {projectRoot}/openapi-spec.json --output {projectRoot}/gen --name VNDClient --client axios",
         "color": true
       }
+    },
+    "kubb": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "kubb --config {projectRoot}/kubb.config.ts",
+        "color": true
+      }
     }
   }
 }

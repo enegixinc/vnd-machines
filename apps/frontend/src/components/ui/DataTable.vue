@@ -126,7 +126,12 @@
                                     </button>
                                 </div>
                                 <div v-if="!hideEdit">
-                                    <button type="button" class="ltr:mr-2 rtl:ml-2" v-tippy="$t('edit')">
+                                    <button
+                                        type="button"
+                                        class="ltr:mr-2 rtl:ml-2"
+                                        v-tippy="$t('edit')"
+                                        @click="emit('editRow', { id: data.value._id, rowData: data.value })"
+                                    >
                                         <icon-pencil />
                                     </button>
                                 </div>
@@ -165,7 +170,7 @@
 
     const store = useAppStore();
     const search = ref('');
-    const emit = defineEmits(['changeServer', 'deleteRow']);
+    const emit = defineEmits(['changeServer', 'deleteRow', 'editRow']);
     const dataTable = ref(null);
     interface Props {
         tableData?: { [key: string]: unknown }[];

@@ -14,9 +14,9 @@ export interface EntitySyncer<Entity> {
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
 export abstract class EntitySyncer<
-  Entity extends MagexDatabaseEntity,
-  MagexRecord extends _IMagex_DatabaseEntity = _IMagex_DatabaseEntity
->
+    Entity extends MagexDatabaseEntity,
+    MagexRecord extends _IMagex_DatabaseEntity = _IMagex_DatabaseEntity
+  >
   extends CRUDSyncer<Entity>
   implements EntitySubscriberInterface<Entity>, OnModuleInit
 {
@@ -34,6 +34,12 @@ export abstract class EntitySyncer<
     super(magexService);
     this.dataSource.subscribers.push(this);
   }
+
+  protected syncConfig = {
+    added: true,
+    updated: true,
+    deleted: true,
+  };
 
   // eslint-disable-next-line @typescript-eslint/ban-types
   abstract listenTo(): string | Function;
@@ -75,14 +81,12 @@ export abstract class EntitySyncer<
 
     this.magexRecords.forEach((magexRecord) => {
       const record = this.entityLookupTable.get(magexRecord._id);
-      const gotUpdated =
+      const newRecord = !record;
+      const updated =
         record && new Date(record.lastSyncAt) < new Date(magexRecord.updatedAt);
 
-      if (!record) {
-        newRecords.add(magexRecord);
-      } else if (gotUpdated) {
-        updatedRecords.add(magexRecord);
-      }
+      if (newRecord) this.syncConfig.added && newRecords.add(magexRecord);
+      if (updated) this.syncConfig.updated && updatedRecords.add(magexRecord);
     });
 
     console.log('new records:', newRecords.size);
@@ -94,10 +98,13 @@ export abstract class EntitySyncer<
     };
   }
 
-  // New method to identify deleted records
   identifyDeletedRecords() {
+    if (!this.syncConfig.deleted) return [];
+
     const magexIds = new Set(this.magexRecords.map((record) => record._id));
-    const deletedRecords = this.records.filter(record => !magexIds.has(record._id));
+    const deletedRecords = this.records.filter(
+      (record) => !magexIds.has(record._id)
+    );
 
     console.log('deleted records:', deletedRecords.length);
 
@@ -156,6 +163,8 @@ export abstract class EntitySyncer<
   )
   // @timer()
   async syncWithMagex() {
+    if (process.env.NODE_ENV !== 'production') return;
+
     const syncPromise = (async () => {
       // @ts-expect-error - TODO: fix this
       console.log('Syncing with Magex', this.entity.name);
