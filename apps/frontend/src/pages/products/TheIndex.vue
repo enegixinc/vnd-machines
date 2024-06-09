@@ -48,7 +48,7 @@
                 condition: 'equal',
                 hide: false,
                 sort: false,
-                cellRenderer: (item) => item?.supplier?.firstName || t('unkown'),
+                cellRenderer: (item) => item?.supplier?.firstName || t('Unknown'),
             },
             {
                 field: 'category.name.ar',
@@ -56,7 +56,7 @@
                 hide: false,
                 filter: false,
                 sort: false,
-                cellRenderer: (item) => item?.category?.name?.ar || t('unkown'),
+                cellRenderer: (item) => item?.category?.name?.ar || t('Unknown'),
             },
             {
                 field: 'brand.name.en',
@@ -64,7 +64,7 @@
                 hide: false,
                 filter: false,
                 sort: false,
-                cellRenderer: (item) => item?.brand?.name?.en || t('unkown'),
+                cellRenderer: (item) => item?.brand?.name?.en || t('Unknown'),
             },
             { field: 'additionPrice', title: t('fields.additionPrice'), hide: false, type: 'number' },
             { field: 'costPrice', title: t('fields.costPrice'), hide: false, type: 'number' },

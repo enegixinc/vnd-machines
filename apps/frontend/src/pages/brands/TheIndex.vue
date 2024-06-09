@@ -1,6 +1,6 @@
 <template>
     <div>
-        <TheBreadcrumbs :current-location="$t('links.manageBrands')"/>
+        <TheBreadcrumbs :current-location="$t('links.manageBrands')" />
         <DataTable
             :pages="totalPages"
             :per-page="pageSize"
@@ -18,31 +18,34 @@
     </div>
 </template>
 <script setup lang="ts">
-import {computed} from 'vue';
-import {useBrands} from "@/composables/brands/use-brands";
+    import { computed } from 'vue';
+    import { useBrands } from '@/composables/brands/use-brands';
 
-const {
-    t,
-    loading,
-    totalPages,
-    pageSize,
-    entityData: brandsData,
-    fetchEntities: fetchBrands,
-    DataTable,
-    TheBreadcrumbs,
-    rowLoading,
-    deleteEntity
-} = useBrands({})
-const tableFields = computed(() => {
-    return [
-        {field: 'name.ar', title: t("fields.brandName"), hide: false, sort: false,
-            cellRenderer: (item) => item?.name?.ar || item?.name?.en || t('unkown')
-        },
-        {field: 'referTo', title: t("fields.referTo"), hide: false},
-        {field: 'createdAt', title: t("fields.createdAt"), hide: false,type:'date'},
-        {field: 'action', title: '', filter: false, sort: false}
-    ]
-});
-fetchBrands({page: 1, limit: pageSize.value, sort: ['createdAt,DESC']});
-
+    const {
+        t,
+        loading,
+        totalPages,
+        pageSize,
+        entityData: brandsData,
+        fetchEntities: fetchBrands,
+        DataTable,
+        TheBreadcrumbs,
+        rowLoading,
+        deleteEntity,
+    } = useBrands({});
+    const tableFields = computed(() => {
+        return [
+            {
+                field: 'name.ar',
+                title: t('fields.brandName'),
+                hide: false,
+                sort: false,
+                cellRenderer: (item) => item?.name?.ar || item?.name?.en || t('Unknown'),
+            },
+            { field: 'referTo', title: t('fields.referTo'), hide: false },
+            { field: 'createdAt', title: t('fields.createdAt'), hide: false, type: 'date' },
+            { field: 'action', title: '', filter: false, sort: false },
+        ];
+    });
+    fetchBrands({ page: 1, limit: pageSize.value, sort: ['createdAt,DESC'] });
 </script>
