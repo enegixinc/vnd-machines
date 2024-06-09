@@ -6,7 +6,7 @@ import DataTable from '@/components/ui/DataTable.vue';
 import TheBreadcrumbs from '@/components/ui/TheBreadcrumbs.vue';
 import { useRouter } from 'vue-router';
 
-export default function useEntityFactory<T, P extends object>(client: ApiClient<T>) {
+export default function useEntityFactory<T, P extends object, S extends object = any>(client: ApiClient<T, S>) {
     return function useEntity(defaultSettings: P = {} as P) {
         const loading = ref(false);
         const totalPages = ref(1);
@@ -171,7 +171,21 @@ export default function useEntityFactory<T, P extends object>(client: ApiClient<
                 router.push({ name: pathName });
             }
         }
-
+        async function getOneEntity(data: S, resetValues: ResestForm) {
+            try {
+                const res = await client.getOne(data);
+                resetValues({
+                    values: res,
+                });
+            } catch (err: any) {
+                setTimeout(() => {
+                    if (err.status === 404) {
+                        goTo('notFound');
+                    }
+                }, 5000);
+                console.error(err);
+            }
+        }
         return {
             deleteEntity,
             fetchEntities,
@@ -187,6 +201,7 @@ export default function useEntityFactory<T, P extends object>(client: ApiClient<
             locale,
             addEntity,
             goTo,
+            getOneEntity,
         };
     };
 }
