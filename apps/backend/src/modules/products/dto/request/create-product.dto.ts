@@ -25,6 +25,7 @@ export class CreateProductDto
     ApiProperty({
       type: () => PickType(SerializedUserDto, ['_id']),
       required: false,
+      nullable: true,
     })
   )
   @decorate(Validate(UserExistsValidator))
@@ -36,6 +37,7 @@ export class CreateProductDto
     ApiProperty({
       type: () => PickType(SerializedBrandDto, ['_id']),
       required: false,
+      nullable: true,
     })
   )
   brand: ReferenceByID<ISerializedBrand>;
@@ -45,6 +47,7 @@ export class CreateProductDto
     ApiProperty({
       type: () => PickType(SerializedCategoryDto, ['_id']),
       required: false,
+      nullable: true,
     })
   )
   category: ReferenceByID<ISerializedCategory>;

@@ -80,13 +80,4 @@ import { UpdateProductDto } from './dto/request/update-product.dto';
 export class ProductsController implements CrudController<ProductEntity> {
   constructor(private readonly productsService: ProductsService) {}
   service = this.productsService;
-
-  // @Public()
-  // @Post('add-supplier')
-  // async addSupplier(
-  //   @Param('productId') productId: string,
-  //   @Param('supplierId') supplierId: string
-  // ) {
-  //   return this.productsService.addSupplier(productId, supplierId);
-  // }
 }

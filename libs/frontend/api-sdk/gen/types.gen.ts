@@ -687,9 +687,9 @@ export type CreateProductDto = {
      * Virtual product indicator
      */
     virtualProduct: number;
-    supplier?: PickTypeClass;
-    brand?: PickTypeClass;
-    category?: PickTypeClass;
+    supplier?: (PickTypeClass) | null;
+    brand?: (PickTypeClass) | null;
+    category?: (PickTypeClass) | null;
     productVideo?: string;
 };
 
@@ -794,9 +794,9 @@ export type UpdateProductDto = {
      * Virtual product indicator
      */
     virtualProduct?: number;
-    supplier?: PickTypeClass;
-    brand?: PickTypeClass;
-    category?: PickTypeClass;
+    supplier?: (PickTypeClass) | null;
+    brand?: (PickTypeClass) | null;
+    category?: (PickTypeClass) | null;
     productVideo?: string;
 };
 

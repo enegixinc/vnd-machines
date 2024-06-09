@@ -79,7 +79,10 @@ export class UserEntity extends DatabaseEntity implements IUserEntity {
   @Column({ type: 'boolean', default: true })
   active: boolean;
 
-  @OneToMany(() => ProductEntity, (product) => product.supplier)
+  @OneToMany(() => ProductEntity, (product) => product.supplier, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
   products: string[];
 
   @ManyToMany(() => BrandEntity, (brand) => brand.suppliers)
