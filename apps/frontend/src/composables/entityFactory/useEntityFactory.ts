@@ -178,11 +178,9 @@ export default function useEntityFactory<T, P extends object, S extends object =
                     values: res,
                 });
             } catch (err: any) {
-                setTimeout(() => {
-                    if (err.status === 404) {
-                        goTo('notFound');
-                    }
-                }, 5000);
+                if (err.status === 404) {
+                    goTo('notFound');
+                }
                 console.error(err);
             }
         }
@@ -202,6 +200,7 @@ export default function useEntityFactory<T, P extends object, S extends object =
             addEntity,
             goTo,
             getOneEntity,
+            handleEmptyLang,
         };
     };
 }

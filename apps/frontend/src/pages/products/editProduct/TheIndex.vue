@@ -1,6 +1,7 @@
 <template>
     <div>
         <TheBreadcrumbs :before-sub-title="$t('edit')" :current-location="id" />
+
         <div class="panel pb-0 mt-6">
             <div class="flex md:items-center md:flex-row flex-col mb-5 gap-5">
                 <h5 class="font-semibold text-lg dark:text-white-light">{{ $t('productsPages.editProduct') }}</h5>
@@ -165,6 +166,7 @@
             </form>
         </div>
     </div>
+    {{ values }}
 </template>
 <script setup lang="ts">
     import TheBreadcrumbs from '@/components/ui/TheBreadcrumbs.vue';
@@ -172,7 +174,6 @@
     import { useForm } from 'vee-validate';
     import { toTypedSchema } from '@vee-validate/zod';
     import { z } from 'zod';
-    import { useI18n } from 'vue-i18n';
     import { computed, onMounted, watch } from 'vue';
     import IconMenuBox from '@/components/icon/icon-box.vue';
     import { useProducts } from '@/composables/products/use-products';
@@ -181,8 +182,7 @@
         id: string;
     }
     const pageProps = defineProps<props>();
-    const { loading, getOneEntity } = useProducts({});
-    const { t } = useI18n();
+    const { loading, getOneEntity, t, handleEmptyLang } = useProducts({});
     const schema2 = computed(() =>
         toTypedSchema(
             z.object({
@@ -304,15 +304,21 @@
                     en: z.string().default(''),
                     ar: z.string().default(''),
                 }),
-                supplier: z.object({
-                    _id: z.string().default(''),
-                }),
-                category: z.object({
-                    _id: z.string().default(''),
-                }),
-                brand: z.object({
-                    _id: z.string().default(''),
-                }),
+                supplier: z
+                    .object({
+                        _id: z.string().default(''),
+                    })
+                    .nullish(),
+                category: z
+                    .object({
+                        _id: z.string().default(''),
+                    })
+                    .nullish(),
+                brand: z
+                    .object({
+                        _id: z.string().default(''),
+                    })
+                    .nullish(),
             })
         )
     );
@@ -321,9 +327,10 @@
     });
     const onSubmit = handleSubmit(
         (values) => {
-            console.log(values);
-            console.log(resetForm);
-            console.log(setValues);
+            const filledData = handleEmptyLang(values);
+            setValues(filledData);
+            console.log(filledData);
+
             // addEntity({ ...values, productPictures: ['image1.jpg', 'image2.jpg'], productVideo: 'Unknown Type: File' }, resetForm, setValues);
         },
         () => {}
@@ -331,7 +338,7 @@
     getOneEntity(
         {
             id: pageProps.id,
-            join: ['supplier||firstName', 'category||name', 'brand||name'],
+            join: ['supplier', 'category', 'brand'],
         },
         resetForm
     );
