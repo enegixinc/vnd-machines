@@ -107,7 +107,10 @@ export class ProductEntity
   })
   machines: MachineProduct[];
 
-  @ManyToOne(() => UserEntity, (user) => user.products)
+  @ManyToOne(() => UserEntity, (user) => user.products, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
   supplier: ReferenceByID<ISerializedUser>[];
 
   @ManyToOne(() => BrandEntity, (brand) => brand.products, {
