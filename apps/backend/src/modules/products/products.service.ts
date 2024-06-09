@@ -12,13 +12,4 @@ export class ProductsService extends TypeOrmCrudService<ProductEntity> {
   ) {
     super(repository);
   }
-
-  // TODO: add check for id of each entity async decorator
-  addSupplier(productId: string, supplierId: string) {
-    return this.repository
-      .createQueryBuilder()
-      .relation(ProductEntity, 'suppliers')
-      .of(productId)
-      .set(supplierId);
-  }
 }
