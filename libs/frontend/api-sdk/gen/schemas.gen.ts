@@ -1472,13 +1472,28 @@ export const $CreateProductDto = {
             description: 'Virtual product indicator'
         },
         supplier: {
-            '$ref': '#/components/schemas/PickTypeClass'
+            nullable: true,
+            allOf: [
+                {
+                    '$ref': '#/components/schemas/PickTypeClass'
+                }
+            ]
         },
         brand: {
-            '$ref': '#/components/schemas/PickTypeClass'
+            nullable: true,
+            allOf: [
+                {
+                    '$ref': '#/components/schemas/PickTypeClass'
+                }
+            ]
         },
         category: {
-            '$ref': '#/components/schemas/PickTypeClass'
+            nullable: true,
+            allOf: [
+                {
+                    '$ref': '#/components/schemas/PickTypeClass'
+                }
+            ]
         },
         productVideo: {
             type: 'string'
@@ -1632,13 +1647,28 @@ export const $UpdateProductDto = {
             description: 'Virtual product indicator'
         },
         supplier: {
-            '$ref': '#/components/schemas/PickTypeClass'
+            nullable: true,
+            allOf: [
+                {
+                    '$ref': '#/components/schemas/PickTypeClass'
+                }
+            ]
         },
         brand: {
-            '$ref': '#/components/schemas/PickTypeClass'
+            nullable: true,
+            allOf: [
+                {
+                    '$ref': '#/components/schemas/PickTypeClass'
+                }
+            ]
         },
         category: {
-            '$ref': '#/components/schemas/PickTypeClass'
+            nullable: true,
+            allOf: [
+                {
+                    '$ref': '#/components/schemas/PickTypeClass'
+                }
+            ]
         },
         productVideo: {
             type: 'string'
@@ -1847,11 +1877,11 @@ export const $CreateContractDto = {
         },
         startDate: {
             type: 'date',
-            default: '2024-06-07T20:23:06.596Z'
+            default: '2024-06-09T12:27:21.496Z'
         },
         endDate: {
             type: 'date',
-            default: '2024-06-07T20:23:06.596Z'
+            default: '2024-06-09T12:27:21.496Z'
         },
         status: {
             type: 'string',
@@ -1883,11 +1913,11 @@ export const $UpdateContractDto = {
         },
         startDate: {
             type: 'date',
-            default: '2024-06-07T20:23:06.596Z'
+            default: '2024-06-09T12:27:21.496Z'
         },
         endDate: {
             type: 'date',
-            default: '2024-06-07T20:23:06.596Z'
+            default: '2024-06-09T12:27:21.496Z'
         },
         status: {
             type: 'string',

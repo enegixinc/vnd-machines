@@ -10,7 +10,6 @@ import { GlobalResponseError } from '../../common/responses/GlobalResponseError.
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { AxiosResponse } from 'axios';
 import { timer } from 'execution-time-decorators';
-import * as process from 'node:process';
 
 @Global()
 @Injectable()
@@ -80,7 +79,7 @@ export class MagexService extends MagexConnector implements OnModuleInit {
   @Cron(CronExpression.EVERY_MINUTE)
   @timer()
   async login() {
-    if (process.env.NODE_ENV !== 'production') return;
+    // if (process.env.NODE_ENV !== 'production') return;
 
     // @ts-expect-error - TODO: add type
     const { accessToken } = await this.auth.postUsersLogin({
