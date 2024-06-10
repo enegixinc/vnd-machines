@@ -4,31 +4,12 @@ import type { AuthProvider } from '@refinedev/core';
 import Cookies from 'js-cookie';
 import { vndClient } from '@providers/api';
 
-const ACCESS_TOKEN = 'accessToken';
-const REFRESH_TOKEN = 'refreshToken';
-
-const isAuth = () => {
-  return !!Cookies.get(ACCESS_TOKEN);
-};
-
 const setTokens = (accessToken: string, refreshToken: string) => {
   vndClient.request.config.TOKEN = accessToken;
-  Cookies.set(ACCESS_TOKEN, accessToken, { path: '/' });
-  Cookies.set(REFRESH_TOKEN, refreshToken, { path: '/' });
-};
-
-const removeTokens = () => {
-  vndClient.request.config.TOKEN = undefined;
-  Cookies.remove(ACCESS_TOKEN, { path: '/' });
-  Cookies.remove(REFRESH_TOKEN, { path: '/' });
-};
-
-const getTokens = () => {
-  const auth = Cookies.get('auth');
-  if (auth) {
-    return JSON.parse(auth);
-  }
-  return null;
+  Cookies.set('auth', JSON.stringify({ accessToken, refreshToken }), {
+    expires: 30, // 30 days
+    path: '/',
+  });
 };
 
 export const authProvider: AuthProvider = {
@@ -56,14 +37,15 @@ export const authProvider: AuthProvider = {
     };
   },
   logout: async () => {
-    removeTokens();
+    Cookies.remove('auth', { path: '/' });
     return {
       success: true,
       redirectTo: '/login',
     };
   },
   check: async () => {
-    if (isAuth()) {
+    const auth = Cookies.get('auth');
+    if (auth) {
       return {
         authenticated: true,
       };
@@ -76,14 +58,16 @@ export const authProvider: AuthProvider = {
     };
   },
   getPermissions: async () => {
-    if (isAuth()) {
-      // const parsedUser = JSON.parse(auth);
-      // return parsedUser.roles;
+    const auth = Cookies.get('auth');
+    if (auth) {
+      const parsedUser = JSON.parse(auth);
+      return parsedUser.roles;
     }
     return null;
   },
   getIdentity: async () => {
-    if (isAuth()) {
+    const auth = Cookies.get('auth');
+    if (auth) {
       return vndClient.auth.authControllerMe();
     }
     return null;
