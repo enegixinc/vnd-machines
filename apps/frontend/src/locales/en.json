@@ -332,7 +332,8 @@
         "recoverProducts": "Recover Product",
         "dimensions": "Dimensions",
         "addProduct": "Add Product",
-        "editProduct": "Edit Product"
+        "editProduct": "Edit Product",
+        "updateProduct": "Update Product"
 
     },
     "Unknown": "N/A",

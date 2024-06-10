@@ -338,7 +338,8 @@
         "recoverProducts": "استعادة المنتج",
         "dimensions": "الأبعاد",
         "addProduct": "إضافة المنتج",
-        "editProduct": "تعديل المنتج"
+        "editProduct": "تعديل المنتج",
+        "updateProduct": "حدث المنتج"
     },
     "Unknown": "غير معروف",
     "categoriesPages": {

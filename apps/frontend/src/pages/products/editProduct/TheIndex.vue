@@ -41,15 +41,15 @@
                         :placeholder="$t('placeHolders.enterCostPrice')"
                     />
                     <input-text
-                        class="col-span-3 sm:col-span-2"
+                        class="col-span-2 sm:col-span-2"
                         name="price"
                         type="number"
                         :field-label="$t('fields.price')"
                         :placeholder="$t('placeHolders.enterCostPrice')"
                     />
-                    <switch-input name="pricePerKilo" :field-label="$t('fields.pricePerKilo')" />
+                    <switch-input class="col-span-2 sm:col-span-1" name="pricePerKilo" :field-label="$t('fields.pricePerKilo')" />
                 </div>
-                <div class="grid grid-cols-4 sm:grid-cols-4 gap-4">
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
                     <input-text name="vatIndex" type="number" :field-label="$t('fields.vatIndex')" :placeholder="$t('placeHolders.enterVatIndex')" />
                     <input-text name="sortIndex" type="number" :field-label="$t('fields.sortIndex')" :placeholder="$t('placeHolders.enterSortIndex')" />
                     <input-text name="ageControl" type="number" :field-label="$t('fields.ageControl')" :placeholder="$t('placeHolders.enterAgeControl')" />
@@ -158,7 +158,7 @@
                         :placeholder="$t('placeHolders.enterEn', { field: $t('fields.ingredients') })"
                     />
                 </div>
-                <submit-button :label="$t('productsPages.addProduct')" :loading="loading">
+                <submit-button :label="$t('productsPages.updateProduct')" :loading="loading">
                     <template #icon="{ classes }">
                         <icon-menu-box class="group-hover:!text-primary shrink-0" :class="classes" />
                     </template>
@@ -334,27 +334,27 @@
             updateEntity({
                 id: id,
                 requestBody: {
-                    name: cleanedData.name,
+                    name: cleanedData.name??null,
                     price: cleanedData.price,
                     additionPrice: cleanedData.additionPrice,
                     ageControl: cleanedData.ageControl,
-                    barcode: cleanedData.barcode,
+                    barcode: cleanedData.barcode??null,
                     brand: cleanedData.brand || null,
                     category: cleanedData.category || null,
                     costPrice: cleanedData.costPrice,
-                    description: cleanedData.description,
-                    detail: cleanedData.detail,
-                    dimension: cleanedData.dimension,
-                    include: cleanedData.include,
-                    ingredients: cleanedData.ingredients,
-                    keyFeatures: cleanedData.keyFeatures,
+                    description: cleanedData.description??null,
+                    detail: cleanedData.detail??null,
+                    dimension: cleanedData.dimension??null,
+                    include: cleanedData.include??null,
+                    ingredients: cleanedData.ingredients??null,
+                    keyFeatures: cleanedData.keyFeatures??null,
                     pricePerKilo: cleanedData.pricePerKilo,
-                    prodType: cleanedData.prodType,
-                    productPictures: cleanedData.productPictures,
-                    productVideo: cleanedData.productVideo,
+                    prodType: cleanedData.prodType??null,
+                    productPictures: cleanedData.productPictures??null,
+                    productVideo: cleanedData.productVideo??null,
                     sortIndex: cleanedData.sortIndex,
-                    specification: cleanedData.specification,
-                    upc: cleanedData.upc,
+                    specification: cleanedData.specification??null,
+                    upc: cleanedData.upc??null,
                     supplier: cleanedData.supplier || null,
                     vatIndex: cleanedData.vatIndex,
                     virtualProduct: cleanedData.virtualProduct,
