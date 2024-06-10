@@ -1,19 +1,17 @@
-import React, { Suspense } from "react";
+import React, { Suspense } from 'react';
 
-import { useList } from "@refinedev/core";
-import type { GetFieldsFromList } from "@refinedev/nestjs-query";
+import { useList } from '@refinedev/core';
+import type { GetFieldsFromList } from '@refinedev/nestjs-query';
 
-import { DollarOutlined } from "@ant-design/icons";
-import type { GaugeConfig } from "@ant-design/plots";
-import { Card, Skeleton, Space } from "antd";
+import { DollarOutlined } from '@ant-design/icons';
+import type { GaugeConfig } from '@ant-design/plots';
+import { Card, Skeleton, Space } from 'antd';
 
-import { Text } from "@/components";
-import type { DashboardTotalRevenueQuery } from "@/graphql/types";
-import { currencyNumber } from "@/utilities";
+import { Text } from '@/components';
+import type { DashboardTotalRevenueQuery } from '@/graphql/types';
+import { currencyNumber } from '@/utilities';
 
-import { DASHBOARD_TOTAL_REVENUE_QUERY } from "./queries";
-
-const Gauge = React.lazy(() => import("@ant-design/plots/es/components/gauge"));
+const Gauge = React.lazy(() => import('@ant-design/plots/es/components/gauge'));
 
 type DealStage = GetFieldsFromList<DashboardTotalRevenueQuery>;
 
@@ -24,17 +22,17 @@ export const DashboardTotalRevenueChart: React.FC = () => {
     error: expectedRevenueError,
     isLoading: expectedRevenueIsLoading,
   } = useList<DealStage>({
-    resource: "dealStages",
-    filters: [
-      {
-        field: "title",
-        operator: "nin",
-        value: ["WON", "LOST"],
-      },
-    ],
-    meta: {
-      gqlQuery: DASHBOARD_TOTAL_REVENUE_QUERY,
-    },
+    // resource: "dealStages",
+    // filters: [
+    //   {
+    //     field: "title",
+    //     operator: "nin",
+    //     value: ["WON", "LOST"],
+    //   },
+    // ],
+    // meta: {
+    //   gqlQuery: DASHBOARD_TOTAL_REVENUE_QUERY,
+    // },
   });
 
   const {
@@ -43,35 +41,35 @@ export const DashboardTotalRevenueChart: React.FC = () => {
     error: realizedRevenueError,
     isLoading: realizedRevenueIsLoading,
   } = useList<DealStage>({
-    resource: "dealStages",
-    filters: [
-      {
-        field: "title",
-        operator: "eq",
-        value: "WON",
-      },
-    ],
-    meta: {
-      gqlQuery: DASHBOARD_TOTAL_REVENUE_QUERY,
-    },
+    // resource: "dealStages",
+    // filters: [
+    //   {
+    //     field: "title",
+    //     operator: "eq",
+    //     value: "WON",
+    //   },
+    // ],
+    // meta: {
+    //   gqlQuery: DASHBOARD_TOTAL_REVENUE_QUERY,
+    // },
   });
 
   if (expectedRevenueIsError || realizedRevenueIsError) {
     console.error(
-      "Error fetching dashboard data",
+      'Error fetching dashboard data',
       expectedRevenueError,
-      realizedRevenueError,
+      realizedRevenueError
     );
     return null;
   }
 
   const totalRealizationRevenue = (realizedRevenueData?.data || []).map(
-    (item) => item.dealsAggregate?.[0]?.sum?.value,
+    (item) => item.dealsAggregate?.[0]?.sum?.value
   )[0];
 
   const totalExpectedRevenue = (expectedRevenueData?.data || []).reduce(
     (prev, curr) => prev + (curr?.dealsAggregate?.[0]?.sum?.value ?? 0),
-    0,
+    0
   );
 
   const realizationPercentageOfExpected =
@@ -85,12 +83,12 @@ export const DashboardTotalRevenueChart: React.FC = () => {
     // antd expects a percentage value between 0 and 1
     percent: realizationPercentageOfExpected / 100,
     range: {
-      color: "l(0) 0:#D9F7BE 1:#52C41A",
+      color: 'l(0) 0:#D9F7BE 1:#52C41A',
     },
     axis: {
       tickLine: {
         style: {
-          stroke: "#BFBFBF",
+          stroke: '#BFBFBF',
         },
       },
       label: {
@@ -106,7 +104,7 @@ export const DashboardTotalRevenueChart: React.FC = () => {
       pointer: {
         style: {
           fontSize: 4,
-          stroke: "#BFBFBF",
+          stroke: '#BFBFBF',
           lineWidth: 2,
         },
       },
@@ -114,7 +112,7 @@ export const DashboardTotalRevenueChart: React.FC = () => {
         style: {
           r: 8,
           lineWidth: 2,
-          stroke: "#BFBFBF",
+          stroke: '#BFBFBF',
         },
       },
     },
@@ -124,9 +122,9 @@ export const DashboardTotalRevenueChart: React.FC = () => {
           return `${(datum?.percent * 100).toFixed(2)}%`;
         },
         style: {
-          color: "rgba(0,0,0,0.85)",
+          color: 'rgba(0,0,0,0.85)',
           fontWeight: 500,
-          fontSize: "24px",
+          fontSize: '24px',
         },
       },
     },
@@ -134,21 +132,21 @@ export const DashboardTotalRevenueChart: React.FC = () => {
 
   return (
     <Card
-      style={{ height: "100%" }}
+      style={{ height: '100%' }}
       bodyStyle={{
-        padding: "0 32px 32px 32px",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
+        padding: '0 32px 32px 32px',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
       }}
-      headStyle={{ padding: "16px" }}
+      headStyle={{ padding: '16px' }}
       title={
         <div
           style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "8px",
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
           }}
         >
           {/* @ts-expect-error Ant Design Icon's v5.0.1 has an issue with @types/react@^18.2.66 */}
@@ -163,8 +161,8 @@ export const DashboardTotalRevenueChart: React.FC = () => {
 
       <div
         style={{
-          display: "flex",
-          gap: "32px",
+          display: 'flex',
+          gap: '32px',
         }}
       >
         <Space direction="vertical" size={0}>
@@ -176,7 +174,7 @@ export const DashboardTotalRevenueChart: React.FC = () => {
               size="md"
               className="primary"
               style={{
-                minWidth: "100px",
+                minWidth: '100px',
               }}
             >
               {currencyNumber(totalExpectedRevenue || 0)}
@@ -184,9 +182,9 @@ export const DashboardTotalRevenueChart: React.FC = () => {
           ) : (
             <Skeleton.Button
               style={{
-                width: "100px",
-                height: "16px",
-                marginTop: "6px",
+                width: '100px',
+                height: '16px',
+                marginTop: '6px',
               }}
               active={true}
             />
@@ -201,7 +199,7 @@ export const DashboardTotalRevenueChart: React.FC = () => {
               size="md"
               className="primary"
               style={{
-                minWidth: "100px",
+                minWidth: '100px',
               }}
             >
               {currencyNumber(totalRealizationRevenue || 0)}
@@ -209,9 +207,9 @@ export const DashboardTotalRevenueChart: React.FC = () => {
           ) : (
             <Skeleton.Button
               style={{
-                width: "100px",
-                height: "16px",
-                marginTop: "6px",
+                width: '100px',
+                height: '16px',
+                marginTop: '6px',
               }}
               active={true}
             />

@@ -18,8 +18,10 @@
     "jsx": "react-jsx",
     "baseUrl": "./src",
     "paths": {
+      "@frontend/api-sdk": ["../../../libs/frontend/api-sdk/gen/index.ts"],
       "@/*": ["./*"],
-      "@api-sdk/*": ["libs/frontend/api-sdk/src/*"]
+      //      "@core": ["../../libs/core"]
+
     }
   },
   "include": ["src", "vite.config.ts"],

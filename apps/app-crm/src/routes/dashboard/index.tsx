@@ -1,28 +1,26 @@
-import React from "react";
+import React from 'react';
 
-import { useCustom } from "@refinedev/core";
+import { Col, Row } from 'antd';
 
-import { Col, Row } from "antd";
+import { DashboardTotalCountCard } from './components';
+import { vndClient } from '@/providers';
 
-import { CalendarUpcomingEvents } from "@/components";
-import type { DashboardTotalCountsQuery } from "@/graphql/types";
+export const DashboardPage = () => {
+  const [isLoading, setIsLoading] = React.useState(true);
+  const [total, setTotal] = React.useState(0);
 
-import {
-  CompaniesMap,
-  DashboardDealsChart,
-  DashboardLatestActivities,
-  DashboardTasksChart,
-  DashboardTotalCountCard,
-  DashboardTotalRevenueChart,
-} from "./components";
-import { DASHBOARD_TOTAL_COUNTS_QUERY } from "./queries";
+  React.useEffect(() => {
+    const fetchTotal = async () => {
+      const { total } = await vndClient.products.getMany({
+        fields: [],
+        limit: 0,
+      });
+      setTotal(total);
+      setIsLoading(false);
+    };
 
-export const DashboardPage: React.FC = () => {
-  const { data, isLoading } = useCustom<DashboardTotalCountsQuery>({
-    url: "",
-    method: "get",
-    meta: { gqlQuery: DASHBOARD_TOTAL_COUNTS_QUERY },
-  });
+    fetchTotal();
+  }, []);
 
   return (
     <div className="page-container">
@@ -31,94 +29,94 @@ export const DashboardPage: React.FC = () => {
           <DashboardTotalCountCard
             resource="companies"
             isLoading={isLoading}
-            totalCount={data?.data["companies"].totalCount}
+            totalCount={total}
           />
         </Col>
         <Col xs={24} sm={24} xl={8}>
           <DashboardTotalCountCard
             resource="contacts"
             isLoading={isLoading}
-            totalCount={data?.data["contacts"].totalCount}
+            // totalCount={data?.data['contacts'].totalCount}
           />
         </Col>
         <Col xs={24} sm={24} xl={8}>
           <DashboardTotalCountCard
             resource="deals"
             isLoading={isLoading}
-            totalCount={data?.data["deals"].totalCount}
+            // totalCount={data?.data['deals'].totalCount}
           />
         </Col>
       </Row>
 
-      <Row
-        gutter={[32, 32]}
-        style={{
-          marginTop: "32px",
-        }}
-      >
-        <Col
-          xs={24}
-          sm={24}
-          xl={8}
-          style={{
-            height: "432px",
-          }}
-        >
-          <DashboardTotalRevenueChart />
-        </Col>
-        <Col
-          xs={24}
-          sm={24}
-          xl={16}
-          style={{
-            height: "432px",
-          }}
-        >
-          <DashboardDealsChart />
-        </Col>
-      </Row>
+      {/*<Row*/}
+      {/*  gutter={[32, 32]}*/}
+      {/*  style={{*/}
+      {/*    marginTop: '32px',*/}
+      {/*  }}*/}
+      {/*>*/}
+      {/*  <Col*/}
+      {/*    xs={24}*/}
+      {/*    sm={24}*/}
+      {/*    xl={8}*/}
+      {/*    style={{*/}
+      {/*      height: '432px',*/}
+      {/*    }}*/}
+      {/*  >*/}
+      {/*    <DashboardTotalRevenueChart />*/}
+      {/*  </Col>*/}
+      {/*  <Col*/}
+      {/*    xs={24}*/}
+      {/*    sm={24}*/}
+      {/*    xl={16}*/}
+      {/*    style={{*/}
+      {/*      height: '432px',*/}
+      {/*    }}*/}
+      {/*  >*/}
+      {/*    <DashboardDealsChart />*/}
+      {/*  </Col>*/}
+      {/*</Row>*/}
 
-      <Row
-        gutter={[32, 32]}
-        style={{
-          marginTop: "32px",
-        }}
-      >
-        <Col xs={24} sm={24} xl={14} xxl={16}>
-          <DashboardLatestActivities />
-        </Col>
-        <Col xs={24} sm={24} xl={10} xxl={8}>
-          <CalendarUpcomingEvents showGoToListButton />
-        </Col>
-      </Row>
+      {/*<Row*/}
+      {/*  gutter={[32, 32]}*/}
+      {/*  style={{*/}
+      {/*    marginTop: '32px',*/}
+      {/*  }}*/}
+      {/*>*/}
+      {/*  <Col xs={24} sm={24} xl={14} xxl={16}>*/}
+      {/*    <DashboardLatestActivities />*/}
+      {/*  </Col>*/}
+      {/*  <Col xs={24} sm={24} xl={10} xxl={8}>*/}
+      {/*    <CalendarUpcomingEvents showGoToListButton />*/}
+      {/*  </Col>*/}
+      {/*</Row>*/}
 
-      <Row
-        gutter={[32, 32]}
-        style={{
-          marginTop: "32px",
-        }}
-      >
-        <Col
-          xs={24}
-          sm={24}
-          xl={8}
-          style={{
-            height: "448px",
-          }}
-        >
-          <DashboardTasksChart />
-        </Col>
-        <Col
-          xs={24}
-          sm={24}
-          xl={16}
-          style={{
-            height: "448px",
-          }}
-        >
-          <CompaniesMap />
-        </Col>
-      </Row>
+      {/*<Row*/}
+      {/*  gutter={[32, 32]}*/}
+      {/*  style={{*/}
+      {/*    marginTop: '32px',*/}
+      {/*  }}*/}
+      {/*>*/}
+      {/*  <Col*/}
+      {/*    xs={24}*/}
+      {/*    sm={24}*/}
+      {/*    xl={8}*/}
+      {/*    style={{*/}
+      {/*      height: '448px',*/}
+      {/*    }}*/}
+      {/*  >*/}
+      {/*    <DashboardTasksChart />*/}
+      {/*  </Col>*/}
+      {/*  <Col*/}
+      {/*    xs={24}*/}
+      {/*    sm={24}*/}
+      {/*    xl={16}*/}
+      {/*    style={{*/}
+      {/*      height: '448px',*/}
+      {/*    }}*/}
+      {/*  >*/}
+      {/*    <CompaniesMap />*/}
+      {/*  </Col>*/}
+      {/*</Row>*/}
     </div>
   );
 };
