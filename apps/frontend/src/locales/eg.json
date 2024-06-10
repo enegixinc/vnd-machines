@@ -340,7 +340,7 @@
         "dimensions": "الأبعاد",
         "addProduct": "إضافة المنتج",
         "editProduct": "تعديل المنتج",
-        "updateProduct": "حدث المنتج",
+        "updateProduct": "تحديث المنتج",
         "TheProductHasBeenSuccessfullyUpdated": "تم تحديث المنتج بنجاح"
     },
     "Unknown": "غير معروف",
@@ -356,7 +356,10 @@
         "deletedBrands": "العلامات التجاريه المحذوفة",
         "recoverBrand": "استعادة العلامة التجارية",
         "addNewBrand": "إضافة علامة تجارية جديدة",
-        "addNewBrandButton": "إضافة العلامة التجارية"
+        "addNewBrandButton": "إضافة العلامة التجارية",
+        "editBrand": "تعديل العلامة التجارية",
+        "updateBrand": "تحديث العلامة التجارية",
+        "TheBrandHasBeenSuccessfullyUpdated": "تم تحديث العلامة التجارية بنجاح"
     },
     "noResults": "لم يتم العثور على عناصر. فكر في تغيير طلب البحث.",
     "noOptions": "القائمة فارغة.",

@@ -352,7 +352,10 @@
         "deletedBrands": "Deleted Brands",
         "recoverBrand": "Recover Brand",
         "addNewBrand": "Add New Brand",
-        "addNewBrandButton": "Add Brand"
+        "addNewBrandButton": "Add Brand",
+        "editBrand": "Edit Brand",
+        "updateBrand": "Update Brand",
+        "TheBrandHasBeenSuccessfullyUpdated": "Brand Successfully Updated."
     },
     "noResults": "No elements found. Consider changing the search query.",
     "noOptions": "List is empty.",
