@@ -11,6 +11,7 @@ import { Space, Table } from 'antd';
 import React from 'react';
 import { SerializedBrandDto } from '@frontend/api-sdk';
 import { defaultSrc } from '@app/config';
+import { handleEmptyString } from '@helpers';
 
 export default function BrandsList() {
   const { tableProps } = useTable({
@@ -28,14 +29,31 @@ export default function BrandsList() {
           title="Logo"
           render={(logo) => <img src={defaultSrc} alt="logo" width={34} />}
         />
-        <Table.Column dataIndex={['name', 'en']} title="Name (English)" />
-        <Table.Column dataIndex={['name', 'ar']} title="Name (Arabic)" />
+        <Table.Column
+          dataIndex={['name', 'en']}
+          title="Name (English)"
+          render={handleEmptyString}
+        />
+        <Table.Column
+          dataIndex={['name', 'ar']}
+          title="Name (Arabic)"
+          render={handleEmptyString}
+        />
         <Table.Column
           dataIndex="totalSoldProducts"
           title="Total Sold Products"
+          sorter={true}
         />
-        <Table.Column dataIndex="totalOrders" title="Total Orders" />
-        <Table.Column dataIndex="totalRevenue" title="Total Revenue" />
+        <Table.Column
+          dataIndex="totalOrders"
+          title="Total Orders"
+          sorter={true}
+        />
+        <Table.Column
+          dataIndex="totalRevenue"
+          title="Total Revenue"
+          sorter={true}
+        />
         <Table.Column<SerializedBrandDto>
           title="Actions"
           dataIndex="actions"

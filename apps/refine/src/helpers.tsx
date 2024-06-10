@@ -1,3 +1,5 @@
+import { Typography } from 'antd';
+
 export function isEmptyObject(obj: any) {
   for (const key in obj) {
     if (obj[key] !== null && obj[key] !== 0) {
@@ -35,3 +37,19 @@ export function safeArrayCounter(data: any) {
   }
   return 0;
 }
+
+export const handleEmptyString = (value: string | null | undefined) => {
+  if (value === null || value === undefined || value === '') {
+    return (
+      <Typography.Text
+        type="secondary"
+        style={{
+          fontStyle: 'italic',
+        }}
+      >
+        N/A
+      </Typography.Text>
+    );
+  }
+  return value;
+};
