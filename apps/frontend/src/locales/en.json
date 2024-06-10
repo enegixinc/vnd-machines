@@ -139,7 +139,10 @@
         "recoverUser": "Recover User",
         "TheUserHasBeenSuccessfullyRecovered": "The user has been successfully recovered.",
         "TheUserHasBeenSuccessfullyDeleted": "The user has been successfully deleted.",
-        "addNewUser": "Add New User"
+        "addNewUser": "Add New User",
+        "editUser": "Edit User",
+        "updateUser": "Update User",
+        "TheUserHasBeenSuccessfullyUpdated": "User Successfully Updated."
     },
     "roles": {
         "admin": "Admin",

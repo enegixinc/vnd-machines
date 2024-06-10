@@ -139,7 +139,10 @@
         "recoverUser": "استعادة المستخدم",
         "TheUserHasBeenSuccessfullyRecovered": "تم استعادة المستخدم بنجاح.",
         "TheUserHasBeenSuccessfullyDeleted": "تم حذف المستخدم بنجاح.",
-        "addNewUser": "إضافة مستخدم جديد"
+        "addNewUser": "إضافة مستخدم جديد",
+        "editUser": "تعديل بيانات المستخدم",
+        "updateUser": "تحديث بيانات المستخدم",
+        "TheUserHasBeenSuccessfullyUpdated": "تم تحديث بيانات المستخدم بنجاح"
     },
     "authPages": {
         "signIn": "تسجيل الدخول",
