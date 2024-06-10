@@ -13,6 +13,7 @@
             sort-by="totalOrders"
             :row-loading="rowLoading"
             @delete-row="deleteEntity"
+            @edit-row="editRow"
         />
     </div>
 </template>
@@ -31,6 +32,7 @@
         TheBreadcrumbs,
         rowLoading,
         deleteEntity,
+        goTo
     } = useContract({
         join: ['supplier||firstName'],
     });
@@ -49,4 +51,7 @@
     });
 
     fetchContracts({ page: 1, limit: pageSize.value, sort: ['totalOrders,DESC'] });
+    function editRow(data) {
+        goTo('edit-contract', 'id', data.id);
+    }
 </script>
