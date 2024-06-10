@@ -102,7 +102,7 @@ const onSubmit = handleSubmit(
                 name:cleanedData.name,
                 sortIndex:cleanedData.sortIndex,
                 auto:cleanedData.auto,
-                categoryPicture:cleanedData.categoryPicture||null
+                categoryPicture:cleanedData.categoryPicture||"https://www.local.com/image.jpg"
             }
         },t('categoriesPages.TheCategoryHasBeenSuccessfullyUpdated'))
     },
