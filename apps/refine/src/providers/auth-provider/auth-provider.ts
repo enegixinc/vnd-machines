@@ -2,10 +2,17 @@
 
 import type { AuthProvider } from '@refinedev/core';
 import Cookies from 'js-cookie';
-import { vndClient } from '@providers/api';
+import { axiosInstance, vndClient } from '@providers/api';
 
 const setTokens = (accessToken: string, refreshToken: string) => {
-  vndClient.request.config.TOKEN = accessToken;
+  vndClient.request.config.HEADERS = {
+    ...vndClient.request.config.HEADERS,
+    Authorization: `Bearer ${accessToken}`,
+  };
+
+  axiosInstance.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+
+  console.log('vndClient.request.config.TOKEN', vndClient.request.config.TOKEN);
   Cookies.set('auth', JSON.stringify({ accessToken, refreshToken }), {
     expires: 30, // 30 days
     path: '/',
@@ -58,17 +65,19 @@ export const authProvider: AuthProvider = {
     };
   },
   getPermissions: async () => {
-    const auth = Cookies.get('auth');
-    if (auth) {
-      const parsedUser = JSON.parse(auth);
-      return parsedUser.roles;
+    const user = localStorage.getItem('user');
+    if (user) {
+      const parsedUser = JSON.parse(user);
+      return parsedUser.role;
     }
     return null;
   },
   getIdentity: async () => {
     const auth = Cookies.get('auth');
     if (auth) {
-      return vndClient.auth.authControllerMe();
+      const user = vndClient.auth.authControllerMe();
+      localStorage.setItem('user', JSON.stringify(user));
+      return user;
     }
     return null;
   },
