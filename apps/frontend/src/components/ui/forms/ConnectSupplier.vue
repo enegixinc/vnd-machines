@@ -81,7 +81,7 @@
         }
     };
     const setInputValue = (newVal) => {
-        setValue(newVal?._id || '');
+        setValue(newVal?._id || '',false);
     };
     watch(selectedSupplier, setInputValue);
     watch(value, (newVal) => {
