@@ -9,11 +9,11 @@ import {
 } from '@refinedev/antd';
 import { Space, Table } from 'antd';
 import React from 'react';
-import { SerializedBrandDto } from '@frontend/api-sdk';
+import { SerializedCategoryDto } from '@frontend/api-sdk';
 import { defaultSrc } from '@app/config';
 import { handleEmptyString } from '@helpers';
 
-export default function BrandsList() {
+export default function CategoriesList() {
   const { tableProps } = useTable({
     syncWithLocation: true,
     sorters: {
@@ -54,7 +54,7 @@ export default function BrandsList() {
           title="Total Revenue"
           sorter={true}
         />
-        <Table.Column<SerializedBrandDto>
+        <Table.Column<SerializedCategoryDto>
           title="Actions"
           dataIndex="actions"
           render={(_, record) => (

@@ -1,19 +1,28 @@
 'use client';
 
-import { ImageField, Show, TextField } from '@refinedev/antd';
+import { Show, TextField } from '@refinedev/antd';
 import { useShow } from '@refinedev/core';
 import { Descriptions, Typography } from 'antd';
 import React from 'react';
-import { SerializedBrandDto } from '@frontend/api-sdk';
+import { SerializedCategoryDto } from '@frontend/api-sdk';
 import { safeArrayCounter } from '@helpers';
-import { defaultSrc } from '@app/config';
 
 const { Title } = Typography;
 
-export default function BrandShow() {
-  const { queryResult } = useShow<SerializedBrandDto>({
+export default function CategoryShow() {
+  const { queryResult } = useShow<SerializedCategoryDto>({
     meta: {
-      join: ['products'],
+      join: [
+        {
+          field: 'brands',
+        },
+        {
+          field: 'suppliers',
+        },
+        {
+          field: 'products',
+        },
+      ],
     },
   });
   const { data, isLoading } = queryResult;
@@ -25,7 +34,7 @@ export default function BrandShow() {
 
   return (
     <Show isLoading={isLoading}>
-      <Title level={3}>{'Brand Details'}</Title>
+      <Title level={3}>{'Category Details'}</Title>
       <Descriptions
         bordered
         column={1}
@@ -38,13 +47,13 @@ export default function BrandShow() {
           <TextField value={record._id} />
         </Descriptions.Item>
 
-        <Descriptions.Item label="Brand Picture">
-          <ImageField
-            src={record?.picture}
-            title={record?.name?.en ?? 'logo'}
-            value={defaultSrc}
-          />
-        </Descriptions.Item>
+        {/*<Descriptions.Item label="Category Picture">*/}
+        {/*  <ImageField*/}
+        {/*    src={record?.}*/}
+        {/*    title={record?.name?.en ?? 'logo'}*/}
+        {/*    value={defaultSrc}*/}
+        {/*  />*/}
+        {/*</Descriptions.Item>*/}
 
         <Descriptions.Item label="Name (English)">
           {/* @ts-ignore */}
@@ -77,6 +86,12 @@ export default function BrandShow() {
         <Descriptions.Item label="Products">
           {record.products.map((product) => (
             <TextField key={product.upc} />
+          ))}
+        </Descriptions.Item>
+
+        <Descriptions.Item label="Brands">
+          {record.brands.map((brand) => (
+            <TextField key={brand._id} />
           ))}
         </Descriptions.Item>
       </Descriptions>

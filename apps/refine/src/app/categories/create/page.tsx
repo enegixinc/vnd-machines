@@ -5,13 +5,13 @@ import { Flex, Form, Upload } from 'antd';
 import React from 'react';
 import { MultiLangInput } from '@theme-helpers';
 
-export default function BrandCreate() {
+export default function CategoryCreate() {
   const { formProps, saveButtonProps } = useForm({});
 
   return (
     <Create saveButtonProps={saveButtonProps}>
       <Form {...formProps} layout="vertical">
-        <Form.Item label="Brand Picture">
+        <Form.Item label="Category Picture">
           <Form.Item
             valuePropName="fileList"
             getValueFromEvent={getValueFromEvent}
