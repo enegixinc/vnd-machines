@@ -7,13 +7,19 @@ export const contractsLinks: RouteRecordRaw[] = [
         component: () => import('@/pages/contracts/TheIndex.vue'),
     },
     {
-        path: '/deleted-contracts',
+        path: '/contracts/deleted',
         name: 'deletedContracts',
         component: () => import('@/pages/contracts/DeletedContracts/TheIndex.vue'),
     },
     {
-        path: '/add-contracts',
+        path: '/contracts/add',
         name: 'addContracts',
         component: () => import('@/pages/contracts/addContract/TheIndex.vue'),
     },
+    {
+        path: '/contracts/edit/:id',
+        props: true,
+        name: 'edit-contract',
+        component: () => import('@/pages/contracts/editContract/TheIndex.vue'),
+    }
 ];
