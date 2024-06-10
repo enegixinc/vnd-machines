@@ -111,6 +111,7 @@
     "webpack-cli": "^5.1.4"
   },
   "dependencies": {
+    "@ant-design/colors": "^7.0.2",
     "@ant-design/nextjs-registry": "^1.0.0",
     "@bhplugin/vue3-datatable": "^1.0.3",
     "@dataui/crud": "^5.3.4",
@@ -140,6 +141,7 @@
     "@nestjs/swagger": "^7.3.1",
     "@nestjs/terminus": "^10.2.3",
     "@nestjs/typeorm": "^10.0.2",
+    "@refinedev/inferencer": "^4.6.4",
     "@suadelabs/vue3-multiselect": "^1.0.2",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.1.1",

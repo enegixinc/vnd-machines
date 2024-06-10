@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import {
   DeleteButton,
@@ -6,29 +6,44 @@ import {
   List,
   ShowButton,
   useTable,
-} from "@refinedev/antd";
-import type { BaseRecord } from "@refinedev/core";
-import { Space, Table } from "antd";
-import React from "react";
+} from '@refinedev/antd';
+import { Space, Table } from 'antd';
+import React from 'react';
+import { SerializedBrandDto } from '@frontend/api-sdk';
+import { defaultSrc } from '@app/config';
 
-export default function CategoryList() {
+export default function BrandsList() {
   const { tableProps } = useTable({
     syncWithLocation: true,
+    sorters: {
+      mode: 'server',
+    },
   });
 
   return (
     <List>
-      <Table {...tableProps} rowKey="id">
-        <Table.Column dataIndex="id" title={"ID"} />
-        <Table.Column dataIndex="title" title={"title"} />
+      <Table {...tableProps} rowKey="_id">
         <Table.Column
-          title={"Actions"}
+          dataIndex="logo"
+          title="Logo"
+          render={(logo) => <img src={defaultSrc} alt="logo" width={34} />}
+        />
+        <Table.Column dataIndex={['name', 'en']} title="Name (English)" />
+        <Table.Column dataIndex={['name', 'ar']} title="Name (Arabic)" />
+        <Table.Column
+          dataIndex="totalSoldProducts"
+          title="Total Sold Products"
+        />
+        <Table.Column dataIndex="totalOrders" title="Total Orders" />
+        <Table.Column dataIndex="totalRevenue" title="Total Revenue" />
+        <Table.Column<SerializedBrandDto>
+          title="Actions"
           dataIndex="actions"
-          render={(_, record: BaseRecord) => (
+          render={(_, record) => (
             <Space>
-              <EditButton hideText size="small" recordItemId={record.id} />
-              <ShowButton hideText size="small" recordItemId={record.id} />
-              <DeleteButton hideText size="small" recordItemId={record.id} />
+              <EditButton hideText size="small" recordItemId={record._id} />
+              <ShowButton hideText size="small" recordItemId={record._id} />
+              <DeleteButton hideText size="small" recordItemId={record._id} />
             </Space>
           )}
         />
