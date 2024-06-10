@@ -378,7 +378,7 @@
         getOneEntity(
             {
                 id: newVal.id,
-                join: ['supplier||firstName', 'category||name', 'brand||name'],
+                join: ['supplier', 'category', 'brand'],
             },
             resetForm
         );
