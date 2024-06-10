@@ -328,7 +328,10 @@
         "contracts": "العقود",
         "deletedContracts": "العقود المحذوفة",
         "recoverContract": "استعادة العقد",
-        "addContract": "إضافة العقد"
+        "addContract": "إضافة العقد",
+        "editContract": "تعديل العقد",
+        "updateContract": "تحديث العقد",
+        "TheContractHasBeenSuccessfullyUpdated": "تم تحديث العقد بنجاح"
     },
     "entitiesPages": {
         "TheEntityHasBeenSuccessfullyRecovered": "تم  المستخدم بنجاح.",

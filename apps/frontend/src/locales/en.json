@@ -323,7 +323,10 @@
         "contracts": "Contracts",
         "deletedContracts": "Deleted Contracts",
         "recoverContract": "Recover Contract",
-        "addContract": "Add Contract"
+        "addContract": "Add Contract",
+        "editContract": "Edit Contract",
+        "updateContract": "Update Contract",
+        "TheContractHasBeenSuccessfullyUpdated": "Contract Successfully Updated."
     },
     "entitiesPages": {
         "TheEntityHasBeenSuccessfullyDeleted": "Successfully deleted.",
