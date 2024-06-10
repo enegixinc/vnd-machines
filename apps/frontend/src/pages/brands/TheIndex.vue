@@ -14,6 +14,7 @@
             :row-loading="rowLoading"
             :stickyFirstColumn="true"
             @delete-row="deleteEntity"
+            @edit-row="editRow"
         />
     </div>
 </template>
@@ -32,6 +33,7 @@
         TheBreadcrumbs,
         rowLoading,
         deleteEntity,
+        goTo
     } = useBrands({});
     const tableFields = computed(() => {
         return [
@@ -48,4 +50,7 @@
         ];
     });
     fetchBrands({ page: 1, limit: pageSize.value, sort: ['createdAt,DESC'] });
+    function editRow(data) {
+        goTo('edit-brand', 'id', data.id);
+    }
 </script>
