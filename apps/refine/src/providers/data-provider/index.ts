@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import dataProviderNestjsxCrud from "@refinedev/nestjsx-crud";
+import dataProviderNestjsxCrud from '@refinedev/nestjsx-crud';
 
-const API_URL = "https://api.nestjsx-crud.refine.dev";
+const API_URL = 'https://staging-vnd-api.5ostudios.com';
 
 export const dataProvider = dataProviderNestjsxCrud(API_URL);
