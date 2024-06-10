@@ -1,7 +1,7 @@
 'use client';
 
 import { Create, getValueFromEvent, useForm } from '@refinedev/antd';
-import { Flex, Form, Upload } from 'antd';
+import { Flex, Form, Switch, Upload } from 'antd';
 import React from 'react';
 import { MultiLangInput } from '@theme-helpers';
 
@@ -33,6 +33,14 @@ export default function CategoryCreate() {
         </Form.Item>
         <Flex gap={20} wrap="wrap">
           <MultiLangInput />
+        </Flex>
+        <Flex gap={20} wrap="wrap">
+          <Form.Item label="Sort Index" name="sortIndex" initialValue={true}>
+            <Switch />
+          </Form.Item>
+          <Form.Item label="Auto" name="auto" initialValue={true}>
+            <Switch />
+          </Form.Item>
         </Flex>
       </Form>
     </Create>
