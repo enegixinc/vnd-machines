@@ -349,7 +349,10 @@
         "deletedCategories": "الفئات المحذوفة",
         "recoverCategory": "استعادة الفئة",
         "addNewCategory": "إضافة فئة جديدة",
-        "addNewCategoryButton": "إضافة الفئة"
+        "addNewCategoryButton": "إضافة الفئة",
+        "editCategory": "تعديل الفئة",
+        "updateCategory": "تحديث الفئة",
+        "TheCategoryHasBeenSuccessfullyUpdated": "تم تحديث الفئة بنجاح"
     },
     "brandsPages": {
         "brands": "العلامات التجاريه",

@@ -345,7 +345,10 @@
         "deletedCategories": "Deleted Categories",
         "recoverCategory": "Recover Category",
         "addNewCategory": "Add New Category",
-        "addNewCategoryButton": "Add Category"
+        "addNewCategoryButton": "Add Category",
+        "editCategory": "Edit Category",
+        "updateCategory": "Update Category",
+        "TheCategoryHasBeenSuccessfullyUpdated": "Category Successfully Updated."
     },
     "brandsPages": {
         "brands": "Brands",
