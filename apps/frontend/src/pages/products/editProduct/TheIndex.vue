@@ -274,35 +274,35 @@
                             }),
                         })
                         .default(0),
-                }),
+                }).nullish(),
                 name: z.object({
                     en: z.string().default(''),
                     ar: z.string().default(''),
-                }),
+                }).nullish(),
                 detail: z.object({
                     en: z.string().default(''),
                     ar: z.string().default(''),
-                }),
+                }).nullish(),
                 description: z.object({
                     en: z.string().default(''),
                     ar: z.string().default(''),
-                }),
+                }).nullish(),
                 keyFeatures: z.object({
                     en: z.string().default(''),
                     ar: z.string().default(''),
-                }),
+                }).nullish(),
                 include: z.object({
                     en: z.string().default(''),
                     ar: z.string().default(''),
-                }),
+                }).nullish(),
                 specification: z.object({
                     en: z.string().default(''),
                     ar: z.string().default(''),
-                }),
+                }).nullish(),
                 ingredients: z.object({
                     en: z.string().default(''),
                     ar: z.string().default(''),
-                }),
+                }).nullish(),
                 supplier: z
                     .object({
                         _id: z.string().default(''),
@@ -321,12 +321,12 @@
             })
         )
     );
-    const { handleSubmit, resetForm, setValues, values } = useForm<CreateProductDto>({
+    const { handleSubmit, resetForm, setValues, values:allValues } = useForm<CreateProductDto>({
         validationSchema: schema2,
     });
     const onSubmit = handleSubmit(
-        () => {
-            const id = values._id;
+        (values) => {
+            const id = allValues._id;
             const filledData = handleEmptyLang(values);
             setValues(filledData);
             const cleanedData = cleanResource(filledData);
@@ -350,7 +350,7 @@
                     keyFeatures: cleanedData.keyFeatures??null,
                     pricePerKilo: cleanedData.pricePerKilo,
                     prodType: cleanedData.prodType??null,
-                    productPictures: cleanedData.productPictures??null,
+                    productPictures: cleanedData.productPictures??[],
                     productVideo: cleanedData.productVideo??null,
                     sortIndex: cleanedData.sortIndex,
                     specification: cleanedData.specification??null,
@@ -359,9 +359,9 @@
                     vatIndex: cleanedData.vatIndex,
                     virtualProduct: cleanedData.virtualProduct,
                 },
-            });
+            },t('productsPages.TheProductHasBeenSuccessfullyUpdated'));
         },
-        () => {}
+        ({errors}) => {console.log(errors)}
     );
     getOneEntity(
         {

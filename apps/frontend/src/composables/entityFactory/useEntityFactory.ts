@@ -184,10 +184,12 @@ export default function useEntityFactory<T, P extends object, S extends object =
                 console.error(err);
             }
         }
-        async function updateEntity(data: U) {
+        async function updateEntity(data: U,msg?:string) {
             try {
                 loading.value = true;
                 await client.updateOne(data);
+                showSuccessNotification(msg || t('entitiesPages.TheEntityHasBeenSuccessfullyUpdated'));
+                window.scrollTo({ top: 0, behavior: 'smooth' })
             } catch (err: any) {
                 console.error(err);
             } finally {

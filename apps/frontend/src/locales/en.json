@@ -313,7 +313,8 @@
         "youWantToDeleteThisContract": "You want to delete this contract!",
         "yesDeleteIt": "Yes, delete it!",
         "noCancel": "no,Cancel!",
-        "youWantToDeleteThisEntity": "You want to delete this!"
+        "youWantToDeleteThisEntity": "You want to delete this!",
+
     },
     "contractsPages": {
         "contracts": "Contracts",
@@ -324,7 +325,8 @@
     "entitiesPages": {
         "TheEntityHasBeenSuccessfullyDeleted": "Successfully deleted.",
         "TheEntityHasBeenSuccessfullyRecovered": "Successfully recovered.",
-        "TheEntityHasBeenSuccessfullyAdded": "Successfully added."
+        "TheEntityHasBeenSuccessfullyAdded": "Successfully added.",
+        "TheEntityHasBeenSuccessfullyUpdated": "Successfully Updated."
     },
     "productsPages": {
         "products": "Products",
@@ -333,7 +335,8 @@
         "dimensions": "Dimensions",
         "addProduct": "Add Product",
         "editProduct": "Edit Product",
-        "updateProduct": "Update Product"
+        "updateProduct": "Update Product",
+        "TheProductHasBeenSuccessfullyUpdated": "Product Successfully Updated."
 
     },
     "Unknown": "N/A",

@@ -330,7 +330,8 @@
     "entitiesPages": {
         "TheEntityHasBeenSuccessfullyRecovered": "تم  المستخدم بنجاح.",
         "TheEntityHasBeenSuccessfullyDeleted": "تم حذف  بنجاح.",
-        "TheEntityHasBeenSuccessfullyAdded": "تم الإضافة  بنجاح."
+        "TheEntityHasBeenSuccessfullyAdded": "تم الإضافة  بنجاح.",
+        "TheEntityHasBeenSuccessfullyUpdated": "تم التحديث بنجاح"
     },
     "productsPages": {
         "products": "المنتجات",
@@ -339,7 +340,8 @@
         "dimensions": "الأبعاد",
         "addProduct": "إضافة المنتج",
         "editProduct": "تعديل المنتج",
-        "updateProduct": "حدث المنتج"
+        "updateProduct": "حدث المنتج",
+        "TheProductHasBeenSuccessfullyUpdated": "تم تحديث المنتج بنجاح"
     },
     "Unknown": "غير معروف",
     "categoriesPages": {
