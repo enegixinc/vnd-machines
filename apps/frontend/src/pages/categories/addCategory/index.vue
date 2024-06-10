@@ -10,11 +10,13 @@
                     <input-text
                         class="col-span-2"
                         name="name.ar"
+                        requierd
                         :field-label="$t('fields.ar', { field: $t('fields.name') })"
                         :placeholder="$t('placeHolders.enterAR', { field: $t('fields.name') })"
                     />
                     <input-text
                         class="col-span-2"
+                        requierd
                         name="name.en"
                         :field-label="$t('fields.en', { field: $t('fields.name') })"
                         :placeholder="$t('placeHolders.enterEn', { field: $t('fields.name') })"
