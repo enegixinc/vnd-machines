@@ -20,7 +20,8 @@
     ],
     "paths": {
       "@*": ["./src/*"],
-      "@pages/*": ["./pages/*"]
+      "@pages/*": ["./pages/*"],
+      "@frontend/api-sdk": ["../../libs/frontend/api-sdk/gen/index.ts"]
     },
     "incremental": true
   },

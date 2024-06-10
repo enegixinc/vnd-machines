@@ -1,57 +1,69 @@
-"use client";
+'use client';
 
-import type { AuthProvider } from "@refinedev/core";
-import Cookies from "js-cookie";
+import type { AuthProvider } from '@refinedev/core';
+import Cookies from 'js-cookie';
+import { vndClient } from '@providers/api';
 
-const mockUsers = [
-  {
-    name: "John Doe",
-    email: "johndoe@mail.com",
-    roles: ["admin"],
-    avatar: "https://i.pravatar.cc/150?img=1",
-  },
-  {
-    name: "Jane Doe",
-    email: "janedoe@mail.com",
-    roles: ["editor"],
-    avatar: "https://i.pravatar.cc/150?img=1",
-  },
-];
+const ACCESS_TOKEN = 'accessToken';
+const REFRESH_TOKEN = 'refreshToken';
+
+const isAuth = () => {
+  return !!Cookies.get(ACCESS_TOKEN);
+};
+
+const setTokens = (accessToken: string, refreshToken: string) => {
+  vndClient.request.config.TOKEN = accessToken;
+  Cookies.set(ACCESS_TOKEN, accessToken, { path: '/' });
+  Cookies.set(REFRESH_TOKEN, refreshToken, { path: '/' });
+};
+
+const removeTokens = () => {
+  vndClient.request.config.TOKEN = undefined;
+  Cookies.remove(ACCESS_TOKEN, { path: '/' });
+  Cookies.remove(REFRESH_TOKEN, { path: '/' });
+};
+
+const getTokens = () => {
+  const auth = Cookies.get('auth');
+  if (auth) {
+    return JSON.parse(auth);
+  }
+  return null;
+};
 
 export const authProvider: AuthProvider = {
   login: async ({ email, username, password, remember }) => {
-    // Suppose we actually send a request to the back end here.
-    const user = mockUsers[0];
-
-    if (user) {
-      Cookies.set("auth", JSON.stringify(user), {
-        expires: 30, // 30 days
-        path: "/",
+    // @ts-ignore
+    const { accessToken, refreshToken } =
+      await vndClient.auth.authControllerLogin({
+        requestBody: { email, password },
       });
+
+    if (accessToken && refreshToken) {
+      setTokens(accessToken, refreshToken);
       return {
         success: true,
-        redirectTo: "/",
+        redirectTo: '/',
       };
     }
 
     return {
       success: false,
       error: {
-        name: "LoginError",
-        message: "Invalid username or password",
+        name: 'LoginError',
+        message: 'Invalid username or password',
       },
     };
   },
   logout: async () => {
-    Cookies.remove("auth", { path: "/" });
+    removeTokens();
     return {
       success: true,
-      redirectTo: "/login",
+      redirectTo: '/login',
     };
   },
   check: async () => {
-    const auth = Cookies.get("auth");
-    if (auth) {
+    if (isAuth()) {
       return {
         authenticated: true,
       };
@@ -60,22 +72,19 @@ export const authProvider: AuthProvider = {
     return {
       authenticated: false,
       logout: true,
-      redirectTo: "/login",
+      redirectTo: '/login',
     };
   },
   getPermissions: async () => {
-    const auth = Cookies.get("auth");
-    if (auth) {
-      const parsedUser = JSON.parse(auth);
-      return parsedUser.roles;
+    if (isAuth()) {
+      // const parsedUser = JSON.parse(auth);
+      // return parsedUser.roles;
     }
     return null;
   },
   getIdentity: async () => {
-    const auth = Cookies.get("auth");
-    if (auth) {
-      const parsedUser = JSON.parse(auth);
-      return parsedUser;
+    if (isAuth()) {
+      return vndClient.auth.authControllerMe();
     }
     return null;
   },
