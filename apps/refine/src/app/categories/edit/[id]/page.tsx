@@ -31,9 +31,7 @@ export default function CategoryEdit() {
             </Upload.Dragger>
           </Form.Item>
         </Form.Item>
-        <Flex gap={20} wrap="wrap">
-          <MultiLangInput />
-        </Flex>
+        <MultiLangInput />
         <Flex gap={20} wrap="wrap">
           <Form.Item label="Sort Index" name="sortIndex" initialValue={true}>
             <Switch />
