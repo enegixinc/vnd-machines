@@ -111,6 +111,7 @@
     "webpack-cli": "^5.1.4"
   },
   "dependencies": {
+    "@ant-design/nextjs-registry": "^1.0.0",
     "@bhplugin/vue3-datatable": "^1.0.3",
     "@dataui/crud": "^5.3.4",
     "@dataui/crud-typeorm": "^5.3.4",

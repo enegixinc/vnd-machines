@@ -9,7 +9,10 @@
       "defaultConfiguration": "dev",
       "options": {
         "parallel": false,
-        "commands": ["docker build -f apps/app-crm/Dockerfile . -t {args.DockerContainerRegistry}", "docker push {args.DockerContainerRegistry}"]
+        "commands": [
+          "docker build -f apps/app-crm/Dockerfile . -t {args.DockerContainerRegistry}",
+          "docker push {args.DockerContainerRegistry}"
+        ]
       },
       "configurations": {
         "dev": {
@@ -26,7 +29,9 @@
     "notify": {
       "executor": "nx:run-commands",
       "options": {
-        "commands": ["node scripts/coolify.js -w '{args.DEV_FRONTEND_COOLIFY_WEBHOOK}'"]
+        "commands": [
+          "node scripts/coolify.js -w '{args.DEV_FRONTEND_COOLIFY_WEBHOOK}'"
+        ]
       }
     },
     "start": {
