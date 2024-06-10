@@ -13,6 +13,7 @@
             :sortable="true"
             sort-by="firstName"
             :row-loading="rowLoading"
+            @edit-row="editRow"
         />
     </div>
 </template>
@@ -20,8 +21,8 @@
 import {computed} from 'vue';
 import {useI18n} from 'vue-i18n'
 const {t} = useI18n()
-import useUser from "@/composables/users/use-user";
-const {loading,totalPages,usersData,pageSize,TheBreadcrumbs,rowLoading,DataTable,fetchUsers:fetchSuppliers,deleteUser} = useUser({
+import {useUser} from "@/composables/users/use-user2";
+const {loading,totalPages,entityData:usersData,pageSize,TheBreadcrumbs,rowLoading,DataTable,fetchEntities:fetchSuppliers,deleteEntity:deleteUser,goTo} = useUser({
     filter:['role||$eq||supplier']
 })
 const tableFields=computed(()=>{
@@ -35,5 +36,7 @@ const tableFields=computed(()=>{
         ]
     })
 fetchSuppliers({page:1,limit:pageSize.value,sort: ['firstName,DESC']});
-
+function editRow(data) {
+    goTo('edit-user', 'id', data.id);
+}
 </script>
