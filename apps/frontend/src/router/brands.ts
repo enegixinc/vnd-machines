@@ -19,6 +19,6 @@ export const brandsLinks :RouteRecordRaw[] = [
         path: '/brands/edit/:id',
         props: true,
         name: 'edit-brand',
-        component: () => import('@/pages/products/editProduct/TheIndex.vue'),
+        component: () => import('@/pages/brands/editBrand/TheIndex.vue'),
     }
 ]
