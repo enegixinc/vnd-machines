@@ -170,7 +170,7 @@
                             <vue-collapsible :isOpen="activeDropdown === 'machines'">
                                 <ul class="sub-menu text-gray-500">
                                     <li>
-                                        <router-link to="/datatables/basic" @click="toggleMobileMenu">{{ $t('links.manageMachines') }}</router-link>
+                                        <router-link :to="{name:'manageMachines'}" @click="toggleMobileMenu">{{ $t('links.manageMachines') }}</router-link>
                                     </li>
                                     <li>
                                         <router-link to="/datatables/advanced" @click="toggleMobileMenu">{{ $t('links.newMachine') }}</router-link>
