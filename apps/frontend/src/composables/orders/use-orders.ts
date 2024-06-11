@@ -22,14 +22,13 @@ const{t} =useI18n()
                 }
             })
             const orders = await vndClient.orders.getMany(data);
-            console.log(orders);
             // @ts-expect-error - to be fixed by backend
             ordersDate.value=orders.data;
             totalPages.value=orders.total;
             pageSize.value = data?.limit || 10
 
         }catch (err){
-            console.log(err)
+            console.error(err)
         }finally {
             loading.value=false;
         }
