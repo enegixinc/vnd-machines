@@ -377,7 +377,9 @@
         "TheBrandHasBeenSuccessfullyUpdated": "تم تحديث العلامة التجارية بنجاح"
     },
     "ordersPages": {
-        "orders": "المبيعات"
+        "orders": "المبيعات",
+        "visa": "فيزا",
+        "cash": "كاش"
     },
     "noResults": "لم يتم العثور على عناصر. فكر في تغيير طلب البحث.",
     "noOptions": "القائمة فارغة.",

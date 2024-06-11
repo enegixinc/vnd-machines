@@ -335,7 +335,9 @@
         "TheContractHasBeenSuccessfullyUpdated": "Contract Successfully Updated."
     },
     "ordersPages": {
-        "orders": "Orders"
+        "orders": "Orders",
+        "visa": "Visa",
+        "cash": "Cash"
     },
     "entitiesPages": {
         "TheEntityHasBeenSuccessfullyDeleted": "Successfully deleted.",

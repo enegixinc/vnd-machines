@@ -108,6 +108,15 @@
                     <template #createdAt="data">
                         {{ formatDate(data.value.createdAt) }}
                     </template>
+                    <template #payment_type="data">
+                        <span v-if="data.value.payment_type === 'CARD'" class="text-blue-700 font-bold uppercase">
+                            {{ $t('ordersPages.visa') }}
+                        </span>
+                        <span v-else class="text-green-600 font-bold ">
+                           {{ $t('ordersPages.cash') }}
+                        </span>
+<!--                        {{ data.value.payment_type === 'CARD'? $t('ordersPages.visa'):$t('ordersPages.cash') }}-->
+                    </template>
                     <template #active="data">
                         <span class="badge badge-outline-success rounded-full" v-if="data.value.active">{{ $t('active') }}</span>
                         <span class="badge badge-outline-danger rounded-full" v-else>{{ $t('inactive') }}</span>
