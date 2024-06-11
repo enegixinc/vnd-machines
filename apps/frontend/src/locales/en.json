@@ -220,7 +220,12 @@
         "supplier": "Supplier",
         "auto": "Auto",
         "duration": "Duration",
-        "totalSoldProducts": "Total Sold Products"
+        "totalSoldProducts": "Total Sold Products",
+        "paymentType": "Payment Type",
+        "totalProducts": "Total Products",
+        "tax": "Tax",
+        "totalPaid": "Total Paid",
+        "currency": "Currency"
     },
     "placeHolders": {
         "enterEmail": "Enter Email",
@@ -296,12 +301,13 @@
         "createRequest": "Create Request",
         "reports": "Reports",
         "mangeUsers": "Manage Users",
-        "home": "Home"
+        "home": "Home",
+        "manageOrders": "Manage Orders"
     },
     "headings": {
         "machinesAndProducts": "Machines & Products",
         "categoriesAndBrands": "Categories & Brands",
-        "requestsAndReports": "Requests & Reports"
+        "more": "More"
     },
     "inactive": "Inactive",
     "active": "Active",
@@ -327,6 +333,9 @@
         "editContract": "Edit Contract",
         "updateContract": "Update Contract",
         "TheContractHasBeenSuccessfullyUpdated": "Contract Successfully Updated."
+    },
+    "ordersPages": {
+        "orders": "Orders"
     },
     "entitiesPages": {
         "TheEntityHasBeenSuccessfullyDeleted": "Successfully deleted.",

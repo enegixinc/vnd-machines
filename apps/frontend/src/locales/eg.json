@@ -219,7 +219,12 @@
         "lastName": "اسم العائلة",
         "auto": "تلقائي",
         "duration": "المدة",
-        "totalSoldProducts": "اجمالي المنتجاب المباعة"
+        "totalSoldProducts": "اجمالي المنتجاب المباعة",
+        "paymentType": "طريقة الدفع",
+        "totalProducts": "إجمالي المنتجات",
+        "tax": "ضريبه",
+        "totalPaid": "إجمالي المدفوع",
+        "currency": "العملة"
     },
     "roles": {
         "admin": "مدير",
@@ -302,12 +307,13 @@
         "createRequest": "إنشاء طلب",
         "reports": "التقارير",
         "mangeUsers": "إدارة المستخدمون",
-        "home": "الرئيسية"
+        "home": "الرئيسية",
+        "manageOrders": "إدارة المبيعات"
     },
     "headings": {
         "machinesAndProducts": "الماكينات و المنتجات",
         "categoriesAndBrands": "الفئات و العلامات التجاريه",
-        "requestsAndReports": "الطلبات و التقارير"
+        "more": "المزيد"
     },
     "inactive": "غير نشط",
     "active": "نشط",
@@ -369,6 +375,9 @@
         "editBrand": "تعديل العلامة التجارية",
         "updateBrand": "تحديث العلامة التجارية",
         "TheBrandHasBeenSuccessfullyUpdated": "تم تحديث العلامة التجارية بنجاح"
+    },
+    "ordersPages": {
+        "orders": "المبيعات"
     },
     "noResults": "لم يتم العثور على عناصر. فكر في تغيير طلب البحث.",
     "noOptions": "القائمة فارغة.",
