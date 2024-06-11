@@ -10,6 +10,7 @@ import { categoriesLinks } from '@/router/categories';
 import { brandsLinks } from '@/router/brands';
 import { errorsLinks } from '@/router/errors';
 import { ordersLinks } from '@/router/orders';
+import { machinesLinks } from '@/router/machines';
 
 const routes: RouteRecordRaw[] = [
     // dashboard
@@ -21,6 +22,7 @@ const routes: RouteRecordRaw[] = [
     ...categoriesLinks,
     ...brandsLinks,
     ...ordersLinks,
+    ...machinesLinks,
     ...errorsLinks,
 ];
 
