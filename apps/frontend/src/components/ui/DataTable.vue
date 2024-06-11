@@ -115,11 +115,14 @@
                         <span v-else class="text-green-600 font-bold ">
                            {{ $t('ordersPages.cash') }}
                         </span>
-<!--                        {{ data.value.payment_type === 'CARD'? $t('ordersPages.visa'):$t('ordersPages.cash') }}-->
                     </template>
                     <template #active="data">
                         <span class="badge badge-outline-success rounded-full" v-if="data.value.active">{{ $t('active') }}</span>
                         <span class="badge badge-outline-danger rounded-full" v-else>{{ $t('inactive') }}</span>
+                    </template>
+                    <template #machineOnline="data">
+                        <span class="badge badge-outline-success rounded-full" v-if="data.value.machineOnline">{{ $t('machineOnline.online') }}</span>
+                        <span class="badge badge-outline-dark rounded-full" v-else>{{ $t('machineOnline.offline') }}</span>
                     </template>
                     <template #pricePerKilo="data">
                         <span class="badge badge-outline-success rounded-full" v-if="data.value.pricePerKilo">{{ $t('yes') }}</span>

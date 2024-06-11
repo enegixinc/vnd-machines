@@ -157,6 +157,9 @@
         "signOut": "تسجيل الخروج",
         "backTo": "العودة إلي"
     },
+    "machinesPages": {
+        "machines": "الماكينات"
+    },
     "languages": {
         "English": "English",
         "Arabic": "اللغة العربية"
@@ -224,7 +227,15 @@
         "totalProducts": "إجمالي المنتجات",
         "tax": "ضريبه",
         "totalPaid": "إجمالي المدفوع",
-        "currency": "العملة"
+        "currency": "العملة",
+        "model": "طراز",
+        "machineOnline": "الالة متصلة",
+        "stock": "رصيد"
+    },
+    "machineOnline": {
+
+        "online": "متصل",
+        "offline": "غير متصل"
     },
     "roles": {
         "admin": "مدير",

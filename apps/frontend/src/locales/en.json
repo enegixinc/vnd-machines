@@ -225,7 +225,10 @@
         "totalProducts": "Total Products",
         "tax": "Tax",
         "totalPaid": "Total Paid",
-        "currency": "Currency"
+        "currency": "Currency",
+        "model": "Model",
+        "machineOnline": "Machine Online",
+        "stock": "Stock"
     },
     "placeHolders": {
         "enterEmail": "Enter Email",
@@ -273,6 +276,10 @@
         "noData": "No data to show",
         "showing": "Showing",
         "results": "Results"
+    },
+    "machineOnline": {
+        "online": "متصل",
+        "offline": "غير متصل"
     },
     "wait": "Please wait..",
     "links": {
@@ -322,7 +329,7 @@
         "youWantToDeleteThisContract": "You want to delete this contract!",
         "yesDeleteIt": "Yes, delete it!",
         "noCancel": "no,Cancel!",
-        "youWantToDeleteThisEntity": "You want to delete this!",
+        "youWantToDeleteThisEntity": "You want to delete this!"
 
     },
     "contractsPages": {
@@ -376,6 +383,10 @@
         "editBrand": "Edit Brand",
         "updateBrand": "Update Brand",
         "TheBrandHasBeenSuccessfullyUpdated": "Brand Successfully Updated."
+    },
+    "machinesPages": {
+        "machines": "Machines"
+
     },
     "noResults": "No elements found. Consider changing the search query.",
     "noOptions": "List is empty.",
