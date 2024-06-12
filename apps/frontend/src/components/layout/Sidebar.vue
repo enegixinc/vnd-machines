@@ -173,7 +173,7 @@
                                         <router-link :to="{name:'manageMachines'}" @click="toggleMobileMenu">{{ $t('links.manageMachines') }}</router-link>
                                     </li>
                                     <li>
-                                        <router-link to="/datatables/advanced" @click="toggleMobileMenu">{{ $t('links.fillMachine') }}</router-link>
+                                        <router-link :to="{name:'fillingMachines'}" @click="toggleMobileMenu">{{ $t('links.fillMachine') }}</router-link>
                                     </li>
                                 </ul>
                             </vue-collapsible>
