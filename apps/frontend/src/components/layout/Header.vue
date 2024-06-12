@@ -362,7 +362,7 @@
                                     <router-link :to="{name:'manageMachines'}">{{ $t('links.manageMachines') }}</router-link>
                                 </li>
                                 <li>
-                                    <router-link to="/datatables/advanced">{{ $t('links.newMachine') }}</router-link>
+                                    <router-link to="/datatables/advanced">{{ $t('links.fillMachine') }}</router-link>
                                 </li>
                             </ul>
                         </li>
