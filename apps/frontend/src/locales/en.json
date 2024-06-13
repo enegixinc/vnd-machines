@@ -169,7 +169,8 @@
         "number": "{field} Must Be Number !",
         "email": "Enter Valid Email !",
         "maxLength": "{field} cannot exceed {max} characters !",
-        "minLength": "{field} must be at least {min} characters long !"
+        "minLength": "{field} must be at least {min} characters long !",
+        "positive": "{field} must be greater than 0"
     },
     "fields": {
         "email": "Email",
@@ -228,7 +229,11 @@
         "currency": "Currency",
         "model": "Model",
         "machineOnline": "Machine Online",
-        "stock": "Stock"
+        "stock": "Stock",
+        "products": "Products",
+        "product": "Product",
+        "quantity": "Quantity",
+        "machine": "Machine"
     },
     "placeHolders": {
         "enterEmail": "Enter Email",
@@ -249,6 +254,8 @@
         "enterAR": "Enter {field} باللغة العربية",
         "enterEn": "Enter {field} English",
         "selectSupplier": "Select Supplier",
+        "selectMachine": "Select Machine",
+        "selectProducts": "Select Products",
         "selectCategory": "Select Category",
         "selectBrand": "Select Brand",
         "enterPhoneNo": "Enter Phone No",
@@ -385,11 +392,16 @@
         "TheBrandHasBeenSuccessfullyUpdated": "Brand Successfully Updated."
     },
     "machinesPages": {
-        "machines": "Machines"
-
+        "machines": "Machines",
+        "sendEmail": "Send an email",
+        "sendWhatsapp": "Send a message to WhatsApp",
+        "noSupplier": "No Supplier !",
+        "atLeastOneProduct": "Note: You must select at least one product.",
+        "createRequest": "Create Request",
+        "TheRequestHasBeenSuccessfullyCreated": "Request Successfully Created."
     },
     "noResults": "No elements found. Consider changing the search query.",
-    "noOptions": "List is empty.",
+    "noOptions": "Search for some elements.",
     "feeType": {
         "percentage": "Percentage",
         "fixed": "Fixed"
