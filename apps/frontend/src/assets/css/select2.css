@@ -47,9 +47,12 @@
 }
 
 .custom-multiselect .multiselect__tags-wrap {
-    @apply !flex;
+    @apply !flex flex-wrap gap-2;
 }
 
 .custom-multiselect .multiselect__tag-icon {
     @apply !top-auto;
+}
+.productsSelect .multiselect__element:has(.disabled){
+    @apply  pointer-events-none bg-[#f6f6f6] text-[#bdbdbd] dark:bg-[#263651] dark:text-[#888ea870];
 }
