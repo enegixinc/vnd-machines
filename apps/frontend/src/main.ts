@@ -61,6 +61,7 @@ const ConnectCategory = defineAsyncComponent(() => import('@/components/ui/forms
 const ConnectBrand = defineAsyncComponent(() => import('@/components/ui/forms/ConnectBrand.vue'));
 const SelectInput = defineAsyncComponent(() => import('@/components/ui/forms/SelectInput.vue'));
 const DateRangeInput = defineAsyncComponent(() => import('@/components/ui/forms/DateRangeInput.vue'));
+const QuantityInput = defineAsyncComponent(() => import('@/components/ui/forms/QuantityInput.vue'));
 app.component('input-group', InputGroup);
 app.component('input-text', InputText);
 app.component('switch-input', SwitchInput);
@@ -70,6 +71,7 @@ app.component('connect-category', ConnectCategory);
 app.component('connect-brand', ConnectBrand);
 app.component('input-select', SelectInput);
 app.component('date-range-input', DateRangeInput);
+app.component('quantity-input', QuantityInput);
 app.mount('#app');
 
 //

@@ -15,6 +15,7 @@ import { ThemeColor } from './entities/themeColor.entity';
 import { ProductsMin } from './entities/products_min.entity';
 import { Language } from './entities/language.entity';
 import { Currency } from './entities/currency.entity';
+import { MachineExistsValidator } from './validators/product-exists';
 
 @Module({
   imports: [
@@ -37,6 +38,8 @@ import { Currency } from './entities/currency.entity';
     ProductHasSupplier,
     UserExistsValidator,
     MachinesSubscriber,
+    MachineExistsValidator,
   ],
+  exports: [MachinesService, MachineExistsValidator],
 })
 export class MachinesModule {}

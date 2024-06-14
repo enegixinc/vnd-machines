@@ -40,15 +40,15 @@
                         :placeholder="$t('placeHolders.enterCostPrice')"
                     />
                     <input-text
-                        class="col-span-3 sm:col-span-2"
+                        class="col-span-2 sm:col-span-2"
                         name="price"
                         type="number"
                         :field-label="$t('fields.price')"
                         :placeholder="$t('placeHolders.enterCostPrice')"
                     />
-                    <switch-input name="pricePerKilo" :field-label="$t('fields.pricePerKilo')" />
+                    <switch-input class="col-span-2 sm:col-span-1" name="pricePerKilo" :field-label="$t('fields.pricePerKilo')" />
                 </div>
-                <div class="grid grid-cols-4 sm:grid-cols-4 gap-4">
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
                     <input-text name="vatIndex" type="number" :field-label="$t('fields.vatIndex')" :placeholder="$t('placeHolders.enterVatIndex')" />
                     <input-text name="sortIndex" type="number" :field-label="$t('fields.sortIndex')" :placeholder="$t('placeHolders.enterSortIndex')" />
                     <input-text name="ageControl" type="number" :field-label="$t('fields.ageControl')" :placeholder="$t('placeHolders.enterAgeControl')" />
@@ -157,7 +157,7 @@
                         :placeholder="$t('placeHolders.enterEn', { field: $t('fields.ingredients') })"
                     />
                 </div>
-                <submit-button :label="$t('productsPages.addProduct')" :loading="loading">
+                <submit-button :label="$t('productsPages.updateProduct')" :loading="loading">
                     <template #icon="{ classes }">
                         <icon-menu-box class="group-hover:!text-primary shrink-0" :class="classes" />
                     </template>
@@ -172,7 +172,6 @@
     import { useForm } from 'vee-validate';
     import { toTypedSchema } from '@vee-validate/zod';
     import { z } from 'zod';
-    import { useI18n } from 'vue-i18n';
     import { computed, onMounted, watch } from 'vue';
     import IconMenuBox from '@/components/icon/icon-box.vue';
     import { useProducts } from '@/composables/products/use-products';
@@ -181,8 +180,7 @@
         id: string;
     }
     const pageProps = defineProps<props>();
-    const { loading, getOneEntity } = useProducts({});
-    const { t } = useI18n();
+    const { loading, getOneEntity, t, handleEmptyLang, cleanResource, updateEntity } = useProducts({});
     const schema2 = computed(() =>
         toTypedSchema(
             z.object({
@@ -275,63 +273,99 @@
                             }),
                         })
                         .default(0),
-                }),
+                }).nullish(),
                 name: z.object({
                     en: z.string().default(''),
                     ar: z.string().default(''),
-                }),
+                }).nullish(),
                 detail: z.object({
                     en: z.string().default(''),
                     ar: z.string().default(''),
-                }),
+                }).nullish(),
                 description: z.object({
                     en: z.string().default(''),
                     ar: z.string().default(''),
-                }),
+                }).nullish(),
                 keyFeatures: z.object({
                     en: z.string().default(''),
                     ar: z.string().default(''),
-                }),
+                }).nullish(),
                 include: z.object({
                     en: z.string().default(''),
                     ar: z.string().default(''),
-                }),
+                }).nullish(),
                 specification: z.object({
                     en: z.string().default(''),
                     ar: z.string().default(''),
-                }),
+                }).nullish(),
                 ingredients: z.object({
                     en: z.string().default(''),
                     ar: z.string().default(''),
-                }),
-                supplier: z.object({
-                    _id: z.string().default(''),
-                }),
-                category: z.object({
-                    _id: z.string().default(''),
-                }),
-                brand: z.object({
-                    _id: z.string().default(''),
-                }),
+                }).nullish(),
+                supplier: z
+                    .object({
+                        _id: z.string().default(''),
+                    })
+                    .nullish(),
+                category: z
+                    .object({
+                        _id: z.string().default(''),
+                    })
+                    .nullish(),
+                brand: z
+                    .object({
+                        _id: z.string().default(''),
+                    })
+                    .nullish(),
             })
         )
     );
-    const { handleSubmit, resetForm, setValues } = useForm<CreateProductDto>({
+    const { handleSubmit, resetForm, setValues, values:allValues } = useForm<CreateProductDto>({
         validationSchema: schema2,
     });
     const onSubmit = handleSubmit(
         (values) => {
-            console.log(values);
-            console.log(resetForm);
-            console.log(setValues);
-            // addEntity({ ...values, productPictures: ['image1.jpg', 'image2.jpg'], productVideo: 'Unknown Type: File' }, resetForm, setValues);
+            const id = allValues._id;
+            const filledData = handleEmptyLang(values);
+            setValues(filledData);
+            const cleanedData = cleanResource(filledData);
+
+            updateEntity({
+                id: id,
+                requestBody: {
+                    name: cleanedData.name??null,
+                    price: cleanedData.price,
+                    additionPrice: cleanedData.additionPrice,
+                    ageControl: cleanedData.ageControl,
+                    barcode: cleanedData.barcode??null,
+                    brand: cleanedData.brand || null,
+                    category: cleanedData.category || null,
+                    costPrice: cleanedData.costPrice,
+                    description: cleanedData.description??null,
+                    detail: cleanedData.detail??null,
+                    dimension: cleanedData.dimension??null,
+                    include: cleanedData.include??null,
+                    ingredients: cleanedData.ingredients??null,
+                    keyFeatures: cleanedData.keyFeatures??null,
+                    pricePerKilo: cleanedData.pricePerKilo,
+                    prodType: cleanedData.prodType??null,
+                    productPictures: cleanedData.productPictures??[],
+                    productVideo: cleanedData.productVideo??null,
+                    sortIndex: cleanedData.sortIndex,
+                    specification: cleanedData.specification??null,
+                    upc: cleanedData.upc??null,
+                    supplier: cleanedData.supplier || null,
+                    vatIndex: cleanedData.vatIndex,
+                    virtualProduct: cleanedData.virtualProduct,
+                },
+            },t('productsPages.TheProductHasBeenSuccessfullyUpdated'));
         },
-        () => {}
+        ({errors}) => {console.log(errors)}
     );
     getOneEntity(
         {
             id: pageProps.id,
-            join: ['supplier||firstName', 'category||name', 'brand||name'],
+            join: ['supplier', 'category', 'brand'],
         },
         resetForm
     );
@@ -343,7 +377,7 @@
         getOneEntity(
             {
                 id: newVal.id,
-                join: ['supplier||firstName', 'category||name', 'brand||name'],
+                join: ['supplier', 'category', 'brand'],
             },
             resetForm
         );

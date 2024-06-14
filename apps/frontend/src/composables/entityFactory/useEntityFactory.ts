@@ -6,7 +6,7 @@ import DataTable from '@/components/ui/DataTable.vue';
 import TheBreadcrumbs from '@/components/ui/TheBreadcrumbs.vue';
 import { useRouter } from 'vue-router';
 
-export default function useEntityFactory<T, P extends object, S extends object = any>(client: ApiClient<T, S>) {
+export default function useEntityFactory<T, P extends object, S extends object = any, U extends object = any>(client: ApiClient<T, S, U>) {
     return function useEntity(defaultSettings: P = {} as P) {
         const loading = ref(false);
         const totalPages = ref(1);
@@ -178,12 +178,22 @@ export default function useEntityFactory<T, P extends object, S extends object =
                     values: res,
                 });
             } catch (err: any) {
-                setTimeout(() => {
-                    if (err.status === 404) {
-                        goTo('notFound');
-                    }
-                }, 5000);
+                if (err.status === 404) {
+                    goTo('notFound');
+                }
                 console.error(err);
+            }
+        }
+        async function updateEntity(data: U,msg?:string) {
+            try {
+                loading.value = true;
+                await client.updateOne(data);
+                showSuccessNotification(msg || t('entitiesPages.TheEntityHasBeenSuccessfullyUpdated'));
+                window.scrollTo({ top: 0, behavior: 'smooth' })
+            } catch (err: any) {
+                console.error(err);
+            } finally {
+                loading.value = false;
             }
         }
         return {
@@ -202,6 +212,9 @@ export default function useEntityFactory<T, P extends object, S extends object =
             addEntity,
             goTo,
             getOneEntity,
+            handleEmptyLang,
+            cleanResource,
+            updateEntity,
         };
     };
 }

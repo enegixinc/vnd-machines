@@ -3,14 +3,14 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { RequestsController } from './requests.controller';
 import { RequestsService } from './requests.service';
 import { RequestsSubscriber } from './requests.subscriber';
-import { FillRequestEntity, RequestEntity } from './request.entity';
+import { FillRequestEntity, FillRequestProducts } from './fill-request.entity';
 import { BullModule } from '@nestjs/bullmq';
 import { ConfigModule, ConfigService } from '@backend/config';
 import { RequestsProcessor } from './requests.processor';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([RequestEntity, FillRequestEntity]),
+    TypeOrmModule.forFeature([FillRequestEntity, FillRequestProducts]),
     BullModule.registerQueueAsync({
       name: 'requests',
       imports: [ConfigModule],

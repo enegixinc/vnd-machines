@@ -20,7 +20,6 @@ import {
   TotalRevenue,
   TotalSoldProducts,
 } from '../../categories/decorators';
-import { RequestEntity } from '../../requests/request.entity';
 
 @Entity('users')
 export class UserEntity extends DatabaseEntity implements IUserEntity {
@@ -97,8 +96,8 @@ export class UserEntity extends DatabaseEntity implements IUserEntity {
   @JoinColumn()
   contracts: ContractEntity[];
 
-  @OneToMany(() => RequestEntity, (request) => request.issuedTo)
-  requests: RequestEntity[];
+  // @OneToMany(() => FillRequestEntity, (request) => request.supplier)
+  // fillRequests: FillRequestEntity[];
 
   documents: string[];
 

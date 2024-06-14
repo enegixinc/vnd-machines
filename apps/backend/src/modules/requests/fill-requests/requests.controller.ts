@@ -1,17 +1,17 @@
 import { Controller } from '@nestjs/common';
 import { Crud, CrudController } from '@dataui/crud';
-import { saneOperationsId } from '../../common/swagger.config';
+import { saneOperationsId } from '../../../common/swagger.config';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { CreateRequestDto } from './dto/create-request.dto';
+import { CreateFillRequestDto } from './dto/create-fill-request.dto';
 import { RequestsService } from './requests.service';
-import { RequestEntity } from './request.entity';
+import { FillRequestEntity } from './fill-request.entity';
 
 @Crud({
   model: {
-    type: RequestEntity,
+    type: FillRequestEntity,
   },
   dto: {
-    create: CreateRequestDto,
+    create: CreateFillRequestDto,
   },
   params: {
     id: {
@@ -33,13 +33,16 @@ import { RequestEntity } from './request.entity';
     limit: 20,
     maxLimit: 100,
     join: {
-      suppliers: {
-        alias: 'users',
-        exclude: ['password'],
+      machine: {},
+      products: {
+        eager: true,
       },
-      products: {},
-      categories: {},
-      orders: {},
+      fillRequestProducts: {
+        eager: true,
+      },
+      'fillRequestProducts.product': {
+        eager: true,
+      },
     },
   },
   routes: {
@@ -52,10 +55,10 @@ import { RequestEntity } from './request.entity';
 @ApiTags('requests')
 @ApiBearerAuth('JWT-auth')
 @Controller('requests')
-export class RequestsController implements CrudController<RequestEntity> {
+export class RequestsController implements CrudController<FillRequestEntity> {
   constructor(public service: RequestsService) {}
 
-  get base(): CrudController<RequestEntity> {
+  get base(): CrudController<FillRequestEntity> {
     return this;
   }
 }

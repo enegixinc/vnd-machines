@@ -40,15 +40,15 @@
                         :placeholder="$t('placeHolders.enterCostPrice')"
                     />
                     <input-text
-                        class="col-span-3 sm:col-span-2"
+                        class="col-span-2 sm:col-span-2"
                         name="price"
                         type="number"
                         :field-label="$t('fields.price')"
                         :placeholder="$t('placeHolders.enterCostPrice')"
                     />
-                    <switch-input name="pricePerKilo" :field-label="$t('fields.pricePerKilo')" />
+                    <switch-input class="col-span-2 sm:col-span-1" name="pricePerKilo" :field-label="$t('fields.pricePerKilo')" />
                 </div>
-                <div class="grid grid-cols-4 sm:grid-cols-4 gap-4">
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
                     <input-text name="vatIndex" type="number" :field-label="$t('fields.vatIndex')" :placeholder="$t('placeHolders.enterVatIndex')" />
                     <input-text name="sortIndex" type="number" :field-label="$t('fields.sortIndex')" :placeholder="$t('placeHolders.enterSortIndex')" />
                     <input-text name="ageControl" type="number" :field-label="$t('fields.ageControl')" :placeholder="$t('placeHolders.enterAgeControl')" />

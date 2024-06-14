@@ -139,7 +139,10 @@
         "recoverUser": "استعادة المستخدم",
         "TheUserHasBeenSuccessfullyRecovered": "تم استعادة المستخدم بنجاح.",
         "TheUserHasBeenSuccessfullyDeleted": "تم حذف المستخدم بنجاح.",
-        "addNewUser": "إضافة مستخدم جديد"
+        "addNewUser": "إضافة مستخدم جديد",
+        "editUser": "تعديل بيانات المستخدم",
+        "updateUser": "تحديث بيانات المستخدم",
+        "TheUserHasBeenSuccessfullyUpdated": "تم تحديث بيانات المستخدم بنجاح"
     },
     "authPages": {
         "signIn": "تسجيل الدخول",
@@ -154,6 +157,15 @@
         "signOut": "تسجيل الخروج",
         "backTo": "العودة إلي"
     },
+    "machinesPages": {
+        "machines": "الماكينات",
+        "sendEmail": "إرسال رسالة إلي البريد الإلكتروني",
+        "sendWhatsapp": "إرسال رسالة إلي الواتساب",
+        "noSupplier": "لا يوجد مورد !",
+        "atLeastOneProduct": "ملاحظة: يجب عليك اختيار منتج واحد على الأقل.",
+        "createRequest": "إنشاء الطلب",
+        "TheRequestHasBeenSuccessfullyCreated": "تم إنشاء الطلب بنجاح"
+    },
     "languages": {
         "English": "English",
         "Arabic": "اللغة العربية"
@@ -163,7 +175,8 @@
         "number": "{field} يجب ان يكون رقم",
         "email": "ادخل البريد اﻹلكتروني بطريقة صحيحة !",
         "maxLength": "{field}  لا يمكن أن يتجاوز {max} حرفًا !",
-        "minLength": "{field} يجب أن يكون طوله {min} أحرف على الأقل !"
+        "minLength": "{field} يجب أن يكون طوله {min} أحرف على الأقل !",
+        "positive": "{field} يجب ان يكون اكبر من الصفر"
     },
     "fields": {
         "email": "البريد الإلكتروني",
@@ -216,7 +229,24 @@
         "lastName": "اسم العائلة",
         "auto": "تلقائي",
         "duration": "المدة",
-        "totalSoldProducts": "اجمالي المنتجاب المباعة"
+        "totalSoldProducts": "اجمالي المنتجاب المباعة",
+        "paymentType": "فيزا / كاش",
+        "totalProducts": "إجمالي المنتجات",
+        "tax": "ضريبه",
+        "totalPaid": "إجمالي المدفوع",
+        "currency": "العملة",
+        "model": "طراز",
+        "machineOnline": "الالة متصلة",
+        "stock": "رصيد",
+        "products": "المنتجات",
+        "product": "المنتج",
+        "quantity": "الكمية",
+        "machine": "الالة"
+    },
+    "machineOnline": {
+
+        "online": "متصل",
+        "offline": "غير متصل"
     },
     "roles": {
         "admin": "مدير",
@@ -242,6 +272,7 @@
         "enterAR": "ادخل {field} باللغة العربية",
         "enterEn": "ادخل {field} English",
         "selectSupplier": "اختر المورد",
+        "selectMachine": "اختر الألة",
         "selectCategory": "اختر الفئه",
         "selectBrand": "اختر العلامة التجاريه",
         "enterFirstName": "ادخل الاسم الأول",
@@ -253,8 +284,8 @@
         "selectStatus": "اختر الحاله",
         "enterFeePerSale": "ادخل الرسوم لكل عملية بيع",
         "enterDescription": "ادخل الوصف",
-        "enterTheContractDuration": "ادخل مدة العقد"
-
+        "enterTheContractDuration": "ادخل مدة العقد",
+        "selectProducts": "اختر المنتجات"
     },
     "allRightsReserved": "جميع الحقوق محفوظة",
     "errors": {
@@ -280,7 +311,7 @@
         "manageContracts": "إدارة العقود",
         "newContract": "إضافة عقد جديد",
         "manageMachines": "إدارة الماكينات",
-        "newMachine": "إضافة اله جديده",
+        "fillMachine": "تعبئة الألة",
         "machines": "ماكينات",
         "products": "منتجات",
         "manageProducts": "إدارة المنتجات",
@@ -299,12 +330,13 @@
         "createRequest": "إنشاء طلب",
         "reports": "التقارير",
         "mangeUsers": "إدارة المستخدمون",
-        "home": "الرئيسية"
+        "home": "الرئيسية",
+        "manageOrders": "إدارة المبيعات"
     },
     "headings": {
         "machinesAndProducts": "الماكينات و المنتجات",
         "categoriesAndBrands": "الفئات و العلامات التجاريه",
-        "requestsAndReports": "الطلبات و التقارير"
+        "more": "المزيد"
     },
     "inactive": "غير نشط",
     "active": "نشط",
@@ -325,12 +357,16 @@
         "contracts": "العقود",
         "deletedContracts": "العقود المحذوفة",
         "recoverContract": "استعادة العقد",
-        "addContract": "إضافة العقد"
+        "addContract": "إضافة العقد",
+        "editContract": "تعديل العقد",
+        "updateContract": "تحديث العقد",
+        "TheContractHasBeenSuccessfullyUpdated": "تم تحديث العقد بنجاح"
     },
     "entitiesPages": {
         "TheEntityHasBeenSuccessfullyRecovered": "تم  المستخدم بنجاح.",
         "TheEntityHasBeenSuccessfullyDeleted": "تم حذف  بنجاح.",
-        "TheEntityHasBeenSuccessfullyAdded": "تم الإضافة  بنجاح."
+        "TheEntityHasBeenSuccessfullyAdded": "تم الإضافة  بنجاح.",
+        "TheEntityHasBeenSuccessfullyUpdated": "تم التحديث بنجاح"
     },
     "productsPages": {
         "products": "المنتجات",
@@ -338,7 +374,9 @@
         "recoverProducts": "استعادة المنتج",
         "dimensions": "الأبعاد",
         "addProduct": "إضافة المنتج",
-        "editProduct": "تعديل المنتج"
+        "editProduct": "تعديل المنتج",
+        "updateProduct": "تحديث المنتج",
+        "TheProductHasBeenSuccessfullyUpdated": "تم تحديث المنتج بنجاح"
     },
     "Unknown": "غير معروف",
     "categoriesPages": {
@@ -346,17 +384,28 @@
         "deletedCategories": "الفئات المحذوفة",
         "recoverCategory": "استعادة الفئة",
         "addNewCategory": "إضافة فئة جديدة",
-        "addNewCategoryButton": "إضافة الفئة"
+        "addNewCategoryButton": "إضافة الفئة",
+        "editCategory": "تعديل الفئة",
+        "updateCategory": "تحديث الفئة",
+        "TheCategoryHasBeenSuccessfullyUpdated": "تم تحديث الفئة بنجاح"
     },
     "brandsPages": {
         "brands": "العلامات التجاريه",
         "deletedBrands": "العلامات التجاريه المحذوفة",
         "recoverBrand": "استعادة العلامة التجارية",
         "addNewBrand": "إضافة علامة تجارية جديدة",
-        "addNewBrandButton": "إضافة العلامة التجارية"
+        "addNewBrandButton": "إضافة العلامة التجارية",
+        "editBrand": "تعديل العلامة التجارية",
+        "updateBrand": "تحديث العلامة التجارية",
+        "TheBrandHasBeenSuccessfullyUpdated": "تم تحديث العلامة التجارية بنجاح"
+    },
+    "ordersPages": {
+        "orders": "المبيعات",
+        "visa": "فيزا",
+        "cash": "كاش"
     },
     "noResults": "لم يتم العثور على عناصر. فكر في تغيير طلب البحث.",
-    "noOptions": "القائمة فارغة.",
+    "noOptions": "ابحث عن بعض العناصر.",
     "feeType": {
         "percentage": "نسبه",
         "fixed": "ثابت"
