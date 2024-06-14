@@ -12,6 +12,7 @@ import { errorsLinks } from '@/router/errors';
 import { ordersLinks } from '@/router/orders';
 import { machinesLinks } from '@/router/machines';
 
+
 const routes: RouteRecordRaw[] = [
     // dashboard
     { path: '/', name: 'home', component: () => import('@/pages/TheIndex.vue') },

@@ -1,7 +1,6 @@
 <template>
     <div>
         <TheBreadcrumbs :before-sub-title="$t('edit')" :current-location="id" />
-
         <div class="panel pb-0 mt-6">
             <div class="flex md:items-center md:flex-row flex-col mb-5 gap-5">
                 <h5 class="font-semibold text-lg dark:text-white-light">{{ $t('productsPages.editProduct') }}</h5>
