@@ -1,8 +1,9 @@
 import { VNDClient } from '@frontend/api-sdk';
-import { type AxiosRequestConfig,type AxiosResponse } from 'axios';
-import {useUser} from "@/stores/user"
+import { type AxiosRequestConfig, type AxiosResponse } from 'axios';
+import { useUser } from '@/stores/user';
 import Swal from 'sweetalert2';
-import {getTranslation} from '@/utils/i18nHelper'
+import { getTranslation } from '@/utils/i18nHelper';
+
 const user = useUser();
 // eslint-disable-next-line no-unused-vars
 type Middleware<T> = (value: T) => Promise<T> | T;
@@ -14,14 +15,13 @@ export const vndClient = new VNDClient({
     },
 });
 const errorHandler: Middleware<AxiosResponse> = async (response) => {
-
-    if (response.status !== 200 &&  response.status !== 201) {
+    if (response.status !== 200 && response.status !== 201 && response.status !== 404) {
         Swal.fire({
             icon: 'error',
             title: getTranslation('errors.ops'),
             text: response.data?.message || getTranslation('errors.errorHappened'),
             padding: '0',
-            confirmButtonColor:'primary',
+            confirmButtonColor: 'primary',
         });
     }
 
@@ -29,9 +29,7 @@ const errorHandler: Middleware<AxiosResponse> = async (response) => {
 
     return response;
 };
-const attachHeaders: Middleware<AxiosRequestConfig<unknown>> = async (
-    request,
-) => {
+const attachHeaders: Middleware<AxiosRequestConfig<unknown>> = async (request) => {
     return {
         ...request,
         headers: {
@@ -43,4 +41,3 @@ const attachHeaders: Middleware<AxiosRequestConfig<unknown>> = async (
 
 vndClient.request.config.interceptors.request.use(attachHeaders);
 vndClient.request.config.interceptors.response.use(errorHandler);
-

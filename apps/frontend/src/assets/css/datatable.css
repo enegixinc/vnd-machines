@@ -80,11 +80,13 @@
     @apply dark:border-[#191e3a];
 }
 
-.datatable .bh-table-responsive table th.bh-sticky,
-.datatable .bh-table-responsive table td.bh-sticky {
+.datatable .bh-table-responsive table th.bh-sticky{
     @apply bg-[#f6f8fa]  dark:bg-[#1a2941];
 }
+.datatable .bh-table-responsive table td.bh-sticky{
+    @apply bg-white  dark:bg-black z-10;
 
+}
 .datatable .bh-filter-menu {
     @apply min-w-max;
 }

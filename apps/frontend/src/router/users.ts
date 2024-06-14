@@ -11,13 +11,19 @@ export const userLinks :RouteRecordRaw[] = [
         component: () => import('@/pages/users/suppliers/TheIndex.vue'),
     },
     {
-        path: '/deleted-users',
+        path: '/users/deleted',
         name: 'deletedUsers',
         component: () => import('@/pages/users/DeletedUsers/TheIndex.vue'),
     },
     {
-        path:'/add-user',
+        path:'/users/add',
         name:'addUser',
         component: () => import('@/pages/users/addUser/TheIndex.vue'),
+    },
+    {
+        path: '/users/edit/:id',
+        props: true,
+        name: 'edit-user',
+        component: () => import('@/pages/users/editUser/TheIndex.vue'),
     }
 ]

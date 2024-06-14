@@ -7,13 +7,19 @@ export const categoriesLinks: RouteRecordRaw[] = [
         component: () => import('@/pages/categories/TheIndex.vue'),
     },
     {
-        path: '/deleted-categories',
+        path: '/categories/deleted',
         name: 'deletedCategories',
         component: () => import('@/pages/categories/DeletedCategories/TheIndex.vue'),
     },
     {
-        path: '/add-categories',
+        path: '/categories/add',
         name: 'addCategories',
         component: () => import('@/pages/categories/addCategory/index.vue'),
     },
+    {
+        path: '/categories/edit/:id',
+        props: true,
+        name: 'edit-category',
+        component: () => import('@/pages/categories/editCategory/TheIndex.vue'),
+    }
 ];

@@ -9,11 +9,13 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <input-text
                         name="name.ar"
+                        requierd
                         :field-label="$t('fields.ar', { field: $t('fields.name') })"
                         :placeholder="$t('placeHolders.enterAR', { field: $t('fields.name') })"
                     />
                     <input-text
                         name="name.en"
+                        requierd
                         :field-label="$t('fields.en', { field: $t('fields.name') })"
                         :placeholder="$t('placeHolders.enterEn', { field: $t('fields.name') })"
                     />

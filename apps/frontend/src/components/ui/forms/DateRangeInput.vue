@@ -1,7 +1,7 @@
 <template>
-    <div :class="{ 'has-error': errorMessage || endDateErrorMessage, 'has-success': (meta.dirty && meta.valid) || (endDateMeta.dirty && endDateMeta.valid) }">
+    <div :class="{ 'has-error': errorMessage || endDateErrorMessage}">
         <label for="duration">{{ $t('fields.duration') }}<span v-if="requierd" class="text-danger mx-1">*</span></label>
-        <flat-pickr id="duration" :placeholder="$t('placeHolders.enterTheContractDuration')" class="form-input" :config="rangeCalendar"></flat-pickr>
+        <flat-pickr v-model="dateValue"  id="duration" :placeholder="$t('placeHolders.enterTheContractDuration')" class="form-input" :config="rangeCalendar"></flat-pickr>
         <div class="min-h-[32px] py-[8px] min-w[1px] overflow-hidden">
             <Transition name="error" mode="out-in">
                 <span
@@ -31,9 +31,9 @@
         requierd?: boolean;
     }
     const data = defineProps<props>();
-    const { errorMessage, meta, resetField } = useField(() => data.startDate, undefined, {});
-    const { errorMessage: endDateErrorMessage, meta: endDateMeta, resetField: endDateResetField } = useField(() => data.endDate, undefined, {});
-
+    const { errorMessage, setValue,value:startDateValue } = useField(() => data.startDate, undefined, {});
+    const { errorMessage: endDateErrorMessage, setValue: endDateResetField,value:endDateValue } = useField(() => data.endDate, undefined, {});
+    const dateValue = ref()
     const { locale: currentLang } = useI18n();
     const store = useAppStore();
     const rangeCalendar = ref({
@@ -43,6 +43,9 @@
         position: store.rtlClass === 'rtl' ? 'auto right' : 'auto left',
         locale: 'default',
         onChange: (selectedDates: Date[]) => {
+                if (!selectedDates.length){
+                return
+            }
             let startDate: string;
             let endDate: string;
             if (selectedDates.length === 2) {
@@ -52,15 +55,17 @@
                 startDate = flatpickr.formatDate(selectedDates[0], 'Y-m-d H:i');
                 endDate = '';
             }
-            resetField({
-                value: startDate,
-            });
-            endDateResetField({
-                value: endDate,
-            });
+            setValue(startDate,false);
+            endDateResetField(endDate,false);
         },
     });
-
+watch([startDateValue,endDateValue],([start,end])=>{
+    if (start && end && !dateValue.value){
+        dateValue.value = [start,end]
+    }else if(start === '' && end === ''){
+        dateValue.value=null
+    }
+})
     if (currentLang.value === 'eg') {
         //@ts-ignore
         rangeCalendar.value.locale = Arabic;
