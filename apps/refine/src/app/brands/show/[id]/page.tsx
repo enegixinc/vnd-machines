@@ -2,11 +2,12 @@
 
 import { ImageField, Show, TextField } from '@refinedev/antd';
 import { useShow } from '@refinedev/core';
-import { Descriptions, Typography } from 'antd';
+import { Descriptions, Divider, Typography } from 'antd';
 import React from 'react';
 import { SerializedBrandDto } from '@frontend/api-sdk';
 import { safeArrayCounter } from '@helpers';
 import { defaultSrc } from '@app/config';
+import { ShowFinance } from '@components/sections/finance';
 
 const { Title } = Typography;
 
@@ -55,16 +56,6 @@ export default function BrandShow() {
           <TextField value={record?.name.ar ?? 'N/A'} />
         </Descriptions.Item>
 
-        <Descriptions.Item label="Total Sold Products">
-          <TextField value={record.totalSoldProducts} />
-        </Descriptions.Item>
-        <Descriptions.Item label="Total Orders">
-          <TextField value={record.totalOrders} />
-        </Descriptions.Item>
-        <Descriptions.Item label="Total Revenue">
-          <TextField value={record.totalRevenue} />
-        </Descriptions.Item>
-
         <Descriptions.Item label="Updated At">
           <TextField value={record.updatedAt} />
         </Descriptions.Item>
@@ -80,6 +71,9 @@ export default function BrandShow() {
           ))}
         </Descriptions.Item>
       </Descriptions>
+
+      <Divider />
+      <ShowFinance record={record} />
     </Show>
   );
 }

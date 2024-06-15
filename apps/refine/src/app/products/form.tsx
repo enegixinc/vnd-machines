@@ -146,33 +146,21 @@ export const ProductForm = ({
         </Card>
         <Card title="Dimensions" style={{ flex: 1 }}>
           <Flex gap={20} wrap="wrap">
-            <Form.Item
-              label="Height"
-              name={['dimension', 'height']}
-              rules={[{ required: true }]}
-            >
+            <Form.Item label="Height" name={['dimension', 'height']}>
               <InputNumber
                 style={{
                   width: '100%',
                 }}
               />
             </Form.Item>
-            <Form.Item
-              label="Length"
-              name={['dimension', 'length']}
-              rules={[{ required: true }]}
-            >
+            <Form.Item label="Length" name={['dimension', 'length']}>
               <InputNumber
                 style={{
                   width: '100%',
                 }}
               />
             </Form.Item>
-            <Form.Item
-              label="Width"
-              name={['dimension', 'width']}
-              rules={[{ required: true }]}
-            >
+            <Form.Item label="Width" name={['dimension', 'width']}>
               <InputNumber
                 style={{
                   width: '100%',

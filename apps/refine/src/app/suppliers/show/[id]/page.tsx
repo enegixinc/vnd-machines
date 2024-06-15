@@ -2,14 +2,27 @@
 
 import { Show, TextField } from '@refinedev/antd';
 import { useShow } from '@refinedev/core';
-import { Descriptions, Typography } from 'antd';
+import { Descriptions, Divider, Typography } from 'antd';
 import React from 'react';
-import { SharedUserDto } from './types'; // Assuming you have a types file
+import { IUserEntity } from '../../../../../../../libs/core';
+import { useParams } from 'next/navigation';
+import { ShowFinance } from '@components/sections/finance';
 
 const { Title } = Typography;
 
 export default function SupplierShow() {
-  const { queryResult } = useShow<SharedUserDto>();
+  const { id } = useParams();
+  const { queryResult } = useShow<IUserEntity>({
+    resource: 'users',
+    id: id.toString(),
+    meta: {
+      join: [
+        {
+          field: 'products',
+        },
+      ],
+    },
+  });
   const { data, isLoading } = queryResult;
 
   const record = data?.data;
@@ -65,6 +78,33 @@ export default function SupplierShow() {
             <TextField value={record.lastSyncAt} />
           </Descriptions.Item>
         )}
+      </Descriptions>
+      <Divider />
+      <ShowFinance record={record} />
+      <Divider />
+      <Descriptions
+        bordered
+        column={1}
+        labelStyle={{
+          fontWeight: 'bold',
+          width: '20%',
+        }}
+      >
+        <Descriptions.Item label="Address">
+          <TextField value={record.address} />
+        </Descriptions.Item>
+        <Descriptions.Item label="City">
+          <TextField value={record.city} />
+        </Descriptions.Item>
+        <Descriptions.Item label="State">
+          <TextField value={record.state} />
+        </Descriptions.Item>
+        <Descriptions.Item label="Zip Code">
+          <TextField value={record.zipCode} />
+        </Descriptions.Item>
+        <Descriptions.Item label="Country">
+          <TextField value={record.country} />
+        </Descriptions.Item>
       </Descriptions>
     </Show>
   );

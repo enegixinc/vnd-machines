@@ -21,7 +21,8 @@
     "paths": {
       "@*": ["./src/*"],
       "@pages/*": ["./pages/*"],
-      "@frontend/api-sdk": ["../../libs/frontend/api-sdk/gen/index.ts"]
+      "@frontend/api-sdk": ["../../libs/frontend/api-sdk/gen/index.ts"],
+      "@core": ["../../libs/core/src"],
     },
     "incremental": true
   },

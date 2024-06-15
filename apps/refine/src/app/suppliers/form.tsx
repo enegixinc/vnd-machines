@@ -1,9 +1,22 @@
 'use client';
 
-import React from 'react';
-import { Card, Form, Input, Switch } from 'antd';
+import React, { useState } from 'react';
+import { Card, Divider, Form, Input, Select, Switch, Transfer } from 'antd';
+import { UserRole } from '@core';
 
-const SupplierForm = ({ formProps }: { formProps: any }) => {
+const SupplierForm = ({
+  formProps,
+  products,
+}: {
+  formProps: any;
+  products: any[];
+}) => {
+  const [targetKeys, setTargetKeys] = useState<string[]>([]);
+
+  const handleTransferChaAnge = (nextTargetKeys: string[]) => {
+    console.log(nextTargetKeys);
+    setTargetKeys(nextTargetKeys);
+  };
   return (
     <Form {...formProps} layout="vertical">
       <Card title="Basic Information">
@@ -41,6 +54,23 @@ const SupplierForm = ({ formProps }: { formProps: any }) => {
         <Form.Item label="Business Name" name="businessName">
           <Input />
         </Form.Item>
+        <Form.Item initialValue={UserRole.SUPPLIER} label="Role" name="role">
+          <Select
+            placeholder="Select a role"
+            options={[
+              { label: 'Admin', value: UserRole.ADMIN },
+              { label: 'Supplier', value: UserRole.SUPPLIER },
+            ]}
+          />
+        </Form.Item>
+
+        <Form.Item
+          label="Password"
+          name="password"
+          rules={[{ required: true, message: 'Please enter password' }]}
+        >
+          <Input.Password />
+        </Form.Item>
         <Form.Item
           label="Active"
           name="active"
@@ -48,6 +78,20 @@ const SupplierForm = ({ formProps }: { formProps: any }) => {
           initialValue={true}
         >
           <Switch />
+        </Form.Item>
+      </Card>
+      <Divider />
+      <Card title={'Associations'}>
+        <Form.Item label="Products" name="products">
+          <Transfer
+            dataSource={products}
+            showSearch
+            targetKeys={targetKeys}
+            onChange={handleTransferChaAnge}
+            render={(item) => item.name.en}
+            rowKey={(item) => item._id}
+            pagination={true}
+          />
         </Form.Item>
       </Card>
     </Form>

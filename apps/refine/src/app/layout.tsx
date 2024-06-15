@@ -4,7 +4,6 @@ import React, { Suspense } from 'react';
 import { Refine } from '@refinedev/core';
 import { DevtoolsProvider } from '@providers/devtools';
 import { RefineKbar, RefineKbarProvider } from '@refinedev/kbar';
-import { useNotificationProvider } from '@refinedev/antd';
 import routerProvider from '@refinedev/nextjs-router';
 
 import { dataProvider } from '@providers/data-provider';
@@ -12,6 +11,7 @@ import { AntdRegistry } from '@ant-design/nextjs-registry';
 import '@refinedev/antd/dist/reset.css';
 import { ColorModeContextProvider } from '@contexts/color-mode';
 import { authProvider } from '@providers/auth-provider';
+import { useNotificationProvider } from '@refinedev/antd';
 
 export const metadata: Metadata = {
   title: 'VND Machines',
