@@ -1,6 +1,9 @@
 import {
+  BeforeInsert,
+  BeforeUpdate,
   Column,
   Entity,
+  Index,
   ManyToOne,
   ObjectLiteral,
   OneToMany,
@@ -32,11 +35,59 @@ export class ProductEntity
   extends MagexDatabaseEntity
   implements IProductEntity
 {
+  // @AfterLoad()
+  // async afterLoad() {
+  //   const { en, ar } = this.name;
+  //   if (en && ar) {
+  //     this.fullName = `${en} - ${ar}`;
+  //   } else {
+  //     this.fullName = en || ar;
+  //   }
+  // }
+
+  @BeforeInsert()
+  @BeforeUpdate()
+  async beforeInsertOrUpdate() {
+    const { en, ar } = this.name;
+    if (en && ar) {
+      this.fullName = `${en} - ${ar}`;
+    } else {
+      this.fullName = en || ar;
+    }
+  }
+
   @OneToMany(
     () => FillRequestProducts,
     (fillRequestProducts) => fillRequestProducts.product
   )
   fillRequestProducts: FillRequestProducts[];
+
+  @Column({
+    type: 'varchar',
+    nullable: true,
+  })
+  fullName: string;
+
+  // @VirtualColumn({
+  //   type: 'varchar',
+  //   query: (entity) => `
+  //       SELECT
+  //           CONCAT(
+  //               COALESCE(P.name->>'en', ''),
+  //               ' - ',
+  //               COALESCE(P.name->>'ar', '')
+  //           )
+  //       FROM
+  //           PRODUCTS P
+  //       WHERE
+  //           P._id = ${entity}._id
+  //   `,
+  //   transformer: {
+  //     from: (value) => value,
+  //     to: (value) => value,
+  //   },
+  // })
+  // fullName: string;
 
   @VirtualColumn({
     type: 'numeric',
@@ -133,6 +184,7 @@ export class ProductEntity
     })
   )
   @Column({ type: 'varchar', nullable: true })
+  @Index({ fulltext: true })
   upc: string;
 
   @Factory((faker) =>
@@ -165,6 +217,7 @@ export class ProductEntity
     ar: fakerAR.commerce.productName(),
   }))
   @Column({ type: 'jsonb' })
+  @Index({ fulltext: true })
   name: MultiLang;
 
   @Factory((faker) =>
@@ -174,6 +227,7 @@ export class ProductEntity
     })
   )
   @Column({ type: 'varchar', nullable: true })
+  @Index({ fulltext: true })
   barcode: string;
 
   @Factory((faker) =>
@@ -196,6 +250,7 @@ export class ProductEntity
     ar: fakerAR.commerce.productDescription(),
   }))
   @Column('jsonb', { nullable: true })
+  @Index({ fulltext: true })
   description: MultiLang;
 
   @Factory((faker) => ({

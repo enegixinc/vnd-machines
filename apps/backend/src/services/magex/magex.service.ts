@@ -79,7 +79,7 @@ export class MagexService extends MagexConnector implements OnModuleInit {
   @Cron(CronExpression.EVERY_MINUTE)
   @timer()
   async login() {
-    // if (process.env.NODE_ENV !== 'production') return;
+    if (process.env.NODE_ENV !== 'production') return;
 
     // @ts-expect-error - TODO: add type
     const { accessToken } = await this.auth.postUsersLogin({
