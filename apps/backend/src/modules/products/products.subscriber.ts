@@ -1,11 +1,11 @@
 import { DataSource, EventSubscriber } from 'typeorm';
 import { Inject } from '@nestjs/common';
 import { EntitySyncer } from '../../common/entities/entity-syncer/entity-syncer';
-import { ProductEntity } from './product.entity';
 import { ISerializedMagexProduct } from '@core';
 import { CategoryEntity } from '../categories/category.entity';
 import { BrandEntity } from '../brands/brand.entity';
 import { MagexService } from '../../services/magex/magex.service';
+import { ProductEntity } from './entities/product.entity';
 
 @EventSubscriber()
 export class ProductSubscriber extends EntitySyncer<ProductEntity> {

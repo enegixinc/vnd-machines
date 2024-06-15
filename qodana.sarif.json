@@ -17273,7 +17273,7 @@
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": "apps/backend/src/modules/products/product.entity.ts",
+                  "uri": "apps/backend/src/modules/products/entities/product.entity.ts",
                   "uriBaseId": "SRCROOT"
                 },
                 "region": {
@@ -18113,7 +18113,7 @@
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": "apps/backend/src/modules/products/product.entity.ts",
+                  "uri": "apps/backend/src/modules/products/entities/product.entity.ts",
                   "uriBaseId": "SRCROOT"
                 },
                 "region": {

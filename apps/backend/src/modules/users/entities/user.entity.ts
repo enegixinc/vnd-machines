@@ -11,7 +11,7 @@ import { Factory } from 'nestjs-seeder';
 import bcrypt from 'bcrypt';
 
 import { DatabaseEntity } from '../../../common/database.entity';
-import { ProductEntity } from '../../products/product.entity';
+import { ProductEntity } from '../../products/entities/product.entity';
 import { CategoryEntity } from '../../categories/category.entity';
 import { BrandEntity } from '../../brands/brand.entity';
 import { ContractEntity } from '../../contracts/entities/contract.entity';

@@ -1,8 +1,10 @@
 import { decorate } from 'ts-mixer';
-import { IsOptional } from 'class-validator';
+import { IsOptional, ValidateNested } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import { Dimension, MultiLang } from '@core';
+import { MultiLang } from '@core';
 import { CrudValidationGroups } from '@dataui/crud';
+import { Type } from 'class-transformer';
+import { DimensionEntity } from '../../entities/dimension.entity';
 
 const { CREATE, UPDATE } = CrudValidationGroups;
 
@@ -148,20 +150,16 @@ export class SharedProductDto {
   )
   specification: MultiLang;
 
-  @decorate(IsOptional({ groups: [UPDATE, CREATE] }))
-  @decorate(
-    ApiProperty({
-      example: {
-        height: 10,
-        length: 20,
-        width: 30,
-      },
-      description: 'Dimensions of the product',
-      type: Object,
-      required: false,
-    })
-  )
-  dimension: Dimension;
+  @Type(() => DimensionEntity)
+  @ValidateNested()
+  @ApiProperty({
+    example: {
+      height: 20,
+      length: 20,
+      width: 20,
+    },
+  })
+  dimension: DimensionEntity;
 
   @decorate(IsOptional({ groups: [UPDATE, CREATE] }))
   @decorate(

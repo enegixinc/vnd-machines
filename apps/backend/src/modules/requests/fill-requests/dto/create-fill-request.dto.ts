@@ -8,7 +8,7 @@ import {
 import { ApiProperty, PickType } from '@nestjs/swagger';
 import { CrudValidationGroups } from '@dataui/crud';
 import { ProductExistsValidator } from '../../../products/validators/product-exists';
-import { ProductEntity } from '../../../products/product.entity';
+import { ProductEntity } from '../../../products/entities/product.entity';
 import { MachineEntity } from '../../../machines/entities/machine.entity';
 import { Type } from 'class-transformer';
 import { MachineExistsValidator } from '../../../machines/validators/product-exists';

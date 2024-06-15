@@ -7,7 +7,7 @@ import {
   ISerializedUser,
   MultiLang,
 } from '@core';
-import { ProductEntity } from '../products/product.entity';
+import { ProductEntity } from '../products/entities/product.entity';
 import { UserEntity } from '../users/entities/user.entity';
 import { CategoryEntity } from '../categories/category.entity';
 import { MagexService } from '../../services/magex/magex.service';

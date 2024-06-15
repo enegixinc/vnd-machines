@@ -4,13 +4,14 @@ import {
   Column,
   Entity,
   Index,
+  JoinColumn,
   ManyToOne,
   ObjectLiteral,
   OneToMany,
+  OneToOne,
   VirtualColumn,
 } from 'typeorm';
 import {
-  Dimension,
   IProductEntity,
   ISerializedBrand,
   ISerializedCategory,
@@ -21,14 +22,15 @@ import {
 import { fakerAR } from '@faker-js/faker';
 import { Factory } from 'nestjs-seeder';
 
-import { MagexDatabaseEntity } from '../../common/database.entity';
-import { UserEntity } from '../users/entities/user.entity';
-import { BrandEntity } from '../brands/brand.entity';
-import { CategoryEntity } from '../categories/category.entity';
-import { MagexService } from '../../services/magex/magex.service';
-import { OrderProductsDetails } from '../orders/order-details.entity';
-import { MachineProduct } from '../machines/entities/machine-product.entity';
-import { FillRequestProducts } from '../requests/fill-requests/fill-request.entity';
+import { MagexDatabaseEntity } from '../../../common/database.entity';
+import { FillRequestProducts } from '../../requests/fill-requests/fill-request.entity';
+import { OrderProductsDetails } from '../../orders/order-details.entity';
+import { MachineProduct } from '../../machines/entities/machine-product.entity';
+import { UserEntity } from '../../users/entities/user.entity';
+import { BrandEntity } from '../../brands/brand.entity';
+import { CategoryEntity } from '../../categories/category.entity';
+import { MagexService } from '../../../services/magex/magex.service';
+import { DimensionEntity } from './dimension.entity';
 
 @Entity('products')
 export class ProductEntity
@@ -302,8 +304,11 @@ export class ProductEntity
       max: 10,
     }),
   }))
-  @Column('jsonb', { nullable: true })
-  dimension: Dimension;
+  @OneToOne(() => DimensionEntity, {
+    cascade: true,
+  })
+  @JoinColumn()
+  dimension: DimensionEntity;
 
   @Factory((faker) =>
     faker.commerce.price({
