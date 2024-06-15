@@ -4,14 +4,16 @@ import { useI18n } from 'vue-i18n';
 import { ApiClient } from '@/types/api';
 import DataTable from '@/components/ui/DataTable.vue';
 import TheBreadcrumbs from '@/components/ui/TheBreadcrumbs.vue';
+import { useRouter } from 'vue-router';
 
-export default function useEntityFactory<T, P extends object>(client: ApiClient<T>) {
+export default function useEntityFactory<T, P extends object, S extends object = any, U extends object = any>(client: ApiClient<T, S, U>) {
     return function useEntity(defaultSettings: P = {} as P) {
         const loading = ref(false);
         const totalPages = ref(1);
         const pageSize = ref<number | undefined>(10);
         const entityData = ref<T[]>([]);
-        const rowLoading = ref<string | unknown>(null);
+        const rowLoading = ref<string | unknown>(null),
+            router = useRouter();
 
         const fetchEntities = async (data: P) => {
             try {
@@ -162,7 +164,38 @@ export default function useEntityFactory<T, P extends object>(client: ApiClient<
             }
             return { ...obj, ...filledData };
         }
-
+        function goTo(pathName: string, routePropName?: string, routePropValue?: string): void {
+            if (routePropName && routePropValue) {
+                router.push({ name: pathName, params: { [routePropName]: routePropValue } });
+            } else {
+                router.push({ name: pathName });
+            }
+        }
+        async function getOneEntity(data: S, resetValues: ResestForm) {
+            try {
+                const res = await client.getOne(data);
+                resetValues({
+                    values: res,
+                });
+            } catch (err: any) {
+                if (err.status === 404) {
+                    goTo('notFound');
+                }
+                console.error(err);
+            }
+        }
+        async function updateEntity(data: U,msg?:string) {
+            try {
+                loading.value = true;
+                await client.updateOne(data);
+                showSuccessNotification(msg || t('entitiesPages.TheEntityHasBeenSuccessfullyUpdated'));
+                window.scrollTo({ top: 0, behavior: 'smooth' })
+            } catch (err: any) {
+                console.error(err);
+            } finally {
+                loading.value = false;
+            }
+        }
         return {
             deleteEntity,
             fetchEntities,
@@ -177,6 +210,11 @@ export default function useEntityFactory<T, P extends object>(client: ApiClient<
             t,
             locale,
             addEntity,
+            goTo,
+            getOneEntity,
+            handleEmptyLang,
+            cleanResource,
+            updateEntity,
         };
     };
 }

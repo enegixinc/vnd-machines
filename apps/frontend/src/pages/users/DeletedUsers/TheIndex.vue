@@ -31,10 +31,10 @@
 import {computed} from 'vue';
 import {useI18n} from 'vue-i18n'
 import IconLoader from "@/components/icon/icon-loader.vue";
-import useUser from "@/composables/users/use-user";
+import {useUser} from "@/composables/users/use-user2";
 import IconMultipleForwardRight from '@/components/icon/icon-multiple-forward-right.vue';
 const {t} = useI18n()
-const {fetchUsers:deletedUsers,loading,totalPages,pageSize,usersData,rowLoading,TheBreadcrumbs,DataTable,recoverUser} = useUser( {
+const {fetchEntities:deletedUsers,loading,totalPages,pageSize,entityData:usersData,rowLoading,TheBreadcrumbs,DataTable,recoverEntity:recoverUser} = useUser( {
     filter:['deletedAt||$notnull'],
     includeDeleted:1
 })

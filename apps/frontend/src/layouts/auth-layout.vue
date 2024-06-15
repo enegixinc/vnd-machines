@@ -42,12 +42,13 @@
                 </button>
             </template>
         </div>
-        <router-view></router-view>
+        <router-view :key="$route.path"></router-view>
     </div>
 </template>
 <script setup lang="ts">
-    import { ref, onMounted } from 'vue';
+    import { onMounted, ref } from 'vue';
     import { useAppStore } from '@/stores/index';
+
     const store = useAppStore();
     const showTopButton = ref(false);
     onMounted(() => {

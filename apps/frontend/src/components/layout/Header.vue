@@ -359,10 +359,10 @@
                                 class="rounded absolute top-0 ltr:left-[95%] rtl:right-[95%] min-w-[180px] bg-white z-[10] text-dark dark:text-white-dark dark:bg-[#1b2e4b] shadow p-0 py-2 hidden"
                             >
                                 <li>
-                                    <router-link to="/datatables/basic">{{ $t('links.manageMachines') }}</router-link>
+                                    <router-link :to="{name:'manageMachines'}">{{ $t('links.manageMachines') }}</router-link>
                                 </li>
                                 <li>
-                                    <router-link to="/datatables/advanced">{{ $t('links.newMachine') }}</router-link>
+                                    <router-link :to="{name:'fillingMachines'}">{{ $t('links.fillMachine') }}</router-link>
                                 </li>
                             </ul>
                         </li>
@@ -447,8 +447,8 @@
                 <li class="menu nav-item relative">
                     <a href="javascript:;" class="nav-link">
                         <div class="flex items-center">
-                            <icon-menu-notes-edit class="shrink-0" />
-                            <span class="px-2">{{ $t('headings.requestsAndReports') }}</span>
+                            <icon-bolt class="shrink-0" />
+                            <span class="px-2">{{ $t('headings.more') }}</span>
                         </div>
                         <div class="right_arrow">
                             <icon-caret-down />
@@ -475,6 +475,9 @@
                         </li>
                         <li>
                             <router-link to="/supplierss">{{ $t('links.reports') }}</router-link>
+                        </li>
+                        <li>
+                            <router-link :to="{name:'manageOrders'}">{{ $t('links.manageOrders') }}</router-link>
                         </li>
                     </ul>
                 </li>
@@ -507,7 +510,7 @@
     import IconMenuUsersGroup from '@/components/icon/icon-users-group.vue';
     import IconMenuUsers from '@/components/icon/icon-users.vue';
     import IconMenuApps from '@/components/icon/menu/icon-menu-apps.vue';
-    import IconMenuNotesEdit from '@/components/icon/icon-notes-edit.vue';
+    import IconBolt from '@/components/icon/icon-bolt.vue';
     import IconMenuLayoutGrid from '@/components/icon/icon-layout-grid.vue';
     import { useUser } from '@/stores/user';
     import IconMenuHome from '@/components/icon/icon-home.vue';

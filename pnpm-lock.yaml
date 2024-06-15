@@ -323,6 +323,9 @@ dependencies:
   vue3-apexcharts:
     specifier: ^1.4.1
     version: 1.5.3(apexcharts@3.49.1)(vue@3.4.27)
+  vue3-number-spinner:
+    specifier: ^0.0.9
+    version: 0.0.9(typescript@5.4.5)
   vue3-perfect-scrollbar:
     specifier: ^1.6.0
     version: 1.6.1(postcss@8.4.38)
@@ -11441,7 +11444,6 @@ packages:
   /core-js@3.35.0:
     resolution: {integrity: sha512-ntakECeqg81KqMueeGJ79Q5ZgQNR+6eaE8sxGCx62zMbAIj65q+uYvatToew3m6eAGdU4gNZwpZ34NMe4GYswg==}
     requiresBuild: true
-    dev: true
 
   /core-util-is@1.0.2:
     resolution: {integrity: sha512-3lqz5YjWTYnW6dlDa5TLaTCcShfar1e40rmcJVwCBJC6mWlFuj0eCHIElmG1g5kyuJ/GD+8Wn4FFCcz4gJPfaQ==}
@@ -12424,6 +12426,7 @@ packages:
   /domhandler@5.0.3:
     resolution: {integrity: sha512-cgwlv/1iFQiFnU96XXgROh8xTeetsnJiDsTc7TYCLFd9+/WNkIqPTxiM/8pSd8VIrhXGTf1Ny1q1hquVqDJB5w==}
     engines: {node: '>= 4'}
+    requiresBuild: true
     dependencies:
       domelementtype: 2.3.0
 
@@ -12437,6 +12440,7 @@ packages:
 
   /domutils@3.1.0:
     resolution: {integrity: sha512-H78uMmQtI2AhgDJjWeQmHwJJ2bLPD3GMmO7Zja/ZZh84wkm+4ut+IUnUdRa8uCGX88DiVx1j6FRe1XfxEgjEZA==}
+    requiresBuild: true
     dependencies:
       dom-serializer: 2.0.0
       domelementtype: 2.3.0
@@ -24796,6 +24800,15 @@ packages:
     dependencies:
       apexcharts: 3.49.1
       vue: 3.4.27(typescript@5.4.5)
+    dev: false
+
+  /vue3-number-spinner@0.0.9(typescript@5.4.5):
+    resolution: {integrity: sha512-6RLMPductN+Xo3+keMxJ7GjLkIUrdiZoJ2TQAnM1TWXHd+ROGG9W/gZEs5Nssf0P5oZy2lqVyTLSfHe0bcWaFA==}
+    dependencies:
+      core-js: 3.35.0
+      vue: 3.4.27(typescript@5.4.5)
+    transitivePeerDependencies:
+      - typescript
     dev: false
 
   /vue3-perfect-scrollbar@1.6.1(postcss@8.4.38):
