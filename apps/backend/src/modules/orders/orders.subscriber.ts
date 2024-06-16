@@ -3,7 +3,7 @@ import { MagexService } from '../../services/magex/magex.service';
 import { Inject } from '@nestjs/common';
 import { EntitySyncer } from '../../common/entities/entity-syncer/entity-syncer';
 import { OrderEntity } from './order.entity';
-import { ProductEntity } from '../products/product.entity';
+import { ProductEntity } from '../products/entities/product.entity';
 import { OrderProductsDetails } from './order-details.entity';
 import { MachineEntity } from '../machines/entities/machine.entity';
 

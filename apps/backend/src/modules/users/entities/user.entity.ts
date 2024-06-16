@@ -1,5 +1,6 @@
 import {
   BeforeInsert,
+  BeforeUpdate,
   Column,
   Entity,
   JoinColumn,
@@ -11,7 +12,7 @@ import { Factory } from 'nestjs-seeder';
 import bcrypt from 'bcrypt';
 
 import { DatabaseEntity } from '../../../common/database.entity';
-import { ProductEntity } from '../../products/product.entity';
+import { ProductEntity } from '../../products/entities/product.entity';
 import { CategoryEntity } from '../../categories/category.entity';
 import { BrandEntity } from '../../brands/brand.entity';
 import { ContractEntity } from '../../contracts/entities/contract.entity';
@@ -20,9 +21,30 @@ import {
   TotalRevenue,
   TotalSoldProducts,
 } from '../../categories/decorators';
+import { MultiLangEntity } from '../../products/entities/multiLang.entity';
 
 @Entity('users')
 export class UserEntity extends DatabaseEntity implements IUserEntity {
+  @BeforeInsert()
+  @BeforeUpdate()
+  handle() {
+    this.searchableText = MultiLangEntity.handleSearchableText([
+      this.firstName,
+      this.lastName,
+      this.businessName,
+      this.email,
+      this.phoneNumber,
+    ]);
+
+    this.fullName = this.firstName + ' ' + this.lastName;
+  }
+
+  @Column({ type: 'varchar' })
+  fullName: string;
+
+  @Column({ type: 'varchar' })
+  searchableText: string;
+
   @BeforeInsert()
   async hashPassword() {
     this.password = await bcrypt.hash(this.password, 10);

@@ -2,7 +2,7 @@ import { BaseSeeder } from '../users/users.seeder';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { ProductEntity } from './product.entity';
+import { ProductEntity } from './entities/product.entity';
 
 @Injectable()
 export class ProductsSeeder extends BaseSeeder {
