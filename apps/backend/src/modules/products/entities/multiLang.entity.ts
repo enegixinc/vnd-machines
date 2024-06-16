@@ -44,7 +44,20 @@ export class MultiLangEntity {
     return en && ar ? `${en} - ${ar}` : en || ar;
   }
 
-  static handleSearchableText<T extends MultiLang[]>(fields: T) {
-    return fields.map((field) => this.handleMultiLang(field)).join(' | ');
+  static handleSearchableText<T extends (MultiLang | number | string)[]>(
+    fields: T
+  ) {
+    return fields
+      .map((field) => {
+        switch (typeof field) {
+          case 'string':
+            return field;
+          case 'number':
+            return field.toString();
+          default:
+            return MultiLangEntity.handleMultiLang(field);
+        }
+      })
+      .join(' | ');
   }
 }

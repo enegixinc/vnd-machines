@@ -58,6 +58,8 @@ export class ProductEntity
       this.detail,
       this.include,
       this.keyFeatures,
+      this.barcode,
+      this.upc,
     ]);
 
     this.fullName = MultiLangEntity.handleMultiLang(this.name);
