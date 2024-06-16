@@ -14,10 +14,8 @@ import {
   ISerializedBrand,
   ISerializedCategory,
   ISerializedUser,
-  MultiLang,
   ReferenceByID,
 } from '@core';
-import { fakerAR } from '@faker-js/faker';
 import { Factory } from 'nestjs-seeder';
 
 import { MagexDatabaseEntity } from '../../../common/database.entity';
@@ -29,31 +27,40 @@ import { BrandEntity } from '../../brands/brand.entity';
 import { CategoryEntity } from '../../categories/category.entity';
 import { MagexService } from '../../../services/magex/magex.service';
 import { DimensionEntity } from './dimension.entity';
+import { MultiLangEntity } from './multiLang.entity';
 
 @Entity('products')
+// @Index(
+//   [
+//     'name',
+//     'description',
+//     'ingredients',
+//     'detail',
+//     'include',
+//     'keyFeatures',
+//     'specification',
+//   ],
+//   {
+//     fulltext: true,
+//   }
+// )
 export class ProductEntity
   extends MagexDatabaseEntity
   implements IProductEntity
 {
-  // @AfterLoad()
-  // async afterLoad() {
-  //   const { en, ar } = this.name;
-  //   if (en && ar) {
-  //     this.fullName = `${en} - ${ar}`;
-  //   } else {
-  //     this.fullName = en || ar;
-  //   }
-  // }
-
   @BeforeInsert()
   @BeforeUpdate()
-  async beforeInsertOrUpdate() {
-    const { en, ar } = this.name;
-    if (en && ar) {
-      this.fullName = `${en} - ${ar}`;
-    } else {
-      this.fullName = en || ar;
-    }
+  handle() {
+    this.searchableText = MultiLangEntity.handleSearchableText([
+      this.name,
+      this.description,
+      this.ingredients,
+      this.detail,
+      this.include,
+      this.keyFeatures,
+    ]);
+
+    this.fullName = MultiLangEntity.handleMultiLang(this.name);
   }
 
   @OneToMany(
@@ -61,33 +68,6 @@ export class ProductEntity
     (fillRequestProducts) => fillRequestProducts.product
   )
   fillRequestProducts: FillRequestProducts[];
-
-  @Column({
-    type: 'varchar',
-    nullable: true,
-  })
-  fullName: string;
-
-  // @VirtualColumn({
-  //   type: 'varchar',
-  //   query: (entity) => `
-  //       SELECT
-  //           CONCAT(
-  //               COALESCE(P.name->>'en', ''),
-  //               ' - ',
-  //               COALESCE(P.name->>'ar', '')
-  //           )
-  //       FROM
-  //           PRODUCTS P
-  //       WHERE
-  //           P._id = ${entity}._id
-  //   `,
-  //   transformer: {
-  //     from: (value) => value,
-  //     to: (value) => value,
-  //   },
-  // })
-  // fullName: string;
 
   @VirtualColumn({
     type: 'numeric',
@@ -212,13 +192,33 @@ export class ProductEntity
   @Column({ type: 'integer', default: 0 })
   ageControl: number;
 
-  @Factory((faker) => ({
-    en: faker.commerce.productName(),
-    ar: fakerAR.commerce.productName(),
-  }))
-  @Column({ type: 'jsonb' })
+  @Column(() => MultiLangEntity)
+  name: MultiLangEntity;
+
+  @Column({ type: 'varchar' })
+  fullName: string;
+
   @Index({ fulltext: true })
-  name: MultiLang;
+  @Column({ type: 'varchar' })
+  searchableText: string;
+
+  @Column(() => MultiLangEntity)
+  description: MultiLangEntity;
+
+  @Column(() => MultiLangEntity)
+  detail: MultiLangEntity;
+
+  @Column(() => MultiLangEntity)
+  include: MultiLangEntity;
+
+  @Column(() => MultiLangEntity)
+  ingredients: MultiLangEntity;
+
+  @Column(() => MultiLangEntity)
+  keyFeatures: MultiLangEntity;
+
+  @Column(() => MultiLangEntity)
+  specification: MultiLangEntity;
 
   @Factory((faker) =>
     faker.number.int({
@@ -244,49 +244,6 @@ export class ProductEntity
     },
   })
   costPrice: number;
-
-  @Factory((faker) => ({
-    en: faker.commerce.productDescription(),
-    ar: fakerAR.commerce.productDescription(),
-  }))
-  @Column('jsonb', { nullable: true })
-  @Index({ fulltext: true })
-  description: MultiLang;
-
-  @Factory((faker) => ({
-    en: faker.commerce.productDescription(),
-    ar: fakerAR.commerce.productDescription(),
-  }))
-  @Column('jsonb', { nullable: true })
-  detail: MultiLang;
-
-  @Factory((faker) => ({
-    en: faker.commerce.productDescription(),
-    ar: fakerAR.commerce.productDescription(),
-  }))
-  @Column('jsonb', { nullable: true })
-  include: MultiLang;
-
-  @Factory((faker) => ({
-    en: faker.commerce.productDescription(),
-    ar: fakerAR.commerce.productDescription(),
-  }))
-  @Column('jsonb', { nullable: true })
-  ingredients: MultiLang;
-
-  @Factory((faker) => ({
-    en: faker.commerce.productDescription(),
-    ar: fakerAR.commerce.productDescription(),
-  }))
-  @Column('jsonb', { nullable: true })
-  keyFeatures: MultiLang;
-
-  @Factory((faker) => ({
-    en: faker.commerce.productDescription(),
-    ar: fakerAR.commerce.productDescription(),
-  }))
-  @Column('jsonb', { nullable: true })
-  specification: MultiLang;
 
   @Factory((faker) => ({
     length: faker.number.float({

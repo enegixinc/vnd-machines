@@ -1,10 +1,16 @@
 import { decorate } from 'ts-mixer';
-import { IsOptional, ValidateNested } from 'class-validator';
+import {
+  IsBoolean,
+  IsNumber,
+  IsOptional,
+  ValidateNested,
+} from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { MultiLang } from '@core';
 import { CrudValidationGroups } from '@dataui/crud';
 import { Type } from 'class-transformer';
 import { DimensionEntity } from '../../entities/dimension.entity';
+import { MultiLangEntity } from '../../entities/multiLang.entity';
 
 const { CREATE, UPDATE } = CrudValidationGroups;
 
@@ -42,19 +48,6 @@ export class SharedProductDto {
   @decorate(IsOptional({ groups: [UPDATE, CREATE] }))
   @decorate(
     ApiProperty({
-      example: {
-        en: 'Name of the product in English',
-        ar: 'Name in Arabic',
-      },
-      description: 'Name of the product in multiple languages',
-      type: Object,
-    })
-  )
-  name: MultiLang;
-
-  @decorate(IsOptional({ groups: [UPDATE, CREATE] }))
-  @decorate(
-    ApiProperty({
       example: '1234567890123',
       description: 'Barcode of the product',
       type: String,
@@ -72,96 +65,80 @@ export class SharedProductDto {
   )
   costPrice: number;
 
-  @decorate(IsOptional({ groups: [UPDATE, CREATE] }))
+  @decorate(Type(() => MultiLangEntity))
+  @decorate(ValidateNested())
   @decorate(
     ApiProperty({
-      example: {
-        en: 'Description of the product in English',
-        ar: 'Name in Arabic',
-      },
-      description: 'Description of the product in multiple languages',
-      type: Object,
+      type: MultiLangEntity,
+    })
+  )
+  name: MultiLangEntity;
+
+  @decorate(Type(() => MultiLangEntity))
+  @decorate(ValidateNested())
+  @decorate(
+    ApiProperty({
+      type: MultiLangEntity,
     })
   )
   description: MultiLang;
 
-  @decorate(IsOptional({ groups: [UPDATE, CREATE] }))
+  @decorate(Type(() => MultiLangEntity))
+  @decorate(ValidateNested())
   @decorate(
     ApiProperty({
-      example: {
-        en: 'Description of the product in English',
-        ar: 'Name in Arabic',
-      },
-      description: 'Description of the product in multiple languages',
-      type: Object,
+      type: MultiLangEntity,
     })
   )
   detail: MultiLang;
 
-  @decorate(IsOptional({ groups: [UPDATE, CREATE] }))
+  @decorate(Type(() => MultiLangEntity))
+  @decorate(ValidateNested())
   @decorate(
     ApiProperty({
-      example: {
-        en: 'Description of the product in English',
-        ar: 'Name in Arabic',
-      },
-      description: 'Description of the product in multiple languages',
-      type: Object,
+      type: MultiLangEntity,
     })
   )
   include: MultiLang;
 
-  @decorate(IsOptional({ groups: [UPDATE, CREATE] }))
+  @decorate(Type(() => MultiLangEntity))
+  @decorate(ValidateNested())
   @decorate(
     ApiProperty({
-      example: {
-        en: 'Description of the product in English',
-        ar: 'Name in Arabic',
-      },
-      description: 'Description of the product in multiple languages',
-      type: Object,
+      type: MultiLangEntity,
     })
   )
   ingredients: MultiLang;
 
-  @decorate(IsOptional({ groups: [UPDATE, CREATE] }))
+  @decorate(Type(() => MultiLangEntity))
+  @decorate(ValidateNested())
   @decorate(
     ApiProperty({
-      example: {
-        en: 'Description of the product in English',
-        ar: 'Name in Arabic',
-      },
-      description: 'Description of the product in multiple languages',
-      type: Object,
+      type: MultiLangEntity,
     })
   )
   keyFeatures: MultiLang;
 
-  @decorate(IsOptional({ groups: [UPDATE, CREATE] }))
+  @decorate(Type(() => MultiLangEntity))
+  @decorate(ValidateNested())
   @decorate(
     ApiProperty({
-      example: {
-        en: 'Description of the product in English',
-        ar: 'Name in Arabic',
-      },
-      description: 'Description of the product in multiple languages',
-      type: Object,
+      type: MultiLangEntity,
     })
   )
   specification: MultiLang;
 
-  @Type(() => DimensionEntity)
-  @ValidateNested()
-  @ApiProperty({
-    example: {
-      height: 20,
-      length: 20,
-      width: 20,
-    },
-  })
+  @decorate(Type(() => DimensionEntity))
+  @decorate(ValidateNested())
+  @decorate(
+    ApiProperty({
+      type: DimensionEntity,
+    })
+  )
   dimension: DimensionEntity;
 
   @decorate(IsOptional({ groups: [UPDATE, CREATE] }))
+  @decorate(IsNumber({}, { groups: [UPDATE, CREATE] }))
   @decorate(
     ApiProperty({
       example: 199.99,
@@ -172,6 +149,7 @@ export class SharedProductDto {
   price: number;
 
   @decorate(IsOptional({ groups: [UPDATE, CREATE] }))
+  @decorate(IsBoolean({ groups: [UPDATE, CREATE] }))
   @decorate(
     ApiProperty({
       example: true,

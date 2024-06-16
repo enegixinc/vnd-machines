@@ -6,6 +6,7 @@ import { CategoryEntity } from '../categories/category.entity';
 import { BrandEntity } from '../brands/brand.entity';
 import { MagexService } from '../../services/magex/magex.service';
 import { ProductEntity } from './entities/product.entity';
+import { MultiLangEntity } from './entities/multiLang.entity';
 
 @EventSubscriber()
 export class ProductSubscriber extends EntitySyncer<ProductEntity> {
@@ -36,6 +37,15 @@ export class ProductSubscriber extends EntitySyncer<ProductEntity> {
 
     return this.dataSource.manager.create(ProductEntity, {
       ...record,
+      fullName: MultiLangEntity.handleMultiLang(record.name),
+      searchableText: MultiLangEntity.handleSearchableText([
+        record.name,
+        record.description,
+        record.ingredients,
+        record.detail,
+        record.include,
+        record.keyFeatures,
+      ]),
       category,
       brand,
     });
