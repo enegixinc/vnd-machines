@@ -4,11 +4,9 @@ import {
   Column,
   Entity,
   Index,
-  JoinColumn,
   ManyToOne,
   ObjectLiteral,
   OneToMany,
-  OneToOne,
   VirtualColumn,
 } from 'typeorm';
 import {
@@ -304,10 +302,7 @@ export class ProductEntity
       max: 10,
     }),
   }))
-  @OneToOne(() => DimensionEntity, {
-    cascade: true,
-  })
-  @JoinColumn()
+  @Column(() => DimensionEntity)
   dimension: DimensionEntity;
 
   @Factory((faker) =>

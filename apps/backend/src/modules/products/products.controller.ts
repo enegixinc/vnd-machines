@@ -48,11 +48,6 @@ import { UpdateProductDto } from './dto/request/update-product.dto';
         alias: 'categories',
       },
       orders: {},
-      dimension: {
-        eager: true,
-        allow: ['height', 'length', 'width'],
-        select: true,
-      },
 
       // 'suppliers.brands': {
       //   eager: true,

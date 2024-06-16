@@ -1,9 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Column, Entity } from 'typeorm';
+import { Column } from 'typeorm';
 import { IsNotEmpty, IsNumber, IsOptional } from 'class-validator';
 import { CrudValidationGroups } from '@dataui/crud';
-import { DatabaseEntity } from '../../../common/database.entity';
-import { Dimension } from '@core';
 
 const { CREATE, UPDATE } = CrudValidationGroups;
 
@@ -17,12 +15,18 @@ const DimensionNumber = () => {
     IsOptional({ groups: [UPDATE] })(target, key);
     IsNumber({}, { groups: [UPDATE, CREATE] })(target, key);
     IsNotEmpty({ groups: [CREATE] })(target, key);
-    Column({ type: 'numeric' })(target, key);
+    Column({
+      type: 'numeric',
+      default: 0,
+      transformer: {
+        to: (value: number) => value,
+        from: (value: string) => parseFloat(value),
+      },
+    })(target, key);
   };
 };
 
-@Entity()
-export class DimensionEntity extends DatabaseEntity implements Dimension {
+export class DimensionEntity {
   @DimensionNumber()
   height: number;
 

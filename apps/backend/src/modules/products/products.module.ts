@@ -6,12 +6,9 @@ import { ProductsService } from './products.service';
 import { UserEntity } from '../users/entities/user.entity';
 import { ProductSubscriber } from './products.subscriber';
 import { ProductEntity } from './entities/product.entity';
-import { DimensionEntity } from './entities/dimension.entity';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([ProductEntity, UserEntity, DimensionEntity]),
-  ],
+  imports: [TypeOrmModule.forFeature([ProductEntity, UserEntity])],
   controllers: [ProductsController],
   providers: [ProductsService, ProductSubscriber],
   exports: [ProductsService],
