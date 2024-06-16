@@ -1,1 +1,0 @@
-{"type":"object","properties":{"data":{"type":"array","items":{"$ref":"#/components/schemas/SerializedContractDto"}},"count":{"type":"number"},"total":{"type":"number"},"page":{"type":"number"},"pageCount":{"type":"number"}},"required":["data","count","total","page","pageCount"],"x-readme-ref-name":"GetManyContractEntityResponseDto"}

@@ -1,1 +1,0 @@
-{"type":"object","properties":{"product":{"type":"object","properties":{"_id":{"type":"string","example":"6a909236-53f2-4727-b780-e41e115ee906"}},"required":["_id"],"x-readme-ref-name":"PickTypeClass"},"quantity":{"type":"number","example":1}},"required":["product","quantity"],"x-readme-ref-name":"ProductsRequest"}
