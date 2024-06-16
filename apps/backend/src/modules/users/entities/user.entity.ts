@@ -1,5 +1,6 @@
 import {
   BeforeInsert,
+  BeforeUpdate,
   Column,
   Entity,
   JoinColumn,
@@ -20,9 +21,30 @@ import {
   TotalRevenue,
   TotalSoldProducts,
 } from '../../categories/decorators';
+import { MultiLangEntity } from '../../products/entities/multiLang.entity';
 
 @Entity('users')
 export class UserEntity extends DatabaseEntity implements IUserEntity {
+  @BeforeInsert()
+  @BeforeUpdate()
+  handle() {
+    this.searchableText = MultiLangEntity.handleSearchableText([
+      this.firstName,
+      this.lastName,
+      this.businessName,
+      this.email,
+      this.phoneNumber,
+    ]);
+
+    this.fullName = this.firstName + ' ' + this.lastName;
+  }
+
+  @Column({ type: 'varchar' })
+  fullName: string;
+
+  @Column({ type: 'varchar' })
+  searchableText: string;
+
   @BeforeInsert()
   async hashPassword() {
     this.password = await bcrypt.hash(this.password, 10);

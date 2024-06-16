@@ -30,20 +30,6 @@ import { DimensionEntity } from './dimension.entity';
 import { MultiLangEntity } from './multiLang.entity';
 
 @Entity('products')
-// @Index(
-//   [
-//     'name',
-//     'description',
-//     'ingredients',
-//     'detail',
-//     'include',
-//     'keyFeatures',
-//     'specification',
-//   ],
-//   {
-//     fulltext: true,
-//   }
-// )
 export class ProductEntity
   extends MagexDatabaseEntity
   implements IProductEntity
