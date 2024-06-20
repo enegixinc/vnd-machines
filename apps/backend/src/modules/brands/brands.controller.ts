@@ -6,6 +6,7 @@ import { CreateBrandDto } from './dto/request/create-brand.dto';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { SerializedBrandDto } from './dto/response/serialized-brand.dto';
 import { saneOperationsId } from '../../common/swagger.config';
+import { UpdateBrandDto } from './dto/response/update-brand.dto';
 
 @Crud({
   model: {
@@ -13,6 +14,7 @@ import { saneOperationsId } from '../../common/swagger.config';
   },
   dto: {
     create: CreateBrandDto,
+    update: UpdateBrandDto,
   },
   params: {
     id: {

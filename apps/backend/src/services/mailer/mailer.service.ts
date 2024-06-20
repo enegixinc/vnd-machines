@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { MachineEntity } from '../../modules/machines/entities/machine.entity';
-import { ProductEntity } from '../../modules/products/product.entity';
 import { UserEntity } from '../../modules/users/entities/user.entity';
 import { MailerService as BaseMailerService } from '@nestjs-modules/mailer';
 import { ConfigService } from '@backend/config';
 import { TemplatesService } from './templates.service';
+import { ProductEntity } from '../../modules/products/entities/product.entity';
 
 @Injectable()
 export class MailerService {

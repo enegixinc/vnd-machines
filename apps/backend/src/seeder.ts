@@ -2,7 +2,6 @@ import { UsersSeeder } from './modules/users/users.seeder';
 import { seeder } from 'nestjs-seeder';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserEntity } from './modules/users/entities/user.entity';
-import { ProductEntity } from './modules/products/product.entity';
 import { BrandEntity } from './modules/brands/brand.entity';
 import { CategoryEntity } from './modules/categories/category.entity';
 import { DatabaseEntity } from './common/database.entity';
@@ -10,6 +9,7 @@ import { ProductsSeeder } from './modules/products/products.seeder';
 import { ConfigModule, ConfigService } from '@backend/config';
 import { ContractEntity } from './modules/contracts/entities/contract.entity';
 import { CategoriesSeeder } from './modules/categories/categories.seeder';
+import { ProductEntity } from './modules/products/entities/product.entity';
 
 seeder({
   imports: [

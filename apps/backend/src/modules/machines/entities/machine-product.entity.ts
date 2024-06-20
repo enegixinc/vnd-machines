@@ -2,7 +2,7 @@
 import { Column, Entity, ManyToOne } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { DatabaseEntity } from '../../../common/database.entity';
-import { ProductEntity } from '../../products/product.entity';
+import { ProductEntity } from '../../products/entities/product.entity';
 import { Type } from 'class-transformer';
 import { MachineEntity } from './machine.entity';
 
