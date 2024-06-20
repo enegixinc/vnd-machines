@@ -1,7 +1,6 @@
 import { DataSource, EntitySubscriberInterface } from 'typeorm';
 import { Inject, OnModuleInit } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
-import { timer } from 'execution-time-decorators';
 import * as process from 'node:process';
 import { MagexDatabaseEntity } from '../../database.entity';
 import { MagexService } from '../../../services/magex/magex.service';
@@ -9,7 +8,11 @@ import { CRUDSyncer } from './crud-syncer';
 import { _IMagex_DatabaseEntity } from '@core';
 
 export interface EntitySyncer<Entity> {
-  handleRelationships(record: unknown): Entity | Promise<Entity>;
+  handleRelationships(record: _IMagex_DatabaseEntity): Entity | Promise<Entity>;
+  handleSearchableFields(record: _IMagex_DatabaseEntity): {
+    fullName: string;
+    searchableText: string;
+  };
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
@@ -67,7 +70,7 @@ export abstract class EntitySyncer<
   }
 
   async fetchMagexRecords() {
-    console.log('fetching magex records', this.entityClone);
+    // console.log('fetching magex records', this.entityClone);
     // @ts-expect-error - TODO: fix this
     this.magexRecords = await this.entityClone.fetchMagexRecords(
       this.magexService
@@ -89,8 +92,8 @@ export abstract class EntitySyncer<
       if (updated) this.syncConfig.updated && updatedRecords.add(magexRecord);
     });
 
-    console.log('new records:', newRecords.size);
-    console.log('updated records:', updatedRecords.size);
+    // console.log('new records:', newRecords.size);
+    // console.log('updated records:', updatedRecords.size);
 
     return {
       newRecords: [...newRecords],
@@ -106,7 +109,7 @@ export abstract class EntitySyncer<
       (record) => !magexIds.has(record._id)
     );
 
-    console.log('deleted records:', deletedRecords.length);
+    // console.log('deleted records:', deletedRecords.length);
 
     return deletedRecords;
   }
@@ -126,6 +129,7 @@ export abstract class EntitySyncer<
     return Promise.all(
       records.map(async (record) => {
         const entity = this.entityClone;
+        Object.assign(entity, this.assignSearchableFields(record));
         Object.assign(entity, await this.assignRelations(record));
         Object.assign(entity, { lastSyncAt: new Date().toISOString() });
         return entity;
@@ -133,13 +137,19 @@ export abstract class EntitySyncer<
     );
   }
 
-  private async assignRelations(record: unknown) {
+  private assignSearchableFields(record: MagexRecord) {
+    return this.handleSearchableFields
+      ? this.handleSearchableFields(record)
+      : record;
+  }
+
+  private async assignRelations(record: Entity | MagexRecord) {
     return this.handleRelationships
       ? await this.handleRelationships(record)
       : record;
   }
 
-  @timer()
+  // @timer()
   private async saveRecords(records: MagexDatabaseEntity[]) {
     await this.dataSource.manager.save(records, {
       listeners: false,
@@ -166,8 +176,7 @@ export abstract class EntitySyncer<
     if (process.env.NODE_ENV !== 'production') return;
 
     const syncPromise = (async () => {
-      // @ts-expect-error - TODO: fix this
-      console.log('Syncing with Magex', this.entity.name);
+      // console.log('Syncing with Magex', this.entity.name);
       await this.runDependencies();
       await Promise.all([this.fetchOurRecords(), this.fetchMagexRecords()]);
 

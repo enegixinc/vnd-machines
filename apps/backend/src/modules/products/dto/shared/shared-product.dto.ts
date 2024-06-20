@@ -79,6 +79,7 @@ export class SharedProductDto {
   @decorate(
     ApiProperty({
       type: MultiLangEntity,
+      required: true,
     })
   )
   description: MultiLang;
@@ -88,6 +89,7 @@ export class SharedProductDto {
   @decorate(
     ApiProperty({
       type: MultiLangEntity,
+      required: false,
     })
   )
   detail: MultiLang;
@@ -97,6 +99,7 @@ export class SharedProductDto {
   @decorate(
     ApiProperty({
       type: MultiLangEntity,
+      required: false,
     })
   )
   include: MultiLang;
@@ -106,6 +109,7 @@ export class SharedProductDto {
   @decorate(
     ApiProperty({
       type: MultiLangEntity,
+      required: false,
     })
   )
   ingredients: MultiLang;
@@ -115,6 +119,7 @@ export class SharedProductDto {
   @decorate(
     ApiProperty({
       type: MultiLangEntity,
+      required: false,
     })
   )
   keyFeatures: MultiLang;
@@ -124,6 +129,7 @@ export class SharedProductDto {
   @decorate(
     ApiProperty({
       type: MultiLangEntity,
+      required: false,
     })
   )
   specification: MultiLang;
@@ -133,6 +139,7 @@ export class SharedProductDto {
   @decorate(
     ApiProperty({
       type: DimensionEntity,
+      required: false,
     })
   )
   dimension: DimensionEntity;

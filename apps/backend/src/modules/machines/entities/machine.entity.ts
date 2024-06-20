@@ -1,4 +1,7 @@
-import { MagexDatabaseEntity } from '../../../common/database.entity';
+import {
+  MagexDatabaseEntity,
+  SearchableMagexEntity,
+} from '../../../common/database.entity';
 import { MagexService } from '../../../services/magex/magex.service';
 import { MachinesEndpointResponse } from '../../../../../../libs/core/src/interfaces/machine';
 import { Column, Entity, OneToMany, VirtualColumn } from 'typeorm';
@@ -8,7 +11,7 @@ import { OrderEntity } from '../../orders/order.entity';
 import { FillRequestEntity } from '../../requests/fill-requests/fill-request.entity';
 
 @Entity('machines')
-export class MachineEntity extends MagexDatabaseEntity {
+export class MachineEntity extends SearchableMagexEntity {
   @OneToMany(() => FillRequestEntity, (fillRequest) => fillRequest.machine)
   fillRequests: FillRequestEntity[];
 

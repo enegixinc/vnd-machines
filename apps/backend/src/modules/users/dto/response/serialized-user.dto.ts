@@ -1,6 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { SerializedProductDto } from '../../../products/dto/response/serialized-product.dto';
-import { IDocument, ISerializedBrand, ISerializedContract, ISerializedProduct, ISerializedUser } from '@core';
+import {
+  IDocument,
+  ISerializedBrand,
+  ISerializedContract,
+  ISerializedProduct,
+  ISerializedUser,
+} from '@core';
 import { DatabaseEntity } from '../../../../common/database.entity';
 import { decorate, Mixin } from 'ts-mixer';
 
@@ -10,6 +16,7 @@ import { SerializedBrandDto } from '../../../brands/dto/response/serialized-bran
 import { SerializedContractDto } from '../../../contracts/dto/response/serialized-contract.dto';
 import { FormatMoney } from 'format-money-js';
 
+// @ts-ignore
 export class SerializedUserDto
   extends Mixin(DatabaseEntity, SharedUserDto)
   implements ISerializedUser
@@ -41,12 +48,12 @@ export class SerializedUserDto
   )
   totalOrders: number;
 
-  @decorate(
-    ApiProperty({
-      type: () => [SerializedProductDto],
-    })
-  )
-  products: ISerializedProduct[];
+  // @decorate(
+  //   ApiProperty({
+  //     type: () => [SerializedProductDto],
+  //   })
+  // )
+  // products: UserEntity[];
 
   // TODO: add this to the system
   documents: IDocument[];
@@ -67,6 +74,7 @@ export class SerializedUserDto
 
   constructor(props: UserEntity) {
     if (props?.password) delete props.password;
+    // @ts-ignore
     super(props);
     Object.assign(this, props);
   }

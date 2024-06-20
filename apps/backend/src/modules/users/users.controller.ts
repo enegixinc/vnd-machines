@@ -56,7 +56,6 @@ import { SharedUserDto } from './dto/shared/shared-user.dto';
   serialize: {
     get: SerializedUserDto,
     getMany: SerializedUserDto,
-    update: SharedUserDto,
     create: SerializedUserDto,
   },
 })

@@ -38,7 +38,6 @@ import { UpdateProductDto } from './dto/request/update-product.dto';
     join: {
       // TODO: deprecate these aliases and use the actual entity names
       supplier: {
-        alias: 'users',
         exclude: ['password'],
       },
       brand: {
