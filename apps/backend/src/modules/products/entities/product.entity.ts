@@ -341,6 +341,8 @@ export class ProductEntity
   }
 
   async updateMagexRecord(magexService: MagexService) {
+    console.log('updateMagexRecord', magexService);
+    console.log('this', this);
     const formData = await this.handleMultiLangProps(this);
 
     await magexService.products.putProductsEditById({

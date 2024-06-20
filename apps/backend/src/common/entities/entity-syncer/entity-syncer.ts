@@ -67,7 +67,7 @@ export abstract class EntitySyncer<
   }
 
   async fetchMagexRecords() {
-    console.log('fetching magex records', this.entityClone);
+    // console.log('fetching magex records', this.entityClone);
     // @ts-expect-error - TODO: fix this
     this.magexRecords = await this.entityClone.fetchMagexRecords(
       this.magexService
@@ -89,8 +89,8 @@ export abstract class EntitySyncer<
       if (updated) this.syncConfig.updated && updatedRecords.add(magexRecord);
     });
 
-    console.log('new records:', newRecords.size);
-    console.log('updated records:', updatedRecords.size);
+    // console.log('new records:', newRecords.size);
+    // console.log('updated records:', updatedRecords.size);
 
     return {
       newRecords: [...newRecords],
@@ -106,7 +106,7 @@ export abstract class EntitySyncer<
       (record) => !magexIds.has(record._id)
     );
 
-    console.log('deleted records:', deletedRecords.length);
+    // console.log('deleted records:', deletedRecords.length);
 
     return deletedRecords;
   }
@@ -139,7 +139,7 @@ export abstract class EntitySyncer<
       : record;
   }
 
-  @timer()
+  // @timer()
   private async saveRecords(records: MagexDatabaseEntity[]) {
     await this.dataSource.manager.save(records, {
       listeners: false,
@@ -166,8 +166,7 @@ export abstract class EntitySyncer<
     if (process.env.NODE_ENV !== 'production') return;
 
     const syncPromise = (async () => {
-      // @ts-expect-error - TODO: fix this
-      console.log('Syncing with Magex', this.entity.name);
+      // console.log('Syncing with Magex', this.entity.name);
       await this.runDependencies();
       await Promise.all([this.fetchOurRecords(), this.fetchMagexRecords()]);
 

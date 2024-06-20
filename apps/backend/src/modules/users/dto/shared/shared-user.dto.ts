@@ -5,14 +5,29 @@ import {
   IsPhoneNumber,
   IsString,
   MaxLength,
+  Validate,
 } from 'class-validator';
-import { ApiProperty } from '@nestjs/swagger';
-import { UserRole } from '@core';
+import { ApiProperty, PickType } from '@nestjs/swagger';
+import { ReferenceByID, UserRole } from '@core';
 import { CrudValidationGroups } from '@dataui/crud';
+import { ProductEntity } from '../../../products/entities/product.entity';
+import { ProductExistsValidator } from '../../../products/validators/product-exists';
 
 const { CREATE, UPDATE } = CrudValidationGroups;
 
 export class SharedUserDto {
+  @decorate(IsOptional({ groups: [CREATE, UPDATE] }))
+  @Validate(ProductExistsValidator)
+  @decorate(
+    ApiProperty({
+      type: () => PickType(ProductEntity, ['_id']),
+      required: false,
+      isArray: true,
+      nullable: true,
+    })
+  )
+  products: ReferenceByID<ProductEntity>[];
+
   @decorate(IsNotEmpty({ groups: [CREATE] }))
   @decorate(IsOptional({ groups: [UPDATE] }))
   @decorate(
