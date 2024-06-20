@@ -16,7 +16,6 @@ const attachHeaders = async (request: AxiosRequestConfig<unknown>) => {
   const auth = Cookies.get('auth');
   if (auth) {
     const { accessToken } = JSON.parse(auth);
-    console.log('accessToken', accessToken);
     return {
       ...request,
       headers: {

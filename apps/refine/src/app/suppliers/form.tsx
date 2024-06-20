@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Card, Divider, Form, Input, Select, Switch } from 'antd';
+import { Card, Divider, Form, Input, Select, Switch, Transfer } from 'antd';
 import { UserRole } from '@core';
 import { SerializedProductDto, UserEntity } from '@frontend/api-sdk';
 import { vndClient } from '@providers/api';
@@ -96,9 +96,15 @@ const ProductsTransfer = async ({
     <Card title={'Associations'}>
       <Form.Item label="Products" name="products">
         <TableTransfer
+          onSearch={(direction, value) => {
+            console.log('searching:', direction, value);
+          }}
           dataSource={data}
+          filterOption={(inputValue, item) =>
+            item.fullName.toLowerCase().includes(inputValue.toLowerCase())
+          }
           rowKey={(record) => record._id}
-          targetKeys={supplierProducts?.map((product) => product._id) || []}
+          // targetKeys={supplierProducts?.map((product) => product._id) || []}
           showSearch
           showSelectAll={false}
           leftColumns={[

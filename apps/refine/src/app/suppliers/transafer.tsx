@@ -10,18 +10,8 @@ import { Table, Transfer } from 'antd';
 type TransferItem = GetProp<TransferProps, 'dataSource'>[number];
 type TableRowSelection<T extends object> = TableProps<T>['rowSelection'];
 
-interface RecordType {
-  key: string;
-  title: string;
-  description: string;
-  tag: string;
-}
-
 interface DataType {
-  key: string;
-  title: string;
-  description: string;
-  tag: string;
+  _id: string;
 }
 
 interface TableTransferProps extends TransferProps<TransferItem> {
