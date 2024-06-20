@@ -1,22 +1,13 @@
 'use client';
 
-import React, { useState } from 'react';
-import { Card, Divider, Form, Input, Select, Switch, Transfer } from 'antd';
+import React from 'react';
+import { Card, Divider, Form, Input, Select, Switch } from 'antd';
 import { UserRole } from '@core';
+import { SerializedProductDto, UserEntity } from '@frontend/api-sdk';
+import { vndClient } from '@providers/api';
+import { TableTransfer } from '@app/suppliers/transafer';
 
-const SupplierForm = ({
-  formProps,
-  products,
-}: {
-  formProps: any;
-  products: any[];
-}) => {
-  const [targetKeys, setTargetKeys] = useState<string[]>([]);
-
-  const handleTransferChaAnge = (nextTargetKeys: string[]) => {
-    console.log(nextTargetKeys);
-    setTargetKeys(nextTargetKeys);
-  };
+const SupplierForm = ({ formProps }: { formProps: UserEntity }) => {
   return (
     <Form {...formProps} layout="vertical">
       <Card title="Basic Information">
@@ -81,21 +72,65 @@ const SupplierForm = ({
         </Form.Item>
       </Card>
       <Divider />
-      <Card title={'Associations'}>
-        <Form.Item label="Products" name="products">
-          <Transfer
-            dataSource={products}
-            showSearch
-            targetKeys={targetKeys}
-            onChange={handleTransferChaAnge}
-            render={(item) => item.name.en}
-            rowKey={(item) => item._id}
-            pagination={true}
-          />
-        </Form.Item>
-      </Card>
+      <ProductsTransfer supplierProducts={formProps.initialValues?.products} />
     </Form>
   );
 };
 
 export default SupplierForm;
+
+const ProductsTransfer = async ({
+  supplierProducts,
+}: {
+  supplierProducts: SerializedProductDto[];
+}) => {
+  const { data } = await vndClient.products.getMany({
+    limit: 1000,
+  });
+
+  if (!data) {
+    return <div>Loading...</div>;
+  }
+
+  return (
+    <Card title={'Associations'}>
+      <Form.Item label="Products" name="products">
+        <TableTransfer
+          dataSource={data}
+          rowKey={(record) => record._id}
+          targetKeys={supplierProducts?.map((product) => product._id) || []}
+          showSearch
+          showSelectAll={false}
+          leftColumns={[
+            {
+              dataIndex: 'fullName',
+              title: 'Name',
+            },
+            {
+              dataIndex: 'totalRevenue',
+              title: 'Total Revenue',
+            },
+            {
+              dataIndex: 'totalOrders',
+              title: 'Total Orders',
+            },
+          ]}
+          rightColumns={[
+            {
+              dataIndex: 'fullName',
+              title: 'Name',
+            },
+            {
+              dataIndex: 'totalRevenue',
+              title: 'Total Revenue',
+            },
+            {
+              dataIndex: 'totalOrders',
+              title: 'Total Orders',
+            },
+          ]}
+        />
+      </Form.Item>
+    </Card>
+  );
+};

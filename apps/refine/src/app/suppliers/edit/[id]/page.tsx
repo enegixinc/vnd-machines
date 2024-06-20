@@ -5,7 +5,6 @@ import React from 'react';
 import SupplierForm from '@app/suppliers/form';
 import { useParams } from 'next/navigation';
 import { Spin } from 'antd';
-import { useList } from '@refinedev/core';
 
 export default function BrandEdit() {
   const { id } = useParams();
@@ -13,16 +12,17 @@ export default function BrandEdit() {
     resource: 'users',
     id: id.toString(),
     action: 'edit',
-  });
-
-  const { data: products, isLoading } = useList({
-    resource: 'products',
     meta: {
-      fields: ['_id', 'name'],
+      join: [
+        {
+          field: 'products',
+          select: ['id', 'fullName'],
+        },
+      ],
     },
   });
 
-  if (formLoading || isLoading) {
+  if (formLoading) {
     return (
       <Spin
         style={{
@@ -37,7 +37,8 @@ export default function BrandEdit() {
 
   return (
     <Edit saveButtonProps={saveButtonProps}>
-      <SupplierForm formProps={formProps} products={products.data} />
+      {/*// @ts-ignore*/}
+      <SupplierForm formProps={formProps} />
     </Edit>
   );
 }

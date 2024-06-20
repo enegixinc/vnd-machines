@@ -4,7 +4,8 @@ import Cookies from 'js-cookie';
 // eslint-disable-next-line no-unused-vars
 type Middleware<T> = (value: T) => Promise<T> | T;
 export const vndClient = new VNDClient({
-  BASE: 'https://staging-vnd-api.5ostudios.com',
+  // BASE: 'https://staging-vnd-api.5ostudios.com',
+  BASE: 'http://localhost:3000',
   HEADERS: {
     'Access-Control-Allow-Origin': '*',
     'Content-type': 'application/json',
@@ -29,7 +30,6 @@ const attachHeaders = async (request: AxiosRequestConfig<unknown>) => {
 
 // Middleware to handle errors
 const errorHandler = async (response: AxiosResponse) => {
-  console.log('response', response);
   if (response.status === 401) {
     Cookies.remove('auth', { path: '/' });
     // Optionally, you can redirect the user to login
