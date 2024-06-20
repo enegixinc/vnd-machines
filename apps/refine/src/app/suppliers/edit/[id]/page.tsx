@@ -8,7 +8,7 @@ import { Spin } from 'antd';
 
 export default function BrandEdit() {
   const { id } = useParams();
-  const { formProps, saveButtonProps, formLoading } = useForm({
+  const { formProps, saveButtonProps, formLoading, queryResult } = useForm({
     resource: 'users',
     id: id.toString(),
     action: 'edit',
@@ -21,6 +21,9 @@ export default function BrandEdit() {
       ],
     },
   });
+
+  console.log(queryResult);
+  console.log(formProps);
 
   if (formLoading) {
     return (

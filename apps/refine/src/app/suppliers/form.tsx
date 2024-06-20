@@ -1,13 +1,13 @@
 'use client';
 
-import React from 'react';
-import { Card, Divider, Form, Input, Select, Switch, Transfer } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Card, Divider, Form, FormProps, Input, Select, Switch } from 'antd';
 import { UserRole } from '@core';
 import { SerializedProductDto, UserEntity } from '@frontend/api-sdk';
 import { vndClient } from '@providers/api';
 import { TableTransfer } from '@app/suppliers/transafer';
 
-const SupplierForm = ({ formProps }: { formProps: UserEntity }) => {
+const SupplierForm = ({ formProps }: { formProps: FormProps }) => {
   return (
     <Form {...formProps} layout="vertical">
       <Card title="Basic Information">
@@ -58,7 +58,7 @@ const SupplierForm = ({ formProps }: { formProps: UserEntity }) => {
         <Form.Item
           label="Password"
           name="password"
-          rules={[{ required: true, message: 'Please enter password' }]}
+          rules={[{ message: 'Please enter password' }]}
         >
           <Input.Password />
         </Form.Item>
@@ -72,71 +72,104 @@ const SupplierForm = ({ formProps }: { formProps: UserEntity }) => {
         </Form.Item>
       </Card>
       <Divider />
-      <ProductsTransfer supplierProducts={formProps.initialValues?.products} />
+      <Card title={'Associations'}>
+        <Form.Item label="Products" name="products">
+          <ProductsTransfer
+            supplierProducts={formProps.initialValues?.products}
+            onChange={(keys) => {
+              formProps?.form?.setFieldsValue({
+                products: keys.map((key) => ({ _id: key })),
+              });
+            }}
+          />
+        </Form.Item>
+      </Card>
     </Form>
   );
 };
 
 export default SupplierForm;
 
-const ProductsTransfer = async ({
+const ProductsTransfer = ({
   supplierProducts,
+  onChange,
 }: {
   supplierProducts: SerializedProductDto[];
+  onChange: (keys: string[]) => void;
 }) => {
-  const { data } = await vndClient.products.getMany({
-    limit: 1000,
-  });
+  const [targetKeys, setTargetKeys] = useState(
+    supplierProducts?.map((product) => product._id) || []
+  );
+  const [products, setProducts] = useState<SerializedProductDto[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  if (!data) {
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const { data } = await vndClient.products.getMany({
+          limit: 1000,
+        });
+        setProducts(data);
+        setLoading(false);
+      } catch (error) {
+        console.error('Failed to fetch products:', error);
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
+  useEffect(() => {
+    onChange(targetKeys);
+  }, [targetKeys, onChange]);
+
+  if (loading) {
     return <div>Loading...</div>;
   }
 
   return (
-    <Card title={'Associations'}>
-      <Form.Item label="Products" name="products">
-        <TableTransfer
-          onSearch={(direction, value) => {
-            console.log('searching:', direction, value);
-          }}
-          dataSource={data}
-          filterOption={(inputValue, item) =>
-            item.fullName.toLowerCase().includes(inputValue.toLowerCase())
-          }
-          rowKey={(record) => record._id}
-          // targetKeys={supplierProducts?.map((product) => product._id) || []}
-          showSearch
-          showSelectAll={false}
-          leftColumns={[
-            {
-              dataIndex: 'fullName',
-              title: 'Name',
-            },
-            {
-              dataIndex: 'totalRevenue',
-              title: 'Total Revenue',
-            },
-            {
-              dataIndex: 'totalOrders',
-              title: 'Total Orders',
-            },
-          ]}
-          rightColumns={[
-            {
-              dataIndex: 'fullName',
-              title: 'Name',
-            },
-            {
-              dataIndex: 'totalRevenue',
-              title: 'Total Revenue',
-            },
-            {
-              dataIndex: 'totalOrders',
-              title: 'Total Orders',
-            },
-          ]}
-        />
-      </Form.Item>
-    </Card>
+    <TableTransfer
+      dataSource={products}
+      filterOption={(inputValue, item) =>
+        item.fullName.toLowerCase().includes(inputValue.toLowerCase())
+      }
+      targetKeys={targetKeys}
+      rowKey={(record) => record._id}
+      showSearch
+      showSelectAll={false}
+      leftColumns={[
+        {
+          dataIndex: 'fullName',
+          title: 'Name',
+        },
+        {
+          dataIndex: 'totalRevenue',
+          title: 'Total Revenue',
+        },
+        {
+          dataIndex: 'totalOrders',
+          title: 'Total Orders',
+        },
+      ]}
+      rightColumns={[
+        {
+          dataIndex: 'fullName',
+          title: 'Name',
+        },
+        {
+          dataIndex: 'totalRevenue',
+          title: 'Total Revenue',
+        },
+        {
+          dataIndex: 'totalOrders',
+          title: 'Total Orders',
+        },
+      ]}
+      onChange={(keys) => {
+        setTargetKeys(keys);
+        onChange(keys);
+      }}
+    />
   );
 };
