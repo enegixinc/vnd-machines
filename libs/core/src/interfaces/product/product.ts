@@ -26,7 +26,7 @@ export interface ICreateProduct
     ICreateMagexProduct,
     keyof IMagexProductResolvedEntities | 'referTo'
   > {
-  supplier: ReferenceByID<ISerializedUser>[];
+  supplier: ReferenceByID<ISerializedUser>;
   brand: ReferenceByID<ISerializedBrand>;
   category: ReferenceByID<ISerializedMagexCategory>;
   productVideo: File | Blob;

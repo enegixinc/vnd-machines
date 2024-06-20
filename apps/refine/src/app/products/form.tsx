@@ -12,6 +12,38 @@ import { getValueFromEvent } from '@refinedev/antd';
 import { MultiLangInput } from '@theme-helpers';
 import React from 'react';
 
+type FormData = { [key: string]: any };
+
+const cleanFormData = (data: FormData): FormData => {
+  const cleanedData: FormData = {};
+
+  for (const key in data) {
+    if (
+      data[key] !== undefined &&
+      data[key] !== null &&
+      data[key] !== '' &&
+      (typeof data[key] !== 'object' ||
+        (Object.keys(data[key]).length > 0 && cleanNestedObject(data[key])))
+    ) {
+      cleanedData[key] = data[key];
+    }
+  }
+
+  return cleanedData;
+};
+
+const cleanNestedObject = (obj: FormData): boolean => {
+  const cleanedNestedObj: FormData = {};
+
+  for (const key in obj) {
+    if (obj[key] !== undefined && obj[key] !== null && obj[key] !== '') {
+      cleanedNestedObj[key] = obj[key];
+    }
+  }
+
+  return Object.keys(cleanedNestedObj).length > 0;
+};
+
 export const ProductForm = ({
   formProps,
   supplierSelectProps,
@@ -24,7 +56,13 @@ export const ProductForm = ({
   categorySelectProps: any;
 }) => {
   return (
-    <Form {...formProps} layout="vertical">
+    <Form
+      {...formProps}
+      layout="vertical"
+      onFinish={(data) => {
+        formProps.onFinish(cleanFormData(data));
+      }}
+    >
       <Card title="Basic Information">
         <Form.Item label="Product Pictures">
           <Form.Item

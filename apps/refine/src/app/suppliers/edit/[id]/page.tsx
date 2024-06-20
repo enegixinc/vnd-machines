@@ -16,7 +16,7 @@ export default function BrandEdit() {
       join: [
         {
           field: 'products',
-          select: ['id', 'fullName'],
+          select: ['_id', 'fullName'],
         },
       ],
     },

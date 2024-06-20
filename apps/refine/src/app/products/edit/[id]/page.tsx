@@ -5,7 +5,24 @@ import React from 'react';
 import { ProductForm } from '@app/products/form';
 
 export default function CategoryEdit() {
-  const { formProps, saveButtonProps } = useForm({});
+  const { formProps, saveButtonProps } = useForm({
+    meta: {
+      join: [
+        {
+          field: 'supplier',
+          select: ['_id', 'fullName'],
+        },
+        {
+          field: 'category',
+          select: ['_id', 'fullName'],
+        },
+        {
+          field: 'brand',
+          select: ['_id', 'fullName'],
+        },
+      ],
+    },
+  });
   const { selectProps: brandSelectProps } = useSelect({
     resource: 'brands',
     optionLabel: 'name.en',
