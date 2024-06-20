@@ -325,7 +325,10 @@ export class ProductEntity
   stock: number;
 
   async createMagexRecord(magexService: MagexService) {
-    const formData = await this.handleMultiLangProps(this);
+    const formData = this.handleMultiLangProps(
+      this.removeExtraProps(this, ['supplier', 'fullName'])
+    );
+
     const { newProduct } = await magexService.products.postProductsCreate({
       formData: {
         ...formData,
@@ -341,9 +344,9 @@ export class ProductEntity
   }
 
   async updateMagexRecord(magexService: MagexService) {
-    console.log('updateMagexRecord', magexService);
-    console.log('this', this);
-    const formData = await this.handleMultiLangProps(this);
+    const formData = this.handleMultiLangProps(
+      this.removeExtraProps(this, ['supplier', 'fullName'])
+    );
 
     await magexService.products.putProductsEditById({
       id: formData._id,
@@ -369,7 +372,13 @@ export class ProductEntity
     }) as Promise<IProductEntity[]>;
   }
 
-  private async handleMultiLangProps(product: ObjectLiteral) {
+  private removeExtraProps(object: ObjectLiteral, extraProps: string[]) {
+    return Object.fromEntries(
+      Object.entries(object).filter(([key]) => !extraProps.includes(key))
+    );
+  }
+
+  private handleMultiLangProps(product: ObjectLiteral) {
     const multiLangProps = [
       'name',
       'description',

@@ -107,6 +107,8 @@ export const ProductForm = ({
             <Input />
           </Form.Item>
         </Flex>
+
+        <MultiLangInput textArea name="description" />
       </Card>
 
       <Card title="Associations" style={{ marginTop: 16 }}>
@@ -230,6 +232,7 @@ export const ProductForm = ({
             label="Age Control"
             name="ageControl"
             rules={[{ required: true }]}
+            initialValue={0}
           >
             <InputNumber />
           </Form.Item>
@@ -253,8 +256,7 @@ export const ProductForm = ({
         </Card>
       </Flex>
 
-      <Card title="Product Descriptions" style={{ marginTop: 16 }}>
-        <MultiLangInput optional textArea name="description" />
+      <Card title="Extra Information" style={{ marginTop: 16 }}>
         <MultiLangInput optional textArea name="detail" />
         <MultiLangInput optional textArea name="include" />
         <MultiLangInput optional textArea name="ingredients" />

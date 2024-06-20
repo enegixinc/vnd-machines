@@ -28,6 +28,7 @@ export default function ProductCreate() {
     optionLabel: 'name.en',
     optionValue: '_id',
   });
+
   const { selectProps: supplierSelectProps } = useSelect({
     resource: 'users',
     // @ts-ignore
