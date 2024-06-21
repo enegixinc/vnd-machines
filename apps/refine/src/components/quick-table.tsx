@@ -42,7 +42,13 @@ export const QuickTable = <
     filters: {
       mode: 'server',
     },
-    meta,
+    meta: {
+      ...meta,
+      include_deleted: 1,
+    },
+    metaData: {
+      include_deleted: 1,
+    },
   });
 
   const [showDeleted, setShowDeleted] = React.useState(false);
@@ -57,6 +63,11 @@ export const QuickTable = <
           value: text,
           operator: 'contains',
         },
+        // {
+        //   field: 'deletedAt',
+        //   value: showDeleted ? undefined : null,
+        //   operator: showDeleted ? 'isNotNull' : 'isNull',
+        // },
       ]);
     }
   };

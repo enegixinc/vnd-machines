@@ -76,6 +76,15 @@ export default function ProductsList() {
               dataIndex: ['supplier', 'fullName'],
               title: 'Supplier',
               render: handleEmptyString,
+              onFilter(value, record) {
+                return record.supplier === null;
+              },
+              filters: [
+                {
+                  text: 'No Supplier',
+                  value: 'null',
+                },
+              ],
             },
             {
               dataIndex: ['category', 'fullName'],
