@@ -25,7 +25,10 @@ export class BrandSubscriber extends EntitySyncer<BrandEntity> {
   } {
     return {
       fullName: MultiLangEntity.handleMultiLang(record.name),
-      searchableText: MultiLangEntity.handleSearchableText([record.name]),
+      searchableText: MultiLangEntity.handleSearchableText([
+        record.name,
+        record._id,
+      ]),
     };
   }
 }

@@ -22,7 +22,10 @@ export class CategorySubscriber extends EntitySyncer<CategoryEntity> {
   handleSearchableFields(record: CategoryEntity) {
     return {
       fullName: MultiLangEntity.handleMultiLang(record.name),
-      searchableText: MultiLangEntity.handleSearchableText([record.name]),
+      searchableText: MultiLangEntity.handleSearchableText([
+        record.name,
+        record._id,
+      ]),
     };
   }
 }
