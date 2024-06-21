@@ -40,6 +40,7 @@ export const QuickTable = <
 
   const { tableProps, filters, setFilters } = useTable({
     syncWithLocation: true,
+    resource,
     sorters: {
       mode: 'server',
     },
