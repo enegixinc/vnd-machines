@@ -141,6 +141,7 @@
     "@nestjs/swagger": "^7.3.1",
     "@nestjs/terminus": "^10.2.3",
     "@nestjs/typeorm": "^10.0.2",
+    "@nestjsx/crud-request": "5.0.0-alpha.3",
     "@refinedev/inferencer": "^4.6.4",
     "@suadelabs/vue3-multiselect": "^1.0.2",
     "@testing-library/jest-dom": "^5.16.4",
@@ -197,6 +198,7 @@
     "postcss-nesting": "^12.0.1",
     "postman-to-openapi": "^3.0.1",
     "prettier": "^2.7.1",
+    "query-string": "^9.0.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.0",
     "sweetalert2": "^11.5.1",
@@ -217,10 +219,10 @@
     "vue-router": "^4.1.5",
     "vue-tippy": "6",
     "vue3-apexcharts": "^1.4.1",
+    "vue3-number-spinner": "^0.0.9",
     "vue3-perfect-scrollbar": "^1.6.0",
     "vue3-popper": "^1.5.0",
-    "zod": "^3.23.5",
-    "vue3-number-spinner": "^0.0.9"
+    "zod": "^3.23.5"
   },
   "nx": {
     "includedScripts": []

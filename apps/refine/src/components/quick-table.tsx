@@ -44,10 +44,7 @@ export const QuickTable = <
     },
     meta: {
       ...meta,
-      include_deleted: 1,
-    },
-    metaData: {
-      include_deleted: 1,
+      includeDeleted: 1,
     },
   });
 
