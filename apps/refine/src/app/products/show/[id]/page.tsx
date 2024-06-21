@@ -1,11 +1,12 @@
 'use client';
 
 import { Show, TextField } from '@refinedev/antd';
-import { Descriptions, Typography } from 'antd';
+import { Descriptions, Divider, Typography } from 'antd';
 import React from 'react';
 import { SerializedProductDto } from '@frontend/api-sdk';
 import { useShow } from '@refinedev/core';
 import { handleProductImage } from '@app/products/page';
+import { handleEmptyString } from '@helpers';
 
 const { Title } = Typography;
 
@@ -52,10 +53,10 @@ export default function ProductShow() {
         </Descriptions.Item>
 
         <Descriptions.Item label="Name (English)">
-          <TextField value={record.name.en ?? 'N/A'} />
+          <TextField value={handleEmptyString(record.name.en)} />
         </Descriptions.Item>
         <Descriptions.Item label="Name (Arabic)">
-          <TextField value={record.name.ar ?? 'N/A'} />
+          <TextField value={handleEmptyString(record.name.ar)} />
         </Descriptions.Item>
 
         <Descriptions.Item label="UPC">
@@ -79,16 +80,48 @@ export default function ProductShow() {
           <TextField value={record.ageControl} />
         </Descriptions.Item>
 
+        <Descriptions.Item label="Updated At">
+          <TextField value={record.updatedAt} />
+        </Descriptions.Item>
+        <Descriptions.Item label="Created At">
+          <TextField value={record.createdAt} />
+        </Descriptions.Item>
+      </Descriptions>
+
+      <Divider />
+
+      <Title level={3} style={{ marginTop: 16 }}>
+        {'Associations'}
+      </Title>
+      <Descriptions
+        bordered
+        labelStyle={{
+          fontWeight: 'bold',
+          width: '20%',
+        }}
+      >
         <Descriptions.Item label="Supplier">
-          <TextField value={record.supplier?.email ?? 'N/A'} />
+          <TextField value={handleEmptyString(record.supplier?.fullName)} />
         </Descriptions.Item>
         <Descriptions.Item label="Category">
-          <TextField value={record.category?.name?.en ?? 'N/A'} />
+          <TextField value={handleEmptyString(record.category?.name?.en)} />
         </Descriptions.Item>
         <Descriptions.Item label="Brand">
-          <TextField value={record.brand?.name?.en ?? 'N/A'} />
+          <TextField value={handleEmptyString(record.brand?.name?.en)} />
         </Descriptions.Item>
+      </Descriptions>
 
+      <Divider />
+      <Title level={3} style={{ marginTop: 16 }}>
+        {'Finance'}
+      </Title>
+      <Descriptions
+        bordered
+        labelStyle={{
+          fontWeight: 'bold',
+          width: '20%',
+        }}
+      >
         <Descriptions.Item label="Total Orders">
           <TextField value={record.totalOrders} />
         </Descriptions.Item>
@@ -98,36 +131,55 @@ export default function ProductShow() {
         <Descriptions.Item label="Total Revenue">
           <TextField value={record.totalRevenue} />
         </Descriptions.Item>
-
-        <Descriptions.Item label="Updated At">
-          <TextField value={record.updatedAt} />
-        </Descriptions.Item>
-        <Descriptions.Item label="Created At">
-          <TextField value={record.createdAt} />
-        </Descriptions.Item>
       </Descriptions>
+      <Divider />
 
-      <Title level={4} style={{ marginTop: 16 }}>
-        {'Product Descriptions'}
+      <Title level={3} style={{ marginTop: 16 }}>
+        {'Extra Details'}
       </Title>
-      <Descriptions bordered column={1}>
-        <Descriptions.Item label="Description">
-          <TextField value={record.description?.en ?? 'N/A'} />
+      <Descriptions
+        bordered
+        column={2}
+        labelStyle={{
+          fontWeight: 'bold',
+          width: '20%',
+        }}
+      >
+        <Descriptions.Item label="Description (English)">
+          <TextField value={handleEmptyString(record.description?.en)} />
         </Descriptions.Item>
-        <Descriptions.Item label="Detail">
-          <TextField value={record.detail?.en ?? 'N/A'} />
+        <Descriptions.Item label="Description (Arabic)">
+          <TextField value={handleEmptyString(record.description?.ar)} />
         </Descriptions.Item>
-        <Descriptions.Item label="Include">
-          <TextField value={record.include?.en ?? 'N/A'} />
+        <Descriptions.Item label="Detail (English)">
+          <TextField value={handleEmptyString(record.detail?.en)} />
         </Descriptions.Item>
-        <Descriptions.Item label="Ingredients">
-          <TextField value={record.ingredients?.en ?? 'N/A'} />
+        <Descriptions.Item label="Detail (Arabic)">
+          <TextField value={handleEmptyString(record.detail?.ar)} />
         </Descriptions.Item>
-        <Descriptions.Item label="Key Features">
-          <TextField value={record.keyFeatures?.en ?? 'N/A'} />
+        <Descriptions.Item label="Include (English)">
+          <TextField value={handleEmptyString(record.include?.en)} />
         </Descriptions.Item>
-        <Descriptions.Item label="Specification">
-          <TextField value={record.specification?.en ?? 'N/A'} />
+        <Descriptions.Item label="Include (Arabic)">
+          <TextField value={handleEmptyString(record.include?.ar)} />
+        </Descriptions.Item>
+        <Descriptions.Item label="Ingredients (English)">
+          <TextField value={handleEmptyString(record.ingredients?.en)} />
+        </Descriptions.Item>
+        <Descriptions.Item label="Ingredients (Arabic)">
+          <TextField value={handleEmptyString(record.ingredients?.ar)} />
+        </Descriptions.Item>
+        <Descriptions.Item label="Key Features (English)">
+          <TextField value={handleEmptyString(record.keyFeatures?.en)} />
+        </Descriptions.Item>
+        <Descriptions.Item label="Key Features (Arabic)">
+          <TextField value={handleEmptyString(record.keyFeatures?.ar)} />
+        </Descriptions.Item>
+        <Descriptions.Item label="Specification (English)">
+          <TextField value={handleEmptyString(record.specification?.en)} />
+        </Descriptions.Item>
+        <Descriptions.Item label="Specification (Arabic)">
+          <TextField value={handleEmptyString(record.specification?.ar)} />
         </Descriptions.Item>
       </Descriptions>
     </Show>
