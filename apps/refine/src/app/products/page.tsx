@@ -1,17 +1,12 @@
 'use client';
 
-import {
-  DeleteButton,
-  EditButton,
-  List,
-  ShowButton,
-  useTable,
-} from '@refinedev/antd';
-import { Space, Table } from 'antd';
 import React from 'react';
+import { handleEmptyString } from '@helpers';
+import { QuickTable } from '@components/quick-table';
 import { SerializedProductDto } from '@frontend/api-sdk';
 import { defaultSrc } from '@app/config';
-import { handleEmptyString } from '@helpers';
+import { Divider } from 'antd';
+import Search from 'antd/es/input/Search';
 
 export const handleProductImage = (
   value: SerializedProductDto['productPictures']
@@ -25,104 +20,97 @@ export const handleProductImage = (
 };
 
 export default function ProductsList() {
-  const { tableProps } = useTable({
-    syncWithLocation: true,
-    sorters: {
-      mode: 'server',
-    },
-    meta: {
-      join: [
-        {
-          field: 'category',
-          select: ['_id', 'fullName'],
-        },
-        {
-          field: 'brand',
-          select: ['_id', 'fullName'],
-        },
-        {
-          field: 'supplier',
-          select: ['_id', 'fullName'],
-        },
-      ],
-    },
-  });
-
   return (
-    <List>
-      <Table {...tableProps} rowKey="_id">
-        <Table.ColumnGroup title="Basic Info">
-          <Table.Column
-            dataIndex="productPictures"
-            title="Image"
-            render={handleProductImage}
-          />
-          <Table.Column
-            dataIndex={'fullName'}
-            title="Name"
-            render={handleEmptyString}
-          />
-          <Table.Column
-            dataIndex="upc"
-            title="UPC"
-            sorter
-            render={handleEmptyString}
-          />
-          <Table.Column
-            dataIndex="price"
-            title="Price"
-            sorter
-            render={(price) => `${Number(price).toFixed(2)} KD`}
-          />
-        </Table.ColumnGroup>
-
-        <Table.ColumnGroup title="Associated">
-          <Table.Column
-            dataIndex={['supplier', 'fullName']}
-            title="Supplier"
-            render={handleEmptyString}
-          />
-          <Table.Column
-            dataIndex={['category', 'fullName']}
-            title="Category"
-            render={handleEmptyString}
-          />
-          <Table.Column
-            dataIndex={['brand', 'fullName']}
-            render={handleEmptyString}
-            title="Brand"
-          />
-        </Table.ColumnGroup>
-
-        <Table.ColumnGroup title="Stock">
-          <Table.Column
-            dataIndex="totalSoldProducts"
-            title="Total Sold Products"
-            sorter={true}
-          />
-          <Table.Column
-            dataIndex="totalOrders"
-            title="Total Orders"
-            sorter={true}
-          />
-          <Table.Column
-            dataIndex="totalRevenue"
-            title="Total Revenue"
-            sorter={true}
-          />
-        </Table.ColumnGroup>
-        <Table.Column<SerializedProductDto>
-          title="Actions"
-          dataIndex="actions"
-          render={(_, record) => (
-            <Space>
-              <EditButton hideText size="small" recordItemId={record._id} />
-              <ShowButton hideText size="small" recordItemId={record._id} />
-              <DeleteButton hideText size="small" recordItemId={record._id} />
-            </Space>
-          )}
-        />
-      </Table>
-    </List>
+    <QuickTable
+      title="Products"
+      resource="products"
+      meta={{
+        join: [
+          {
+            field: 'category',
+            select: ['_id', 'fullName'],
+          },
+          {
+            field: 'brand',
+            select: ['_id', 'fullName'],
+          },
+          {
+            field: 'supplier',
+            select: ['_id', 'fullName'],
+          },
+        ],
+      }}
+      columns={[
+        {
+          title: 'Basic Info',
+          render: (_, __, index) =>
+            index === 0 && <Divider>Basic Info</Divider>,
+          children: [
+            {
+              dataIndex: 'productPictures',
+              title: 'Image',
+              render: handleProductImage,
+            },
+            {
+              dataIndex: 'fullName',
+              title: 'Name',
+              sorter: true,
+            },
+            {
+              dataIndex: 'upc',
+              title: 'UPC',
+              sorter: true,
+            },
+            {
+              dataIndex: 'price',
+              title: 'Price',
+              sorter: true,
+              render: (price) => `${Number(price).toFixed(2)} KD`,
+            },
+          ],
+        },
+        {
+          title: 'Associations',
+          children: [
+            {
+              dataIndex: ['supplier', 'fullName'],
+              title: 'Supplier',
+              render: handleEmptyString,
+            },
+            {
+              dataIndex: ['category', 'fullName'],
+              title: 'Category',
+              render: handleEmptyString,
+            },
+            {
+              dataIndex: ['brand', 'fullName'],
+              title: 'Brand',
+              render: handleEmptyString,
+            },
+          ],
+        },
+        {
+          title: 'Stock',
+          render: (_, __, index) => index === 0 && <Divider>Stock</Divider>,
+          children: [
+            {
+              dataIndex: 'totalSoldProducts',
+              title: 'Total Sold Products',
+              sorter: true,
+            },
+            {
+              dataIndex: 'totalOrders',
+              title: 'Total Orders',
+              sorter: true,
+            },
+            {
+              dataIndex: 'totalRevenue',
+              title: 'Total Revenue',
+              sorter: true,
+            },
+          ],
+        },
+      ]}
+    />
   );
 }

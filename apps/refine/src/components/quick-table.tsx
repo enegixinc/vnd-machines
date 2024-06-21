@@ -13,13 +13,14 @@ import {
 import { Button, Space, Table } from 'antd';
 import Search from 'antd/es/input/Search';
 import { ColumnGroupType, ColumnType } from 'antd/es/table';
-import { BaseRecord } from '@refinedev/core';
+import { BaseRecord, MetaQuery } from '@refinedev/core';
 
 export interface QuickTableProps {
   title: string;
   resource: string;
   columns: (ColumnGroupType<BaseRecord> | ColumnType<BaseRecord>)[];
   onSearch?: (text: string) => void;
+  meta?: MetaQuery | undefined;
 }
 
 export const QuickTable = <
@@ -31,6 +32,7 @@ export const QuickTable = <
   resource,
   columns,
   onSearch,
+  meta,
 }: QuickTableProps) => {
   const { tableProps, filters, setFilters } = useTable({
     syncWithLocation: true,
@@ -40,6 +42,7 @@ export const QuickTable = <
     filters: {
       mode: 'server',
     },
+    meta,
   });
 
   const [showDeleted, setShowDeleted] = React.useState(false);
