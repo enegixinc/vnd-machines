@@ -18,7 +18,10 @@ import {
 } from '@core';
 import { Factory } from 'nestjs-seeder';
 
-import { MagexDatabaseEntity } from '../../../common/database.entity';
+import {
+  MagexDatabaseEntity,
+  SearchableMagexEntity,
+} from '../../../common/database.entity';
 import { FillRequestProducts } from '../../requests/fill-requests/fill-request.entity';
 import { OrderProductsDetails } from '../../orders/order-details.entity';
 import { MachineProduct } from '../../machines/entities/machine-product.entity';
@@ -31,12 +34,12 @@ import { MultiLangEntity } from './multiLang.entity';
 
 @Entity('products')
 export class ProductEntity
-  extends MagexDatabaseEntity
+  extends SearchableMagexEntity
   implements IProductEntity
 {
   @BeforeInsert()
   @BeforeUpdate()
-  handle() {
+  handleSearchableFields() {
     this.searchableText = MultiLangEntity.handleSearchableText([
       this.name,
       this.description,
@@ -182,13 +185,6 @@ export class ProductEntity
 
   @Column(() => MultiLangEntity)
   name: MultiLangEntity;
-
-  @Column({ type: 'varchar' })
-  fullName: string;
-
-  @Index({ fulltext: true })
-  @Column({ type: 'varchar' })
-  searchableText: string;
 
   @Column(() => MultiLangEntity)
   description: MultiLangEntity;

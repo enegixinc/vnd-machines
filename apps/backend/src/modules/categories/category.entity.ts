@@ -1,4 +1,12 @@
-import { Column, Entity, JoinTable, ManyToMany, OneToMany } from 'typeorm';
+import {
+  BeforeInsert,
+  BeforeUpdate,
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  OneToMany,
+} from 'typeorm';
 import {
   ICategoryEntity,
   ISerializedBrand,
@@ -6,7 +14,10 @@ import {
   ISerializedUser,
   MultiLang,
 } from '@core';
-import { MagexDatabaseEntity } from '../../common/database.entity';
+import {
+  MagexDatabaseEntity,
+  SearchableMagexEntity,
+} from '../../common/database.entity';
 import { ProductEntity } from '../products/entities/product.entity';
 import { UserEntity } from '../users/entities/user.entity';
 import { BrandEntity } from '../brands/brand.entity';
@@ -14,12 +25,21 @@ import { Factory } from 'nestjs-seeder';
 import { fakerAR } from '@faker-js/faker';
 import { MagexService } from '../../services/magex/magex.service';
 import { TotalOrders, TotalRevenue, TotalSoldProducts } from './decorators';
+import { MultiLangEntity } from '../products/entities/multiLang.entity';
 
 @Entity('categories')
 export class CategoryEntity
-  extends MagexDatabaseEntity
+  extends SearchableMagexEntity
   implements ICategoryEntity
 {
+  @BeforeInsert()
+  @BeforeUpdate()
+  handleSearchableFields() {
+    this.searchableText = MultiLangEntity.handleSearchableText([this.name]);
+
+    this.fullName = MultiLangEntity.handleMultiLang(this.name);
+  }
+
   @TotalSoldProducts('categories', 'category_id')
   totalSoldProducts: number;
 

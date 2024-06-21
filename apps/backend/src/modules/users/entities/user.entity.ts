@@ -11,7 +11,10 @@ import { IUserEntity, UserRole } from '@core';
 import { Factory } from 'nestjs-seeder';
 import bcrypt from 'bcrypt';
 
-import { DatabaseEntity } from '../../../common/database.entity';
+import {
+  DatabaseEntity,
+  SearchableEntity,
+} from '../../../common/database.entity';
 import { ProductEntity } from '../../products/entities/product.entity';
 import { CategoryEntity } from '../../categories/category.entity';
 import { BrandEntity } from '../../brands/brand.entity';
@@ -24,10 +27,10 @@ import {
 import { MultiLangEntity } from '../../products/entities/multiLang.entity';
 
 @Entity('users')
-export class UserEntity extends DatabaseEntity implements IUserEntity {
+export class UserEntity extends SearchableEntity implements IUserEntity {
   @BeforeInsert()
   @BeforeUpdate()
-  handle() {
+  handleSearchableFields() {
     this.searchableText = MultiLangEntity.handleSearchableText([
       this.firstName,
       this.lastName,
@@ -39,12 +42,7 @@ export class UserEntity extends DatabaseEntity implements IUserEntity {
     this.fullName = this.firstName + ' ' + this.lastName;
   }
 
-  @Column({ type: 'varchar' })
-  fullName: string;
-
-  @Column({ type: 'varchar' })
-  searchableText: string;
-
+  @BeforeUpdate()
   @BeforeInsert()
   async hashPassword() {
     this.password = await bcrypt.hash(this.password, 10);

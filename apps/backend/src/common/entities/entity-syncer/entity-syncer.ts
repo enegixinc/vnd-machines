@@ -9,7 +9,11 @@ import { CRUDSyncer } from './crud-syncer';
 import { _IMagex_DatabaseEntity } from '@core';
 
 export interface EntitySyncer<Entity> {
-  handleRelationships(record: unknown): Entity | Promise<Entity>;
+  handleRelationships(record: _IMagex_DatabaseEntity): Entity | Promise<Entity>;
+  handleSearchableFields(record: _IMagex_DatabaseEntity): {
+    fullName: string;
+    searchableText: string;
+  };
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
@@ -126,6 +130,7 @@ export abstract class EntitySyncer<
     return Promise.all(
       records.map(async (record) => {
         const entity = this.entityClone;
+        Object.assign(entity, this.assignSearchableFields(record));
         Object.assign(entity, await this.assignRelations(record));
         Object.assign(entity, { lastSyncAt: new Date().toISOString() });
         return entity;
@@ -133,7 +138,13 @@ export abstract class EntitySyncer<
     );
   }
 
-  private async assignRelations(record: unknown) {
+  private assignSearchableFields(record: MagexRecord) {
+    return this.handleSearchableFields
+      ? this.handleSearchableFields(record)
+      : record;
+  }
+
+  private async assignRelations(record: Entity | MagexRecord) {
     return this.handleRelationships
       ? await this.handleRelationships(record)
       : record;

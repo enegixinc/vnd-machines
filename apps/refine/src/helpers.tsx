@@ -39,7 +39,7 @@ export function safeArrayCounter(data: any) {
 }
 
 export const handleEmptyString = (value: string | null | undefined) => {
-  if (value === null || value === undefined || value === '') {
+  if (value === null || value === undefined || value === '' || value === ' ') {
     return (
       <Typography.Text
         type="secondary"

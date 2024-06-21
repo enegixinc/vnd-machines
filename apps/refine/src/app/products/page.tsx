@@ -34,12 +34,15 @@ export default function ProductsList() {
       join: [
         {
           field: 'category',
+          select: ['_id', 'fullName'],
         },
         {
           field: 'brand',
+          select: ['_id', 'fullName'],
         },
         {
           field: 'supplier',
+          select: ['_id', 'fullName'],
         },
       ],
     },
@@ -55,38 +58,39 @@ export default function ProductsList() {
             render={handleProductImage}
           />
           <Table.Column
-            dataIndex={['name', 'en']}
+            dataIndex={'fullName'}
             title="Name"
             render={handleEmptyString}
           />
           <Table.Column
             dataIndex="upc"
             title="UPC"
+            sorter
             render={handleEmptyString}
           />
           <Table.Column
             dataIndex="price"
             title="Price"
-            sorter={true}
+            sorter
             render={(price) => `${Number(price).toFixed(2)} KD`}
           />
         </Table.ColumnGroup>
 
         <Table.ColumnGroup title="Associated">
           <Table.Column
-            dataIndex="supplier"
+            dataIndex={['supplier', 'fullName']}
             title="Supplier"
-            render={(supplier) => handleEmptyString(supplier?.email ?? null)}
+            render={handleEmptyString}
           />
           <Table.Column
-            dataIndex="category"
+            dataIndex={['category', 'fullName']}
             title="Category"
-            render={(category) => handleEmptyString(category?.name?.en ?? null)}
+            render={handleEmptyString}
           />
           <Table.Column
-            dataIndex="brand"
+            dataIndex={['brand', 'fullName']}
+            render={handleEmptyString}
             title="Brand"
-            render={(brand) => handleEmptyString(brand?.name?.en ?? null)}
           />
         </Table.ColumnGroup>
 

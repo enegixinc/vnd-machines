@@ -3,6 +3,8 @@ import { BrandEntity } from './brand.entity';
 import { Inject } from '@nestjs/common';
 import { EntitySyncer } from '../../common/entities/entity-syncer/entity-syncer';
 import { MagexService } from '../../services/magex/magex.service';
+import { _IMagex_DatabaseEntity } from '@core';
+import { MultiLangEntity } from '../products/entities/multiLang.entity';
 
 @EventSubscriber()
 export class BrandSubscriber extends EntitySyncer<BrandEntity> {
@@ -15,5 +17,15 @@ export class BrandSubscriber extends EntitySyncer<BrandEntity> {
 
   listenTo() {
     return BrandEntity;
+  }
+
+  handleSearchableFields(record: BrandEntity): {
+    fullName: string;
+    searchableText: string;
+  } {
+    return {
+      fullName: MultiLangEntity.handleMultiLang(record.name),
+      searchableText: MultiLangEntity.handleSearchableText([record.name]),
+    };
   }
 }

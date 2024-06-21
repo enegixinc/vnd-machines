@@ -21,6 +21,22 @@ export class ProductSubscriber extends EntitySyncer<ProductEntity> {
     return ProductEntity;
   }
 
+  handleSearchableFields(record: ISerializedMagexProduct) {
+    return {
+      fullName: MultiLangEntity.handleMultiLang(record.name),
+      searchableText: MultiLangEntity.handleSearchableText([
+        record.name,
+        record.description,
+        record.ingredients,
+        record.detail,
+        record.include,
+        record.keyFeatures,
+        record.barcode,
+        record.upc,
+      ]),
+    };
+  }
+
   handleRelationships(record: ISerializedMagexProduct) {
     let category: CategoryEntity | undefined;
     let brand: BrandEntity | undefined;
@@ -37,15 +53,6 @@ export class ProductSubscriber extends EntitySyncer<ProductEntity> {
 
     return this.dataSource.manager.create(ProductEntity, {
       ...record,
-      fullName: MultiLangEntity.handleMultiLang(record.name),
-      searchableText: MultiLangEntity.handleSearchableText([
-        record.name,
-        record.description,
-        record.ingredients,
-        record.detail,
-        record.include,
-        record.keyFeatures,
-      ]),
       category,
       brand,
     });
