@@ -35,7 +35,10 @@ export class CategoryEntity
   @BeforeInsert()
   @BeforeUpdate()
   handleSearchableFields() {
-    this.searchableText = MultiLangEntity.handleSearchableText([this.name]);
+    this.searchableText = MultiLangEntity.handleSearchableText([
+      this._id,
+      this.name,
+    ]);
 
     this.fullName = MultiLangEntity.handleMultiLang(this.name);
   }

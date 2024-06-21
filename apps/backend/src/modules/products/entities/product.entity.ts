@@ -41,6 +41,7 @@ export class ProductEntity
   @BeforeUpdate()
   handleSearchableFields() {
     this.searchableText = MultiLangEntity.handleSearchableText([
+      this._id,
       this.name,
       this.description,
       this.ingredients,

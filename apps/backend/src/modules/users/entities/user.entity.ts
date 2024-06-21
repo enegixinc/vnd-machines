@@ -41,6 +41,7 @@ export class UserEntity extends SearchableEntity implements IUserEntity {
   @BeforeUpdate()
   handleSearchableFields() {
     this.searchableText = MultiLangEntity.handleSearchableText([
+      this._id,
       this.firstName,
       this.lastName,
       this.businessName,
