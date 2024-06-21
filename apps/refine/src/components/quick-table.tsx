@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   CreateButton,
   DeleteButton,
@@ -14,6 +14,8 @@ import { Button, Space, Table } from 'antd';
 import Search from 'antd/es/input/Search';
 import { ColumnGroupType, ColumnType } from 'antd/es/table';
 import { BaseRecord, MetaQuery } from '@refinedev/core';
+import { RollbackOutlined } from '@ant-design/icons';
+import { vndClient } from '@providers/api';
 
 export interface QuickTableProps {
   title: string;
@@ -34,6 +36,8 @@ export const QuickTable = <
   onSearch,
   meta,
 }: QuickTableProps) => {
+  const [showDeleted, setShowDeleted] = React.useState(false);
+
   const { tableProps, filters, setFilters } = useTable({
     syncWithLocation: true,
     sorters: {
@@ -44,11 +48,30 @@ export const QuickTable = <
     },
     meta: {
       ...meta,
-      includeDeleted: 1,
+      // includeDeleted: 1,
     },
   });
 
-  const [showDeleted, setShowDeleted] = React.useState(false);
+  // const toggleDeleted = () => {
+  //   setShowDeleted((prevState) => !prevState);
+  //   setFilters((prevFilters) => {
+  //     const newFilters = [...prevFilters];
+  //     const deletedFilter = newFilters.find(
+  //       // @ts-ignore
+  //       (filter) => filter.field === 'deletedAt'
+  //     );
+  //     if (deletedFilter) {
+  //       newFilters.splice(newFilters.indexOf(deletedFilter), 1);
+  //     } else {
+  //       newFilters.push({
+  //         field: 'deletedAt',
+  //         operator: 'nnull',
+  //         value: '',
+  //       });
+  //     }
+  //     return newFilters;
+  //   });
+  // };
 
   const handleSearch = (text: string) => {
     if (onSearch) {
@@ -60,11 +83,6 @@ export const QuickTable = <
           value: text,
           operator: 'contains',
         },
-        // {
-        //   field: 'deletedAt',
-        //   value: showDeleted ? undefined : null,
-        //   operator: showDeleted ? 'isNotNull' : 'isNull',
-        // },
       ]);
     }
   };
@@ -87,9 +105,9 @@ export const QuickTable = <
       }}
       headerButtons={
         <>
-          <Button onClick={() => setShowDeleted((prev) => !prev)}>
-            {showDeleted ? 'Hide Deleted' : 'Show Deleted'}
-          </Button>
+          {/*<Button onClick={toggleDeleted}>*/}
+          {/*  {showDeleted ? 'Hide Deleted' : 'Show Deleted'}*/}
+          {/*</Button>*/}
           <CreateButton resource={resource} size="middle" type="primary" />
         </>
       }

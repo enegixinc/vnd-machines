@@ -1,7 +1,6 @@
 import { DataSource, EntitySubscriberInterface } from 'typeorm';
 import { Inject, OnModuleInit } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
-import { timer } from 'execution-time-decorators';
 import * as process from 'node:process';
 import { MagexDatabaseEntity } from '../../database.entity';
 import { MagexService } from '../../../services/magex/magex.service';
