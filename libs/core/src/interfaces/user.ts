@@ -1,4 +1,4 @@
-import { ISerializedProduct } from './product';
+import { IProductEntity, ISerializedProduct } from './product';
 import { IDataBaseEntity } from './common';
 import { IContractEntity, ISerializedContract } from './contract';
 
@@ -21,7 +21,7 @@ export interface IUserEntity extends IDataBaseEntity {
   role: UserRole;
   phoneNumber: string;
   active: boolean;
-  products: string[] | ISerializedProduct[];
+  products: string[] | ISerializedProduct[] | IProductEntity[];
   documents: string[] | IDocument[];
   contracts: IContractEntity[];
 }

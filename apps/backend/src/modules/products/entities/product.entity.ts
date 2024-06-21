@@ -134,6 +134,7 @@ export class ProductEntity
   @ManyToOne(() => UserEntity, (user) => user.products, {
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
+    cascade: ['update'],
   })
   supplier: ReferenceByID<ISerializedUser>;
 

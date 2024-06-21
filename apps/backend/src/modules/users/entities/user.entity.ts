@@ -28,6 +28,15 @@ import { MultiLangEntity } from '../../products/entities/multiLang.entity';
 
 @Entity('users')
 export class UserEntity extends SearchableEntity implements IUserEntity {
+  @BeforeUpdate()
+  @BeforeInsert()
+  handleProducts() {
+    console.log(this);
+    if (!this.products) return;
+    // @ts-ignore
+    this.products = this.products.map((product) => product._id);
+  }
+
   @BeforeInsert()
   @BeforeUpdate()
   handleSearchableFields() {
@@ -45,6 +54,7 @@ export class UserEntity extends SearchableEntity implements IUserEntity {
   @BeforeUpdate()
   @BeforeInsert()
   async hashPassword() {
+    if (!this.password) return;
     this.password = await bcrypt.hash(this.password, 10);
   }
 
@@ -101,8 +111,9 @@ export class UserEntity extends SearchableEntity implements IUserEntity {
   @OneToMany(() => ProductEntity, (product) => product.supplier, {
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
+    cascade: ['update'],
   })
-  products: string[];
+  products: ProductEntity[];
 
   @ManyToMany(() => BrandEntity, (brand) => brand.suppliers)
   brands: string[];

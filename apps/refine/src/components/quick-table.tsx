@@ -109,7 +109,7 @@ export const QuickTable = <
           {/*<Button onClick={toggleDeleted}>*/}
           {/*  {showDeleted ? 'Hide Deleted' : 'Show Deleted'}*/}
           {/*</Button>*/}
-          <CreateButton resource={resource} size="middle" type="primary" />
+          <CreateButton size="middle" type="primary" />
         </>
       }
     >
