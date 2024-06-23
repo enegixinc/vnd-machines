@@ -3,6 +3,7 @@ import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
+  Index,
   ObjectIdColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -102,4 +103,24 @@ export abstract class MagexDatabaseEntity extends DatabaseEntity {
   abstract fetchMagexRecords(
     magexService: MagexService
   ): Promise<_IMagex_DatabaseEntity[]>;
+}
+
+export class SearchableEntity extends DatabaseEntity {
+  @Index()
+  @Column({ type: 'varchar' })
+  fullName: string;
+
+  @Index({ fulltext: true })
+  @Column({ type: 'varchar' })
+  searchableText: string;
+}
+
+export abstract class SearchableMagexEntity extends MagexDatabaseEntity {
+  @Index()
+  @Column({ type: 'varchar', default: 'DEFAULT_FULLNAME' })
+  fullName: string;
+
+  @Index({ fulltext: true })
+  @Column({ type: 'varchar', default: 'DEFAULT' })
+  searchableText: string;
 }

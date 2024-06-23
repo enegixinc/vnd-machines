@@ -1,0 +1,21 @@
+{
+  "name": "dashboard",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/frontend/refine",
+  "projectType": "application",
+  "refine": {
+    "projectId": "jBlEcC-2gH5NN-AhkCw4"
+  },
+  "tags": [],
+  "// targets": "to see all targets run: nx show project dashboard --web",
+  "targets": {
+    "dev": {
+      "executor": "@nx/next:server",
+      "options": {
+        "buildTarget": "dashboard:build:dev",
+        "dev": true,
+        "port": 4200
+      }
+    }
+  }
+}

@@ -1,18 +1,34 @@
 import { decorate } from 'ts-mixer';
 import {
+  IsArray,
   IsNotEmpty,
   IsOptional,
   IsPhoneNumber,
   IsString,
   MaxLength,
+  Validate,
+  ValidateNested,
 } from 'class-validator';
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, PickType } from '@nestjs/swagger';
 import { UserRole } from '@core';
 import { CrudValidationGroups } from '@dataui/crud';
+import { ProductEntity } from '../../../products/entities/product.entity';
+import { Type } from 'class-transformer';
+
+class ReferenceByID {
+  @IsString()
+  _id: string;
+}
 
 const { CREATE, UPDATE } = CrudValidationGroups;
 
 export class SharedUserDto {
+  @IsOptional({ groups: [UPDATE, CREATE] })
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => ReferenceByID)
+  products: ProductEntity[];
+
   @decorate(IsNotEmpty({ groups: [CREATE] }))
   @decorate(IsOptional({ groups: [UPDATE] }))
   @decorate(

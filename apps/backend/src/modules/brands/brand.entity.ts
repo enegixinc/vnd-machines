@@ -1,5 +1,16 @@
-import { Column, Entity, JoinTable, ManyToMany, OneToMany } from 'typeorm';
-import { MagexDatabaseEntity } from '../../common/database.entity';
+import {
+  BeforeInsert,
+  BeforeUpdate,
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  OneToMany,
+} from 'typeorm';
+import {
+  MagexDatabaseEntity,
+  SearchableMagexEntity,
+} from '../../common/database.entity';
 import {
   IBrandEntity,
   ISerializedCategory,
@@ -17,9 +28,18 @@ import {
   TotalRevenue,
   TotalSoldProducts,
 } from '../categories/decorators';
+import { MultiLangEntity } from '../products/entities/multiLang.entity';
 
 @Entity('brands')
-export class BrandEntity extends MagexDatabaseEntity implements IBrandEntity {
+export class BrandEntity extends SearchableMagexEntity implements IBrandEntity {
+  @BeforeInsert()
+  @BeforeUpdate()
+  handleSearchableFields() {
+    this.searchableText = MultiLangEntity.handleSearchableText([this.name]);
+
+    this.fullName = MultiLangEntity.handleMultiLang(this.name);
+  }
+
   @TotalSoldProducts('brands', 'brand_id')
   totalSoldProducts: number;
 

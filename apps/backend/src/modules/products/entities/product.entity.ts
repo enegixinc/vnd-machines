@@ -18,7 +18,10 @@ import {
 } from '@core';
 import { Factory } from 'nestjs-seeder';
 
-import { MagexDatabaseEntity } from '../../../common/database.entity';
+import {
+  MagexDatabaseEntity,
+  SearchableMagexEntity,
+} from '../../../common/database.entity';
 import { FillRequestProducts } from '../../requests/fill-requests/fill-request.entity';
 import { OrderProductsDetails } from '../../orders/order-details.entity';
 import { MachineProduct } from '../../machines/entities/machine-product.entity';
@@ -31,12 +34,12 @@ import { MultiLangEntity } from './multiLang.entity';
 
 @Entity('products')
 export class ProductEntity
-  extends MagexDatabaseEntity
+  extends SearchableMagexEntity
   implements IProductEntity
 {
   @BeforeInsert()
   @BeforeUpdate()
-  handle() {
+  handleSearchableFields() {
     this.searchableText = MultiLangEntity.handleSearchableText([
       this.name,
       this.description,
@@ -131,8 +134,9 @@ export class ProductEntity
   @ManyToOne(() => UserEntity, (user) => user.products, {
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
+    cascade: ['update'],
   })
-  supplier: ReferenceByID<ISerializedUser>[];
+  supplier: ReferenceByID<ISerializedUser>;
 
   @ManyToOne(() => BrandEntity, (brand) => brand.products, {
     cascade: true,
@@ -182,13 +186,6 @@ export class ProductEntity
 
   @Column(() => MultiLangEntity)
   name: MultiLangEntity;
-
-  @Column({ type: 'varchar' })
-  fullName: string;
-
-  @Index({ fulltext: true })
-  @Column({ type: 'varchar' })
-  searchableText: string;
 
   @Column(() => MultiLangEntity)
   description: MultiLangEntity;
@@ -325,7 +322,10 @@ export class ProductEntity
   stock: number;
 
   async createMagexRecord(magexService: MagexService) {
-    const formData = await this.handleMultiLangProps(this);
+    const formData = this.handleMultiLangProps(
+      this.removeExtraProps(this, ['supplier', 'fullName'])
+    );
+
     const { newProduct } = await magexService.products.postProductsCreate({
       formData: {
         ...formData,
@@ -341,7 +341,9 @@ export class ProductEntity
   }
 
   async updateMagexRecord(magexService: MagexService) {
-    const formData = await this.handleMultiLangProps(this);
+    const formData = this.handleMultiLangProps(
+      this.removeExtraProps(this, ['supplier', 'fullName'])
+    );
 
     await magexService.products.putProductsEditById({
       id: formData._id,
@@ -367,7 +369,13 @@ export class ProductEntity
     }) as Promise<IProductEntity[]>;
   }
 
-  private async handleMultiLangProps(product: ObjectLiteral) {
+  private removeExtraProps(object: ObjectLiteral, extraProps: string[]) {
+    return Object.fromEntries(
+      Object.entries(object).filter(([key]) => !extraProps.includes(key))
+    );
+  }
+
+  private handleMultiLangProps(product: ObjectLiteral) {
     const multiLangProps = [
       'name',
       'description',

@@ -1,1 +1,0 @@
-{"type":"object","properties":{"email":{"type":"boolean","example":true},"whatsapp":{"type":"boolean","example":true}},"required":["email","whatsapp"],"x-readme-ref-name":"NotificationRequest"}

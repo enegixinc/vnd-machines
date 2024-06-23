@@ -1,0 +1,44 @@
+{
+  "name": "app-crm",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/app-crm/src",
+  "targets": {
+    "deploy": {
+      "executor": "nx:run-commands",
+      "defaultConfiguration": "dev",
+      "options": {
+        "parallel": false,
+        "commands": [
+          "docker build -f apps/app-crm/Dockerfile . -t {args.DockerContainerRegistry}",
+          "docker push {args.DockerContainerRegistry}"
+        ]
+      },
+      "configurations": {
+        "dev": {
+          "DockerContainerRegistry": "abdelrahmanessawy/vnd-app-crm-dev"
+        },
+        "staging": {
+          "DockerContainerRegistry": "abdelrahmanessawy/vnd-app-crm-staging"
+        },
+        "production": {
+          "DockerContainerRegistry": "abdelrahmanessawy/vnd-app-crm-production"
+        }
+      }
+    },
+    "notify": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "node scripts/coolify.js -w '{args.DEV_FRONTEND_COOLIFY_WEBHOOK}'"
+        ]
+      }
+    },
+    "start": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "NODE_ENV=production http-server -p 80 -c-1 dist/apps/app-crm --proxy http://localhost:80?"
+      }
+    }
+  }
+}

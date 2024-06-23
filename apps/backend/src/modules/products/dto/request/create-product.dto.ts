@@ -30,7 +30,7 @@ export class CreateProductDto
   )
   @decorate(Validate(UserExistsValidator))
   @decorate(IsOptional({ groups: [UPDATE, CREATE] }))
-  supplier: ReferenceByID<ISerializedUser>[];
+  supplier: ReferenceByID<ISerializedUser>;
 
   @decorate(IsOptional({ groups: [UPDATE, CREATE] }))
   @decorate(

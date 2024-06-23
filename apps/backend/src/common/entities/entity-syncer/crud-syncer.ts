@@ -28,7 +28,12 @@ export class CRUDSyncer<Entity extends MagexDatabaseEntity>
 
   async beforeUpdate(event: UpdateEvent<Entity>) {
     if (!this.CRUDConfig.beforeUpdate) return;
-    await event.entity.updateMagexRecord(this.magexService);
+
+    // Edge case: If event has only _id then it's related to associations and magex record should not be updated
+    if (!event.entity) return;
+    if (Object.keys(event.entity).length === 1 && event.entity._id) return;
+
+    await event.entity?.updateMagexRecord(this.magexService);
   }
 
   async beforeSoftRemove(event: RemoveEvent<Entity>) {
