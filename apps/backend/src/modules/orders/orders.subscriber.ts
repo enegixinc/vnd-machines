@@ -7,6 +7,7 @@ import { ProductEntity } from '../products/entities/product.entity';
 import { OrderProductsDetails } from './order-details.entity';
 import { MachineEntity } from '../machines/entities/machine.entity';
 import { _IMagex_DatabaseEntity } from '@core';
+import { MultiLangEntity } from '../products/entities/multiLang.entity';
 
 @EventSubscriber()
 export class OrdersSubscriber extends EntitySyncer<OrderEntity> {
@@ -25,6 +26,27 @@ export class OrdersSubscriber extends EntitySyncer<OrderEntity> {
 
   listenTo() {
     return OrderEntity;
+  }
+
+  handleSearchableFields(record: OrderEntity): {
+    fullName: string;
+    searchableText: string;
+  } {
+    return {
+      fullName: '',
+      searchableText: MultiLangEntity.handleSearchableText([
+        record._id,
+        record.email,
+        record.card_number,
+        record.card_department,
+        record.total,
+        record.payment_type,
+        record.payment_receipt,
+        record.payment_transaction_id,
+        record.tax,
+        record.utcOffset,
+      ]),
+    };
   }
 
   async preloadProducts(productIds: string[]) {
@@ -71,7 +93,6 @@ export class OrdersSubscriber extends EntitySyncer<OrderEntity> {
     Object.assign(order, record);
     order.products = productsDetails;
     order.machine = await this.preloadMachine(record?.machineID?._id);
-    console.log('machine', order.machine);
     return order;
   }
 }

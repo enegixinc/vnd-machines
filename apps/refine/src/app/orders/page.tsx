@@ -4,6 +4,8 @@ import { Divider, Tag } from 'antd';
 import React from 'react';
 import { handleEmptyString } from '@helpers';
 import { QuickTable } from '@components/quick-table';
+import { IoIosCash } from 'react-icons/io';
+import { RiVisaFill } from 'react-icons/ri';
 
 export default function OrdersList() {
   const data = [
@@ -60,49 +62,45 @@ export default function OrdersList() {
         resource={'orders'}
         columns={[
           {
-            title: 'Order ID',
-            dataIndex: '_id',
-            render: handleEmptyString,
+            title: 'Cart Number',
+            dataIndex: 'cart_number',
           },
           {
-            title: 'Status',
-            dataIndex: 'status',
-            render: handleEmptyString,
-          },
-          {
-            title: 'Payment Type',
+            title: 'Payment Method',
             dataIndex: 'payment_type',
-            render: handleEmptyString,
+            render: (paymentType) => (
+              <Tag
+                icon={
+                  paymentType === 'CASH' ? (
+                    <IoIosCash
+                      style={{
+                        fontSize: '2em',
+                        verticalAlign: 'middle',
+                      }}
+                    />
+                  ) : (
+                    <RiVisaFill
+                      style={{
+                        fontSize: '2em',
+                        verticalAlign: 'middle',
+                      }}
+                    />
+                  )
+                }
+                color={paymentType === 'CASH' ? 'green' : 'blue'}
+              />
+            ),
           },
           {
             title: 'Total',
-            dataIndex: 'total',
-            render: handleEmptyString,
+            dataIndex: ['total'],
+            sorter: true,
+            render: (total, record) => `${total} ${record.currency}`,
           },
           {
-            title: 'Currency',
-            dataIndex: 'currency',
-            render: handleEmptyString,
-          },
-          {
-            title: 'Cart Number',
-            dataIndex: 'cart_number',
-            render: handleEmptyString,
-          },
-          {
-            title: 'Email',
-            dataIndex: 'email',
-            render: handleEmptyString,
-          },
-          {
-            title: 'Active',
-            dataIndex: 'status',
-            render: (status) =>
-              status === 'Completed' ? (
-                <Tag color="green">Active</Tag>
-              ) : (
-                <Tag color="red">Inactive</Tag>
-              ),
+            title: 'Products Quantity',
+            sorter: true,
+            dataIndex: 'totalQuantity',
           },
         ]}
       />

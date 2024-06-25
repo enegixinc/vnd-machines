@@ -199,6 +199,7 @@
     "postman-to-openapi": "^3.0.1",
     "prettier": "^2.7.1",
     "query-string": "^9.0.0",
+    "react-icons": "^5.2.1",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.0",
     "sweetalert2": "^11.5.1",
