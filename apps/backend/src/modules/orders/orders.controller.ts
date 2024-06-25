@@ -35,7 +35,6 @@ import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
       },
       'products.product': {
         alias: 'product',
-        allow: ['_id', 'fullName'],
       },
       'products.product.supplier': {
         alias: 'supplier',

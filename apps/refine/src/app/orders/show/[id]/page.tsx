@@ -1,28 +1,39 @@
 'use client';
 
 import { Show, TextField } from '@refinedev/antd';
-import { useShow } from '@refinedev/core';
-import { Descriptions, Divider, Typography } from 'antd';
+import { Descriptions, Divider, Space, Table, Typography } from 'antd';
 import React from 'react';
-import { IUserEntity } from '../../../../../../../libs/core';
-import { useParams } from 'next/navigation';
-import { ShowFinance } from '@components/sections/finance';
+import { useShow } from '@refinedev/core';
+import { handleEmptyString } from '@helpers';
+
+import { handleProductImage } from '@app/products/utils/handleProductImage';
+import { handleNullableText } from '@app/products/utils/handleNullableText';
 
 const { Title } = Typography;
 
-export default function SupplierShow() {
-  const { id } = useParams();
-  const { queryResult } = useShow<IUserEntity>({
-    resource: 'users',
-    id: id.toString(),
+export default function OrderShow() {
+  const { queryResult } = useShow({
     meta: {
       join: [
         {
           field: 'products',
         },
+        {
+          field: 'products.product',
+        },
+        {
+          field: 'products.product.supplier',
+        },
+        {
+          field: 'products.product.category',
+        },
+        {
+          field: 'products.product.brand',
+        },
       ],
     },
   });
+
   const { data, isLoading } = queryResult;
 
   const record = data?.data;
@@ -32,10 +43,10 @@ export default function SupplierShow() {
 
   return (
     <Show isLoading={isLoading}>
-      <Title level={3}>{'Supplier Details'}</Title>
+      <Title level={3}>{'Order Details'}</Title>
       <Descriptions
         bordered
-        column={1}
+        column={2}
         labelStyle={{
           fontWeight: 'bold',
           width: '20%',
@@ -44,23 +55,16 @@ export default function SupplierShow() {
         <Descriptions.Item label="ID">
           <TextField value={record._id} />
         </Descriptions.Item>
-        <Descriptions.Item label="First Name">
-          <TextField value={record.firstName} />
+        <Descriptions.Item label="Status">
+          <TextField value={handleEmptyString(record.status)} />
         </Descriptions.Item>
-        <Descriptions.Item label="Last Name">
-          <TextField value={record.lastName} />
+        <Descriptions.Item label="Payment Type">
+          <TextField value={handleEmptyString(record.payment_type)} />
         </Descriptions.Item>
-        <Descriptions.Item label="Email">
-          <TextField value={record.email} />
-        </Descriptions.Item>
-        <Descriptions.Item label="Phone Number">
-          <TextField value={record.phoneNumber} />
-        </Descriptions.Item>
-        <Descriptions.Item label="Business Name">
-          <TextField value={record.businessName || 'N/A'} />
-        </Descriptions.Item>
-        <Descriptions.Item label="Active">
-          <TextField value={record.active ? 'Yes' : 'No'} />
+        <Descriptions.Item label="Total">
+          <TextField
+            value={`${Number(record.total).toFixed(2)} ${record.currency}`}
+          />
         </Descriptions.Item>
         <Descriptions.Item label="Created At">
           <TextField value={record.createdAt} />
@@ -68,42 +72,145 @@ export default function SupplierShow() {
         <Descriptions.Item label="Updated At">
           <TextField value={record.updatedAt} />
         </Descriptions.Item>
-        {record.deletedAt && (
-          <Descriptions.Item label="Deleted At">
-            <TextField value={record.deletedAt} />
-          </Descriptions.Item>
-        )}
-        {record.lastSyncAt && (
-          <Descriptions.Item label="Last Sync At">
-            <TextField value={record.lastSyncAt} />
-          </Descriptions.Item>
-        )}
+        <Descriptions.Item label="Email">
+          <TextField value={handleEmptyString(record.email)} />
+        </Descriptions.Item>
+        <Descriptions.Item label="Cart Number">
+          <TextField value={handleEmptyString(record.cart_number)} />
+        </Descriptions.Item>
+        <Descriptions.Item label="Products Amount">
+          <TextField value={record.productsAmount} />
+        </Descriptions.Item>
+        <Descriptions.Item label="Total Quantity">
+          <TextField value={record.totalQuantity} />
+        </Descriptions.Item>
       </Descriptions>
+
       <Divider />
-      <ShowFinance record={record} />
+      <Title level={3} style={{ marginTop: 16 }}>
+        {'Products'}
+      </Title>
+
+      <Table
+        dataSource={record.products}
+        columns={[
+          {
+            title: 'Basic Info',
+            render: (_, __, index) =>
+              index === 0 && <Divider>Basic Info</Divider>,
+            children: [
+              {
+                dataIndex: ['product', 'productPictures'],
+                title: 'Image',
+                render: handleProductImage,
+              },
+              {
+                dataIndex: ['product', 'fullName'],
+                title: 'Name',
+                sorter: true,
+                render: handleNullableText,
+              },
+              {
+                dataIndex: ['product', 'upc'],
+                title: 'UPC',
+                sorter: true,
+                render: handleNullableText,
+              },
+              {
+                dataIndex: ['product', 'price'],
+                title: 'Price',
+                sorter: true,
+                render: (price) => `${Number(price).toFixed(2)} KD`,
+              },
+            ],
+          },
+          {
+            title: 'Associations',
+            children: [
+              {
+                dataIndex: ['product', 'supplier', 'fullName'],
+                title: 'Supplier',
+                render: handleEmptyString,
+                onFilter(value, record) {
+                  return record.supplier === null;
+                },
+                filters: [
+                  {
+                    text: 'No Supplier',
+                    value: 'null',
+                  },
+                ],
+              },
+              {
+                dataIndex: ['product', 'category', 'fullName'],
+                title: 'Category',
+                render: handleEmptyString,
+              },
+              {
+                dataIndex: ['product', 'brand', 'fullName'],
+                title: 'Brand',
+                render: handleEmptyString,
+              },
+            ],
+          },
+          {
+            title: 'Extra Details',
+            render: (_, __, index) =>
+              index === 0 && <Divider>Position</Divider>,
+            children: [
+              {
+                title: 'Quantity',
+                dataIndex: 'quantity',
+                sorter: true,
+              },
+              {
+                dataIndex: 'lane',
+                title: 'Lane',
+                sorter: true,
+              },
+              {
+                dataIndex: 'row_number',
+                title: 'Row',
+                sorter: true,
+              },
+            ],
+          },
+        ]}
+        loading={isLoading}
+        showSorterTooltip
+        rowKey="_id"
+      />
+
       <Divider />
+
+      <Title level={3} style={{ marginTop: 16 }}>
+        {'Extra Details'}
+      </Title>
       <Descriptions
         bordered
-        column={1}
+        column={2}
         labelStyle={{
           fontWeight: 'bold',
           width: '20%',
         }}
       >
-        <Descriptions.Item label="Address">
-          <TextField value={record.address} />
+        <Descriptions.Item label="Payment Transaction ID">
+          <TextField value={handleEmptyString(record.payment_transaction_id)} />
         </Descriptions.Item>
-        <Descriptions.Item label="City">
-          <TextField value={record.city} />
+        <Descriptions.Item label="Payment Receipt">
+          <TextField value={handleEmptyString(record.payment_receipt)} />
         </Descriptions.Item>
-        <Descriptions.Item label="State">
-          <TextField value={record.state} />
+        <Descriptions.Item label="Card Number">
+          <TextField value={handleEmptyString(record.card_number)} />
         </Descriptions.Item>
-        <Descriptions.Item label="Zip Code">
-          <TextField value={record.zipCode} />
+        <Descriptions.Item label="Card Department">
+          <TextField value={handleEmptyString(record.card_department)} />
         </Descriptions.Item>
-        <Descriptions.Item label="Country">
-          <TextField value={record.country} />
+        <Descriptions.Item label="Reservation Code">
+          <TextField value={handleEmptyString(record.reservation_code)} />
+        </Descriptions.Item>
+        <Descriptions.Item label="Return Code">
+          <TextField value={handleEmptyString(record.return_code)} />
         </Descriptions.Item>
       </Descriptions>
     </Show>

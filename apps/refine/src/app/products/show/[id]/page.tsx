@@ -5,8 +5,8 @@ import { Descriptions, Divider, Typography } from 'antd';
 import React from 'react';
 import { SerializedProductDto } from '@frontend/api-sdk';
 import { useShow } from '@refinedev/core';
-import { handleProductImage } from '@app/products/page';
 import { handleEmptyString } from '@helpers';
+import { handleProductImage } from '@app/products/utils/handleProductImage';
 
 const { Title } = Typography;
 
