@@ -6,7 +6,7 @@ import React from 'react';
 import { useShow } from '@refinedev/core';
 import { handleEmptyString } from '@helpers';
 
-import { handleProductImage } from '@app/products/utils/handleProductImage';
+import { handleMagextImage } from '@app/products/utils/handleMagextImage';
 import { handleNullableText } from '@app/products/utils/handleNullableText';
 
 const { Title } = Typography;
@@ -102,7 +102,8 @@ export default function OrderShow() {
               {
                 dataIndex: ['product', 'productPictures'],
                 title: 'Image',
-                render: handleProductImage,
+                render: (productPictures) =>
+                  handleMagextImage(productPictures[0]),
               },
               {
                 dataIndex: ['product', 'fullName'],

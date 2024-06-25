@@ -4,7 +4,7 @@ import React from 'react';
 import { handleEmptyString } from '@helpers';
 import { QuickTable } from '@components/quick-table';
 import { Divider } from 'antd';
-import { handleProductImage } from '@app/products/utils/handleProductImage';
+import { handleMagextImage } from '@app/products/utils/handleMagextImage';
 
 export default function ProductsList() {
   return (
@@ -36,7 +36,8 @@ export default function ProductsList() {
             {
               dataIndex: 'productPictures',
               title: 'Image',
-              render: handleProductImage,
+              render: (productPictures) =>
+                handleMagextImage(productPictures[0]),
             },
             {
               dataIndex: 'fullName',

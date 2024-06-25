@@ -6,7 +6,7 @@ import React from 'react';
 import { SerializedProductDto } from '@frontend/api-sdk';
 import { useShow } from '@refinedev/core';
 import { handleEmptyString } from '@helpers';
-import { handleProductImage } from '@app/products/utils/handleProductImage';
+import { handleMagextImage } from '@app/products/utils/handleMagextImage';
 
 const { Title } = Typography;
 
@@ -49,7 +49,7 @@ export default function ProductShow() {
         </Descriptions.Item>
 
         <Descriptions.Item label="Image">
-          {handleProductImage(record.productPictures)}
+          {handleMagextImage(record.productPictures[0])}
         </Descriptions.Item>
 
         <Descriptions.Item label="Name (English)">
