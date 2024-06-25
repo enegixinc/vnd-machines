@@ -26,7 +26,9 @@ export abstract class EntitySyncer<
   protected records: Entity[] = [];
   protected magexRecords: MagexRecord[] = [];
   protected syncedEntities: string[] = [];
+  // eslint-disable-next-line @typescript-eslint/ban-types
   protected dependsOn: (string | Function)[] = [];
+  // eslint-disable-next-line @typescript-eslint/ban-types
   private static syncStatusMap: Map<string | Function, Promise<void>> =
     new Map();
 

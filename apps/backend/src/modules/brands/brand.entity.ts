@@ -7,10 +7,7 @@ import {
   ManyToMany,
   OneToMany,
 } from 'typeorm';
-import {
-  MagexDatabaseEntity,
-  SearchableMagexEntity,
-} from '../../common/database.entity';
+import { SearchableMagexEntity } from '../../common/database.entity';
 import {
   IBrandEntity,
   ISerializedCategory,
