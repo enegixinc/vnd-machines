@@ -1,1 +1,0 @@
-{"type":"object","properties":{"email":{"description":"Email of the user","type":"string","example":"email@example.com","uniqueItems":true},"password":{"type":"string","example":"Password@123","maxLength":32,"minLength":8}},"required":["email","password"],"x-readme-ref-name":"LoginDto"}

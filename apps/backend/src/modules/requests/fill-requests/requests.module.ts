@@ -7,9 +7,12 @@ import { FillRequestEntity, FillRequestProducts } from './fill-request.entity';
 import { BullModule } from '@nestjs/bullmq';
 import { ConfigModule, ConfigService } from '@backend/config';
 import { RequestsProcessor } from './requests.processor';
+import { MailerService } from '../../../services/mailer/mailer.service';
+import { MailerModule } from '../../../services/mailer/mailer.module';
 
 @Module({
   imports: [
+    MailerModule,
     TypeOrmModule.forFeature([FillRequestEntity, FillRequestProducts]),
     BullModule.registerQueueAsync({
       name: 'requests',
@@ -26,6 +29,11 @@ import { RequestsProcessor } from './requests.processor';
   ],
 
   controllers: [RequestsController],
-  providers: [RequestsService, RequestsSubscriber, RequestsProcessor],
+  providers: [
+    RequestsService,
+    RequestsSubscriber,
+    RequestsProcessor,
+    MailerService,
+  ],
 })
 export class RequestsModule {}

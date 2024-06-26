@@ -1,6 +1,6 @@
-import { Controller } from '@nestjs/common';
+import { Controller, Get, Query } from '@nestjs/common';
 import { Crud, CrudController } from '@dataui/crud';
-import { ProductEntity } from './product.entity';
+import { ProductEntity } from './entities/product.entity';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/request/create-product.dto';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
@@ -38,7 +38,6 @@ import { UpdateProductDto } from './dto/request/update-product.dto';
     join: {
       // TODO: deprecate these aliases and use the actual entity names
       supplier: {
-        alias: 'users',
         exclude: ['password'],
       },
       brand: {
@@ -80,4 +79,15 @@ import { UpdateProductDto } from './dto/request/update-product.dto';
 export class ProductsController implements CrudController<ProductEntity> {
   constructor(private readonly productsService: ProductsService) {}
   service = this.productsService;
+
+  @Get('/search')
+  @ApiResponse({
+    status: 200,
+    description: 'Search products',
+    type: ProductEntity,
+    isArray: true,
+  })
+  async search(@Query('query') query: string): Promise<ProductEntity[]> {
+    return this.service.search(query);
+  }
 }

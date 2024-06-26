@@ -1,11 +1,11 @@
 import { IsNumber, Validate, ValidateNested } from 'class-validator';
 import { ApiProperty, PickType } from '@nestjs/swagger';
-import { ProductEntity } from '../../../products/product.entity';
 import { ProductExistsValidator } from '../../../products/validators/product-exists';
 import { ReferenceByID } from '@core';
 import { DatabaseEntity } from '../../../../common/database.entity';
 import { Type } from 'class-transformer';
 import { ProductHasSupplier } from '../../../products/validators/product-has-supplier';
+import { ProductEntity } from '../../../products/entities/product.entity';
 
 class ProductsRequest {
   @ApiProperty({

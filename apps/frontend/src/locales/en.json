@@ -32,7 +32,6 @@
     "list": "List",
     "preview": "Preview",
     "add": "Add",
-
     "calendar": "Calendar",
     "tabs": "Tabs",
     "accordions": "Accordions",
@@ -240,10 +239,10 @@
         "enterPassword": "Enter Password",
         "enterUpc": "Enter UPC",
         "enterBarcode": "Enter Barcode",
-        "enterAdditionPrice":" Enter Addition Price",
+        "enterAdditionPrice": " Enter Addition Price",
         "enterCostPrice": "Enter Cost Price",
         "enterPrice": "Enter Price",
-        "enterReferTo":"Enter Email",
+        "enterReferTo": "Enter Email",
         "enterSortIndex": "Enter Sort Index",
         "enterAgeControl": "Enter Age Control",
         "enterVirtualProduct": "Enter Virtual Product",
@@ -337,7 +336,6 @@
         "yesDeleteIt": "Yes, delete it!",
         "noCancel": "no,Cancel!",
         "youWantToDeleteThisEntity": "You want to delete this!"
-
     },
     "contractsPages": {
         "contracts": "Contracts",
@@ -368,7 +366,6 @@
         "editProduct": "Edit Product",
         "updateProduct": "Update Product",
         "TheProductHasBeenSuccessfullyUpdated": "Product Successfully Updated."
-
     },
     "Unknown": "N/A",
     "categoriesPages": {
@@ -410,5 +407,48 @@
         "terminated": "Terminated",
         "expired": "Expired",
         "active": "Active"
+    },
+    "homePageStatics": {
+        "topSellingProducts": "Top Selling Products",
+        "recentOrders": "Recent Orders",
+        "statistics": "Statistics",
+        "dailySales": "Daily Sales",
+        "goToColumnsForDetails": "Go to columns for details.",
+        "sales": "Sales",
+        "exportToSVG": "Download SVG",
+        "exportToPNG": "Download PNG",
+        "exportToCSV": "Download CSV",
+        "totalProfit": "Total Profit",
+        "total": "Total",
+        "salesByCategoriesOrBrands": "Sales By Category / Brand"
+    },
+    "rangeDates": {
+        "thisWeek": "This Week",
+        "lastWeek": "Last Week",
+        "thisMonth": "This Month",
+        "lastMonth": "Last Month"
+    },
+    "weekDays": {
+        "monday": "Mon",
+        "tuesday": "Tue",
+        "wednesday": "Wed",
+        "thursday": "Thur",
+        "friday": "Fri",
+        "saturday": "Sat",
+        "sunday": "Sun"
+    },
+    "months": {
+        "jan": "Jan",
+        "feb": "Feb",
+        "mar": "Mar",
+        "apr": "Apr",
+        "may": "May",
+        "jun": "Jun",
+        "jul": "Jul",
+        "aug": "Aug",
+        "sep": "Sep",
+        "oct": "Oct",
+        "nov": "Nov",
+        "dec": "Dec"
     }
 }

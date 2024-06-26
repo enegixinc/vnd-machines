@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { MachineEntity } from '../../modules/machines/entities/machine.entity';
-import { ProductEntity } from '../../modules/products/product.entity';
 import { UserEntity } from '../../modules/users/entities/user.entity';
 import { MailerService as BaseMailerService } from '@nestjs-modules/mailer';
 import { ConfigService } from '@backend/config';
 import { TemplatesService } from './templates.service';
+import { ProductEntity } from '../../modules/products/entities/product.entity';
 
 @Injectable()
 export class MailerService {
@@ -16,19 +16,20 @@ export class MailerService {
 
   async sendFillRequestMail(
     machine: MachineEntity,
-    products: ProductEntity[],
+    products: {
+      quantity: number;
+      product: ProductEntity;
+    }[],
     supplier: UserEntity,
     notes: string
   ) {
+    console.log('Sending fill request email to', supplier.email);
     const fillRequestTemplate = await this.templatesService.fillRequestTemplate(
       {
         supplierName: supplier.firstName,
         machineName: machine.name,
         machineLocation: machine.description,
-        products: products.map((product) => ({
-          name: Object.values(product.name).join(' - '),
-          quantity: product.quantity,
-        })),
+        products,
         notes,
       }
     );
@@ -40,6 +41,6 @@ export class MailerService {
       html: fillRequestTemplate,
     };
 
-    await this.mailService.sendMail(mailOptions);
+    return await this.mailService.sendMail(mailOptions);
   }
 }

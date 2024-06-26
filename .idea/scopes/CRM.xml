@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="CRM" pattern="file[vnd-machines]:apps/app-crm//*" />
+</component>

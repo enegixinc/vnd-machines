@@ -1,7 +1,14 @@
 import { DatabaseEntity } from '../../../common/database.entity';
-import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
+import {
+  BeforeInsert,
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+} from 'typeorm';
 import { MachineEntity } from '../../machines/entities/machine.entity';
-import { ProductEntity } from '../../products/product.entity';
+import { ProductEntity } from '../../products/entities/product.entity';
 
 @Entity('fill_requests')
 export class FillRequestEntity extends DatabaseEntity {
@@ -11,9 +18,11 @@ export class FillRequestEntity extends DatabaseEntity {
   @OneToMany(
     () => FillRequestProducts,
     (fillRequestProducts) => fillRequestProducts.fillRequest,
-    { cascade: true }
+    {
+      cascade: true,
+    }
   )
-  fillRequestProducts: FillRequestProducts[];
+  products: FillRequestProducts[];
 
   @Column({ default: false })
   accepted: boolean;
@@ -27,10 +36,8 @@ export class FillRequestEntity extends DatabaseEntity {
 
 @Entity('fill_requests_products')
 export class FillRequestProducts extends DatabaseEntity {
-  @ManyToOne(
-    () => FillRequestEntity,
-    (fillRequest) => fillRequest.fillRequestProducts
-  )
+  @ManyToOne(() => FillRequestEntity, (fillRequest) => fillRequest.products, {})
+  @JoinColumn()
   fillRequest: FillRequestEntity;
 
   @ManyToOne(() => ProductEntity, (product) => product.fillRequestProducts)
