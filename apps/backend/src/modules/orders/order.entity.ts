@@ -145,7 +145,7 @@ export class OrderEntity extends SearchableMagexEntity {
   async fetchMagexRecords(magexService: MagexService): Promise<OrderEntity[]> {
     return (await magexService.orders.postOrders({
       requestBody: {
-        start: new Date('0').toISOString(),
+        start: '2021-04-10T00:00:00.000Z', // TODO: replace with start date
         end: new Date().toISOString(),
         id: 'tryvnd@point24h.com',
         ids: '657ab833c7201f469894300d,657ab86ec7201f469894300f',

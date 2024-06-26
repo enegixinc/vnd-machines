@@ -6,6 +6,7 @@ import { MagexDatabaseEntity } from '../../database.entity';
 import { MagexService } from '../../../services/magex/magex.service';
 import { CRUDSyncer } from './crud-syncer';
 import { _IMagex_DatabaseEntity } from '@core';
+import { timer } from 'execution-time-decorators';
 
 export interface EntitySyncer<Entity> {
   handleRelationships(record: _IMagex_DatabaseEntity): Entity | Promise<Entity>;
@@ -62,24 +63,25 @@ export abstract class EntitySyncer<
     return new Map(this.records.map((record) => [record._id, record]));
   }
 
+  @timer()
   async onModuleInit() {
     await this.syncWithMagex();
   }
 
-  // @timer()
+  @timer()
   async fetchOurRecords() {
     this.records = await this.dataSource.manager.find(this.entity);
   }
 
+  @timer()
   async fetchMagexRecords() {
-    // console.log('fetching magex records', this.entityClone);
     // @ts-expect-error - TODO: fix this
     this.magexRecords = await this.entityClone.fetchMagexRecords(
       this.magexService
     );
   }
 
-  // @timer()
+  @timer()
   identifyOutOfSyncRecords() {
     const newRecords = new Set<MagexRecord>();
     const updatedRecords = new Set<MagexRecord>();
@@ -94,15 +96,13 @@ export abstract class EntitySyncer<
       if (updated) this.syncConfig.updated && updatedRecords.add(magexRecord);
     });
 
-    // console.log('new records:', newRecords.size);
-    // console.log('updated records:', updatedRecords.size);
-
     return {
       newRecords: [...newRecords],
       updatedRecords: [...updatedRecords],
     };
   }
 
+  @timer()
   identifyDeletedRecords() {
     if (!this.syncConfig.deleted) return [];
 
@@ -111,22 +111,19 @@ export abstract class EntitySyncer<
       (record) => !magexIds.has(record._id)
     );
 
-    // console.log('deleted records:', deletedRecords.length);
-
     return deletedRecords;
   }
 
+  @timer()
   async softDeleteRecords(records: Entity[]) {
     await Promise.all(
       records.map(async (record) => {
-        await this.dataSource.manager.softRemove(record, {
-          listeners: false,
-        });
+        await this.dataSource.manager.softRemove(record, { listeners: false });
       })
     );
   }
 
-  // @timer()
+  @timer()
   async prepareRecords(records: MagexRecord[]) {
     return Promise.all(
       records.map(async (record) => {
@@ -139,19 +136,21 @@ export abstract class EntitySyncer<
     );
   }
 
+  @timer()
   private assignSearchableFields(record: MagexRecord) {
     return this.handleSearchableFields
       ? this.handleSearchableFields(record)
       : record;
   }
 
+  @timer()
   private async assignRelations(record: Entity | MagexRecord) {
     return this.handleRelationships
       ? await this.handleRelationships(record)
       : record;
   }
 
-  // @timer()
+  @timer()
   private async saveRecords(records: MagexDatabaseEntity[]) {
     await this.dataSource.manager.save(records, {
       listeners: false,
@@ -159,6 +158,7 @@ export abstract class EntitySyncer<
     });
   }
 
+  @timer()
   private async runDependencies() {
     for (const dependency of this.dependsOn) {
       const dependencySync = EntitySyncer.syncStatusMap.get(dependency);
@@ -173,25 +173,31 @@ export abstract class EntitySyncer<
       ? CronExpression.EVERY_SECOND
       : CronExpression.EVERY_5_MINUTES
   )
-  // @timer()
   async syncWithMagex() {
     if (process.env.NODE_ENV !== 'production') return;
+    // @ts-expect-error - it has name
+    console.log(`Syncing ${this.entity.name} with Magex`);
 
     const syncPromise = (async () => {
-      // console.log('Syncing with Magex', this.entity.name);
       await this.runDependencies();
       await Promise.all([this.fetchOurRecords(), this.fetchMagexRecords()]);
 
       const { newRecords, updatedRecords } = this.identifyOutOfSyncRecords();
+      console.log(
+        `newRecords: ${newRecords.length}, updatedRecords: ${updatedRecords.length}`
+      );
       const preparedRecords = await this.prepareRecords([
         ...newRecords,
         ...updatedRecords,
       ]);
 
       await this.saveRecords(preparedRecords);
+      console.log(`Records saved`);
 
       const deletedRecords = this.identifyDeletedRecords();
+      console.log(`deletedRecords: ${deletedRecords.length}`);
       await this.softDeleteRecords(deletedRecords);
+      console.log(`Records soft deleted`);
     })();
 
     EntitySyncer.syncStatusMap.set(this.entity, syncPromise);
