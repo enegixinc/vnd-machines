@@ -418,7 +418,9 @@
         "exportToSVG": "Download SVG",
         "exportToPNG": "Download PNG",
         "exportToCSV": "Download CSV",
-        "totalProfit": "Total Profit"
+        "totalProfit": "Total Profit",
+        "total": "Total",
+        "salesByCategoriesOrBrands": "Sales By Category / Brand"
     },
     "rangeDates": {
         "thisWeek": "This Week",

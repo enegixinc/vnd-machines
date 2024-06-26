@@ -423,7 +423,9 @@
         "exportToSVG": "تحميل SVG",
         "exportToPNG": "تحميل PNG",
         "exportToCSV": "تحميل CSV",
-        "totalProfit": "إجمالي الربح"
+        "totalProfit": "إجمالي الربح",
+        "total": "الإجمالي",
+        "salesByCategoriesOrBrands": "المبيعات حسب الفئة / العلامة التجارية"
     },
     "rangeDates": {
         "thisWeek": "هذا الأسبوع",
