@@ -505,7 +505,9 @@ hover:text-primary hover:before:!bg-primary ltr:before:mr-2 rtl:before:ml-2 dark
     .dropdown ul li > button {
         @apply flex items-center px-4 py-2 hover:bg-primary/10 hover:text-primary;
     }
-
+    .dropdown ul li > button.active{
+        @apply bg-primary/10 text-primary;
+    }
     .dropdown ul li > button {
         @apply w-full;
     }
