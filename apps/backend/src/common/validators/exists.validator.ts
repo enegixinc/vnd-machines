@@ -13,7 +13,6 @@ export abstract class EntityExistsValidator
   ) {}
 
   async validate(where: Parameters<(typeof this.service)['findOneBy']>[0]) {
-    console.log('entity', where);
     return !!(await this.service.findOneBy(where));
   }
 

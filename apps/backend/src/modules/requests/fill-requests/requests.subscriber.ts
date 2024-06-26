@@ -20,27 +20,33 @@ export class RequestsSubscriber implements EntitySubscriberInterface {
   }
 
   async afterInsert(event: InsertEvent<FillRequestEntity>) {
-    const resolvedFillRequest: FillRequestEntity = event.entity;
+    try {
+      const resolvedFillRequest: FillRequestEntity = event.entity;
 
-    const machine = await this.dataSource.manager.findOne(MachineEntity, {
-      where: { _id: event.entity.machine._id },
-    });
-    Object.assign(resolvedFillRequest, { machine });
+      const machine = await this.dataSource.manager.findOne(MachineEntity, {
+        where: { _id: event.entity.machine._id },
+      });
+      Object.assign(resolvedFillRequest, { machine });
 
-    const products = await Promise.all(
-      event.entity.products.map(async (product) => {
-        const resolvedProduct = await this.dataSource.manager.findOne(
-          ProductEntity,
-          {
-            where: { _id: product.product._id },
-            relations: ['supplier'],
-          }
-        );
-        return { product: resolvedProduct, quantity: product.quantity };
-      })
-    );
-    Object.assign(resolvedFillRequest, { products });
+      const products = await Promise.all(
+        event.entity.products.map(async (product) => {
+          const resolvedProduct = await this.dataSource.manager.findOne(
+            ProductEntity,
+            {
+              where: { _id: product.product._id },
+              relations: ['supplier'],
+            }
+          );
+          return { product: resolvedProduct, quantity: product.quantity };
+        })
+      );
+      Object.assign(resolvedFillRequest, { products });
 
-    await this.requestsQueue.add('process', resolvedFillRequest);
+      await this.requestsQueue.add('process', resolvedFillRequest, {
+        attempts: 3,
+      });
+    } catch (error) {
+      console.error('Error processing fill request', error);
+    }
   }
 }
