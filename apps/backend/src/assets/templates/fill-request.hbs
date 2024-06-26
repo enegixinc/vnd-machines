@@ -27,20 +27,29 @@
       margin-bottom: 20px;
     }
     .header h1 {
-      color: #4CAF50;
+      color: #1677ff;
     }
     .content {
       line-height: 1.6;
     }
-    .content img {
-      max-width: 100px;
-      margin-right: 20px;
-      vertical-align: middle;
+    .product-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
     }
-    .product {
-      display: flex;
-      align-items: center;
-      margin-bottom: 15px;
+    .product-table th, .product-table td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+    .product-table th {
+      background-color: #1677ff;
+      color: white;
+    }
+    .product-table td img {
+      max-width: 100px;
+      display: block;
+      margin: auto;
     }
     .footer {
       text-align: center;
@@ -54,14 +63,25 @@
     .notes {
       background-color: #f9f9f9;
       padding: 10px;
-      border-left: 4px solid #4CAF50;
+      border-left: 4px solid #1677ff;
       margin-top: 20px;
     }
     .machine-details {
       background-color: #f9f9f9;
       padding: 10px;
-      border-left: 4px solid #4CAF50;
+      border-left: 4px solid #1677ff;
       margin-bottom: 20px;
+    }
+    .view-button {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      background-color: #1677ff;
+      color: white !important;
+      text-align: center;
+      text-decoration: none;
+      border-radius: 5px;
+      margin-top: 20px;
     }
   </style>
 </head>
@@ -80,15 +100,24 @@
       <p><strong>Location:</strong> {{machineLocation}}</p>
     </div>
 
-    {{#each products}}
-      <div class="product">
-        <img src="{{this.image}}" alt="{{this.name}}">
-        <div>
-          <p><strong>Product Name:</strong> {{this.name}}</p>
-          <p><strong>Quantity:</strong> {{this.quantity}}</p>
-        </div>
-      </div>
-    {{/each}}
+    <table class="product-table">
+      <thead>
+      <tr>
+        <th>Product Image</th>
+        <th>Product Name</th>
+        <th>Quantity</th>
+      </tr>
+      </thead>
+      <tbody>
+      {{#each products}}
+        <tr>
+          <td><img src="{{#if this.product.productPictures.[0]}}{{this.product.productPictures.[0]}}{{else}}https://www.brandi.com.ar/wp-content/uploads/2020/08/a-no-foto.png{{/if}}" alt="{{this.product.fullName}}"></td>
+          <td>{{this.product.fullName}}</td>
+          <td>{{this.quantity}}</td>
+        </tr>
+      {{/each}}
+      </tbody>
+    </table>
 
     {{#if notes}}
       <div class="notes">
@@ -96,7 +125,9 @@
       </div>
     {{/if}}
 
-    <p>Thank you for your prompt attention to this request.</p>
+    <p>Thank you for your prompt attention to this request. Please click the button below to view the fill request details.</p>
+    <a href="https://your-frontend-app-link.com/view-fill-request" class="view-button">View Fill Request</a>
+
     <p>Best regards,</p>
     <p><strong>VND Machines Team</strong></p>
   </div>

@@ -33,13 +33,14 @@ import { FillRequestEntity } from './fill-request.entity';
     limit: 20,
     maxLimit: 100,
     join: {
-      machine: {},
+      machine: {
+        alias: 'machine',
+      },
       products: {
-        eager: true,
         alias: 'products',
       },
       'products.product': {
-        eager: true,
+        alias: 'product',
       },
     },
   },

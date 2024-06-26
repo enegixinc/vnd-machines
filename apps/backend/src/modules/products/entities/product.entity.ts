@@ -1,4 +1,5 @@
 import {
+  AfterLoad,
   BeforeInsert,
   BeforeUpdate,
   Column,
@@ -52,6 +53,13 @@ export class ProductEntity
     ]);
 
     this.fullName = MultiLangEntity.handleMultiLang(this.name);
+  }
+
+  @AfterLoad()
+  handleImage() {
+    const getFullLink = (imageName: string) =>
+      `https://devapi.point24h.com/api/thumbs/${imageName}/tryvnd@point24h.com`;
+    this.productPictures = this.productPictures.map(getFullLink);
   }
 
   @OneToMany(
@@ -136,7 +144,7 @@ export class ProductEntity
     onUpdate: 'CASCADE',
     cascade: ['update'],
   })
-  supplier: ReferenceByID<ISerializedUser>;
+  supplier: UserEntity;
 
   @ManyToOne(() => BrandEntity, (brand) => brand.products, {
     cascade: true,

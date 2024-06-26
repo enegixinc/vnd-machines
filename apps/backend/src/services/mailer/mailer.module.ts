@@ -22,5 +22,6 @@ import { TemplatesService } from './templates.service';
     }),
   ],
   providers: [MailerService, TemplatesService],
+  exports: [MailerService, TemplatesService],
 })
 export class MailerModule {}
