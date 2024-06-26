@@ -180,6 +180,9 @@ export abstract class EntitySyncer<
 
     const syncPromise = (async () => {
       await this.runDependencies();
+      console.log(
+        `Promise.all([this.fetchOurRecords(), this.fetchMagexRecords()]);`
+      );
       await Promise.all([this.fetchOurRecords(), this.fetchMagexRecords()]);
 
       const { newRecords, updatedRecords } = this.identifyOutOfSyncRecords();
@@ -190,6 +193,7 @@ export abstract class EntitySyncer<
         ...newRecords,
         ...updatedRecords,
       ]);
+      console.log(`preparedRecords: ${preparedRecords.length}`);
 
       await this.saveRecords(preparedRecords);
       console.log(`Records saved`);
