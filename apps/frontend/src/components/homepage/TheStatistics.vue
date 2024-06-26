@@ -58,7 +58,7 @@
                             <bdi>{{ totalOrders }}</bdi>
                         </div>
                     </div>
-                    <apexchart height="58" :options="totalVisit" :series="totalVisitSeries" class="overflow-hidden">
+                    <apexchart height="58" :options="ordersChart" :series="ordersStatistics" class="overflow-hidden">
                         <!-- loader -->
                         <div
                             class="min-h-[58px] grid place-content-center bg-white-light/30 dark:bg-dark dark:bg-opacity-[0.08]">
@@ -76,7 +76,8 @@
                             <bdi>{{ totalProducts }}</bdi>
                         </div>
                     </div>
-                    <apexchart height="58" :options="paidVisit" :series="paidVisitSeries" class="overflow-hidden">
+                    <apexchart height="58" :options="productsChart" :series="productsStatistics"
+                               class="overflow-hidden">
                         <!-- loader -->
                         <div
                             class="min-h-[58px] grid place-content-center bg-white-light/30 dark:bg-dark dark:bg-opacity-[0.08]">
@@ -94,7 +95,7 @@
 <script setup lang="ts">
 import IconHorizontalDots from "@/components/icon/icon-horizontal-dots.vue";
 import {useAppStore} from "@/stores";
-import {getTimeRanges} from "@/utils/DatesHelper"
+import {getTimeRanges, formatDate, generateDateRange, dateIsValid} from "@/utils/DatesHelper"
 import useOrders from "@/composables/orders/use-orders"
 import {useProducts} from "@/composables/products/use-products"
 import apexchart from 'vue3-apexcharts';
@@ -152,7 +153,7 @@ const totalProducts = computed(() => {
     return new Intl.NumberFormat().format(products.value.length)
 })
 // statistics
-const totalVisit = computed(() => {
+const ordersChart = computed(() => {
     const isDark: boolean = store.theme === 'dark' || store.isDarkMode ? true : false;
     return {
         chart: {
@@ -196,15 +197,35 @@ const totalVisit = computed(() => {
         },
     };
 });
+const finalOrdersResource = computed(() => {
+    const orders = ordersDate.value.map(el => {
+        const createdAt = formatDate(new Date(el.createdAt));
+        return {
+            createdAt,
+        }
+    }).filter(el => {
+        return dateIsValid(new Date(el.createdAt))
+    });
+    return Object.groupBy(orders, ({createdAt}) => createdAt)
+});
+const ordersStatistics = computed(() => {
+    const ranges = {
+        0: {startDate: timeRanges.thisWeek, endDate: timeRanges.currentDate},
+        1: {startDate: timeRanges.lastWeek, endDate: timeRanges.thisWeek},
+        2: {startDate: timeRanges.thisMonth, endDate: timeRanges.currentDate},
+        3: {startDate: timeRanges.lastMonth, endDate: timeRanges.thisMonth}
+    };
+    const allTimeRanges = generateDateRange(ranges[selectedRange.value].startDate, ranges[selectedRange.value].endDate);
+    return [{
+        data: allTimeRanges.map(el => {
+            return finalOrdersResource.value[el]?.length || 0
+        })
+    }]
+})
 
-const totalVisitSeries = ref([
-    {
-        data: [21, 9, 36, 12, 44, 25, 59, 41, 66, 25],
-    },
-]);
 
 //paid visit
-const paidVisit = computed(() => {
+const productsChart = computed(() => {
     const isDark: boolean = store.theme === 'dark' || store.isDarkMode ? true : false;
     return {
         chart: {
@@ -248,11 +269,31 @@ const paidVisit = computed(() => {
         },
     };
 });
+const finalProductsResource = computed(() => {
+    const newProducts = products.value.map(el => {
+        const createdAt = formatDate(new Date(el.createdAt));
+        return {
+            createdAt,
+        }
+    }).filter(el => {
+        return dateIsValid(new Date(el.createdAt))
+    });
+    return Object.groupBy(newProducts, ({createdAt}) => createdAt)
+});
+const productsStatistics = computed(() => {
+    const ranges = {
+        0: {startDate: timeRanges.thisWeek, endDate: timeRanges.currentDate},
+        1: {startDate: timeRanges.lastWeek, endDate: timeRanges.thisWeek},
+        2: {startDate: timeRanges.thisMonth, endDate: timeRanges.currentDate},
+        3: {startDate: timeRanges.lastMonth, endDate: timeRanges.thisMonth}
+    };
+    const allTimeRanges = generateDateRange(ranges[selectedRange.value].startDate, ranges[selectedRange.value].endDate);
+    return [{
+        data: allTimeRanges.map(el => {
+            return finalProductsResource.value[el]?.length || 0
+        })
+    }]
+})
 
-const paidVisitSeries = ref([
-    {
-        data: [22, 19, 30, 47, 32, 44, 34, 55, 41, 69],
-    },
-]);
 
 </script>
