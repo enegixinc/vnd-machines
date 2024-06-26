@@ -39,6 +39,7 @@ export class RequestsProcessor extends WorkerHost {
         return this.mailerService.sendFillRequestMail(
           machine,
           products,
+          // @ts-ignore
           supplier,
           notes
         );
