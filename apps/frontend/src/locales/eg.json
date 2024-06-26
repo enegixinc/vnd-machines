@@ -32,7 +32,6 @@
     "list": "قائمة",
     "preview": "معاينة",
     "add": "يضيف",
-
     "calendar": "تقويم",
     "tabs": "نوافذ التبويب",
     "accordions": "الأكورديونات",
@@ -244,7 +243,6 @@
         "machine": "الالة"
     },
     "machineOnline": {
-
         "online": "متصل",
         "offline": "غير متصل"
     },
@@ -414,5 +412,48 @@
         "terminated": "انهاء",
         "expired": "منتهيه",
         "active": "نشط"
+    },
+    "homePageStatics": {
+        "topSellingProducts": "المنتجات الأكثر مبيعا",
+        "recentOrders": "الطلبات الأخيرة",
+        "statistics": "الاحصائيات",
+        "dailySales": "المبيعات اليومية",
+        "goToColumnsForDetails": "انتقل إلى الأعمدة للحصول على التفاصيل.",
+        "sales": "المبيعات",
+        "exportToSVG": "تحميل SVG",
+        "exportToPNG": "تحميل PNG",
+        "exportToCSV": "تحميل CSV",
+        "totalProfit": "إجمالي الربح",
+        "total": "الإجمالي",
+        "salesByCategoriesOrBrands": "المبيعات حسب الفئة / العلامة التجارية"
+    },
+    "rangeDates": {
+        "thisWeek": "هذا الأسبوع",
+        "lastWeek": "الأسبوع الماضي",
+        "thisMonth": "هذا الشهر",
+        "lastMonth": "الشهر الماضي"
+    },
+    "weekDays": {
+        "monday": "الاثنين",
+        "tuesday": "الثلاثاء",
+        "wednesday": "الأربعاء",
+        "thursday": "الخميس",
+        "friday": "الجمعة",
+        "saturday": "السبت",
+        "sunday": "الأحد"
+    },
+    "months": {
+        "jan": "يناير",
+        "feb": "فبراير",
+        "mar": "مارس",
+        "apr": "أبريل",
+        "may": "مايو",
+        "jun": "يونيو",
+        "jul": "يوليو",
+        "aug": "أغسطس",
+        "sep": "سبتمبر",
+        "oct": "أكتوبر",
+        "nov": "نوفمبر",
+        "dec": "ديسمبر"
     }
 }
