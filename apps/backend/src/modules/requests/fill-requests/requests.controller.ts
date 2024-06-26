@@ -1,4 +1,4 @@
-import { Controller } from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
 import { Crud, CrudController } from '@dataui/crud';
 import { saneOperationsId } from '../../../common/swagger.config';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
@@ -33,15 +33,14 @@ import { FillRequestEntity } from './fill-request.entity';
     limit: 20,
     maxLimit: 100,
     join: {
-      machine: {},
+      machine: {
+        alias: 'machine',
+      },
       products: {
-        eager: true,
+        alias: 'products',
       },
-      fillRequestProducts: {
-        eager: true,
-      },
-      'fillRequestProducts.product': {
-        eager: true,
+      'products.product': {
+        alias: 'product',
       },
     },
   },

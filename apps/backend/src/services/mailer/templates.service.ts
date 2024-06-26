@@ -2,12 +2,16 @@ import { Injectable, OnModuleInit } from '@nestjs/common';
 import fs from 'node:fs';
 import path from 'node:path';
 import * as hbs from 'handlebars';
+import { ProductEntity } from '../../modules/products/entities/product.entity';
 
 type FillRequestTemplateData = {
   supplierName: string;
   machineName: string;
   machineLocation: string;
-  products: { name: string; quantity: number }[];
+  products: {
+    quantity: number;
+    product: ProductEntity;
+  }[];
   notes: string;
 };
 
@@ -18,7 +22,12 @@ export class TemplatesService implements OnModuleInit {
   }
 
   async fillRequestTemplate(props: FillRequestTemplateData) {
-    const templatePath = path.join(__dirname, 'templates', 'fill-request.hbs');
+    const templatePath = path.join(
+      __dirname,
+      'assets',
+      'templates',
+      'fill-request.hbs'
+    );
     const template = fs.readFileSync(templatePath, 'utf8');
     const compiledTemplate = hbs.compile(template);
 
