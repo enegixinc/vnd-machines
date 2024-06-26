@@ -9,19 +9,41 @@ export function getTimeRanges() {
         return start;
     }
 
+    const currentDate = new Date();
+    currentDate.setDate(currentDate.getDate() + 1)
     const thisWeekStart = getStartOfWeek(new Date());
+
     const lastWeekStart = new Date(thisWeekStart);
     lastWeekStart.setDate(thisWeekStart.getDate() - 7);
     const thisMonthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+
     const lastMonthStart = new Date(now.getFullYear(), now.getMonth() - 1, 1);
     return {
-        thisWeek: new Intl.DateTimeFormat('en-US').format(thisWeekStart),
-        lastWeek: new Intl.DateTimeFormat('en-US').format(lastWeekStart),
-        thisMonth: new Intl.DateTimeFormat('en-US').format(thisMonthStart),
-        lastMonth: new Intl.DateTimeFormat('en-US').format(lastMonthStart)
+        thisWeek: formatDate(thisWeekStart),
+        lastWeek: formatDate(lastWeekStart),
+        thisMonth: formatDate(thisMonthStart),
+        lastMonth: formatDate(lastMonthStart),
+        currentDate: formatDate(currentDate)
+
     };
+}
+
+export function formatDate(date: Date) {
+    return new Intl.DateTimeFormat('en-US').format(date)
 }
 
 export function dateIsValid(date: Date) {
     return date.getTime() === date.getTime();
 }
+
+export function generateDateRange(startDate: string, endDate: string) {
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    const days: string[] = [];
+    for (let d = start; d < end; d.setDate(d.getDate() + 1)) {
+        days.push(formatDate(new Date(d)));
+    }
+    return days;
+}
+
+
