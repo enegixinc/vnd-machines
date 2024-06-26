@@ -12,6 +12,12 @@ import '@refinedev/antd/dist/reset.css';
 import { ColorModeContextProvider } from '@contexts/color-mode';
 import { authProvider } from '@providers/auth-provider';
 import { useNotificationProvider } from '@refinedev/antd';
+import { BiCategoryAlt } from 'react-icons/bi';
+import { MdOutlineCategory } from 'react-icons/md';
+import { TbBrandShopee } from 'react-icons/tb';
+import { IoPricetags, IoPricetagsOutline } from 'react-icons/io5';
+import { HiOutlineUsers } from 'react-icons/hi';
+import { PiUsersThree } from 'react-icons/pi';
 
 export const metadata: Metadata = {
   title: 'VND Machines',
@@ -52,6 +58,7 @@ export default function RootLayout({
                         show: '/suppliers/show/:id',
                         meta: {
                           canDelete: true,
+                          icon: <PiUsersThree />,
                         },
                       },
                       {
@@ -62,6 +69,7 @@ export default function RootLayout({
                         show: '/products/show/:id',
                         meta: {
                           canDelete: true,
+                          icon: <BiCategoryAlt />,
                         },
                       },
                       {
@@ -72,6 +80,7 @@ export default function RootLayout({
                         show: '/brands/show/:id',
                         meta: {
                           canDelete: true,
+                          icon: <TbBrandShopee />,
                         },
                       },
                       {
@@ -82,6 +91,18 @@ export default function RootLayout({
                         show: '/categories/show/:id',
                         meta: {
                           canDelete: true,
+                          icon: <MdOutlineCategory />,
+                        },
+                      },
+                      {
+                        name: 'orders',
+                        list: '/orders',
+                        show: '/orders/show/:id',
+                        meta: {
+                          canDelete: false,
+                          canCreate: false,
+                          canUpdate: false,
+                          icon: <IoPricetagsOutline />,
                         },
                       },
                     ]}

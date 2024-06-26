@@ -1,5 +1,4 @@
 import {
-  AfterLoad,
   BeforeInsert,
   BeforeUpdate,
   Column,
@@ -42,6 +41,7 @@ export class ProductEntity
   @BeforeUpdate()
   handleSearchableFields() {
     this.searchableText = MultiLangEntity.handleSearchableText([
+      this._id,
       this.name,
       this.description,
       this.ingredients,
@@ -53,13 +53,6 @@ export class ProductEntity
     ]);
 
     this.fullName = MultiLangEntity.handleMultiLang(this.name);
-  }
-
-  @AfterLoad()
-  handleImage() {
-    const getFullLink = (imageName: string) =>
-      `https://devapi.point24h.com/api/thumbs/${imageName}/tryvnd@point24h.com`;
-    this.productPictures = this.productPictures.map(getFullLink);
   }
 
   @OneToMany(
@@ -144,7 +137,7 @@ export class ProductEntity
     onUpdate: 'CASCADE',
     cascade: ['update'],
   })
-  supplier: UserEntity;
+  supplier: ReferenceByID<ISerializedUser>;
 
   @ManyToOne(() => BrandEntity, (brand) => brand.products, {
     cascade: true,

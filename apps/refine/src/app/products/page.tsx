@@ -3,21 +3,8 @@
 import React from 'react';
 import { handleEmptyString } from '@helpers';
 import { QuickTable } from '@components/quick-table';
-import { SerializedProductDto } from '@frontend/api-sdk';
-import { defaultSrc } from '@app/config';
 import { Divider } from 'antd';
-import Search from 'antd/es/input/Search';
-
-export const handleProductImage = (
-  value: SerializedProductDto['productPictures']
-) => {
-  const firstImage = value[0];
-  const src = firstImage
-    ? `https://devapi.point24h.com/api/thumbs/${firstImage}/tryvnd@point24h.com`
-    : defaultSrc;
-
-  return <img src={src} alt="product" width={50} height={50} />;
-};
+import { handleMagextImage } from '@app/products/utils/handleMagextImage';
 
 export default function ProductsList() {
   return (
@@ -49,7 +36,8 @@ export default function ProductsList() {
             {
               dataIndex: 'productPictures',
               title: 'Image',
-              render: handleProductImage,
+              render: (productPictures) =>
+                handleMagextImage(productPictures[0]),
             },
             {
               dataIndex: 'fullName',

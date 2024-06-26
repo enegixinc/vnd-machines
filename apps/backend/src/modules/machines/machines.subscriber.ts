@@ -28,6 +28,7 @@ export class MachinesSubscriber extends EntitySyncer<MachineEntity> {
     return {
       fullName: record.name,
       searchableText: MultiLangEntity.handleSearchableText([
+        record._id,
         record.name,
         record.description,
       ]),

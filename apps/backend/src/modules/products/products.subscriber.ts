@@ -25,6 +25,7 @@ export class ProductSubscriber extends EntitySyncer<ProductEntity> {
     return {
       fullName: MultiLangEntity.handleMultiLang(record.name),
       searchableText: MultiLangEntity.handleSearchableText([
+        record._id,
         record.name,
         record.description,
         record.ingredients,
