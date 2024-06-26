@@ -2,10 +2,16 @@ import { OnWorkerEvent, Processor, WorkerHost } from '@nestjs/bullmq';
 import { Job } from 'bullmq';
 import { MailerService } from '../../../services/mailer/mailer.service';
 import { FillRequestEntity, FillRequestProducts } from './fill-request.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 @Processor('requests')
 export class RequestsProcessor extends WorkerHost {
-  constructor(private readonly mailerService: MailerService) {
+  constructor(
+    private readonly mailerService: MailerService,
+    @InjectRepository(FillRequestEntity)
+    private readonly requestsService: Repository<FillRequestEntity>
+  ) {
     super();
   }
 
@@ -44,8 +50,11 @@ export class RequestsProcessor extends WorkerHost {
   }
 
   @OnWorkerEvent('completed')
-  onCompleted() {
+  async onCompleted(job: Job<FillRequestEntity>) {
     console.log('Processing completed');
+    await this.requestsService.update(job.data._id, {
+      receivedMail: true,
+    });
   }
 
   @OnWorkerEvent('failed')
