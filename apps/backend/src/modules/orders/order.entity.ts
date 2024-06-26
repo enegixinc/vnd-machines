@@ -1,5 +1,8 @@
-import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
-import { MagexDatabaseEntity } from '../../common/database.entity';
+import { Column, Entity, ManyToOne, OneToMany, VirtualColumn } from 'typeorm';
+import {
+  MagexDatabaseEntity,
+  SearchableMagexEntity,
+} from '../../common/database.entity';
 import { MagexService } from '../../services/magex/magex.service';
 import { ApiProperty } from '@nestjs/swagger';
 import { OrderProductsDetails } from './order-details.entity';
@@ -21,7 +24,32 @@ import { MachineEntity } from '../machines/entities/machine.entity';
 // }
 
 @Entity('orders')
-export class OrderEntity extends MagexDatabaseEntity {
+export class OrderEntity extends SearchableMagexEntity {
+  // products amount
+  @VirtualColumn({
+    type: 'numeric',
+    query: (entity) =>
+      `
+        SELECT COUNT(opd.product_id)
+        FROM orders o
+               JOIN order_details opd ON o._id = opd.order_id
+        WHERE o._id = ${entity}._id
+      `,
+  })
+  productsAmount: number;
+
+  @VirtualColumn({
+    type: 'numeric',
+    query: (entity) =>
+      `
+        SELECT SUM(opd.quantity)
+        FROM orders o
+               JOIN order_details opd ON o._id = opd.order_id
+        WHERE o._id = ${entity}._id
+      `,
+  })
+  totalQuantity: number;
+
   @ApiProperty({ type: String })
   @Column()
   status: string;
@@ -117,7 +145,7 @@ export class OrderEntity extends MagexDatabaseEntity {
   async fetchMagexRecords(magexService: MagexService): Promise<OrderEntity[]> {
     return (await magexService.orders.postOrders({
       requestBody: {
-        start: new Date('0').toISOString(),
+        start: '2021-04-10T00:00:00.000Z', // TODO: replace with start date
         end: new Date().toISOString(),
         id: 'tryvnd@point24h.com',
         ids: '657ab833c7201f469894300d,657ab86ec7201f469894300f',

@@ -1,13 +1,15 @@
 'use client';
 
-import { ImageField, Show, TextField } from '@refinedev/antd';
+import { ImageField, List, Show, TextField } from '@refinedev/antd';
 import { useShow } from '@refinedev/core';
 import { Descriptions, Divider, Typography } from 'antd';
 import React from 'react';
 import { SerializedBrandDto } from '@frontend/api-sdk';
-import { safeArrayCounter } from '@helpers';
+import { handleEmptyString, safeArrayCounter } from '@helpers';
 import { defaultSrc } from '@app/config';
 import { ShowFinance } from '@components/sections/finance';
+import { handleMagextImage } from '@app/products/utils/handleMagextImage';
+import { QuickTableSection } from '@components/quick-table-section';
 
 const { Title } = Typography;
 
@@ -40,20 +42,16 @@ export default function BrandShow() {
         </Descriptions.Item>
 
         <Descriptions.Item label="Brand Picture">
-          <ImageField
-            src={record?.picture}
-            title={record?.name?.en ?? 'logo'}
-            value={defaultSrc}
-          />
+          {handleMagextImage(record.logo)}
         </Descriptions.Item>
 
         <Descriptions.Item label="Name (English)">
           {/* @ts-ignore */}
-          <TextField value={record?.name.ar ?? 'N/A'} />
+          <TextField value={handleEmptyString(record?.name.en)} />
         </Descriptions.Item>
         <Descriptions.Item label="Name (Arabic)">
           {/* @ts-ignore */}
-          <TextField value={record?.name.ar ?? 'N/A'} />
+          <TextField value={handleEmptyString(record?.name.ar)} />
         </Descriptions.Item>
 
         <Descriptions.Item label="Updated At">
@@ -66,9 +64,34 @@ export default function BrandShow() {
           <TextField value={safeArrayCounter(record.products)} />
         </Descriptions.Item>
         <Descriptions.Item label="Products">
-          {record.products.map((product) => (
-            <TextField key={product.upc} />
-          ))}
+          <QuickTableSection
+            title="Products"
+            resource="products"
+            columns={[
+              {
+                dataIndex: 'productPictures',
+                title: 'Image',
+                render: (productPictures) =>
+                  handleMagextImage(productPictures[0]),
+              },
+              {
+                dataIndex: 'fullName',
+                title: 'Name',
+                sorter: true,
+              },
+              {
+                dataIndex: 'upc',
+                title: 'UPC',
+                sorter: true,
+              },
+              {
+                dataIndex: 'price',
+                title: 'Price',
+                sorter: true,
+                render: (price) => `${Number(price).toFixed(2)} KD`,
+              },
+            ]}
+          />
         </Descriptions.Item>
       </Descriptions>
 

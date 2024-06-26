@@ -8,7 +8,7 @@ import { FillRequestEntity } from './fill-request.entity';
 export class RequestsService extends TypeOrmCrudService<FillRequestEntity> {
   constructor(
     @InjectRepository(FillRequestEntity)
-    repository: Repository<FillRequestEntity>
+    private readonly repository: Repository<FillRequestEntity>
   ) {
     super(repository);
   }

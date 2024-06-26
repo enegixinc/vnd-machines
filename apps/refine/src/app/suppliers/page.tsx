@@ -3,13 +3,13 @@
 import { Divider, Tag } from 'antd';
 import React from 'react';
 import { handleEmptyString } from '@helpers';
-import { QuickTable } from '@components/quick-table';
+import { QuickTableSection } from '@components/quick-table-section';
 
 export default function SuppliersList() {
   return (
     <>
-      <QuickTable
-        title={'Suppliers'}
+      <QuickTableSection
+        pageTitle="Suppliers"
         resource={'users'}
         columns={[
           {

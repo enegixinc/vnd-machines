@@ -3,12 +3,12 @@
 import React from 'react';
 import { defaultSrc } from '@app/config';
 import { handleEmptyString } from '@helpers';
-import { QuickTable } from '@components/quick-table';
+import { QuickTableSection } from '@components/quick-table-section';
 
 export default function BrandsList() {
   return (
-    <QuickTable
-      title="Brands"
+    <QuickTableSection
+      pageTitle="Brands"
       resource="brands"
       columns={[
         {

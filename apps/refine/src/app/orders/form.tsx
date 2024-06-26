@@ -100,14 +100,37 @@ const ProductsTransfer = ({
   const [targetKeys, setTargetKeys] = useState(
     supplierProducts?.map((product) => product._id) || []
   );
+  const [products, setProducts] = useState<SerializedProductDto[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const { data } = await vndClient.products.getMany({
+          limit: 1000,
+        });
+        setProducts(data);
+        setLoading(false);
+      } catch (error) {
+        console.error('Failed to fetch products:', error);
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
 
   useEffect(() => {
     onChange(targetKeys);
   }, [targetKeys, onChange]);
 
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <TableTransfer
-      resource={'products'}
+      dataSource={products}
       filterOption={(inputValue, item) =>
         item.fullName.toLowerCase().includes(inputValue.toLowerCase())
       }
