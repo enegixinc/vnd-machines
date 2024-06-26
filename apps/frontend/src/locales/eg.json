@@ -422,7 +422,8 @@
         "sales": "المبيعات",
         "exportToSVG": "تحميل SVG",
         "exportToPNG": "تحميل PNG",
-        "exportToCSV": "تحميل CSV"
+        "exportToCSV": "تحميل CSV",
+        "totalProfit": "إجمالي الربح"
     },
     "rangeDates": {
         "thisWeek": "هذا الأسبوع",
@@ -438,5 +439,19 @@
         "friday": "الجمعة",
         "saturday": "السبت",
         "sunday": "الأحد"
+    },
+    "months": {
+        "jan": "يناير",
+        "feb": "فبراير",
+        "mar": "مارس",
+        "apr": "أبريل",
+        "may": "مايو",
+        "jun": "يونيو",
+        "jul": "يوليو",
+        "aug": "أغسطس",
+        "sep": "سبتمبر",
+        "oct": "أكتوبر",
+        "nov": "نوفمبر",
+        "dec": "ديسمبر"
     }
 }

@@ -417,7 +417,8 @@
         "sales": "Sales",
         "exportToSVG": "Download SVG",
         "exportToPNG": "Download PNG",
-        "exportToCSV": "Download CSV"
+        "exportToCSV": "Download CSV",
+        "totalProfit": "Total Profit"
     },
     "rangeDates": {
         "thisWeek": "This Week",
@@ -433,5 +434,19 @@
         "friday": "Fri",
         "saturday": "Sat",
         "sunday": "Sun"
+    },
+    "months": {
+        "jan": "Jan",
+        "feb": "Feb",
+        "mar": "Mar",
+        "apr": "Apr",
+        "may": "May",
+        "jun": "Jun",
+        "jul": "Jul",
+        "aug": "Aug",
+        "sep": "Sep",
+        "oct": "Oct",
+        "nov": "Nov",
+        "dec": "Dec"
     }
 }
