@@ -96,6 +96,8 @@ export const QuickTableSection = <
 
   const tableComponent = (
     <Table
+      {...props}
+      {...tableProps}
       columns={[
         ...props.columns,
         {
@@ -110,8 +112,6 @@ export const QuickTableSection = <
           ),
         },
       ]}
-      {...props}
-      {...tableProps}
       showSorterTooltip
       rowKey="_id"
     />

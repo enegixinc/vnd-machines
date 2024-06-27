@@ -48,6 +48,9 @@ import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
         alias: 'brand',
         allow: ['_id', 'fullName'],
       },
+      machine: {
+        alias: 'machine',
+      },
     },
   },
   routes: {

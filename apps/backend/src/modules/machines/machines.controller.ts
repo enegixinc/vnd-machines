@@ -1,11 +1,17 @@
 import { Body, Controller, Param, Post } from '@nestjs/common';
 import { FillRequestDto } from './dto/requests/fill.dto';
-import { ApiBearerAuth, ApiBody, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiBody,
+  ApiOperation,
+  ApiParam,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { Crud, CrudController } from '@dataui/crud';
 import { saneOperationsId } from '../../common/swagger.config';
 import { MachineEntity } from './entities/machine.entity';
 import { MachinesService } from './machines.service';
-
 
 @Crud({
   model: {
@@ -33,6 +39,13 @@ import { MachinesService } from './machines.service';
     join: {
       suppliers: {
         exclude: ['password'],
+      },
+      product: {
+        eager: true,
+        alias: 'products',
+      },
+      'product.product': {
+        eager: true,
       },
     },
   },

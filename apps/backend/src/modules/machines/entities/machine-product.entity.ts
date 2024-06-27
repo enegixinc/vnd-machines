@@ -1,5 +1,5 @@
 // entities/product.entity.ts
-import { Column, Entity, ManyToOne } from 'typeorm';
+import { Column, Entity, ManyToOne, VirtualColumn } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { DatabaseEntity } from '../../../common/database.entity';
 import { ProductEntity } from '../../products/entities/product.entity';
@@ -11,6 +11,10 @@ export class MachineProduct extends DatabaseEntity {
   @ManyToOne(() => ProductEntity, (product) => product.machines)
   @Type(() => ProductEntity)
   product: ProductEntity;
+
+  @ApiProperty()
+  @Column()
+  id: string;
 
   @ManyToOne(() => MachineEntity, (machine) => machine.product)
   @Type(() => MachineEntity)

@@ -15,6 +15,25 @@ export class MachineEntity extends SearchableMagexEntity {
   @OneToMany(() => FillRequestEntity, (fillRequest) => fillRequest.machine)
   fillRequests: FillRequestEntity[];
 
+  @ApiProperty()
+  @VirtualColumn({
+    query: (entity) => `
+        SELECT
+            COUNT(*)
+        FROM
+          machines
+            JOIN machine_product mp on machines._id = mp.machine_id
+        WHERE
+            machines._id = ${entity}._id
+    `,
+    transformer: {
+      from: (value) => Number(value),
+      to: (value) => value,
+    },
+  })
+  productsCount: number;
+
+  @ApiProperty()
   @VirtualColumn({
     type: 'int',
     query: (entity) => `
@@ -33,6 +52,7 @@ export class MachineEntity extends SearchableMagexEntity {
   })
   totalRevenue: number;
 
+  @ApiProperty()
   @VirtualColumn({
     type: 'int',
     query: (entity) => `
@@ -52,6 +72,7 @@ export class MachineEntity extends SearchableMagexEntity {
   })
   totalSoldProducts: number;
 
+  @ApiProperty()
   @VirtualColumn({
     type: 'int',
     query: (entity) => `
@@ -62,6 +83,7 @@ export class MachineEntity extends SearchableMagexEntity {
             JOIN MACHINES M ON M._ID = O.MACHINE_ID
         WHERE
             M._id = ${entity}._id
+
     `,
     transformer: {
       from: (value) => Number(value),

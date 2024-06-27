@@ -47,6 +47,7 @@ import { UpdateProductDto } from './dto/request/update-product.dto';
         alias: 'categories',
       },
       orders: {},
+      machines: {},
 
       // 'suppliers.brands': {
       //   eager: true,

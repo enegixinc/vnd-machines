@@ -11,18 +11,18 @@ import { handleNullableText } from '@app/products/utils/handleNullableText';
 
 const { Title } = Typography;
 
-export default function OrderShow() {
+export default function MachineShow() {
   const { queryResult } = useShow({
     meta: {
       join: [
         {
-          field: 'products',
+          field: 'product',
         },
         {
-          field: 'machine',
+          field: 'orders',
         },
         {
-          field: 'products.product',
+          field: 'product.product',
         },
       ],
     },
@@ -50,14 +50,11 @@ export default function OrderShow() {
           <TextField value={record._id} />
         </Descriptions.Item>
         <Descriptions.Item label="Status">
-          <TextField value={record.machine.machineOnline} />
-        </Descriptions.Item>
-        <Descriptions.Item label="Payment Type">
-          <TextField value={handleEmptyString(record.payment_type)} />
-        </Descriptions.Item>
-        <Descriptions.Item label="Total">
           <TextField
-            value={`${Number(record.total).toFixed(2)} ${record.currency}`}
+            value={record.machineOnline ? 'Online' : 'Offline'}
+            style={{
+              color: record.machineOnline ? 'green' : 'red',
+            }}
           />
         </Descriptions.Item>
         <Descriptions.Item label="Created At">
@@ -66,19 +63,43 @@ export default function OrderShow() {
         <Descriptions.Item label="Updated At">
           <TextField value={record.updatedAt} />
         </Descriptions.Item>
-        <Descriptions.Item label="Email">
-          <TextField value={handleEmptyString(record.email)} />
+        <Descriptions.Item label="Alert Email">
+          <Space direction={'vertical'}>
+            {record.alertEmail.split(',').map((email) => (
+              <TextField key={email} value={email} />
+            ))}
+          </Space>
         </Descriptions.Item>
-        <Descriptions.Item label="Cart Number">
-          <TextField value={handleEmptyString(record.cart_number)} />
+        <Descriptions.Item label="Lane">
+          <TextField value={record.lane} />
         </Descriptions.Item>
-        <Descriptions.Item label="Products Amount">
-          <TextField value={record.productsAmount} />
-        </Descriptions.Item>
-        <Descriptions.Item label="Total Quantity">
-          <TextField value={record.totalQuantity} />
+        <Descriptions.Item label="Floor">
+          <TextField value={record.floor} />
         </Descriptions.Item>
       </Descriptions>
+
+      <Divider />
+      <Title level={3} style={{ marginTop: 16 }}>
+        {'Finance'}
+      </Title>
+      <Descriptions
+        bordered
+        labelStyle={{
+          fontWeight: 'bold',
+          width: '20%',
+        }}
+      >
+        <Descriptions.Item label="Total Orders">
+          <TextField value={record.totalOrders} />
+        </Descriptions.Item>
+        <Descriptions.Item label="Total Products Sold">
+          <TextField value={record.totalSoldProducts} />
+        </Descriptions.Item>
+        <Descriptions.Item label="Total Revenue">
+          <TextField value={record.totalRevenue} />
+        </Descriptions.Item>
+      </Descriptions>
+      <Divider />
 
       <Divider />
       <Title level={3} style={{ marginTop: 16 }}>
@@ -86,7 +107,7 @@ export default function OrderShow() {
       </Title>
 
       <Table
-        dataSource={record.products}
+        dataSource={record.product}
         columns={[
           {
             title: 'Basic Info',
@@ -115,7 +136,7 @@ export default function OrderShow() {
                 dataIndex: ['product', 'price'],
                 title: 'Price',
                 sorter: true,
-                render: (price) => `${Number(price).toFixed(2)} KD`,
+                render: (price) => `${Number(price).toFixed(2)} USD`,
               },
             ],
           },
@@ -154,8 +175,8 @@ export default function OrderShow() {
               index === 0 && <Divider>Position</Divider>,
             children: [
               {
-                title: 'Quantity',
-                dataIndex: 'quantity',
+                title: 'Current Stock',
+                dataIndex: 'current_stock',
                 sorter: true,
               },
               {
@@ -164,8 +185,8 @@ export default function OrderShow() {
                 sorter: true,
               },
               {
-                dataIndex: 'row_number',
-                title: 'Row',
+                dataIndex: 'floor',
+                title: 'Floor',
                 sorter: true,
               },
             ],
@@ -189,23 +210,26 @@ export default function OrderShow() {
           width: '20%',
         }}
       >
-        <Descriptions.Item label="Payment Transaction ID">
-          <TextField value={handleEmptyString(record.payment_transaction_id)} />
+        <Descriptions.Item label="Enable Price Change">
+          <TextField value={handleEmptyString(record.enablePriceChange)} />
         </Descriptions.Item>
-        <Descriptions.Item label="Payment Receipt">
-          <TextField value={handleEmptyString(record.payment_receipt)} />
+        <Descriptions.Item label="GUI Version">
+          <TextField value={handleEmptyString(record.gui_version)} />
         </Descriptions.Item>
-        <Descriptions.Item label="Card Number">
-          <TextField value={handleEmptyString(record.card_number)} />
+        <Descriptions.Item label="Master Version">
+          <TextField value={handleEmptyString(record.master_version)} />
         </Descriptions.Item>
-        <Descriptions.Item label="Card Department">
-          <TextField value={handleEmptyString(record.card_department)} />
+        <Descriptions.Item label="Screen Saver">
+          <TextField value={handleEmptyString(record.screenSaver)} />
         </Descriptions.Item>
-        <Descriptions.Item label="Reservation Code">
-          <TextField value={handleEmptyString(record.reservation_code)} />
+        <Descriptions.Item label="Model">
+          <TextField value={handleEmptyString(record.model)} />
         </Descriptions.Item>
-        <Descriptions.Item label="Return Code">
-          <TextField value={handleEmptyString(record.return_code)} />
+        <Descriptions.Item label="Stocking">
+          <TextField value={handleEmptyString(record.stocking)} />
+        </Descriptions.Item>
+        <Descriptions.Item label="Time to Idle">
+          <TextField value={handleEmptyString(record.time_to_idle)} />
         </Descriptions.Item>
       </Descriptions>
     </Show>
