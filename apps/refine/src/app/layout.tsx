@@ -113,6 +113,17 @@ export default function RootLayout({
                           icon: <IoPricetagsOutline />,
                         },
                       },
+                      {
+                        name: 'machines',
+                        list: '/machines',
+                        show: '/machines/show/:id',
+                        meta: {
+                          canDelete: true,
+                          canCreate: true,
+                          canUpdate: true,
+                          icon: <HiOutlineUsers />,
+                        },
+                      },
                     ]}
                     options={{
                       syncWithLocation: true,

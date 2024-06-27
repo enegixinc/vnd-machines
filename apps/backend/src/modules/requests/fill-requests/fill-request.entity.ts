@@ -1,12 +1,5 @@
 import { DatabaseEntity } from '../../../common/database.entity';
-import {
-  BeforeInsert,
-  Column,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  OneToMany,
-} from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 import { MachineEntity } from '../../machines/entities/machine.entity';
 import { ProductEntity } from '../../products/entities/product.entity';
 
@@ -24,8 +17,8 @@ export class FillRequestEntity extends DatabaseEntity {
   )
   products: FillRequestProducts[];
 
-  @Column({ default: false })
-  accepted: boolean;
+  // @Column({ default: false })
+  // accepted: boolean;
 
   @Column({ nullable: true })
   notes?: string;
