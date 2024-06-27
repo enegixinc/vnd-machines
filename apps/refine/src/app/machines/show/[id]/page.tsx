@@ -19,10 +19,16 @@ export default function MachineShow() {
           field: 'product',
         },
         {
-          field: 'orders',
+          field: 'products.product',
         },
         {
-          field: 'product.product',
+          field: 'product.supplier',
+        },
+        {
+          field: 'product.category',
+        },
+        {
+          field: 'product.brand',
         },
       ],
     },
@@ -121,14 +127,14 @@ export default function MachineShow() {
                   handleMagextImage(productPictures[0]),
               },
               {
-                dataIndex: ['product', 'fullName'],
-                title: 'Name',
+                dataIndex: ['product', 'upc'],
+                title: 'UPC',
                 sorter: true,
                 render: handleNullableText,
               },
               {
-                dataIndex: ['product', 'upc'],
-                title: 'UPC',
+                dataIndex: ['product', 'fullName'],
+                title: 'Name',
                 sorter: true,
                 render: handleNullableText,
               },

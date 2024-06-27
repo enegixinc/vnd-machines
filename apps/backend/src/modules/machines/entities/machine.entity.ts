@@ -35,6 +35,24 @@ export class MachineEntity extends SearchableMagexEntity {
 
   @ApiProperty()
   @VirtualColumn({
+    query: (entity) => `
+        SELECT
+            COALESCE(SUM(mp.stock), 0)
+        FROM
+          machines
+            JOIN machine_product mp on machines._id = mp.machine_id
+        WHERE
+            machines._id = ${entity}._id
+    `,
+    transformer: {
+      from: (value) => Number(value),
+      to: (value) => value,
+    },
+  })
+  totalMaxStock: number;
+
+  @ApiProperty()
+  @VirtualColumn({
     type: 'int',
     query: (entity) => `
         SELECT

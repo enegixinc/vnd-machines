@@ -37,16 +37,23 @@ import { MachinesService } from './machines.service';
     limit: 20,
     maxLimit: 100,
     join: {
-      suppliers: {
-        exclude: ['password'],
-      },
+      // suppliers: {
+      //   exclude: ['password'],
+      // },
       product: {
         eager: true,
-        alias: 'products',
+        alias: 'product',
       },
       'product.product': {
         eager: true,
+        alias: 'singleProduct',
       },
+      'product.product.supplier': {
+        exclude: ['password'],
+        alias: 'product.product.supplier',
+      },
+      // 'product.product.category': {},
+      // 'product.product.brand': {},
     },
   },
   routes: {
