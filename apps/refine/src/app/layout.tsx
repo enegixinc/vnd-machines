@@ -105,6 +105,14 @@ export default function RootLayout({
                           icon: <IoPricetagsOutline />,
                         },
                       },
+                      {
+                        name: 'requests',
+                        list: '/requests',
+                        show: '/requests/show/:id',
+                        meta: {
+                          icon: <IoPricetagsOutline />,
+                        },
+                      },
                     ]}
                     options={{
                       syncWithLocation: true,

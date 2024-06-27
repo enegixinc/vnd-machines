@@ -2,14 +2,14 @@
 
 import React from 'react';
 import { handleEmptyString } from '@helpers';
-import { QuickTable } from '@components/quick-table';
+import { QuickTableSection } from '@components/quick-table-section';
 import { Divider } from 'antd';
 import { handleMagextImage } from '@app/products/utils/handleMagextImage';
 
 export default function ProductsList() {
   return (
-    <QuickTable
-      title="Products"
+    <QuickTableSection
+      pageTitle="Products"
       resource="products"
       meta={{
         join: [

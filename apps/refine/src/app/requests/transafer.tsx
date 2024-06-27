@@ -20,7 +20,7 @@ interface TableTransferProps extends TransferProps<TransferItem> {
   rightColumns: TableColumnsType<DataType>;
 }
 
-export const TableTransfer = ({
+const TableTransfer = ({
   leftColumns,
   rightColumns,
   ...restProps

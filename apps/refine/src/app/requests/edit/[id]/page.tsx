@@ -6,7 +6,7 @@ import SupplierForm from '@app/suppliers/form';
 import { useParams } from 'next/navigation';
 import { Spin } from 'antd';
 
-export default function SupplierEdit() {
+export default function BrandEdit() {
   const { id } = useParams();
   const { formProps, saveButtonProps, formLoading, queryResult } = useForm({
     resource: 'users',

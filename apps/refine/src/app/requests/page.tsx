@@ -58,7 +58,7 @@ export default function OrdersList() {
   return (
     <>
       <QuickTableSection
-        pageTitle="Orders"
+        title={'Orders'}
         resource={'orders'}
         columns={[
           {

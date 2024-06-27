@@ -5,7 +5,7 @@ import { Card, Divider, Form, FormProps, Input, Select, Switch } from 'antd';
 import { UserRole } from '@core';
 import { SerializedProductDto, UserEntity } from '@frontend/api-sdk';
 import { vndClient } from '@providers/api';
-import { TableTransfer } from '@app/suppliers/transafer';
+import { TableTransfer } from '@components/transafer';
 
 const SupplierForm = ({ formProps }: { formProps: FormProps }) => {
   return (
@@ -136,7 +136,6 @@ const ProductsTransfer = ({
       }
       targetKeys={targetKeys}
       rowKey={(record) => record._id}
-      showSearch
       showSelectAll={false}
       leftColumns={[
         {

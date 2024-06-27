@@ -9,7 +9,7 @@ import { handleEmptyString, safeArrayCounter } from '@helpers';
 import { defaultSrc } from '@app/config';
 import { ShowFinance } from '@components/sections/finance';
 import { handleMagextImage } from '@app/products/utils/handleMagextImage';
-import { QuickTable } from '@components/quick-table';
+import { QuickTableSection } from '@components/quick-table-section';
 
 const { Title } = Typography;
 
@@ -64,7 +64,7 @@ export default function BrandShow() {
           <TextField value={safeArrayCounter(record.products)} />
         </Descriptions.Item>
         <Descriptions.Item label="Products">
-          <QuickTable
+          <QuickTableSection
             title="Products"
             resource="products"
             columns={[

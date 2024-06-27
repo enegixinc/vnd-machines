@@ -5,7 +5,7 @@ import { Card, Divider, Form, FormProps, Input, Select, Switch } from 'antd';
 import { UserRole } from '@core';
 import { SerializedProductDto, UserEntity } from '@frontend/api-sdk';
 import { vndClient } from '@providers/api';
-import { TableTransfer } from '@app/suppliers/transafer';
+import { TableTransfer } from '@components/transafer';
 
 const SupplierForm = ({ formProps }: { formProps: FormProps }) => {
   return (
@@ -100,43 +100,19 @@ const ProductsTransfer = ({
   const [targetKeys, setTargetKeys] = useState(
     supplierProducts?.map((product) => product._id) || []
   );
-  const [products, setProducts] = useState<SerializedProductDto[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const { data } = await vndClient.products.getMany({
-          limit: 1000,
-        });
-        setProducts(data);
-        setLoading(false);
-      } catch (error) {
-        console.error('Failed to fetch products:', error);
-        setLoading(false);
-      }
-    };
-
-    fetchProducts();
-  }, []);
 
   useEffect(() => {
     onChange(targetKeys);
   }, [targetKeys, onChange]);
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
   return (
     <TableTransfer
-      dataSource={products}
+      resource={'products'}
       filterOption={(inputValue, item) =>
         item.fullName.toLowerCase().includes(inputValue.toLowerCase())
       }
       targetKeys={targetKeys}
       rowKey={(record) => record._id}
-      showSearch
       showSelectAll={false}
       leftColumns={[
         {
