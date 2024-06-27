@@ -6,6 +6,7 @@ import {
   JoinTable,
   ManyToMany,
   OneToMany,
+  VirtualColumn,
 } from 'typeorm';
 import {
   ICategoryEntity,
@@ -26,6 +27,9 @@ import { fakerAR } from '@faker-js/faker';
 import { MagexService } from '../../services/magex/magex.service';
 import { TotalOrders, TotalRevenue, TotalSoldProducts } from './decorators';
 import { MultiLangEntity } from '../products/entities/multiLang.entity';
+import { OrderEntity } from '../orders/order.entity';
+import { SerializeOptions } from '@nestjs/common';
+import { plainToInstance } from 'class-transformer';
 
 @Entity('categories')
 export class CategoryEntity
@@ -42,6 +46,18 @@ export class CategoryEntity
 
     this.fullName = MultiLangEntity.handleMultiLang(this.name);
   }
+  @VirtualColumn({
+    type: 'array',
+    query: (entity) => `
+      select coalesce(jsonb_agg(orders), '[]'::jsonb)
+      from categories
+             join products on categories._id = products.category_id
+             join order_details on products._id = order_details.product_id
+             join orders on order_details.order_id = orders._id
+      where categories._id = ${entity}._id
+    `,
+  })
+  orders: OrderEntity[];
 
   @TotalSoldProducts('categories', 'category_id')
   totalSoldProducts: number;
