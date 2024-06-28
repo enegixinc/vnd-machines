@@ -66,23 +66,17 @@ export default function OrderShow() {
             value={`${Number(record.total).toFixed(2)} ${record.currency}`}
           />
         </Descriptions.Item>
+        <Descriptions.Item label="Cart Number">
+          <TextField value={handleEmptyString(record.cart_number)} />
+        </Descriptions.Item>
+        <Descriptions.Item label="Total Quantity">
+          <TextField value={record.totalQuantity} />
+        </Descriptions.Item>
         <Descriptions.Item label="Created At">
           <TextField value={record.createdAt} />
         </Descriptions.Item>
         <Descriptions.Item label="Updated At">
           <TextField value={record.updatedAt} />
-        </Descriptions.Item>
-        <Descriptions.Item label="Email">
-          <TextField value={handleEmptyString(record.email)} />
-        </Descriptions.Item>
-        <Descriptions.Item label="Cart Number">
-          <TextField value={handleEmptyString(record.cart_number)} />
-        </Descriptions.Item>
-        <Descriptions.Item label="Products Amount">
-          <TextField value={record.productsAmount} />
-        </Descriptions.Item>
-        <Descriptions.Item label="Total Quantity">
-          <TextField value={record.totalQuantity} />
         </Descriptions.Item>
       </Descriptions>
 
@@ -96,14 +90,12 @@ export default function OrderShow() {
         columns={[
           {
             title: 'Basic Info',
-            render: (_, __, index) =>
-              index === 0 && <Divider>Basic Info</Divider>,
             children: [
               {
                 dataIndex: ['product', 'productPictures'],
                 title: 'Image',
                 render: (productPictures) =>
-                  handleMagextImage(productPictures[0]),
+                  handleMagextImage(productPictures ? productPictures[0] : ''),
               },
               {
                 dataIndex: ['product', 'fullName'],
