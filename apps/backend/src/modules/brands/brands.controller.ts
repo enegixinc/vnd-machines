@@ -39,8 +39,11 @@ import { UpdateBrandDto } from './dto/response/update-brand.dto';
       suppliers: {
         alias: 'users',
         exclude: ['password'],
+        eager: true,
       },
-      products: {},
+      products: {
+        eager: true,
+      },
       categories: {},
       orders: {
         eager: true,

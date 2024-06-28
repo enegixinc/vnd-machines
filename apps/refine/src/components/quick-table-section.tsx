@@ -10,16 +10,23 @@ import {
 } from '@refinedev/antd';
 import { Button, Space, Table } from 'antd';
 import Search from 'antd/es/input/Search';
-import { BaseRecord, MetaQuery } from '@refinedev/core';
+import { BaseRecord, CrudFilter, MetaQuery } from '@refinedev/core';
 import type { TableProps } from 'antd/es/table';
 
 export interface QuickTableProps extends TableProps<BaseRecord> {
-  resource: string;
+  resource?: string;
   onSearch?: (text: string) => void;
   meta?: MetaQuery | undefined;
+  filters?: {
+    initial?: CrudFilter[] | undefined;
+    permanent?: CrudFilter[] | undefined;
+    hidden?: CrudFilter[] | undefined;
+  };
+
   pageTitle?: string;
   minimal?: boolean;
   setDataReference?: (data: any) => void;
+  showActions?: boolean;
 }
 
 export const QuickTableSection = <
@@ -32,6 +39,7 @@ export const QuickTableSection = <
   onSearch,
   meta,
   minimal = false,
+  showActions = true,
   ...props
 }: QuickTableProps) => {
   const { tableProps, setFilters } = useTable({
@@ -42,6 +50,7 @@ export const QuickTableSection = <
     },
     filters: {
       mode: 'server',
+      ...props.filters,
     },
     meta,
   });
@@ -100,17 +109,33 @@ export const QuickTableSection = <
       {...tableProps}
       columns={[
         ...props.columns,
-        {
-          title: 'Actions',
-          key: 'actions',
-          render: (record: T) => (
-            <Space>
-              <EditButton hideText size="small" recordItemId={record._id} />
-              <ShowButton hideText size="small" recordItemId={record._id} />
-              <DeleteButton hideText size="small" recordItemId={record._id} />
-            </Space>
-          ),
-        },
+        ...(showActions
+          ? [
+              {
+                title: 'Actions',
+                key: 'actions',
+                render: (record: T) => (
+                  <Space>
+                    <EditButton
+                      hideText
+                      size="small"
+                      recordItemId={record._id}
+                    />
+                    <ShowButton
+                      hideText
+                      size="small"
+                      recordItemId={record._id}
+                    />
+                    <DeleteButton
+                      hideText
+                      size="small"
+                      recordItemId={record._id}
+                    />
+                  </Space>
+                ),
+              },
+            ]
+          : []),
       ]}
       showSorterTooltip
       rowKey="_id"
