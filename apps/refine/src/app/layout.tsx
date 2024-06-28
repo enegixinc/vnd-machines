@@ -95,6 +95,17 @@ export default function RootLayout({
                         },
                       },
                       {
+                        name: 'contracts',
+                        list: '/contracts',
+                        create: '/contracts/create',
+                        edit: '/contracts/edit/:id',
+                        show: '/contracts/show/:id',
+                        meta: {
+                          canDelete: true,
+                          icon: <MdOutlineCategory />,
+                        },
+                      },
+                      {
                         name: 'orders',
                         list: '/orders',
                         show: '/orders/show/:id',
