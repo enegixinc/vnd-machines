@@ -8,7 +8,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 export class ContractsService extends TypeOrmCrudService<ContractEntity> {
   constructor(
     @InjectRepository(ContractEntity)
-    repository: Repository<ContractEntity>
+    private readonly repository: Repository<ContractEntity>
   ) {
     super(repository);
   }

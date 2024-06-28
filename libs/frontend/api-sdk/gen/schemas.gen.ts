@@ -19,54 +19,6 @@ export const $LoginDto = {
     required: ['email', 'password']
 } as const;
 
-export const $UserRole = {
-    type: 'string',
-    description: 'Role of the user',
-    default: 'supplier',
-    enum: ['admin', 'supplier']
-} as const;
-
-export const $SharedUserDto = {
-    type: 'object',
-    properties: {
-        active: {
-            type: 'boolean',
-            example: true,
-            description: 'Is the user active'
-        },
-        email: {
-            type: 'string',
-            example: 'email@example.com',
-            description: 'Email of the user',
-            uniqueItems: true
-        },
-        firstName: {
-            type: 'string',
-            example: 'John'
-        },
-        lastName: {
-            type: 'string',
-            example: 'Doe'
-        },
-        phoneNumber: {
-            type: 'string',
-            example: '+201554891929',
-            description: 'Phone number of the user'
-        },
-        role: {
-            example: 'supplier',
-            '$ref': '#/components/schemas/UserRole'
-        },
-        businessName: {
-            type: 'string',
-            example: 'Business Name',
-            description: 'Business name of the user',
-            nullable: true
-        }
-    },
-    required: ['active', 'email', 'firstName', 'lastName', 'phoneNumber', 'role', 'businessName']
-} as const;
-
 export const $UserEntity = {
     type: 'object',
     properties: {
@@ -101,13 +53,20 @@ export const $UserEntity = {
     required: ['_id', '__v', 'createdAt', 'updatedAt', 'deletedAt', 'lastSyncAt']
 } as const;
 
-export const $GetManyProductEntityResponseDto = {
+export const $UserRole = {
+    type: 'string',
+    description: 'Role of the user',
+    default: 'supplier',
+    enum: ['admin', 'supplier']
+} as const;
+
+export const $GetManyBrandEntityResponseDto = {
     type: 'object',
     properties: {
         data: {
             type: 'array',
             items: {
-                '$ref': '#/components/schemas/SerializedProductDto'
+                '$ref': '#/components/schemas/SerializedBrandDto'
             }
         },
         count: {
@@ -126,7 +85,7 @@ export const $GetManyProductEntityResponseDto = {
     required: ['data', 'count', 'total', 'page', 'pageCount']
 } as const;
 
-export const $ProductEntity = {
+export const $BrandEntity = {
     type: 'object',
     properties: {
         _id: {
@@ -200,29 +159,135 @@ export const $SharedCategoryDto = {
     required: ['totalSoldProducts', 'totalRevenue', 'totalOrders', 'name', 'auto', 'sortIndex']
 } as const;
 
-export const $SharedBrandDto = {
+export const $MultiLangEntity = {
     type: 'object',
     properties: {
-        name: {
-            type: 'object',
-            example: {
-                en: 'Name of the product in English',
-                ar: 'Name in Arabic'
-            },
-            description: 'Name of the product in multiple languages'
-        },
-        picture: {
+        ar: {
             type: 'string',
-            example: 'https://www.local.com/image.jpg',
-            description: 'Brand picture'
+            example: 'العربيه'
         },
-        logo: {
+        en: {
             type: 'string',
-            example: 'https://www.local.com/image.jpg',
-            description: 'Brand logo'
+            example: 'English'
         }
     },
-    required: ['name']
+    required: ['ar', 'en']
+} as const;
+
+export const $DimensionEntity = {
+    type: 'object',
+    properties: {
+        height: {
+            type: 'number',
+            example: 20,
+            description: 'Dimension of the product'
+        },
+        length: {
+            type: 'number',
+            example: 20,
+            description: 'Dimension of the product'
+        },
+        width: {
+            type: 'number',
+            example: 20,
+            description: 'Dimension of the product'
+        }
+    },
+    required: ['height', 'length', 'width']
+} as const;
+
+export const $SharedProductDto = {
+    type: 'object',
+    properties: {
+        upc: {
+            type: 'string',
+            example: '1231',
+            description: 'UPC of the product'
+        },
+        additionPrice: {
+            type: 'number',
+            example: 100.5,
+            description: 'Additional price of the product'
+        },
+        ageControl: {
+            type: 'number',
+            example: 18,
+            description: 'Age control of the product'
+        },
+        barcode: {
+            type: 'string',
+            example: '1234567890123',
+            description: 'Barcode of the product'
+        },
+        costPrice: {
+            type: 'number',
+            example: 99.99,
+            description: 'Cost price of the product'
+        },
+        name: {
+            '$ref': '#/components/schemas/MultiLangEntity'
+        },
+        description: {
+            '$ref': '#/components/schemas/MultiLangEntity'
+        },
+        detail: {
+            '$ref': '#/components/schemas/MultiLangEntity'
+        },
+        include: {
+            '$ref': '#/components/schemas/MultiLangEntity'
+        },
+        ingredients: {
+            '$ref': '#/components/schemas/MultiLangEntity'
+        },
+        keyFeatures: {
+            '$ref': '#/components/schemas/MultiLangEntity'
+        },
+        specification: {
+            '$ref': '#/components/schemas/MultiLangEntity'
+        },
+        dimension: {
+            '$ref': '#/components/schemas/DimensionEntity'
+        },
+        price: {
+            type: 'number',
+            example: 199.99,
+            description: 'Price of the product'
+        },
+        pricePerKilo: {
+            type: 'boolean',
+            example: true,
+            description: 'Whether the price is per kilo or not'
+        },
+        prodType: {
+            type: 'string',
+            example: 'electronic',
+            description: 'Type of the product'
+        },
+        productPictures: {
+            example: ['image1.jpg', 'image2.jpg'],
+            description: 'Array of product picture URLs',
+            type: 'array',
+            items: {
+                type: 'string'
+            }
+        },
+        sortIndex: {
+            type: 'number',
+            example: 1,
+            description: 'Index for sorting the product'
+        },
+        vatIndex: {
+            type: 'number',
+            example: 1,
+            description: 'VAT index of the product'
+        },
+        virtualProduct: {
+            type: 'number',
+            example: 0,
+            description: 'Virtual product indicator'
+        }
+    },
+    required: ['upc', 'additionPrice', 'ageControl', 'barcode', 'costPrice', 'name', 'description', 'price', 'pricePerKilo', 'prodType', 'productPictures', 'sortIndex', 'vatIndex', 'virtualProduct']
 } as const;
 
 export const $GetManyOrderEntityResponseDto = {
@@ -335,399 +400,6 @@ export const $OrderEntity = {
     required: ['_id', '__v', 'createdAt', 'updatedAt', 'deletedAt', 'lastSyncAt', 'status', 'payment_type', 'lang', 'referTo', 'tax', 'total', 'currency', 'createdAtUtc', 'utcOffset', 'payment_transaction_id', 'payment_receipt', 'cart_number', 'card_number', 'card_department', 'email', 'reservation_code', 'return_code']
 } as const;
 
-export const $SerializedProductDto = {
-    type: 'object',
-    properties: {
-        _id: {
-            type: 'string',
-            example: '6a909236-53f2-4727-b780-e41e115ee906'
-        },
-        __v: {
-            type: 'number',
-            example: 1,
-            description: 'Version'
-        },
-        createdAt: {
-            type: 'date',
-            example: '2021-07-01T00:00:00.000Z'
-        },
-        updatedAt: {
-            type: 'date',
-            example: '2021-07-01T00:00:00.000Z'
-        },
-        deletedAt: {
-            type: 'date',
-            example: '2021-07-01T00:00:00.000Z',
-            nullable: true
-        },
-        lastSyncAt: {
-            type: 'date',
-            example: '2021-07-01T00:00:00.000Z',
-            nullable: true
-        },
-        upc: {
-            type: 'string',
-            example: '1231',
-            description: 'UPC of the product'
-        },
-        additionPrice: {
-            type: 'number',
-            example: 100.5,
-            description: 'Additional price of the product'
-        },
-        ageControl: {
-            type: 'number',
-            example: 18,
-            description: 'Age control of the product'
-        },
-        name: {
-            type: 'object',
-            example: {
-                en: 'Name of the product in English',
-                ar: 'Name in Arabic'
-            },
-            description: 'Name of the product in multiple languages'
-        },
-        barcode: {
-            type: 'string',
-            example: '1234567890123',
-            description: 'Barcode of the product'
-        },
-        costPrice: {
-            type: 'number',
-            example: 99.99,
-            description: 'Cost price of the product'
-        },
-        description: {
-            type: 'object',
-            example: {
-                en: 'Description of the product in English',
-                ar: 'Name in Arabic'
-            },
-            description: 'Description of the product in multiple languages'
-        },
-        detail: {
-            type: 'object',
-            example: {
-                en: 'Description of the product in English',
-                ar: 'Name in Arabic'
-            },
-            description: 'Description of the product in multiple languages'
-        },
-        include: {
-            type: 'object',
-            example: {
-                en: 'Description of the product in English',
-                ar: 'Name in Arabic'
-            },
-            description: 'Description of the product in multiple languages'
-        },
-        ingredients: {
-            type: 'object',
-            example: {
-                en: 'Description of the product in English',
-                ar: 'Name in Arabic'
-            },
-            description: 'Description of the product in multiple languages'
-        },
-        keyFeatures: {
-            type: 'object',
-            example: {
-                en: 'Description of the product in English',
-                ar: 'Name in Arabic'
-            },
-            description: 'Description of the product in multiple languages'
-        },
-        specification: {
-            type: 'object',
-            example: {
-                en: 'Description of the product in English',
-                ar: 'Name in Arabic'
-            },
-            description: 'Description of the product in multiple languages'
-        },
-        dimension: {
-            type: 'object',
-            example: {
-                height: 10,
-                length: 20,
-                width: 30
-            },
-            description: 'Dimensions of the product'
-        },
-        price: {
-            type: 'number',
-            example: 199.99,
-            description: 'Price of the product'
-        },
-        pricePerKilo: {
-            type: 'boolean',
-            example: true,
-            description: 'Whether the price is per kilo or not'
-        },
-        prodType: {
-            type: 'string',
-            example: 'electronic',
-            description: 'Type of the product'
-        },
-        productPictures: {
-            example: ['image1.jpg', 'image2.jpg'],
-            description: 'Array of product picture URLs',
-            type: 'array',
-            items: {
-                type: 'string'
-            }
-        },
-        sortIndex: {
-            type: 'number',
-            example: 1,
-            description: 'Index for sorting the product'
-        },
-        vatIndex: {
-            type: 'number',
-            example: 1,
-            description: 'VAT index of the product'
-        },
-        virtualProduct: {
-            type: 'number',
-            example: 0,
-            description: 'Virtual product indicator'
-        },
-        totalSoldProducts: {
-            type: 'number',
-            example: 0
-        },
-        totalRevenue: {
-            type: 'number',
-            example: 33421.233
-        },
-        totalOrders: {
-            type: 'number',
-            example: 0
-        },
-        productVideo: {
-            type: 'string',
-            example: 'https://www.youtube.com/watch?v=1234567890',
-            description: 'Video of the product'
-        },
-        category: {
-            '$ref': '#/components/schemas/SharedCategoryDto'
-        },
-        brand: {
-            '$ref': '#/components/schemas/SharedBrandDto'
-        },
-        supplier: {
-            '$ref': '#/components/schemas/SharedUserDto'
-        },
-        orders: {
-            type: 'array',
-            items: {
-                '$ref': '#/components/schemas/OrderEntity'
-            }
-        },
-        referTo: {
-            type: 'string',
-            example: 'tryvnd@point24h.com',
-            description: 'Reference to another product'
-        }
-    },
-    required: ['_id', '__v', 'createdAt', 'updatedAt', 'deletedAt', 'lastSyncAt', 'upc', 'additionPrice', 'ageControl', 'name', 'barcode', 'costPrice', 'description', 'detail', 'include', 'ingredients', 'keyFeatures', 'specification', 'price', 'pricePerKilo', 'prodType', 'productPictures', 'sortIndex', 'vatIndex', 'virtualProduct', 'totalSoldProducts', 'totalRevenue', 'totalOrders', 'productVideo', 'category', 'brand', 'supplier', 'orders', 'referTo']
-} as const;
-
-export const $GetManyBrandEntityResponseDto = {
-    type: 'object',
-    properties: {
-        data: {
-            type: 'array',
-            items: {
-                '$ref': '#/components/schemas/SerializedBrandDto'
-            }
-        },
-        count: {
-            type: 'number'
-        },
-        total: {
-            type: 'number'
-        },
-        page: {
-            type: 'number'
-        },
-        pageCount: {
-            type: 'number'
-        }
-    },
-    required: ['data', 'count', 'total', 'page', 'pageCount']
-} as const;
-
-export const $BrandEntity = {
-    type: 'object',
-    properties: {
-        _id: {
-            type: 'string',
-            example: '6a909236-53f2-4727-b780-e41e115ee906'
-        },
-        __v: {
-            type: 'number',
-            example: 1,
-            description: 'Version'
-        },
-        createdAt: {
-            type: 'date',
-            example: '2021-07-01T00:00:00.000Z'
-        },
-        updatedAt: {
-            type: 'date',
-            example: '2021-07-01T00:00:00.000Z'
-        },
-        deletedAt: {
-            type: 'date',
-            example: '2021-07-01T00:00:00.000Z',
-            nullable: true
-        },
-        lastSyncAt: {
-            type: 'date',
-            example: '2021-07-01T00:00:00.000Z',
-            nullable: true
-        }
-    },
-    required: ['_id', '__v', 'createdAt', 'updatedAt', 'deletedAt', 'lastSyncAt']
-} as const;
-
-export const $SharedProductDto = {
-    type: 'object',
-    properties: {
-        upc: {
-            type: 'string',
-            example: '1231',
-            description: 'UPC of the product'
-        },
-        additionPrice: {
-            type: 'number',
-            example: 100.5,
-            description: 'Additional price of the product'
-        },
-        ageControl: {
-            type: 'number',
-            example: 18,
-            description: 'Age control of the product'
-        },
-        name: {
-            type: 'object',
-            example: {
-                en: 'Name of the product in English',
-                ar: 'Name in Arabic'
-            },
-            description: 'Name of the product in multiple languages'
-        },
-        barcode: {
-            type: 'string',
-            example: '1234567890123',
-            description: 'Barcode of the product'
-        },
-        costPrice: {
-            type: 'number',
-            example: 99.99,
-            description: 'Cost price of the product'
-        },
-        description: {
-            type: 'object',
-            example: {
-                en: 'Description of the product in English',
-                ar: 'Name in Arabic'
-            },
-            description: 'Description of the product in multiple languages'
-        },
-        detail: {
-            type: 'object',
-            example: {
-                en: 'Description of the product in English',
-                ar: 'Name in Arabic'
-            },
-            description: 'Description of the product in multiple languages'
-        },
-        include: {
-            type: 'object',
-            example: {
-                en: 'Description of the product in English',
-                ar: 'Name in Arabic'
-            },
-            description: 'Description of the product in multiple languages'
-        },
-        ingredients: {
-            type: 'object',
-            example: {
-                en: 'Description of the product in English',
-                ar: 'Name in Arabic'
-            },
-            description: 'Description of the product in multiple languages'
-        },
-        keyFeatures: {
-            type: 'object',
-            example: {
-                en: 'Description of the product in English',
-                ar: 'Name in Arabic'
-            },
-            description: 'Description of the product in multiple languages'
-        },
-        specification: {
-            type: 'object',
-            example: {
-                en: 'Description of the product in English',
-                ar: 'Name in Arabic'
-            },
-            description: 'Description of the product in multiple languages'
-        },
-        dimension: {
-            type: 'object',
-            example: {
-                height: 10,
-                length: 20,
-                width: 30
-            },
-            description: 'Dimensions of the product'
-        },
-        price: {
-            type: 'number',
-            example: 199.99,
-            description: 'Price of the product'
-        },
-        pricePerKilo: {
-            type: 'boolean',
-            example: true,
-            description: 'Whether the price is per kilo or not'
-        },
-        prodType: {
-            type: 'string',
-            example: 'electronic',
-            description: 'Type of the product'
-        },
-        productPictures: {
-            example: ['image1.jpg', 'image2.jpg'],
-            description: 'Array of product picture URLs',
-            type: 'array',
-            items: {
-                type: 'string'
-            }
-        },
-        sortIndex: {
-            type: 'number',
-            example: 1,
-            description: 'Index for sorting the product'
-        },
-        vatIndex: {
-            type: 'number',
-            example: 1,
-            description: 'VAT index of the product'
-        },
-        virtualProduct: {
-            type: 'number',
-            example: 0,
-            description: 'Virtual product indicator'
-        }
-    },
-    required: ['upc', 'additionPrice', 'ageControl', 'name', 'barcode', 'costPrice', 'description', 'detail', 'include', 'ingredients', 'keyFeatures', 'specification', 'price', 'pricePerKilo', 'prodType', 'productPictures', 'sortIndex', 'vatIndex', 'virtualProduct']
-} as const;
-
 export const $SerializedBrandDto = {
     type: 'object',
     properties: {
@@ -810,9 +482,15 @@ export const $SerializedBrandDto = {
             type: 'string',
             example: 'tryvnd@point24h.com',
             description: 'Reference to another product'
+        },
+        orders: {
+            type: 'array',
+            items: {
+                '$ref': '#/components/schemas/OrderEntity'
+            }
         }
     },
-    required: ['_id', '__v', 'createdAt', 'updatedAt', 'deletedAt', 'lastSyncAt', 'name', 'totalSoldProducts', 'totalRevenue', 'totalOrders', 'categories', 'products', 'suppliers', 'referTo']
+    required: ['_id', '__v', 'createdAt', 'updatedAt', 'deletedAt', 'lastSyncAt', 'name', 'totalSoldProducts', 'totalRevenue', 'totalOrders', 'categories', 'products', 'suppliers', 'referTo', 'orders']
 } as const;
 
 export const $GetManyContractEntityResponseDto = {
@@ -950,12 +628,6 @@ export const $SerializedUserDto = {
             type: 'number',
             example: 0
         },
-        products: {
-            type: 'array',
-            items: {
-                '$ref': '#/components/schemas/SerializedProductDto'
-            }
-        },
         brand: {
             type: 'array',
             items: {
@@ -969,7 +641,7 @@ export const $SerializedUserDto = {
             }
         }
     },
-    required: ['_id', '__v', 'createdAt', 'updatedAt', 'deletedAt', 'lastSyncAt', 'active', 'email', 'firstName', 'lastName', 'phoneNumber', 'role', 'businessName', 'totalSoldProducts', 'totalRevenue', 'totalOrders', 'products', 'brand', 'contracts']
+    required: ['_id', '__v', 'createdAt', 'updatedAt', 'deletedAt', 'lastSyncAt', 'active', 'email', 'firstName', 'lastName', 'phoneNumber', 'role', 'businessName', 'totalSoldProducts', 'totalRevenue', 'totalOrders', 'brand', 'contracts']
 } as const;
 
 export const $SerializedContractDto = {
@@ -1137,6 +809,9 @@ export const $MachineProduct = {
             example: '2021-07-01T00:00:00.000Z',
             nullable: true
         },
+        id: {
+            type: 'string'
+        },
         current_stock: {
             type: 'number'
         },
@@ -1166,7 +841,7 @@ export const $MachineProduct = {
             type: 'string'
         }
     },
-    required: ['_id', '__v', 'createdAt', 'updatedAt', 'deletedAt', 'lastSyncAt', 'current_stock', 'max_stock', 'upc', 'stock', 'floor', 'lane', 'name', 'motor', 'expiration_date']
+    required: ['_id', '__v', 'createdAt', 'updatedAt', 'deletedAt', 'lastSyncAt', 'id', 'current_stock', 'max_stock', 'upc', 'stock', 'floor', 'lane', 'name', 'motor', 'expiration_date']
 } as const;
 
 export const $MachineEntity = {
@@ -1198,6 +873,21 @@ export const $MachineEntity = {
             type: 'date',
             example: '2021-07-01T00:00:00.000Z',
             nullable: true
+        },
+        productsCount: {
+            type: 'number'
+        },
+        totalMaxStock: {
+            type: 'number'
+        },
+        totalRevenue: {
+            type: 'number'
+        },
+        totalSoldProducts: {
+            type: 'number'
+        },
+        totalOrders: {
+            type: 'number'
         },
         product: {
             type: 'array',
@@ -1337,7 +1027,290 @@ export const $MachineEntity = {
             type: 'string'
         }
     },
-    required: ['_id', '__v', 'createdAt', 'updatedAt', 'deletedAt', 'lastSyncAt', 'product', 'orders', 'status', 'alertSent', 'machineOnline', 'machineOnlineAlert', 'category', 'brand', 'products_bs', 'tax', 'group', 'stock', 'time_to_idle', 'enablePriceChange', 'alertEmail', 'alertEmail2', 'name', 'description', 'belongTo', 'lane', 'floor', 'laneLength', 'height', 'slot_height', 'step_depth', 'step_num', 'model', 'products_price', 'products_plan', 'stocking', 'active', 'gui_version', 'master_version', 'diff', 'screenSaver']
+    required: ['_id', '__v', 'createdAt', 'updatedAt', 'deletedAt', 'lastSyncAt', 'productsCount', 'totalMaxStock', 'totalRevenue', 'totalSoldProducts', 'totalOrders', 'product', 'orders', 'status', 'alertSent', 'machineOnline', 'machineOnlineAlert', 'category', 'brand', 'products_bs', 'tax', 'group', 'stock', 'time_to_idle', 'enablePriceChange', 'alertEmail', 'alertEmail2', 'name', 'description', 'belongTo', 'lane', 'floor', 'laneLength', 'height', 'slot_height', 'step_depth', 'step_num', 'model', 'products_price', 'products_plan', 'stocking', 'active', 'gui_version', 'master_version', 'diff', 'screenSaver']
+} as const;
+
+export const $ProductEntity = {
+    type: 'object',
+    properties: {
+        _id: {
+            type: 'string',
+            example: '6a909236-53f2-4727-b780-e41e115ee906'
+        },
+        __v: {
+            type: 'number',
+            example: 1,
+            description: 'Version'
+        },
+        createdAt: {
+            type: 'date',
+            example: '2021-07-01T00:00:00.000Z'
+        },
+        updatedAt: {
+            type: 'date',
+            example: '2021-07-01T00:00:00.000Z'
+        },
+        deletedAt: {
+            type: 'date',
+            example: '2021-07-01T00:00:00.000Z',
+            nullable: true
+        },
+        lastSyncAt: {
+            type: 'date',
+            example: '2021-07-01T00:00:00.000Z',
+            nullable: true
+        }
+    },
+    required: ['_id', '__v', 'createdAt', 'updatedAt', 'deletedAt', 'lastSyncAt']
+} as const;
+
+export const $GetManyProductEntityResponseDto = {
+    type: 'object',
+    properties: {
+        data: {
+            type: 'array',
+            items: {
+                '$ref': '#/components/schemas/SerializedProductDto'
+            }
+        },
+        count: {
+            type: 'number'
+        },
+        total: {
+            type: 'number'
+        },
+        page: {
+            type: 'number'
+        },
+        pageCount: {
+            type: 'number'
+        }
+    },
+    required: ['data', 'count', 'total', 'page', 'pageCount']
+} as const;
+
+export const $SharedBrandDto = {
+    type: 'object',
+    properties: {
+        name: {
+            type: 'object',
+            example: {
+                en: 'Name of the product in English',
+                ar: 'Name in Arabic'
+            },
+            description: 'Name of the product in multiple languages'
+        },
+        picture: {
+            type: 'string',
+            example: 'https://www.local.com/image.jpg',
+            description: 'Brand picture'
+        },
+        logo: {
+            type: 'string',
+            example: 'https://www.local.com/image.jpg',
+            description: 'Brand logo'
+        }
+    },
+    required: ['name']
+} as const;
+
+export const $SharedUserDto = {
+    type: 'object',
+    properties: {
+        active: {
+            type: 'boolean',
+            example: true,
+            description: 'Is the user active'
+        },
+        email: {
+            type: 'string',
+            example: 'email@example.com',
+            description: 'Email of the user',
+            uniqueItems: true
+        },
+        firstName: {
+            type: 'string',
+            example: 'John'
+        },
+        lastName: {
+            type: 'string',
+            example: 'Doe'
+        },
+        phoneNumber: {
+            type: 'string',
+            example: '+201554891929',
+            description: 'Phone number of the user'
+        },
+        role: {
+            example: 'supplier',
+            '$ref': '#/components/schemas/UserRole'
+        },
+        businessName: {
+            type: 'string',
+            example: 'Business Name',
+            description: 'Business name of the user',
+            nullable: true
+        }
+    },
+    required: ['active', 'email', 'firstName', 'lastName', 'phoneNumber', 'role', 'businessName']
+} as const;
+
+export const $SerializedProductDto = {
+    type: 'object',
+    properties: {
+        _id: {
+            type: 'string',
+            example: '6a909236-53f2-4727-b780-e41e115ee906'
+        },
+        __v: {
+            type: 'number',
+            example: 1,
+            description: 'Version'
+        },
+        createdAt: {
+            type: 'date',
+            example: '2021-07-01T00:00:00.000Z'
+        },
+        updatedAt: {
+            type: 'date',
+            example: '2021-07-01T00:00:00.000Z'
+        },
+        deletedAt: {
+            type: 'date',
+            example: '2021-07-01T00:00:00.000Z',
+            nullable: true
+        },
+        lastSyncAt: {
+            type: 'date',
+            example: '2021-07-01T00:00:00.000Z',
+            nullable: true
+        },
+        upc: {
+            type: 'string',
+            example: '1231',
+            description: 'UPC of the product'
+        },
+        additionPrice: {
+            type: 'number',
+            example: 100.5,
+            description: 'Additional price of the product'
+        },
+        ageControl: {
+            type: 'number',
+            example: 18,
+            description: 'Age control of the product'
+        },
+        barcode: {
+            type: 'string',
+            example: '1234567890123',
+            description: 'Barcode of the product'
+        },
+        costPrice: {
+            type: 'number',
+            example: 99.99,
+            description: 'Cost price of the product'
+        },
+        name: {
+            '$ref': '#/components/schemas/MultiLangEntity'
+        },
+        description: {
+            '$ref': '#/components/schemas/MultiLangEntity'
+        },
+        detail: {
+            '$ref': '#/components/schemas/MultiLangEntity'
+        },
+        include: {
+            '$ref': '#/components/schemas/MultiLangEntity'
+        },
+        ingredients: {
+            '$ref': '#/components/schemas/MultiLangEntity'
+        },
+        keyFeatures: {
+            '$ref': '#/components/schemas/MultiLangEntity'
+        },
+        specification: {
+            '$ref': '#/components/schemas/MultiLangEntity'
+        },
+        dimension: {
+            '$ref': '#/components/schemas/DimensionEntity'
+        },
+        price: {
+            type: 'number',
+            example: 199.99,
+            description: 'Price of the product'
+        },
+        pricePerKilo: {
+            type: 'boolean',
+            example: true,
+            description: 'Whether the price is per kilo or not'
+        },
+        prodType: {
+            type: 'string',
+            example: 'electronic',
+            description: 'Type of the product'
+        },
+        productPictures: {
+            example: ['image1.jpg', 'image2.jpg'],
+            description: 'Array of product picture URLs',
+            type: 'array',
+            items: {
+                type: 'string'
+            }
+        },
+        sortIndex: {
+            type: 'number',
+            example: 1,
+            description: 'Index for sorting the product'
+        },
+        vatIndex: {
+            type: 'number',
+            example: 1,
+            description: 'VAT index of the product'
+        },
+        virtualProduct: {
+            type: 'number',
+            example: 0,
+            description: 'Virtual product indicator'
+        },
+        totalSoldProducts: {
+            type: 'number',
+            example: 0
+        },
+        totalRevenue: {
+            type: 'number',
+            example: 33421.233
+        },
+        totalOrders: {
+            type: 'number',
+            example: 0
+        },
+        productVideo: {
+            type: 'string',
+            example: 'https://www.youtube.com/watch?v=1234567890',
+            description: 'Video of the product'
+        },
+        category: {
+            '$ref': '#/components/schemas/SharedCategoryDto'
+        },
+        brand: {
+            '$ref': '#/components/schemas/SharedBrandDto'
+        },
+        supplier: {
+            '$ref': '#/components/schemas/SharedUserDto'
+        },
+        orders: {
+            type: 'array',
+            items: {
+                '$ref': '#/components/schemas/OrderEntity'
+            }
+        },
+        referTo: {
+            type: 'string',
+            example: 'tryvnd@point24h.com',
+            description: 'Reference to another product'
+        }
+    },
+    required: ['_id', '__v', 'createdAt', 'updatedAt', 'deletedAt', 'lastSyncAt', 'upc', 'additionPrice', 'ageControl', 'barcode', 'costPrice', 'name', 'description', 'price', 'pricePerKilo', 'prodType', 'productPictures', 'sortIndex', 'vatIndex', 'virtualProduct', 'totalSoldProducts', 'totalRevenue', 'totalOrders', 'productVideo', 'category', 'brand', 'supplier', 'orders', 'referTo']
 } as const;
 
 export const $CreateProductDto = {
@@ -1358,14 +1331,6 @@ export const $CreateProductDto = {
             example: 18,
             description: 'Age control of the product'
         },
-        name: {
-            type: 'object',
-            example: {
-                en: 'Name of the product in English',
-                ar: 'Name in Arabic'
-            },
-            description: 'Name of the product in multiple languages'
-        },
         barcode: {
             type: 'string',
             example: '1234567890123',
@@ -1376,62 +1341,29 @@ export const $CreateProductDto = {
             example: 99.99,
             description: 'Cost price of the product'
         },
+        name: {
+            '$ref': '#/components/schemas/MultiLangEntity'
+        },
         description: {
-            type: 'object',
-            example: {
-                en: 'Description of the product in English',
-                ar: 'Name in Arabic'
-            },
-            description: 'Description of the product in multiple languages'
+            '$ref': '#/components/schemas/MultiLangEntity'
         },
         detail: {
-            type: 'object',
-            example: {
-                en: 'Description of the product in English',
-                ar: 'Name in Arabic'
-            },
-            description: 'Description of the product in multiple languages'
+            '$ref': '#/components/schemas/MultiLangEntity'
         },
         include: {
-            type: 'object',
-            example: {
-                en: 'Description of the product in English',
-                ar: 'Name in Arabic'
-            },
-            description: 'Description of the product in multiple languages'
+            '$ref': '#/components/schemas/MultiLangEntity'
         },
         ingredients: {
-            type: 'object',
-            example: {
-                en: 'Description of the product in English',
-                ar: 'Name in Arabic'
-            },
-            description: 'Description of the product in multiple languages'
+            '$ref': '#/components/schemas/MultiLangEntity'
         },
         keyFeatures: {
-            type: 'object',
-            example: {
-                en: 'Description of the product in English',
-                ar: 'Name in Arabic'
-            },
-            description: 'Description of the product in multiple languages'
+            '$ref': '#/components/schemas/MultiLangEntity'
         },
         specification: {
-            type: 'object',
-            example: {
-                en: 'Description of the product in English',
-                ar: 'Name in Arabic'
-            },
-            description: 'Description of the product in multiple languages'
+            '$ref': '#/components/schemas/MultiLangEntity'
         },
         dimension: {
-            type: 'object',
-            example: {
-                height: 10,
-                length: 20,
-                width: 30
-            },
-            description: 'Dimensions of the product'
+            '$ref': '#/components/schemas/DimensionEntity'
         },
         price: {
             type: 'number',
@@ -1499,7 +1431,7 @@ export const $CreateProductDto = {
             type: 'string'
         }
     },
-    required: ['upc', 'additionPrice', 'ageControl', 'name', 'barcode', 'costPrice', 'description', 'detail', 'include', 'ingredients', 'keyFeatures', 'specification', 'price', 'pricePerKilo', 'prodType', 'productPictures', 'sortIndex', 'vatIndex', 'virtualProduct']
+    required: ['upc', 'additionPrice', 'ageControl', 'barcode', 'costPrice', 'name', 'description', 'price', 'pricePerKilo', 'prodType', 'productPictures', 'sortIndex', 'vatIndex', 'virtualProduct']
 } as const;
 
 export const $CreateManyProductEntityDto = {
@@ -1533,14 +1465,6 @@ export const $UpdateProductDto = {
             example: 18,
             description: 'Age control of the product'
         },
-        name: {
-            type: 'object',
-            example: {
-                en: 'Name of the product in English',
-                ar: 'Name in Arabic'
-            },
-            description: 'Name of the product in multiple languages'
-        },
         barcode: {
             type: 'string',
             example: '1234567890123',
@@ -1551,62 +1475,29 @@ export const $UpdateProductDto = {
             example: 99.99,
             description: 'Cost price of the product'
         },
+        name: {
+            '$ref': '#/components/schemas/MultiLangEntity'
+        },
         description: {
-            type: 'object',
-            example: {
-                en: 'Description of the product in English',
-                ar: 'Name in Arabic'
-            },
-            description: 'Description of the product in multiple languages'
+            '$ref': '#/components/schemas/MultiLangEntity'
         },
         detail: {
-            type: 'object',
-            example: {
-                en: 'Description of the product in English',
-                ar: 'Name in Arabic'
-            },
-            description: 'Description of the product in multiple languages'
+            '$ref': '#/components/schemas/MultiLangEntity'
         },
         include: {
-            type: 'object',
-            example: {
-                en: 'Description of the product in English',
-                ar: 'Name in Arabic'
-            },
-            description: 'Description of the product in multiple languages'
+            '$ref': '#/components/schemas/MultiLangEntity'
         },
         ingredients: {
-            type: 'object',
-            example: {
-                en: 'Description of the product in English',
-                ar: 'Name in Arabic'
-            },
-            description: 'Description of the product in multiple languages'
+            '$ref': '#/components/schemas/MultiLangEntity'
         },
         keyFeatures: {
-            type: 'object',
-            example: {
-                en: 'Description of the product in English',
-                ar: 'Name in Arabic'
-            },
-            description: 'Description of the product in multiple languages'
+            '$ref': '#/components/schemas/MultiLangEntity'
         },
         specification: {
-            type: 'object',
-            example: {
-                en: 'Description of the product in English',
-                ar: 'Name in Arabic'
-            },
-            description: 'Description of the product in multiple languages'
+            '$ref': '#/components/schemas/MultiLangEntity'
         },
         dimension: {
-            type: 'object',
-            example: {
-                height: 10,
-                length: 20,
-                width: 30
-            },
-            description: 'Dimensions of the product'
+            '$ref': '#/components/schemas/DimensionEntity'
         },
         price: {
             type: 'number',
@@ -1782,13 +1673,13 @@ export const $UpdateUserDto = {
     }
 } as const;
 
-export const $GetManyRequestEntityResponseDto = {
+export const $GetManyFillRequestEntityResponseDto = {
     type: 'object',
     properties: {
         data: {
             type: 'array',
             items: {
-                '$ref': '#/components/schemas/RequestEntity'
+                '$ref': '#/components/schemas/FillRequestEntity'
             }
         },
         count: {
@@ -1807,7 +1698,7 @@ export const $GetManyRequestEntityResponseDto = {
     required: ['data', 'count', 'total', 'page', 'pageCount']
 } as const;
 
-export const $RequestEntity = {
+export const $FillRequestEntity = {
     type: 'object',
     properties: {
         _id: {
@@ -1841,18 +1732,48 @@ export const $RequestEntity = {
     required: ['_id', '__v', 'createdAt', 'updatedAt', 'deletedAt', 'lastSyncAt']
 } as const;
 
-export const $CreateRequestDto = {
+export const $ProductsFillRequest = {
     type: 'object',
-    properties: {}
+    properties: {
+        product: {
+            '$ref': '#/components/schemas/PickTypeClass'
+        },
+        quantity: {
+            type: 'number',
+            example: 1
+        }
+    },
+    required: ['product', 'quantity']
 } as const;
 
-export const $CreateManyRequestEntityDto = {
+export const $CreateFillRequestDto = {
+    type: 'object',
+    properties: {
+        notes: {
+            type: 'string',
+            example: 'Some notes',
+            nullable: true
+        },
+        machine: {
+            '$ref': '#/components/schemas/PickTypeClass'
+        },
+        products: {
+            type: 'array',
+            items: {
+                '$ref': '#/components/schemas/ProductsFillRequest'
+            }
+        }
+    },
+    required: ['machine', 'products']
+} as const;
+
+export const $CreateManyFillRequestEntityDto = {
     type: 'object',
     properties: {
         bulk: {
             type: 'array',
             items: {
-                '$ref': '#/components/schemas/CreateRequestDto'
+                '$ref': '#/components/schemas/CreateFillRequestDto'
             }
         }
     },
@@ -1877,11 +1798,11 @@ export const $CreateContractDto = {
         },
         startDate: {
             type: 'date',
-            default: '2024-06-09T12:27:21.496Z'
+            default: '2024-06-28T16:59:08.875Z'
         },
         endDate: {
             type: 'date',
-            default: '2024-06-09T12:27:21.496Z'
+            default: '2024-06-28T16:59:08.875Z'
         },
         status: {
             type: 'string',
@@ -1913,11 +1834,11 @@ export const $UpdateContractDto = {
         },
         startDate: {
             type: 'date',
-            default: '2024-06-09T12:27:21.496Z'
+            default: '2024-06-28T16:59:08.875Z'
         },
         endDate: {
             type: 'date',
-            default: '2024-06-09T12:27:21.496Z'
+            default: '2024-06-28T16:59:08.875Z'
         },
         status: {
             type: 'string',
@@ -2070,13 +1991,19 @@ export const $SerializedCategoryDto = {
                 '$ref': '#/components/schemas/SharedBrandDto'
             }
         },
+        orders: {
+            type: 'array',
+            items: {
+                '$ref': '#/components/schemas/OrderEntity'
+            }
+        },
         referTo: {
             type: 'string',
             example: 'tryvnd@point24h.com',
             description: 'Email of the owner'
         }
     },
-    required: ['_id', '__v', 'createdAt', 'updatedAt', 'deletedAt', 'lastSyncAt', 'totalSoldProducts', 'totalRevenue', 'totalOrders', 'name', 'auto', 'sortIndex', 'products', 'suppliers', 'brands', 'referTo']
+    required: ['_id', '__v', 'createdAt', 'updatedAt', 'deletedAt', 'lastSyncAt', 'totalSoldProducts', 'totalRevenue', 'totalOrders', 'name', 'auto', 'sortIndex', 'products', 'suppliers', 'brands', 'orders', 'referTo']
 } as const;
 
 export const $CreateCategoryDto = {
@@ -2207,4 +2134,28 @@ export const $CreateManyBrandEntityDto = {
         }
     },
     required: ['bulk']
+} as const;
+
+export const $UpdateBrandDto = {
+    type: 'object',
+    properties: {
+        name: {
+            type: 'object',
+            example: {
+                en: 'Name of the product in English',
+                ar: 'Name in Arabic'
+            },
+            description: 'Name of the product in multiple languages'
+        },
+        picture: {
+            type: 'string',
+            example: 'https://www.local.com/image.jpg',
+            description: 'Brand picture'
+        },
+        logo: {
+            type: 'string',
+            example: 'https://www.local.com/image.jpg',
+            description: 'Brand logo'
+        }
+    }
 } as const;

@@ -8,33 +8,6 @@ export type LoginDto = {
     password: string;
 };
 
-/**
- * Role of the user
- */
-export type UserRole = 'admin' | 'supplier';
-
-export type SharedUserDto = {
-    /**
-     * Is the user active
-     */
-    active: boolean;
-    /**
-     * Email of the user
-     */
-    email: string;
-    firstName: string;
-    lastName: string;
-    /**
-     * Phone number of the user
-     */
-    phoneNumber: string;
-    role: UserRole;
-    /**
-     * Business name of the user
-     */
-    businessName: string | null;
-};
-
 export type UserEntity = {
     _id: string;
     /**
@@ -47,15 +20,20 @@ export type UserEntity = {
     lastSyncAt: string | null;
 };
 
-export type GetManyProductEntityResponseDto = {
-    data: Array<SerializedProductDto>;
+/**
+ * Role of the user
+ */
+export type UserRole = 'admin' | 'supplier';
+
+export type GetManyBrandEntityResponseDto = {
+    data: Array<SerializedBrandDto>;
     count: number;
     total: number;
     page: number;
     pageCount: number;
 };
 
-export type ProductEntity = {
+export type BrandEntity = {
     _id: string;
     /**
      * Version
@@ -88,21 +66,83 @@ export type SharedCategoryDto = {
     sortIndex: number;
 };
 
-export type SharedBrandDto = {
+export type MultiLangEntity = {
+    ar: string;
+    en: string;
+};
+
+export type DimensionEntity = {
     /**
-     * Name of the product in multiple languages
+     * Dimension of the product
      */
-    name: {
-        [key: string]: unknown;
-    };
+    height: number;
     /**
-     * Brand picture
+     * Dimension of the product
      */
-    picture?: string;
+    length: number;
     /**
-     * Brand logo
+     * Dimension of the product
      */
-    logo?: string;
+    width: number;
+};
+
+export type SharedProductDto = {
+    /**
+     * UPC of the product
+     */
+    upc: string;
+    /**
+     * Additional price of the product
+     */
+    additionPrice: number;
+    /**
+     * Age control of the product
+     */
+    ageControl: number;
+    /**
+     * Barcode of the product
+     */
+    barcode: string;
+    /**
+     * Cost price of the product
+     */
+    costPrice: number;
+    name: MultiLangEntity;
+    description: MultiLangEntity;
+    detail?: MultiLangEntity;
+    include?: MultiLangEntity;
+    ingredients?: MultiLangEntity;
+    keyFeatures?: MultiLangEntity;
+    specification?: MultiLangEntity;
+    dimension?: DimensionEntity;
+    /**
+     * Price of the product
+     */
+    price: number;
+    /**
+     * Whether the price is per kilo or not
+     */
+    pricePerKilo: boolean;
+    /**
+     * Type of the product
+     */
+    prodType: string;
+    /**
+     * Array of product picture URLs
+     */
+    productPictures: Array<(string)>;
+    /**
+     * Index for sorting the product
+     */
+    sortIndex: number;
+    /**
+     * VAT index of the product
+     */
+    vatIndex: number;
+    /**
+     * Virtual product indicator
+     */
+    virtualProduct: number;
 };
 
 export type GetManyOrderEntityResponseDto = {
@@ -142,248 +182,6 @@ export type OrderEntity = {
     return_code: string;
 };
 
-export type SerializedProductDto = {
-    _id: string;
-    /**
-     * Version
-     */
-    __v: number;
-    createdAt: string;
-    updatedAt: string;
-    deletedAt: string | null;
-    lastSyncAt: string | null;
-    /**
-     * UPC of the product
-     */
-    upc: string;
-    /**
-     * Additional price of the product
-     */
-    additionPrice: number;
-    /**
-     * Age control of the product
-     */
-    ageControl: number;
-    /**
-     * Name of the product in multiple languages
-     */
-    name: {
-        [key: string]: unknown;
-    };
-    /**
-     * Barcode of the product
-     */
-    barcode: string;
-    /**
-     * Cost price of the product
-     */
-    costPrice: number;
-    /**
-     * Description of the product in multiple languages
-     */
-    description: {
-        [key: string]: unknown;
-    };
-    /**
-     * Description of the product in multiple languages
-     */
-    detail: {
-        [key: string]: unknown;
-    };
-    /**
-     * Description of the product in multiple languages
-     */
-    include: {
-        [key: string]: unknown;
-    };
-    /**
-     * Description of the product in multiple languages
-     */
-    ingredients: {
-        [key: string]: unknown;
-    };
-    /**
-     * Description of the product in multiple languages
-     */
-    keyFeatures: {
-        [key: string]: unknown;
-    };
-    /**
-     * Description of the product in multiple languages
-     */
-    specification: {
-        [key: string]: unknown;
-    };
-    /**
-     * Dimensions of the product
-     */
-    dimension?: {
-        [key: string]: unknown;
-    };
-    /**
-     * Price of the product
-     */
-    price: number;
-    /**
-     * Whether the price is per kilo or not
-     */
-    pricePerKilo: boolean;
-    /**
-     * Type of the product
-     */
-    prodType: string;
-    /**
-     * Array of product picture URLs
-     */
-    productPictures: Array<(string)>;
-    /**
-     * Index for sorting the product
-     */
-    sortIndex: number;
-    /**
-     * VAT index of the product
-     */
-    vatIndex: number;
-    /**
-     * Virtual product indicator
-     */
-    virtualProduct: number;
-    totalSoldProducts: number;
-    totalRevenue: number;
-    totalOrders: number;
-    /**
-     * Video of the product
-     */
-    productVideo: string;
-    category: SharedCategoryDto;
-    brand: SharedBrandDto;
-    supplier: SharedUserDto;
-    orders: Array<OrderEntity>;
-    /**
-     * Reference to another product
-     */
-    referTo: string;
-};
-
-export type GetManyBrandEntityResponseDto = {
-    data: Array<SerializedBrandDto>;
-    count: number;
-    total: number;
-    page: number;
-    pageCount: number;
-};
-
-export type BrandEntity = {
-    _id: string;
-    /**
-     * Version
-     */
-    __v: number;
-    createdAt: string;
-    updatedAt: string;
-    deletedAt: string | null;
-    lastSyncAt: string | null;
-};
-
-export type SharedProductDto = {
-    /**
-     * UPC of the product
-     */
-    upc: string;
-    /**
-     * Additional price of the product
-     */
-    additionPrice: number;
-    /**
-     * Age control of the product
-     */
-    ageControl: number;
-    /**
-     * Name of the product in multiple languages
-     */
-    name: {
-        [key: string]: unknown;
-    };
-    /**
-     * Barcode of the product
-     */
-    barcode: string;
-    /**
-     * Cost price of the product
-     */
-    costPrice: number;
-    /**
-     * Description of the product in multiple languages
-     */
-    description: {
-        [key: string]: unknown;
-    };
-    /**
-     * Description of the product in multiple languages
-     */
-    detail: {
-        [key: string]: unknown;
-    };
-    /**
-     * Description of the product in multiple languages
-     */
-    include: {
-        [key: string]: unknown;
-    };
-    /**
-     * Description of the product in multiple languages
-     */
-    ingredients: {
-        [key: string]: unknown;
-    };
-    /**
-     * Description of the product in multiple languages
-     */
-    keyFeatures: {
-        [key: string]: unknown;
-    };
-    /**
-     * Description of the product in multiple languages
-     */
-    specification: {
-        [key: string]: unknown;
-    };
-    /**
-     * Dimensions of the product
-     */
-    dimension?: {
-        [key: string]: unknown;
-    };
-    /**
-     * Price of the product
-     */
-    price: number;
-    /**
-     * Whether the price is per kilo or not
-     */
-    pricePerKilo: boolean;
-    /**
-     * Type of the product
-     */
-    prodType: string;
-    /**
-     * Array of product picture URLs
-     */
-    productPictures: Array<(string)>;
-    /**
-     * Index for sorting the product
-     */
-    sortIndex: number;
-    /**
-     * VAT index of the product
-     */
-    vatIndex: number;
-    /**
-     * Virtual product indicator
-     */
-    virtualProduct: number;
-};
-
 export type SerializedBrandDto = {
     _id: string;
     /**
@@ -418,6 +216,7 @@ export type SerializedBrandDto = {
      * Reference to another product
      */
     referTo: string;
+    orders: Array<OrderEntity>;
 };
 
 export type GetManyContractEntityResponseDto = {
@@ -472,7 +271,6 @@ export type SerializedUserDto = {
     totalSoldProducts: number;
     totalRevenue: number;
     totalOrders: number;
-    products: Array<SerializedProductDto>;
     brand: Array<SerializedBrandDto>;
     contracts: Array<SerializedContractDto>;
 };
@@ -532,6 +330,7 @@ export type MachineProduct = {
     updatedAt: string;
     deletedAt: string | null;
     lastSyncAt: string | null;
+    id: string;
     current_stock: number;
     max_stock: number;
     upc: string;
@@ -553,6 +352,11 @@ export type MachineEntity = {
     updatedAt: string;
     deletedAt: string | null;
     lastSyncAt: string | null;
+    productsCount: number;
+    totalMaxStock: number;
+    totalRevenue: number;
+    totalSoldProducts: number;
+    totalOrders: number;
     product: Array<MachineProduct>;
     orders: Array<OrderEntity>;
     status: boolean;
@@ -590,6 +394,148 @@ export type MachineEntity = {
     screenSaver: string;
 };
 
+export type ProductEntity = {
+    _id: string;
+    /**
+     * Version
+     */
+    __v: number;
+    createdAt: string;
+    updatedAt: string;
+    deletedAt: string | null;
+    lastSyncAt: string | null;
+};
+
+export type GetManyProductEntityResponseDto = {
+    data: Array<SerializedProductDto>;
+    count: number;
+    total: number;
+    page: number;
+    pageCount: number;
+};
+
+export type SharedBrandDto = {
+    /**
+     * Name of the product in multiple languages
+     */
+    name: {
+        [key: string]: unknown;
+    };
+    /**
+     * Brand picture
+     */
+    picture?: string;
+    /**
+     * Brand logo
+     */
+    logo?: string;
+};
+
+export type SharedUserDto = {
+    /**
+     * Is the user active
+     */
+    active: boolean;
+    /**
+     * Email of the user
+     */
+    email: string;
+    firstName: string;
+    lastName: string;
+    /**
+     * Phone number of the user
+     */
+    phoneNumber: string;
+    role: UserRole;
+    /**
+     * Business name of the user
+     */
+    businessName: string | null;
+};
+
+export type SerializedProductDto = {
+    _id: string;
+    /**
+     * Version
+     */
+    __v: number;
+    createdAt: string;
+    updatedAt: string;
+    deletedAt: string | null;
+    lastSyncAt: string | null;
+    /**
+     * UPC of the product
+     */
+    upc: string;
+    /**
+     * Additional price of the product
+     */
+    additionPrice: number;
+    /**
+     * Age control of the product
+     */
+    ageControl: number;
+    /**
+     * Barcode of the product
+     */
+    barcode: string;
+    /**
+     * Cost price of the product
+     */
+    costPrice: number;
+    name: MultiLangEntity;
+    description: MultiLangEntity;
+    detail?: MultiLangEntity;
+    include?: MultiLangEntity;
+    ingredients?: MultiLangEntity;
+    keyFeatures?: MultiLangEntity;
+    specification?: MultiLangEntity;
+    dimension?: DimensionEntity;
+    /**
+     * Price of the product
+     */
+    price: number;
+    /**
+     * Whether the price is per kilo or not
+     */
+    pricePerKilo: boolean;
+    /**
+     * Type of the product
+     */
+    prodType: string;
+    /**
+     * Array of product picture URLs
+     */
+    productPictures: Array<(string)>;
+    /**
+     * Index for sorting the product
+     */
+    sortIndex: number;
+    /**
+     * VAT index of the product
+     */
+    vatIndex: number;
+    /**
+     * Virtual product indicator
+     */
+    virtualProduct: number;
+    totalSoldProducts: number;
+    totalRevenue: number;
+    totalOrders: number;
+    /**
+     * Video of the product
+     */
+    productVideo: string;
+    category: SharedCategoryDto;
+    brand: SharedBrandDto;
+    supplier: SharedUserDto;
+    orders: Array<OrderEntity>;
+    /**
+     * Reference to another product
+     */
+    referTo: string;
+};
+
 export type CreateProductDto = {
     /**
      * UPC of the product
@@ -604,12 +550,6 @@ export type CreateProductDto = {
      */
     ageControl: number;
     /**
-     * Name of the product in multiple languages
-     */
-    name: {
-        [key: string]: unknown;
-    };
-    /**
      * Barcode of the product
      */
     barcode: string;
@@ -617,48 +557,14 @@ export type CreateProductDto = {
      * Cost price of the product
      */
     costPrice: number;
-    /**
-     * Description of the product in multiple languages
-     */
-    description: {
-        [key: string]: unknown;
-    };
-    /**
-     * Description of the product in multiple languages
-     */
-    detail: {
-        [key: string]: unknown;
-    };
-    /**
-     * Description of the product in multiple languages
-     */
-    include: {
-        [key: string]: unknown;
-    };
-    /**
-     * Description of the product in multiple languages
-     */
-    ingredients: {
-        [key: string]: unknown;
-    };
-    /**
-     * Description of the product in multiple languages
-     */
-    keyFeatures: {
-        [key: string]: unknown;
-    };
-    /**
-     * Description of the product in multiple languages
-     */
-    specification: {
-        [key: string]: unknown;
-    };
-    /**
-     * Dimensions of the product
-     */
-    dimension?: {
-        [key: string]: unknown;
-    };
+    name: MultiLangEntity;
+    description: MultiLangEntity;
+    detail?: MultiLangEntity;
+    include?: MultiLangEntity;
+    ingredients?: MultiLangEntity;
+    keyFeatures?: MultiLangEntity;
+    specification?: MultiLangEntity;
+    dimension?: DimensionEntity;
     /**
      * Price of the product
      */
@@ -711,12 +617,6 @@ export type UpdateProductDto = {
      */
     ageControl?: number;
     /**
-     * Name of the product in multiple languages
-     */
-    name?: {
-        [key: string]: unknown;
-    };
-    /**
      * Barcode of the product
      */
     barcode?: string;
@@ -724,48 +624,14 @@ export type UpdateProductDto = {
      * Cost price of the product
      */
     costPrice?: number;
-    /**
-     * Description of the product in multiple languages
-     */
-    description?: {
-        [key: string]: unknown;
-    };
-    /**
-     * Description of the product in multiple languages
-     */
-    detail?: {
-        [key: string]: unknown;
-    };
-    /**
-     * Description of the product in multiple languages
-     */
-    include?: {
-        [key: string]: unknown;
-    };
-    /**
-     * Description of the product in multiple languages
-     */
-    ingredients?: {
-        [key: string]: unknown;
-    };
-    /**
-     * Description of the product in multiple languages
-     */
-    keyFeatures?: {
-        [key: string]: unknown;
-    };
-    /**
-     * Description of the product in multiple languages
-     */
-    specification?: {
-        [key: string]: unknown;
-    };
-    /**
-     * Dimensions of the product
-     */
-    dimension?: {
-        [key: string]: unknown;
-    };
+    name?: MultiLangEntity;
+    description?: MultiLangEntity;
+    detail?: MultiLangEntity;
+    include?: MultiLangEntity;
+    ingredients?: MultiLangEntity;
+    keyFeatures?: MultiLangEntity;
+    specification?: MultiLangEntity;
+    dimension?: DimensionEntity;
     /**
      * Price of the product
      */
@@ -850,15 +716,15 @@ export type UpdateUserDto = {
     password?: string;
 };
 
-export type GetManyRequestEntityResponseDto = {
-    data: Array<RequestEntity>;
+export type GetManyFillRequestEntityResponseDto = {
+    data: Array<FillRequestEntity>;
     count: number;
     total: number;
     page: number;
     pageCount: number;
 };
 
-export type RequestEntity = {
+export type FillRequestEntity = {
     _id: string;
     /**
      * Version
@@ -870,10 +736,19 @@ export type RequestEntity = {
     lastSyncAt: string | null;
 };
 
-export type CreateRequestDto = unknown;
+export type ProductsFillRequest = {
+    product: PickTypeClass;
+    quantity: number;
+};
 
-export type CreateManyRequestEntityDto = {
-    bulk: Array<CreateRequestDto>;
+export type CreateFillRequestDto = {
+    notes?: string | null;
+    machine: PickTypeClass;
+    products: Array<ProductsFillRequest>;
+};
+
+export type CreateManyFillRequestEntityDto = {
+    bulk: Array<CreateFillRequestDto>;
 };
 
 export type CreateContractDto = {
@@ -951,6 +826,7 @@ export type SerializedCategoryDto = {
     products: Array<SharedProductDto>;
     suppliers: Array<SharedUserDto>;
     brands: Array<SharedBrandDto>;
+    orders: Array<OrderEntity>;
     /**
      * Email of the owner
      */
@@ -1022,6 +898,23 @@ export type CreateBrandDto = {
 
 export type CreateManyBrandEntityDto = {
     bulk: Array<CreateBrandDto>;
+};
+
+export type UpdateBrandDto = {
+    /**
+     * Name of the product in multiple languages
+     */
+    name?: {
+        [key: string]: unknown;
+    };
+    /**
+     * Brand picture
+     */
+    picture?: string;
+    /**
+     * Brand logo
+     */
+    logo?: string;
 };
 
 export type AuthControllerLoginData = {
@@ -1119,6 +1012,12 @@ export type GetManyData = {
 
 export type GetManyResponse = GetManyMachineEntityResponseDto;
 
+export type ProductsControllerSearchData = {
+    query: string;
+};
+
+export type ProductsControllerSearchResponse = Array<ProductEntity>;
+
 export type UpdateOneData = {
     id: string;
     requestBody: UpdateProductDto;
@@ -1149,6 +1048,8 @@ export type RecoverOneData = {
 };
 
 export type RecoverOneResponse = unknown;
+
+export type FilesControllerUploadFilesResponse = unknown;
 
 export type $OpenApiTs = {
     '/auth/login': {
@@ -1219,6 +1120,21 @@ export type $OpenApiTs = {
                  * Get paginated response
                  */
                 200: GetManyMachineEntityResponseDto;
+                /**
+                 * Forbidden.
+                 */
+                403: unknown;
+            };
+        };
+    };
+    '/products/search': {
+        get: {
+            req: ProductsControllerSearchData;
+            res: {
+                /**
+                 * Search products
+                 */
+                200: Array<ProductEntity>;
                 /**
                  * Forbidden.
                  */
@@ -1345,7 +1261,7 @@ export type $OpenApiTs = {
                 /**
                  * Response
                  */
-                200: SharedUserDto;
+                200: UserEntity;
                 /**
                  * Forbidden.
                  */
@@ -1431,7 +1347,7 @@ export type $OpenApiTs = {
                 /**
                  * Get one base response
                  */
-                200: RequestEntity;
+                200: FillRequestEntity;
                 /**
                  * Forbidden.
                  */
@@ -1444,7 +1360,7 @@ export type $OpenApiTs = {
                 /**
                  * Response
                  */
-                200: RequestEntity;
+                200: FillRequestEntity;
                 /**
                  * Forbidden.
                  */
@@ -1472,7 +1388,7 @@ export type $OpenApiTs = {
                 /**
                  * Get paginated response
                  */
-                200: GetManyRequestEntityResponseDto;
+                200: GetManyFillRequestEntityResponseDto;
                 /**
                  * Forbidden.
                  */
@@ -1485,7 +1401,7 @@ export type $OpenApiTs = {
                 /**
                  * Get create one base response
                  */
-                201: RequestEntity;
+                201: FillRequestEntity;
                 /**
                  * Forbidden.
                  */
@@ -1500,7 +1416,7 @@ export type $OpenApiTs = {
                 /**
                  * Get create many base response
                  */
-                201: Array<RequestEntity>;
+                201: Array<FillRequestEntity>;
                 /**
                  * Forbidden.
                  */
@@ -1808,6 +1724,13 @@ export type $OpenApiTs = {
                  * Forbidden.
                  */
                 403: unknown;
+            };
+        };
+    };
+    '/files/upload': {
+        post: {
+            res: {
+                201: unknown;
             };
         };
     };

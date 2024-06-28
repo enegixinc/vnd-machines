@@ -26,7 +26,6 @@ export default function ContractsCreate() {
 
   const { selectProps: supplierSelectProps } = useSelect({
     resource: 'users',
-    // @ts-ignore
     optionLabel: 'fullName',
     filters: [{ field: 'role', operator: 'eq', value: 'supplier' }],
     optionValue: '_id',

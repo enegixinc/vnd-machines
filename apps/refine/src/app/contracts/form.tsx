@@ -1,46 +1,62 @@
 import React from 'react';
-import { Card, Form, Input, InputNumber, Select, Space, Switch } from 'antd';
+import {
+  Card,
+  Form,
+  FormProps,
+  Input,
+  InputNumber,
+  message,
+  Select,
+  Space,
+  Switch,
+  UploadProps,
+} from 'antd';
 import { getValueFromEvent } from '@refinedev/antd';
-
-type FormData = { [key: string]: any };
-
-const cleanFormData = (data: FormData): FormData => {
-  const cleanedData: FormData = {};
-
-  for (const key in data) {
-    if (
-      data[key] !== undefined &&
-      data[key] !== null &&
-      data[key] !== '' &&
-      (typeof data[key] !== 'object' ||
-        (Object.keys(data[key]).length > 0 && cleanNestedObject(data[key])))
-    ) {
-      cleanedData[key] = data[key];
-    }
-  }
-
-  return cleanedData;
-};
-
-const cleanNestedObject = (obj: FormData): boolean => {
-  const cleanedNestedObj: FormData = {};
-
-  for (const key in obj) {
-    if (obj[key] !== undefined && obj[key] !== null && obj[key] !== '') {
-      cleanedNestedObj[key] = obj[key];
-    }
-  }
-
-  return Object.keys(cleanedNestedObj).length > 0;
-};
+import Dragger from 'antd/es/upload/Dragger';
+import { InboxOutlined } from '@ant-design/icons';
+import { cleanFormData } from '@app/products/form';
+import { axiosInstance, vndClient } from '@providers/api';
+import axios from 'axios';
 
 export const ContractForm = ({
   formProps,
   supplierSelectProps,
 }: {
-  formProps: any;
+  formProps: FormProps;
   supplierSelectProps: any;
 }) => {
+  const props: UploadProps = {
+    name: 'files',
+    multiple: true,
+    customRequest: async ({ file, onSuccess, onError }) => {
+      const formData = new FormData();
+      formData.append('files', file);
+
+      await axios
+        .post('http://localhost:3000/files/upload', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        })
+        .then((res) => {
+          message.success('File uploaded successfully');
+          const files = res.data.map((file: any) => ({
+            uid: file.id,
+            name: file.originalName,
+            url: file.url,
+            size: file.size,
+          }));
+          formProps.form?.setFieldsValue({ files });
+          console.log('Files', files);
+        })
+        .catch((err) => {
+          message.error('File upload failed');
+        });
+    },
+    onDrop(e) {
+      console.log('Dropped files', e.dataTransfer.files);
+    },
+  };
   return (
     <Form
       {...formProps}
@@ -50,13 +66,28 @@ export const ContractForm = ({
       }}
     >
       <Card title="Basic Information">
-        <Space>
+        <Form.Item
+          label="Select Supplier"
+          name={['supplier', '_id']}
+          rules={[{ required: true, message: 'Please select the supplier' }]}
+        >
+          <Select {...supplierSelectProps} />
+        </Form.Item>
+
+        <Space
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+          }}
+          styles={{
+            item: {
+              flex: 1,
+            },
+          }}
+        >
           <Form.Item
             label="Start Date"
             name="startDate"
-            style={{
-              flex: 1,
-            }}
             rules={[{ required: true, message: 'Please enter the start date' }]}
           >
             <Input type="date" />
@@ -65,34 +96,11 @@ export const ContractForm = ({
           <Form.Item
             label="End Date"
             name="endDate"
-            style={{
-              flex: 1,
-            }}
             rules={[{ required: true, message: 'Please enter the end date' }]}
           >
             <Input type="date" />
           </Form.Item>
         </Space>
-
-        <Form.Item
-          label="Description"
-          name="description"
-          rules={[{ required: false, message: 'Please enter the description' }]}
-        >
-          <Input.TextArea rows={4} />
-        </Form.Item>
-
-        {/*<Form.Item*/}
-        {/*  label="Status"*/}
-        {/*  name="status"*/}
-        {/*  initialValue="active"*/}
-        {/*  rules={[{ required: true, message: 'Please select the status' }]}*/}
-        {/*>*/}
-        {/*  <Select>*/}
-        {/*    <Select.Option value="active">Active</Select.Option>*/}
-        {/*    <Select.Option value="INACTIVE">Inactive</Select.Option>*/}
-        {/*  </Select>*/}
-        {/*</Form.Item>*/}
       </Card>
 
       <Card title="Financial Information" style={{ marginTop: 16 }}>
@@ -116,20 +124,28 @@ export const ContractForm = ({
         </Form.Item>
       </Card>
 
-      <Card title="Supplier" style={{ marginTop: 16 }}>
-        <Form.Item
-          label="Select Supplier"
-          name={['supplier', '_id']}
-          rules={[{ required: true, message: 'Please select the supplier' }]}
-        >
-          <Select {...supplierSelectProps} />
-        </Form.Item>
-      </Card>
-
       {/* Add more sections as needed for other fields */}
 
       <Card title="Additional Information" style={{ marginTop: 16 }}>
-        <Form.Item label="Notes" name="notes">
+        <Form.Item label="Documents" name="files">
+          <Dragger {...props}>
+            <p className="ant-upload-drag-icon">
+              <InboxOutlined />
+            </p>
+            <p className="ant-upload-text">
+              Click or drag file to this area to upload
+            </p>
+            <p className="ant-upload-hint">
+              Support for a single or bulk upload.
+            </p>
+          </Dragger>
+        </Form.Item>
+
+        <Form.Item
+          label="Description"
+          name="description"
+          rules={[{ required: false, message: 'Please enter the description' }]}
+        >
           <Input.TextArea rows={4} />
         </Form.Item>
       </Card>

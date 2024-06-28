@@ -7,6 +7,7 @@ import { AuthService } from './services.gen';
 import { BrandsService } from './services.gen';
 import { CategoriesService } from './services.gen';
 import { ContractsService } from './services.gen';
+import { FilesService } from './services.gen';
 import { MachinesService } from './services.gen';
 import { OrdersService } from './services.gen';
 import { ProductsService } from './services.gen';
@@ -21,6 +22,7 @@ export class VNDClient {
 	public readonly brands: BrandsService;
 	public readonly categories: CategoriesService;
 	public readonly contracts: ContractsService;
+	public readonly files: FilesService;
 	public readonly machines: MachinesService;
 	public readonly orders: OrdersService;
 	public readonly products: ProductsService;
@@ -50,6 +52,7 @@ export class VNDClient {
 		this.brands = new BrandsService(this.request);
 		this.categories = new CategoriesService(this.request);
 		this.contracts = new ContractsService(this.request);
+		this.files = new FilesService(this.request);
 		this.machines = new MachinesService(this.request);
 		this.orders = new OrdersService(this.request);
 		this.products = new ProductsService(this.request);
