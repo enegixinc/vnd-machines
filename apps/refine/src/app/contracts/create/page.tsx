@@ -32,18 +32,11 @@ export default function ContractsCreate() {
     optionValue: '_id',
   });
 
-  const { selectProps: categorySelectProps } = useSelect({
-    resource: 'categories',
-    optionLabel: 'fullName',
-    optionValue: '_id',
-  });
-
   return (
     <Create saveButtonProps={saveButtonProps}>
       <ContractForm
         formProps={formProps}
         supplierSelectProps={supplierSelectProps}
-        categorySelectProps={categorySelectProps}
       />
     </Create>
   );

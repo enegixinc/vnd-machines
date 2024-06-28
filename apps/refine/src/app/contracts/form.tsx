@@ -110,7 +110,6 @@ export const ContractForm = ({
           rules={[{ required: true, message: 'Please select the fee type' }]}
         >
           <Select>
-            {/* Assuming FeeType options are predefined */}
             <Select.Option value="fixed">Fixed</Select.Option>
             <Select.Option value="percentage">Percentage</Select.Option>
           </Select>
