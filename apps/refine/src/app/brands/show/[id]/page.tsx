@@ -65,7 +65,7 @@ export default function BrandShow() {
         </Descriptions.Item>
         <Descriptions.Item label="Products">
           <QuickTableSection
-            title="Products"
+            pageTitle="Products"
             resource="products"
             columns={[
               {
