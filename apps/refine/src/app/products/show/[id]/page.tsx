@@ -7,6 +7,7 @@ import { SerializedProductDto } from '@frontend/api-sdk';
 import { useShow } from '@refinedev/core';
 import { handleEmptyString } from '@helpers';
 import { handleMagextImage } from '@app/products/utils/handleMagextImage';
+import { ShowFinance } from '@components/sections/finance';
 
 const { Title } = Typography;
 
@@ -112,26 +113,7 @@ export default function ProductShow() {
       </Descriptions>
 
       <Divider />
-      <Title level={3} style={{ marginTop: 16 }}>
-        {'Finance'}
-      </Title>
-      <Descriptions
-        bordered
-        labelStyle={{
-          fontWeight: 'bold',
-          width: '20%',
-        }}
-      >
-        <Descriptions.Item label="Total Orders">
-          <TextField value={record.totalOrders} />
-        </Descriptions.Item>
-        <Descriptions.Item label="Total Products Sold">
-          <TextField value={record.totalSoldProducts} />
-        </Descriptions.Item>
-        <Descriptions.Item label="Total Revenue">
-          <TextField value={record.totalRevenue} />
-        </Descriptions.Item>
-      </Descriptions>
+      <ShowFinance record={record} />
       <Divider />
 
       <Title level={3} style={{ marginTop: 16 }}>

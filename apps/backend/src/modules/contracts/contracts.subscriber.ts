@@ -67,12 +67,12 @@ export class ContractsSubscriber
     });
   }
 
-  async afterSoftRemove(event: RemoveEvent<ContractEntity>) {
+  async beforeSoftRemove(event: RemoveEvent<ContractEntity>) {
     const contract = event.entity;
     return await this.terminateContract(contract._id);
   }
 
-  async afterRemove(event: RemoveEvent<ContractEntity>) {
+  async beforeRemove(event: RemoveEvent<ContractEntity>) {
     const contract = event.entity;
     return await this.terminateContract(contract._id);
   }

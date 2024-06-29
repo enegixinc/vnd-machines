@@ -65,6 +65,70 @@ export class ProductEntity
     type: 'numeric',
     query: (entity) => `
         SELECT
+            COALESCE(SUM(OD.quantity), 0)
+        FROM
+            ORDERS O
+            JOIN ORDER_DETAILS OD ON OD.ORDER_ID = O._ID
+            JOIN PRODUCTS P ON P._ID = OD.PRODUCT_ID
+        WHERE
+            P._id = ${entity}._id
+    `,
+    transformer: {
+      from: (value) => Number(value),
+      to: (value) => value,
+    },
+  })
+  totalSoldProducts: number;
+
+  @VirtualColumn({
+    type: 'numeric',
+    query: (entity) => `
+      SELECT
+        COALESCE(SUM(
+                   CASE
+                     WHEN C."feeType" = 'fixed' THEN COALESCE(C."feePerSale", 0)
+                     WHEN C."feeType" = 'percentage' THEN COALESCE(OD."soldPrice" * (C."feePerSale" / 100), 0)
+                     ELSE 0
+                     END
+                 ), 0)
+      FROM
+        orders AS O
+          JOIN order_details AS OD ON OD.order_id = O._id
+          JOIN products AS P ON P._id = OD.product_id
+          JOIN contracts AS C ON C.supplier_id = P.supplier_id
+      WHERE
+        P._id = ${entity}._id
+    `,
+    transformer: {
+      from: (value) => Number(value),
+      to: (value) => value,
+    },
+  })
+  totalRevenue: number;
+
+  @VirtualColumn({
+    type: 'numeric',
+    query: (entity) => `
+        SELECT
+            COALESCE(SUM(OD."soldPrice"), 0)
+        FROM
+            orders AS O
+                JOIN order_details AS OD ON OD.order_id = O._id
+                JOIN products AS P ON P._id = OD.product_id
+        WHERE
+            P._id = ${entity}._id
+    `,
+    transformer: {
+      from: (value) => Number(value),
+      to: (value) => value,
+    },
+  })
+  totalSales: number;
+
+  @VirtualColumn({
+    type: 'numeric',
+    query: (entity) => `
+        SELECT
             COALESCE(SUM(
                      CASE
                          WHEN C."feeType" = 'fixed' THEN COALESCE(C."feePerSale", 0)
@@ -88,45 +152,7 @@ export class ProductEntity
       to: (value) => value,
     },
   })
-  activeTotalRevenue: number;
-
-  @VirtualColumn({
-    type: 'numeric',
-    query: (entity) => `
-        SELECT
-            COALESCE(SUM(OD.quantity), 0)
-        FROM
-            ORDERS O
-            JOIN ORDER_DETAILS OD ON OD.ORDER_ID = O._ID
-            JOIN PRODUCTS P ON P._ID = OD.PRODUCT_ID
-        WHERE
-            P._id = ${entity}._id
-    `,
-    transformer: {
-      from: (value) => Number(value),
-      to: (value) => value,
-    },
-  })
-  totalSoldProducts: number;
-
-  @VirtualColumn({
-    type: 'numeric',
-    query: (entity) => `
-        SELECT
-            COALESCE(SUM(O.total), 0)
-        FROM
-            ORDERS O
-            JOIN ORDER_DETAILS OD ON OD.ORDER_ID = O._ID
-            JOIN PRODUCTS P ON P._ID = OD.PRODUCT_ID
-        WHERE
-            P._id = ${entity}._id
-    `,
-    transformer: {
-      from: (value) => Number(value),
-      to: (value) => value,
-    },
-  })
-  totalRevenue: number;
+  totalActiveRevenue: number;
 
   @VirtualColumn({
     type: 'int',
