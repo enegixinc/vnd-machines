@@ -10,6 +10,7 @@ import { SalesCard } from '@app/dashboard/cards/sales';
 import { MachinesSales } from '@app/dashboard/machines-sales';
 import { SalesPie } from '@app/dashboard/sales-pie';
 import { TopProductsTable } from '@app/dashboard/top-products/top-products';
+import { ContractsCard } from '@app/dashboard/cards/contracts';
 
 const Dashboard = () => {
   const kpiData = [
@@ -27,6 +28,9 @@ const Dashboard = () => {
       <Row gutter={16}>
         <Col span={8}>
           <SalesCard />
+        </Col>
+        <Col span={8}>
+          <ContractsCard />
         </Col>
       </Row>
       <Row gutter={16}>

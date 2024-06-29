@@ -9,8 +9,30 @@ export const SalesCard = () => {
   const { Option } = Select;
   const [statsData, setStatsData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [selectedPeriod, setSelectedPeriod] = useState('all');
-  const periods = ['all', 'today', 'last7Days', 'lastMonth', 'lastYear'];
+  const periods = [
+    {
+      value: 'all',
+      label: 'All',
+    },
+    {
+      value: 'today',
+      label: 'Today',
+    },
+    {
+      value: 'last7Days',
+      label: 'Last 7 Days',
+    },
+    {
+      value: 'lastMonth',
+      label: 'Last Month',
+    },
+    {
+      value: 'lastYear',
+      label: 'Last Year',
+    },
+  ];
+
+  const [selectedPeriod, setSelectedPeriod] = useState(periods[0].value);
 
   useEffect(() => {
     const fetchStats = async () => {
@@ -66,7 +88,7 @@ export const CardTitleWithPeriods = ({
   handlePeriodChange,
 }: {
   title: string;
-  periods: string[];
+  periods: { value: string; label: string }[];
   handlePeriodChange: (value: string) => void;
 }) => {
   return (
@@ -77,15 +99,22 @@ export const CardTitleWithPeriods = ({
         width: '100%',
       }}
     >
-      <Typography.Title level={5}>{title}</Typography.Title>
+      <Typography.Title
+        style={{
+          fontWeight: 'bold',
+        }}
+        level={5}
+      >
+        {title}
+      </Typography.Title>
       <Select
         defaultValue="all"
         style={{ width: 120 }}
         onChange={handlePeriodChange}
       >
         {periods.map((period) => (
-          <Select.Option key={period} value={period}>
-            {period}
+          <Select.Option key={period.label} value={period.value}>
+            {period.label}
           </Select.Option>
         ))}
       </Select>
