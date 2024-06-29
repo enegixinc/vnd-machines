@@ -11,18 +11,9 @@ import { MachinesSales } from '@app/dashboard/machines-sales';
 import { SalesPie } from '@app/dashboard/sales-pie';
 import { TopProductsTable } from '@app/dashboard/top-products/top-products';
 import { ContractsCard } from '@app/dashboard/cards/contracts';
+import { RevenueCard } from '@app/dashboard/cards/revenue';
 
 const Dashboard = () => {
-  const kpiData = [
-    { title: 'Total Sales', value: '$20,000', icon: <DashboardOutlined /> },
-    {
-      title: 'Total Revenue',
-      value: '$10,000',
-      icon: <ShoppingCartOutlined />,
-    },
-    { title: 'Active Contracts', value: '10', icon: <UserOutlined /> },
-  ];
-
   return (
     <Space direction="vertical" size="large" style={{ width: '100%' }}>
       <Row gutter={16}>
@@ -31,6 +22,9 @@ const Dashboard = () => {
         </Col>
         <Col span={8}>
           <ContractsCard />
+        </Col>
+        <Col span={8}>
+          <RevenueCard />
         </Col>
       </Row>
       <Row gutter={16}>
