@@ -1,27 +1,40 @@
-﻿import React from 'react';
-import { Card, Typography } from 'antd';
+﻿import React, { useState, useEffect } from 'react';
+import { Card, Typography, Select } from 'antd';
 import { Pie } from '@ant-design/plots';
 import { vndClient } from '@providers/api';
 import { UnorderedListOutlined } from '@ant-design/icons';
 
+const { Option } = Select;
+
+type DataType = {
+  name: string;
+  value: number;
+};
+
 export const SalesPie = () => {
-  const [data, setData] = React.useState([]);
-  React.useEffect(() => {
+  const [data, setData] = useState<DataType[]>([]);
+  const [categoryOrBrand, setCategoryOrBrand] = useState<
+    'categories' | 'brands'
+  >('categories');
+
+  useEffect(() => {
     const fetchData = async () => {
-      const data = await vndClient.categories.getMany({
+      const endpoint =
+        categoryOrBrand === 'categories' ? 'categories' : 'brands';
+      const dataResponse = await vndClient[endpoint].getMany({
         join: ['orders'],
         limit: 4,
         sort: ['totalOrders,DESC'],
       });
       setData(
-        data.data.map((item) => ({
+        dataResponse.data.map((item: any) => ({
           name: item.fullName,
           value: item.orders.length,
         }))
       );
     };
     fetchData();
-  }, []);
+  }, [categoryOrBrand]);
 
   const config = {
     data,
@@ -32,7 +45,8 @@ export const SalesPie = () => {
     labels: [
       { text: 'name', style: { fontSize: 10, fontWeight: 'bold' } },
       {
-        text: (d, i, data) => (i < data.length - 3 ? d.value : ''),
+        text: (d: any, i: number, data: any[]) =>
+          i < data.length - 3 ? d.value : '',
         style: {
           fontSize: 9,
           dy: 12,
@@ -47,10 +61,11 @@ export const SalesPie = () => {
     scale: {
       color: {
         palette: 'spectral',
-        offset: (t) => t * 0.8 + 0.1,
+        offset: (t: number) => t * 0.8 + 0.1,
       },
     },
   };
+
   return (
     <Card
       title={
@@ -58,11 +73,30 @@ export const SalesPie = () => {
           style={{
             display: 'flex',
             alignItems: 'center',
-            gap: '8px',
+            justifyContent: 'space-between',
           }}
         >
-          <UnorderedListOutlined />
-          <span>Orders by Category</span>
+          <div
+            style={{
+              display: 'flex',
+              gap: '8px',
+            }}
+          >
+            <UnorderedListOutlined />
+            <span>
+              Orders by{' '}
+              {categoryOrBrand.charAt(0).toUpperCase() +
+                categoryOrBrand.slice(1)}
+            </span>
+          </div>
+          <Select
+            value={categoryOrBrand}
+            onChange={(value) => setCategoryOrBrand(value)}
+            style={{ marginLeft: '8px' }}
+          >
+            <Option value="categories">Categories</Option>
+            <Option value="brands">Brands</Option>
+          </Select>
         </div>
       }
     >

@@ -2,7 +2,7 @@
 
 import type { CancelablePromise } from './core/CancelablePromise';
 import type { BaseHttpRequest } from './core/BaseHttpRequest';
-import type { AuthControllerLoginData, AuthControllerLoginResponse, AuthControllerMeResponse, RefreshTokenData, RefreshTokenResponse, FillData, FillResponse, GetOneData, GetOneResponse, GetManyData, GetManyResponse, ProductsControllerSearchData, ProductsControllerSearchResponse, ProductsControllerStatsResponse, UpdateOneData, UpdateOneResponse, DeleteOneData, DeleteOneResponse, CreateOneData, CreateOneResponse, CreateManyData, CreateManyResponse, RecoverOneData, RecoverOneResponse, OrdersControllerStatsResponse, FilesControllerUploadFilesResponse } from './types.gen';
+import type { AuthControllerLoginData, AuthControllerLoginResponse, AuthControllerMeResponse, RefreshTokenData, RefreshTokenResponse, MachinesControllerStatsResponse, GetOneData, GetOneResponse, GetManyData, GetManyResponse, ProductsControllerSearchData, ProductsControllerSearchResponse, ProductsControllerStatsResponse, UpdateOneData, UpdateOneResponse, DeleteOneData, DeleteOneResponse, CreateOneData, CreateOneResponse, CreateManyData, CreateManyResponse, RecoverOneData, RecoverOneResponse, OrdersControllerStatsResponse, FilesControllerUploadFilesResponse } from './types.gen';
 
 export class AuthService {
     constructor(public readonly httpRequest: BaseHttpRequest) { }
@@ -58,21 +58,13 @@ export class MachinesService {
     constructor(public readonly httpRequest: BaseHttpRequest) { }
     
     /**
-     * @param data The data for the request.
-     * @param data.machineId
-     * @param data.requestBody
-     * @returns unknown
+     * @returns unknown Get machine statistics
      * @throws ApiError
      */
-    public fill(data: FillData): CancelablePromise<FillResponse> {
+    public machinesControllerStats(): CancelablePromise<MachinesControllerStatsResponse> {
         return this.httpRequest.request({
-            method: 'POST',
-            url: '/machines/fill/{machineId}',
-            path: {
-                machineId: data.machineId
-            },
-            body: data.requestBody,
-            mediaType: 'application/json',
+            method: 'GET',
+            url: '/machines/stats',
             errors: {
                 403: 'Forbidden.'
             }

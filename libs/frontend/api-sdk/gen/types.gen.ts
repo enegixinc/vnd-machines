@@ -301,25 +301,6 @@ export type SerializedContractDto = {
 
 export type Object = unknown;
 
-export type PickTypeClass = {
-    _id: string;
-};
-
-export type ProductsRequest = {
-    product: PickTypeClass;
-    quantity: number;
-};
-
-export type NotificationRequest = {
-    email: boolean;
-    whatsapp: boolean;
-};
-
-export type FillRequestDto = {
-    products: Array<ProductsRequest>;
-    notify: NotificationRequest;
-};
-
 export type GetManyMachineEntityResponseDto = {
     data: Array<MachineEntity>;
     count: number;
@@ -543,6 +524,10 @@ export type SerializedProductDto = {
      * Reference to another product
      */
     referTo: string;
+};
+
+export type PickTypeClass = {
+    _id: string;
 };
 
 export type CreateProductDto = {
@@ -943,12 +928,7 @@ export type RefreshTokenResponse = {
     refreshToken?: string;
 };
 
-export type FillData = {
-    machineId: string;
-    requestBody: FillRequestDto;
-};
-
-export type FillResponse = unknown;
+export type MachinesControllerStatsResponse = unknown;
 
 export type GetOneData = {
     /**
@@ -1098,11 +1078,13 @@ export type $OpenApiTs = {
             };
         };
     };
-    '/machines/fill/{machineId}': {
-        post: {
-            req: FillData;
+    '/machines/stats': {
+        get: {
             res: {
-                201: unknown;
+                /**
+                 * Get machine statistics
+                 */
+                200: unknown;
                 /**
                  * Forbidden.
                  */

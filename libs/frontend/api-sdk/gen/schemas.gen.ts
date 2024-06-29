@@ -723,62 +723,6 @@ export const $Object = {
     properties: {}
 } as const;
 
-export const $PickTypeClass = {
-    type: 'object',
-    properties: {
-        _id: {
-            type: 'string',
-            example: '6a909236-53f2-4727-b780-e41e115ee906'
-        }
-    },
-    required: ['_id']
-} as const;
-
-export const $ProductsRequest = {
-    type: 'object',
-    properties: {
-        product: {
-            '$ref': '#/components/schemas/PickTypeClass'
-        },
-        quantity: {
-            type: 'number',
-            example: 1
-        }
-    },
-    required: ['product', 'quantity']
-} as const;
-
-export const $NotificationRequest = {
-    type: 'object',
-    properties: {
-        email: {
-            type: 'boolean',
-            example: true
-        },
-        whatsapp: {
-            type: 'boolean',
-            example: true
-        }
-    },
-    required: ['email', 'whatsapp']
-} as const;
-
-export const $FillRequestDto = {
-    type: 'object',
-    properties: {
-        products: {
-            type: 'array',
-            items: {
-                '$ref': '#/components/schemas/ProductsRequest'
-            }
-        },
-        notify: {
-            '$ref': '#/components/schemas/NotificationRequest'
-        }
-    },
-    required: ['products', 'notify']
-} as const;
-
 export const $GetManyMachineEntityResponseDto = {
     type: 'object',
     properties: {
@@ -1342,6 +1286,17 @@ export const $SerializedProductDto = {
     required: ['_id', '__v', 'createdAt', 'updatedAt', 'deletedAt', 'lastSyncAt', 'upc', 'additionPrice', 'ageControl', 'barcode', 'costPrice', 'name', 'description', 'price', 'pricePerKilo', 'prodType', 'productPictures', 'sortIndex', 'vatIndex', 'virtualProduct', 'totalSoldProducts', 'totalRevenue', 'totalActiveRevenue', 'totalOrders', 'productVideo', 'category', 'brand', 'supplier', 'orders', 'referTo']
 } as const;
 
+export const $PickTypeClass = {
+    type: 'object',
+    properties: {
+        _id: {
+            type: 'string',
+            example: '6a909236-53f2-4727-b780-e41e115ee906'
+        }
+    },
+    required: ['_id']
+} as const;
+
 export const $CreateProductDto = {
     type: 'object',
     properties: {
@@ -1827,11 +1782,11 @@ export const $CreateContractDto = {
         },
         startDate: {
             type: 'date',
-            default: '2024-06-29T06:40:48.892Z'
+            default: '2024-06-29T11:03:18.134Z'
         },
         endDate: {
             type: 'date',
-            default: '2024-06-29T06:40:48.892Z'
+            default: '2024-06-29T11:03:18.134Z'
         },
         status: {
             type: 'string',
@@ -1863,11 +1818,11 @@ export const $UpdateContractDto = {
         },
         startDate: {
             type: 'date',
-            default: '2024-06-29T06:40:48.892Z'
+            default: '2024-06-29T11:03:18.134Z'
         },
         endDate: {
             type: 'date',
-            default: '2024-06-29T06:40:48.892Z'
+            default: '2024-06-29T11:03:18.134Z'
         },
         status: {
             type: 'string',
