@@ -6,6 +6,7 @@ import {
   ShoppingCartOutlined,
 } from '@ant-design/icons';
 import { DashboardLatestOrders } from '@app/dashboard/latest-orders';
+import { SalesCard } from '@app/dashboard/cards/sales';
 
 const Dashboard = () => {
   const kpiData = [
@@ -21,17 +22,9 @@ const Dashboard = () => {
   return (
     <div style={{ padding: 24 }}>
       <Row gutter={16}>
-        {kpiData.map((kpi, index) => (
-          <Col span={8} key={index}>
-            <Card>
-              <Card.Meta
-                avatar={kpi.icon}
-                title={kpi.title}
-                description={kpi.value}
-              />
-            </Card>
-          </Col>
-        ))}
+        <Col span={8}>
+          <SalesCard />
+        </Col>
       </Row>
       <DashboardLatestOrders />
     </div>

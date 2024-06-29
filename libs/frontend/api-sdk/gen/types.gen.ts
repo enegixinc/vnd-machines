@@ -1027,6 +1027,8 @@ export type ProductsControllerSearchData = {
 
 export type ProductsControllerSearchResponse = Array<ProductEntity>;
 
+export type ProductsControllerStatsResponse = unknown;
+
 export type UpdateOneData = {
     id: string;
     requestBody: UpdateProductDto;
@@ -1057,6 +1059,8 @@ export type RecoverOneData = {
 };
 
 export type RecoverOneResponse = unknown;
+
+export type OrdersControllerStatsResponse = unknown;
 
 export type FilesControllerUploadFilesResponse = unknown;
 
@@ -1144,6 +1148,20 @@ export type $OpenApiTs = {
                  * Search products
                  */
                 200: Array<ProductEntity>;
+                /**
+                 * Forbidden.
+                 */
+                403: unknown;
+            };
+        };
+    };
+    '/products/stats': {
+        get: {
+            res: {
+                /**
+                 * Get product statistics
+                 */
+                200: unknown;
                 /**
                  * Forbidden.
                  */
@@ -1686,6 +1704,20 @@ export type $OpenApiTs = {
             res: {
                 /**
                  * Recover one base response
+                 */
+                200: unknown;
+                /**
+                 * Forbidden.
+                 */
+                403: unknown;
+            };
+        };
+    };
+    '/orders/stats': {
+        get: {
+            res: {
+                /**
+                 * Get product statistics
                  */
                 200: unknown;
                 /**

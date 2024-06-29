@@ -2,7 +2,7 @@
 
 import type { CancelablePromise } from './core/CancelablePromise';
 import type { BaseHttpRequest } from './core/BaseHttpRequest';
-import type { AuthControllerLoginData, AuthControllerLoginResponse, AuthControllerMeResponse, RefreshTokenData, RefreshTokenResponse, FillData, FillResponse, GetOneData, GetOneResponse, GetManyData, GetManyResponse, ProductsControllerSearchData, ProductsControllerSearchResponse, UpdateOneData, UpdateOneResponse, DeleteOneData, DeleteOneResponse, CreateOneData, CreateOneResponse, CreateManyData, CreateManyResponse, RecoverOneData, RecoverOneResponse, FilesControllerUploadFilesResponse } from './types.gen';
+import type { AuthControllerLoginData, AuthControllerLoginResponse, AuthControllerMeResponse, RefreshTokenData, RefreshTokenResponse, FillData, FillResponse, GetOneData, GetOneResponse, GetManyData, GetManyResponse, ProductsControllerSearchData, ProductsControllerSearchResponse, ProductsControllerStatsResponse, UpdateOneData, UpdateOneResponse, DeleteOneData, DeleteOneResponse, CreateOneData, CreateOneResponse, CreateManyData, CreateManyResponse, RecoverOneData, RecoverOneResponse, OrdersControllerStatsResponse, FilesControllerUploadFilesResponse } from './types.gen';
 
 export class AuthService {
     constructor(public readonly httpRequest: BaseHttpRequest) { }
@@ -165,6 +165,20 @@ export class ProductsService {
             query: {
                 query: data.query
             },
+            errors: {
+                403: 'Forbidden.'
+            }
+        });
+    }
+    
+    /**
+     * @returns unknown Get product statistics
+     * @throws ApiError
+     */
+    public productsControllerStats(): CancelablePromise<ProductsControllerStatsResponse> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/products/stats',
             errors: {
                 403: 'Forbidden.'
             }
@@ -1128,6 +1142,20 @@ export class BrandsService {
 
 export class OrdersService {
     constructor(public readonly httpRequest: BaseHttpRequest) { }
+    
+    /**
+     * @returns unknown Get product statistics
+     * @throws ApiError
+     */
+    public ordersControllerStats(): CancelablePromise<OrdersControllerStatsResponse> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/orders/stats',
+            errors: {
+                403: 'Forbidden.'
+            }
+        });
+    }
     
     /**
      * @param data The data for the request.
