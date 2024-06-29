@@ -65,6 +65,35 @@ export class ProductEntity
     type: 'numeric',
     query: (entity) => `
         SELECT
+            COALESCE(SUM(
+                     CASE
+                         WHEN C."feeType" = 'fixed' THEN COALESCE(C."feePerSale", 0)
+                         WHEN C."feeType" = 'percentage' THEN COALESCE(O.total * (C."feePerSale" / 100), 0)
+                         ELSE 0
+                     END
+             ), 0)
+        FROM
+            orders AS O
+                JOIN order_details AS OD ON OD.order_id = O._id
+                JOIN products AS P ON P._id = OD.product_id
+                JOIN contracts AS C ON C.supplier_id = P.supplier_id
+        WHERE
+            C.status = 'active'
+            AND C."startDate" <= O."createdAt"
+            AND O."createdAt" <= C."endDate"
+            AND P._id = ${entity}._id
+    `,
+    transformer: {
+      from: (value) => Number(value),
+      to: (value) => value,
+    },
+  })
+  activeTotalRevenue: number;
+
+  @VirtualColumn({
+    type: 'numeric',
+    query: (entity) => `
+        SELECT
             COALESCE(SUM(OD.quantity), 0)
         FROM
             ORDERS O

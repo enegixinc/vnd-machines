@@ -1,7 +1,9 @@
 ﻿import { ContractEntity } from './entities/contract.entity';
 import {
+  DataSource,
   EntitySubscriberInterface,
   InsertEvent,
+  RemoveEvent,
   Repository,
   UpdateEvent,
 } from 'typeorm';
@@ -9,36 +11,69 @@ import { FilesService } from '../files/files.service';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ContractStatus, ReferenceByID } from '@core';
 import { UserEntity } from '../users/entities/user.entity';
+import { HttpException, HttpStatus, Inject } from '@nestjs/common';
+import { GlobalResponseError } from '../../common/responses/GlobalResponseError.dto';
 
 export class ContractsSubscriber
   implements EntitySubscriberInterface<ContractEntity>
 {
   constructor(
-    private readonly filesService: FilesService,
     @InjectRepository(ContractEntity)
-    private readonly repository: Repository<ContractEntity>
-  ) {}
+    private readonly repository: Repository<ContractEntity>,
+    @Inject(DataSource) protected dataSource: DataSource
+  ) {
+    this.dataSource.subscribers.push(this);
+  }
 
   listenTo() {
     return ContractEntity;
   }
 
-  async checkActiveContract(supplier: ReferenceByID<UserEntity>) {
+  async supplierHasActiveContract(contract: ContractEntity) {
+    console.log('Checking active contract', contract);
     const activeContract = await this.repository.findOne({
       where: {
-        supplier: { _id: supplier._id },
+        supplier: { _id: contract.supplier._id },
         status: ContractStatus.ACTIVE,
       },
     });
     if (activeContract) {
-      throw new Error('This supplier has an active contract');
+      const errorMessage = `Supplier already has an active contract.`;
+      const transformedErrors: { [key: string]: string[] } = {
+        supplier: [errorMessage],
+      };
+
+      throw new HttpException(
+        {
+          statusCode: HttpStatus.CONFLICT,
+          message: errorMessage,
+          errors: transformedErrors,
+        },
+        HttpStatus.CONFLICT
+      );
     }
   }
   async beforeInsert(event: InsertEvent<ContractEntity>) {
-    return await this.checkActiveContract(event.entity.supplier);
+    return await this.supplierHasActiveContract(event.entity);
   }
 
   async beforeUpdate(event: UpdateEvent<ContractEntity>) {
-    return await this.checkActiveContract(event.entity.supplier);
+    console.log('Before update', event.entity);
+  }
+
+  private async terminateContract(contractId: string) {
+    return await this.repository.update(contractId, {
+      status: ContractStatus.TERMINATED,
+    });
+  }
+
+  async afterSoftRemove(event: RemoveEvent<ContractEntity>) {
+    const contract = event.entity;
+    return await this.terminateContract(contract._id);
+  }
+
+  async afterRemove(event: RemoveEvent<ContractEntity>) {
+    const contract = event.entity;
+    return await this.terminateContract(contract._id);
   }
 }
