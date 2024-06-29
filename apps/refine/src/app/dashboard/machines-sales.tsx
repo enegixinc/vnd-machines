@@ -1,6 +1,7 @@
 ﻿import { Line } from '@ant-design/plots';
 import React from 'react';
 import { Card, Typography } from 'antd';
+import { UnorderedListOutlined } from '@ant-design/icons';
 
 export const MachinesSales = () => {
   const data = [
@@ -70,8 +71,20 @@ export const MachinesSales = () => {
   };
 
   return (
-    <Card>
-      <Typography.Title level={4}>Machines Sales</Typography.Title>
+    <Card
+      title={
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+          }}
+        >
+          <UnorderedListOutlined />
+          <span>Machines Sales</span>
+        </div>
+      }
+    >
       <Line {...config} />
     </Card>
   );

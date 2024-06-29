@@ -2,6 +2,7 @@
 import { Card, Typography } from 'antd';
 import { Pie } from '@ant-design/plots';
 import { vndClient } from '@providers/api';
+import { UnorderedListOutlined } from '@ant-design/icons';
 
 export const SalesPie = () => {
   const [data, setData] = React.useState([]);
@@ -51,8 +52,20 @@ export const SalesPie = () => {
     },
   };
   return (
-    <Card>
-      <Typography.Title level={5}>Orders by Category</Typography.Title>
+    <Card
+      title={
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+          }}
+        >
+          <UnorderedListOutlined />
+          <span>Orders by Category</span>
+        </div>
+      }
+    >
       <Pie {...config} />
     </Card>
   );

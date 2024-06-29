@@ -1,18 +1,14 @@
 'use client';
 
 import React from 'react';
-import { handleEmptyString } from '@helpers';
 import { QuickTableSection } from '@components/quick-table-section';
 import { Divider } from 'antd';
 import { handleMagextImage } from '@app/products/utils/handleMagextImage';
 import { useRouter } from 'next/navigation';
+import {handleNullableFullName} from "@app/products/utils/handleNullableText";
 
 export default function ProductsList() {
   const router = useRouter();
-
-  const handleNullableFullName = (record: any) => {
-    return handleEmptyString(record && record.fullName);
-  };
   return (
     <QuickTableSection
       pageTitle="Products"

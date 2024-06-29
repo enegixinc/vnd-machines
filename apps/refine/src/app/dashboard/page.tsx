@@ -9,6 +9,7 @@ import { DashboardLatestOrders } from '@app/dashboard/latest-orders';
 import { SalesCard } from '@app/dashboard/cards/sales';
 import { MachinesSales } from '@app/dashboard/machines-sales';
 import { SalesPie } from '@app/dashboard/sales-pie';
+import { TopProductsTable } from '@app/dashboard/top-products/top-products';
 
 const Dashboard = () => {
   const kpiData = [
@@ -36,7 +37,14 @@ const Dashboard = () => {
           <SalesPie />
         </Col>
       </Row>
-      <DashboardLatestOrders />
+      <Row gutter={16}>
+        <Col span={12}>
+          <DashboardLatestOrders />
+        </Col>
+        <Col span={12}>
+          <TopProductsTable />
+        </Col>
+      </Row>
     </Space>
   );
 };

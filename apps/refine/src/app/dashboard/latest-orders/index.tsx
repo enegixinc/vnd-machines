@@ -19,9 +19,11 @@ export const DashboardLatestOrders: React.FC<{ limit?: number }> = ({
 
   return (
     <Card
-      headStyle={{ padding: '16px' }}
-      bodyStyle={{
-        padding: '0 1rem',
+      styles={{
+        body: {
+          padding: 0,
+          margin: 0,
+        },
       }}
       title={
         <div
@@ -119,42 +121,5 @@ export const DashboardLatestOrders: React.FC<{ limit?: number }> = ({
         ]}
       />
     </Card>
-  );
-};
-
-const Skeleton = () => {
-  return (
-    <div className={styles.item}>
-      <AntdSkeleton.Avatar
-        active
-        size={48}
-        shape="square"
-        style={{
-          borderRadius: '4px',
-          marginRight: '16px',
-        }}
-      />
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-        }}
-      >
-        <AntdSkeleton.Button
-          active
-          style={{
-            height: '16px',
-          }}
-        />
-        <AntdSkeleton.Button
-          active
-          style={{
-            width: '300px',
-            height: '16px',
-          }}
-        />
-      </div>
-    </div>
   );
 };
