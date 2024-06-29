@@ -41,6 +41,17 @@ export class SerializedProductDto
   @decorate(
     ApiProperty({
       type: 'number',
+      example: new FormatMoney().un(33421.233, {
+        decimals: 2,
+        decimalPoint: '.',
+      }),
+    })
+  )
+  totalActiveRevenue: number;
+
+  @decorate(
+    ApiProperty({
+      type: 'number',
       example: 0,
     })
   )

@@ -684,7 +684,6 @@ export class ContractsService {
      * @param data.fields Selects resource fields. <a href="https://github.com/nestjsx/crud/wiki/Requests#select" target="_blank">Docs</a>
      * @param data.join Adds relational resources. <a href="https://github.com/nestjsx/crud/wiki/Requests#join" target="_blank">Docs</a>
      * @param data.cache Reset cache (if was enabled). <a href="https://github.com/nestjsx/crud/wiki/Requests#cache" target="_blank">Docs</a>
-     * @param data.includeDeleted Include deleted. <a href="https://github.com/nestjsx/crud/wiki/Requests#includeDeleted" target="_blank">Docs</a>
      * @returns SerializedContractDto Get one base response
      * @throws ApiError
      */
@@ -698,8 +697,7 @@ export class ContractsService {
             query: {
                 fields: data.fields,
                 join: data.join,
-                cache: data.cache,
-                include_deleted: data.includeDeleted
+                cache: data.cache
             }
         });
     }
@@ -751,7 +749,6 @@ export class ContractsService {
      * @param data.offset Offset amount of resources. <a href="https://github.com/nestjsx/crud/wiki/Requests#offset" target="_blank">Docs</a>
      * @param data.page Page portion of resources. <a href="https://github.com/nestjsx/crud/wiki/Requests#page" target="_blank">Docs</a>
      * @param data.cache Reset cache (if was enabled). <a href="https://github.com/nestjsx/crud/wiki/Requests#cache" target="_blank">Docs</a>
-     * @param data.includeDeleted Include deleted. <a href="https://github.com/nestjsx/crud/wiki/Requests#includeDeleted" target="_blank">Docs</a>
      * @returns GetManyContractEntityResponseDto Get paginated response
      * @throws ApiError
      */
@@ -769,8 +766,7 @@ export class ContractsService {
                 limit: data.limit,
                 offset: data.offset,
                 page: data.page,
-                cache: data.cache,
-                include_deleted: data.includeDeleted
+                cache: data.cache
             }
         });
     }
@@ -787,22 +783,6 @@ export class ContractsService {
             url: '/contracts',
             body: data.requestBody,
             mediaType: 'application/json'
-        });
-    }
-    
-    /**
-     * @param data The data for the request.
-     * @param data.id
-     * @returns unknown Recover one base response
-     * @throws ApiError
-     */
-    public recoverOne(data: RecoverOneData): CancelablePromise<RecoverOneResponse> {
-        return this.httpRequest.request({
-            method: 'PATCH',
-            url: '/contracts/{id}/recover',
-            path: {
-                id: data.id
-            }
         });
     }
     

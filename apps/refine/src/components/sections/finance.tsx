@@ -9,6 +9,7 @@ export const ShowFinance = ({
     totalSoldProducts: number;
     totalOrders: number;
     totalRevenue: number;
+    totalActiveRevenue: number;
   };
 }) => {
   const { Title } = Typography;

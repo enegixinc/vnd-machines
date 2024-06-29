@@ -227,6 +227,13 @@ export type GetManyContractEntityResponseDto = {
     pageCount: number;
 };
 
+export type FileDto = {
+    filename: string;
+    originalname: string;
+    size: number;
+    url: string;
+};
+
 export type ContractEntity = {
     _id: string;
     /**
@@ -237,6 +244,7 @@ export type ContractEntity = {
     updatedAt: string;
     deletedAt: string | null;
     lastSyncAt: string | null;
+    files: Array<FileDto>;
 };
 
 export type SerializedUserDto = {
@@ -521,6 +529,7 @@ export type SerializedProductDto = {
     virtualProduct: number;
     totalSoldProducts: number;
     totalRevenue: number;
+    totalActiveRevenue: number;
     totalOrders: number;
     /**
      * Video of the product
@@ -1485,17 +1494,6 @@ export type $OpenApiTs = {
                  * Get create one base response
                  */
                 201: SerializedContractDto;
-            };
-        };
-    };
-    '/contracts/{id}/recover': {
-        patch: {
-            req: RecoverOneData;
-            res: {
-                /**
-                 * Recover one base response
-                 */
-                200: unknown;
             };
         };
     };

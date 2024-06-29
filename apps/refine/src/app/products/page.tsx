@@ -5,8 +5,14 @@ import { handleEmptyString } from '@helpers';
 import { QuickTableSection } from '@components/quick-table-section';
 import { Divider } from 'antd';
 import { handleMagextImage } from '@app/products/utils/handleMagextImage';
+import { useRouter } from 'next/navigation';
 
 export default function ProductsList() {
+  const router = useRouter();
+
+  const handleNullableFullName = (record: any) => {
+    return handleEmptyString(record && record.fullName);
+  };
   return (
     <QuickTableSection
       pageTitle="Products"
@@ -61,48 +67,57 @@ export default function ProductsList() {
           title: 'Associations',
           children: [
             {
-              dataIndex: ['supplier', 'fullName'],
+              dataIndex: 'supplier',
               title: 'Supplier',
-              render: handleEmptyString,
-              onFilter(value, record) {
-                return record.supplier === null;
-              },
-              filters: [
-                {
-                  text: 'No Supplier',
-                  value: 'null',
+              onCell: (record) => ({
+                style: {
+                  cursor: record.supplier && 'pointer',
+                  color: record.supplier && '#1890ff',
                 },
-              ],
+                onClick: () =>
+                  router.push(`/suppliers/show/${record.supplier._id}`),
+              }),
+              render: handleNullableFullName,
             },
             {
-              dataIndex: ['category', 'fullName'],
+              dataIndex: 'category',
               title: 'Category',
-              render: handleEmptyString,
+              onCell: (record) => ({
+                style: {
+                  cursor: record.category && 'pointer',
+                  color: record.category && '#1890ff',
+                },
+                onClick: () =>
+                  router.push(`/categories/show/${record.category._id}`),
+              }),
+              render: handleNullableFullName,
             },
             {
-              dataIndex: ['brand', 'fullName'],
+              dataIndex: 'brand',
               title: 'Brand',
-              render: handleEmptyString,
+              onCell: (record) => ({
+                style: {
+                  cursor: 'pointer',
+                  color: '#1890ff',
+                },
+                onClick: () => router.push(`/brands/show/${record.brand._id}`),
+              }),
+              render: handleNullableFullName,
             },
           ],
         },
         {
-          title: 'Stock',
+          title: 'Finance',
           render: (_, __, index) => index === 0 && <Divider>Stock</Divider>,
           children: [
             {
-              dataIndex: 'totalSoldProducts',
-              title: 'Total Sold Products',
-              sorter: true,
-            },
-            {
-              dataIndex: 'totalOrders',
-              title: 'Total Orders',
+              dataIndex: 'totalSales',
+              title: 'Sales',
               sorter: true,
             },
             {
               dataIndex: 'totalRevenue',
-              title: 'Total Revenue',
+              title: 'Revenue',
               sorter: true,
             },
           ],

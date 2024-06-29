@@ -518,6 +518,25 @@ export const $GetManyContractEntityResponseDto = {
     required: ['data', 'count', 'total', 'page', 'pageCount']
 } as const;
 
+export const $FileDto = {
+    type: 'object',
+    properties: {
+        filename: {
+            type: 'string'
+        },
+        originalname: {
+            type: 'string'
+        },
+        size: {
+            type: 'number'
+        },
+        url: {
+            type: 'string'
+        }
+    },
+    required: ['filename', 'originalname', 'size', 'url']
+} as const;
+
 export const $ContractEntity = {
     type: 'object',
     properties: {
@@ -547,9 +566,15 @@ export const $ContractEntity = {
             type: 'date',
             example: '2021-07-01T00:00:00.000Z',
             nullable: true
+        },
+        files: {
+            type: 'array',
+            items: {
+                '$ref': '#/components/schemas/FileDto'
+            }
         }
     },
-    required: ['_id', '__v', 'createdAt', 'updatedAt', 'deletedAt', 'lastSyncAt']
+    required: ['_id', '__v', 'createdAt', 'updatedAt', 'deletedAt', 'lastSyncAt', 'files']
 } as const;
 
 export const $SerializedUserDto = {
@@ -1280,6 +1305,10 @@ export const $SerializedProductDto = {
             type: 'number',
             example: 33421.233
         },
+        totalActiveRevenue: {
+            type: 'number',
+            example: 33421.233
+        },
         totalOrders: {
             type: 'number',
             example: 0
@@ -1310,7 +1339,7 @@ export const $SerializedProductDto = {
             description: 'Reference to another product'
         }
     },
-    required: ['_id', '__v', 'createdAt', 'updatedAt', 'deletedAt', 'lastSyncAt', 'upc', 'additionPrice', 'ageControl', 'barcode', 'costPrice', 'name', 'description', 'price', 'pricePerKilo', 'prodType', 'productPictures', 'sortIndex', 'vatIndex', 'virtualProduct', 'totalSoldProducts', 'totalRevenue', 'totalOrders', 'productVideo', 'category', 'brand', 'supplier', 'orders', 'referTo']
+    required: ['_id', '__v', 'createdAt', 'updatedAt', 'deletedAt', 'lastSyncAt', 'upc', 'additionPrice', 'ageControl', 'barcode', 'costPrice', 'name', 'description', 'price', 'pricePerKilo', 'prodType', 'productPictures', 'sortIndex', 'vatIndex', 'virtualProduct', 'totalSoldProducts', 'totalRevenue', 'totalActiveRevenue', 'totalOrders', 'productVideo', 'category', 'brand', 'supplier', 'orders', 'referTo']
 } as const;
 
 export const $CreateProductDto = {
@@ -1798,11 +1827,11 @@ export const $CreateContractDto = {
         },
         startDate: {
             type: 'date',
-            default: '2024-06-28T16:59:08.875Z'
+            default: '2024-06-29T03:33:33.069Z'
         },
         endDate: {
             type: 'date',
-            default: '2024-06-28T16:59:08.875Z'
+            default: '2024-06-29T03:33:33.069Z'
         },
         status: {
             type: 'string',
@@ -1834,11 +1863,11 @@ export const $UpdateContractDto = {
         },
         startDate: {
             type: 'date',
-            default: '2024-06-28T16:59:08.875Z'
+            default: '2024-06-29T03:33:33.069Z'
         },
         endDate: {
             type: 'date',
-            default: '2024-06-28T16:59:08.875Z'
+            default: '2024-06-29T03:33:33.069Z'
         },
         status: {
             type: 'string',
