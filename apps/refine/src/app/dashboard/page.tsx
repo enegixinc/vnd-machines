@@ -1,5 +1,5 @@
 ﻿'use client';
-import { Card, Col, Row } from 'antd';
+import { Card, Col, Row, Space } from 'antd';
 import {
   DashboardOutlined,
   UserOutlined,
@@ -7,6 +7,8 @@ import {
 } from '@ant-design/icons';
 import { DashboardLatestOrders } from '@app/dashboard/latest-orders';
 import { SalesCard } from '@app/dashboard/cards/sales';
+import { MachinesSales } from '@app/dashboard/machines-sales';
+import { SalesPie } from '@app/dashboard/sales-pie';
 
 const Dashboard = () => {
   const kpiData = [
@@ -20,14 +22,22 @@ const Dashboard = () => {
   ];
 
   return (
-    <div style={{ padding: 24 }}>
+    <Space direction="vertical" size="large" style={{ width: '100%' }}>
       <Row gutter={16}>
         <Col span={8}>
           <SalesCard />
         </Col>
       </Row>
+      <Row gutter={16}>
+        <Col span={16}>
+          <MachinesSales />
+        </Col>
+        <Col span={8}>
+          <SalesPie />
+        </Col>
+      </Row>
       <DashboardLatestOrders />
-    </div>
+    </Space>
   );
 };
 
