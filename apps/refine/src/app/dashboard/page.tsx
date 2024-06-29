@@ -10,8 +10,12 @@ import { DashboardLatestOrders } from '@app/dashboard/latest-orders';
 const Dashboard = () => {
   const kpiData = [
     { title: 'Total Sales', value: '$20,000', icon: <DashboardOutlined /> },
-    { title: 'New Customers', value: '150', icon: <UserOutlined /> },
-    { title: 'Orders', value: '320', icon: <ShoppingCartOutlined /> },
+    {
+      title: 'Total Revenue',
+      value: '$10,000',
+      icon: <ShoppingCartOutlined />,
+    },
+    { title: 'Active Contracts', value: '10', icon: <UserOutlined /> },
   ];
 
   return (
@@ -28,9 +32,8 @@ const Dashboard = () => {
             </Card>
           </Col>
         ))}
-
-        <DashboardLatestOrders />
       </Row>
+      <DashboardLatestOrders />
     </div>
   );
 };
