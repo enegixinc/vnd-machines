@@ -18,6 +18,7 @@ import { TbBrandShopee } from 'react-icons/tb';
 import { IoPricetags, IoPricetagsOutline } from 'react-icons/io5';
 import { HiOutlineUsers } from 'react-icons/hi';
 import { PiUsersThree } from 'react-icons/pi';
+import { AiOutlineDashboard } from 'react-icons/ai';
 
 export const metadata: Metadata = {
   title: 'VND Machines',
@@ -50,6 +51,16 @@ export default function RootLayout({
                     notificationProvider={useNotificationProvider}
                     authProvider={authProvider}
                     resources={[
+                      {
+                        name: 'dashboard',
+                        list: '/dashboard',
+                        meta: {
+                          canDelete: false,
+                          canCreate: false,
+                          canUpdate: false,
+                          icon: <AiOutlineDashboard />,
+                        },
+                      },
                       {
                         name: 'suppliers',
                         list: '/suppliers',

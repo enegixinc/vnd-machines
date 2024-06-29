@@ -24,6 +24,7 @@ export const dataProvider = (
     query = handlePagination(query, pagination);
     query = handleSort(query, sorters);
     query.setIncludeDeleted(meta?.includeDeleted);
+    query.setLimit(meta?.limit);
 
     const { data } = await httpClient.get(`${url}?${query.query()}`);
 

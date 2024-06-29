@@ -2,8 +2,16 @@ import React from 'react';
 
 import { Col, Row } from 'antd';
 
-import { DashboardTotalCountCard } from './components';
+import {
+  CompaniesMap,
+  DashboardDealsChart,
+  DashboardLatestActivities,
+  DashboardTasksChart,
+  DashboardTotalCountCard,
+  DashboardTotalRevenueChart,
+} from './components';
 import { vndClient } from '@/providers';
+import { CalendarUpcomingEvents } from '@/components';
 
 export const DashboardPage = () => {
   const [isLoading, setIsLoading] = React.useState(true);
@@ -48,75 +56,75 @@ export const DashboardPage = () => {
         </Col>
       </Row>
 
-      {/*<Row*/}
-      {/*  gutter={[32, 32]}*/}
-      {/*  style={{*/}
-      {/*    marginTop: '32px',*/}
-      {/*  }}*/}
-      {/*>*/}
-      {/*  <Col*/}
-      {/*    xs={24}*/}
-      {/*    sm={24}*/}
-      {/*    xl={8}*/}
-      {/*    style={{*/}
-      {/*      height: '432px',*/}
-      {/*    }}*/}
-      {/*  >*/}
-      {/*    <DashboardTotalRevenueChart />*/}
-      {/*  </Col>*/}
-      {/*  <Col*/}
-      {/*    xs={24}*/}
-      {/*    sm={24}*/}
-      {/*    xl={16}*/}
-      {/*    style={{*/}
-      {/*      height: '432px',*/}
-      {/*    }}*/}
-      {/*  >*/}
-      {/*    <DashboardDealsChart />*/}
-      {/*  </Col>*/}
-      {/*</Row>*/}
+      <Row
+        gutter={[32, 32]}
+        style={{
+          marginTop: '32px',
+        }}
+      >
+        <Col
+          xs={24}
+          sm={24}
+          xl={8}
+          style={{
+            height: '432px',
+          }}
+        >
+          <DashboardTotalRevenueChart />
+        </Col>
+        <Col
+          xs={24}
+          sm={24}
+          xl={16}
+          style={{
+            height: '432px',
+          }}
+        >
+          <DashboardDealsChart />
+        </Col>
+      </Row>
 
-      {/*<Row*/}
-      {/*  gutter={[32, 32]}*/}
-      {/*  style={{*/}
-      {/*    marginTop: '32px',*/}
-      {/*  }}*/}
-      {/*>*/}
-      {/*  <Col xs={24} sm={24} xl={14} xxl={16}>*/}
-      {/*    <DashboardLatestActivities />*/}
-      {/*  </Col>*/}
-      {/*  <Col xs={24} sm={24} xl={10} xxl={8}>*/}
-      {/*    <CalendarUpcomingEvents showGoToListButton />*/}
-      {/*  </Col>*/}
-      {/*</Row>*/}
+      <Row
+        gutter={[32, 32]}
+        style={{
+          marginTop: '32px',
+        }}
+      >
+        <Col xs={24} sm={24} xl={14} xxl={16}>
+          <DashboardLatestActivities />
+        </Col>
+        <Col xs={24} sm={24} xl={10} xxl={8}>
+          <CalendarUpcomingEvents showGoToListButton />
+        </Col>
+      </Row>
 
-      {/*<Row*/}
-      {/*  gutter={[32, 32]}*/}
-      {/*  style={{*/}
-      {/*    marginTop: '32px',*/}
-      {/*  }}*/}
-      {/*>*/}
-      {/*  <Col*/}
-      {/*    xs={24}*/}
-      {/*    sm={24}*/}
-      {/*    xl={8}*/}
-      {/*    style={{*/}
-      {/*      height: '448px',*/}
-      {/*    }}*/}
-      {/*  >*/}
-      {/*    <DashboardTasksChart />*/}
-      {/*  </Col>*/}
-      {/*  <Col*/}
-      {/*    xs={24}*/}
-      {/*    sm={24}*/}
-      {/*    xl={16}*/}
-      {/*    style={{*/}
-      {/*      height: '448px',*/}
-      {/*    }}*/}
-      {/*  >*/}
-      {/*    <CompaniesMap />*/}
-      {/*  </Col>*/}
-      {/*</Row>*/}
+      <Row
+        gutter={[32, 32]}
+        style={{
+          marginTop: '32px',
+        }}
+      >
+        <Col
+          xs={24}
+          sm={24}
+          xl={8}
+          style={{
+            height: '448px',
+          }}
+        >
+          <DashboardTasksChart />
+        </Col>
+        <Col
+          xs={24}
+          sm={24}
+          xl={16}
+          style={{
+            height: '448px',
+          }}
+        >
+          <CompaniesMap />
+        </Col>
+      </Row>
     </div>
   );
 };

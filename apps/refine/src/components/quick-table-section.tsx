@@ -12,6 +12,7 @@ import { Button, Space, Table } from 'antd';
 import Search from 'antd/es/input/Search';
 import { BaseRecord, CrudFilter, MetaQuery } from '@refinedev/core';
 import type { TableProps } from 'antd/es/table';
+import { useTableProps } from '@refinedev/antd/src/hooks/table/useTable/useTable';
 
 export interface QuickTableProps extends TableProps<BaseRecord> {
   resource?: string;
@@ -22,11 +23,13 @@ export interface QuickTableProps extends TableProps<BaseRecord> {
     permanent?: CrudFilter[] | undefined;
     hidden?: CrudFilter[] | undefined;
   };
+  useTableProps?: useTableProps<any, any, any, any>;
 
   pageTitle?: string;
   minimal?: boolean;
   setDataReference?: (data: any) => void;
   showActions?: boolean;
+  showSearch?: boolean;
 }
 
 export const QuickTableSection = <
@@ -40,6 +43,7 @@ export const QuickTableSection = <
   meta,
   minimal = false,
   showActions = true,
+  showSearch = true,
   ...props
 }: QuickTableProps) => {
   const { tableProps, setFilters } = useTable({
@@ -53,6 +57,7 @@ export const QuickTableSection = <
       ...props.filters,
     },
     meta,
+    ...props.useTableProps,
   });
 
   const handleSearch = (text: string) => {
@@ -75,7 +80,7 @@ export const QuickTableSection = <
     }
   }, [tableProps.dataSource]);
 
-  const searchComponent = (
+  const searchComponent = showSearch && (
     <Search
       placeholder="Search"
       onChange={(e) => handleSearch(e.target.value)}
@@ -139,6 +144,7 @@ export const QuickTableSection = <
       ]}
       showSorterTooltip
       rowKey="_id"
+      pagination={props.pagination}
     />
   );
 
