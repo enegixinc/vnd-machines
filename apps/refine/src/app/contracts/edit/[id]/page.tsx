@@ -1,29 +1,31 @@
 'use client';
 
-import { Edit, useForm } from '@refinedev/antd';
+import { Edit, useForm, useSelect } from '@refinedev/antd';
 import React from 'react';
 import SupplierForm from '@app/suppliers/form';
 import { useParams } from 'next/navigation';
 import { Spin } from 'antd';
+import { ContractForm } from '@app/contracts/form';
 
 export default function BrandEdit() {
   const { id } = useParams();
   const { formProps, saveButtonProps, formLoading, queryResult } = useForm({
-    resource: 'users',
     id: id.toString(),
     action: 'edit',
     meta: {
       join: [
         {
-          field: 'products',
-          select: ['_id', 'fullName'],
+          field: 'supplier',
         },
       ],
     },
   });
-
-  console.log(queryResult);
-  console.log(formProps);
+  const { selectProps: supplierSelectProps } = useSelect({
+    resource: 'users',
+    optionLabel: 'fullName',
+    filters: [{ field: 'role', operator: 'eq', value: 'supplier' }],
+    optionValue: '_id',
+  });
 
   if (formLoading) {
     return (
@@ -40,8 +42,11 @@ export default function BrandEdit() {
 
   return (
     <Edit saveButtonProps={saveButtonProps}>
-      {/*// @ts-ignore*/}
-      <SupplierForm formProps={formProps} />
+      {/* @ts-ignore */}
+      <ContractForm
+        formProps={formProps}
+        supplierSelectProps={supplierSelectProps}
+      />
     </Edit>
   );
 }

@@ -6,6 +6,7 @@ import { IsDate, Validate } from 'class-validator';
 import { IsStartDateValidConstraint } from '../validators/start-date';
 import { FileDto } from '../../files/file.dto';
 import { ApiProperty } from '@nestjs/swagger';
+import { OrderEntity } from '../../orders/order.entity';
 
 @Entity('contracts')
 export class ContractEntity extends DatabaseEntity implements IContractEntity {
@@ -138,4 +139,19 @@ export class ContractEntity extends DatabaseEntity implements IContractEntity {
     },
   })
   totalSales: number;
+
+  @VirtualColumn({
+    type: 'array',
+    query: (entity) => `
+      select coalesce(jsonb_agg(orders), '[]'::jsonb)
+      from contracts
+             join products on contracts.supplier_id = products.supplier_id
+             join order_details on products._id = order_details.product_id
+             join orders on order_details.order_id = orders._id
+      where contracts._id = ${entity}._id
+        AND orders."createdAt" >= contracts."startDate"
+        AND orders."createdAt" <= contracts."endDate"
+    `,
+  })
+  orders: OrderEntity[];
 }

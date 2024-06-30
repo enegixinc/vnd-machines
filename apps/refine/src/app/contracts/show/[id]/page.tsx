@@ -1,13 +1,13 @@
 'use client';
 
 import React from 'react';
-import { Descriptions, Divider, Space, Table, Typography } from 'antd';
-import { useShow } from '@refinedev/core';
+import { Descriptions, Divider, Table, Typography } from 'antd';
+import { CanAccess, useShow } from '@refinedev/core';
 import { handleEmptyString } from '@helpers';
 import { handleNullableText } from '@app/products/utils/handleNullableText';
 import { Show, TextField } from '@refinedev/antd';
-import { ContractEntity } from '../../../../../../backend/src/modules/contracts/entities/contract.entity';
-import { FeeType } from '@core'; // Adjust import path as needed
+import { FeeType } from '@core';
+import { JoinedOrdersTable } from '@components/joined-orders.table';
 
 const { Title } = Typography;
 
@@ -67,39 +67,42 @@ export default function ContractShow() {
         </Descriptions.Item>
       </Descriptions>
 
-      <Divider />
-      <Title level={3} style={{ marginTop: 16 }}>
-        {'Supplier Details'}
-      </Title>
+      <CanAccess action="show" resource="suppliers">
+        <Divider />
+        <Title level={3} style={{ marginTop: 16 }}>
+          {'Supplier Details'}
+        </Title>
 
-      <Table
-        dataSource={[contract.supplier]}
-        columns={[
-          {
-            title: 'Basic Info',
-            children: [
-              {
-                dataIndex: 'fullName',
-                title: 'Name',
-                render: handleNullableText,
-              },
-              {
-                dataIndex: 'email',
-                title: 'Email',
-                render: handleNullableText,
-              },
-              {
-                dataIndex: 'phoneNumber',
-                title: 'Phone',
-                render: handleNullableText,
-              },
-            ],
-          },
-        ]}
-        loading={isLoading}
-        rowKey="_id"
-      />
+        <Table
+          dataSource={[contract.supplier]}
+          columns={[
+            {
+              title: 'Basic Info',
+              children: [
+                {
+                  dataIndex: 'fullName',
+                  title: 'Name',
+                  render: handleNullableText,
+                },
+                {
+                  dataIndex: 'email',
+                  title: 'Email',
+                  render: handleNullableText,
+                },
+                {
+                  dataIndex: 'phoneNumber',
+                  title: 'Phone',
+                  render: handleNullableText,
+                },
+              ],
+            },
+          ]}
+          loading={isLoading}
+          rowKey="_id"
+        />
+      </CanAccess>
       <Divider />
+      <JoinedOrdersTable record={contract} />
     </Show>
   );
 }
