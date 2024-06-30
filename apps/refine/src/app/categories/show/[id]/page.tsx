@@ -10,6 +10,8 @@ import { ShowFinance } from '@components/sections/finance';
 import { handleMagextImage } from '@app/products/utils/handleMagextImage';
 import { IoIosCash } from 'react-icons/io';
 import { RiVisaFill } from 'react-icons/ri';
+import { JoinedProductsTable } from '@components/joined-products.table';
+import { JoinedOrdersTable } from '@components/joined-orders.table';
 
 const { Title } = Typography;
 
@@ -80,52 +82,7 @@ export default function CategoryShow() {
       <ShowFinance record={record} />
 
       <Divider />
-      <Title level={3} style={{ marginTop: 16 }}>
-        {'Products'}
-      </Title>
-      <Card>
-        <Table
-          dataSource={record.products}
-          columns={[
-            {
-              dataIndex: 'productPictures',
-              title: 'Image',
-              render: handleMagextImage,
-            },
-            {
-              dataIndex: 'fullName',
-              title: 'Name',
-              sorter: true,
-            },
-            {
-              dataIndex: 'upc',
-              title: 'UPC',
-              sorter: true,
-            },
-            {
-              dataIndex: 'price',
-              title: 'Price',
-              sorter: true,
-              render: (price) => `${Number(price).toFixed(1)} KD`,
-            },
-            {
-              dataIndex: 'totalSoldProducts',
-              title: 'Total Sold Products',
-              sorter: true,
-            },
-            {
-              dataIndex: 'totalOrders',
-              title: 'Total Orders',
-              sorter: true,
-            },
-            {
-              dataIndex: 'totalRevenue',
-              title: 'Total Revenue',
-              sorter: true,
-            },
-          ]}
-        />
-      </Card>
+      <JoinedProductsTable record={record} />
 
       {/*<Divider />*/}
       {/*<Title level={3} style={{ marginTop: 16 }}>*/}
@@ -171,53 +128,7 @@ export default function CategoryShow() {
       {/*</Card>*/}
 
       <Divider />
-      <Title level={3} style={{ marginTop: 16 }}>
-        {'Orders'}
-      </Title>
-
-      <Card>
-        <Table
-          dataSource={record.orders}
-          columns={[
-            {
-              title: 'Cart Number',
-              dataIndex: 'cart_number',
-            },
-            {
-              title: 'Payment Method',
-              dataIndex: 'payment_type',
-              render: (paymentType) => (
-                <Tag
-                  icon={
-                    paymentType === 'CASH' ? (
-                      <IoIosCash
-                        style={{
-                          fontSize: '2em',
-                          verticalAlign: 'middle',
-                        }}
-                      />
-                    ) : (
-                      <RiVisaFill
-                        style={{
-                          fontSize: '2em',
-                          verticalAlign: 'middle',
-                        }}
-                      />
-                    )
-                  }
-                  color={paymentType === 'CASH' ? 'green' : 'blue'}
-                />
-              ),
-            },
-            {
-              title: 'Total',
-              dataIndex: ['total'],
-              sorter: true,
-              render: (total, record) => `${total} ${record.currency}`,
-            },
-          ]}
-        />
-      </Card>
+      <JoinedOrdersTable record={record} />
     </Show>
   );
 }

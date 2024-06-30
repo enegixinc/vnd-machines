@@ -15,6 +15,7 @@ import { UserEntity } from '../../entities/user.entity';
 import { SerializedBrandDto } from '../../../brands/dto/response/serialized-brand.dto';
 import { SerializedContractDto } from '../../../contracts/dto/response/serialized-contract.dto';
 import { FormatMoney } from 'format-money-js';
+import { OrderEntity } from '../../../orders/order.entity';
 
 // @ts-ignore
 export class SerializedUserDto
@@ -71,6 +72,13 @@ export class SerializedUserDto
     })
   )
   contracts: ISerializedContract[];
+
+  @decorate(
+    ApiProperty({
+      type: () => [OrderEntity],
+    })
+  )
+  orders: OrderEntity[];
 
   constructor(props: UserEntity) {
     if (props?.password) delete props.password;

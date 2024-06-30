@@ -13,6 +13,7 @@ import { QuickTableSection } from '@components/quick-table-section';
 import { IoIosCash } from 'react-icons/io';
 import { RiVisaFill } from 'react-icons/ri';
 import { formatDate } from '@components/description-dates';
+import { JoinedProductsTable } from '@components/joined-products.table';
 
 const { Title } = Typography;
 
@@ -77,54 +78,8 @@ export default function BrandShow() {
 
       <Divider />
       <ShowFinance record={record} />
-
       <Divider />
-      <Title level={3} style={{ marginTop: 16 }}>
-        {'Products'}
-      </Title>
-      <Card>
-        <Table
-          dataSource={record.products}
-          columns={[
-            {
-              dataIndex: 'productPictures',
-              title: 'Image',
-              render: handleMagextImage,
-            },
-            {
-              dataIndex: 'fullName',
-              title: 'Name',
-              sorter: true,
-            },
-            {
-              dataIndex: 'upc',
-              title: 'UPC',
-              sorter: true,
-            },
-            {
-              dataIndex: 'price',
-              title: 'Price',
-              sorter: true,
-              render: (price) => `${Number(price).toFixed(1)} KD`,
-            },
-            {
-              dataIndex: 'totalSoldProducts',
-              title: 'Total Sold Products',
-              sorter: true,
-            },
-            {
-              dataIndex: 'totalOrders',
-              title: 'Total Orders',
-              sorter: true,
-            },
-            {
-              dataIndex: 'totalRevenue',
-              title: 'Total Revenue',
-              sorter: true,
-            },
-          ]}
-        />
-      </Card>
+      <JoinedProductsTable record={record} />
 
       {/*<Divider />*/}
       {/*<Title level={3} style={{ marginTop: 16 }}>*/}

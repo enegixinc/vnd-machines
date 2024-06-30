@@ -8,6 +8,8 @@ import { IUserEntity } from '../../../../../../../libs/core';
 import { useParams } from 'next/navigation';
 import { ShowFinance } from '@components/sections/finance';
 import { formatDate } from '@components/description-dates';
+import { JoinedProductsTable } from '@components/joined-products.table';
+import { JoinedOrdersTable } from '@components/joined-orders.table';
 
 const { Title } = Typography;
 
@@ -20,6 +22,18 @@ export default function SupplierShow() {
       join: [
         {
           field: 'products',
+        },
+        {
+          field: 'orders',
+        },
+        {
+          field: 'categories',
+        },
+        {
+          field: 'brands',
+        },
+        {
+          field: 'contracts',
         },
       ],
     },
@@ -36,15 +50,12 @@ export default function SupplierShow() {
       <Title level={3}>{'Supplier Details'}</Title>
       <Descriptions
         bordered
-        column={1}
+        column={2}
         labelStyle={{
           fontWeight: 'bold',
           width: '20%',
         }}
       >
-        <Descriptions.Item label="ID">
-          <TextField value={record._id} />
-        </Descriptions.Item>
         <Descriptions.Item label="First Name">
           <TextField value={record.firstName} />
         </Descriptions.Item>
@@ -72,6 +83,10 @@ export default function SupplierShow() {
       </Descriptions>
       <Divider />
       <ShowFinance record={record} />
+      <Divider />
+      <JoinedProductsTable record={record} />
+      <Divider />
+      <JoinedOrdersTable record={record} />
     </Show>
   );
 }

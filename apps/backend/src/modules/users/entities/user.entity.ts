@@ -6,6 +6,7 @@ import {
   JoinColumn,
   ManyToMany,
   OneToMany,
+  VirtualColumn,
 } from 'typeorm';
 import { IUserEntity, UserRole } from '@core';
 import { Factory } from 'nestjs-seeder';
@@ -25,6 +26,8 @@ import {
   TotalSoldProducts,
 } from '../../categories/decorators';
 import { MultiLangEntity } from '../../products/entities/multiLang.entity';
+import { OrderEntity } from '../../orders/order.entity';
+import { VirtualAction } from 'rxjs';
 
 @Entity('users')
 export class UserEntity extends SearchableEntity implements IUserEntity {
@@ -58,6 +61,19 @@ export class UserEntity extends SearchableEntity implements IUserEntity {
     if (!this.password) return;
     this.password = await bcrypt.hash(this.password, 10);
   }
+
+  @VirtualColumn({
+    type: 'array',
+    query: (entity) => `
+      select coalesce(jsonb_agg(orders), '[]'::jsonb)
+      from users
+             join products on users._id = products.supplier_id
+             join order_details on products._id = order_details.product_id
+             join orders on order_details.order_id = orders._id
+      where users._id = ${entity}._id
+    `,
+  })
+  orders: OrderEntity[];
 
   @TotalSoldProducts('users', 'supplier_id')
   totalSoldProducts: number;
