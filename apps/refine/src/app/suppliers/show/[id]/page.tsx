@@ -2,9 +2,9 @@
 
 import { Show, TextField } from '@refinedev/antd';
 import { useShow } from '@refinedev/core';
-import { Descriptions, Divider, Typography } from 'antd';
+import { Descriptions, Divider, Table, Typography } from 'antd';
 import React from 'react';
-import { IUserEntity } from '../../../../../../../libs/core';
+import { ContractStatus, IUserEntity } from '@core';
 import { useParams } from 'next/navigation';
 import { ShowFinance } from '@components/sections/finance';
 import { formatDate } from '@components/description-dates';
@@ -87,6 +87,92 @@ export default function SupplierShow() {
       <JoinedProductsTable record={record} />
       <Divider />
       <JoinedOrdersTable record={record} />
+      <Divider />
+      <Table
+        pagination={{ pageSize: 5 }}
+        dataSource={record.categories}
+        columns={[
+          {
+            title: 'Category Name',
+            dataIndex: 'name',
+          },
+        ]}
+      />
+      <Divider />
+      <Title level={3}>{'Brands'}</Title>
+      <Table
+        pagination={{ pageSize: 5 }}
+        dataSource={record.brands}
+        columns={[
+          {
+            title: 'Brand Name',
+            dataIndex: ['name', 'en'],
+          },
+        ]}
+      />
+      <Divider />
+      <Title level={3}>{'Contracts'}</Title>
+      <Table
+        pagination={{ pageSize: 5 }}
+        dataSource={record.contracts}
+        columns={[
+          {
+            title: 'Contract Details',
+            children: [
+              {
+                dataIndex: 'startDate',
+                title: 'Start Date',
+                sorter: true,
+              },
+              {
+                dataIndex: 'endDate',
+                title: 'End Date',
+                sorter: true,
+              },
+              {
+                dataIndex: 'status',
+                title: 'Status',
+                render: (status) => (
+                  <TextField
+                    value={
+                      status === ContractStatus.ACTIVE ? 'Active' : 'Inactive'
+                    }
+                    style={{
+                      color: status === ContractStatus.ACTIVE ? 'green' : 'red',
+                    }}
+                  />
+                ),
+              },
+            ],
+          },
+          {
+            title: 'Financial Details',
+            children: [
+              {
+                dataIndex: 'feePerSale',
+                title: 'Fee Per Sale',
+                sorter: true,
+              },
+              {
+                dataIndex: 'feeType',
+                title: 'Fee Type',
+              },
+              {
+                dataIndex: 'totalOrders',
+                title: 'Orders',
+                sorter: true,
+              },
+              {
+                dataIndex: 'totalRevenue',
+                title: 'Revenue',
+                sorter: true,
+                render: (totalRevenue) =>
+                  `${Number(totalRevenue).toFixed(2)} KD`,
+              },
+            ],
+          },
+        ]}
+      />
     </Show>
   );
 }
