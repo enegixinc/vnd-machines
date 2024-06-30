@@ -144,7 +144,6 @@ export const QuickTableSection = <
       ]}
       showSorterTooltip
       rowKey="_id"
-      pagination={props.pagination}
     />
   );
 
