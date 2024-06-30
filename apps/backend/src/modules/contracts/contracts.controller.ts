@@ -1,13 +1,15 @@
 import { Controller } from '@nestjs/common';
-import { Crud, CrudController } from '@dataui/crud';
+import { Crud, CrudAuth, CrudController } from '@dataui/crud';
 import { ContractEntity } from './entities/contract.entity';
 import { saneOperationsId } from '../../common/swagger.config';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreateContractDto } from './dto/request/create-contract.dto';
 import { Public } from '../auth/decorators/public.decorator';
 import { SerializedContractDto } from './dto/response/serialized-contract.dto';
 import { ContractsService } from './contracts.service';
 import { UpdateContractDto } from './dto/request/update-contract.dto';
+import { UserEntity } from '../users/entities/user.entity';
+import { UserRole } from '@core';
 
 @Crud({
   model: {
@@ -53,8 +55,24 @@ import { UpdateContractDto } from './dto/request/update-contract.dto';
     create: SerializedContractDto,
   },
 })
+@CrudAuth({
+  property: 'user',
+  // if admin return everything, if supplier return the products they supply
+  // or the products they created
+  filter: (user: UserEntity) => {
+    if (user.role === UserRole.ADMIN) return;
+
+    return {
+      supplier_id: user._id,
+    };
+  },
+  persist: (user: UserEntity) => ({
+    createdBy: user._id,
+  }),
+})
 @Controller('contracts')
-@Public()
+@ApiBearerAuth('access-token')
+@ApiResponse({ status: 403, description: 'Forbidden.' })
 @ApiTags('contracts')
 export class ContractsController implements CrudController<ContractEntity> {
   constructor(private readonly contractsService: ContractsService) {}

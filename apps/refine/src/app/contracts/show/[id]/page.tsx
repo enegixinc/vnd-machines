@@ -1,16 +1,17 @@
-// Import necessary modules
+'use client';
+
 import React from 'react';
 import { Descriptions, Divider, Space, Table, Typography } from 'antd';
 import { useShow } from '@refinedev/core';
 import { handleEmptyString } from '@helpers';
-import { handleMagextImage } from '@app/products/utils/handleMagextImage';
 import { handleNullableText } from '@app/products/utils/handleNullableText';
-import { Show, TextField } from '@refinedev/antd'; // Adjust import path as needed
+import { Show, TextField } from '@refinedev/antd';
+import { ContractEntity } from '../../../../../../backend/src/modules/contracts/entities/contract.entity';
+import { FeeType } from '@core'; // Adjust import path as needed
 
 const { Title } = Typography;
 
 export default function ContractShow() {
-  // Fetch contract details and related virtual columns
   const { queryResult } = useShow({
     meta: {
       join: [
@@ -51,15 +52,15 @@ export default function ContractShow() {
         <Descriptions.Item label="Fee Per Sale">
           <TextField
             value={`${Number(contract.feePerSale).toFixed(2)} ${
-              contract.feeType
+              contract.feeType === FeeType.PERCENTAGE ? ' %' : ' KD'
             }`}
           />
         </Descriptions.Item>
         <Descriptions.Item label="Total Orders">
           <TextField value={contract.totalOrders} />
         </Descriptions.Item>
-        <Descriptions.Item label="Total Sold Products">
-          <TextField value={contract.totalSoldProducts} />
+        <Descriptions.Item label="Total Sales">
+          <TextField value={`${Number(contract.totalSales).toFixed(2)} KD`} />
         </Descriptions.Item>
         <Descriptions.Item label="Total Revenue">
           <TextField value={`${Number(contract.totalRevenue).toFixed(2)} KD`} />
@@ -72,7 +73,7 @@ export default function ContractShow() {
       </Title>
 
       <Table
-        dataSource={[contract.supplier]} // Assuming supplier is directly accessible
+        dataSource={[contract.supplier]}
         columns={[
           {
             title: 'Basic Info',
@@ -88,7 +89,7 @@ export default function ContractShow() {
                 render: handleNullableText,
               },
               {
-                dataIndex: 'phone',
+                dataIndex: 'phoneNumber',
                 title: 'Phone',
                 render: handleNullableText,
               },
@@ -98,10 +99,7 @@ export default function ContractShow() {
         loading={isLoading}
         rowKey="_id"
       />
-
       <Divider />
-
-      {/* Additional sections as needed */}
     </Show>
   );
 }

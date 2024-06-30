@@ -29,6 +29,8 @@ export class SerializedContractDto
   )
   totalRevenue: number;
 
+  totalSales: number;
+
   @decorate(
     ApiProperty({
       type: 'number',
@@ -36,7 +38,6 @@ export class SerializedContractDto
     })
   )
   totalOrders: number;
-
 
   @decorate(
     ApiProperty({
