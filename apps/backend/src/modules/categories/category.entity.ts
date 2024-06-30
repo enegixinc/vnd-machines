@@ -96,23 +96,33 @@ export class CategoryEntity
   @Column({ type: 'int', default: 0 })
   sortIndex: number;
 
-  @Factory((faker) => [
-    {
-      _id: faker.database.mongodbObjectId(),
-    },
-  ])
-  @ManyToMany(() => UserEntity, (user) => user.categories, {
-    nullable: true,
-  })
-  @JoinTable({
-    joinColumn: {
-      name: 'categoryId',
-      referencedColumnName: '_id',
-    },
-    inverseJoinColumn: {
-      name: 'userId',
-      referencedColumnName: '_id',
-    },
+  // @Factory((faker) => [
+  //   {
+  //     _id: faker.database.mongodbObjectId(),
+  //   },
+  // ])
+  // @ManyToMany(() => UserEntity, (user) => user.categories, {
+  //   nullable: true,
+  // })
+  // @JoinTable({
+  //   joinColumn: {
+  //     name: 'categoryId',
+  //     referencedColumnName: '_id',
+  //   },
+  //   inverseJoinColumn: {
+  //     name: 'userId',
+  //     referencedColumnName: '_id',
+  //   },
+  // })
+  @VirtualColumn({
+    type: 'array',
+    query: (entity) => `
+      select coalesce(jsonb_agg(users), '[]'::jsonb)
+      from categories
+             join products on categories._id = products.category_id
+             join users on products.supplier_id = users._id
+      where categories._id = ${entity}._id
+    `,
   })
   suppliers: ISerializedUser[];
 

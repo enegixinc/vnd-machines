@@ -132,10 +132,30 @@ export class UserEntity extends SearchableEntity implements IUserEntity {
   })
   products: ProductEntity[];
 
-  @ManyToMany(() => BrandEntity, (brand) => brand.suppliers)
+  // @ManyToMany(() => BrandEntity, (brand) => brand.suppliers)
+  @VirtualColumn({
+    type: 'array',
+    query: (entity) => `
+      select coalesce(jsonb_agg(brands), '[]'::jsonb)
+      from users
+             join products on users._id = products.supplier_id
+             join brands on products.brand_id = brands._id
+      where users._id = ${entity}._id
+    `,
+  })
   brands: string[];
 
-  @ManyToMany(() => CategoryEntity, (category) => category.suppliers)
+  // @ManyToMany(() => CategoryEntity, (category) => category.suppliers)
+  @VirtualColumn({
+    type: 'array',
+    query: (entity) => `
+      select coalesce(jsonb_agg(categories), '[]'::jsonb)
+      from users
+             join products on users._id = products.supplier_id
+             join categories on products.category_id = categories._id
+      where users._id = ${entity}._id
+    `,
+  })
   categories: string[];
 
   @OneToMany(() => ContractEntity, (contract) => contract.supplier, {
