@@ -4,10 +4,11 @@ import { Divider, Tag } from 'antd';
 import React from 'react';
 import { handleEmptyString } from '@helpers';
 import { QuickTableSection } from '@components/quick-table-section';
+import { CanAccess } from '@refinedev/core';
 
 export default function SuppliersList() {
   return (
-    <>
+    <CanAccess action="list" fallback={<div>Unauthorized</div>}>
       <QuickTableSection
         pageTitle="Suppliers"
         resource={'users'}
@@ -91,6 +92,6 @@ export default function SuppliersList() {
       {/*    },*/}
       {/*  ]}*/}
       {/*/>*/}
-    </>
+    </CanAccess>
   );
 }

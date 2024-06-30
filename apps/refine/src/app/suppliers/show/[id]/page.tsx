@@ -1,7 +1,7 @@
 'use client';
 
 import { Show, TextField } from '@refinedev/antd';
-import { useShow } from '@refinedev/core';
+import { CanAccess, useShow } from '@refinedev/core';
 import { Descriptions, Divider, Table, Typography } from 'antd';
 import React from 'react';
 import { ContractStatus, IUserEntity } from '@core';
@@ -49,53 +49,55 @@ export default function SupplierShow() {
   }
 
   return (
-    <Show isLoading={isLoading}>
-      <Title level={3}>{'Supplier Details'}</Title>
-      <Descriptions
-        bordered
-        column={2}
-        labelStyle={{
-          fontWeight: 'bold',
-          width: '20%',
-        }}
-      >
-        <Descriptions.Item label="First Name">
-          <TextField value={record.firstName} />
-        </Descriptions.Item>
-        <Descriptions.Item label="Last Name">
-          <TextField value={record.lastName} />
-        </Descriptions.Item>
-        <Descriptions.Item label="Email">
-          <TextField value={record.email} />
-        </Descriptions.Item>
-        <Descriptions.Item label="Phone Number">
-          <TextField value={record.phoneNumber} />
-        </Descriptions.Item>
-        <Descriptions.Item label="Business Name">
-          <TextField value={record.businessName || 'N/A'} />
-        </Descriptions.Item>
-        <Descriptions.Item label="Active">
-          <TextField value={record.active ? 'Yes' : 'No'} />
-        </Descriptions.Item>
-        <Descriptions.Item label="Created At">
-          <TextField value={formatDate(record.createdAt)} />
-        </Descriptions.Item>
-        <Descriptions.Item label="Updated At">
-          <TextField value={formatDate(record.updatedAt)} />
-        </Descriptions.Item>
-      </Descriptions>
-      <Divider />
-      <ShowFinance record={record} />
-      <Divider />
-      <JoinedContractsTable record={record} />
-      <Divider />
-      <JoinedProductsTable record={record} />
-      <Divider />
-      <JoinedOrdersTable record={record} />
-      <Divider />
-      <JoinedBrandsTable record={record} />
-      <Divider />
-      <JoinedCategoriesTable record={record} />
-    </Show>
+    <CanAccess action="show" fallback={<div>Unauthorized</div>}>
+      <Show isLoading={isLoading}>
+        <Title level={3}>{'Supplier Details'}</Title>
+        <Descriptions
+          bordered
+          column={2}
+          labelStyle={{
+            fontWeight: 'bold',
+            width: '20%',
+          }}
+        >
+          <Descriptions.Item label="First Name">
+            <TextField value={record.firstName} />
+          </Descriptions.Item>
+          <Descriptions.Item label="Last Name">
+            <TextField value={record.lastName} />
+          </Descriptions.Item>
+          <Descriptions.Item label="Email">
+            <TextField value={record.email} />
+          </Descriptions.Item>
+          <Descriptions.Item label="Phone Number">
+            <TextField value={record.phoneNumber} />
+          </Descriptions.Item>
+          <Descriptions.Item label="Business Name">
+            <TextField value={record.businessName || 'N/A'} />
+          </Descriptions.Item>
+          <Descriptions.Item label="Active">
+            <TextField value={record.active ? 'Yes' : 'No'} />
+          </Descriptions.Item>
+          <Descriptions.Item label="Created At">
+            <TextField value={formatDate(record.createdAt)} />
+          </Descriptions.Item>
+          <Descriptions.Item label="Updated At">
+            <TextField value={formatDate(record.updatedAt)} />
+          </Descriptions.Item>
+        </Descriptions>
+        <Divider />
+        <ShowFinance record={record} />
+        <Divider />
+        <JoinedContractsTable record={record} />
+        <Divider />
+        <JoinedProductsTable record={record} />
+        <Divider />
+        <JoinedOrdersTable record={record} />
+        <Divider />
+        <JoinedBrandsTable record={record} />
+        <Divider />
+        <JoinedCategoriesTable record={record} />
+      </Show>
+    </CanAccess>
   );
 }

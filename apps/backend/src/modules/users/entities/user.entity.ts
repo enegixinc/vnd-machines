@@ -143,7 +143,7 @@ export class UserEntity extends SearchableEntity implements IUserEntity {
       where users._id = ${entity}._id
     `,
   })
-  brands: string[];
+  brands: BrandEntity[];
 
   // @ManyToMany(() => CategoryEntity, (category) => category.suppliers)
   @VirtualColumn({
@@ -156,7 +156,7 @@ export class UserEntity extends SearchableEntity implements IUserEntity {
       where users._id = ${entity}._id
     `,
   })
-  categories: string[];
+  categories: CategoryEntity[];
 
   @OneToMany(() => ContractEntity, (contract) => contract.supplier, {
     cascade: ['insert', 'update', 'recover', 'remove', 'soft-remove'],

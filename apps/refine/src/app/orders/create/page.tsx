@@ -1,20 +1,21 @@
 'use client';
 
 import { Create, useForm } from '@refinedev/antd';
-import React, { useState } from 'react';
+import React from 'react';
 import SupplierForm from '@app/suppliers/form';
 import { UserEntity } from '@frontend/api-sdk';
+import { CanAccess } from '@refinedev/core';
 
 export default function SupplierCreate() {
   const { formProps, saveButtonProps } = useForm<UserEntity>({
     resource: 'users',
   });
 
-  const [values, setValues] = useState<UserEntity>();
-
   return (
-    <Create saveButtonProps={saveButtonProps}>
-      <SupplierForm formProps={formProps} />
-    </Create>
+    <CanAccess action="create" fallback={<div>Unauthorized</div>}>
+      <Create saveButtonProps={saveButtonProps}>
+        <SupplierForm formProps={formProps} />
+      </Create>
+    </CanAccess>
   );
 }

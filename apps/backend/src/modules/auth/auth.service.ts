@@ -86,7 +86,6 @@ export class AuthService {
   async me(userId: string) {
     return await this.userService.findOne({
       where: { _id: userId },
-      relations: ['products', 'categories', 'brands', 'contracts'],
       cache: 2000,
     });
   }

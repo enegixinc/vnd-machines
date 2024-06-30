@@ -5,6 +5,7 @@ import React from 'react';
 import SupplierForm from '@app/suppliers/form';
 import { useParams } from 'next/navigation';
 import { Spin } from 'antd';
+import { CanAccess } from '@refinedev/core';
 
 export default function BrandEdit() {
   const { id } = useParams();
@@ -22,9 +23,6 @@ export default function BrandEdit() {
     },
   });
 
-  console.log(queryResult);
-  console.log(formProps);
-
   if (formLoading) {
     return (
       <Spin
@@ -39,9 +37,10 @@ export default function BrandEdit() {
   }
 
   return (
-    <Edit saveButtonProps={saveButtonProps}>
-      {/*// @ts-ignore*/}
-      <SupplierForm formProps={formProps} />
-    </Edit>
+    <CanAccess action="edit" fallback={<div>Unauthorized</div>}>
+      <Edit saveButtonProps={saveButtonProps}>
+        <SupplierForm formProps={formProps} />
+      </Edit>
+    </CanAccess>
   );
 }

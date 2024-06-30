@@ -65,7 +65,7 @@ export const authProvider: AuthProvider = {
     };
   },
   getPermissions: async () => {
-    const user = localStorage.getItem('user');
+    const user = Cookies.get('user');
     if (user) {
       const parsedUser = JSON.parse(user);
       return parsedUser.role;
@@ -75,8 +75,8 @@ export const authProvider: AuthProvider = {
   getIdentity: async () => {
     const auth = Cookies.get('auth');
     if (auth) {
-      const user = vndClient.auth.authControllerMe();
-      localStorage.setItem('user', JSON.stringify(user));
+      const user = await vndClient.auth.authControllerMe();
+      Cookies.set('user', JSON.stringify(user));
       return user;
     }
     return null;

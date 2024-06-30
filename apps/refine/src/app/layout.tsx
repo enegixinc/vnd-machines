@@ -19,6 +19,7 @@ import { IoPricetags, IoPricetagsOutline } from 'react-icons/io5';
 import { HiOutlineUsers } from 'react-icons/hi';
 import { PiUsersThree } from 'react-icons/pi';
 import { AiOutlineDashboard } from 'react-icons/ai';
+import { accessControlProvider } from '@app/access-control';
 
 export const metadata: Metadata = {
   title: 'VND Machines',
@@ -50,6 +51,7 @@ export default function RootLayout({
                     dataProvider={dataProvider}
                     notificationProvider={useNotificationProvider}
                     authProvider={authProvider}
+                    accessControlProvider={accessControlProvider}
                     resources={[
                       {
                         name: 'dashboard',
@@ -58,6 +60,7 @@ export default function RootLayout({
                           canDelete: false,
                           canCreate: false,
                           canUpdate: false,
+                          label: 'Dashboard',
                           icon: <AiOutlineDashboard />,
                         },
                       },
