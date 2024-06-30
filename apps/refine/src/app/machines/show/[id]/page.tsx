@@ -5,9 +5,11 @@ import { Descriptions, Divider, Space, Table, Typography } from 'antd';
 import React from 'react';
 import { useShow } from '@refinedev/core';
 import { handleEmptyString } from '@helpers';
+import { useRouter } from 'next/navigation';
 
 import { handleMagextImage } from '@app/products/utils/handleMagextImage';
 import { handleNullableText } from '@app/products/utils/handleNullableText';
+import { JoinedOrdersTable } from '@components/joined-orders.table';
 
 const { Title } = Typography;
 
@@ -22,17 +24,15 @@ export default function MachineShow() {
           field: 'products.product',
         },
         {
-          field: 'product.supplier',
+          field: 'singleProduct.supplier',
         },
         {
-          field: 'product.category',
-        },
-        {
-          field: 'product.brand',
+          field: 'orders',
         },
       ],
     },
   });
+  const router = useRouter();
 
   const { data, isLoading } = queryResult;
 
@@ -114,11 +114,18 @@ export default function MachineShow() {
 
       <Table
         dataSource={record.product}
+        pagination={{ pageSize: 5 }}
+        onRow={(record) => {
+          return {
+            onClick: () => {
+              router.push(`/products/show/${record._id}`);
+            },
+            style: { cursor: 'pointer' },
+          };
+        }}
         columns={[
           {
             title: 'Basic Info',
-            render: (_, __, index) =>
-              index === 0 && <Divider>Basic Info</Divider>,
             children: [
               {
                 dataIndex: ['product', 'productPictures'],
@@ -147,36 +154,7 @@ export default function MachineShow() {
             ],
           },
           {
-            title: 'Associations',
-            children: [
-              {
-                dataIndex: ['product', 'supplier', 'fullName'],
-                title: 'Supplier',
-                render: handleEmptyString,
-                onFilter(value, record) {
-                  return record.supplier === null;
-                },
-                filters: [
-                  {
-                    text: 'No Supplier',
-                    value: 'null',
-                  },
-                ],
-              },
-              {
-                dataIndex: ['product', 'category', 'fullName'],
-                title: 'Category',
-                render: handleEmptyString,
-              },
-              {
-                dataIndex: ['product', 'brand', 'fullName'],
-                title: 'Brand',
-                render: handleEmptyString,
-              },
-            ],
-          },
-          {
-            title: 'Extra Details',
+            title: 'Stock',
             render: (_, __, index) =>
               index === 0 && <Divider>Position</Divider>,
             children: [
@@ -203,6 +181,8 @@ export default function MachineShow() {
         rowKey="_id"
       />
 
+      <Divider />
+      <JoinedOrdersTable record={record} />
       <Divider />
 
       <Title level={3} style={{ marginTop: 16 }}>

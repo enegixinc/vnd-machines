@@ -39,9 +39,12 @@ import { Repository } from 'typeorm';
         eager: true,
         alias: 'singleProduct',
       },
-      'product.product.supplier': {
+      'singleProduct.supplier': {
         exclude: ['password'],
         alias: 'product.product.supplier',
+      },
+      orders: {
+        alias: 'orders',
       },
     },
   },

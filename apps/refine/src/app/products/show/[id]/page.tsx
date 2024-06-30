@@ -10,8 +10,6 @@ import { handleMagextImage } from '@app/products/utils/handleMagextImage';
 import { ShowFinance } from '@components/sections/finance';
 import { useRouter } from 'next/navigation';
 import { formatDate } from '@components/description-dates';
-import { JoinedOrdersTable } from '@components/joined-orders.table';
-import { handleNullableText } from '@app/products/utils/handleNullableText';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 
