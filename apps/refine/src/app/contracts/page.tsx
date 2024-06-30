@@ -2,11 +2,13 @@
 
 import React from 'react';
 import { QuickTableSection } from '@components/quick-table-section';
-import { Divider } from 'antd';
 import { TextField } from '@refinedev/antd';
-import { ContractStatus } from '@core'; // Assuming ContractStatus is imported from core
+import { ContractStatus } from '@core';
+import { handleNullableText } from '@app/products/utils/handleNullableText';
+import { useRouter } from 'next/navigation';
 
 export default function ContractsList() {
+  const router = useRouter();
   return (
     <QuickTableSection
       pageTitle="Contracts"
@@ -35,6 +37,7 @@ export default function ContractsList() {
             {
               dataIndex: 'description',
               title: 'Description',
+              render: handleNullableText,
             },
             {
               dataIndex: 'status',
@@ -76,12 +79,16 @@ export default function ContractsList() {
           title: 'Supplier Information',
           children: [
             {
-              dataIndex: 'supplier.fullName',
+              dataIndex: ['supplier', 'fullName'],
               title: 'Supplier Name',
-              sorter: true,
+              onCell: (record) => ({
+                style: { cursor: 'pointer', color: '#1890ff' },
+                onClick: () =>
+                  router.push(`/suppliers/show/${record.supplier._id}`),
+              }),
             },
             {
-              dataIndex: 'supplier.email',
+              dataIndex: ['supplier', 'email'],
               title: 'Supplier Email',
             },
           ],
