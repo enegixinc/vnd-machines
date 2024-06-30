@@ -71,6 +71,7 @@ export const TableTransfer = ({
         return direction === 'left' ? (
           <QuickTableSection
             minimal
+            showActions={false}
             setDataReference={setDataReference}
             resource={resource}
             columns={leftColumns}

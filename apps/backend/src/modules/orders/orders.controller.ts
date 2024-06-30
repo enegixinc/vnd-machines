@@ -1,9 +1,13 @@
-import { Controller } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
 import { Crud, CrudController } from '@dataui/crud';
 import { OrdersService } from './orders.service';
 import { OrderEntity } from './order.entity';
 import { saneOperationsId } from '../../common/swagger.config';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { OrderProductsDetails } from './order-details.entity';
+import { getPeriods } from '../../common/periods';
 
 @Crud({
   model: {
@@ -71,9 +75,48 @@ import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 @ApiTags('orders')
 @ApiBearerAuth('JWT-auth')
 export class OrdersController implements CrudController<OrderEntity> {
-  constructor(public service: OrdersService) {}
+  constructor(
+    public service: OrdersService,
+    @InjectRepository(OrderProductsDetails)
+    private readonly orderRepository: Repository<OrderProductsDetails>
+  ) {}
 
   get base(): CrudController<OrderEntity> {
     return this;
+  }
+
+  @Get('/stats')
+  @ApiResponse({
+    status: 200,
+    description: 'Get product statistics',
+  })
+  async stats() {
+    const periods = getPeriods();
+
+    const sum = await this.orderRepository
+      .createQueryBuilder('order')
+      .select('SUM(order.soldPrice)', 'total')
+      .getRawOne();
+
+    let periodsStats = {};
+    for (const period of periods) {
+      const totalRevenue = await this.orderRepository
+        .createQueryBuilder('order')
+        .where('order.createdAt BETWEEN :start AND :end', {
+          start: period.start,
+          end: period.end,
+        })
+        .select('SUM(order.soldPrice)', 'total')
+        .getRawOne();
+
+      periodsStats[period.key] = parseFloat(totalRevenue.total) || 0;
+    }
+
+    return {
+      totalSales: {
+        all: parseFloat(sum.total) || 0,
+        ...periodsStats,
+      },
+    };
   }
 }

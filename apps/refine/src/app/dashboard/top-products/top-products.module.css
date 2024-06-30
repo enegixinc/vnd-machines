@@ -1,0 +1,4 @@
+﻿/* CSS to hide the first div inside the Card's ant-card-body */
+.ant-card-body > div:first-child {
+  display: none;
+}

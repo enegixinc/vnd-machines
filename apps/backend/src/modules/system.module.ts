@@ -11,6 +11,7 @@ import { ProductsModule } from './products/products.module';
 import { CategoriesModule } from './categories/categories.module';
 import { OrdersModule } from './orders/orders.module';
 import { RequestsModule } from './requests/fill-requests/requests.module';
+import { FilesModule } from './files/files.module';
 
 @Module({
   imports: [
@@ -23,8 +24,7 @@ import { RequestsModule } from './requests/fill-requests/requests.module';
     CategoriesModule,
     BrandsModule,
     OrdersModule,
-    FileDto,
-
+    FilesModule,
     HashingModule,
   ],
   controllers: [],

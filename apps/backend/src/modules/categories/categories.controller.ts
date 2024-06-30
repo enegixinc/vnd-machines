@@ -41,10 +41,7 @@ import { CreateCategoryDto } from './dto/request/create-category.dto';
         exclude: ['password'],
       },
       products: {},
-      brands: {},
-      orders: {
-        eager: true,
-      },
+      orders: {},
     },
   },
   routes: {

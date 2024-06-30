@@ -2,7 +2,7 @@
 
 import type { CancelablePromise } from './core/CancelablePromise';
 import type { BaseHttpRequest } from './core/BaseHttpRequest';
-import type { AuthControllerLoginData, AuthControllerLoginResponse, AuthControllerMeResponse, RefreshTokenData, RefreshTokenResponse, FillData, FillResponse, GetOneData, GetOneResponse, GetManyData, GetManyResponse, UpdateOneData, UpdateOneResponse, DeleteOneData, DeleteOneResponse, CreateOneData, CreateOneResponse, CreateManyData, CreateManyResponse, RecoverOneData, RecoverOneResponse } from './types.gen';
+import type { AuthControllerLoginData, AuthControllerLoginResponse, AuthControllerMeResponse, RefreshTokenData, RefreshTokenResponse, MachinesControllerStatsResponse, GetOneData, GetOneResponse, GetManyData, GetManyResponse, ProductsControllerSearchData, ProductsControllerSearchResponse, ProductsControllerStatsResponse, UpdateOneData, UpdateOneResponse, DeleteOneData, DeleteOneResponse, CreateOneData, CreateOneResponse, CreateManyData, CreateManyResponse, RecoverOneData, RecoverOneResponse, OrdersControllerStatsResponse, FilesControllerUploadFilesResponse } from './types.gen';
 
 export class AuthService {
     constructor(public readonly httpRequest: BaseHttpRequest) { }
@@ -58,21 +58,13 @@ export class MachinesService {
     constructor(public readonly httpRequest: BaseHttpRequest) { }
     
     /**
-     * @param data The data for the request.
-     * @param data.machineId
-     * @param data.requestBody
-     * @returns unknown
+     * @returns unknown Get machine statistics
      * @throws ApiError
      */
-    public fill(data: FillData): CancelablePromise<FillResponse> {
+    public machinesControllerStats(): CancelablePromise<MachinesControllerStatsResponse> {
         return this.httpRequest.request({
-            method: 'POST',
-            url: '/machines/fill/{machineId}',
-            path: {
-                machineId: data.machineId
-            },
-            body: data.requestBody,
-            mediaType: 'application/json',
+            method: 'GET',
+            url: '/machines/stats',
             errors: {
                 403: 'Forbidden.'
             }
@@ -151,6 +143,39 @@ export class MachinesService {
 
 export class ProductsService {
     constructor(public readonly httpRequest: BaseHttpRequest) { }
+    
+    /**
+     * @param data The data for the request.
+     * @param data.query
+     * @returns ProductEntity Search products
+     * @throws ApiError
+     */
+    public productsControllerSearch(data: ProductsControllerSearchData): CancelablePromise<ProductsControllerSearchResponse> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/products/search',
+            query: {
+                query: data.query
+            },
+            errors: {
+                403: 'Forbidden.'
+            }
+        });
+    }
+    
+    /**
+     * @returns unknown Get product statistics
+     * @throws ApiError
+     */
+    public productsControllerStats(): CancelablePromise<ProductsControllerStatsResponse> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/products/stats',
+            errors: {
+                403: 'Forbidden.'
+            }
+        });
+    }
     
     /**
      * @param data The data for the request.
@@ -354,7 +379,7 @@ export class UsersService {
      * @param data The data for the request.
      * @param data.id
      * @param data.requestBody
-     * @returns SharedUserDto Response
+     * @returns UserEntity Response
      * @throws ApiError
      */
     public updateOne(data: UpdateOneData): CancelablePromise<UpdateOneResponse> {
@@ -497,7 +522,7 @@ export class RequestsService {
      * @param data.join Adds relational resources. <a href="https://github.com/nestjsx/crud/wiki/Requests#join" target="_blank">Docs</a>
      * @param data.cache Reset cache (if was enabled). <a href="https://github.com/nestjsx/crud/wiki/Requests#cache" target="_blank">Docs</a>
      * @param data.includeDeleted Include deleted. <a href="https://github.com/nestjsx/crud/wiki/Requests#includeDeleted" target="_blank">Docs</a>
-     * @returns RequestEntity Get one base response
+     * @returns FillRequestEntity Get one base response
      * @throws ApiError
      */
     public getOne(data: GetOneData): CancelablePromise<GetOneResponse> {
@@ -523,7 +548,7 @@ export class RequestsService {
      * @param data The data for the request.
      * @param data.id
      * @param data.requestBody
-     * @returns RequestEntity Response
+     * @returns FillRequestEntity Response
      * @throws ApiError
      */
     public updateOne(data: UpdateOneData): CancelablePromise<UpdateOneResponse> {
@@ -573,7 +598,7 @@ export class RequestsService {
      * @param data.page Page portion of resources. <a href="https://github.com/nestjsx/crud/wiki/Requests#page" target="_blank">Docs</a>
      * @param data.cache Reset cache (if was enabled). <a href="https://github.com/nestjsx/crud/wiki/Requests#cache" target="_blank">Docs</a>
      * @param data.includeDeleted Include deleted. <a href="https://github.com/nestjsx/crud/wiki/Requests#includeDeleted" target="_blank">Docs</a>
-     * @returns GetManyRequestEntityResponseDto Get paginated response
+     * @returns GetManyFillRequestEntityResponseDto Get paginated response
      * @throws ApiError
      */
     public getMany(data: GetManyData = {}): CancelablePromise<GetManyResponse> {
@@ -602,7 +627,7 @@ export class RequestsService {
     /**
      * @param data The data for the request.
      * @param data.requestBody
-     * @returns RequestEntity Get create one base response
+     * @returns FillRequestEntity Get create one base response
      * @throws ApiError
      */
     public createOne(data: CreateOneData): CancelablePromise<CreateOneResponse> {
@@ -620,7 +645,7 @@ export class RequestsService {
     /**
      * @param data The data for the request.
      * @param data.requestBody
-     * @returns RequestEntity Get create many base response
+     * @returns FillRequestEntity Get create many base response
      * @throws ApiError
      */
     public createMany(data: CreateManyData): CancelablePromise<CreateManyResponse> {
@@ -665,7 +690,6 @@ export class ContractsService {
      * @param data.fields Selects resource fields. <a href="https://github.com/nestjsx/crud/wiki/Requests#select" target="_blank">Docs</a>
      * @param data.join Adds relational resources. <a href="https://github.com/nestjsx/crud/wiki/Requests#join" target="_blank">Docs</a>
      * @param data.cache Reset cache (if was enabled). <a href="https://github.com/nestjsx/crud/wiki/Requests#cache" target="_blank">Docs</a>
-     * @param data.includeDeleted Include deleted. <a href="https://github.com/nestjsx/crud/wiki/Requests#includeDeleted" target="_blank">Docs</a>
      * @returns SerializedContractDto Get one base response
      * @throws ApiError
      */
@@ -679,8 +703,7 @@ export class ContractsService {
             query: {
                 fields: data.fields,
                 join: data.join,
-                cache: data.cache,
-                include_deleted: data.includeDeleted
+                cache: data.cache
             }
         });
     }
@@ -732,7 +755,6 @@ export class ContractsService {
      * @param data.offset Offset amount of resources. <a href="https://github.com/nestjsx/crud/wiki/Requests#offset" target="_blank">Docs</a>
      * @param data.page Page portion of resources. <a href="https://github.com/nestjsx/crud/wiki/Requests#page" target="_blank">Docs</a>
      * @param data.cache Reset cache (if was enabled). <a href="https://github.com/nestjsx/crud/wiki/Requests#cache" target="_blank">Docs</a>
-     * @param data.includeDeleted Include deleted. <a href="https://github.com/nestjsx/crud/wiki/Requests#includeDeleted" target="_blank">Docs</a>
      * @returns GetManyContractEntityResponseDto Get paginated response
      * @throws ApiError
      */
@@ -750,8 +772,7 @@ export class ContractsService {
                 limit: data.limit,
                 offset: data.offset,
                 page: data.page,
-                cache: data.cache,
-                include_deleted: data.includeDeleted
+                cache: data.cache
             }
         });
     }
@@ -768,22 +789,6 @@ export class ContractsService {
             url: '/contracts',
             body: data.requestBody,
             mediaType: 'application/json'
-        });
-    }
-    
-    /**
-     * @param data The data for the request.
-     * @param data.id
-     * @returns unknown Recover one base response
-     * @throws ApiError
-     */
-    public recoverOne(data: RecoverOneData): CancelablePromise<RecoverOneResponse> {
-        return this.httpRequest.request({
-            method: 'PATCH',
-            url: '/contracts/{id}/recover',
-            path: {
-                id: data.id
-            }
         });
     }
     
@@ -1131,6 +1136,20 @@ export class OrdersService {
     constructor(public readonly httpRequest: BaseHttpRequest) { }
     
     /**
+     * @returns unknown Get product statistics
+     * @throws ApiError
+     */
+    public ordersControllerStats(): CancelablePromise<OrdersControllerStatsResponse> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/orders/stats',
+            errors: {
+                403: 'Forbidden.'
+            }
+        });
+    }
+    
+    /**
      * @param data The data for the request.
      * @param data.id
      * @param data.fields Selects resource fields. <a href="https://github.com/nestjsx/crud/wiki/Requests#select" target="_blank">Docs</a>
@@ -1195,6 +1214,22 @@ export class OrdersService {
             errors: {
                 403: 'Forbidden.'
             }
+        });
+    }
+    
+}
+
+export class FilesService {
+    constructor(public readonly httpRequest: BaseHttpRequest) { }
+    
+    /**
+     * @returns unknown
+     * @throws ApiError
+     */
+    public filesControllerUploadFiles(): CancelablePromise<FilesControllerUploadFilesResponse> {
+        return this.httpRequest.request({
+            method: 'POST',
+            url: '/files/upload'
         });
     }
     

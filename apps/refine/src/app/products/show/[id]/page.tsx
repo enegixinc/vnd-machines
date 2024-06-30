@@ -7,21 +7,27 @@ import { SerializedProductDto } from '@frontend/api-sdk';
 import { useShow } from '@refinedev/core';
 import { handleEmptyString } from '@helpers';
 import { handleMagextImage } from '@app/products/utils/handleMagextImage';
+import { ShowFinance } from '@components/sections/finance';
+import { useRouter } from 'next/navigation';
 
 const { Title } = Typography;
 
 export default function ProductShow() {
+  const router = useRouter();
   const { queryResult } = useShow<SerializedProductDto>({
     meta: {
       join: [
         {
           field: 'category',
+          select: ['_id', 'fullName'],
         },
         {
           field: 'brand',
+          select: ['_id', 'fullName'],
         },
         {
           field: 'supplier',
+          select: ['_id', 'fullName'],
         },
       ],
     },
@@ -101,37 +107,43 @@ export default function ProductShow() {
         }}
       >
         <Descriptions.Item label="Supplier">
-          <TextField value={handleEmptyString(record.supplier?.fullName)} />
+          <TextField
+            onClick={() =>
+              router.push(`/suppliers/show/${record.supplier?._id}`)
+            }
+            style={{
+              cursor: 'pointer',
+              color: '#1890ff',
+            }}
+            value={handleEmptyString(record.supplier?.fullName)}
+          />
         </Descriptions.Item>
         <Descriptions.Item label="Category">
-          <TextField value={handleEmptyString(record.category?.name?.en)} />
+          <TextField
+            onClick={() =>
+              router.push(`/categories/show/${record.category?._id}`)
+            }
+            style={{
+              cursor: 'pointer',
+              color: '#1890ff',
+            }}
+            value={handleEmptyString(record.category?.fullName)}
+          />
         </Descriptions.Item>
         <Descriptions.Item label="Brand">
-          <TextField value={handleEmptyString(record.brand?.name?.en)} />
+          <TextField
+            onClick={() => router.push(`/brands/show/${record.brand?._id}`)}
+            style={{
+              cursor: 'pointer',
+              color: '#1890ff',
+            }}
+            value={handleEmptyString(record.brand?.name?.en)}
+          />
         </Descriptions.Item>
       </Descriptions>
 
       <Divider />
-      <Title level={3} style={{ marginTop: 16 }}>
-        {'Finance'}
-      </Title>
-      <Descriptions
-        bordered
-        labelStyle={{
-          fontWeight: 'bold',
-          width: '20%',
-        }}
-      >
-        <Descriptions.Item label="Total Orders">
-          <TextField value={record.totalOrders} />
-        </Descriptions.Item>
-        <Descriptions.Item label="Total Products Sold">
-          <TextField value={record.totalSoldProducts} />
-        </Descriptions.Item>
-        <Descriptions.Item label="Total Revenue">
-          <TextField value={record.totalRevenue} />
-        </Descriptions.Item>
-      </Descriptions>
+      <ShowFinance record={record} />
       <Divider />
 
       <Title level={3} style={{ marginTop: 16 }}>

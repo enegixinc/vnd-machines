@@ -14,7 +14,7 @@ import React from 'react';
 
 type FormData = { [key: string]: any };
 
-const cleanFormData = (data: FormData): FormData => {
+export const cleanFormData = (data: FormData): FormData => {
   const cleanedData: FormData = {};
 
   for (const key in data) {

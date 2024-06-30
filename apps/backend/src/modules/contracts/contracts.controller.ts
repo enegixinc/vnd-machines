@@ -29,7 +29,6 @@ import { UpdateContractDto } from './dto/request/update-contract.dto';
         order: 'DESC',
       },
     ],
-    softDelete: true,
     limit: 20,
     maxLimit: 100,
     join: {

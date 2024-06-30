@@ -18,8 +18,8 @@ export class FilesController {
   @Post('upload')
   @UseInterceptors(FilesInterceptor('files', 10, multerConfig))
   @ApiConsumes('multipart/form-data')
-  uploadFiles(@UploadedFiles() files: Express.Multer.File[]) {
+  async uploadFiles(@UploadedFiles() files: Express.Multer.File[]) {
     console.log(files);
-    return this.filesService.uploadFiles(files);
+    return await this.filesService.uploadFiles(files);
   }
 }

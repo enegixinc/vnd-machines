@@ -1,17 +1,32 @@
-import { Column, Entity, ManyToOne, VirtualColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  VirtualColumn,
+  BeforeInsert,
+  BeforeUpdate,
+} from 'typeorm';
 import { DatabaseEntity } from '../../../common/database.entity';
 import { UserEntity } from '../../users/entities/user.entity';
 import { ContractStatus, FeeType, IContractEntity } from '@core';
+import { IsDate, Validate, validate } from 'class-validator';
+import { IsStartDateValidConstraint } from '../validators/start-date';
+import { IsNoActiveContract } from '../validators/has-active-contract';
+import { FileDto } from '../../files/file.dto';
+import { ApiProperty } from '@nestjs/swagger';
 
 @Entity('contracts')
 export class ContractEntity extends DatabaseEntity implements IContractEntity {
   @Column({ type: 'date', nullable: false })
+  @IsDate()
+  @Validate(IsStartDateValidConstraint)
   startDate: string;
 
   @Column({ type: 'date', nullable: false })
+  @IsDate()
   endDate: string;
 
-  @Column({ type: 'varchar', nullable: false })
+  @Column({ type: 'varchar', nullable: true })
   description: string;
 
   @Column({
@@ -29,6 +44,10 @@ export class ContractEntity extends DatabaseEntity implements IContractEntity {
 
   @ManyToOne(() => UserEntity, (user) => user.contracts, {})
   supplier: UserEntity;
+
+  @Column('json', { nullable: true })
+  @ApiProperty({ type: [FileDto] })
+  files: FileDto[];
 
   @VirtualColumn({
     type: 'numeric',
@@ -82,17 +101,17 @@ export class ContractEntity extends DatabaseEntity implements IContractEntity {
     type: 'numeric',
     query: (entity) => `
         SELECT
-	          COALESCE(SUM(O.total), 0)
+              COALESCE(SUM(O.total), 0)
         FROM
-	          ORDERS O
-	          JOIN ORDER_DETAILS OD ON OD.ORDER_ID = O._ID
-	          JOIN PRODUCTS P ON P._ID = OD.PRODUCT_ID
-	          JOIN USERS SUPPLIER ON SUPPLIER._ID = P.SUPPLIER_ID
-	          JOIN CONTRACTS C ON C.SUPPLIER_ID = SUPPLIER._ID
+              ORDERS O
+              JOIN ORDER_DETAILS OD ON OD.ORDER_ID = O._ID
+              JOIN PRODUCTS P ON P._ID = OD.PRODUCT_ID
+              JOIN USERS SUPPLIER ON SUPPLIER._ID = P.SUPPLIER_ID
+              JOIN CONTRACTS C ON C.SUPPLIER_ID = SUPPLIER._ID
         WHERE
-	          C.STATUS = 'active'
-	          AND ${entity}."startDate" <= O."createdAt"
-	          AND O."createdAt" <= ${entity}."endDate"
+              C.STATUS = 'active'
+              AND ${entity}."startDate" <= O."createdAt"
+              AND O."createdAt" <= ${entity}."endDate"
         LIMIT 1
     `,
     transformer: {

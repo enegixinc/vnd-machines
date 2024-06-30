@@ -6,6 +6,7 @@ import {
   JoinTable,
   ManyToMany,
   OneToMany,
+  VirtualColumn,
 } from 'typeorm';
 import { SearchableMagexEntity } from '../../common/database.entity';
 import {
@@ -93,7 +94,17 @@ export class BrandEntity extends SearchableMagexEntity implements IBrandEntity {
   })
   suppliers: ISerializedUser[];
 
-  // @OneToMany(() => OrderEntity, (order) => order.brand, {})
+  @VirtualColumn({
+    type: 'array',
+    query: (entity) => `
+      select coalesce(jsonb_agg(orders), '[]'::jsonb)
+      from brands
+             join products on brands._id = products.brand_id
+             join order_details on products._id = order_details.product_id
+             join orders on order_details.order_id = orders._id
+      where brands._id = ${entity}._id
+    `,
+  })
   orders: OrderEntity[];
 
   async createMagexRecord(magexService: MagexService) {
