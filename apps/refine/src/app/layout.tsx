@@ -136,6 +136,7 @@ export default function RootLayout({
                         name: 'requests',
                         list: '/requests',
                         show: '/requests/show/:id',
+                        // edit: '/requests/edit/:id',
                         meta: {
                           icon: <IoPricetagsOutline />,
                         },
@@ -147,7 +148,6 @@ export default function RootLayout({
                         meta: {
                           canDelete: true,
                           canCreate: true,
-                          canUpdate: true,
                           icon: <HiOutlineUsers />,
                         },
                       },

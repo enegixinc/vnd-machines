@@ -15,7 +15,7 @@ const FillRequestForm = ({ formProps }: { formProps: FormProps }) => {
   });
 
   return (
-    <Form {...formProps} layout="vertical">
+    <Form {...formProps} resource="requests" layout="vertical">
       <Card title="Request Details">
         <Form.Item
           label="Machine"

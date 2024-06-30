@@ -29,6 +29,7 @@ export interface QuickTableProps extends TableProps<BaseRecord> {
   minimal?: boolean;
   setDataReference?: (data: any) => void;
   showActions?: boolean;
+  showEdit?: boolean;
   showSearch?: boolean;
 }
 
@@ -44,6 +45,7 @@ export const QuickTableSection = <
   minimal = false,
   showActions = true,
   showSearch = true,
+  showEdit = true,
   ...props
 }: QuickTableProps) => {
   const { tableProps, setFilters } = useTable({
@@ -121,11 +123,13 @@ export const QuickTableSection = <
                 key: 'actions',
                 render: (record: T) => (
                   <Space>
-                    <EditButton
-                      hideText
-                      size="small"
-                      recordItemId={record._id}
-                    />
+                    {showEdit && (
+                      <EditButton
+                        hideText
+                        size="small"
+                        recordItemId={record._id}
+                      />
+                    )}
                     <ShowButton
                       hideText
                       size="small"

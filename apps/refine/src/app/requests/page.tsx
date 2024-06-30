@@ -3,13 +3,15 @@
 import { Tag } from 'antd';
 import React from 'react';
 import { QuickTableSection } from '@components/quick-table-section';
+import { handleNullableText } from '@app/products/utils/handleNullableText';
 
 export default function FillRequestsList() {
   return (
     <>
       <QuickTableSection
-        pageTitle="Fill Requests"
-        resource={'requests'}
+        pageTitle="Requests"
+        resource="requests"
+        showEdit={false}
         meta={{
           join: [
             {
@@ -31,6 +33,12 @@ export default function FillRequestsList() {
           {
             title: 'Notes',
             dataIndex: 'notes',
+            render: handleNullableText,
+          },
+          {
+            title: 'Products',
+            dataIndex: 'products',
+            render: (products) => products.length,
           },
           {
             title: 'Created At',

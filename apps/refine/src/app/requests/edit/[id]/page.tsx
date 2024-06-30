@@ -2,15 +2,15 @@
 
 import { Edit, useForm } from '@refinedev/antd';
 import React from 'react';
-import SupplierForm from '@app/suppliers/form';
 import { useParams } from 'next/navigation';
 import { Spin } from 'antd';
+import FillRequestForm from '@app/requests/form';
 
-export default function BrandEdit() {
+export default function FillRequestEdit() {
   const { id } = useParams();
   const { formProps, saveButtonProps, formLoading, queryResult } = useForm({
-    resource: 'users',
     id: id.toString(),
+    resource: 'requests',
     action: 'edit',
     meta: {
       join: [
@@ -18,12 +18,13 @@ export default function BrandEdit() {
           field: 'products',
           select: ['_id', 'fullName'],
         },
+        {
+          field: 'suppliers',
+          select: ['_id', 'fullName'],
+        },
       ],
     },
   });
-
-  console.log(queryResult);
-  console.log(formProps);
 
   if (formLoading) {
     return (
@@ -41,7 +42,7 @@ export default function BrandEdit() {
   return (
     <Edit saveButtonProps={saveButtonProps}>
       {/*// @ts-ignore*/}
-      <SupplierForm formProps={formProps} />
+      <FillRequestForm formProps={formProps} />
     </Edit>
   );
 }

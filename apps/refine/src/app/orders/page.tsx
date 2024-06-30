@@ -7,13 +7,22 @@ import { QuickTableSection } from '@components/quick-table-section';
 import { IoIosCash } from 'react-icons/io';
 import { RiVisaFill } from 'react-icons/ri';
 import { CanAccess } from '@refinedev/core';
+import { useRouter } from 'next/navigation';
 
 export default function OrdersList() {
+  const router = useRouter();
   return (
     <CanAccess action="list" fallback={<div>Unauthorized</div>}>
       <QuickTableSection
         pageTitle="Orders"
         resource={'orders'}
+        showActions={false}
+        onRow={(record) => ({
+          onClick: () => {
+            router.push(`/orders/${record._id}`);
+          },
+          style: { cursor: 'pointer' },
+        })}
         columns={[
           {
             title: 'Cart Number',
@@ -46,15 +55,14 @@ export default function OrdersList() {
             ),
           },
           {
+            title: 'Products',
+            dataIndex: 'totalQuantity',
+          },
+          {
             title: 'Total',
             dataIndex: ['total'],
             sorter: true,
             render: (total, record) => `${total} ${record.currency}`,
-          },
-          {
-            title: 'Products Quantity',
-            sorter: true,
-            dataIndex: 'totalQuantity',
           },
         ]}
       />
