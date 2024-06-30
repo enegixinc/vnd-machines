@@ -21,10 +21,8 @@ pipeline {
               changeset "apps/backend/**"
             }
             steps{
-              dir('apps/backend'){
-                echo "Building the backend docker image";
-                sh "docker build -t ${REGISTRY}-backend:${BUILD_NUMBER} ."
-              }
+              echo "Building the backend docker image";
+              sh "cd apps/backend && docker build -t ${REGISTRY}-backend:${BUILD_NUMBER} ."
             }
         }
         stage("Push Image"){
@@ -40,22 +38,6 @@ pipeline {
                 }
             }
         }
-
-//         stage('Deploy') {
-//             steps {
-//                 script {
-//                     // Run the Docker Compose stack on the server
-//                     sh """
-//                         ssh ${DEPLOY_USER}@${DEPLOY_SERVER} '
-//                         cd ~/app &&
-//                         docker compose down &&
-//                         docker volume rm app_app-files &&
-//                         APP_VERSION=${BUILD_NUMBER} docker compose up -d'
-//                     """
-//                 }
-//             }
-//         }
-
     }
 
     post{
