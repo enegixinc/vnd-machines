@@ -1,7 +1,7 @@
 <template>
     <div class="panel lg:col-span-1 h-full w-full">
         <div class="flex items-center justify-between mb-5">
-            <h5 class="font-semibold text-lg dark:text-white-light">{{$t('homePageStatics.recentOrders')}}</h5>
+            <h5 class="font-semibold text-lg dark:text-white-light">{{ $t('homePageStatics.recentOrders') }}</h5>
         </div>
         <div class="table-responsive">
             <table class="text-center whitespace-nowrap">
@@ -19,7 +19,8 @@
                     <td colspan="5">
                         <div class='flex justify-around py-[100px]'>
                                 <span>
-                                    <icon-loader class='animate-[spin_2s_linear_infinite] inline-block align-middle ltr:mr-2 rtl:ml-2 shrink-0' />
+                                    <icon-loader
+                                        class='animate-[spin_2s_linear_infinite] inline-block align-middle ltr:mr-2 rtl:ml-2 shrink-0'/>
                                     {{ $t('wait') }}
                                 </span>
                         </div>
@@ -47,10 +48,13 @@
                         </span>
                         </td>
                         <td>{{ order.totalQuantity }}</td>
-                        <td><bdi>{{ order.total }} KD</bdi></td>
+                        <td>
+                            <bdi>{{ order.total }} KD</bdi>
+                        </td>
                         <td>{{ order.createdAt }}</td>
                         <td>
-                            <span class="min-w-[150px] badge  shadow-md dark:group-hover:bg-transparent" :class="order.bg">Machine 1</span>
+                            <span class="min-w-[150px] badge  shadow-md dark:group-hover:bg-transparent"
+                                  :class="order.bg">{{ order.machineName }}</span>
                         </td>
                     </tr>
                 </template>
@@ -62,21 +66,28 @@
 <script setup lang="ts">
 import IconLoader from '@/components/icon/icon-loader.vue';
 import IconInfoCircle from "@/components/icon/icon-info-circle.vue";
-import {onMounted,computed} from 'vue'
+import {onMounted, computed} from 'vue'
 import useOrders from "@/composables/orders/use-orders"
 import {randomBadgeBg} from "@/utils/colorHelper"
-const {loading,fetchOrders,ordersDate} = useOrders({});
-onMounted(()=>{
+
+const {loading, fetchOrders, ordersDate, t} = useOrders({});
+onMounted(() => {
     fetchOrders({
-        fields:['payment_type,totalQuantity,total,currency,createdAt'],
-        sort:['createdAt,DESC'],
-        // join:['machines'],
-        limit:6
+        fields: ['payment_type,totalQuantity,total,currency,createdAt'],
+        sort: ['createdAt,DESC'],
+        join: ['machine||fullName'],
+        limit: 6
     })
 });
-const ordersShows = computed(()=>{
-    return ordersDate.value.map(el=>{
-        return {...el,createdAt:formatDate(el.createdAt),bg:randomBadgeBg(),totalQuantity:el.totalQuantity ?? 0 }
+const ordersShows = computed(() => {
+    return ordersDate.value.map(el => {
+        return {
+            ...el,
+            createdAt: formatDate(el.createdAt),
+            bg: randomBadgeBg(),
+            totalQuantity: el.totalQuantity ?? 0,
+            machineName: el.machine?.fullName ?? t('Unknown')
+        }
     })
 })
 const formatDate = (date) => {
