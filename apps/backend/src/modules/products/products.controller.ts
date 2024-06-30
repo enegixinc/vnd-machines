@@ -1,5 +1,5 @@
 import { Controller, Get, Query } from '@nestjs/common';
-import { Crud, CrudController } from '@dataui/crud';
+import { Crud, CrudAuth, CrudController } from '@dataui/crud';
 import { ProductEntity } from './entities/product.entity';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/request/create-product.dto';
@@ -9,6 +9,8 @@ import { saneOperationsId } from '../../common/swagger.config';
 import { UpdateProductDto } from './dto/request/update-product.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { UserEntity } from '../users/entities/user.entity';
+import { UserRole } from '@core';
 
 @Crud({
   model: {
@@ -60,6 +62,28 @@ import { Repository } from 'typeorm';
     create: SerializedProductDto,
     update: SerializedProductDto,
   },
+})
+@CrudAuth({
+  property: 'user',
+  // if admin return everything, if supplier return the products they supply
+  // or the products they created
+  filter: (user: UserEntity) => {
+    if (user.role === UserRole.ADMIN) return;
+
+    return {
+      $or: [
+        {
+          createdBy: user._id,
+        },
+        {
+          supplier_id: user._id,
+        },
+      ],
+    };
+  },
+  persist: (user: UserEntity) => ({
+    createdBy: user._id,
+  }),
 })
 @Controller('products')
 @ApiBearerAuth('access-token')

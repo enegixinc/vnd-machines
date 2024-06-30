@@ -94,6 +94,21 @@ export class DatabaseEntity extends BaseEntity implements IDataBaseEntity {
     })
   )
   lastSyncAt: string | null;
+
+  @decorate(
+    Column({
+      generated: false,
+      type: 'varchar',
+      nullable: true,
+    })
+  )
+  @decorate(
+    ApiProperty({
+      example: '6a909236-53f2-4727-b780-e41e115ee906',
+      type: 'string',
+    })
+  )
+  createdBy: string;
 }
 
 export abstract class MagexDatabaseEntity extends DatabaseEntity {

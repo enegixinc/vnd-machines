@@ -193,6 +193,8 @@ export class ProductEntity
     cascade: ['update'],
   })
   supplier: ReferenceByID<ISerializedUser>;
+  @Column({ nullable: true })
+  supplier_id: string;
 
   @ManyToOne(() => BrandEntity, (brand) => brand.products, {
     cascade: true,

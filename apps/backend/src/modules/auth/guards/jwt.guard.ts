@@ -17,7 +17,7 @@ export class JwtGuard extends AuthGuard('jwt') {
       context.getClass(),
     ]);
     if (isPublic) return true;
-    if (process.env.NODE_ENV === 'development') return true;
+    // if (process.env.NODE_ENV === 'development') return true;
     return super.canActivate(context);
   }
 }
