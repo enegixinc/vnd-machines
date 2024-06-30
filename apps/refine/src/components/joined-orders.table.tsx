@@ -8,10 +8,12 @@ import { useRouter } from 'next/navigation';
 
 export const JoinedOrdersTable = ({
   record,
+  columns,
 }: {
   record: {
     orders: SerializedProductDto[];
   };
+  columns: any[];
 }) => {
   const router = useRouter();
   return (

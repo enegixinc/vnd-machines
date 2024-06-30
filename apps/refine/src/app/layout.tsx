@@ -20,6 +20,8 @@ import { HiOutlineUsers } from 'react-icons/hi';
 import { PiUsersThree } from 'react-icons/pi';
 import { AiOutlineDashboard } from 'react-icons/ai';
 import { accessControlProvider } from '@app/access-control';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
 
 export const metadata: Metadata = {
   title: 'VND Machines',
