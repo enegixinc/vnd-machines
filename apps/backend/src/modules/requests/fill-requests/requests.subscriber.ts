@@ -23,6 +23,7 @@ export class RequestsSubscriber implements EntitySubscriberInterface {
     try {
       const resolvedFillRequest: FillRequestEntity = event.entity;
 
+      console.log('Processing fill request', resolvedFillRequest);
       const machine = await this.dataSource.manager.findOne(MachineEntity, {
         where: { _id: event.entity.machine._id },
       });
@@ -33,7 +34,7 @@ export class RequestsSubscriber implements EntitySubscriberInterface {
           const resolvedProduct = await this.dataSource.manager.findOne(
             ProductEntity,
             {
-              where: { _id: product.product._id },
+              where: { _id: product._id },
               relations: ['supplier'],
             }
           );

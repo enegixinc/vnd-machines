@@ -8,6 +8,7 @@ import { handleEmptyString } from '@helpers';
 
 import { handleMagextImage } from '@app/products/utils/handleMagextImage';
 import { handleNullableText } from '@app/products/utils/handleNullableText';
+import { formatDate } from '@components/description-dates';
 
 const { Title } = Typography;
 
@@ -73,10 +74,10 @@ export default function OrderShow() {
           <TextField value={record.totalQuantity} />
         </Descriptions.Item>
         <Descriptions.Item label="Created At">
-          <TextField value={record.createdAt} />
+          <TextField value={formatDate(record.createdAt)} />
         </Descriptions.Item>
         <Descriptions.Item label="Updated At">
-          <TextField value={record.updatedAt} />
+          <TextField value={formatDate(record.updatedAt)} />
         </Descriptions.Item>
       </Descriptions>
 

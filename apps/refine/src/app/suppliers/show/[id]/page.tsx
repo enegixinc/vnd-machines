@@ -7,6 +7,7 @@ import React from 'react';
 import { IUserEntity } from '../../../../../../../libs/core';
 import { useParams } from 'next/navigation';
 import { ShowFinance } from '@components/sections/finance';
+import { formatDate } from '@components/description-dates';
 
 const { Title } = Typography;
 
@@ -63,49 +64,14 @@ export default function SupplierShow() {
           <TextField value={record.active ? 'Yes' : 'No'} />
         </Descriptions.Item>
         <Descriptions.Item label="Created At">
-          <TextField value={record.createdAt} />
+          <TextField value={formatDate(record.createdAt)} />
         </Descriptions.Item>
         <Descriptions.Item label="Updated At">
-          <TextField value={record.updatedAt} />
+          <TextField value={formatDate(record.updatedAt)} />
         </Descriptions.Item>
-        {record.deletedAt && (
-          <Descriptions.Item label="Deleted At">
-            <TextField value={record.deletedAt} />
-          </Descriptions.Item>
-        )}
-        {record.lastSyncAt && (
-          <Descriptions.Item label="Last Sync At">
-            <TextField value={record.lastSyncAt} />
-          </Descriptions.Item>
-        )}
       </Descriptions>
       <Divider />
       <ShowFinance record={record} />
-      <Divider />
-      <Descriptions
-        bordered
-        column={1}
-        labelStyle={{
-          fontWeight: 'bold',
-          width: '20%',
-        }}
-      >
-        <Descriptions.Item label="Address">
-          <TextField value={record.address} />
-        </Descriptions.Item>
-        <Descriptions.Item label="City">
-          <TextField value={record.city} />
-        </Descriptions.Item>
-        <Descriptions.Item label="State">
-          <TextField value={record.state} />
-        </Descriptions.Item>
-        <Descriptions.Item label="Zip Code">
-          <TextField value={record.zipCode} />
-        </Descriptions.Item>
-        <Descriptions.Item label="Country">
-          <TextField value={record.country} />
-        </Descriptions.Item>
-      </Descriptions>
     </Show>
   );
 }

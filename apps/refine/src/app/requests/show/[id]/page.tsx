@@ -1,35 +1,41 @@
 'use client';
 
 import { Show, TextField } from '@refinedev/antd';
-import { Descriptions, Divider, Space, Table, Typography } from 'antd';
-import React from 'react';
 import { useShow } from '@refinedev/core';
-import { handleEmptyString } from '@helpers';
-
-import { handleMagextImage } from '@app/products/utils/handleMagextImage';
+import { Descriptions, Divider, Typography } from 'antd';
+import React from 'react';
+import { useParams, useRouter } from 'next/navigation';
+import { ShowFinance } from '@components/sections/finance';
 import { handleNullableText } from '@app/products/utils/handleNullableText';
+import { DescriptionDates, formatDate } from '@components/description-dates';
 
 const { Title } = Typography;
 
-export default function OrderShow() {
+export default function FillRequestShow() {
+  const { id } = useParams();
   const { queryResult } = useShow({
+    resource: 'requests',
+    id: id.toString(),
     meta: {
       join: [
-        {
-          field: 'products',
-        },
         {
           field: 'machine',
         },
         {
-          field: 'products.product',
+          field: 'products',
+          select: ['product', 'quantity'],
+          join: [
+            {
+              field: 'product',
+            },
+          ],
         },
       ],
     },
   });
-
   const { data, isLoading } = queryResult;
 
+  const router = useRouter();
   const record = data?.data;
   if (!record) {
     return null;
@@ -37,7 +43,7 @@ export default function OrderShow() {
 
   return (
     <Show isLoading={isLoading}>
-      <Title level={3}>{'Machine'}</Title>
+      <Title level={3}>{'Fill Request Details'}</Title>
       <Descriptions
         bordered
         column={2}
@@ -46,168 +52,29 @@ export default function OrderShow() {
           width: '20%',
         }}
       >
-        <Descriptions.Item label="ID">
-          <TextField value={record._id} />
-        </Descriptions.Item>
-        <Descriptions.Item label="Status">
-          <TextField value={record.machine.machineOnline} />
-        </Descriptions.Item>
-        <Descriptions.Item label="Payment Type">
-          <TextField value={handleEmptyString(record.payment_type)} />
-        </Descriptions.Item>
-        <Descriptions.Item label="Total">
+        <Descriptions.Item label="Machine Name">
           <TextField
-            value={`${Number(record.total).toFixed(2)} ${record.currency}`}
+            style={{
+              color: '#1890ff',
+              cursor: 'pointer',
+            }}
+            onClick={() => {
+              router.push(`/machines/show/${record.machine?._id}`);
+            }}
+            value={record.machine?.description}
           />
         </Descriptions.Item>
+        <Descriptions.Item label="Notes">
+          <TextField value={handleNullableText(record.notes)} />
+        </Descriptions.Item>
         <Descriptions.Item label="Created At">
-          <TextField value={record.createdAt} />
+          <TextField value={formatDate(record.createdAt)} />
         </Descriptions.Item>
         <Descriptions.Item label="Updated At">
-          <TextField value={record.updatedAt} />
-        </Descriptions.Item>
-        <Descriptions.Item label="Email">
-          <TextField value={handleEmptyString(record.email)} />
-        </Descriptions.Item>
-        <Descriptions.Item label="Cart Number">
-          <TextField value={handleEmptyString(record.cart_number)} />
-        </Descriptions.Item>
-        <Descriptions.Item label="Products Amount">
-          <TextField value={record.productsAmount} />
-        </Descriptions.Item>
-        <Descriptions.Item label="Total Quantity">
-          <TextField value={record.totalQuantity} />
+          <TextField value={formatDate(record.updatedAt)} />
         </Descriptions.Item>
       </Descriptions>
-
       <Divider />
-      <Title level={3} style={{ marginTop: 16 }}>
-        {'Products'}
-      </Title>
-
-      <Table
-        dataSource={record.products}
-        columns={[
-          {
-            title: 'Basic Info',
-            render: (_, __, index) =>
-              index === 0 && <Divider>Basic Info</Divider>,
-            children: [
-              {
-                dataIndex: ['product', 'productPictures'],
-                title: 'Image',
-                render: (productPictures) =>
-                  handleMagextImage(productPictures[0]),
-              },
-              {
-                dataIndex: ['product', 'fullName'],
-                title: 'Name',
-                sorter: true,
-                render: handleNullableText,
-              },
-              {
-                dataIndex: ['product', 'upc'],
-                title: 'UPC',
-                sorter: true,
-                render: handleNullableText,
-              },
-              {
-                dataIndex: ['product', 'price'],
-                title: 'Price',
-                sorter: true,
-                render: (price) => `${Number(price).toFixed(2)} KD`,
-              },
-            ],
-          },
-          {
-            title: 'Associations',
-            children: [
-              {
-                dataIndex: ['product', 'supplier', 'fullName'],
-                title: 'Supplier',
-                render: handleEmptyString,
-                onFilter(value, record) {
-                  return record.supplier === null;
-                },
-                filters: [
-                  {
-                    text: 'No Supplier',
-                    value: 'null',
-                  },
-                ],
-              },
-              {
-                dataIndex: ['product', 'category', 'fullName'],
-                title: 'Category',
-                render: handleEmptyString,
-              },
-              {
-                dataIndex: ['product', 'brand', 'fullName'],
-                title: 'Brand',
-                render: handleEmptyString,
-              },
-            ],
-          },
-          {
-            title: 'Extra Details',
-            render: (_, __, index) =>
-              index === 0 && <Divider>Position</Divider>,
-            children: [
-              {
-                title: 'Quantity',
-                dataIndex: 'quantity',
-                sorter: true,
-              },
-              {
-                dataIndex: 'lane',
-                title: 'Lane',
-                sorter: true,
-              },
-              {
-                dataIndex: 'row_number',
-                title: 'Row',
-                sorter: true,
-              },
-            ],
-          },
-        ]}
-        loading={isLoading}
-        showSorterTooltip
-        rowKey="_id"
-      />
-
-      <Divider />
-
-      <Title level={3} style={{ marginTop: 16 }}>
-        {'Extra Details'}
-      </Title>
-      <Descriptions
-        bordered
-        column={2}
-        labelStyle={{
-          fontWeight: 'bold',
-          width: '20%',
-        }}
-      >
-        <Descriptions.Item label="Payment Transaction ID">
-          <TextField value={handleEmptyString(record.payment_transaction_id)} />
-        </Descriptions.Item>
-        <Descriptions.Item label="Payment Receipt">
-          <TextField value={handleEmptyString(record.payment_receipt)} />
-        </Descriptions.Item>
-        <Descriptions.Item label="Card Number">
-          <TextField value={handleEmptyString(record.card_number)} />
-        </Descriptions.Item>
-        <Descriptions.Item label="Card Department">
-          <TextField value={handleEmptyString(record.card_department)} />
-        </Descriptions.Item>
-        <Descriptions.Item label="Reservation Code">
-          <TextField value={handleEmptyString(record.reservation_code)} />
-        </Descriptions.Item>
-        <Descriptions.Item label="Return Code">
-          <TextField value={handleEmptyString(record.return_code)} />
-        </Descriptions.Item>
-      </Descriptions>
     </Show>
   );
 }

@@ -41,9 +41,10 @@ const FillRequestForm = ({ formProps }: { formProps: FormProps }) => {
       <Card title={'Products'}>
         <Form.Item name="products">
           <ProductsTransfer
-            onChange={(keys) => {
+            fillRequestProducts={formProps.initialValues?.products}
+            onChange={(products) => {
               formProps?.form?.setFieldsValue({
-                products: keys.map((key) => ({ _id: key })),
+                products,
               });
             }}
           />
@@ -57,29 +58,38 @@ export default FillRequestForm;
 
 const ProductsTransfer = ({
   onChange,
+  fillRequestProducts,
 }: {
-  onChange: (keys: string[]) => void;
+  onChange: (values: any) => void;
+  fillRequestProducts: SerializedProductDto[];
 }) => {
-  const { tableProps } = useTable({
-    resource: 'products',
-  });
+  const [productQuantities, setProductQuantities] = useState<
+    {
+      _id: string;
+      quantity: number;
+    }[]
+  >([]);
 
-  const [products, setProducts] = useState<Map<string, SerializedProductDto>>(
-    new Map()
-  );
+  useEffect(() => {
+    onChange(productQuantities);
+  }, [onChange, productQuantities]);
 
-  const [loading, setLoading] = useState(true);
-
-  // if (loading) {
-  //   return <div>Loading...</div>;
-  // }
+  const handleChange = (keys: any[]) => {
+    setProductQuantities(
+      keys.map((key) => ({
+        _id: key,
+        quantity: 1,
+      }))
+    );
+  };
 
   return (
     <TableTransfer
-      dataSource={tableProps.dataSource}
+      resource={'products'}
       filterOption={(inputValue, item) =>
         item.fullName.toLowerCase().includes(inputValue.toLowerCase())
       }
+      targetKeys={productQuantities.map((p) => p._id)}
       rowKey={(record) => record._id}
       showSelectAll={false}
       leftColumns={[
@@ -116,16 +126,20 @@ const ProductsTransfer = ({
             <Input
               type="number"
               min={1}
-              // value={quantities[record._id] || 1}
-              // onChange={(e) =>
-              //   handleQuantityChange(record._id, parseInt(e.target.value, 10))
+              value={
+                productQuantities.find((p) => p._id === record._id)?.quantity
+              }
+              onChange={(e) =>
+                setProductQuantities((prev) => [
+                  ...prev.filter((p) => p._id !== record._id),
+                  { _id: record._id, quantity: parseInt(e.target.value) },
+                ])
+              }
             />
           ),
         },
       ]}
-      // onChange={(keys) => {
-      //   setTargetKeys(keys);
-      //   onChange(keys);
+      onChange={handleChange}
     />
   );
 };

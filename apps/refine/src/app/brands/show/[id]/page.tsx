@@ -12,6 +12,7 @@ import { handleMagextImage } from '@app/products/utils/handleMagextImage';
 import { QuickTableSection } from '@components/quick-table-section';
 import { IoIosCash } from 'react-icons/io';
 import { RiVisaFill } from 'react-icons/ri';
+import { formatDate } from '@components/description-dates';
 
 const { Title } = Typography;
 
@@ -67,10 +68,10 @@ export default function BrandShow() {
         </Descriptions.Item>
 
         <Descriptions.Item label="Updated At">
-          <TextField value={record.updatedAt} />
+          <TextField value={formatDate(record.updatedAt)} />
         </Descriptions.Item>
         <Descriptions.Item label="Created At">
-          <TextField value={record.createdAt} />
+          <TextField value={formatDate(record.createdAt)} />
         </Descriptions.Item>
       </Descriptions>
 

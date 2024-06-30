@@ -9,6 +9,7 @@ import { handleEmptyString } from '@helpers';
 import { handleMagextImage } from '@app/products/utils/handleMagextImage';
 import { ShowFinance } from '@components/sections/finance';
 import { useRouter } from 'next/navigation';
+import { formatDate } from '@components/description-dates';
 
 const { Title } = Typography;
 
@@ -50,10 +51,6 @@ export default function ProductShow() {
           width: '20%',
         }}
       >
-        <Descriptions.Item label="ID">
-          <TextField value={record._id} />
-        </Descriptions.Item>
-
         <Descriptions.Item label="Image">
           {handleMagextImage(record.productPictures[0])}
         </Descriptions.Item>
@@ -82,15 +79,19 @@ export default function ProductShow() {
           <TextField value={`${Number(record.additionPrice).toFixed(2)} KD`} />
         </Descriptions.Item>
 
+        <Descriptions.Item label="Price Per Kilo">
+          <TextField value={`${Number(record.pricePerKilo).toFixed(2)} KD`} />
+        </Descriptions.Item>
+
         <Descriptions.Item label="Age Control">
           <TextField value={record.ageControl} />
         </Descriptions.Item>
 
         <Descriptions.Item label="Updated At">
-          <TextField value={record.updatedAt} />
+          <TextField value={formatDate(record.updatedAt)} />
         </Descriptions.Item>
         <Descriptions.Item label="Created At">
-          <TextField value={record.createdAt} />
+          <TextField value={formatDate(record.createdAt)} />
         </Descriptions.Item>
       </Descriptions>
 
