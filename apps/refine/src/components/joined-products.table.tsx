@@ -12,6 +12,11 @@ export const JoinedProductsTable = ({
   };
 }) => {
   const router = useRouter();
+
+  // If the record has products but the first product does not have an _id,
+  // set the products to an empty array because it's false data
+  if (record.products.length && !record.products[0]._id) record.products = [];
+
   return (
     <>
       <Typography.Title level={3} style={{ marginTop: 16 }}>
