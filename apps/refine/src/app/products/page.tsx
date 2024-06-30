@@ -5,7 +5,7 @@ import { QuickTableSection } from '@components/quick-table-section';
 import { Divider } from 'antd';
 import { handleMagextImage } from '@app/products/utils/handleMagextImage';
 import { useRouter } from 'next/navigation';
-import {handleNullableFullName} from "@app/products/utils/handleNullableText";
+import { handleNullableFullName } from '@app/products/utils/handleNullableText';
 
 export default function ProductsList() {
   const router = useRouter();
@@ -32,8 +32,6 @@ export default function ProductsList() {
       columns={[
         {
           title: 'Basic Info',
-          render: (_, __, index) =>
-            index === 0 && <Divider>Basic Info</Divider>,
           children: [
             {
               dataIndex: 'productPictures',

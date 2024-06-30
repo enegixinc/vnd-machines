@@ -58,6 +58,8 @@ export class OrderProductsDetails extends DatabaseEntity {
     onUpdate: 'CASCADE',
   })
   order: OrderEntity;
+  @Column({ nullable: true })
+  order_id: string;
 
   @ManyToOne(() => ProductEntity, (product) => product.orders, {
     eager: true,

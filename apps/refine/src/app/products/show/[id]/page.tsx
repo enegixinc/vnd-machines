@@ -159,15 +159,16 @@ export default function ProductShow() {
         {'Orders'}
       </Title>
       <Table
+        dataSource={record.orders}
         onRow={(record) => {
           return {
             onClick: () => {
-              router.push(`/orders/show/${record._id}`);
+              console.log('record', record);
+              router.push(`/orders/show/${record.order_id}`);
             },
             style: { cursor: 'pointer' },
           };
         }}
-        dataSource={record.orders}
         columns={[
           {
             title: 'Discount',

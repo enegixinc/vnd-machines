@@ -9,6 +9,7 @@ import { handleEmptyString } from '@helpers';
 import { handleMagextImage } from '@app/products/utils/handleMagextImage';
 import { handleNullableText } from '@app/products/utils/handleNullableText';
 import { formatDate } from '@components/description-dates';
+import { useRouter } from 'next/navigation';
 
 const { Title } = Typography;
 
@@ -34,6 +35,7 @@ export default function OrderShow() {
       ],
     },
   });
+  const router = useRouter();
 
   const { data, isLoading } = queryResult;
 
@@ -89,6 +91,14 @@ export default function OrderShow() {
 
         <Table
           dataSource={record.products}
+          onRow={(record) => {
+            return {
+              onClick: () => {
+                router.push(`/products/show/${record.product._id}`);
+              },
+              style: { cursor: 'pointer' },
+            };
+          }}
           columns={[
             {
               title: 'Basic Info',
@@ -152,8 +162,6 @@ export default function OrderShow() {
             },
             {
               title: 'Extra Details',
-              render: (_, __, index) =>
-                index === 0 && <Divider>Position</Divider>,
               children: [
                 {
                   title: 'Quantity',
