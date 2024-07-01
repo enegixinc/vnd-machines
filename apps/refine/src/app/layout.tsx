@@ -15,13 +15,12 @@ import { useNotificationProvider } from '@refinedev/antd';
 import { BiCategoryAlt } from 'react-icons/bi';
 import { MdOutlineCategory } from 'react-icons/md';
 import { TbBrandShopee } from 'react-icons/tb';
-import { IoPricetags, IoPricetagsOutline } from 'react-icons/io5';
+import { IoPricetagsOutline } from 'react-icons/io5';
 import { HiOutlineUsers } from 'react-icons/hi';
 import { PiUsersThree } from 'react-icons/pi';
 import { AiOutlineDashboard } from 'react-icons/ai';
 import { accessControlProvider } from '@app/access-control';
-import dayjs from 'dayjs';
-import relativeTime from 'dayjs/plugin/relativeTime';
+import { RiTimerFlashLine } from 'react-icons/ri';
 
 export const metadata: Metadata = {
   title: 'VND Machines',
@@ -118,7 +117,7 @@ export default function RootLayout({
                         show: '/contracts/show/:id',
                         meta: {
                           canDelete: true,
-                          icon: <MdOutlineCategory />,
+                          icon: <RiTimerFlashLine />,
                         },
                       },
                       {

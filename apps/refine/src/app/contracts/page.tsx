@@ -6,6 +6,7 @@ import { TextField } from '@refinedev/antd';
 import { ContractStatus } from '@core';
 import { handleNullableText } from '@app/products/utils/handleNullableText';
 import { useRouter } from 'next/navigation';
+import { formatPrice } from '@helpers';
 
 export default function ContractsList() {
   const router = useRouter();
@@ -45,10 +46,19 @@ export default function ContractsList() {
               render: (status) => (
                 <TextField
                   value={
-                    status === ContractStatus.ACTIVE ? 'Active' : 'Inactive'
+                    status === ContractStatus.ACTIVE
+                      ? 'Active'
+                      : status === ContractStatus.EXPIRED
+                      ? 'Expired'
+                      : 'Terminated'
                   }
                   style={{
-                    color: status === ContractStatus.ACTIVE ? 'green' : 'red',
+                    color:
+                      status === ContractStatus.ACTIVE
+                        ? '#52c41a'
+                        : status === ContractStatus.EXPIRED
+                        ? '#f5222d'
+                        : '#faad14',
                   }}
                 />
               ),
@@ -60,7 +70,7 @@ export default function ContractsList() {
           children: [
             {
               dataIndex: 'feePerSale',
-              title: 'Fee Per Sale',
+              title: 'Fee',
               sorter: true,
             },
             {
@@ -69,9 +79,9 @@ export default function ContractsList() {
             },
             {
               dataIndex: 'totalRevenue',
-              title: 'Total Revenue',
+              title: 'Revenue',
               sorter: true,
-              render: (totalRevenue) => `${Number(totalRevenue).toFixed(2)} KD`,
+              render: formatPrice,
             },
           ],
         },
