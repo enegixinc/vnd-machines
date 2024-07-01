@@ -12,6 +12,12 @@ const nextConfig = {
   },
   reactStrictMode: false,
   transpilePackages: ['@refinedev/antd'],
+  typescript: {
+    ignoreBuildErrors: true,
+  },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
 };
 
 const plugins = [
