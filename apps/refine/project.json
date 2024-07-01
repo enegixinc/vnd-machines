@@ -16,6 +16,12 @@
         "dev": true,
         "port": 4300
       }
+    },
+    "start": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "next start apps/refine -p 4300"
+      }
     }
   }
 }
