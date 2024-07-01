@@ -3,6 +3,7 @@ import { GetProp, Table, TableColumnsType, TransferProps } from 'antd';
 import { Transfer } from 'antd';
 import { QuickTableSection } from '@components/quick-table-section';
 import Search from 'antd/es/input/Search';
+import { CrudFilter } from '@refinedev/core';
 
 type TransferItem = GetProp<TransferProps, 'dataSource'>[number];
 
@@ -14,6 +15,16 @@ interface TableTransferProps extends TransferProps<TransferItem> {
   resource: string;
   leftColumns: TableColumnsType<DataType>;
   rightColumns: TableColumnsType<DataType>;
+  meta: {
+    join: {
+      field: string;
+    }[];
+  };
+  filters?: {
+    initial?: CrudFilter[] | undefined;
+    permanent?: CrudFilter[] | undefined;
+    hidden?: CrudFilter[] | undefined;
+  };
 }
 
 export const TableTransfer = ({
@@ -71,6 +82,8 @@ export const TableTransfer = ({
         return direction === 'left' ? (
           <QuickTableSection
             minimal
+            filters={restProps.filters}
+            meta={restProps.meta}
             showActions={false}
             setDataReference={setDataReference}
             resource={resource}

@@ -15,7 +15,7 @@ import { useNotificationProvider } from '@refinedev/antd';
 import { BiCategoryAlt } from 'react-icons/bi';
 import { MdOutlineCategory } from 'react-icons/md';
 import { TbBrandShopee } from 'react-icons/tb';
-import { IoPricetagsOutline } from 'react-icons/io5';
+import { IoGitPullRequestSharp, IoPricetagsOutline } from 'react-icons/io5';
 import { HiOutlineUsers } from 'react-icons/hi';
 import { PiUsersThree } from 'react-icons/pi';
 import { AiOutlineDashboard } from 'react-icons/ai';
@@ -135,9 +135,10 @@ export default function RootLayout({
                         name: 'requests',
                         list: '/requests',
                         show: '/requests/show/:id',
+                        create: '/requests/create',
                         // edit: '/requests/edit/:id',
                         meta: {
-                          icon: <IoPricetagsOutline />,
+                          icon: <IoGitPullRequestSharp />,
                         },
                       },
                       {

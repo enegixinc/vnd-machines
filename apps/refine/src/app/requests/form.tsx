@@ -6,6 +6,7 @@ import { SerializedProductDto } from '@frontend/api-sdk';
 import { vndClient } from '@providers/api';
 import { TableTransfer } from '@components/transafer';
 import { useSelect, useTable } from '@refinedev/antd';
+import { handleNullableFullName } from '@app/products/utils/handleNullableText';
 
 const FillRequestForm = ({ formProps }: { formProps: FormProps }) => {
   const { selectProps } = useSelect({
@@ -86,9 +87,22 @@ const ProductsTransfer = ({
   return (
     <TableTransfer
       resource={'products'}
-      filterOption={(inputValue, item) =>
-        item.fullName.toLowerCase().includes(inputValue.toLowerCase())
-      }
+      meta={{
+        join: [
+          {
+            field: 'supplier',
+          },
+        ],
+      }}
+      filters={{
+        permanent: [
+          {
+            field: 'supplier._id',
+            operator: 'nnull',
+            value: '',
+          },
+        ],
+      }}
       targetKeys={productQuantities.map((p) => p._id)}
       rowKey={(record) => record._id}
       showSelectAll={false}
@@ -104,6 +118,10 @@ const ProductsTransfer = ({
         {
           dataIndex: 'totalOrders',
           title: 'Total Orders',
+        },
+        {
+          dataIndex: ['supplier', 'fullName'],
+          title: 'Supplier',
         },
       ]}
       rightColumns={[
