@@ -12,8 +12,8 @@ RUN corepack enable
 WORKDIR /app
 
 # Copy package.json and lock file
-COPY ../../../pnpm-lock.yaml ./pnpm-lock.yaml
-COPY ../../../package.json ./package.json
+COPY ../../pnpm-lock.yaml ./pnpm-lock.yaml
+COPY ../../package.json ./package.json
 
 # Install dependencies using pnpm with caching
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile --ignore-scripts
@@ -24,7 +24,7 @@ COPY --from=installer /app/node_modules /app/node_modules
 
 WORKDIR /app
 
-COPY ../../../ .
+COPY ../../ .
 
 RUN npx nx run backend:build:production
 
@@ -37,6 +37,6 @@ COPY --from=builder /app/dist/apps/backend /app
 COPY --from=builder /app/node_modules /app/node_modules
 COPY ../../scripts/slack.js /app/scripts/slack.js
 
-EXPOSE 4444
+EXPOSE 3000
 
 CMD ["node", "main.js"]

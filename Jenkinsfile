@@ -21,8 +21,10 @@ pipeline {
               changeset "apps/backend/**"
             }
             steps{
-              echo "Building the backend docker image";
-              sh "cd apps/backend && docker build -t ${REGISTRY}-backend:${BUILD_NUMBER} ."
+              dir('apps/backend'){
+                echo "Building the backend docker image";
+                sh "docker build -t ${REGISTRY}-backend:${BUILD_NUMBER} ."
+              }
             }
         }
         stage("Push Image"){
