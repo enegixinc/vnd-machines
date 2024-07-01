@@ -216,4 +216,7 @@ export class SharedProductDto {
     })
   )
   virtualProduct: number;
+
+  @decorate(IsOptional({ groups: [UPDATE, CREATE] }))
+  image1: File | Blob;
 }

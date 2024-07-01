@@ -400,7 +400,7 @@ export class ProductEntity
 
   async updateMagexRecord(magexService: MagexService) {
     const formData = this.handleMultiLangProps(
-      this.removeExtraProps(this, ['supplier', 'fullName'])
+      this.removeExtraProps(this, ['supplier', 'fullName', 'productPictures'])
     );
 
     await magexService.products.putProductsEditById({

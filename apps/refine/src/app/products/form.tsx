@@ -2,15 +2,22 @@ import {
   Card,
   Flex,
   Form,
+  FormProps,
   Input,
   InputNumber,
   Select,
   Switch,
   Upload,
+  UploadFile,
 } from 'antd';
 import { getValueFromEvent } from '@refinedev/antd';
 import { MultiLangInput } from '@theme-helpers';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import {
+  handleMagexImageRaw,
+  handleMagextImage,
+} from '@app/products/utils/handleMagextImage';
+import { UploadChangeParam } from 'antd/es/upload';
 
 type FormData = { [key: string]: any };
 
@@ -44,37 +51,84 @@ const cleanNestedObject = (obj: FormData): boolean => {
   return Object.keys(cleanedNestedObj).length > 0;
 };
 
+// const getBase64 = (file: File) => {
+//   return new Promise((resolve, reject) => {
+//     const reader = new FileReader();
+//     reader.readAsDataURL(file);
+//     reader.onload = () => resolve(reader.result);
+//     reader.onerror = (error) => reject(error);
+//   });
+// };
+
 export const ProductForm = ({
   formProps,
   supplierSelectProps,
   brandSelectProps,
   categorySelectProps,
 }: {
-  formProps: any;
+  formProps: FormProps;
   supplierSelectProps: any;
   brandSelectProps: any;
   categorySelectProps: any;
 }) => {
+  const transformPictureData = (pictures: string[]) => {
+    return pictures.map((pic, index) => ({
+      uid: index,
+      name: pic,
+      status: 'done',
+      url: handleMagexImageRaw(pic),
+      type: 'image/jpeg',
+    }));
+  };
+  const [fileList, setFileList] = useState([]);
+  // const handleUpload = async ({
+  //   file,
+  // }: UploadChangeParam<UploadFile<any>>) => {
+  //
+  // };
+  //
+  // const handleSubmit = async () => {
+  //   return await Promise.all(
+  //     fileList.map(async (file) => ({
+  //       name: file.name,
+  //       base64: await getBase64(file.originFileObj),
+  //     }))
+  //   );
+  // };
+  //
+  useEffect(() => {
+    if (formProps.initialValues?.productPictures) {
+      setFileList(
+        transformPictureData(formProps.initialValues.productPictures)
+      );
+    }
+  }, [formProps.initialValues]);
+
   return (
     <Form
       {...formProps}
       layout="vertical"
-      onFinish={(data) => {
+      onFinish={async (data) => {
+        // const images = await handleSubmit();
+        // data.image1 = images[0];
         formProps.onFinish(cleanFormData(data));
       }}
     >
       <Card title="Basic Information">
-        <Form.Item label="Product Pictures">
+        <Form.Item
+          // name="productPictures"
+          label="Product Pictures"
+        >
           <Form.Item
-            valuePropName="fileList"
-            getValueFromEvent={getValueFromEvent}
+            // valuePropName="fileList"
+            // getValueFromEvent={getValueFromEvent}
             noStyle
-            rules={[{ required: true }]}
           >
             <Upload.Dragger
               listType="picture"
-              multiple
-              beforeUpload={() => false}
+              defaultFileList={fileList}
+              fileList={fileList}
+              // onChange={handleUpload}
             >
               <p className="ant-upload-text">
                 Drag & drop files here or click to upload
