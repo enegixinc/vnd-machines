@@ -6,6 +6,7 @@ import {
   Input,
   InputNumber,
   Select,
+  Spin,
   Switch,
   Upload,
   UploadFile,
@@ -18,6 +19,8 @@ import {
   handleMagextImage,
 } from '@app/products/utils/handleMagextImage';
 import { UploadChangeParam } from 'antd/es/upload';
+import { CanAccess, useGetIdentity } from '@refinedev/core';
+import { IUserEntity, UserRole } from '@core';
 
 type FormData = { [key: string]: any };
 
@@ -60,7 +63,13 @@ const cleanNestedObject = (obj: FormData): boolean => {
 //   });
 // };
 
-export const ProductForm = ({ formProps }: { formProps: FormProps }) => {
+export const ProductForm = ({
+  formProps,
+  isSupplier,
+}: {
+  formProps: FormProps;
+  isSupplier: boolean;
+}) => {
   const transformPictureData = (pictures: string[]) => {
     return pictures.map((pic, index) => ({
       uid: index,
@@ -88,6 +97,14 @@ export const ProductForm = ({ formProps }: { formProps: FormProps }) => {
     optionValue: '_id',
   });
 
+  useEffect(() => {
+    if (formProps.initialValues?.productPictures) {
+      setFileList(
+        transformPictureData(formProps.initialValues.productPictures)
+      );
+    }
+  }, [formProps.initialValues]);
+
   // const handleUpload = async ({
   //   file,
   // }: UploadChangeParam<UploadFile<any>>) => {
@@ -103,13 +120,6 @@ export const ProductForm = ({ formProps }: { formProps: FormProps }) => {
   //   );
   // };
   //
-  useEffect(() => {
-    if (formProps.initialValues?.productPictures) {
-      setFileList(
-        transformPictureData(formProps.initialValues.productPictures)
-      );
-    }
-  }, [formProps.initialValues]);
 
   return (
     <Form
@@ -179,7 +189,7 @@ export const ProductForm = ({ formProps }: { formProps: FormProps }) => {
             label="Supplier"
             name={['supplier', '_id']}
           >
-            <Select {...supplierSelectProps} />
+            <Select disabled={isSupplier} {...supplierSelectProps} />
           </Form.Item>
           <Form.Item style={{ flex: 1 }} label="Brand" name={['brand', '_id']}>
             <Select {...brandSelectProps} />

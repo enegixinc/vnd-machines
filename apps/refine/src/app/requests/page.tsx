@@ -1,6 +1,5 @@
 'use client';
 
-import { Tag } from 'antd';
 import React from 'react';
 import { QuickTableSection } from '@components/quick-table-section';
 import { handleNullableText } from '@app/products/utils/handleNullableText';
