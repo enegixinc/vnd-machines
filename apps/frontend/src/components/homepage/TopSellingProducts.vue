@@ -16,14 +16,15 @@
                 </thead>
                 <tbody>
                 <template v-if="loading">
-                        <td colspan="5">
-                            <div class='flex justify-around py-[100px]'>
+                    <td colspan="5">
+                        <div class='flex justify-around py-[100px]'>
                                 <span>
-                                    <icon-loader class='animate-[spin_2s_linear_infinite] inline-block align-middle ltr:mr-2 rtl:ml-2 shrink-0' />
+                                    <icon-loader
+                                        class='animate-[spin_2s_linear_infinite] inline-block align-middle ltr:mr-2 rtl:ml-2 shrink-0'/>
                                     {{ $t('wait') }}
                                 </span>
-                            </div>
-                        </td>
+                        </div>
+                    </td>
                 </template>
                 <template v-else-if="!loading && !productsShow?.length">
                     <td colspan="5">
@@ -52,20 +53,25 @@
 
                                 <p class="whitespace-nowrap">
                                     <span class="text-black dark:text-white">{{ product.productName }}</span>
-                                    <span class="block text-xs" :class="product.color">{{ product.productCategory }}</span>
+                                    <span class="block text-xs" :class="product.color">{{
+                                            product.productCategory
+                                        }}</span>
                                 </p>
                             </div>
                         </td>
-                        <td><bdi>{{ product.price }} KD</bdi></td>
+                        <td>
+                            <bdi>{{ product.price }} KD</bdi>
+                        </td>
                         <td>{{ product.totalSoldProducts }}</td>
                         <td>
-                            <a class="flex items-center" :class="product.color" href="javascript:;" v-if="product.hasSupplier">
-                                <icon-multiple-forward-right class="rtl:rotate-180 ltr:mr-1 rtl:ml-1" />
-                                    {{product.supplierName}}
+                            <a class="flex items-center" :class="product.color" href="javascript:;"
+                               v-if="product.hasSupplier">
+                                <icon-multiple-forward-right class="rtl:rotate-180 ltr:mr-1 rtl:ml-1"/>
+                                {{ product.supplierName }}
                             </a>
                             <span class="flex items-center" :class="product.color" v-else>
-                                  <icon-multiple-forward-right class="rtl:rotate-180 ltr:mr-1 rtl:ml-1" />
-                                    {{product.supplierName}}
+                                  <icon-multiple-forward-right class="rtl:rotate-180 ltr:mr-1 rtl:ml-1"/>
+                                    {{ product.supplierName }}
                             </span>
                         </td>
                     </tr>
@@ -79,29 +85,30 @@
 import IconMultipleForwardRight from "@/components/icon/icon-multiple-forward-right.vue";
 import IconLoader from '@/components/icon/icon-loader.vue';
 import IconInfoCircle from "@/components/icon/icon-info-circle.vue";
-import {onMounted,computed} from 'vue'
+import {onMounted, computed} from 'vue'
 import {useProducts} from "@/composables/products/use-products"
 import {randomColor} from "@/utils/colorHelper"
-const {entityData:products,fetchEntities:fetchProducts,loading,t,locale,cleanResource} = useProducts({});
-onMounted(()=>{
+
+const {entityData: products, fetchEntities: fetchProducts, loading, t, locale, cleanResource} = useProducts({});
+onMounted(() => {
     fetchProducts({
-        fields:['price,name,productPictures,totalSoldProducts'],
-        sort:['totalSoldProducts,DESC'],
-        join:['supplier||firstName,lastName','category||name'],
-        limit:5
+        fields: ['price,name.en,name.ar,productPictures,totalSoldProducts'],
+        sort: ['totalSoldProducts,DESC'],
+        join: ['supplier||firstName,lastName', 'category||name'],
+        limit: 5
     })
 });
-const productsShow = computed(()=>{
-    return products.value.map(el=>{
+const productsShow = computed(() => {
+    return products.value.map(el => {
         const cleanedElement = cleanResource(el)
         return {
             ...el,
-            color:randomColor(),
-            supplierName:el.supplier? `${el.supplier?.firstName} ${el.supplier?.lastName}` : t('Unknown'),
-            productCategory:el.category?.name[locale.value === 'eg' ? 'ar' : 'en'] || el.category?.name[locale.value === 'eg' ? 'en' : 'ar'] || t('Unknown'),
-            productImage:el.productPictures?.length? el.productPictures[0] : '',
-            productName:el.name[locale.value === 'eg' ? 'ar' : 'en'] || el.name[locale.value === 'eg' ? 'en' : 'ar'] || t('Unknown'),
-            hasSupplier:!!cleanedElement?.supplier?._id
+            color: randomColor(),
+            supplierName: el.supplier ? `${el.supplier?.firstName} ${el.supplier?.lastName}` : t('Unknown'),
+            productCategory: el.category?.name[locale.value === 'eg' ? 'ar' : 'en'] || el.category?.name[locale.value === 'eg' ? 'en' : 'ar'] || t('Unknown'),
+            productImage: el.productPictures?.length ? el.productPictures[0] : '',
+            productName: el.name ? el.name[locale.value === 'eg' ? 'ar' : 'en'] || el.name[locale.value === 'eg' ? 'en' : 'ar'] || t('Unknown') : t('Unknown'),
+            hasSupplier: !!cleanedElement?.supplier?._id
         }
     })
 })

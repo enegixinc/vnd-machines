@@ -101,7 +101,7 @@ import {useProducts} from "@/composables/products/use-products"
 import apexchart from 'vue3-apexcharts';
 import {computed, onMounted, ref, watch} from "vue";
 import IconLoader from "@/components/icon/icon-loader.vue";
-
+import {formatNumber} from "@/utils/NumbersHelpers"
 
 const store = useAppStore();
 
@@ -147,10 +147,10 @@ watch(selectedRange, () => {
     fetchStatistics()
 })
 const totalOrders = computed(() => {
-    return new Intl.NumberFormat().format(ordersDate.value.length)
+    return formatNumber(ordersDate.value.length)
 })
 const totalProducts = computed(() => {
-    return new Intl.NumberFormat().format(products.value.length)
+    return formatNumber(products.value.length)
 })
 // statistics
 const ordersChart = computed(() => {

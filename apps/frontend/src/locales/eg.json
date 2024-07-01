@@ -431,7 +431,10 @@
         "thisWeek": "هذا الأسبوع",
         "lastWeek": "الأسبوع الماضي",
         "thisMonth": "هذا الشهر",
-        "lastMonth": "الشهر الماضي"
+        "lastMonth": "الشهر الماضي",
+        "yearly": "سنوي",
+        "monthly": "شهري",
+        "weekly": "أسبوعي"
     },
     "weekDays": {
         "monday": "الاثنين",

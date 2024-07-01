@@ -220,7 +220,6 @@
     "vue-router": "^4.1.5",
     "vue-tippy": "6",
     "vue3-apexcharts": "^1.4.1",
-    "vue3-number-spinner": "^0.0.9",
     "vue3-perfect-scrollbar": "^1.6.0",
     "vue3-popper": "^1.5.0",
     "zod": "^3.23.5",
