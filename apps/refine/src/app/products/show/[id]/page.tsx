@@ -119,11 +119,12 @@ export default function ProductShow() {
         <Descriptions.Item label="Supplier">
           <TextField
             onClick={() =>
+              record.supplier?._id &&
               router.push(`/suppliers/show/${record.supplier?._id}`)
             }
             style={{
-              cursor: 'pointer',
-              color: '#1890ff',
+              cursor: record.supplier?._id && 'pointer',
+              color: record.supplier?._id && '#1890ff',
             }}
             value={handleEmptyString(record.supplier?.fullName)}
           />
@@ -131,21 +132,25 @@ export default function ProductShow() {
         <Descriptions.Item label="Category">
           <TextField
             onClick={() =>
+              record.category?._id &&
               router.push(`/categories/show/${record.category?._id}`)
             }
             style={{
-              cursor: 'pointer',
-              color: '#1890ff',
+              cursor: record.category?._id && 'pointer',
+              color: record.category?._id && '#1890ff',
             }}
             value={handleEmptyString(record.category?.fullName)}
           />
         </Descriptions.Item>
         <Descriptions.Item label="Brand">
           <TextField
-            onClick={() => router.push(`/brands/show/${record.brand?._id}`)}
+            onClick={() =>
+              record.brand?._id &&
+              router.push(`/brands/show/${record.brand?._id}`)
+            }
             style={{
-              cursor: 'pointer',
-              color: '#1890ff',
+              cursor: record.brand?._id && 'pointer',
+              color: record.brand?._id && '#1890ff',
             }}
             value={handleEmptyString(record.brand?.fullName)}
           />
