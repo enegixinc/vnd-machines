@@ -704,6 +704,9 @@ export class ContractsService {
                 fields: data.fields,
                 join: data.join,
                 cache: data.cache
+            },
+            errors: {
+                403: 'Forbidden.'
             }
         });
     }
@@ -723,7 +726,10 @@ export class ContractsService {
                 id: data.id
             },
             body: data.requestBody,
-            mediaType: 'application/json'
+            mediaType: 'application/json',
+            errors: {
+                403: 'Forbidden.'
+            }
         });
     }
     
@@ -739,6 +745,9 @@ export class ContractsService {
             url: '/contracts/{id}',
             path: {
                 id: data.id
+            },
+            errors: {
+                403: 'Forbidden.'
             }
         });
     }
@@ -773,6 +782,9 @@ export class ContractsService {
                 offset: data.offset,
                 page: data.page,
                 cache: data.cache
+            },
+            errors: {
+                403: 'Forbidden.'
             }
         });
     }
@@ -788,7 +800,10 @@ export class ContractsService {
             method: 'POST',
             url: '/contracts',
             body: data.requestBody,
-            mediaType: 'application/json'
+            mediaType: 'application/json',
+            errors: {
+                403: 'Forbidden.'
+            }
         });
     }
     

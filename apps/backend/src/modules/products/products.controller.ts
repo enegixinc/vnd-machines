@@ -112,121 +112,33 @@ export class ProductsController implements CrudController<ProductEntity> {
   @ApiResponse({
     status: 200,
     description: 'Get product statistics',
+    type: () => ({
+      totalActiveRevenue: Number,
+    }),
   })
   async stats() {
-    // const sumTotalSales = await this.productRepository.sum('soldPrice');
+    const totalActiveRevenue = await this.productRepository.query(`
+    SELECT
+    COALESCE(SUM(
+                     CASE
+                         WHEN C."feeType" = 'fixed' THEN COALESCE(C."feePerSale", 0)
+                         WHEN C."feeType" = 'percentage' THEN COALESCE(OD."soldPrice" * (C."feePerSale" / 100), 0)
+                         ELSE 0
+                         END
+             ), 0)
+FROM
+    orders AS O
+        JOIN order_details AS OD ON OD.order_id = O._id
+        JOIN products AS P ON P._id = OD.product_id
+        JOIN contracts AS C ON C.supplier_id = P.supplier_id
+WHERE
+    C.status = 'active'
+  AND C."startDate" <= O."createdAt"
+  AND O."createdAt" <= C."endDate"
+    `);
+
+    return {
+      totalActiveRevenue: parseFloat(totalActiveRevenue[0].coalesce),
+    };
   }
-  //
-  // private async calculateTotalSalesBetween(
-  //   start: Date,
-  //   end: Date
-  // ): Promise<number> {
-  //   const result = await this.productRepository.query(
-  //     `
-  //       SELECT COALESCE(SUM(OD.quantity * P.price), 0) AS total
-  //       FROM orders O
-  //              JOIN order_details OD ON OD.order_id = O._id
-  //              JOIN products P ON OD.product_id = P._id
-  //       WHERE O."createdAt" < $1
-  //         AND O."createdAt" >= $2
-  //     `,
-  //     [end, start]
-  //   );
-  //   return parseFloat(result[0].total);
-  // }
-  //
-  // private async getTotalProducts(): Promise<number> {
-  //   return this.productRepository.count();
-  // }
-  //
-  // private async getTotalRevenue(): Promise<number> {
-  //   const result = await this.productRepository.query(
-  //     `
-  //     SELECT COALESCE(SUM(OD.quantity * P.price), 0) AS total
-  //     FROM orders O
-  //     JOIN order_details OD ON OD.order_id = O._id
-  //     JOIN products P ON OD.product_id = P._id
-  //   `
-  //   );
-  //   return parseFloat(result[0].total);
-  // }
-  //
-  // private async getTotalActiveRevenue(): Promise<number> {
-  //   const result = await this.productRepository.query(
-  //     `
-  //     SELECT COALESCE(SUM(OD.quantity * P.price), 0) AS total
-  //     FROM orders O
-  //     JOIN order_details OD ON OD.order_id = O._id
-  //     JOIN products P ON OD.product_id = P._id
-  //     WHERE O.status = 'active'
-  //   `
-  //   );
-  //   return parseFloat(result[0].total);
-  // }
-  //
-  // private calculatePercentageChange(current: number, previous: number): number {
-  //   if (previous === 0) return current === 0 ? 0 : 100;
-  //   return ((current - previous) / previous) * 100;
-  // }
-  //
-  // @Get('/stats')
-  // @ApiResponse({
-  //   status: 200,
-  //   description: 'Get product statistics',
-  // })
-  // async stats() {
-  //   const today = new Date();
-  //   const yesterday = new Date(today);
-  //   yesterday.setDate(yesterday.getDate() - 1);
-  //   const lastWeek = new Date(today);
-  //   lastWeek.setDate(lastWeek.getDate() - 7);
-  //   const lastMonth = new Date(today);
-  //   lastMonth.setMonth(lastMonth.getMonth() - 1);
-  //   const lastYear = new Date(today);
-  //   lastYear.setFullYear(lastYear.getFullYear() - 1);
-  //
-  //   const totalProducts = await this.getTotalProducts();
-  //   const totalRevenue = await this.getTotalRevenue();
-  //   const totalActiveRevenue = await this.getTotalActiveRevenue();
-  //
-  //   const salesToday = await this.calculateTotalSalesBetween(yesterday, today);
-  //   const salesYesterday = await this.calculateTotalSalesBetween(
-  //     lastWeek,
-  //     yesterday
-  //   );
-  //   const salesLastWeek = await this.calculateTotalSalesBetween(
-  //     lastMonth,
-  //     lastWeek
-  //   );
-  //   const salesLastMonth = await this.calculateTotalSalesBetween(
-  //     lastYear,
-  //     lastMonth
-  //   );
-  //
-  //   const changeWeek = this.calculatePercentageChange(
-  //     salesToday,
-  //     salesYesterday
-  //   );
-  //   const changeMonth = this.calculatePercentageChange(
-  //     salesToday,
-  //     salesLastWeek
-  //   );
-  //   const changeYear = this.calculatePercentageChange(
-  //     salesToday,
-  //     salesLastMonth
-  //   );
-  //
-  //   return {
-  //     totalProducts,
-  //     totalRevenue,
-  //     totalActiveRevenue,
-  //     salesToday,
-  //     salesYesterday,
-  //     salesLastWeek,
-  //     salesLastMonth,
-  //     changeWeek,
-  //     changeMonth,
-  //     changeYear,
-  //   };
-  // }
 }

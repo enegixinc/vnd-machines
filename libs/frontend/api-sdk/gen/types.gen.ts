@@ -18,6 +18,7 @@ export type UserEntity = {
     updatedAt: string;
     deletedAt: string | null;
     lastSyncAt: string | null;
+    createdBy: string;
 };
 
 /**
@@ -43,6 +44,7 @@ export type BrandEntity = {
     updatedAt: string;
     deletedAt: string | null;
     lastSyncAt: string | null;
+    createdBy: string;
 };
 
 export type SharedCategoryDto = {
@@ -163,6 +165,7 @@ export type OrderEntity = {
     updatedAt: string;
     deletedAt: string | null;
     lastSyncAt: string | null;
+    createdBy: string;
     status: string;
     payment_type: string;
     lang: string;
@@ -192,6 +195,7 @@ export type SerializedBrandDto = {
     updatedAt: string;
     deletedAt: string | null;
     lastSyncAt: string | null;
+    createdBy: string;
     /**
      * Name of the product in multiple languages
      */
@@ -244,6 +248,7 @@ export type ContractEntity = {
     updatedAt: string;
     deletedAt: string | null;
     lastSyncAt: string | null;
+    createdBy: string;
     files: Array<FileDto>;
 };
 
@@ -257,6 +262,7 @@ export type SerializedUserDto = {
     updatedAt: string;
     deletedAt: string | null;
     lastSyncAt: string | null;
+    createdBy: string;
     /**
      * Is the user active
      */
@@ -281,6 +287,7 @@ export type SerializedUserDto = {
     totalOrders: number;
     brand: Array<SerializedBrandDto>;
     contracts: Array<SerializedContractDto>;
+    orders: Array<OrderEntity>;
 };
 
 export type SerializedContractDto = {
@@ -293,6 +300,7 @@ export type SerializedContractDto = {
     updatedAt: string;
     deletedAt: string | null;
     lastSyncAt: string | null;
+    createdBy: string;
     totalSoldProducts: number;
     totalRevenue: number;
     totalOrders: number;
@@ -319,6 +327,7 @@ export type MachineProduct = {
     updatedAt: string;
     deletedAt: string | null;
     lastSyncAt: string | null;
+    createdBy: string;
     id: string;
     current_stock: number;
     max_stock: number;
@@ -341,6 +350,7 @@ export type MachineEntity = {
     updatedAt: string;
     deletedAt: string | null;
     lastSyncAt: string | null;
+    createdBy: string;
     productsCount: number;
     totalMaxStock: number;
     totalRevenue: number;
@@ -393,6 +403,7 @@ export type ProductEntity = {
     updatedAt: string;
     deletedAt: string | null;
     lastSyncAt: string | null;
+    createdBy: string;
 };
 
 export type GetManyProductEntityResponseDto = {
@@ -452,6 +463,7 @@ export type SerializedProductDto = {
     updatedAt: string;
     deletedAt: string | null;
     lastSyncAt: string | null;
+    createdBy: string;
     /**
      * UPC of the product
      */
@@ -588,8 +600,8 @@ export type CreateProductDto = {
      */
     virtualProduct: number;
     supplier?: (PickTypeClass) | null;
-    brand?: (PickTypeClass) | null;
     category?: (PickTypeClass) | null;
+    brand?: (PickTypeClass) | null;
     productVideo?: string;
 };
 
@@ -655,8 +667,8 @@ export type UpdateProductDto = {
      */
     virtualProduct?: number;
     supplier?: (PickTypeClass) | null;
-    brand?: (PickTypeClass) | null;
     category?: (PickTypeClass) | null;
+    brand?: (PickTypeClass) | null;
     productVideo?: string;
 };
 
@@ -728,6 +740,7 @@ export type FillRequestEntity = {
     updatedAt: string;
     deletedAt: string | null;
     lastSyncAt: string | null;
+    createdBy: string;
 };
 
 export type ProductsFillRequest = {
@@ -787,6 +800,7 @@ export type CategoryEntity = {
     updatedAt: string;
     deletedAt: string | null;
     lastSyncAt: string | null;
+    createdBy: string;
 };
 
 export type SerializedCategoryDto = {
@@ -799,6 +813,7 @@ export type SerializedCategoryDto = {
     updatedAt: string;
     deletedAt: string | null;
     lastSyncAt: string | null;
+    createdBy: string;
     totalSoldProducts: number;
     totalRevenue: number;
     totalOrders: number;
@@ -1456,6 +1471,10 @@ export type $OpenApiTs = {
                  * Get one base response
                  */
                 200: SerializedContractDto;
+                /**
+                 * Forbidden.
+                 */
+                403: unknown;
             };
         };
         patch: {
@@ -1465,6 +1484,10 @@ export type $OpenApiTs = {
                  * Response
                  */
                 200: ContractEntity;
+                /**
+                 * Forbidden.
+                 */
+                403: unknown;
             };
         };
         delete: {
@@ -1474,6 +1497,10 @@ export type $OpenApiTs = {
                  * Delete one base response
                  */
                 200: unknown;
+                /**
+                 * Forbidden.
+                 */
+                403: unknown;
             };
         };
     };
@@ -1485,6 +1512,10 @@ export type $OpenApiTs = {
                  * Get paginated response
                  */
                 200: GetManyContractEntityResponseDto;
+                /**
+                 * Forbidden.
+                 */
+                403: unknown;
             };
         };
         post: {
@@ -1494,6 +1525,10 @@ export type $OpenApiTs = {
                  * Get create one base response
                  */
                 201: SerializedContractDto;
+                /**
+                 * Forbidden.
+                 */
+                403: unknown;
             };
         };
     };

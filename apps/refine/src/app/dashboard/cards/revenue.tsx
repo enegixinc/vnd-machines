@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { DashboardOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import { vndClient } from '@providers/api';
 import { Space } from 'antd';
+import { formatPrice } from '@helpers';
 
 export const RevenueCard = () => {
   const { Option } = Select;
@@ -12,8 +13,9 @@ export const RevenueCard = () => {
 
   useEffect(() => {
     const fetchStats = async () => {
-      const data = await vndClient.products.getMany({});
-      setStatsData(data.count);
+      const { totalActiveRevenue } =
+        await vndClient.products.productsControllerStats();
+      setStatsData(totalActiveRevenue);
       setIsLoading(false);
     };
 
@@ -47,7 +49,7 @@ export const RevenueCard = () => {
       <Card.Meta
         title={'Active Revenue'}
         avatar={<DashboardOutlined />}
-        description={statsData + ' KD'}
+        description={formatPrice(statsData ?? 0)}
       />
     </Card>
   );

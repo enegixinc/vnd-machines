@@ -15,7 +15,8 @@ export const ContractsCard = () => {
       const data = await vndClient.contracts.getMany({
         filter: ['status||$eq||active'],
       });
-      setStatsData(data.count);
+      console.log('data', data);
+      setStatsData(data.total);
       setIsLoading(false);
     };
 
@@ -41,7 +42,6 @@ export const ContractsCard = () => {
     <Card
       styles={{
         body: {
-          fontWeight: 'bold',
           color: '#1890ff',
           marginTop: 6.85,
         },
@@ -50,7 +50,7 @@ export const ContractsCard = () => {
       <Card.Meta
         title={'Active Contracts'}
         avatar={<DashboardOutlined />}
-        description={statsData}
+        description={statsData.toString()}
       />
     </Card>
   );

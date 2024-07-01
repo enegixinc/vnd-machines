@@ -48,9 +48,13 @@ export const $UserEntity = {
             type: 'date',
             example: '2021-07-01T00:00:00.000Z',
             nullable: true
+        },
+        createdBy: {
+            type: 'string',
+            example: '6a909236-53f2-4727-b780-e41e115ee906'
         }
     },
-    required: ['_id', '__v', 'createdAt', 'updatedAt', 'deletedAt', 'lastSyncAt']
+    required: ['_id', '__v', 'createdAt', 'updatedAt', 'deletedAt', 'lastSyncAt', 'createdBy']
 } as const;
 
 export const $UserRole = {
@@ -114,9 +118,13 @@ export const $BrandEntity = {
             type: 'date',
             example: '2021-07-01T00:00:00.000Z',
             nullable: true
+        },
+        createdBy: {
+            type: 'string',
+            example: '6a909236-53f2-4727-b780-e41e115ee906'
         }
     },
-    required: ['_id', '__v', 'createdAt', 'updatedAt', 'deletedAt', 'lastSyncAt']
+    required: ['_id', '__v', 'createdAt', 'updatedAt', 'deletedAt', 'lastSyncAt', 'createdBy']
 } as const;
 
 export const $SharedCategoryDto = {
@@ -345,6 +353,10 @@ export const $OrderEntity = {
             example: '2021-07-01T00:00:00.000Z',
             nullable: true
         },
+        createdBy: {
+            type: 'string',
+            example: '6a909236-53f2-4727-b780-e41e115ee906'
+        },
         status: {
             type: 'string'
         },
@@ -397,7 +409,7 @@ export const $OrderEntity = {
             type: 'string'
         }
     },
-    required: ['_id', '__v', 'createdAt', 'updatedAt', 'deletedAt', 'lastSyncAt', 'status', 'payment_type', 'lang', 'referTo', 'tax', 'total', 'currency', 'createdAtUtc', 'utcOffset', 'payment_transaction_id', 'payment_receipt', 'cart_number', 'card_number', 'card_department', 'email', 'reservation_code', 'return_code']
+    required: ['_id', '__v', 'createdAt', 'updatedAt', 'deletedAt', 'lastSyncAt', 'createdBy', 'status', 'payment_type', 'lang', 'referTo', 'tax', 'total', 'currency', 'createdAtUtc', 'utcOffset', 'payment_transaction_id', 'payment_receipt', 'cart_number', 'card_number', 'card_department', 'email', 'reservation_code', 'return_code']
 } as const;
 
 export const $SerializedBrandDto = {
@@ -429,6 +441,10 @@ export const $SerializedBrandDto = {
             type: 'date',
             example: '2021-07-01T00:00:00.000Z',
             nullable: true
+        },
+        createdBy: {
+            type: 'string',
+            example: '6a909236-53f2-4727-b780-e41e115ee906'
         },
         name: {
             type: 'object',
@@ -490,7 +506,7 @@ export const $SerializedBrandDto = {
             }
         }
     },
-    required: ['_id', '__v', 'createdAt', 'updatedAt', 'deletedAt', 'lastSyncAt', 'name', 'totalSoldProducts', 'totalRevenue', 'totalOrders', 'categories', 'products', 'suppliers', 'referTo', 'orders']
+    required: ['_id', '__v', 'createdAt', 'updatedAt', 'deletedAt', 'lastSyncAt', 'createdBy', 'name', 'totalSoldProducts', 'totalRevenue', 'totalOrders', 'categories', 'products', 'suppliers', 'referTo', 'orders']
 } as const;
 
 export const $GetManyContractEntityResponseDto = {
@@ -567,6 +583,10 @@ export const $ContractEntity = {
             example: '2021-07-01T00:00:00.000Z',
             nullable: true
         },
+        createdBy: {
+            type: 'string',
+            example: '6a909236-53f2-4727-b780-e41e115ee906'
+        },
         files: {
             type: 'array',
             items: {
@@ -574,7 +594,7 @@ export const $ContractEntity = {
             }
         }
     },
-    required: ['_id', '__v', 'createdAt', 'updatedAt', 'deletedAt', 'lastSyncAt', 'files']
+    required: ['_id', '__v', 'createdAt', 'updatedAt', 'deletedAt', 'lastSyncAt', 'createdBy', 'files']
 } as const;
 
 export const $SerializedUserDto = {
@@ -606,6 +626,10 @@ export const $SerializedUserDto = {
             type: 'date',
             example: '2021-07-01T00:00:00.000Z',
             nullable: true
+        },
+        createdBy: {
+            type: 'string',
+            example: '6a909236-53f2-4727-b780-e41e115ee906'
         },
         active: {
             type: 'boolean',
@@ -664,9 +688,15 @@ export const $SerializedUserDto = {
             items: {
                 '$ref': '#/components/schemas/SerializedContractDto'
             }
+        },
+        orders: {
+            type: 'array',
+            items: {
+                '$ref': '#/components/schemas/OrderEntity'
+            }
         }
     },
-    required: ['_id', '__v', 'createdAt', 'updatedAt', 'deletedAt', 'lastSyncAt', 'active', 'email', 'firstName', 'lastName', 'phoneNumber', 'role', 'businessName', 'totalSoldProducts', 'totalRevenue', 'totalOrders', 'brand', 'contracts']
+    required: ['_id', '__v', 'createdAt', 'updatedAt', 'deletedAt', 'lastSyncAt', 'createdBy', 'active', 'email', 'firstName', 'lastName', 'phoneNumber', 'role', 'businessName', 'totalSoldProducts', 'totalRevenue', 'totalOrders', 'brand', 'contracts', 'orders']
 } as const;
 
 export const $SerializedContractDto = {
@@ -699,6 +729,10 @@ export const $SerializedContractDto = {
             example: '2021-07-01T00:00:00.000Z',
             nullable: true
         },
+        createdBy: {
+            type: 'string',
+            example: '6a909236-53f2-4727-b780-e41e115ee906'
+        },
         totalSoldProducts: {
             type: 'number',
             example: 0
@@ -715,7 +749,7 @@ export const $SerializedContractDto = {
             '$ref': '#/components/schemas/SerializedUserDto'
         }
     },
-    required: ['_id', '__v', 'createdAt', 'updatedAt', 'deletedAt', 'lastSyncAt', 'totalSoldProducts', 'totalRevenue', 'totalOrders', 'supplier']
+    required: ['_id', '__v', 'createdAt', 'updatedAt', 'deletedAt', 'lastSyncAt', 'createdBy', 'totalSoldProducts', 'totalRevenue', 'totalOrders', 'supplier']
 } as const;
 
 export const $Object = {
@@ -778,6 +812,10 @@ export const $MachineProduct = {
             example: '2021-07-01T00:00:00.000Z',
             nullable: true
         },
+        createdBy: {
+            type: 'string',
+            example: '6a909236-53f2-4727-b780-e41e115ee906'
+        },
         id: {
             type: 'string'
         },
@@ -810,7 +848,7 @@ export const $MachineProduct = {
             type: 'string'
         }
     },
-    required: ['_id', '__v', 'createdAt', 'updatedAt', 'deletedAt', 'lastSyncAt', 'id', 'current_stock', 'max_stock', 'upc', 'stock', 'floor', 'lane', 'name', 'motor', 'expiration_date']
+    required: ['_id', '__v', 'createdAt', 'updatedAt', 'deletedAt', 'lastSyncAt', 'createdBy', 'id', 'current_stock', 'max_stock', 'upc', 'stock', 'floor', 'lane', 'name', 'motor', 'expiration_date']
 } as const;
 
 export const $MachineEntity = {
@@ -842,6 +880,10 @@ export const $MachineEntity = {
             type: 'date',
             example: '2021-07-01T00:00:00.000Z',
             nullable: true
+        },
+        createdBy: {
+            type: 'string',
+            example: '6a909236-53f2-4727-b780-e41e115ee906'
         },
         productsCount: {
             type: 'number'
@@ -996,7 +1038,7 @@ export const $MachineEntity = {
             type: 'string'
         }
     },
-    required: ['_id', '__v', 'createdAt', 'updatedAt', 'deletedAt', 'lastSyncAt', 'productsCount', 'totalMaxStock', 'totalRevenue', 'totalSoldProducts', 'totalOrders', 'product', 'orders', 'status', 'alertSent', 'machineOnline', 'machineOnlineAlert', 'category', 'brand', 'products_bs', 'tax', 'group', 'stock', 'time_to_idle', 'enablePriceChange', 'alertEmail', 'alertEmail2', 'name', 'description', 'belongTo', 'lane', 'floor', 'laneLength', 'height', 'slot_height', 'step_depth', 'step_num', 'model', 'products_price', 'products_plan', 'stocking', 'active', 'gui_version', 'master_version', 'diff', 'screenSaver']
+    required: ['_id', '__v', 'createdAt', 'updatedAt', 'deletedAt', 'lastSyncAt', 'createdBy', 'productsCount', 'totalMaxStock', 'totalRevenue', 'totalSoldProducts', 'totalOrders', 'product', 'orders', 'status', 'alertSent', 'machineOnline', 'machineOnlineAlert', 'category', 'brand', 'products_bs', 'tax', 'group', 'stock', 'time_to_idle', 'enablePriceChange', 'alertEmail', 'alertEmail2', 'name', 'description', 'belongTo', 'lane', 'floor', 'laneLength', 'height', 'slot_height', 'step_depth', 'step_num', 'model', 'products_price', 'products_plan', 'stocking', 'active', 'gui_version', 'master_version', 'diff', 'screenSaver']
 } as const;
 
 export const $ProductEntity = {
@@ -1028,9 +1070,13 @@ export const $ProductEntity = {
             type: 'date',
             example: '2021-07-01T00:00:00.000Z',
             nullable: true
+        },
+        createdBy: {
+            type: 'string',
+            example: '6a909236-53f2-4727-b780-e41e115ee906'
         }
     },
-    required: ['_id', '__v', 'createdAt', 'updatedAt', 'deletedAt', 'lastSyncAt']
+    required: ['_id', '__v', 'createdAt', 'updatedAt', 'deletedAt', 'lastSyncAt', 'createdBy']
 } as const;
 
 export const $GetManyProductEntityResponseDto = {
@@ -1153,6 +1199,10 @@ export const $SerializedProductDto = {
             type: 'date',
             example: '2021-07-01T00:00:00.000Z',
             nullable: true
+        },
+        createdBy: {
+            type: 'string',
+            example: '6a909236-53f2-4727-b780-e41e115ee906'
         },
         upc: {
             type: 'string',
@@ -1283,7 +1333,7 @@ export const $SerializedProductDto = {
             description: 'Reference to another product'
         }
     },
-    required: ['_id', '__v', 'createdAt', 'updatedAt', 'deletedAt', 'lastSyncAt', 'upc', 'additionPrice', 'ageControl', 'barcode', 'costPrice', 'name', 'description', 'price', 'pricePerKilo', 'prodType', 'productPictures', 'sortIndex', 'vatIndex', 'virtualProduct', 'totalSoldProducts', 'totalRevenue', 'totalActiveRevenue', 'totalOrders', 'productVideo', 'category', 'brand', 'supplier', 'orders', 'referTo']
+    required: ['_id', '__v', 'createdAt', 'updatedAt', 'deletedAt', 'lastSyncAt', 'createdBy', 'upc', 'additionPrice', 'ageControl', 'barcode', 'costPrice', 'name', 'description', 'price', 'pricePerKilo', 'prodType', 'productPictures', 'sortIndex', 'vatIndex', 'virtualProduct', 'totalSoldProducts', 'totalRevenue', 'totalActiveRevenue', 'totalOrders', 'productVideo', 'category', 'brand', 'supplier', 'orders', 'referTo']
 } as const;
 
 export const $PickTypeClass = {
@@ -1395,7 +1445,7 @@ export const $CreateProductDto = {
                 }
             ]
         },
-        brand: {
+        category: {
             nullable: true,
             allOf: [
                 {
@@ -1403,7 +1453,7 @@ export const $CreateProductDto = {
                 }
             ]
         },
-        category: {
+        brand: {
             nullable: true,
             allOf: [
                 {
@@ -1529,7 +1579,7 @@ export const $UpdateProductDto = {
                 }
             ]
         },
-        brand: {
+        category: {
             nullable: true,
             allOf: [
                 {
@@ -1537,7 +1587,7 @@ export const $UpdateProductDto = {
                 }
             ]
         },
-        category: {
+        brand: {
             nullable: true,
             allOf: [
                 {
@@ -1711,9 +1761,13 @@ export const $FillRequestEntity = {
             type: 'date',
             example: '2021-07-01T00:00:00.000Z',
             nullable: true
+        },
+        createdBy: {
+            type: 'string',
+            example: '6a909236-53f2-4727-b780-e41e115ee906'
         }
     },
-    required: ['_id', '__v', 'createdAt', 'updatedAt', 'deletedAt', 'lastSyncAt']
+    required: ['_id', '__v', 'createdAt', 'updatedAt', 'deletedAt', 'lastSyncAt', 'createdBy']
 } as const;
 
 export const $ProductsFillRequest = {
@@ -1782,11 +1836,11 @@ export const $CreateContractDto = {
         },
         startDate: {
             type: 'date',
-            default: '2024-06-29T11:03:18.134Z'
+            default: '2024-07-01T10:24:41.047Z'
         },
         endDate: {
             type: 'date',
-            default: '2024-06-29T11:03:18.134Z'
+            default: '2024-07-01T10:24:41.047Z'
         },
         status: {
             type: 'string',
@@ -1818,11 +1872,11 @@ export const $UpdateContractDto = {
         },
         startDate: {
             type: 'date',
-            default: '2024-06-29T11:03:18.134Z'
+            default: '2024-07-01T10:24:41.047Z'
         },
         endDate: {
             type: 'date',
-            default: '2024-06-29T11:03:18.134Z'
+            default: '2024-07-01T10:24:41.047Z'
         },
         status: {
             type: 'string',
@@ -1889,9 +1943,13 @@ export const $CategoryEntity = {
             type: 'date',
             example: '2021-07-01T00:00:00.000Z',
             nullable: true
+        },
+        createdBy: {
+            type: 'string',
+            example: '6a909236-53f2-4727-b780-e41e115ee906'
         }
     },
-    required: ['_id', '__v', 'createdAt', 'updatedAt', 'deletedAt', 'lastSyncAt']
+    required: ['_id', '__v', 'createdAt', 'updatedAt', 'deletedAt', 'lastSyncAt', 'createdBy']
 } as const;
 
 export const $SerializedCategoryDto = {
@@ -1923,6 +1981,10 @@ export const $SerializedCategoryDto = {
             type: 'date',
             example: '2021-07-01T00:00:00.000Z',
             nullable: true
+        },
+        createdBy: {
+            type: 'string',
+            example: '6a909236-53f2-4727-b780-e41e115ee906'
         },
         totalSoldProducts: {
             type: 'number',
@@ -1987,7 +2049,7 @@ export const $SerializedCategoryDto = {
             description: 'Email of the owner'
         }
     },
-    required: ['_id', '__v', 'createdAt', 'updatedAt', 'deletedAt', 'lastSyncAt', 'totalSoldProducts', 'totalRevenue', 'totalOrders', 'name', 'auto', 'sortIndex', 'products', 'suppliers', 'brands', 'orders', 'referTo']
+    required: ['_id', '__v', 'createdAt', 'updatedAt', 'deletedAt', 'lastSyncAt', 'createdBy', 'totalSoldProducts', 'totalRevenue', 'totalOrders', 'name', 'auto', 'sortIndex', 'products', 'suppliers', 'brands', 'orders', 'referTo']
 } as const;
 
 export const $CreateCategoryDto = {
