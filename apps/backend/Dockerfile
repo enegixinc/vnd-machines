@@ -35,7 +35,6 @@ WORKDIR /app
 
 COPY --from=builder /app/dist/apps/backend /app
 COPY --from=builder /app/node_modules /app/node_modules
-COPY ../../scripts/slack.js /app/scripts/slack.js
 
 EXPOSE 4444
 
