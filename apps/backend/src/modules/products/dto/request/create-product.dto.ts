@@ -32,17 +32,6 @@ export class CreateProductDto
   @decorate(IsOptional({ groups: [UPDATE, CREATE] }))
   supplier: ReferenceByID<ISerializedUser>;
 
-  @decorate(IsOptional({ groups: [UPDATE, CREATE] }))
-  @decorate(
-    ApiProperty({
-      type: () => PickType(SerializedBrandDto, ['_id']),
-      required: false,
-      nullable: true,
-    })
-  )
-  brand: ReferenceByID<ISerializedBrand>;
-
-  @decorate(IsOptional({ groups: [UPDATE, CREATE] }))
   @decorate(
     ApiProperty({
       type: () => PickType(SerializedCategoryDto, ['_id']),
@@ -50,7 +39,18 @@ export class CreateProductDto
       nullable: true,
     })
   )
+  @decorate(IsOptional({ groups: [UPDATE, CREATE] }))
   category: ReferenceByID<ISerializedCategory>;
+
+  @decorate(
+    ApiProperty({
+      type: () => PickType(SerializedBrandDto, ['_id']),
+      required: false,
+      nullable: true,
+    })
+  )
+  @decorate(IsOptional({ groups: [UPDATE, CREATE] }))
+  brand: ReferenceByID<ISerializedBrand>;
 
   @decorate(IsOptional({ groups: [UPDATE, CREATE] }))
   @decorate(

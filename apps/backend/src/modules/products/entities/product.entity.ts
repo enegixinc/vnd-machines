@@ -188,9 +188,7 @@ export class ProductEntity
   machines: MachineProduct[];
 
   @ManyToOne(() => UserEntity, (user) => user.products, {
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE',
-    cascade: ['update'],
+    cascade: true,
   })
   supplier: ReferenceByID<ISerializedUser>;
   @Column({ nullable: true })
@@ -202,10 +200,11 @@ export class ProductEntity
   brand: ReferenceByID<ISerializedBrand>;
 
   @ManyToOne(() => CategoryEntity, (category) => category.products, {
-    onDelete: 'CASCADE',
     cascade: true,
   })
   category: ReferenceByID<ISerializedCategory>;
+  @Column({ nullable: true })
+  category_id: string;
 
   @Factory((faker) =>
     faker.number.int({
@@ -384,11 +383,13 @@ export class ProductEntity
       this.removeExtraProps(this, ['supplier', 'fullName'])
     );
 
+    console.log('this.category?._id', this.category?._id);
+    console.log('this.brand?._id', this.brand?._id);
     const { newProduct } = await magexService.products.postProductsCreate({
       formData: {
         ...formData,
-        category: this.category?._id || '',
-        brand: this.brand?._id || '',
+        category: this.category?._id || null,
+        brand: this.brand?._id || null,
         referTo: 'tryvnd@point24h.com',
       },
     });
@@ -402,13 +403,15 @@ export class ProductEntity
     const formData = this.handleMultiLangProps(
       this.removeExtraProps(this, ['supplier', 'fullName', 'productPictures'])
     );
+    console.log('this.category?._id', this.category?._id);
+    console.log('this.brand?._id', this.brand?._id);
 
     await magexService.products.putProductsEditById({
       id: formData._id,
       formData: {
         ...formData,
-        category: this.category?._id || '',
-        brand: this.brand?._id || '',
+        category: this.category?._id || null,
+        brand: this.brand?._id || null,
         referTo: 'tryvnd@point24h.com',
       },
     });

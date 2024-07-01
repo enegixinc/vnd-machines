@@ -19,7 +19,8 @@ export default function OrdersList() {
         showActions={false}
         onRow={(record) => ({
           onClick: () => {
-            router.push(`/orders/${record._id}`);
+            if (!record._id) return;
+            router.push(`/orders/show/${record._id}`);
           },
           style: { cursor: 'pointer' },
         })}

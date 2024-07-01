@@ -9,6 +9,7 @@ import {
   VirtualColumn,
 } from 'typeorm';
 import {
+  IBrandEntity,
   ICategoryEntity,
   ISerializedBrand,
   ISerializedProduct,
@@ -96,24 +97,9 @@ export class CategoryEntity
   @Column({ type: 'int', default: 0 })
   sortIndex: number;
 
-  // @Factory((faker) => [
-  //   {
-  //     _id: faker.database.mongodbObjectId(),
-  //   },
-  // ])
-  // @ManyToMany(() => UserEntity, (user) => user.categories, {
-  //   nullable: true,
-  // })
-  // @JoinTable({
-  //   joinColumn: {
-  //     name: 'categoryId',
-  //     referencedColumnName: '_id',
-  //   },
-  //   inverseJoinColumn: {
-  //     name: 'userId',
-  //     referencedColumnName: '_id',
-  //   },
-  // })
+  @OneToMany(() => ProductEntity, (product) => product.category, {})
+  products: ISerializedProduct[];
+
   @VirtualColumn({
     type: 'array',
     query: (entity) => `
@@ -126,11 +112,6 @@ export class CategoryEntity
   })
   suppliers: ISerializedUser[];
 
-  @Factory((faker) => [
-    {
-      _id: faker.database.mongodbObjectId(),
-    },
-  ])
   @ManyToMany(() => BrandEntity, (brand) => brand.categories, {
     nullable: true,
   })
@@ -145,19 +126,6 @@ export class CategoryEntity
     },
   })
   brands: ISerializedBrand[];
-
-  @Factory((faker) => [
-    {
-      _id: faker.database.mongodbObjectId(),
-    },
-  ])
-  @OneToMany(() => ProductEntity, (product) => product.category, {
-    onDelete: 'CASCADE',
-  })
-  products: ISerializedProduct[];
-
-  // @OneToMany(() => OrderEntity, (order) => order.category, {})
-  // orders: OrderEntity[];
 
   async createMagexRecord(magexService: MagexService) {
     // @ts-expect-error - to be fixed
@@ -182,15 +150,18 @@ export class CategoryEntity
   }
 
   async updateMagexRecord(magexService: MagexService) {
-    await magexService.categories.putCategoriesEditById({
-      id: this._id,
-      formData: {
-        name: JSON.stringify(this.name),
-        referTo: 'tryvnd@point24h.com',
-        auto: this.auto ? 'true' : 'false',
-        sortIndex: this.sortIndex,
-      },
-    });
+    const { newCategory } =
+      (await magexService.categories.putCategoriesEditById({
+        id: this._id,
+        formData: {
+          name: JSON.stringify(this.name),
+          referTo: 'tryvnd@point24h.com',
+          auto: this.auto ? 'true' : 'false',
+          sortIndex: this.sortIndex,
+        },
+      })) as { newCategory: ICategoryEntity };
+    Object.assign(this, newCategory);
+    Object.assign(this, { lastSyncAt: newCategory.updatedAt });
   }
 
   async fetchMagexRecords(magexService: MagexService) {

@@ -147,7 +147,7 @@ export default function ProductShow() {
               cursor: 'pointer',
               color: '#1890ff',
             }}
-            value={handleEmptyString(record.brand?.name?.en)}
+            value={handleEmptyString(record.brand?.fullName)}
           />
         </Descriptions.Item>
       </Descriptions>

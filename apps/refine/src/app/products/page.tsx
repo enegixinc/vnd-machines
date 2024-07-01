@@ -65,11 +65,13 @@ export default function ProductsList() {
               title: 'Supplier',
               onCell: (record) => ({
                 style: {
-                  cursor: record.supplier && 'pointer',
-                  color: record.supplier && '#1890ff',
+                  cursor: record.supplier?._id && 'pointer',
+                  color: record.supplier?._id && '#1890ff',
                 },
-                onClick: () =>
-                  router.push(`/suppliers/show/${record.supplier._id}`),
+                onClick: () => {
+                  if (record.supplier?._id)
+                    router.push(`/suppliers/show/${record.supplier._id}`);
+                },
               }),
               render: handleNullableFullName,
             },
@@ -78,11 +80,13 @@ export default function ProductsList() {
               title: 'Category',
               onCell: (record) => ({
                 style: {
-                  cursor: record.category && 'pointer',
-                  color: record.category && '#1890ff',
+                  cursor: record.category?._id && 'pointer',
+                  color: record.category?._id && '#1890ff',
                 },
-                onClick: () =>
-                  router.push(`/categories/show/${record.category._id}`),
+                onClick: () => {
+                  if (record.category?._id)
+                    router.push(`/categories/show/${record.category._id}`);
+                },
               }),
               render: handleNullableFullName,
             },
@@ -91,10 +95,13 @@ export default function ProductsList() {
               title: 'Brand',
               onCell: (record) => ({
                 style: {
-                  cursor: 'pointer',
-                  color: '#1890ff',
+                  cursor: record.brand?._id && 'pointer',
+                  color: record.brand?._id && '#1890ff',
                 },
-                onClick: () => router.push(`/brands/show/${record.brand._id}`),
+                onClick: () => {
+                  if (record.brand?._id)
+                    router.push(`/brands/show/${record.brand._id}`);
+                },
               }),
               render: handleNullableFullName,
             },

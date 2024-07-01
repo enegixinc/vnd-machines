@@ -3,9 +3,10 @@
 import { Edit, useForm, useSelect } from '@refinedev/antd';
 import React from 'react';
 import { ProductForm } from '@app/products/form';
+import { Spin } from 'antd';
 
 export default function CategoryEdit() {
-  const { formProps, saveButtonProps } = useForm({
+  const { formProps, saveButtonProps, formLoading } = useForm({
     meta: {
       join: [
         {
@@ -23,32 +24,23 @@ export default function CategoryEdit() {
       ],
     },
   });
-  const { selectProps: brandSelectProps } = useSelect({
-    resource: 'brands',
-    optionLabel: 'name.en',
-    optionValue: '_id',
-  });
-  const { selectProps: supplierSelectProps } = useSelect({
-    resource: 'users',
-    // @ts-ignore
-    optionLabel: 'email',
-    filters: [{ field: 'role', operator: 'eq', value: 'supplier' }],
-    optionValue: '_id',
-  });
 
-  const { selectProps: categorySelectProps } = useSelect({
-    resource: 'categories',
-    optionLabel: 'name.en',
-    optionValue: '_id',
-  });
+  if (formLoading) {
+    return (
+      <Spin
+        style={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+        }}
+      />
+    );
+  }
+
   return (
     <Edit saveButtonProps={saveButtonProps}>
-      <ProductForm
-        formProps={formProps}
-        brandSelectProps={brandSelectProps}
-        supplierSelectProps={supplierSelectProps}
-        categorySelectProps={categorySelectProps}
-      />
+      <ProductForm formProps={formProps} />
     </Edit>
   );
 }

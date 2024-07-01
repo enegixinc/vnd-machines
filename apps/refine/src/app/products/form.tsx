@@ -10,7 +10,7 @@ import {
   Upload,
   UploadFile,
 } from 'antd';
-import { getValueFromEvent } from '@refinedev/antd';
+import { getValueFromEvent, useSelect } from '@refinedev/antd';
 import { MultiLangInput } from '@theme-helpers';
 import React, { useEffect, useState } from 'react';
 import {
@@ -60,17 +60,7 @@ const cleanNestedObject = (obj: FormData): boolean => {
 //   });
 // };
 
-export const ProductForm = ({
-  formProps,
-  supplierSelectProps,
-  brandSelectProps,
-  categorySelectProps,
-}: {
-  formProps: FormProps;
-  supplierSelectProps: any;
-  brandSelectProps: any;
-  categorySelectProps: any;
-}) => {
+export const ProductForm = ({ formProps }: { formProps: FormProps }) => {
   const transformPictureData = (pictures: string[]) => {
     return pictures.map((pic, index) => ({
       uid: index,
@@ -81,6 +71,23 @@ export const ProductForm = ({
     }));
   };
   const [fileList, setFileList] = useState([]);
+  const { selectProps: brandSelectProps } = useSelect({
+    resource: 'brands',
+    optionLabel: 'fullName',
+    optionValue: '_id',
+  });
+  const { selectProps: supplierSelectProps } = useSelect({
+    resource: 'users',
+    optionLabel: 'fullName',
+    filters: [{ field: 'role', operator: 'eq', value: 'supplier' }],
+    optionValue: '_id',
+  });
+  const { selectProps: categorySelectProps } = useSelect({
+    resource: 'categories',
+    optionLabel: 'fullName',
+    optionValue: '_id',
+  });
+
   // const handleUpload = async ({
   //   file,
   // }: UploadChangeParam<UploadFile<any>>) => {

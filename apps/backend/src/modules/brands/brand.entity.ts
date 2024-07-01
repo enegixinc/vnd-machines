@@ -41,6 +41,19 @@ export class BrandEntity extends SearchableMagexEntity implements IBrandEntity {
     this.fullName = MultiLangEntity.handleMultiLang(this.name);
   }
 
+  @VirtualColumn({
+    type: 'array',
+    query: (entity) => `
+      select coalesce(jsonb_agg(orders), '[]'::jsonb)
+      from brands
+             join products on brands._id = products.brand_id
+             join order_details on products._id = order_details.product_id
+             join orders on order_details.order_id = orders._id
+      where brands._id = ${entity}._id
+    `,
+  })
+  orders: OrderEntity[];
+
   @TotalSoldProducts('brands', 'brand_id')
   totalSoldProducts: number;
 
@@ -49,19 +62,17 @@ export class BrandEntity extends SearchableMagexEntity implements IBrandEntity {
 
   @TotalOrders('brands', 'brand_id')
   totalOrders: number;
-
   @Column({ type: 'varchar', nullable: true })
   logo: string;
   @Column({ type: 'jsonb' })
   name: MultiLang;
   @Column({ type: 'varchar', nullable: true })
   picture: string;
+
   @Column({ type: 'varchar', default: 'tryvnd@point24h.com' })
   referTo: string;
 
-  @OneToMany(() => ProductEntity, (product) => product.brand, {
-    onDelete: 'CASCADE',
-  })
+  @OneToMany(() => ProductEntity, (product) => product.brand, {})
   products: ISerializedProduct[];
 
   @ManyToMany(() => CategoryEntity, (category) => category.brands, {
@@ -93,19 +104,6 @@ export class BrandEntity extends SearchableMagexEntity implements IBrandEntity {
     },
   })
   suppliers: ISerializedUser[];
-
-  @VirtualColumn({
-    type: 'array',
-    query: (entity) => `
-      select coalesce(jsonb_agg(orders), '[]'::jsonb)
-      from brands
-             join products on brands._id = products.brand_id
-             join order_details on products._id = order_details.product_id
-             join orders on order_details.order_id = orders._id
-      where brands._id = ${entity}._id
-    `,
-  })
-  orders: OrderEntity[];
 
   async createMagexRecord(magexService: MagexService) {
     console.count('createMagexRecord');
