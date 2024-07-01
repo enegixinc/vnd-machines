@@ -16,7 +16,7 @@ COPY ../../pnpm-lock.yaml ./pnpm-lock.yaml
 COPY ../../package.json ./package.json
 
 # Install dependencies using pnpm with caching
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile --ignore-scripts
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile --ignore-scripts --force
 
 FROM node:lts-alpine AS builder
 
