@@ -4,8 +4,8 @@ import Cookies from 'js-cookie';
 // eslint-disable-next-line no-unused-vars
 type Middleware<T> = (value: T) => Promise<T> | T;
 export const vndClient = new VNDClient({
-  // BASE: 'https://staging-vnd-api.5ostudios.com',
-  BASE: 'http://localhost:3000',
+  BASE: 'https://staging-vnd-api.5ostudios.com',
+  // BASE: 'http://localhost:3000',
   HEADERS: {
     'Access-Control-Allow-Origin': '*',
     'Content-type': 'application/json',
