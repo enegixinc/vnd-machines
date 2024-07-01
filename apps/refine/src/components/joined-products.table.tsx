@@ -3,6 +3,7 @@ import { handleMagextImage } from '@app/products/utils/handleMagextImage';
 import React from 'react';
 import { SerializedProductDto } from '@frontend/api-sdk';
 import { useRouter } from 'next/navigation';
+import { formatPrice } from '@helpers';
 
 export const JoinedProductsTable = ({
   record,
@@ -37,7 +38,7 @@ export const JoinedProductsTable = ({
           {
             dataIndex: 'productPictures',
             title: 'Image',
-            render: handleMagextImage,
+            render: (images) => handleMagextImage(images[0]),
           },
           {
             dataIndex: 'fullName',
@@ -53,7 +54,7 @@ export const JoinedProductsTable = ({
             dataIndex: 'price',
             title: 'Price',
             sorter: true,
-            render: (price) => `${Number(price).toFixed(1)} KD`,
+            render: formatPrice,
           },
           {
             dataIndex: 'totalSoldProducts',
@@ -69,6 +70,7 @@ export const JoinedProductsTable = ({
             dataIndex: 'totalRevenue',
             title: 'Total Revenue',
             sorter: true,
+            render: formatPrice,
           },
         ]}
       />

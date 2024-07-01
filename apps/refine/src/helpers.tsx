@@ -56,5 +56,17 @@ export const handleEmptyString = (value: string | null | undefined) => {
 };
 
 export const formatPrice = (price: number | string) => {
-  return parseFloat(price.toString()).toFixed(3) + ' KD';
+  if (typeof price === 'string') {
+    price = parseFloat(price);
+  }
+
+  if (isNaN(price)) {
+    return 'N/A';
+  }
+
+  if (!price) {
+    return '0.000 KD';
+  }
+
+  return price.toFixed(3) + ' KD';
 };

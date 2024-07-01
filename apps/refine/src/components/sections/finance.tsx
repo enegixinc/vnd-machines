@@ -26,14 +26,11 @@ export const ShowFinance = ({
         bordered
         column={3}
       >
-        <Descriptions.Item label="Total Sold Products">
-          <TextField value={formatPrice(record.totalSoldProducts)} />
+        <Descriptions.Item label="Orders">
+          <TextField value={record.totalOrders} />
         </Descriptions.Item>
-        <Descriptions.Item label="Total Orders">
-          <TextField value={formatPrice(record.totalOrders)} />
-        </Descriptions.Item>
-        <Descriptions.Item label="Total Sales">
-          <TextField value={formatPrice(record.totalSales)} />
+        <Descriptions.Item label="Sold Products">
+          <TextField value={record.totalSoldProducts} />
         </Descriptions.Item>
       </Descriptions>
       <Divider
@@ -48,9 +45,12 @@ export const ShowFinance = ({
           width: '20%',
         }}
         bordered
-        column={2}
+        column={3}
       >
-        <Descriptions.Item label="Total Revenue">
+        <Descriptions.Item label="Sales">
+          <TextField value={formatPrice(record.totalSales)} />
+        </Descriptions.Item>
+        <Descriptions.Item label="Revenue">
           <TextField value={formatPrice(record.totalRevenue)} />
         </Descriptions.Item>
         <Descriptions.Item label="Active Revenue">

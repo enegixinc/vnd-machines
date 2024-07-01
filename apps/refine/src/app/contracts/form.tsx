@@ -11,12 +11,12 @@ import {
   Switch,
   UploadProps,
 } from 'antd';
-import { getValueFromEvent } from '@refinedev/antd';
 import Dragger from 'antd/es/upload/Dragger';
 import { InboxOutlined } from '@ant-design/icons';
 import { cleanFormData } from '@app/products/form';
-import { axiosInstance, vndClient } from '@providers/api';
 import axios from 'axios';
+import { ContractStatus } from '@core';
+import { List } from '@refinedev/antd';
 
 export const ContractForm = ({
   formProps,
@@ -89,6 +89,7 @@ export const ContractForm = ({
             label="Start Date"
             name="startDate"
             rules={[{ required: true, message: 'Please enter the start date' }]}
+            initialValue={new Date().toISOString().split('T')[0]}
           >
             <Input type="date" />
           </Form.Item>
@@ -97,10 +98,33 @@ export const ContractForm = ({
             label="End Date"
             name="endDate"
             rules={[{ required: true, message: 'Please enter the end date' }]}
+            // after 30 days
+            initialValue={
+              new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
+                .toISOString()
+                .split('T')[0]
+            }
           >
             <Input type="date" />
           </Form.Item>
         </Space>
+
+        <Form.Item
+          label="Status"
+          name="status"
+          rules={[{ required: true, message: 'Please select the status' }]}
+          initialValue={
+            formProps.initialValues?.status || ContractStatus.ACTIVE
+          }
+        >
+          <Select
+            options={[
+              { value: ContractStatus.ACTIVE, label: 'Active' },
+              { value: ContractStatus.EXPIRED, label: 'Expired' },
+              { value: ContractStatus.TERMINATED, label: 'Terminated' },
+            ]}
+          />
+        </Form.Item>
       </Card>
 
       <Card title="Financial Information" style={{ marginTop: 16 }}>
