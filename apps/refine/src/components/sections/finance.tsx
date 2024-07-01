@@ -1,6 +1,7 @@
 import { Descriptions, Typography } from 'antd';
 import { TextField } from '@refinedev/antd';
 import { Divider } from 'antd';
+import { formatPrice } from '@helpers';
 
 export const ShowFinance = ({
   record,
@@ -26,13 +27,13 @@ export const ShowFinance = ({
         column={3}
       >
         <Descriptions.Item label="Total Sold Products">
-          <TextField value={record.totalSoldProducts} />
+          <TextField value={formatPrice(record.totalSoldProducts)} />
         </Descriptions.Item>
         <Descriptions.Item label="Total Orders">
-          <TextField value={record.totalOrders} />
+          <TextField value={formatPrice(record.totalOrders)} />
         </Descriptions.Item>
         <Descriptions.Item label="Total Sales">
-          <TextField value={record.totalRevenue} />
+          <TextField value={formatPrice(record.totalSales)} />
         </Descriptions.Item>
       </Descriptions>
       <Divider
@@ -50,10 +51,10 @@ export const ShowFinance = ({
         column={2}
       >
         <Descriptions.Item label="Total Revenue">
-          <TextField value={record.totalRevenue} />
+          <TextField value={formatPrice(record.totalRevenue)} />
         </Descriptions.Item>
         <Descriptions.Item label="Active Revenue">
-          <TextField value={record.totalActiveRevenue} />
+          <TextField value={formatPrice(record.totalActiveRevenue)} />
         </Descriptions.Item>
       </Descriptions>
     </>

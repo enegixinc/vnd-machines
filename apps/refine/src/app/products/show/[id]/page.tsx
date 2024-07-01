@@ -1,11 +1,18 @@
 'use client';
 
 import { Show, TextField } from '@refinedev/antd';
-import { Descriptions, Divider, Table, Typography } from 'antd';
+import {
+  Checkbox,
+  Descriptions,
+  Divider,
+  Switch,
+  Table,
+  Typography,
+} from 'antd';
 import React from 'react';
 import { SerializedProductDto } from '@frontend/api-sdk';
 import { useShow } from '@refinedev/core';
-import { handleEmptyString } from '@helpers';
+import { formatPrice, handleEmptyString } from '@helpers';
 import { handleMagextImage } from '@app/products/utils/handleMagextImage';
 import { ShowFinance } from '@components/sections/finance';
 import { useRouter } from 'next/navigation';
@@ -79,17 +86,17 @@ export default function ProductShow() {
         </Descriptions.Item>
 
         <Descriptions.Item label="Price">
-          <TextField value={`${Number(record.price).toFixed(2)} KD`} />
+          <TextField value={formatPrice(record.price)} />
         </Descriptions.Item>
         <Descriptions.Item label="Cost Price">
-          <TextField value={`${Number(record.costPrice).toFixed(2)} KD`} />
+          <TextField value={formatPrice(record.costPrice)} />
         </Descriptions.Item>
         <Descriptions.Item label="Additional Price">
-          <TextField value={`${Number(record.additionPrice).toFixed(2)} KD`} />
+          <TextField value={formatPrice(record.additionPrice)} />
         </Descriptions.Item>
 
         <Descriptions.Item label="Price Per Kilo">
-          <TextField value={`${Number(record.pricePerKilo).toFixed(2)} KD`} />
+          <Switch disabled checked={record.pricePerKilo} />
         </Descriptions.Item>
 
         <Descriptions.Item label="Age Control">

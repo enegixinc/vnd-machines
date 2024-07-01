@@ -8,6 +8,9 @@ import { IoIosCash } from 'react-icons/io';
 import { RiVisaFill } from 'react-icons/ri';
 import { CanAccess } from '@refinedev/core';
 import { useRouter } from 'next/navigation';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+dayjs.extend(relativeTime);
 
 export default function OrdersList() {
   const router = useRouter();
@@ -64,6 +67,12 @@ export default function OrdersList() {
             dataIndex: ['total'],
             sorter: true,
             render: (total, record) => `${total} ${record.currency}`,
+          },
+          {
+            title: 'Date',
+            dataIndex: 'createdAt',
+            render: (date) => dayjs(date).fromNow(),
+            sorter: true,
           },
         ]}
       />

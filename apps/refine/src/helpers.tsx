@@ -54,3 +54,7 @@ export const handleEmptyString = (value: string | null | undefined) => {
   }
   return value;
 };
+
+export const formatPrice = (price: number | string) => {
+  return parseFloat(price.toString()).toFixed(3) + ' KD';
+};
