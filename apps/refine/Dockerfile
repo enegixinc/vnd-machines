@@ -19,7 +19,7 @@ COPY --from=deps /app/refine/node_modules ./node_modules
 
 COPY . .
 
-RUN npx nx run dashboard:build:production
+RUN npx nx run dashboard:build
 
 FROM base AS runner
 
