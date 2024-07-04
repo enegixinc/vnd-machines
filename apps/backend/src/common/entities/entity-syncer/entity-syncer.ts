@@ -144,7 +144,7 @@ export abstract class EntitySyncer<Entity extends MagexDatabaseEntity>
 
   @Cron(
     process.env.NODE_ENV === 'production'
-      ? CronExpression.EVERY_SECOND
+      ? CronExpression.EVERY_MINUTE
       : CronExpression.EVERY_5_MINUTES
   )
   async syncWithMagex() {
