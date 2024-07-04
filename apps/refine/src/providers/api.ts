@@ -1,11 +1,12 @@
 import axios, { type AxiosRequestConfig, type AxiosResponse } from 'axios';
 import { VNDClient } from '@frontend/api-sdk';
 import Cookies from 'js-cookie';
+import { envSchema } from '@providers/env';
 // eslint-disable-next-line no-unused-vars
 type Middleware<T> = (value: T) => Promise<T> | T;
 export const vndClient = new VNDClient({
-  BASE: 'https://staging-vnd-api.5ostudios.com',
-  // BASE: 'http://localhost:3000',
+  // BASE: 'https://staging-vnd-api.5ostudios.com',
+  BASE: envSchema.NEXT_PUBLIC_API_URL,
   HEADERS: {
     'Access-Control-Allow-Origin': '*',
     'Content-type': 'application/json',
@@ -40,7 +41,7 @@ vndClient.request.config.interceptors.request.use(attachHeaders);
 vndClient.request.config.interceptors.response.use(errorHandler);
 
 export const axiosInstance = axios.create({
-  url: 'https://staging-vnd-api.5ostudios.com',
+  url: envSchema.NEXT_PUBLIC_API_URL,
   headers: {
     'Access-Control-Allow-Origin': '*',
     'Content-type': 'application/json',

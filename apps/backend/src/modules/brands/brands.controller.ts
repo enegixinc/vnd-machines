@@ -39,15 +39,10 @@ import { UpdateBrandDto } from './dto/response/update-brand.dto';
       suppliers: {
         alias: 'users',
         exclude: ['password'],
-        eager: true,
       },
-      products: {
-        eager: true,
-      },
+      products: {},
       categories: {},
-      orders: {
-        eager: true,
-      },
+      orders: {},
     },
   },
   routes: {

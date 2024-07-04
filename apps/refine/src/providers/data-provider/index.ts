@@ -1,10 +1,10 @@
 'use client';
 
-// import dataProviderNestjsxCrud from '@refinedev/nestjsx-crud';
 import dataProviderNestjsxCrud from '../../crud-provider';
 import { axiosInstance } from '@providers/api';
+import { envSchema } from '@providers/env';
 
-const API_URL = 'https://staging-vnd-api.5ostudios.com';
-// const API_URL = 'http://localhost:3000';
-
-export const dataProvider = dataProviderNestjsxCrud(API_URL, axiosInstance);
+export const dataProvider = dataProviderNestjsxCrud(
+  envSchema.NEXT_PUBLIC_API_URL,
+  axiosInstance
+);
