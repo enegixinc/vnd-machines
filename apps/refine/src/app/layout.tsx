@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   title: 'VND Machines',
   description: 'VND Machines',
   icons: {
-    icon: '/favicon.ico',
+    icon: '/logo/vnd-icon.ico',
   },
 };
 
@@ -154,7 +154,7 @@ export default function RootLayout({
                     ]}
                     options={{
                       syncWithLocation: true,
-                      warnWhenUnsavedChanges: true,
+                      warnWhenUnsavedChanges: false,
                       useNewQueryKeys: true,
                       projectId: 'K3OYTs-NhUp07-HHJSZT',
                     }}

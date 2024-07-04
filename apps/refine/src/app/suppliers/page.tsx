@@ -1,6 +1,6 @@
 'use client';
 
-import { Divider, Tag } from 'antd';
+import { Tag } from 'antd';
 import React from 'react';
 import { handleEmptyString } from '@helpers';
 import { QuickTableSection } from '@components/quick-table-section';
@@ -12,6 +12,15 @@ export default function SuppliersList() {
       <QuickTableSection
         pageTitle="Suppliers"
         resource={'users'}
+        filters={{
+          permanent: [
+            {
+              field: 'role',
+              operator: 'eq',
+              value: 'supplier',
+            },
+          ],
+        }}
         columns={[
           {
             title: 'First Name',

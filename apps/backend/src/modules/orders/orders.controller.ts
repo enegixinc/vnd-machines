@@ -92,28 +92,27 @@ export class OrdersController implements CrudController<OrderEntity> {
   async stats() {
     const periods = getPeriods();
 
-    const sum = await this.orderRepository
-      .createQueryBuilder('order')
-      .select('SUM(order.soldPrice)', 'total')
-      .getRawOne();
+    const sum = await this.orderRepository.query(`
+      SELECT COALESCE(SUM(od."soldPrice"), 0) AS total
+      FROM order_details od
+    `);
 
     const periodsStats = {};
     for (const period of periods) {
-      const totalRevenue = await this.orderRepository
-        .createQueryBuilder('order')
-        .where('order.createdAt BETWEEN :start AND :end', {
-          start: period.start,
-          end: period.end,
-        })
-        .select('SUM(order.soldPrice)', 'total')
-        .getRawOne();
+      const totalRevenue = await this.orderRepository.query(`
+        SELECT COALESCE(SUM(od."soldPrice"), 0) AS total_sales
+        FROM orders o
+               JOIN order_details od ON o._id = od.order_id
+        WHERE o."createdAt" >= '${period.start.toISOString()}'
+          AND o."createdAt" <= '${period.end.toISOString()}'
+      `);
 
-      periodsStats[period.key] = parseFloat(totalRevenue.total) || 0;
+      periodsStats[period.key] = parseFloat(totalRevenue[0].total_sales) || 0;
     }
 
     return {
       totalSales: {
-        all: parseFloat(sum.total) || 0,
+        all: parseFloat(sum[0].total) || 0,
         ...periodsStats,
       },
     };
