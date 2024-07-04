@@ -35,7 +35,6 @@ import { getPeriods } from '../../common/periods';
     join: {
       products: {
         alias: 'products',
-        eager: true,
       },
       'products.product': {
         alias: 'product',
@@ -98,7 +97,7 @@ export class OrdersController implements CrudController<OrderEntity> {
       .select('SUM(order.soldPrice)', 'total')
       .getRawOne();
 
-    let periodsStats = {};
+    const periodsStats = {};
     for (const period of periods) {
       const totalRevenue = await this.orderRepository
         .createQueryBuilder('order')

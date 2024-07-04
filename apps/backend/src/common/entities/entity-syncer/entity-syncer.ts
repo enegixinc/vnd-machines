@@ -19,8 +19,6 @@ export abstract class EntitySyncer<Entity extends MagexDatabaseEntity>
   extends CRUDSyncer<Entity>
   implements EntitySubscriberInterface<Entity>, OnModuleInit
 {
-  protected records: Entity[] = [];
-  protected magexRecords: _IMagex_DatabaseEntity[] = [];
   protected dependsOn: (string | Function)[] = [];
   private static syncStatusMap: Map<string | Function, Promise<void>> =
     new Map();
@@ -49,8 +47,8 @@ export abstract class EntitySyncer<Entity extends MagexDatabaseEntity>
     return this.dataSource.manager.create(this.entity);
   }
 
-  protected get entityLookupTable() {
-    return new Map(this.records.map((record) => [record._id, record]));
+  protected entityLookupTable(records: Entity[]) {
+    return new Map(records.map((record) => [record._id, record]));
   }
 
   async onModuleInit() {
@@ -58,21 +56,23 @@ export abstract class EntitySyncer<Entity extends MagexDatabaseEntity>
   }
 
   async fetchOurRecords() {
-    this.records = await this.dataSource.manager.find(this.entity);
+    return await this.dataSource.manager.find(this.entity);
   }
 
   async fetchMagexRecords() {
-    this.magexRecords = await this.entityClone.fetchMagexRecords(
-      this.magexService
-    );
+    return await this.entityClone.fetchMagexRecords(this.magexService);
   }
 
-  identifyOutOfSyncRecords() {
+  identifyOutOfSyncRecords(
+    ourRecords: Entity[],
+    magexRecords: _IMagex_DatabaseEntity[]
+  ) {
     const newRecords = new Set<_IMagex_DatabaseEntity>();
     const updatedRecords = new Set<_IMagex_DatabaseEntity>();
+    const entityLookupTable = this.entityLookupTable(ourRecords);
 
-    this.magexRecords.forEach((magexRecord) => {
-      const record = this.entityLookupTable.get(magexRecord._id);
+    magexRecords.forEach((magexRecord) => {
+      const record = entityLookupTable.get(magexRecord._id);
       const newRecord = !record;
       const updated =
         record && new Date(record.lastSyncAt) < new Date(magexRecord.updatedAt);
@@ -87,11 +87,14 @@ export abstract class EntitySyncer<Entity extends MagexDatabaseEntity>
     };
   }
 
-  identifyDeletedRecords() {
+  identifyDeletedRecords(
+    ourRecords: Entity[],
+    magexRecords: _IMagex_DatabaseEntity[]
+  ) {
     if (!this.syncConfig.deleted) return [];
 
-    const magexIds = new Set(this.magexRecords.map((record) => record._id));
-    return this.records.filter((record) => !magexIds.has(record._id));
+    const magexIds = new Set(magexRecords.map((record) => record._id));
+    return ourRecords.filter((record) => !magexIds.has(record._id));
   }
 
   async softDeleteRecords(records: Entity[]) {
@@ -144,8 +147,8 @@ export abstract class EntitySyncer<Entity extends MagexDatabaseEntity>
 
   @Cron(
     process.env.NODE_ENV === 'production'
-      ? CronExpression.EVERY_MINUTE
-      : CronExpression.EVERY_5_MINUTES
+      ? CronExpression.EVERY_30_SECONDS
+      : CronExpression.EVERY_5_SECONDS
   )
   async syncWithMagex() {
     if (process.env.NODE_ENV !== 'production') return;
@@ -153,31 +156,36 @@ export abstract class EntitySyncer<Entity extends MagexDatabaseEntity>
     console.log(`Syncing ${this.entity.name} with Magex`);
 
     const syncPromise = (async () => {
-      try {
-        await this.runDependencies();
-        await Promise.all([this.fetchOurRecords(), this.fetchMagexRecords()]);
+      await this.runDependencies();
+      const [ourRecords, magexRecords] = (await Promise.all([
+        this.fetchOurRecords(),
+        this.fetchMagexRecords(),
+      ])) as [Entity[], _IMagex_DatabaseEntity[]];
 
-        const { newRecords, updatedRecords } = this.identifyOutOfSyncRecords();
-        const preparedRecords = await this.prepareRecords([
-          ...newRecords,
-          ...updatedRecords,
-        ]);
+      const { newRecords, updatedRecords } = this.identifyOutOfSyncRecords(
+        ourRecords,
+        magexRecords
+      );
+      console.log(
+        `New records: ${newRecords.length}, Updated records: ${updatedRecords.length}`
+      );
+      const preparedRecords = await this.prepareRecords([
+        ...newRecords,
+        ...updatedRecords,
+      ]);
 
-        await this.saveRecords(preparedRecords);
+      await this.saveRecords(preparedRecords);
 
-        const deletedRecords = this.identifyDeletedRecords();
-        await this.softDeleteRecords(deletedRecords);
-      } finally {
-        this.clearTemporaryData();
-      }
+      const deletedRecords = this.identifyDeletedRecords(
+        ourRecords,
+        magexRecords
+      );
+      await this.softDeleteRecords(deletedRecords);
+      // @ts-expect-error - it has name
+      console.log(`Done syncing ${this.entity.name} with Magex`);
     })();
 
     EntitySyncer.syncStatusMap.set(this.entity, syncPromise);
     await syncPromise;
-  }
-
-  private clearTemporaryData() {
-    this.records = [];
-    this.magexRecords = [];
   }
 }

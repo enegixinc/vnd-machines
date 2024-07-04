@@ -140,7 +140,7 @@ export class OrderEntity extends SearchableMagexEntity {
   }
 
   async fetchMagexRecords(magexService: MagexService): Promise<OrderEntity[]> {
-    const startDate = '1970-01-01T00:00:00.000Z';
+    const startDate = '2024-07-01T00:00:00.000Z';
 
     // Calculate the end date as today's last minute in UTC
     const now = new Date();

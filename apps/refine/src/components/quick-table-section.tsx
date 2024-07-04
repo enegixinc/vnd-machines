@@ -8,9 +8,9 @@ import {
   ShowButton,
   useTable,
 } from '@refinedev/antd';
-import { Button, Space, Table } from 'antd';
+import { Space, Table } from 'antd';
 import Search from 'antd/es/input/Search';
-import { BaseRecord, CrudFilter, MetaQuery } from '@refinedev/core';
+import { BaseRecord, CrudFilter, CrudSort, MetaQuery } from '@refinedev/core';
 import type { TableProps } from 'antd/es/table';
 import { useTableProps } from '@refinedev/antd/src/hooks/table/useTable/useTable';
 
@@ -24,6 +24,13 @@ export interface QuickTableProps extends TableProps<BaseRecord> {
     hidden?: CrudFilter[] | undefined;
   };
   useTableProps?: useTableProps<any, any, any, any>;
+  sorters?:
+    | {
+        initial?: CrudSort[] | undefined;
+        permanent?: CrudSort[] | undefined;
+        mode?: 'server' | 'off' | undefined;
+      }
+    | undefined;
 
   pageTitle?: string;
   minimal?: boolean;
@@ -53,6 +60,7 @@ export const QuickTableSection = <
     resource,
     sorters: {
       mode: 'server',
+      ...props.sorters,
     },
     filters: {
       mode: 'server',
