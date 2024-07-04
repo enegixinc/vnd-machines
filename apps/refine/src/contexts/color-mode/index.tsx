@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
 import React, {
-  type PropsWithChildren,
   createContext,
+  type PropsWithChildren,
   useEffect,
   useState,
-} from "react";
-import { RefineThemes } from "@refinedev/antd";
-import { ConfigProvider, App as AntdApp, theme } from "antd";
-import Cookies from "js-cookie";
+} from 'react';
+import { RefineThemes } from '@refinedev/antd';
+import { App as AntdApp, ConfigProvider, theme } from 'antd';
+import Cookies from 'js-cookie';
 
 type ColorModeContextType = {
   mode: string;
@@ -27,7 +27,7 @@ export const ColorModeContextProvider: React.FC<
   PropsWithChildren<ColorModeContextProviderProps>
 > = ({ children, defaultMode }) => {
   const [isMounted, setIsMounted] = useState(false);
-  const [mode, setMode] = useState(defaultMode || "light");
+  const [mode, setMode] = useState(defaultMode || 'light');
 
   useEffect(() => {
     setIsMounted(true);
@@ -35,18 +35,18 @@ export const ColorModeContextProvider: React.FC<
 
   useEffect(() => {
     if (isMounted) {
-      const theme = Cookies.get("theme") || "light";
+      const theme = Cookies.get('theme') || 'light';
       setMode(theme);
     }
   }, [isMounted]);
 
   const setColorMode = () => {
-    if (mode === "light") {
-      setMode("dark");
-      Cookies.set("theme", "dark");
+    if (mode === 'light') {
+      setMode('dark');
+      Cookies.set('theme', 'dark');
     } else {
-      setMode("light");
-      Cookies.set("theme", "light");
+      setMode('light');
+      Cookies.set('theme', 'light');
     }
   };
 
@@ -63,7 +63,16 @@ export const ColorModeContextProvider: React.FC<
         // you can change the theme colors here. example: ...RefineThemes.Magenta,
         theme={{
           ...RefineThemes.Blue,
-          algorithm: mode === "light" ? defaultAlgorithm : darkAlgorithm,
+          algorithm: mode === 'light' ? defaultAlgorithm : darkAlgorithm,
+          token: {
+            colorPrimary: mode === 'light' ? '#03516b' : '#74888e',
+          },
+          components: {
+            Menu: {
+              colorItemBgSelected:
+                mode === 'light' ? '#f0f0f0' : 'rgba(255, 255, 255, 0.1)',
+            },
+          },
         }}
       >
         <AntdApp>{children}</AntdApp>

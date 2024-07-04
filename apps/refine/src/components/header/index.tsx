@@ -12,7 +12,7 @@ import {
   Typography,
 } from 'antd';
 import React, { useContext } from 'react';
-import { blue } from '@ant-design/colors';
+import Image from 'next/image';
 
 const { Text } = Typography;
 const { useToken } = theme;
@@ -24,16 +24,21 @@ type IUser = {
 };
 
 export const Title: React.FC<TitleProps> = ({ collapsed }) => {
+  const { mode } = useContext(ColorModeContext);
+
+  const src =
+    mode === 'dark' ? '/logo/vnd-logo-white.svg' : '/logo/vnd-logo-color.svg';
   return (
-    <Text
+    <Image
+      title="VND Machines"
+      src={src}
+      width={100}
+      height={100}
       style={{
-        color: blue.primary,
-        fontSize: '16px',
-        fontWeight: 'bold',
+        marginLeft: '18px',
       }}
-    >
-      VND Machines
-    </Text>
+      alt="VND Machines"
+    />
   );
 };
 
