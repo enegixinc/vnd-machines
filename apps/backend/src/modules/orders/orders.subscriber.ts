@@ -6,7 +6,6 @@ import { OrderEntity } from './order.entity';
 import { ProductEntity } from '../products/entities/product.entity';
 import { OrderProductsDetails } from './order-details.entity';
 import { MachineEntity } from '../machines/entities/machine.entity';
-import { _IMagex_DatabaseEntity } from '@core';
 import { MultiLangEntity } from '../products/entities/multiLang.entity';
 
 @EventSubscriber()

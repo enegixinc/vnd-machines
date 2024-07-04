@@ -1,8 +1,5 @@
 import { Column, Entity, ManyToOne, OneToMany, VirtualColumn } from 'typeorm';
-import {
-  MagexDatabaseEntity,
-  SearchableMagexEntity,
-} from '../../common/database.entity';
+import { SearchableMagexEntity } from '../../common/database.entity';
 import { MagexService } from '../../services/magex/magex.service';
 import { ApiProperty } from '@nestjs/swagger';
 import { OrderProductsDetails } from './order-details.entity';
@@ -143,10 +140,26 @@ export class OrderEntity extends SearchableMagexEntity {
   }
 
   async fetchMagexRecords(magexService: MagexService): Promise<OrderEntity[]> {
+    const startDate = '1970-01-01T00:00:00.000Z';
+
+    // Calculate the end date as today's last minute in UTC
+    const now = new Date();
+    const endOfDayUTC = new Date(
+      Date.UTC(
+        now.getUTCFullYear(),
+        now.getUTCMonth(),
+        now.getUTCDate(),
+        23,
+        59,
+        59,
+        999
+      )
+    ).toISOString();
+
     return (await magexService.orders.postOrders({
       requestBody: {
-        start: '2021-04-10T00:00:00.000Z', // TODO: replace with start date
-        end: new Date().toISOString(),
+        start: now.toISOString(),
+        end: endOfDayUTC,
         id: 'tryvnd@point24h.com',
         ids: '657ab833c7201f469894300d,657ab86ec7201f469894300f',
       },
