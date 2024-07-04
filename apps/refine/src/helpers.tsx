@@ -1,5 +1,8 @@
 import { Typography } from 'antd';
-import Router from 'next/router';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+
+dayjs.extend(utc);
 
 export function isEmptyObject(obj: any) {
   for (const key in obj) {
@@ -70,3 +73,6 @@ export const formatPrice = (price: number | string) => {
 
   return price.toFixed(3) + ' KD';
 };
+
+export const formatTime = (time: string) =>
+  dayjs(time).utcOffset(0).format('MM/DD/YYYY HH:mm:ss');

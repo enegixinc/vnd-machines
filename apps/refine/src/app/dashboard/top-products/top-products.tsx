@@ -1,15 +1,12 @@
 ﻿import React from 'react';
 import { Card } from 'antd';
-import dayjs from 'dayjs';
 import { QuickTableSection } from '@components/quick-table-section';
-import relativeTime from 'dayjs/plugin/relativeTime';
 import { useRouter } from 'next/navigation';
 import { BiCategoryAlt } from 'react-icons/bi';
 import { handleMagextImage } from '@app/products/utils/handleMagextImage';
 import './top-products.module.css';
 import { handleNullableFullName } from '@app/products/utils/handleNullableText';
-
-dayjs.extend(relativeTime);
+import { formatTime } from '@helpers';
 
 export const TopProductsTable: React.FC<{ limit?: number }> = ({
   limit = 5,
@@ -119,7 +116,7 @@ export const TopProductsTable: React.FC<{ limit?: number }> = ({
           {
             title: 'Last Order',
             dataIndex: ['orders', 0, 'createdAt'],
-            render: (date) => dayjs(date).fromNow(),
+            render: formatTime,
           },
         ]}
       />

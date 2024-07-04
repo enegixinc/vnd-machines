@@ -3,6 +3,7 @@
 import React from 'react';
 import { QuickTableSection } from '@components/quick-table-section';
 import { handleNullableText } from '@app/products/utils/handleNullableText';
+import { formatTime } from '@helpers';
 
 export default function FillRequestsList() {
   return (
@@ -42,7 +43,7 @@ export default function FillRequestsList() {
           {
             title: 'Created At',
             dataIndex: 'createdAt',
-            render: (createdAt) => new Date(createdAt).toLocaleDateString(),
+            render: formatTime,
           },
         ]}
       />

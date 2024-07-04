@@ -1,27 +1,17 @@
 'use client';
 
 import { Show, TextField } from '@refinedev/antd';
-import {
-  Checkbox,
-  Descriptions,
-  Divider,
-  Switch,
-  Table,
-  Typography,
-} from 'antd';
+import { Descriptions, Divider, Switch, Table, Typography } from 'antd';
 import React from 'react';
 import { SerializedProductDto } from '@frontend/api-sdk';
 import { useShow } from '@refinedev/core';
-import { formatPrice, handleEmptyString } from '@helpers';
+import { formatPrice, formatTime, handleEmptyString } from '@helpers';
 import { handleMagextImage } from '@app/products/utils/handleMagextImage';
 import { ShowFinance } from '@components/sections/finance';
 import { useRouter } from 'next/navigation';
 import { formatDate } from '@components/description-dates';
-import dayjs from 'dayjs';
-import relativeTime from 'dayjs/plugin/relativeTime';
 
 const { Title } = Typography;
-dayjs.extend(relativeTime);
 
 export default function ProductShow() {
   const router = useRouter();
@@ -205,7 +195,7 @@ export default function ProductShow() {
           {
             title: 'Date',
             dataIndex: 'createdAt',
-            render: (date) => dayjs(date).fromNow(),
+            render: formatTime,
           },
         ]}
         loading={isLoading}

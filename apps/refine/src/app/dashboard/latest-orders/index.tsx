@@ -7,6 +7,7 @@ import { IoIosCash } from 'react-icons/io';
 import { RiVisaFill } from 'react-icons/ri';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { useRouter } from 'next/navigation';
+import { formatTime } from '@helpers';
 
 dayjs.extend(relativeTime);
 
@@ -115,7 +116,7 @@ export const DashboardLatestOrders: React.FC<{ limit?: number }> = ({
             title: 'Date',
             dataIndex: 'createdAt',
             // render: (date) => dayjs(date).fromNow(),
-            render: (date) => dayjs(date).format('YYYY-MM-DD hh:mm:ss A'),
+            render: formatTime,
           },
         ]}
       />

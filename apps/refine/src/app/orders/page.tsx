@@ -7,10 +7,7 @@ import { IoIosCash } from 'react-icons/io';
 import { RiVisaFill } from 'react-icons/ri';
 import { CanAccess } from '@refinedev/core';
 import { useRouter } from 'next/navigation';
-import dayjs from 'dayjs';
-import relativeTime from 'dayjs/plugin/relativeTime';
-
-dayjs.extend(relativeTime);
+import { formatTime } from '@helpers';
 
 export default function OrdersList() {
   const router = useRouter();
@@ -18,9 +15,6 @@ export default function OrdersList() {
     <CanAccess action="list" fallback={<div>Unauthorized</div>}>
       <QuickTableSection
         pageTitle="Orders"
-        meta={{
-          join: [{ field: 'machine' }],
-        }}
         resource={'orders'}
         showActions={false}
         meta={{
@@ -101,8 +95,7 @@ export default function OrdersList() {
           {
             title: 'Date',
             dataIndex: 'createdAt',
-            // render: (date) => dayjs(date).fromNow(),
-            render: (date) => dayjs(date).format('MM/DD/YYYY hh:mm A'),
+            render: formatTime,
             sorter: true,
           },
         ]}
