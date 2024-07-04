@@ -158,7 +158,7 @@ export class OrderEntity extends SearchableMagexEntity {
 
     return (await magexService.orders.postOrders({
       requestBody: {
-        start: now.toISOString(),
+        start: startDate,
         end: endOfDayUTC,
         id: 'tryvnd@point24h.com',
         ids: '657ab833c7201f469894300d,657ab86ec7201f469894300f',

@@ -18,6 +18,9 @@ export default function OrdersList() {
     <CanAccess action="list" fallback={<div>Unauthorized</div>}>
       <QuickTableSection
         pageTitle="Orders"
+        meta={{
+          join: [{ field: 'machine' }],
+        }}
         resource={'orders'}
         showActions={false}
         meta={{
