@@ -6,7 +6,7 @@ import { BiCategoryAlt } from 'react-icons/bi';
 import { handleMagextImage } from '@app/products/utils/handleMagextImage';
 import './top-products.module.css';
 import { handleNullableFullName } from '@app/products/utils/handleNullableText';
-import { formatTime } from '@helpers';
+import { formatPrice, formatTime } from '@helpers';
 
 export const TopProductsTable: React.FC<{ limit?: number }> = ({
   limit = 5,
@@ -60,12 +60,6 @@ export const TopProductsTable: React.FC<{ limit?: number }> = ({
                 field: 'supplier',
               },
               {
-                field: 'category',
-              },
-              {
-                field: 'brand',
-              },
-              {
                 field: 'orders',
                 select: ['createdAt'],
                 limit: 1,
@@ -74,6 +68,10 @@ export const TopProductsTable: React.FC<{ limit?: number }> = ({
             limit,
           },
         }}
+        onRow={(record) => ({
+          onClick: () => router.push(`/products/show/${record._id}`),
+          style: { cursor: 'pointer' },
+        })}
         columns={[
           {
             title: 'Product',
@@ -95,8 +93,12 @@ export const TopProductsTable: React.FC<{ limit?: number }> = ({
             title: 'Supplier',
             dataIndex: 'supplier',
             onCell: (record) => ({
-              onClick: () =>
-                router.push(`/supplier/show/${record.supplier._id}`),
+              onClick: (e) => {
+                if (record.supplier._id) {
+                  e.stopPropagation();
+                }
+                router.push(`/suppliers/show/${record.supplier._id}`);
+              },
               style: {
                 cursor: record.supplier._id && 'pointer',
                 color: record.supplier._id && '#1890ff',
@@ -105,13 +107,18 @@ export const TopProductsTable: React.FC<{ limit?: number }> = ({
             render: handleNullableFullName,
           },
           {
-            title: 'Total Sold',
-            dataIndex: 'totalSoldProducts',
+            title: 'Orders',
+            dataIndex: 'totalOrders',
+          },
+          {
+            title: 'Sales',
+            dataIndex: 'totalSales',
+            render: formatPrice,
           },
           {
             title: 'Revenue',
             dataIndex: 'totalRevenue',
-            render: (total, record) => `${total} KD`,
+            render: formatPrice,
           },
           {
             title: 'Last Order',

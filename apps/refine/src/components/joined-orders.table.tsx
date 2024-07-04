@@ -1,10 +1,10 @@
-﻿import { Card, Table, Tag, Typography } from 'antd';
-import { handleMagextImage } from '@app/products/utils/handleMagextImage';
+﻿import { Table, Tag, Typography } from 'antd';
 import React from 'react';
 import { SerializedProductDto } from '@frontend/api-sdk';
 import { IoIosCash } from 'react-icons/io';
 import { RiVisaFill } from 'react-icons/ri';
 import { useRouter } from 'next/navigation';
+import { formatPrice, formatTime } from '@helpers';
 
 export const JoinedOrdersTable = ({
   record,
@@ -67,7 +67,12 @@ export const JoinedOrdersTable = ({
             title: 'Total',
             dataIndex: ['total'],
             sorter: true,
-            render: (total, record) => `${total} ${record.currency}`,
+            render: formatPrice,
+          },
+          {
+            title: 'Date',
+            dataIndex: 'createdAt',
+            render: formatTime,
           },
         ]}
       />
