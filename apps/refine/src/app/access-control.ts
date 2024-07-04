@@ -14,6 +14,14 @@ export const accessControlProvider: AccessControlProvider = {
     const userRole = parsedUser.role;
 
     if (userRole === UserRole.ADMIN) {
+      const disabledActions: Record<string, string[]> = {
+        orders: ['edit', 'create', 'delete'],
+      };
+
+      if (disabledActions[resource]?.includes(action)) {
+        return { can: false };
+      }
+
       return { can: true };
     }
 
