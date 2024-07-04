@@ -1,9 +1,7 @@
 import React from 'react';
-import { useList } from '@refinedev/core';
 import { UnorderedListOutlined } from '@ant-design/icons';
-import { Card, Skeleton as AntdSkeleton, Tag } from 'antd';
+import { Card, Tag } from 'antd';
 import dayjs from 'dayjs';
-import styles from './index.module.css';
 import { QuickTableSection } from '@components/quick-table-section';
 import { IoIosCash } from 'react-icons/io';
 import { RiVisaFill } from 'react-icons/ri';
@@ -116,7 +114,8 @@ export const DashboardLatestOrders: React.FC<{ limit?: number }> = ({
           {
             title: 'Date',
             dataIndex: 'createdAt',
-            render: (date) => dayjs(date).fromNow(),
+            // render: (date) => dayjs(date).fromNow(),
+            render: (date) => dayjs(date).format('YYYY-MM-DD hh:mm:ss A'),
           },
         ]}
       />
