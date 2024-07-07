@@ -58,13 +58,13 @@ export default function MachinesList() {
           title: 'Stock Info',
           children: [
             {
-              dataIndex: 'stock',
-              title: 'Stock',
+              dataIndex: 'productsCount',
+              title: 'Products Count',
               sorter: true,
             },
             {
-              dataIndex: 'productsCount',
-              title: 'Products Count',
+              dataIndex: 'fill',
+              title: 'Fill',
               sorter: true,
             },
           ],

@@ -2,14 +2,10 @@
 
 import { Show, TextField } from '@refinedev/antd';
 import { useShow } from '@refinedev/core';
-import { Card, Descriptions, Divider, Table, Tag, Typography } from 'antd';
+import { Descriptions, Divider, Spin, Typography } from 'antd';
 import React from 'react';
 import { SerializedCategoryDto } from '@frontend/api-sdk';
-import { safeArrayCounter } from '@helpers';
 import { ShowFinance } from '@components/sections/finance';
-import { handleMagextImage } from '@app/products/utils/handleMagextImage';
-import { IoIosCash } from 'react-icons/io';
-import { RiVisaFill } from 'react-icons/ri';
 import { JoinedProductsTable } from '@components/joined-products.table';
 import { JoinedOrdersTable } from '@components/joined-orders.table';
 
@@ -32,7 +28,18 @@ export default function CategoryShow() {
     },
   });
   const { data, isLoading } = queryResult;
-
+  if (isLoading) {
+    return (
+      <Spin
+        style={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+        }}
+      />
+    );
+  }
   const record = data?.data;
   if (!record) {
     return null;

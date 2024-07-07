@@ -27,16 +27,13 @@ import { Repository } from 'typeorm';
         order: 'DESC',
       },
     ],
-    softDelete: true,
     limit: 20,
     maxLimit: 100,
     join: {
       product: {
-        eager: true,
         alias: 'product',
       },
       'product.product': {
-        eager: true,
         alias: 'singleProduct',
       },
       'singleProduct.supplier': {

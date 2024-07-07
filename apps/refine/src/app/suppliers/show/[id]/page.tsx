@@ -2,9 +2,9 @@
 
 import { Show, TextField } from '@refinedev/antd';
 import { CanAccess, useShow } from '@refinedev/core';
-import { Descriptions, Divider, Table, Typography } from 'antd';
+import { Descriptions, Divider, Spin, Typography } from 'antd';
 import React from 'react';
-import { ContractStatus, IUserEntity } from '@core';
+import { IUserEntity } from '@core';
 import { useParams } from 'next/navigation';
 import { ShowFinance } from '@components/sections/finance';
 import { formatDate } from '@components/description-dates';
@@ -42,7 +42,18 @@ export default function SupplierShow() {
     },
   });
   const { data, isLoading } = queryResult;
-
+  if (isLoading) {
+    return (
+      <Spin
+        style={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+        }}
+      />
+    );
+  }
   const record = data?.data;
   if (!record) {
     return null;

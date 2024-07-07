@@ -2,12 +2,11 @@
 
 import { Show, TextField } from '@refinedev/antd';
 import { useShow } from '@refinedev/core';
-import { Descriptions, Divider, Typography } from 'antd';
+import { Descriptions, Divider, Spin, Typography } from 'antd';
 import React from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { ShowFinance } from '@components/sections/finance';
 import { handleNullableText } from '@app/products/utils/handleNullableText';
-import { DescriptionDates, formatDate } from '@components/description-dates';
+import { formatDate } from '@components/description-dates';
 
 const { Title } = Typography;
 
@@ -34,7 +33,18 @@ export default function FillRequestShow() {
     },
   });
   const { data, isLoading } = queryResult;
-
+  if (isLoading) {
+    return (
+      <Spin
+        style={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+        }}
+      />
+    );
+  }
   const router = useRouter();
   const record = data?.data;
   if (!record) {

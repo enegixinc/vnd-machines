@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Descriptions, Divider, Typography } from 'antd';
+import { Descriptions, Divider, Spin, Typography } from 'antd';
 import { CanAccess, useShow } from '@refinedev/core';
 import { handleEmptyString } from '@helpers';
 import { Show, TextField } from '@refinedev/antd';
@@ -23,7 +23,18 @@ export default function ContractShow() {
   });
 
   const { data, isLoading } = queryResult;
-
+  if (isLoading) {
+    return (
+      <Spin
+        style={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+        }}
+      />
+    );
+  }
   const router = useRouter();
 
   const contract = data?.data;

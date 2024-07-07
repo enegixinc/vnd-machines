@@ -1,15 +1,15 @@
 'use client';
 
 import { Show, TextField } from '@refinedev/antd';
-import { Descriptions, Divider, Space, Table, Typography } from 'antd';
+import { Descriptions, Divider, Space, Spin, Table, Typography } from 'antd';
 import React from 'react';
 import { useShow } from '@refinedev/core';
-import { handleEmptyString } from '@helpers';
 import { useRouter } from 'next/navigation';
 
 import { handleMagextImage } from '@app/products/utils/handleMagextImage';
 import { handleNullableText } from '@app/products/utils/handleNullableText';
 import { JoinedOrdersTable } from '@components/joined-orders.table';
+import { formatPrice } from '@helpers';
 
 const { Title } = Typography;
 
@@ -21,10 +21,7 @@ export default function MachineShow() {
           field: 'product',
         },
         {
-          field: 'products.product',
-        },
-        {
-          field: 'singleProduct.supplier',
+          field: 'product.product',
         },
         {
           field: 'orders',
@@ -35,6 +32,19 @@ export default function MachineShow() {
   const router = useRouter();
 
   const { data, isLoading } = queryResult;
+
+  if (isLoading) {
+    return (
+      <Spin
+        style={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+        }}
+      />
+    );
+  }
 
   const record = data?.data;
   if (!record) {
@@ -52,8 +62,11 @@ export default function MachineShow() {
           width: '20%',
         }}
       >
-        <Descriptions.Item label="ID">
-          <TextField value={record._id} />
+        <Descriptions.Item label="Name">
+          <TextField value={record.name} />
+        </Descriptions.Item>
+        <Descriptions.Item label="Description">
+          <TextField value={record.description} />
         </Descriptions.Item>
         <Descriptions.Item label="Status">
           <TextField
@@ -62,12 +75,6 @@ export default function MachineShow() {
               color: record.machineOnline ? 'green' : 'red',
             }}
           />
-        </Descriptions.Item>
-        <Descriptions.Item label="Created At">
-          <TextField value={record.createdAt} />
-        </Descriptions.Item>
-        <Descriptions.Item label="Updated At">
-          <TextField value={record.updatedAt} />
         </Descriptions.Item>
         <Descriptions.Item label="Alert Email">
           <Space direction={'vertical'}>
@@ -98,11 +105,11 @@ export default function MachineShow() {
         <Descriptions.Item label="Total Orders">
           <TextField value={record.totalOrders} />
         </Descriptions.Item>
-        <Descriptions.Item label="Total Products Sold">
+        <Descriptions.Item label="Products Sold">
           <TextField value={record.totalSoldProducts} />
         </Descriptions.Item>
-        <Descriptions.Item label="Total Revenue">
-          <TextField value={record.totalRevenue} />
+        <Descriptions.Item label="Total Sales">
+          <TextField value={formatPrice(record.totalSales)} />
         </Descriptions.Item>
       </Descriptions>
       <Divider />
@@ -183,41 +190,41 @@ export default function MachineShow() {
 
       <Divider />
       <JoinedOrdersTable record={record} />
-      <Divider />
+      {/*<Divider />*/}
 
-      <Title level={3} style={{ marginTop: 16 }}>
-        {'Extra Details'}
-      </Title>
-      <Descriptions
-        bordered
-        column={2}
-        labelStyle={{
-          fontWeight: 'bold',
-          width: '20%',
-        }}
-      >
-        <Descriptions.Item label="Enable Price Change">
-          <TextField value={handleEmptyString(record.enablePriceChange)} />
-        </Descriptions.Item>
-        <Descriptions.Item label="GUI Version">
-          <TextField value={handleEmptyString(record.gui_version)} />
-        </Descriptions.Item>
-        <Descriptions.Item label="Master Version">
-          <TextField value={handleEmptyString(record.master_version)} />
-        </Descriptions.Item>
-        <Descriptions.Item label="Screen Saver">
-          <TextField value={handleEmptyString(record.screenSaver)} />
-        </Descriptions.Item>
-        <Descriptions.Item label="Model">
-          <TextField value={handleEmptyString(record.model)} />
-        </Descriptions.Item>
-        <Descriptions.Item label="Stocking">
-          <TextField value={handleEmptyString(record.stocking)} />
-        </Descriptions.Item>
-        <Descriptions.Item label="Time to Idle">
-          <TextField value={handleEmptyString(record.time_to_idle)} />
-        </Descriptions.Item>
-      </Descriptions>
+      {/*<Title level={3} style={{ marginTop: 16 }}>*/}
+      {/*  {'Extra Details'}*/}
+      {/*</Title>*/}
+      {/*<Descriptions*/}
+      {/*  bordered*/}
+      {/*  column={2}*/}
+      {/*  labelStyle={{*/}
+      {/*    fontWeight: 'bold',*/}
+      {/*    width: '20%',*/}
+      {/*  }}*/}
+      {/*>*/}
+      {/*  <Descriptions.Item label="Enable Price Change">*/}
+      {/*    <TextField value={handleEmptyString(record.enablePriceChange)} />*/}
+      {/*  </Descriptions.Item>*/}
+      {/*  <Descriptions.Item label="GUI Version">*/}
+      {/*    <TextField value={handleEmptyString(record.gui_version)} />*/}
+      {/*  </Descriptions.Item>*/}
+      {/*  <Descriptions.Item label="Master Version">*/}
+      {/*    <TextField value={handleEmptyString(record.master_version)} />*/}
+      {/*  </Descriptions.Item>*/}
+      {/*  <Descriptions.Item label="Screen Saver">*/}
+      {/*    <TextField value={handleEmptyString(record.screenSaver)} />*/}
+      {/*  </Descriptions.Item>*/}
+      {/*  <Descriptions.Item label="Model">*/}
+      {/*    <TextField value={handleEmptyString(record.model)} />*/}
+      {/*  </Descriptions.Item>*/}
+      {/*  <Descriptions.Item label="Stocking">*/}
+      {/*    <TextField value={handleEmptyString(record.stocking)} />*/}
+      {/*  </Descriptions.Item>*/}
+      {/*  <Descriptions.Item label="Time to Idle">*/}
+      {/*    <TextField value={handleEmptyString(record.time_to_idle)} />*/}
+      {/*  </Descriptions.Item>*/}
+      {/*</Descriptions>*/}
     </Show>
   );
 }

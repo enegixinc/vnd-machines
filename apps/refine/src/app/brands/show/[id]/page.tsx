@@ -2,7 +2,7 @@
 
 import { Show, TextField } from '@refinedev/antd';
 import { useShow } from '@refinedev/core';
-import { Descriptions, Divider, Typography } from 'antd';
+import { Descriptions, Divider, Spin, Typography } from 'antd';
 import React from 'react';
 import { SerializedBrandDto } from '@frontend/api-sdk';
 import { handleEmptyString } from '@helpers';
@@ -31,7 +31,18 @@ export default function BrandShow() {
     },
   });
   const { data, isLoading } = queryResult;
-
+  if (isLoading) {
+    return (
+      <Spin
+        style={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+        }}
+      />
+    );
+  }
   const record = data?.data;
   if (!record) {
     return null;
@@ -77,49 +88,6 @@ export default function BrandShow() {
       <ShowFinance record={record} />
       <Divider />
       <JoinedProductsTable record={record} />
-
-      {/*<Divider />*/}
-      {/*<Title level={3} style={{ marginTop: 16 }}>*/}
-      {/*  {'Suppliers'}*/}
-      {/*</Title>*/}
-
-      {/*<Card>*/}
-      {/*  <Table*/}
-      {/*    dataSource={record.suppliers}*/}
-      {/*    columns={[*/}
-      {/*      {*/}
-      {/*        dataIndex: 'fullName',*/}
-      {/*        title: 'Full Name',*/}
-      {/*        sorter: true,*/}
-      {/*      },*/}
-      {/*      {*/}
-      {/*        dataIndex: 'email',*/}
-      {/*        title: 'Email',*/}
-      {/*        sorter: true,*/}
-      {/*      },*/}
-      {/*      {*/}
-      {/*        dataIndex: 'phoneNumber',*/}
-      {/*        title: 'Phone Number',*/}
-      {/*        sorter: true,*/}
-      {/*      },*/}
-      {/*      {*/}
-      {/*        dataIndex: 'totalOrders',*/}
-      {/*        title: 'Total Orders',*/}
-      {/*        sorter: true,*/}
-      {/*      },*/}
-      {/*      {*/}
-      {/*        dataIndex: 'totalSoldProducts',*/}
-      {/*        title: 'Total Sold Products',*/}
-      {/*        sorter: true,*/}
-      {/*      },*/}
-      {/*      {*/}
-      {/*        dataIndex: 'totalRevenue',*/}
-      {/*        title: 'Total Revenue',*/}
-      {/*        sorter: true,*/}
-      {/*      },*/}
-      {/*    ]}*/}
-      {/*  />*/}
-      {/*</Card>*/}
 
       <Divider />
       <JoinedOrdersTable record={record} />

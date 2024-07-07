@@ -6,6 +6,7 @@ import { Divider } from 'antd';
 import { handleMagextImage } from '@app/products/utils/handleMagextImage';
 import { useRouter } from 'next/navigation';
 import { handleNullableFullName } from '@app/products/utils/handleNullableText';
+import { formatPrice } from '@helpers';
 
 export default function ProductsList() {
   const router = useRouter();
@@ -53,7 +54,7 @@ export default function ProductsList() {
               dataIndex: 'price',
               title: 'Price',
               sorter: true,
-              render: (price) => `${Number(price).toFixed(2)} KD`,
+              render: formatPrice,
             },
           ],
         },
@@ -115,11 +116,13 @@ export default function ProductsList() {
               dataIndex: 'totalSales',
               title: 'Sales',
               sorter: true,
+              render: formatPrice,
             },
             {
               dataIndex: 'totalRevenue',
               title: 'Revenue',
               sorter: true,
+              render: formatPrice,
             },
           ],
         },

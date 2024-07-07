@@ -2,7 +2,7 @@
 
 import { Show, TextField } from '@refinedev/antd';
 import { CanAccess, useShow } from '@refinedev/core';
-import { Descriptions, Typography } from 'antd';
+import { Descriptions, Spin, Typography } from 'antd';
 import React from 'react';
 import { IUserEntity } from '@core';
 import { useParams } from 'next/navigation';
@@ -18,7 +18,18 @@ export default function SupplierShow() {
     id: id.toString(),
   });
   const { data, isLoading } = queryResult;
-
+  if (isLoading) {
+    return (
+      <Spin
+        style={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+        }}
+      />
+    );
+  }
   const record = data?.data;
   if (!record) {
     return null;

@@ -1,7 +1,7 @@
 'use client';
 
 import { Show, TextField } from '@refinedev/antd';
-import { Descriptions, Divider, Space, Table, Typography } from 'antd';
+import { Descriptions, Divider, Spin, Table, Typography } from 'antd';
 import React from 'react';
 import { CanAccess, useShow } from '@refinedev/core';
 import { handleEmptyString } from '@helpers';
@@ -38,6 +38,19 @@ export default function OrderShow() {
   const router = useRouter();
 
   const { data, isLoading } = queryResult;
+
+  if (isLoading) {
+    return (
+      <Spin
+        style={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+        }}
+      />
+    );
+  }
 
   const record = data?.data;
   if (!record) {

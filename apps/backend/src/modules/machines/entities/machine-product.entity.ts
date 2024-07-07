@@ -1,4 +1,3 @@
-// entities/product.entity.ts
 import { Column, Entity, ManyToOne, VirtualColumn } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { DatabaseEntity } from '../../../common/database.entity';
@@ -19,6 +18,23 @@ export class MachineProduct extends DatabaseEntity {
   @ManyToOne(() => MachineEntity, (machine) => machine.product)
   @Type(() => MachineEntity)
   machine: MachineEntity;
+
+  @ApiProperty()
+  @VirtualColumn({
+    query: (entity) => `
+        SELECT
+            COALESCE(SUM(mp.max_stock-mp.current_stock), 0)
+        FROM
+          machine_product as mp
+        WHERE
+            mp._id = ${entity}._id
+    `,
+    transformer: {
+      from: (value) => Number(value),
+      to: (value) => value,
+    },
+  })
+  fill: number;
 
   @ApiProperty()
   @Column()
