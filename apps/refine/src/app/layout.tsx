@@ -77,6 +77,17 @@ export default function RootLayout({
                         },
                       },
                       {
+                        name: 'admins',
+                        list: '/admins',
+                        create: '/admins/create',
+                        edit: '/admins/edit/:id',
+                        show: '/admins/show/:id',
+                        meta: {
+                          canDelete: true,
+                          icon: <PiUsersThree />,
+                        },
+                      },
+                      {
                         name: 'products',
                         list: '/products',
                         create: '/products/create',

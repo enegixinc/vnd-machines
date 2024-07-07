@@ -26,7 +26,13 @@ export const accessControlProvider: AccessControlProvider = {
     }
 
     if (userRole === UserRole.SUPPLIER) {
-      const hiddenResources = ['machines', 'suppliers', 'brands', 'categories'];
+      const hiddenResources = [
+        'machines',
+        'suppliers',
+        'brands',
+        'categories',
+        'admins',
+      ];
 
       const disabledActions: Record<string, string[]> = {
         requests: ['edit', 'delete'],

@@ -4,7 +4,6 @@ import {
   Column,
   Entity,
   JoinColumn,
-  ManyToMany,
   OneToMany,
   VirtualColumn,
 } from 'typeorm';
@@ -12,10 +11,7 @@ import { IUserEntity, UserRole } from '@core';
 import { Factory } from 'nestjs-seeder';
 import bcrypt from 'bcrypt';
 
-import {
-  DatabaseEntity,
-  SearchableEntity,
-} from '../../../common/database.entity';
+import { SearchableEntity } from '../../../common/database.entity';
 import { ProductEntity } from '../../products/entities/product.entity';
 import { CategoryEntity } from '../../categories/category.entity';
 import { BrandEntity } from '../../brands/brand.entity';
@@ -27,7 +23,6 @@ import {
 } from '../../categories/decorators';
 import { MultiLangEntity } from '../../products/entities/multiLang.entity';
 import { OrderEntity } from '../../orders/order.entity';
-import { VirtualAction } from 'rxjs';
 
 @Entity('users')
 export class UserEntity extends SearchableEntity implements IUserEntity {
@@ -118,7 +113,7 @@ export class UserEntity extends SearchableEntity implements IUserEntity {
   role: UserRole;
 
   @Factory((faker) => faker.phone.number())
-  @Column({ type: 'varchar', unique: true })
+  @Column({ type: 'varchar', unique: true, nullable: true })
   phoneNumber: string;
 
   @Factory((faker) => faker.datatype.boolean())

@@ -2,30 +2,22 @@
 
 import { Edit, useForm } from '@refinedev/antd';
 import React from 'react';
-import SupplierForm from '@app/suppliers/form';
 import { useParams } from 'next/navigation';
 import { Spin } from 'antd';
 import { CanAccess, useGo } from '@refinedev/core';
+import AdminForm from '@app/admins/form';
 
-export default function SupplierEdit() {
+export default function AdminEdit() {
   const { id } = useParams();
   const go = useGo();
-  const { formProps, saveButtonProps, formLoading, queryResult } = useForm({
+  const { formProps, saveButtonProps, formLoading } = useForm({
     resource: 'users',
     redirect: false,
-    id: id.toString(),
     onMutationSuccess: () => {
-      go({ to: '/suppliers' });
+      go({ to: '/admins' });
     },
+    id: id.toString(),
     action: 'edit',
-    meta: {
-      join: [
-        {
-          field: 'products',
-          select: ['_id', 'fullName'],
-        },
-      ],
-    },
   });
 
   if (formLoading) {
@@ -44,7 +36,7 @@ export default function SupplierEdit() {
   return (
     <CanAccess action="edit" fallback={<div>Unauthorized</div>}>
       <Edit saveButtonProps={saveButtonProps}>
-        <SupplierForm action="edit" formProps={formProps} />
+        <AdminForm action="edit" formProps={formProps} />
       </Edit>
     </CanAccess>
   );

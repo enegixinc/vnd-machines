@@ -6,14 +6,15 @@ import {
   IsPhoneNumber,
   IsString,
   MaxLength,
-  Validate,
   ValidateNested,
 } from 'class-validator';
-import { ApiProperty, PickType } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger';
 import { UserRole } from '@core';
 import { CrudValidationGroups } from '@dataui/crud';
 import { ProductEntity } from '../../../products/entities/product.entity';
 import { Type } from 'class-transformer';
+import { UserEntity } from '../../entities/user.entity';
+import { IsUnique } from '../../../../common/validators/unique.validator';
 
 class ReferenceByID {
   @IsString()
@@ -42,6 +43,7 @@ export class SharedUserDto {
 
   @decorate(IsNotEmpty({ groups: [CREATE] }))
   @decorate(IsOptional({ groups: [UPDATE] }))
+  @decorate(IsUnique({ entity: UserEntity, column: 'email' }))
   @decorate(
     ApiProperty({
       example: 'email@example.com',
@@ -88,8 +90,8 @@ export class SharedUserDto {
   @decorate(MaxLength(100, { always: true }))
   lastName: string;
 
-  @decorate(IsNotEmpty({ groups: [CREATE] }))
-  @decorate(IsOptional({ groups: [UPDATE] }))
+  @decorate(IsOptional({ groups: [CREATE, UPDATE] }))
+  @decorate(IsUnique({ entity: UserEntity, column: 'phoneNumber' }))
   @decorate(
     ApiProperty({
       example: '+201554891929',

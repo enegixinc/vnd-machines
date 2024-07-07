@@ -4,6 +4,7 @@ import {
   HttpCode,
   HttpStatus,
   Post,
+  UnauthorizedException,
   UseGuards,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
@@ -88,6 +89,8 @@ export class AuthController {
   @UseGuards(AuthGuard('refresh'))
   async refresh(@User() { _id }: UserEntity) {
     const user = await this.authService.me(_id);
+    if (!user.active) throw new UnauthorizedException('User is not active');
+
     return this.authService.login(user);
   }
   //

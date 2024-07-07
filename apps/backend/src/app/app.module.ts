@@ -10,6 +10,7 @@ import { MagexModule } from '../services/magex/magex.module';
 import { RedisModule } from '@liaoliaots/nestjs-redis';
 import { ScheduleModule } from '@nestjs/schedule';
 import { BullModule } from '@nestjs/bullmq';
+import { IsUniqueConstraint } from '../common/validators/unique.validator';
 
 @Module({
   imports: [
@@ -63,6 +64,7 @@ import { BullModule } from '@nestjs/bullmq';
       provide: APP_GUARD,
       useClass: JwtGuard,
     },
+    IsUniqueConstraint,
   ],
 })
 export class AppModule {}

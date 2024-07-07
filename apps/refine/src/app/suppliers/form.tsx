@@ -6,7 +6,13 @@ import { UserRole } from '@core';
 import { SerializedProductDto } from '@frontend/api-sdk';
 import { TableTransfer } from '@components/transafer';
 
-const SupplierForm = ({ formProps }: { formProps: FormProps }) => {
+const SupplierForm = ({
+  formProps,
+  action,
+}: {
+  formProps: FormProps;
+  action: 'create' | 'edit';
+}) => {
   return (
     <Form {...formProps} layout="vertical">
       <Card title="Basic Information">
@@ -24,23 +30,27 @@ const SupplierForm = ({ formProps }: { formProps: FormProps }) => {
         >
           <Input />
         </Form.Item>
-        <Form.Item
-          label="Email"
-          name="email"
-          rules={[
-            { required: true, message: 'Please enter email' },
-            { type: 'email', message: 'Please enter a valid email' },
-          ]}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          label="Phone Number"
-          name="phoneNumber"
-          rules={[{ required: true, message: 'Please enter phone number' }]}
-        >
-          <Input />
-        </Form.Item>
+        {action === 'create' && (
+          <>
+            <Form.Item
+              label="Email"
+              name="email"
+              rules={[
+                { required: true, message: 'Please enter email' },
+                { type: 'email', message: 'Please enter a valid email' },
+              ]}
+            >
+              <Input />
+            </Form.Item>
+            <Form.Item
+              label="Phone Number"
+              name="phoneNumber"
+              rules={[{ message: 'Please enter phone number' }]}
+            >
+              <Input />
+            </Form.Item>
+          </>
+        )}
         <Form.Item label="Business Name" name="businessName">
           <Input />
         </Form.Item>
