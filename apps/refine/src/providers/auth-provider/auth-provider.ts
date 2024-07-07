@@ -3,6 +3,8 @@
 import type { AuthProvider } from '@refinedev/core';
 import Cookies from 'js-cookie';
 import { axiosInstance, vndClient } from '@providers/api';
+import { jwtDecode } from 'jwt-decode';
+import { IUserEntity } from '@core';
 
 const setTokens = (accessToken: string, refreshToken: string) => {
   vndClient.request.config.HEADERS = {
@@ -29,6 +31,7 @@ export const authProvider: AuthProvider = {
 
     if (accessToken && refreshToken) {
       setTokens(accessToken, refreshToken);
+      localStorage.setItem('role', jwtDecode<IUserEntity>(accessToken).role);
       return {
         success: true,
         redirectTo: '/',

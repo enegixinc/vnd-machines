@@ -59,8 +59,6 @@ export default function RootLayout({
                         list: '/dashboard',
                         meta: {
                           canDelete: false,
-                          canCreate: false,
-                          canUpdate: false,
                           label: 'Dashboard',
                           icon: <AiOutlineDashboard />,
                         },

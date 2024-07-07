@@ -1,17 +1,12 @@
 ﻿'use client';
 import { AccessControlProvider } from '@refinedev/core';
-import Cookies from 'js-cookie';
 import { UserRole } from '@core';
 
 export const accessControlProvider: AccessControlProvider = {
   can: async ({ resource, action }) => {
     if (!resource) return { can: false };
-
-    const user = Cookies.get('user');
-    if (!user) return { can: false };
-
-    const parsedUser = JSON.parse(user);
-    const userRole = parsedUser.role;
+    const userRole =
+      localStorage.getItem('role') || (UserRole.SUPPLIER as UserRole);
 
     if (userRole === UserRole.ADMIN) {
       const disabledActions: Record<string, string[]> = {
@@ -32,12 +27,14 @@ export const accessControlProvider: AccessControlProvider = {
         'brands',
         'categories',
         'admins',
+        'dashboard',
       ];
 
       const disabledActions: Record<string, string[]> = {
         requests: ['edit', 'delete'],
         products: ['edit', 'delete'],
         contracts: ['edit', 'delete', 'create'],
+        dashboard: ['list'],
       };
 
       if (hiddenResources.includes(resource)) {
