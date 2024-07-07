@@ -6,7 +6,7 @@ import { BiCategoryAlt } from 'react-icons/bi';
 import { handleMagextImage } from '@app/products/utils/handleMagextImage';
 import './top-products.module.css';
 import { handleNullableFullName } from '@app/products/utils/handleNullableText';
-import { formatPrice, formatTime } from '@helpers';
+import { formatPrice } from '@helpers';
 
 export const TopProductsTable: React.FC<{ limit?: number }> = ({
   limit = 5,
@@ -57,10 +57,13 @@ export const TopProductsTable: React.FC<{ limit?: number }> = ({
             join: [
               { field: 'machines' },
               {
-                field: 'orders',
-                select: ['createdAt'],
-                limit: 1,
+                field: 'supplier',
               },
+              // {
+              //   field: 'orders',
+              //   select: ['createdAt'],
+              //   limit: 1,
+              // },
             ],
             limit,
           },
@@ -117,11 +120,11 @@ export const TopProductsTable: React.FC<{ limit?: number }> = ({
             dataIndex: 'totalRevenue',
             render: formatPrice,
           },
-          {
-            title: 'Last Order',
-            dataIndex: ['orders', 0, 'createdAt'],
-            render: formatTime,
-          },
+          // {
+          //   title: 'Last Order',
+          //   dataIndex: ['orders', 0, 'createdAt'],
+          //   render: formatTime,
+          // },
         ]}
       />
     </Card>
