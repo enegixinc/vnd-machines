@@ -57,9 +57,6 @@ export const TopProductsTable: React.FC<{ limit?: number }> = ({
             join: [
               { field: 'machines' },
               {
-                field: 'supplier',
-              },
-              {
                 field: 'orders',
                 select: ['createdAt'],
                 limit: 1,
