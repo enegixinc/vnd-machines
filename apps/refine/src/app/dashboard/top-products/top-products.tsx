@@ -39,7 +39,6 @@ export const TopProductsTable: React.FC<{ limit?: number }> = ({
         showActions={false}
         pagination={false}
         showSearch={false}
-        minimal
         useTableProps={{
           pagination: {
             mode: 'off',
@@ -55,10 +54,7 @@ export const TopProductsTable: React.FC<{ limit?: number }> = ({
 
           meta: {
             join: [
-              { field: 'machines' },
-              {
-                field: 'supplier',
-              },
+              { field: 'supplier' },
               // {
               //   field: 'orders',
               //   select: ['createdAt'],
@@ -68,6 +64,7 @@ export const TopProductsTable: React.FC<{ limit?: number }> = ({
             limit,
           },
         }}
+        minimal
         onRow={(record) => ({
           onClick: () => router.push(`/products/show/${record._id}`),
           style: { cursor: 'pointer' },
@@ -94,14 +91,14 @@ export const TopProductsTable: React.FC<{ limit?: number }> = ({
             dataIndex: 'supplier',
             onCell: (record) => ({
               onClick: (e) => {
-                if (record.supplier._id) {
+                if (record?.supplier?._id) {
                   e.stopPropagation();
                 }
-                router.push(`/suppliers/show/${record.supplier._id}`);
+                router.push(`/suppliers/show/${record?.supplier?._id}`);
               },
               style: {
-                cursor: record.supplier._id && 'pointer',
-                color: record.supplier._id && '#1890ff',
+                cursor: record?.supplier?._id && 'pointer',
+                color: record?.supplier?._id && '#1890ff',
               },
             }),
             render: handleNullableFullName,
