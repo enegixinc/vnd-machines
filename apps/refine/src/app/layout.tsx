@@ -157,8 +157,7 @@ export default function RootLayout({
                         list: '/machines',
                         show: '/machines/show/:id',
                         meta: {
-                          canDelete: true,
-                          canCreate: true,
+                          canDelete: false,
                           icon: <HiOutlineUsers />,
                         },
                       },

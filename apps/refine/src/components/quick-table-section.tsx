@@ -38,6 +38,7 @@ export interface QuickTableProps extends TableProps<BaseRecord> {
   showActions?: boolean;
   showEdit?: boolean;
   showSearch?: boolean;
+  canCreate?: boolean;
 }
 
 export const QuickTableSection = <
@@ -53,6 +54,7 @@ export const QuickTableSection = <
   showActions = true,
   showSearch = true,
   showEdit = true,
+  canCreate = true,
   ...props
 }: QuickTableProps) => {
   const { tableProps, setFilters } = useTable({
@@ -111,9 +113,11 @@ export const QuickTableSection = <
         size: 'middle',
       }}
       headerButtons={
-        <>
-          <CreateButton size="middle" type="primary" />
-        </>
+        props.canCreate && (
+          <>
+            <CreateButton size="middle" type="primary" />
+          </>
+        )
       }
     ></List>
   );

@@ -2,14 +2,24 @@
 
 import React from 'react';
 import { QuickTableSection } from '@components/quick-table-section';
-import { Divider } from 'antd';
 import { TextField } from '@refinedev/antd';
+import { useGo } from '@refinedev/core';
+import { formatPrice } from '@helpers';
 
 export default function MachinesList() {
+  const go = useGo();
   return (
     <QuickTableSection
       pageTitle="Machines"
       resource="machines"
+      showActions={false}
+      canCreate={false}
+      onRow={(record) => ({
+        onClick: () => {
+          go({ to: `/machines/show/${record._id}` });
+        },
+        style: { cursor: 'pointer' },
+      })}
       meta={{
         join: [
           {
@@ -64,19 +74,19 @@ export default function MachinesList() {
           children: [
             {
               dataIndex: 'totalSoldProducts',
-              title: 'Total Sold Products',
+              title: 'Sold Products',
               sorter: true,
             },
             {
               dataIndex: 'totalOrders',
-              title: 'Total Orders',
+              title: 'Orders',
               sorter: true,
             },
             {
               dataIndex: 'totalRevenue',
-              title: 'Total Revenue',
+              title: 'Revenue',
               sorter: true,
-              render: (totalRevenue) => `${Number(totalRevenue).toFixed(2)} KD`,
+              render: formatPrice,
             },
           ],
         },
