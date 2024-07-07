@@ -1,13 +1,13 @@
 'use client';
 
 import React from 'react';
-import { Descriptions, Divider, Table, Typography } from 'antd';
+import { Descriptions, Divider, Typography } from 'antd';
 import { CanAccess, useShow } from '@refinedev/core';
 import { handleEmptyString } from '@helpers';
-import { handleNullableText } from '@app/products/utils/handleNullableText';
 import { Show, TextField } from '@refinedev/antd';
 import { FeeType } from '@core';
 import { JoinedOrdersTable } from '@components/joined-orders.table';
+import { useRouter } from 'next/navigation';
 
 const { Title } = Typography;
 
@@ -23,6 +23,8 @@ export default function ContractShow() {
   });
 
   const { data, isLoading } = queryResult;
+
+  const router = useRouter();
 
   const contract = data?.data;
   if (!contract) {
@@ -69,37 +71,34 @@ export default function ContractShow() {
 
       <CanAccess action="show" resource="suppliers">
         <Divider />
-        <Title level={3} style={{ marginTop: 16 }}>
-          {'Supplier Details'}
-        </Title>
-
-        <Table
-          dataSource={[contract.supplier]}
-          columns={[
-            {
-              title: 'Basic Info',
-              children: [
-                {
-                  dataIndex: 'fullName',
-                  title: 'Name',
-                  render: handleNullableText,
-                },
-                {
-                  dataIndex: 'email',
-                  title: 'Email',
-                  render: handleNullableText,
-                },
-                {
-                  dataIndex: 'phoneNumber',
-                  title: 'Phone',
-                  render: handleNullableText,
-                },
-              ],
-            },
-          ]}
-          loading={isLoading}
-          rowKey="_id"
-        />
+        <Title level={3}>{'Supplier Details'}</Title>
+        <Descriptions
+          bordered
+          column={2}
+          labelStyle={{
+            fontWeight: 'bold',
+            width: '20%',
+          }}
+        >
+          <Descriptions.Item label="Full Name">
+            <TextField value={contract.supplier.fullName} />
+          </Descriptions.Item>
+          <Descriptions.Item label="Email">
+            <TextField
+              onClick={() => {
+                router.push(`/suppliers/show/${contract.supplier._id}`);
+              }}
+              style={{ cursor: 'pointer', color: '#1677ff' }}
+              value={contract.supplier.email}
+            />
+          </Descriptions.Item>
+          <Descriptions.Item label="Phone Number">
+            <TextField value={contract.supplier.phoneNumber} />
+          </Descriptions.Item>
+          <Descriptions.Item label="Business Name">
+            <TextField value={contract.supplier.businessName || 'N/A'} />
+          </Descriptions.Item>
+        </Descriptions>
       </CanAccess>
       <Divider />
       <JoinedOrdersTable record={contract} />

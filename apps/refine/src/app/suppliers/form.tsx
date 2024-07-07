@@ -3,8 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { Card, Divider, Form, FormProps, Input, Select, Switch } from 'antd';
 import { UserRole } from '@core';
-import { SerializedProductDto, UserEntity } from '@frontend/api-sdk';
-import { vndClient } from '@providers/api';
+import { SerializedProductDto } from '@frontend/api-sdk';
 import { TableTransfer } from '@components/transafer';
 
 const SupplierForm = ({ formProps }: { formProps: FormProps }) => {
@@ -118,14 +117,17 @@ const ProductsTransfer = ({
         {
           dataIndex: 'fullName',
           title: 'Name',
+          sorter: true,
         },
         {
           dataIndex: 'totalRevenue',
           title: 'Total Revenue',
+          sorter: true,
         },
         {
           dataIndex: 'totalOrders',
           title: 'Total Orders',
+          sorter: true,
         },
       ]}
       rightColumns={[

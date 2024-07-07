@@ -1,19 +1,16 @@
 'use client';
 
-import { ImageField, List, Show, TextField } from '@refinedev/antd';
+import { Show, TextField } from '@refinedev/antd';
 import { useShow } from '@refinedev/core';
-import { Card, Descriptions, Divider, Table, Tag, Typography } from 'antd';
+import { Descriptions, Divider, Typography } from 'antd';
 import React from 'react';
-import { BrandEntity, SerializedBrandDto } from '@frontend/api-sdk';
-import { handleEmptyString, safeArrayCounter } from '@helpers';
-import { defaultSrc } from '@app/config';
+import { SerializedBrandDto } from '@frontend/api-sdk';
+import { handleEmptyString } from '@helpers';
 import { ShowFinance } from '@components/sections/finance';
 import { handleMagextImage } from '@app/products/utils/handleMagextImage';
-import { QuickTableSection } from '@components/quick-table-section';
-import { IoIosCash } from 'react-icons/io';
-import { RiVisaFill } from 'react-icons/ri';
 import { formatDate } from '@components/description-dates';
 import { JoinedProductsTable } from '@components/joined-products.table';
+import { JoinedOrdersTable } from '@components/joined-orders.table';
 
 const { Title } = Typography;
 
@@ -125,53 +122,7 @@ export default function BrandShow() {
       {/*</Card>*/}
 
       <Divider />
-      <Title level={3} style={{ marginTop: 16 }}>
-        {'Orders'}
-      </Title>
-
-      <Card>
-        <Table
-          dataSource={record.orders}
-          columns={[
-            {
-              title: 'Cart Number',
-              dataIndex: 'cart_number',
-            },
-            {
-              title: 'Payment Method',
-              dataIndex: 'payment_type',
-              render: (paymentType) => (
-                <Tag
-                  icon={
-                    paymentType === 'CASH' ? (
-                      <IoIosCash
-                        style={{
-                          fontSize: '2em',
-                          verticalAlign: 'middle',
-                        }}
-                      />
-                    ) : (
-                      <RiVisaFill
-                        style={{
-                          fontSize: '2em',
-                          verticalAlign: 'middle',
-                        }}
-                      />
-                    )
-                  }
-                  color={paymentType === 'CASH' ? 'green' : 'blue'}
-                />
-              ),
-            },
-            {
-              title: 'Total',
-              dataIndex: ['total'],
-              sorter: true,
-              render: (total, record) => `${total} ${record.currency}`,
-            },
-          ]}
-        />
-      </Card>
+      <JoinedOrdersTable record={record} />
     </Show>
   );
 }
