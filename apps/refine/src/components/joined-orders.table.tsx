@@ -65,14 +65,15 @@ export const JoinedOrdersTable = ({
           },
           {
             title: 'Total',
-            dataIndex: ['total'],
-            sorter: true,
+            dataIndex: 'total',
+            sorter: (a, b) => a.total - b.total,
             render: formatPrice,
           },
           {
             title: 'Date',
             dataIndex: 'createdAt',
             render: formatTime,
+            sorter: (a, b) => a.createdAt.localeCompare(b.createdAt),
           },
         ]}
       />

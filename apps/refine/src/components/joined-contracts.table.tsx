@@ -3,6 +3,7 @@ import React from 'react';
 import { useRouter } from 'next/navigation';
 import { TextField } from '@refinedev/antd';
 import { ContractStatus, ISerializedContract } from '@core';
+import { formatPrice } from '@helpers';
 
 export const JoinedContractsTable = ({
   record,
@@ -41,12 +42,12 @@ export const JoinedContractsTable = ({
               {
                 dataIndex: 'startDate',
                 title: 'Start Date',
-                sorter: true,
+                sorter: (a, b) => a.endDate.localeCompare(b.endDate),
               },
               {
                 dataIndex: 'endDate',
                 title: 'End Date',
-                sorter: true,
+                sorter: (a, b) => a.endDate.localeCompare(b.endDate),
               },
               {
                 dataIndex: 'status',
@@ -79,7 +80,7 @@ export const JoinedContractsTable = ({
               {
                 dataIndex: 'feePerSale',
                 title: 'Fee Per Sale',
-                sorter: true,
+                sorter: (a, b) => a.feePerSale - b.feePerSale,
               },
               {
                 dataIndex: 'feeType',
@@ -87,15 +88,14 @@ export const JoinedContractsTable = ({
               },
               {
                 title: 'Orders',
-                sorter: true,
                 render: (record) => record.orders.length,
+                sorter: (a, b) => a.orders.length - b.orders.length,
               },
               {
                 dataIndex: 'totalRevenue',
                 title: 'Revenue',
-                sorter: true,
-                render: (totalRevenue) =>
-                  `${Number(totalRevenue).toFixed(2)} KD`,
+                render: formatPrice,
+                sorter: (a, b) => a.totalRevenue - b.totalRevenue,
               },
             ],
           },
