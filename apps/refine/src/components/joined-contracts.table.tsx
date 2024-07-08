@@ -1,6 +1,5 @@
-﻿import { Card, Table, Typography } from 'antd';
+﻿import { Table, Typography } from 'antd';
 import React from 'react';
-import { SerializedProductDto } from '@frontend/api-sdk';
 import { useRouter } from 'next/navigation';
 import { TextField } from '@refinedev/antd';
 import { ContractStatus, ISerializedContract } from '@core';
@@ -55,10 +54,19 @@ export const JoinedContractsTable = ({
                 render: (status) => (
                   <TextField
                     value={
-                      status === ContractStatus.ACTIVE ? 'Active' : 'Inactive'
+                      status === ContractStatus.ACTIVE
+                        ? 'Active'
+                        : status === ContractStatus.EXPIRED
+                        ? 'Expired'
+                        : 'Terminated'
                     }
                     style={{
-                      color: status === ContractStatus.ACTIVE ? 'green' : 'red',
+                      color:
+                        status === ContractStatus.ACTIVE
+                          ? '#52c41a'
+                          : status === ContractStatus.EXPIRED
+                          ? '#f5222d'
+                          : '#faad14',
                     }}
                   />
                 ),
@@ -78,9 +86,9 @@ export const JoinedContractsTable = ({
                 title: 'Fee Type',
               },
               {
-                dataIndex: 'totalOrders',
                 title: 'Orders',
                 sorter: true,
+                render: (record) => record.orders.length,
               },
               {
                 dataIndex: 'totalRevenue',

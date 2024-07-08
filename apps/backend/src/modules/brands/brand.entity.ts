@@ -22,8 +22,10 @@ import { CategoryEntity } from '../categories/category.entity';
 import { MagexService } from '../../services/magex/magex.service';
 import { OrderEntity } from '../orders/order.entity';
 import {
+  ActiveRevenue,
   TotalOrders,
   TotalRevenue,
+  TotalSales,
   TotalSoldProducts,
 } from '../categories/decorators';
 import { MultiLangEntity } from '../products/entities/multiLang.entity';
@@ -57,8 +59,14 @@ export class BrandEntity extends SearchableMagexEntity implements IBrandEntity {
   @TotalSoldProducts('brands', 'brand_id')
   totalSoldProducts: number;
 
+  @TotalSales('brands', 'brand_id')
+  totalSales: number;
+
   @TotalRevenue('brands', 'brand_id')
   totalRevenue: number;
+
+  @ActiveRevenue('brands', 'brand_id')
+  totalActiveRevenue: number;
 
   @TotalOrders('brands', 'brand_id')
   totalOrders: number;

@@ -21,7 +21,13 @@ import { BrandEntity } from '../brands/brand.entity';
 import { Factory } from 'nestjs-seeder';
 import { fakerAR } from '@faker-js/faker';
 import { MagexService } from '../../services/magex/magex.service';
-import { TotalOrders, TotalRevenue, TotalSoldProducts } from './decorators';
+import {
+  ActiveRevenue,
+  TotalOrders,
+  TotalRevenue,
+  TotalSales,
+  TotalSoldProducts,
+} from './decorators';
 import { MultiLangEntity } from '../products/entities/multiLang.entity';
 import { OrderEntity } from '../orders/order.entity';
 
@@ -55,6 +61,12 @@ export class CategoryEntity
 
   @TotalSoldProducts('categories', 'category_id')
   totalSoldProducts: number;
+
+  @TotalSales('categories', 'category_id')
+  totalSales: number;
+
+  @ActiveRevenue('categories', 'category_id')
+  totalActiveRevenue: number;
 
   @TotalRevenue('categories', 'category_id')
   totalRevenue: number;

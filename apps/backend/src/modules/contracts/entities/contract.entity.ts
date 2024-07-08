@@ -99,7 +99,7 @@ export class ContractEntity extends DatabaseEntity implements IContractEntity {
         COALESCE(SUM(
                    CASE
                      WHEN C."feeType" = 'fixed' THEN COALESCE(C."feePerSale", 0)
-                     WHEN C."feeType" = 'percentage' THEN COALESCE(O.total * (C."feePerSale" / 100), 0)
+                     WHEN C."feeType" = 'percentage' THEN COALESCE(OD."soldPrice" * (C."feePerSale" / 100), 0)
                      ELSE 0
                      END
                  ), 0)

@@ -3,7 +3,7 @@
 import React from 'react';
 import { Descriptions, Divider, Spin, Typography } from 'antd';
 import { CanAccess, useShow } from '@refinedev/core';
-import { handleEmptyString } from '@helpers';
+import { formatPrice, handleEmptyString } from '@helpers';
 import { Show, TextField } from '@refinedev/antd';
 import { FeeType } from '@core';
 import { JoinedOrdersTable } from '@components/joined-orders.table';
@@ -69,14 +69,14 @@ export default function ContractShow() {
             }`}
           />
         </Descriptions.Item>
-        <Descriptions.Item label="Total Orders">
-          <TextField value={contract.totalOrders} />
+        <Descriptions.Item label="Orders">
+          <TextField value={contract.orders.length} />
         </Descriptions.Item>
-        <Descriptions.Item label="Total Sales">
-          <TextField value={`${Number(contract.totalSales).toFixed(2)} KD`} />
+        <Descriptions.Item label="Sales">
+          <TextField value={formatPrice(contract.totalSales)} />
         </Descriptions.Item>
-        <Descriptions.Item label="Total Revenue">
-          <TextField value={`${Number(contract.totalRevenue).toFixed(2)} KD`} />
+        <Descriptions.Item label="Revenue">
+          <TextField value={formatPrice(contract.totalRevenue)} />
         </Descriptions.Item>
       </Descriptions>
 

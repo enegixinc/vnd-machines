@@ -17,8 +17,10 @@ import { CategoryEntity } from '../../categories/category.entity';
 import { BrandEntity } from '../../brands/brand.entity';
 import { ContractEntity } from '../../contracts/entities/contract.entity';
 import {
+  ActiveRevenue,
   TotalOrders,
   TotalRevenue,
+  TotalSales,
   TotalSoldProducts,
 } from '../../categories/decorators';
 import { MultiLangEntity } from '../../products/entities/multiLang.entity';
@@ -73,8 +75,14 @@ export class UserEntity extends SearchableEntity implements IUserEntity {
   @TotalSoldProducts('users', 'supplier_id')
   totalSoldProducts: number;
 
+  @TotalSales('users', 'supplier_id')
+  totalSales: number;
+
   @TotalRevenue('users', 'supplier_id')
   totalRevenue: number;
+
+  @ActiveRevenue('users', 'supplier_id')
+  totalActiveRevenue: number;
 
   @TotalOrders('users', 'supplier_id')
   totalOrders: number;
