@@ -113,6 +113,7 @@ const ImageUpload = ({
     <ImgCrop rotationSlider>
       <Dragger
         listType="picture-card"
+        maxCount={4}
         fileList={fileList}
         onChange={onChange}
         onPreview={onPreview}
@@ -132,6 +133,15 @@ const ImageUpload = ({
   );
 };
 
+// const toUploadFile = (file: string, index: number):UploadFile => ({
+//   uid: index.toString(),
+//   name: file,
+//   status: 'done',
+//   url: handleMagexImageRaw(file),
+//   type: 'image/jpeg',
+//   preview: convertUploadFileToBase64(file),
+// });
+
 const transformPictureData = (pictures: string[]) => {
   return pictures.map((pic, index) => ({
     uid: index,
@@ -149,14 +159,7 @@ export const ProductForm = ({
   formProps: FormProps;
   isSupplier: boolean;
 }) => {
-  const [fileList, setFileList] = useState<UploadFile[]>([
-    // {
-    //   uid: '-1',
-    //   name: 'image.png',
-    //   status: 'done',
-    //   url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-    // },
-  ]);
+  const [fileList, setFileList] = useState<UploadFile[]>([]);
 
   const { selectProps: brandSelectProps } = useSelect({
     resource: 'brands',
@@ -184,6 +187,7 @@ export const ProductForm = ({
   }, []);
 
   useEffect(() => {
+    console.log('fileList:', fileList);
     const getImagesBase64 = async () => {
       return await Promise.all(
         fileList.map(async (file) => {
@@ -193,6 +197,7 @@ export const ProductForm = ({
     };
     getImagesBase64().then((images) => {
       formProps?.form?.setFieldsValue({ productPictures: images });
+      console.log('images:', images);
     });
   }, [fileList]);
 

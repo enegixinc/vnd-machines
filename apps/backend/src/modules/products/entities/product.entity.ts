@@ -375,20 +375,37 @@ export class ProductEntity
   @Column({ type: 'integer', default: 0 })
   stock: number;
 
+  private base64ToBlob(base64: string, mimeType: string): Blob {
+    const byteString = atob(base64.split(',')[1]);
+    const ab = new ArrayBuffer(byteString.length);
+    const ia = new Uint8Array(ab);
+    for (let i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+    return new Blob([ab], { type: mimeType });
+  }
+
+  get images() {
+    return {
+      image1: this.productPictures[0]
+        ? this.base64ToBlob(this.productPictures[0], 'image/jpeg')
+        : null,
+      image2: this.productPictures[1]
+        ? this.base64ToBlob(this.productPictures[1], 'image/jpeg')
+        : null,
+      image3: this.productPictures[2]
+        ? this.base64ToBlob(this.productPictures[2], 'image/jpeg')
+        : null,
+      image4: this.productPictures[3]
+        ? this.base64ToBlob(this.productPictures[3], 'image/jpeg')
+        : null,
+    };
+  }
+
   async createMagexRecord(magexService: MagexService) {
     const formData = this.handleMultiLangProps(
       this.removeExtraProps(this, ['supplier', 'fullName'])
     );
-
-    const base64ToBlob = (base64: string, mimeType: string): Blob => {
-      const byteString = atob(base64.split(',')[1]);
-      const ab = new ArrayBuffer(byteString.length);
-      const ia = new Uint8Array(ab);
-      for (let i = 0; i < byteString.length; i++) {
-        ia[i] = byteString.charCodeAt(i);
-      }
-      return new Blob([ab], { type: mimeType });
-    };
 
     const { newProduct } = await magexService.products.postProductsCreate({
       formData: {
@@ -396,7 +413,7 @@ export class ProductEntity
         category: this.category?._id || null,
         brand: this.brand?._id || null,
         referTo: 'tryvnd@point24h.com',
-        image1: base64ToBlob(this.productPictures[0], 'image/jpeg'),
+        ...this.images,
       },
     });
 
@@ -408,8 +425,6 @@ export class ProductEntity
     const formData = this.handleMultiLangProps(
       this.removeExtraProps(this, ['supplier', 'fullName', 'productPictures'])
     );
-    console.log('this.category?._id', this.category?._id);
-    console.log('this.brand?._id', this.brand?._id);
 
     await magexService.products.putProductsEditById({
       id: formData._id,
@@ -418,6 +433,7 @@ export class ProductEntity
         category: this.category?._id || null,
         brand: this.brand?._id || null,
         referTo: 'tryvnd@point24h.com',
+        ...this.images,
       },
     });
   }
