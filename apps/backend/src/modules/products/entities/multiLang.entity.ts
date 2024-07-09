@@ -3,7 +3,7 @@ import { Factory } from 'nestjs-seeder';
 import { fakerAR } from '@faker-js/faker';
 import { ApiProperty } from '@nestjs/swagger';
 import { CrudValidationGroups } from '@dataui/crud';
-import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsOptional } from 'class-validator';
 import { MultiLang } from '@core';
 
 const { CREATE, UPDATE } = CrudValidationGroups;
@@ -18,9 +18,7 @@ export class MultiLangEntity {
     example: 'العربيه',
     type: String,
   })
-  @IsOptional({ groups: [UPDATE] })
-  @IsNotEmpty({ groups: [CREATE] })
-  @IsString({ groups: [CREATE, UPDATE] })
+  @IsOptional({ groups: [CREATE, UPDATE] })
   ar: string;
 
   @Factory((faker) => faker.lorem.sentence())
@@ -32,9 +30,7 @@ export class MultiLangEntity {
     example: 'English',
     type: String,
   })
-  @IsOptional({ groups: [UPDATE] })
-  @IsNotEmpty({ groups: [CREATE] })
-  @IsString({ groups: [CREATE, UPDATE] })
+  @IsOptional({ groups: [CREATE, UPDATE] })
   en: string;
 
   static handleMultiLang<T extends MultiLang>(name: T) {
