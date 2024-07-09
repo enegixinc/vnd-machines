@@ -13,15 +13,11 @@ import {
   IProductEntity,
   ISerializedBrand,
   ISerializedCategory,
-  ISerializedUser,
   ReferenceByID,
 } from '@core';
 import { Factory } from 'nestjs-seeder';
 
-import {
-  MagexDatabaseEntity,
-  SearchableMagexEntity,
-} from '../../../common/database.entity';
+import { SearchableMagexEntity } from '../../../common/database.entity';
 import { FillRequestProducts } from '../../requests/fill-requests/fill-request.entity';
 import { OrderProductsDetails } from '../../orders/order-details.entity';
 import { MachineProduct } from '../../machines/entities/machine-product.entity';
@@ -191,7 +187,7 @@ export class ProductEntity
   @ManyToOne(() => UserEntity, (user) => user.products, {
     cascade: true,
   })
-  supplier: ReferenceByID<ISerializedUser>;
+  supplier: UserEntity;
   @Column({ nullable: true })
   supplier_id: string;
 

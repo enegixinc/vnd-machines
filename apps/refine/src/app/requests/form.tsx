@@ -3,10 +3,8 @@
 import React, { useEffect, useState } from 'react';
 import { Card, Divider, Form, FormProps, Input, Select, Switch } from 'antd';
 import { SerializedProductDto } from '@frontend/api-sdk';
-import { vndClient } from '@providers/api';
 import { TableTransfer } from '@components/transafer';
-import { useSelect, useTable } from '@refinedev/antd';
-import { handleNullableFullName } from '@app/products/utils/handleNullableText';
+import { useSelect } from '@refinedev/antd';
 
 const FillRequestForm = ({ formProps }: { formProps: FormProps }) => {
   const { selectProps } = useSelect({
@@ -45,7 +43,10 @@ const FillRequestForm = ({ formProps }: { formProps: FormProps }) => {
             fillRequestProducts={formProps.initialValues?.products}
             onChange={(products) => {
               formProps?.form?.setFieldsValue({
-                products,
+                products: products.map((p) => ({
+                  product: { _id: p._id },
+                  quantity: p.quantity,
+                })),
               });
             }}
           />

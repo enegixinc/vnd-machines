@@ -11,6 +11,7 @@ export default function FillRequestEdit() {
   const { formProps, saveButtonProps, formLoading, queryResult } = useForm({
     id: id.toString(),
     resource: 'requests',
+    redirect: 'list',
     action: 'edit',
     meta: {
       join: [

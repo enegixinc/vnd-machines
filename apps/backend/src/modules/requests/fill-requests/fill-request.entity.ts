@@ -17,9 +17,6 @@ export class FillRequestEntity extends DatabaseEntity {
   )
   products: FillRequestProducts[];
 
-  // @Column({ default: false })
-  // accepted: boolean;
-
   @Column({ nullable: true })
   notes?: string;
 

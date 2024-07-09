@@ -21,7 +21,8 @@ export class MailerService {
       product: ProductEntity;
     }[],
     supplier: UserEntity,
-    notes: string
+    notes: string,
+    requestId: string
   ) {
     console.log('Sending fill request email to', supplier.email);
     const fillRequestTemplate = await this.templatesService.fillRequestTemplate(
@@ -31,6 +32,7 @@ export class MailerService {
         machineLocation: machine.description,
         products,
         notes,
+        requestId,
       }
     );
 

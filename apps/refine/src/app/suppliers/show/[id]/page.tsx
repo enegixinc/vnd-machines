@@ -11,8 +11,6 @@ import { formatDate } from '@components/description-dates';
 import { JoinedProductsTable } from '@components/joined-products.table';
 import { JoinedOrdersTable } from '@components/joined-orders.table';
 import { JoinedContractsTable } from '@components/joined-contracts.table';
-import { JoinedBrandsTable } from '@components/joined-brands.table';
-import { JoinedCategoriesTable } from '@components/joined-categories.table';
 
 const { Title } = Typography;
 
@@ -104,10 +102,10 @@ export default function SupplierShow() {
         <JoinedProductsTable record={record} />
         <Divider />
         <JoinedOrdersTable record={record} />
-        <Divider />
-        <JoinedBrandsTable record={record} />
-        <Divider />
-        <JoinedCategoriesTable record={record} />
+        {/*<Divider />*/}
+        {/*<JoinedBrandsTable record={record} />*/}
+        {/*<Divider />*/}
+        {/*<JoinedCategoriesTable record={record} />*/}
       </Show>
     </CanAccess>
   );

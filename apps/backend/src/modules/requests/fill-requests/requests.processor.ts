@@ -4,62 +4,105 @@ import { MailerService } from '../../../services/mailer/mailer.service';
 import { FillRequestEntity, FillRequestProducts } from './fill-request.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { MachineEntity } from '../../machines/entities/machine.entity';
+import { UserEntity } from '../../users/entities/user.entity';
+import { ProductEntity } from '../../products/entities/product.entity';
+import { OnModuleInit } from '@nestjs/common';
+import { QUEUES } from '../../../common/constants';
 
-@Processor('requests')
-export class RequestsProcessor extends WorkerHost {
+@Processor(QUEUES.REQUESTS)
+export class RequestsProcessor extends WorkerHost implements OnModuleInit {
   constructor(
     private readonly mailerService: MailerService,
     @InjectRepository(FillRequestEntity)
-    private readonly requestsService: Repository<FillRequestEntity>
+    private readonly requestsRepository: Repository<FillRequestEntity>
   ) {
     super();
   }
 
-  async process({ data }: Job<FillRequestEntity>) {
+  onModuleInit() {
+    console.log('Processor initialized');
+  }
+
+  async process(job: Job<FillRequestEntity>): Promise<void> {
+    const { machine: rawMachine, products: rawProducts, notes } = job.data;
+    console.log('Processing job', job.data);
     try {
-      const { machine, products, notes } = data;
+      const machine = await this.getMachineData(rawMachine._id);
+      const productsData = await this.getProductsData(rawProducts);
+      const suppliersMap = this.groupProductsBySupplier(productsData);
 
-      const suppliersMap = new Map<string, FillRequestProducts[]>();
-
-      for (const product of products) {
-        const supplier = product.product.supplier;
-        if (!suppliersMap.has(supplier._id)) {
-          suppliersMap.set(supplier._id, []);
-        }
-        suppliersMap.get(supplier._id).push(product);
-      }
-
-      return suppliersMap.forEach(async (fillRequestProducts, supplierId) => {
-        const supplier = fillRequestProducts[0].product.supplier;
-        const products = fillRequestProducts.map((product) => ({
-          quantity: product.quantity,
-          product: product.product,
-        }));
-
-        return this.mailerService.sendFillRequestMail(
+      for (const [supplier, products] of suppliersMap.entries()) {
+        await this.mailerService.sendFillRequestMail(
           machine,
           products,
-          // @ts-ignore
           supplier,
-          notes
+          notes,
+          job.data._id
         );
-      });
+      }
     } catch (error) {
       console.error('Error processing job', error);
       throw error;
     }
   }
 
-  @OnWorkerEvent('completed')
-  async onCompleted(job: Job<FillRequestEntity>) {
-    console.log('Processing completed');
-    await this.requestsService.update(job.data._id, {
-      receivedMail: true,
+  private async getMachineData(machineId: string): Promise<MachineEntity> {
+    return await this.requestsRepository.manager.findOne(MachineEntity, {
+      where: { _id: machineId },
     });
   }
 
+  private async getProductsData(products: FillRequestProducts[]) {
+    const productIds = products.map((product) => product.product._id);
+    const productsDetails = await this.requestsRepository.manager.find(
+      ProductEntity,
+      {
+        where: productIds.map((_id) => ({ _id })),
+        relations: ['supplier'],
+      }
+    );
+
+    return products.map((product) => ({
+      product: productsDetails.find((p) => p._id === product.product._id),
+      quantity: product.quantity,
+    }));
+  }
+
+  private groupProductsBySupplier(
+    fillRequestProducts: { product: ProductEntity; quantity: number }[]
+  ): Map<UserEntity, { product: ProductEntity; quantity: number }[]> {
+    console.log('Grouping products by supplier', fillRequestProducts);
+    const suppliersMap = new Map<
+      UserEntity,
+      { product: ProductEntity; quantity: number }[]
+    >();
+
+    for (const { product, quantity } of fillRequestProducts) {
+      const supplierId = product.supplier._id;
+      const supplier = [...suppliersMap.keys()].find(
+        (s) => s._id === supplierId
+      );
+
+      if (supplier) {
+        suppliersMap.get(supplier).push({ product, quantity });
+      } else {
+        suppliersMap.set(product.supplier, [{ product, quantity }]);
+      }
+    }
+
+    return suppliersMap;
+  }
+  @OnWorkerEvent('completed')
+  async onCompleted(job: Job<FillRequestEntity>): Promise<void> {
+    console.log('Processing completed');
+    // await this.requestsRepository.update(job.data._id, {
+    //   receivedMail: true,
+    // });
+  }
+
   @OnWorkerEvent('failed')
-  onFailed(job: Job, err: Error) {
+  onFailed(job: Job, err: Error): void {
     console.error(`Job failed: ${job.id}`, err);
   }
 }

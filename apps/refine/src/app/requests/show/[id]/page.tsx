@@ -2,11 +2,12 @@
 
 import { Show, TextField } from '@refinedev/antd';
 import { useShow } from '@refinedev/core';
-import { Descriptions, Divider, Spin, Typography } from 'antd';
+import { Descriptions, Divider, Spin, Table, Typography } from 'antd';
 import React from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { handleNullableText } from '@app/products/utils/handleNullableText';
 import { formatDate } from '@components/description-dates';
+import { handleMagextImage } from '@app/products/utils/handleMagextImage';
 
 const { Title } = Typography;
 
@@ -26,6 +27,9 @@ export default function FillRequestShow() {
           join: [
             {
               field: 'product',
+            },
+            {
+              field: 'products.product',
             },
           ],
         },
@@ -85,6 +89,35 @@ export default function FillRequestShow() {
         </Descriptions.Item>
       </Descriptions>
       <Divider />
+      <Typography.Title level={3}>{'Products'}</Typography.Title>
+
+      <Table
+        pagination={{ pageSize: 5, total: record.products.length }}
+        dataSource={record.products}
+        onRow={(record) => {
+          return {
+            onClick: () => {
+              router.push(`/products/show/${record.product._id}`);
+            },
+            style: { cursor: 'pointer' },
+          };
+        }}
+        columns={[
+          {
+            dataIndex: ['product', 'productPictures'],
+            title: 'Image',
+            render: (images) => handleMagextImage(images[0]),
+          },
+          {
+            dataIndex: ['product', 'fullName'],
+            title: 'Product',
+          },
+          {
+            dataIndex: 'quantity',
+            title: 'Quantity',
+          },
+        ]}
+      />
     </Show>
   );
 }

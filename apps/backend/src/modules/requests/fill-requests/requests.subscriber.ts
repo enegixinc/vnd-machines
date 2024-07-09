@@ -4,13 +4,13 @@ import { Inject } from '@nestjs/common';
 import { InjectQueue } from '@nestjs/bullmq';
 import { QUEUES } from '../../../common/constants';
 import { Queue } from 'bullmq';
-import { ProductEntity } from '../../products/entities/product.entity';
-import { MachineEntity } from '../../machines/entities/machine.entity';
 
-export class RequestsSubscriber implements EntitySubscriberInterface {
+export class RequestsSubscriber
+  implements EntitySubscriberInterface<FillRequestEntity>
+{
   constructor(
-    @Inject(DataSource) private dataSource: DataSource,
-    @InjectQueue(QUEUES.REQUESTS) private requestsQueue: Queue
+    @Inject(DataSource) private readonly dataSource: DataSource,
+    @InjectQueue(QUEUES.REQUESTS) private readonly requestsQueue: Queue
   ) {
     this.dataSource.subscribers.push(this);
   }
@@ -20,34 +20,10 @@ export class RequestsSubscriber implements EntitySubscriberInterface {
   }
 
   async afterInsert(event: InsertEvent<FillRequestEntity>) {
-    try {
-      const resolvedFillRequest: FillRequestEntity = event.entity;
+    const resolvedFillRequest: FillRequestEntity = event.entity;
 
-      console.log('Processing fill request', resolvedFillRequest);
-      const machine = await this.dataSource.manager.findOne(MachineEntity, {
-        where: { _id: event.entity.machine._id },
-      });
-      Object.assign(resolvedFillRequest, { machine });
-
-      const products = await Promise.all(
-        event.entity.products.map(async (product) => {
-          const resolvedProduct = await this.dataSource.manager.findOne(
-            ProductEntity,
-            {
-              where: { _id: product._id },
-              relations: ['supplier'],
-            }
-          );
-          return { product: resolvedProduct, quantity: product.quantity };
-        })
-      );
-      Object.assign(resolvedFillRequest, { products });
-
-      await this.requestsQueue.add('process', resolvedFillRequest, {
-        attempts: 3,
-      });
-    } catch (error) {
-      console.error('Error processing fill request', error);
-    }
+    await this.requestsQueue.add('fill-request', resolvedFillRequest, {
+      attempts: 3,
+    });
   }
 }

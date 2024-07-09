@@ -27,7 +27,7 @@
       margin-bottom: 20px;
     }
     .header h1 {
-      color: #1677ff;
+      color: #03516b;
     }
     .content {
       line-height: 1.6;
@@ -43,7 +43,7 @@
       text-align: left;
     }
     .product-table th {
-      background-color: #1677ff;
+      background-color: #03516b;
       color: white;
     }
     .product-table td img {
@@ -63,20 +63,20 @@
     .notes {
       background-color: #f9f9f9;
       padding: 10px;
-      border-left: 4px solid #1677ff;
+      border-left: 4px solid #03516b;
       margin-top: 20px;
     }
     .machine-details {
       background-color: #f9f9f9;
       padding: 10px;
-      border-left: 4px solid #1677ff;
+      border-left: 4px solid #03516b;
       margin-bottom: 20px;
     }
     .view-button {
       display: block;
       width: 100%;
       padding: 10px;
-      background-color: #1677ff;
+      background-color: #03516b;
       color: white !important;
       text-align: center;
       text-decoration: none;
@@ -111,7 +111,14 @@
       <tbody>
       {{#each products}}
         <tr>
-          <td><img src="{{#if this.product.productPictures.[0]}}{{this.product.productPictures.[0]}}{{else}}https://www.brandi.com.ar/wp-content/uploads/2020/08/a-no-foto.png{{/if}}" alt="{{this.product.fullName}}"></td>
+          <td>
+            <img src="{{#if this.product.productPictures.[0]}}
+            https://devapi.point24h.com/api/thumbs/{{this.product.productPictures.[0]}}/tryvnd@point24h.com
+          {{else}}
+            https://www.brandi.com.ar/wp-content/uploads/2020/08/a-no-foto.png
+          {{/if}}"
+                 alt="{{this.product.fullName}}">
+          </td>
           <td>{{this.product.fullName}}</td>
           <td>{{this.quantity}}</td>
         </tr>
@@ -126,7 +133,7 @@
     {{/if}}
 
     <p>Thank you for your prompt attention to this request. Please click the button below to view the fill request details.</p>
-    <a href="https://vnd.5ostudios.com/" class="view-button">View Fill Request</a>
+    <a href="https://staging-vnd.5ostudios.com/requests/show/{{requestId}}" class="view-button">View Fill Request</a>
 
     <p>Best regards,</p>
     <p><strong>VND Machines Team</strong></p>

@@ -13,6 +13,7 @@ type FillRequestTemplateData = {
     product: ProductEntity;
   }[];
   notes: string;
+  requestId: string;
 };
 
 @Injectable()

@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Controller } from '@nestjs/common';
 import { Crud, CrudController } from '@dataui/crud';
 import { saneOperationsId } from '../../../common/swagger.config';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
@@ -38,9 +38,11 @@ import { FillRequestEntity } from './fill-request.entity';
       },
       products: {
         alias: 'products',
+        eager: true,
       },
       'products.product': {
-        alias: 'product',
+        alias: 'singleProduct',
+        eager: true,
       },
     },
   },

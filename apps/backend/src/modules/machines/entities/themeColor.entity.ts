@@ -1,4 +1,3 @@
-// entities/themeColor.entity.ts
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 
