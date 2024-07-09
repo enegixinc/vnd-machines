@@ -1,3 +1,4 @@
+import type { GetProp, UploadProps } from 'antd';
 import {
   Card,
   Flex,
@@ -6,21 +7,18 @@ import {
   Input,
   InputNumber,
   Select,
-  Spin,
   Switch,
   Upload,
   UploadFile,
 } from 'antd';
-import { getValueFromEvent, useSelect } from '@refinedev/antd';
+import { useSelect } from '@refinedev/antd';
 import { MultiLangInput } from '@theme-helpers';
 import React, { useEffect, useState } from 'react';
-import {
-  handleMagexImageRaw,
-  handleMagextImage,
-} from '@app/products/utils/handleMagextImage';
-import { UploadChangeParam } from 'antd/es/upload';
-import { CanAccess, useGetIdentity } from '@refinedev/core';
-import { IUserEntity, UserRole } from '@core';
+import { handleMagexImageRaw } from '@app/products/utils/handleMagextImage';
+import ImgCrop from 'antd-img-crop';
+import Dragger from 'antd/es/upload/Dragger';
+import { InboxOutlined } from '@ant-design/icons';
+import { RcFile } from 'antd/es/upload';
 
 type FormData = { [key: string]: any };
 
@@ -54,14 +52,95 @@ const cleanNestedObject = (obj: FormData): boolean => {
   return Object.keys(cleanedNestedObj).length > 0;
 };
 
-// const getBase64 = (file: File) => {
-//   return new Promise((resolve, reject) => {
-//     const reader = new FileReader();
-//     reader.readAsDataURL(file);
-//     reader.onload = () => resolve(reader.result);
-//     reader.onerror = (error) => reject(error);
-//   });
-// };
+// Helper function to convert file to base64
+const getBase64 = (file: RcFile): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result as string);
+    reader.onerror = (error) => reject(error);
+  });
+};
+
+// Function to take UploadFile and convert it to base64
+const convertUploadFileToBase64 = async (
+  uploadFile: UploadFile
+): Promise<string | null> => {
+  if (uploadFile.originFileObj) {
+    try {
+      console.log(
+        'uploadFile.originFileObj:',
+        await getBase64(uploadFile.originFileObj)
+      );
+      return await getBase64(uploadFile.originFileObj);
+    } catch (error) {
+      console.error('Error converting file to base64:', error);
+      return null;
+    }
+  }
+  return null;
+};
+
+type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
+
+const ImageUpload = ({
+  fileList,
+  setFileList,
+}: {
+  fileList: UploadFile[];
+  setFileList: React.Dispatch<React.SetStateAction<UploadFile[]>>;
+}) => {
+  const onChange: UploadProps['onChange'] = ({ fileList: newFileList }) => {
+    setFileList(newFileList);
+  };
+
+  const onPreview = async (file: UploadFile) => {
+    let src = file.url as string;
+    if (!src) {
+      src = await new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file.originFileObj as FileType);
+        reader.onload = () => resolve(reader.result as string);
+      });
+    }
+    const image = new Image();
+    image.src = src;
+    const imgWindow = window.open(src);
+    imgWindow?.document.write(image.outerHTML);
+  };
+
+  return (
+    <ImgCrop rotationSlider>
+      <Dragger
+        listType="picture-card"
+        fileList={fileList}
+        onChange={onChange}
+        onPreview={onPreview}
+      >
+        <p className="ant-upload-drag-icon">
+          <InboxOutlined />
+        </p>
+        <p className="ant-upload-text">
+          Click or drag file to this area to upload
+        </p>
+        <p className="ant-upload-hint">
+          Support for a single or bulk upload. Strictly prohibited from
+          uploading company data or other banned files.
+        </p>
+      </Dragger>
+    </ImgCrop>
+  );
+};
+
+const transformPictureData = (pictures: string[]) => {
+  return pictures.map((pic, index) => ({
+    uid: index,
+    name: pic,
+    status: 'done',
+    url: handleMagexImageRaw(pic),
+    type: 'image/jpeg',
+  }));
+};
 
 export const ProductForm = ({
   formProps,
@@ -70,16 +149,15 @@ export const ProductForm = ({
   formProps: FormProps;
   isSupplier: boolean;
 }) => {
-  const transformPictureData = (pictures: string[]) => {
-    return pictures.map((pic, index) => ({
-      uid: index,
-      name: pic,
-      status: 'done',
-      url: handleMagexImageRaw(pic),
-      type: 'image/jpeg',
-    }));
-  };
-  const [fileList, setFileList] = useState([]);
+  const [fileList, setFileList] = useState<UploadFile[]>([
+    // {
+    //   uid: '-1',
+    //   name: 'image.png',
+    //   status: 'done',
+    //   url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+    // },
+  ]);
+
   const { selectProps: brandSelectProps } = useSelect({
     resource: 'brands',
     optionLabel: 'fullName',
@@ -103,55 +181,32 @@ export const ProductForm = ({
         transformPictureData(formProps.initialValues.productPictures)
       );
     }
-  }, [formProps.initialValues]);
+  }, []);
 
-  // const handleUpload = async ({
-  //   file,
-  // }: UploadChangeParam<UploadFile<any>>) => {
-  //
-  // };
-  //
-  // const handleSubmit = async () => {
-  //   return await Promise.all(
-  //     fileList.map(async (file) => ({
-  //       name: file.name,
-  //       base64: await getBase64(file.originFileObj),
-  //     }))
-  //   );
-  // };
-  //
+  useEffect(() => {
+    const getImagesBase64 = async () => {
+      return await Promise.all(
+        fileList.map(async (file) => {
+          return await convertUploadFileToBase64(file);
+        })
+      );
+    };
+    getImagesBase64().then((images) => {
+      formProps?.form?.setFieldsValue({ productPictures: images });
+    });
+  }, [fileList]);
 
   return (
     <Form
       {...formProps}
       layout="vertical"
       onFinish={async (data) => {
-        // const images = await handleSubmit();
-        // data.image1 = images[0];
         formProps.onFinish(cleanFormData(data));
       }}
     >
       <Card title="Basic Information">
-        <Form.Item
-          // name="productPictures"
-          label="Product Pictures"
-        >
-          <Form.Item
-            // valuePropName="fileList"
-            // getValueFromEvent={getValueFromEvent}
-            noStyle
-          >
-            <Upload.Dragger
-              listType="picture"
-              defaultFileList={fileList}
-              fileList={fileList}
-              // onChange={handleUpload}
-            >
-              <p className="ant-upload-text">
-                Drag & drop files here or click to upload
-              </p>
-            </Upload.Dragger>
-          </Form.Item>
+        <Form.Item name="productPictures" label="Product Pictures">
+          <ImageUpload fileList={fileList} setFileList={setFileList} />
         </Form.Item>
 
         <MultiLangInput />

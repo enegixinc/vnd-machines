@@ -380,14 +380,23 @@ export class ProductEntity
       this.removeExtraProps(this, ['supplier', 'fullName'])
     );
 
-    console.log('this.category?._id', this.category?._id);
-    console.log('this.brand?._id', this.brand?._id);
+    const base64ToBlob = (base64: string, mimeType: string): Blob => {
+      const byteString = atob(base64.split(',')[1]);
+      const ab = new ArrayBuffer(byteString.length);
+      const ia = new Uint8Array(ab);
+      for (let i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i);
+      }
+      return new Blob([ab], { type: mimeType });
+    };
+
     const { newProduct } = await magexService.products.postProductsCreate({
       formData: {
         ...formData,
         category: this.category?._id || null,
         brand: this.brand?._id || null,
         referTo: 'tryvnd@point24h.com',
+        image1: base64ToBlob(this.productPictures[0], 'image/jpeg'),
       },
     });
 
@@ -395,7 +404,6 @@ export class ProductEntity
     // @ts-expect-error - to be fixed
     Object.assign(this, { lastSyncAt: newProduct.updatedAt });
   }
-
   async updateMagexRecord(magexService: MagexService) {
     const formData = this.handleMultiLangProps(
       this.removeExtraProps(this, ['supplier', 'fullName', 'productPictures'])
