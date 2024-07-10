@@ -95,6 +95,9 @@ export const ImageUpload = ({
     );
 
     setBase64FileList(base64Files);
+
+    console.log({ base64Files });
+    console.log({ fileList });
   };
 
   const onPreview = async (file: UploadFile) => {
@@ -113,7 +116,7 @@ export const ImageUpload = ({
   };
 
   return (
-    <ImgCrop rotationSlider quality={0.7}>
+    <ImgCrop rotationSlider showReset showGrid>
       <Dragger
         listType="picture"
         maxCount={4}

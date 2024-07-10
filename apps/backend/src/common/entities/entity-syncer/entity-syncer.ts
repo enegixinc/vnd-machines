@@ -1,7 +1,6 @@
 import { DataSource, EntitySubscriberInterface } from 'typeorm';
 import { Inject, OnModuleInit } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
-import * as process from 'node:process';
 import { MagexDatabaseEntity } from '../../database.entity';
 import { MagexService } from '../../../services/magex/magex.service';
 import { CRUDSyncer } from './crud-syncer';
@@ -145,13 +144,8 @@ export abstract class EntitySyncer<Entity extends MagexDatabaseEntity>
     }
   }
 
-  @Cron(
-    process.env.NODE_ENV === 'production'
-      ? CronExpression.EVERY_30_SECONDS
-      : CronExpression.EVERY_5_SECONDS
-  )
+  @Cron(CronExpression.EVERY_30_SECONDS)
   async syncWithMagex() {
-    if (process.env.NODE_ENV !== 'production') return;
     // @ts-expect-error - it has name
     console.log(`Syncing ${this.entity.name} with Magex`);
 

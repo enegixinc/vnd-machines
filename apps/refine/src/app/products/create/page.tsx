@@ -1,6 +1,6 @@
 'use client';
 
-import { Create, useForm, useSelect } from '@refinedev/antd';
+import { Create, useForm } from '@refinedev/antd';
 import React from 'react';
 import { ProductForm } from '@app/products/form';
 import { useGetIdentity } from '@refinedev/core';
@@ -53,7 +53,11 @@ export default function ProductCreate() {
 
   return (
     <Create saveButtonProps={saveButtonProps}>
-      <ProductForm isSupplier={isSupplier} formProps={formProps} />
+      <ProductForm
+        action="create"
+        isSupplier={isSupplier}
+        formProps={formProps}
+      />
     </Create>
   );
 }

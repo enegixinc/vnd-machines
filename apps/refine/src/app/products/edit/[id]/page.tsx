@@ -1,6 +1,6 @@
 'use client';
 
-import { Edit, useForm, useSelect } from '@refinedev/antd';
+import { Edit, useForm } from '@refinedev/antd';
 import React from 'react';
 import { ProductForm } from '@app/products/form';
 import { Spin } from 'antd';
@@ -40,7 +40,7 @@ export default function CategoryEdit() {
 
   return (
     <Edit saveButtonProps={saveButtonProps}>
-      <ProductForm formProps={formProps} />
+      <ProductForm isSupplier={false} action="edit" formProps={formProps} />
     </Edit>
   );
 }

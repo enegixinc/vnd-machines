@@ -7,7 +7,6 @@ import {
   InputNumber,
   Select,
   Switch,
-  Upload,
 } from 'antd';
 import { useSelect } from '@refinedev/antd';
 import { MultiLangInput } from '@theme-helpers';
@@ -295,17 +294,17 @@ export const ProductForm = ({
           title="Additional Information"
           style={{ flexBasis: 'calc(50% - 10px)' }}
         >
-          <Form.Item label="Product Video" name="productVideo">
-            <Upload.Dragger
-              listType="picture"
-              multiple
-              beforeUpload={() => false}
-            >
-              <p className="ant-upload-text">
-                Drag & drop files here or click to upload
-              </p>
-            </Upload.Dragger>
-          </Form.Item>
+          {/*<Form.Item label="Product Video" name="productVideo">*/}
+          {/*  <Upload.Dragger*/}
+          {/*    listType="picture"*/}
+          {/*    multiple*/}
+          {/*    beforeUpload={() => false}*/}
+          {/*  >*/}
+          {/*    <p className="ant-upload-text">*/}
+          {/*      Drag & drop files here or click to upload*/}
+          {/*    </p>*/}
+          {/*  </Upload.Dragger>*/}
+          {/*</Form.Item>*/}
 
           <Form.Item label="Product Type" name="prodType">
             <Input />
