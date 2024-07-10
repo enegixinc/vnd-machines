@@ -1,13 +1,28 @@
 'use client';
 
 import React from 'react';
-import { Descriptions, Divider, Spin, Typography } from 'antd';
+import {
+  Button,
+  Card,
+  Descriptions,
+  Divider,
+  Space,
+  Spin,
+  Typography,
+} from 'antd';
 import { CanAccess, useShow } from '@refinedev/core';
-import { formatPrice, handleEmptyString } from '@helpers';
+import {
+  formatFileSize,
+  formatPrice,
+  formatTime,
+  handleEmptyString,
+} from '@helpers';
 import { Show, TextField } from '@refinedev/antd';
 import { FeeType } from '@core';
 import { JoinedOrdersTable } from '@components/joined-orders.table';
 import { useRouter } from 'next/navigation';
+import { DownloadOutlined } from '@ant-design/icons';
+import PDFSVGComponent from '@app/contracts/pdf-svg';
 
 const { Title } = Typography;
 
@@ -17,6 +32,9 @@ export default function ContractShow() {
       join: [
         {
           field: 'supplier',
+        },
+        {
+          field: 'files',
         },
       ],
     },
@@ -41,6 +59,11 @@ export default function ContractShow() {
   if (!contract) {
     return null;
   }
+
+  const handlePreview = (fileUrl) => {
+    // Implement preview logic here
+    window.open(fileUrl, '_blank');
+  };
 
   return (
     <Show isLoading={isLoading}>
@@ -79,6 +102,67 @@ export default function ContractShow() {
           <TextField value={formatPrice(contract.totalRevenue)} />
         </Descriptions.Item>
       </Descriptions>
+
+      <Divider />
+
+      <Title level={3}>{'Files'}</Title>
+      <Space wrap direction="horizontal" style={{ width: '100%' }}>
+        {contract.files.map((file, index) => (
+          <Card key={index} style={{ width: 400 }}>
+            <Space
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+              }}
+            >
+              <Space>
+                <PDFSVGComponent
+                  style={{
+                    width: 48,
+                    height: 48,
+                    margin: '0 auto',
+                    display: 'block',
+                  }}
+                />
+                <Typography.Text>{file.originalname}</Typography.Text>
+              </Space>
+
+              <Button
+                type="link"
+                icon={<DownloadOutlined />}
+                onClick={() => handlePreview(file.url)}
+              />
+            </Space>
+
+            <Divider />
+            <Space
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                width: '100%',
+              }}
+            >
+              <Typography.Text
+                style={{
+                  opacity: 0.5,
+                  fontSize: 13,
+                }}
+              >
+                {formatFileSize(file.size)}
+              </Typography.Text>
+              <Typography.Text
+                style={{
+                  opacity: 0.5,
+                  fontSize: 13,
+                }}
+              >
+                {formatTime(file.createdAt)}
+              </Typography.Text>
+            </Space>
+          </Card>
+        ))}
+      </Space>
+      <Divider />
 
       <CanAccess action="show" resource="suppliers">
         <Divider />

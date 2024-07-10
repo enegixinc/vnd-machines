@@ -92,3 +92,15 @@ export const magexImageToBase64 = async (url: string): Promise<string> =>
   await fetch(handleMagexImageRaw(url))
     .then((res) => res.blob())
     .then((blob) => getBase64(blob as RcFile));
+
+export const formatFileSize = (size: number) => {
+  const units = ['B', 'KB', 'MB', 'GB', 'TB'];
+
+  let unitIndex = 0;
+  while (size >= 1024 && unitIndex < units.length - 1) {
+    size /= 1024;
+    unitIndex++;
+  }
+
+  return `${size.toFixed(2)} ${units[unitIndex]}`;
+};
