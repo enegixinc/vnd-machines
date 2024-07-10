@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { handleEmptyString } from '@helpers';
+import { formatPrice, handleEmptyString } from '@helpers';
 import { QuickTableSection } from '@components/quick-table-section';
 import { handleMagextImage } from '@app/products/utils/handleMagextImage';
 
@@ -28,18 +28,19 @@ export default function BrandsList() {
         },
         {
           dataIndex: 'totalSoldProducts',
-          title: 'Total Sold Products',
+          title: 'Sold Products',
           sorter: true,
         },
         {
           dataIndex: 'totalOrders',
-          title: 'Total Orders',
+          title: 'Orders',
           sorter: true,
         },
         {
           dataIndex: 'totalRevenue',
-          title: 'Total Revenue',
+          title: 'Revenue',
           sorter: true,
+          render: formatPrice,
         },
       ]}
     />
