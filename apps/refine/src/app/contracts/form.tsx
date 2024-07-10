@@ -95,7 +95,17 @@ export const ContractForm = ({
           <Select {...supplierSelectProps} />
         </Form.Item>
 
-        <Space style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Space
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+          }}
+          styles={{
+            item: {
+              flex: 1,
+            },
+          }}
+        >
           <Form.Item
             label="Start Date"
             name="startDate"
