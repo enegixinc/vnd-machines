@@ -45,7 +45,7 @@ function base64ToUploadFile(base64: string, filename: string): UploadFile {
       byteArrays.push(byteArray);
     }
 
-    return new Blob(byteArrays, { type: contentType });
+    return new Blob(byteArrays, { type: 'image/jpeg' });
   };
 
   // Split the base64 string to get content type and data

@@ -200,8 +200,6 @@ export class ProductEntity
     cascade: true,
   })
   category: ReferenceByID<ISerializedCategory>;
-  @Column({ nullable: true })
-  category_id: string;
 
   @Factory((faker) =>
     faker.number.int({
@@ -409,12 +407,17 @@ export class ProductEntity
     console.log('newProduct', newProduct);
 
     Object.assign(this, newProduct);
+    // @ts-expect-error - to be fixed - probably remove this
+    Object.assign(this, { category_id: newProduct.category[0] });
+    // @ts-expect-error - to be fixed
+    Object.assign(this, { category: newProduct.category[0] });
+
     // @ts-expect-error - to be fixed
     Object.assign(this, { lastSyncAt: newProduct.updatedAt });
   }
   async updateMagexRecord(magexService: MagexService) {
     const formData = this.handleMultiLangProps(
-      this.removeExtraProps(this, ['supplier', 'fullName', 'productPictures'])
+      this.removeExtraProps(this, ['supplier', 'fullName'])
     );
 
     const data = await magexService.products.putProductsEditById({
@@ -428,7 +431,11 @@ export class ProductEntity
       },
     });
 
+    console.log('updatedProduct', data);
+
     Object.assign(this, data);
+    // @ts-expect-error - to be fixed
+    Object.assign(this, { category_id: data.category });
   }
 
   async deleteMagexRecord(magexService: MagexService) {

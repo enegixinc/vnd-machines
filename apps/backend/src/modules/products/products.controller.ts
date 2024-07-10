@@ -43,12 +43,8 @@ import { UserRole } from '@core';
       supplier: {
         exclude: ['password'],
       },
-      brand: {
-        alias: 'brands',
-      },
-      category: {
-        alias: 'categories',
-      },
+      brand: {},
+      category: {},
       orders: {},
       machines: {},
     },

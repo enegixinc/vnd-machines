@@ -127,7 +127,7 @@ export abstract class MagexDatabaseEntity extends DatabaseEntity {
     for (let i = 0; i < byteString.length; i++) {
       ia[i] = byteString.charCodeAt(i);
     }
-    return new Blob([ab], { type: mimeType });
+    return new Blob([ab], { type: 'image/jpeg' });
   }
 }
 

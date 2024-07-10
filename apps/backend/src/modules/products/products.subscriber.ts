@@ -52,6 +52,9 @@ export class ProductSubscriber extends EntitySyncer<ProductEntity> {
       Object.assign(brand, record.brand);
     }
 
+    console.log('category', category);
+    console.log('brand', brand);
+
     return this.dataSource.manager.create(ProductEntity, {
       ...record,
       category,
