@@ -23,7 +23,7 @@ export default function FillRequestShow() {
         },
         {
           field: 'products',
-          select: ['product', 'quantity'],
+          select: ['product', 'quantity', 'deletedProduct'],
           join: [
             {
               field: 'product',
@@ -97,20 +97,41 @@ export default function FillRequestShow() {
         onRow={(record) => {
           return {
             onClick: () => {
+              if (record?.deletedProduct?._id) return;
               router.push(`/products/show/${record.product._id}`);
             },
-            style: { cursor: 'pointer' },
+            style: {
+              cursor: record?.deletedProduct?._id ? 'not-allowed' : 'pointer',
+            },
           };
         }}
         columns={[
           {
-            dataIndex: ['product', 'productPictures'],
             title: 'Image',
-            render: (images) => handleMagextImage(images[0]),
+            render: (record) => {
+              console.log('record', record);
+              if (record?.deletedProduct)
+                return handleMagextImage(
+                  record?.deletedProduct?.productPictures[0]
+                );
+              else
+                return handleMagextImage(record?.product?.productPictures[0]);
+            },
           },
           {
-            dataIndex: ['product', 'fullName'],
             title: 'Product',
+            render: (record) => {
+              if (record?.deletedProduct?._id)
+                return (
+                  <TextField
+                    style={{
+                      textDecoration: 'line-through',
+                    }}
+                    value={record.deletedProduct?.fullName}
+                  />
+                );
+              else return <TextField value={record.product?.fullName} />;
+            },
           },
           {
             dataIndex: 'quantity',

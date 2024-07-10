@@ -11,7 +11,7 @@ export default function SuppliersList() {
     <CanAccess action="list" fallback={<div>Unauthorized</div>}>
       <QuickTableSection
         pageTitle="Suppliers"
-        resource={'users'}
+        resource="users"
         filters={{
           permanent: [
             {

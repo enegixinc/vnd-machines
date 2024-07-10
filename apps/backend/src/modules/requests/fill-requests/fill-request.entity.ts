@@ -27,11 +27,18 @@ export class FillRequestEntity extends DatabaseEntity {
 @Entity('fill_requests_products')
 export class FillRequestProducts extends DatabaseEntity {
   @ManyToOne(() => FillRequestEntity, (fillRequest) => fillRequest.products, {})
-  @JoinColumn()
+  @JoinColumn({ name: 'fill_request_id' })
   fillRequest: FillRequestEntity;
 
   @ManyToOne(() => ProductEntity, (product) => product.fillRequestProducts)
+  @JoinColumn({ name: 'product_id' })
   product: ProductEntity;
+
+  @Column()
+  product_id: string;
+
+  @Column({ type: 'jsonb', nullable: true })
+  deletedProduct: any;
 
   @Column()
   quantity: number;

@@ -1,4 +1,4 @@
-import { DataSource, EventSubscriber } from 'typeorm';
+import { DataSource, EventSubscriber, RemoveEvent } from 'typeorm';
 import { Inject } from '@nestjs/common';
 import { EntitySyncer } from '../../common/entities/entity-syncer/entity-syncer';
 import { ISerializedMagexProduct } from '@core';
@@ -7,6 +7,7 @@ import { BrandEntity } from '../brands/brand.entity';
 import { MagexService } from '../../services/magex/magex.service';
 import { ProductEntity } from './entities/product.entity';
 import { MultiLangEntity } from './entities/multiLang.entity';
+import { FillRequestProducts } from '../requests/fill-requests/fill-request.entity';
 
 @EventSubscriber()
 export class ProductSubscriber extends EntitySyncer<ProductEntity> {
@@ -36,6 +37,30 @@ export class ProductSubscriber extends EntitySyncer<ProductEntity> {
         record.upc,
       ]),
     };
+  }
+
+  private async handleBeforeDelete(event: RemoveEvent<ProductEntity>) {
+    const fillRequestProductsRepository =
+      this.dataSource.manager.getRepository(FillRequestProducts);
+
+    const productFillRequests = await fillRequestProductsRepository.find({
+      where: {
+        product_id: event.entity._id,
+      },
+    });
+
+    for (const frp of productFillRequests) {
+      frp.deletedProduct = event.entity;
+      await fillRequestProductsRepository.save(frp);
+    }
+  }
+
+  async beforeRemove(event: RemoveEvent<ProductEntity>): Promise<void> {
+    await this.handleBeforeDelete(event);
+  }
+
+  async beforeSoftRemove(event: RemoveEvent<ProductEntity>): Promise<void> {
+    await this.handleBeforeDelete(event);
   }
 
   handleRelationships(record: ISerializedMagexProduct) {
