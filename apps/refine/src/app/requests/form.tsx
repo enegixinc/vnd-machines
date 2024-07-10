@@ -3,8 +3,9 @@
 import React, { useEffect, useState } from 'react';
 import { Card, Divider, Form, FormProps, Input, Select, Switch } from 'antd';
 import { SerializedProductDto } from '@frontend/api-sdk';
-import { TableTransfer } from '@components/transafer';
 import { useSelect } from '@refinedev/antd';
+import { TransferProducts } from '@components/transfer-products';
+import { FillProducts } from '@components/fill-products';
 
 const FillRequestForm = ({ formProps }: { formProps: FormProps }) => {
   const { selectProps } = useSelect({
@@ -39,9 +40,10 @@ const FillRequestForm = ({ formProps }: { formProps: FormProps }) => {
       <Divider />
       <Card title={'Products'}>
         <Form.Item name="products">
-          <ProductsTransfer
-            fillRequestProducts={formProps.initialValues?.products}
+          <FillProducts
+            initTargetKeys={formProps.initialValues?.products}
             onChange={(products) => {
+              console.log({ products });
               formProps?.form?.setFieldsValue({
                 products: products.map((p) => ({
                   product: { _id: p._id },
@@ -86,24 +88,7 @@ const ProductsTransfer = ({
   };
 
   return (
-    <TableTransfer
-      resource={'products'}
-      meta={{
-        join: [
-          {
-            field: 'supplier',
-          },
-        ],
-      }}
-      filters={{
-        permanent: [
-          {
-            field: 'supplier._id',
-            operator: 'nnull',
-            value: '',
-          },
-        ],
-      }}
+    <TransferProducts
       targetKeys={productQuantities.map((p) => p._id)}
       rowKey={(record) => record._id}
       showSelectAll={false}
