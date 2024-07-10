@@ -64,7 +64,7 @@ export default function BrandShow() {
         </Descriptions.Item>
 
         <Descriptions.Item label="Brand Picture">
-          {handleMagextImage(record.logo)}
+          {handleMagextImage(record.picture)}
         </Descriptions.Item>
 
         <Descriptions.Item label="Name (English)">

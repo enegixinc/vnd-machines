@@ -114,13 +114,11 @@ export class BrandEntity extends SearchableMagexEntity implements IBrandEntity {
   suppliers: ISerializedUser[];
 
   async createMagexRecord(magexService: MagexService) {
-    console.count('createMagexRecord');
     const { newBrand } = (await magexService.brands.postBrandsCreate({
       formData: {
         name: JSON.stringify(this.name),
         referTo: 'tryvnd@point24h.com',
-        // @ts-expect-error - to be fixed
-        picture: this.picture,
+        picture: this.base64ToBlob(this.picture),
       },
     })) as { newBrand: IBrandEntity };
     Object.assign(this, newBrand);
@@ -134,14 +132,18 @@ export class BrandEntity extends SearchableMagexEntity implements IBrandEntity {
   }
 
   async updateMagexRecord(magexService: MagexService) {
-    console.count('updateMagexRecord');
-    const { newBrand } = (await magexService.brands.postBrandsEditById({
+    await magexService.brands.postBrandsEditById({
       id: this._id,
       formData: {
         name: JSON.stringify(this.name),
         referTo: 'tryvnd@point24h.com',
+        // @ts-expect-error - to be fixed
+        picture: this.base64ToBlob(this.picture),
       },
-    })) as { newBrand: IBrandEntity };
+    });
+    const brands = await this.fetchMagexRecords(magexService);
+    const newBrand = brands.find((brand) => brand._id === this._id);
+
     Object.assign(this, newBrand);
     Object.assign(this, { lastSyncAt: newBrand.updatedAt });
   }

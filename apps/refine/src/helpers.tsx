@@ -1,6 +1,8 @@
 import { Typography } from 'antd';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
+import { RcFile } from 'antd/es/upload';
+import { handleMagexImageRaw } from '@app/products/utils/handleMagextImage';
 
 dayjs.extend(utc);
 
@@ -76,3 +78,17 @@ export const formatPrice = (price: number | string) => {
 
 export const formatTime = (time: string) =>
   dayjs(time).utcOffset(0).format('MM/DD/YYYY HH:mm:ss');
+
+export const getBase64 = (file: RcFile): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result as string);
+    reader.onerror = (error) => reject(error);
+  });
+};
+
+export const magexImageToBase64 = async (url: string): Promise<string> =>
+  await fetch(handleMagexImageRaw(url))
+    .then((res) => res.blob())
+    .then((blob) => getBase64(blob as RcFile));

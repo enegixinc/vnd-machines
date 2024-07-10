@@ -1,9 +1,9 @@
 'use client';
 
 import React from 'react';
-import { defaultSrc } from '@app/config';
 import { handleEmptyString } from '@helpers';
 import { QuickTableSection } from '@components/quick-table-section';
+import { handleMagextImage } from '@app/products/utils/handleMagextImage';
 
 export default function BrandsList() {
   return (
@@ -12,9 +12,9 @@ export default function BrandsList() {
       resource="brands"
       columns={[
         {
-          dataIndex: 'logo',
-          title: 'Logo',
-          render: (logo) => <img src={defaultSrc} alt="logo" width={34} />,
+          dataIndex: 'picture',
+          title: 'Picture',
+          render: handleMagextImage,
         },
         {
           dataIndex: ['name', 'en'],

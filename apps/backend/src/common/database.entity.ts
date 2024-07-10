@@ -118,6 +118,17 @@ export abstract class MagexDatabaseEntity extends DatabaseEntity {
   abstract fetchMagexRecords(
     magexService: MagexService
   ): Promise<_IMagex_DatabaseEntity[]>;
+
+  protected base64ToBlob(base64: string): Blob {
+    const mimeType = base64.split(',')[0].split(':')[1].split(';')[0];
+    const byteString = atob(base64.split(',')[1]);
+    const ab = new ArrayBuffer(byteString.length);
+    const ia = new Uint8Array(ab);
+    for (let i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+    return new Blob([ab], { type: mimeType });
+  }
 }
 
 export class SearchableEntity extends DatabaseEntity {

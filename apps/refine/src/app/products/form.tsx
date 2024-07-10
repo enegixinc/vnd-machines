@@ -14,6 +14,7 @@ import React, { useEffect, useState } from 'react';
 import { handleMagexImageRaw } from '@app/products/utils/handleMagextImage';
 import { RcFile } from 'antd/es/upload';
 import { ImageUpload } from '@components/upload-images';
+import { getBase64 } from '@helpers';
 
 type FormData = { [key: string]: any };
 
@@ -47,54 +48,6 @@ const cleanNestedObject = (obj: FormData): boolean => {
   return Object.keys(cleanedNestedObj).length > 0;
 };
 
-// Helper function to convert file to base64
-const getBase64 = (file: RcFile): Promise<string> => {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result as string);
-    reader.onerror = (error) => reject(error);
-  });
-};
-
-// // Function to take UploadFile and convert it to base64
-// const convertUploadFileToBase64 = async (
-//   uploadFile: UploadFile
-// ): Promise<string | null> => {
-//   if (uploadFile.originFileObj) {
-//     try {
-//       return await getBase64(uploadFile.originFileObj);
-//     } catch (error) {
-//       console.error('Error converting file to base64:', error);
-//       return null;
-//     }
-//   }
-//   return null;
-// };
-//
-// const magexImageUrlToBase64 = async (url: string) => {
-//   const response = await fetch(url);
-//   const blob = await response.blob();
-//   return await new Promise((resolve, reject) => {
-//     const reader = new FileReader();
-//     reader.readAsDataURL(blob);
-//     reader.onloadend = () => {
-//       resolve(reader.result as string);
-//     };
-//     reader.onerror = (error) => reject(error);
-//   });
-// };
-
-const transformPictureData = (pictures: string[]) => {
-  return pictures.map((pic, index) => ({
-    uid: index.toString(),
-    name: pic,
-    status: 'done',
-    url: handleMagexImageRaw(pic),
-    type: 'image/jpeg',
-  }));
-};
-
 export const ProductForm = ({
   formProps,
   isSupplier,
@@ -102,8 +55,6 @@ export const ProductForm = ({
   formProps: FormProps;
   isSupplier: boolean;
 }) => {
-  const [imagesBase64, setBase64FileList] = useState<string[]>([]);
-
   const { selectProps: brandSelectProps } = useSelect({
     resource: 'brands',
     optionLabel: 'fullName',
@@ -120,6 +71,7 @@ export const ProductForm = ({
     optionLabel: 'fullName',
     optionValue: '_id',
   });
+  const [imagesBase64, setBase64FileList] = useState<string[]>([]);
 
   useEffect(() => {
     if (formProps.initialValues?.productPictures) {
