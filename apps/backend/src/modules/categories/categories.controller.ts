@@ -33,8 +33,8 @@ import { CreateCategoryDto } from './dto/request/create-category.dto';
       },
     ],
     softDelete: true,
-    limit: 20,
-    maxLimit: 100,
+    limit: 10,
+
     join: {
       suppliers: {
         alias: 'users',

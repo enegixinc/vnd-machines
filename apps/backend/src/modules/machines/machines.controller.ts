@@ -27,8 +27,8 @@ import { Repository } from 'typeorm';
         order: 'DESC',
       },
     ],
-    limit: 20,
-    maxLimit: 100,
+    limit: 10,
+
     join: {
       product: {
         alias: 'product',

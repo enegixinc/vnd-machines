@@ -3,14 +3,14 @@ import { promises as fs } from 'node:fs';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { FileEntity } from './file.entity';
+import { ConfigService } from '@backend/config';
 
 @Injectable()
 export class FilesService {
-  private serverUrl = process.env.SERVER_URL || 'http://localhost:3000';
-
   constructor(
     @InjectRepository(FileEntity)
-    private readonly fileRepository: Repository<FileEntity>
+    private readonly fileRepository: Repository<FileEntity>,
+    private readonly configService: ConfigService
   ) {}
 
   async uploadFiles(files: Express.Multer.File[]) {
@@ -24,7 +24,9 @@ export class FilesService {
       newFile.filename = file.filename;
       newFile.originalname = file.originalname;
       newFile.size = file.size;
-      newFile.url = `${this.serverUrl}/uploads/${file.filename}`;
+      newFile.url = `${this.configService.get('BACKEND_APP_URL')}/uploads/${
+        file.filename
+      }`;
       await this.fileRepository.save(newFile);
       uploadedFiles.push(newFile);
     }

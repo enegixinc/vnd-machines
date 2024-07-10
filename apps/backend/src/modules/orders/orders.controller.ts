@@ -30,8 +30,8 @@ import { getPeriods } from '../../common/periods';
       },
     ],
     softDelete: true,
-    limit: 20,
-    maxLimit: 100,
+    limit: 10,
+
     join: {
       products: {
         alias: 'products',

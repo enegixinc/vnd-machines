@@ -33,8 +33,8 @@ import { UpdateBrandDto } from './dto/response/update-brand.dto';
       },
     ],
     softDelete: true,
-    limit: 20,
-    maxLimit: 100,
+    limit: 10,
+
     join: {
       suppliers: {
         alias: 'users',

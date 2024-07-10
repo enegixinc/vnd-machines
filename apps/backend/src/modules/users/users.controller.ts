@@ -34,8 +34,8 @@ import { saneOperationsId } from '../../common/swagger.config';
     ],
     softDelete: true,
     exclude: ['password'],
-    limit: 20,
-    maxLimit: 100,
+    limit: 10,
+
     join: {
       products: {},
       categories: {},

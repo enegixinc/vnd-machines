@@ -30,8 +30,8 @@ import { UserRole } from '@core';
         order: 'DESC',
       },
     ],
-    limit: 20,
-    maxLimit: 100,
+    limit: 10,
+
     join: {
       supplier: {
         exclude: ['password'],
