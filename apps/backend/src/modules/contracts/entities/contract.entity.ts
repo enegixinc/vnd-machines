@@ -1,12 +1,11 @@
-import { Column, Entity, ManyToOne, VirtualColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany, VirtualColumn } from 'typeorm';
 import { DatabaseEntity } from '../../../common/database.entity';
 import { UserEntity } from '../../users/entities/user.entity';
 import { ContractStatus, FeeType, IContractEntity } from '@core';
 import { IsDate, Validate } from 'class-validator';
 import { IsStartDateValidConstraint } from '../validators/start-date';
-import { FileDto } from '../../files/file.dto';
-import { ApiProperty } from '@nestjs/swagger';
 import { OrderEntity } from '../../orders/order.entity';
+import { FileEntity } from '../../files/file.entity';
 
 @Entity('contracts')
 export class ContractEntity extends DatabaseEntity implements IContractEntity {
@@ -40,9 +39,8 @@ export class ContractEntity extends DatabaseEntity implements IContractEntity {
   @Column({ nullable: true })
   supplier_id: string;
 
-  @Column('json', { nullable: true })
-  @ApiProperty({ type: [FileDto] })
-  files: FileDto[];
+  @OneToMany(() => FileEntity, (file) => file.contract, { cascade: true })
+  files: FileEntity[];
 
   @VirtualColumn({
     type: 'numeric',

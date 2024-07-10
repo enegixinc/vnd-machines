@@ -4,7 +4,6 @@ import { ContractEntity } from './entities/contract.entity';
 import { saneOperationsId } from '../../common/swagger.config';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreateContractDto } from './dto/request/create-contract.dto';
-import { Public } from '../auth/decorators/public.decorator';
 import { SerializedContractDto } from './dto/response/serialized-contract.dto';
 import { ContractsService } from './contracts.service';
 import { UpdateContractDto } from './dto/request/update-contract.dto';
@@ -37,6 +36,7 @@ import { UserRole } from '@core';
       supplier: {
         exclude: ['password'],
       },
+      files: {},
     },
   },
   routes: {

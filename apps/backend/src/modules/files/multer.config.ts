@@ -1,18 +1,15 @@
-// multer.config.ts
-
 import { MulterOptions } from '@nestjs/platform-express/multer/interfaces/multer-options.interface';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
+import ShortUniqueId from 'short-unique-id';
 
 export const multerConfig: MulterOptions = {
   storage: diskStorage({
     destination: './uploads',
     filename: (req, file, cb) => {
-      const randomName = Array(32)
-        .fill(null)
-        .map(() => Math.round(Math.random() * 16).toString(16))
-        .join('');
-      return cb(null, `${randomName}${extname(file.originalname)}`);
+      const id = new ShortUniqueId({ length: 5 }).rnd();
+      const originalFileName = file.originalname.replace(/\.[^.]+$/, '');
+      cb(null, `${originalFileName}-${id}${extname(file.originalname)}`);
     },
   }),
   limits: {

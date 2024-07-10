@@ -7,8 +7,12 @@ import {
   IsNumber,
   IsOptional,
   IsString,
+  ValidateNested,
 } from 'class-validator';
 import { CrudValidationGroups } from '@dataui/crud';
+import { FileEntity } from '../../files/file.entity';
+import { FileDto } from '../../files/file.dto';
+import { Type } from 'class-transformer';
 
 const { CREATE, UPDATE } = CrudValidationGroups;
 
@@ -67,4 +71,13 @@ export class SharedContractDto implements Partial<ISerializedContract> {
     default: ContractStatus.ACTIVE,
   })
   status: ContractStatus;
+
+  @ApiProperty({
+    type: () => FileEntity,
+    required: false,
+  })
+  @IsOptional({ groups: [CREATE, UPDATE] })
+  @ValidateNested({ each: true })
+  @Type(() => FileDto)
+  files: FileEntity[];
 }

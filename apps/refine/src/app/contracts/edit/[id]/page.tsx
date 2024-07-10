@@ -2,7 +2,6 @@
 
 import { Edit, useForm, useSelect } from '@refinedev/antd';
 import React from 'react';
-import SupplierForm from '@app/suppliers/form';
 import { useParams } from 'next/navigation';
 import { Spin } from 'antd';
 import { ContractForm } from '@app/contracts/form';
@@ -16,6 +15,9 @@ export default function BrandEdit() {
       join: [
         {
           field: 'supplier',
+        },
+        {
+          field: 'files',
         },
       ],
     },

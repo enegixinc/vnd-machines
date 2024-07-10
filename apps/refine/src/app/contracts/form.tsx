@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Card,
   Form,
@@ -8,15 +8,27 @@ import {
   message,
   Select,
   Space,
-  Switch,
+  Upload,
+  UploadFile,
   UploadProps,
 } from 'antd';
-import Dragger from 'antd/es/upload/Dragger';
 import { InboxOutlined } from '@ant-design/icons';
 import { cleanFormData } from '@app/products/form';
-import axios from 'axios';
 import { ContractStatus } from '@core';
-import { List } from '@refinedev/antd';
+import { axiosInstance } from '@providers/api';
+import { envSchema } from '@providers/env';
+
+const { Dragger } = Upload;
+
+function convertToFileUpload(fileEntity: any): UploadFile {
+  return {
+    uid: fileEntity._id.toString(), // Assuming id exists in DatabaseEntity
+    name: fileEntity.originalname,
+    status: 'done', // Assuming the file is already uploaded and done
+    url: fileEntity.url,
+    size: fileEntity.size,
+  };
+}
 
 export const ContractForm = ({
   formProps,
@@ -25,43 +37,52 @@ export const ContractForm = ({
   formProps: FormProps;
   supplierSelectProps: any;
 }) => {
-  const props: UploadProps = {
-    name: 'files',
+  const [files, setFiles] = useState<any[]>([]);
+
+  useEffect(() => {
+    if (formProps.initialValues?.files) {
+      setFiles(formProps.initialValues.files);
+    }
+  }, [formProps.initialValues]);
+
+  const uploadProps: UploadProps = {
+    name: 'rawFiles',
     multiple: true,
     customRequest: async ({ file, onSuccess, onError }) => {
       const formData = new FormData();
       formData.append('files', file);
 
-      await axios
-        .post('http://localhost:3000/files/upload', formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        })
-        .then((res) => {
-          message.success('File uploaded successfully');
-          const files = res.data.map((file: any) => ({
-            uid: file.id,
-            name: file.originalName,
-            url: file.url,
-            size: file.size,
-          }));
-          formProps.form?.setFieldsValue({ files });
-          console.log('Files', files);
-        })
-        .catch((err) => {
-          message.error('File upload failed');
-        });
+      try {
+        const res = await axiosInstance.post(
+          `${envSchema.NEXT_PUBLIC_API_URL}/files/upload`,
+          formData,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          }
+        );
+
+        message.success('File uploaded successfully');
+        setFiles((prevFiles) => [...prevFiles, res.data.files[0]]);
+        onSuccess && onSuccess('ok');
+      } catch (err) {
+        message.error('File upload failed');
+        onError && onError(err);
+      }
     },
     onDrop(e) {
-      console.log('Dropped files', e.dataTransfer.files);
+      const fileId = e.dataTransfer.files[0].name;
+      console.log('Dropped file', fileId);
     },
   };
+
   return (
     <Form
       {...formProps}
       layout="vertical"
       onFinish={(data) => {
+        data.files = files;
         formProps.onFinish(cleanFormData(data));
       }}
     >
@@ -74,17 +95,7 @@ export const ContractForm = ({
           <Select {...supplierSelectProps} />
         </Form.Item>
 
-        <Space
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-          }}
-          styles={{
-            item: {
-              flex: 1,
-            },
-          }}
-        >
+        <Space style={{ display: 'flex', justifyContent: 'space-between' }}>
           <Form.Item
             label="Start Date"
             name="startDate"
@@ -98,7 +109,6 @@ export const ContractForm = ({
             label="End Date"
             name="endDate"
             rules={[{ required: true, message: 'Please enter the end date' }]}
-            // after 30 days
             initialValue={
               new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
                 .toISOString()
@@ -148,11 +158,9 @@ export const ContractForm = ({
         </Form.Item>
       </Card>
 
-      {/* Add more sections as needed for other fields */}
-
       <Card title="Additional Information" style={{ marginTop: 16 }}>
-        <Form.Item label="Documents" name="files">
-          <Dragger {...props}>
+        <Form.Item label="Documents">
+          <Dragger {...uploadProps} fileList={files.map(convertToFileUpload)}>
             <p className="ant-upload-drag-icon">
               <InboxOutlined />
             </p>
