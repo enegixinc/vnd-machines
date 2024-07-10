@@ -7,6 +7,7 @@ import {
   InputNumber,
   Select,
   Switch,
+  Upload,
 } from 'antd';
 import { useSelect } from '@refinedev/antd';
 import { MultiLangInput } from '@theme-helpers';
@@ -183,7 +184,7 @@ export const ProductForm = ({
             }}
             label="Barcode"
             name="barcode"
-            rules={[{ required: true }]}
+            rules={[{ required: false }]}
           >
             <Input />
           </Form.Item>
@@ -226,45 +227,124 @@ export const ProductForm = ({
               rules={[{ required: true }]}
               initialValue={0}
             >
-              <InputNumber style={{ width: '100%' }} />
+              <InputNumber
+                style={{
+                  width: '100%',
+                }}
+              />
             </Form.Item>
             <Form.Item
-              label="Tax"
-              name="tax"
-              rules={[{ required: true }]}
+              label="Cost Price"
+              name="costPrice"
               initialValue={0}
+              rules={[{ required: true }]}
             >
-              <InputNumber style={{ width: '100%' }} />
+              <InputNumber
+                style={{
+                  width: '100%',
+                }}
+              />
             </Form.Item>
             <Form.Item
-              label="Stock"
-              name="stock"
-              rules={[{ required: true }]}
+              label="Additional Price"
+              name="additionPrice"
               initialValue={0}
+              rules={[{ required: true }]}
             >
-              <InputNumber style={{ width: '100%' }} />
+              <InputNumber
+                style={{
+                  width: '100%',
+                }}
+              />
+            </Form.Item>
+          </Flex>
+          <Form.Item
+            label="Price Per Kilo"
+            name="pricePerKilo"
+            initialValue={true}
+          >
+            <Switch />
+          </Form.Item>
+        </Card>
+        <Card title="Dimensions" style={{ flex: 1 }}>
+          <Flex gap={20} wrap="wrap">
+            <Form.Item label="Height" name={['dimension', 'height']}>
+              <InputNumber
+                style={{
+                  width: '100%',
+                }}
+              />
+            </Form.Item>
+            <Form.Item label="Length" name={['dimension', 'length']}>
+              <InputNumber
+                style={{
+                  width: '100%',
+                }}
+              />
+            </Form.Item>
+            <Form.Item label="Width" name={['dimension', 'width']}>
+              <InputNumber
+                style={{
+                  width: '100%',
+                }}
+              />
             </Form.Item>
           </Flex>
         </Card>
-        <Card title="Status" style={{ flex: 1 }}>
-          <Form.Item
-            valuePropName="checked"
-            label="Active"
-            name="isActive"
-            initialValue={false}
-          >
-            <Switch />
+        <Card
+          title="Additional Information"
+          style={{ flexBasis: 'calc(50% - 10px)' }}
+        >
+          <Form.Item label="Product Video" name="productVideo">
+            <Upload.Dragger
+              listType="picture"
+              multiple
+              beforeUpload={() => false}
+            >
+              <p className="ant-upload-text">
+                Drag & drop files here or click to upload
+              </p>
+            </Upload.Dragger>
+          </Form.Item>
+
+          <Form.Item label="Product Type" name="prodType">
+            <Input />
           </Form.Item>
           <Form.Item
-            valuePropName="checked"
-            label="Featured"
-            name="isFeatured"
-            initialValue={false}
+            label="Age Control"
+            name="ageControl"
+            rules={[{ required: true }]}
+            initialValue={0}
           >
-            <Switch />
+            <InputNumber />
           </Form.Item>
+
+          <Flex gap={20} wrap="wrap">
+            <Form.Item label="Sort Index" name="sortIndex" initialValue={1}>
+              <Switch />
+            </Form.Item>
+            <Form.Item label="VAT Index" name="vatIndex" initialValue={1}>
+              <Switch />
+            </Form.Item>
+
+            <Form.Item
+              label="Virtual Product"
+              name="virtualProduct"
+              initialValue={0}
+            >
+              <Switch />
+            </Form.Item>
+          </Flex>
         </Card>
       </Flex>
+
+      <Card title="Extra Information" style={{ marginTop: 16 }}>
+        <MultiLangInput optional textArea name="detail" />
+        <MultiLangInput optional textArea name="include" />
+        <MultiLangInput optional textArea name="ingredients" />
+        <MultiLangInput optional textArea name="keyFeatures" />
+        <MultiLangInput optional textArea name="specification" />
+      </Card>
     </Form>
   );
 };
