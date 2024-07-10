@@ -1,6 +1,5 @@
 import { type GetProp, UploadFile, type UploadProps } from 'antd';
 import React, { useEffect } from 'react';
-import ImgCrop from 'antd-img-crop';
 import Dragger from 'antd/es/upload/Dragger';
 import { InboxOutlined } from '@ant-design/icons';
 import { RcFile } from 'antd/es/upload';
@@ -116,25 +115,23 @@ export const ImageUpload = ({
   };
 
   return (
-    <ImgCrop rotationSlider showReset showGrid>
-      <Dragger
-        listType="picture"
-        maxCount={4}
-        fileList={fileList}
-        onChange={onChange}
-        onPreview={onPreview}
-      >
-        <p className="ant-upload-drag-icon">
-          <InboxOutlined />
-        </p>
-        <p className="ant-upload-text">
-          Click or drag file to this area to upload
-        </p>
-        <p className="ant-upload-hint">
-          Support for a single or bulk upload. Strictly prohibited from
-          uploading company data or other banned files.
-        </p>
-      </Dragger>
-    </ImgCrop>
+    <Dragger
+      listType="picture"
+      maxCount={4}
+      fileList={fileList}
+      onChange={onChange}
+      onPreview={onPreview}
+    >
+      <p className="ant-upload-drag-icon">
+        <InboxOutlined />
+      </p>
+      <p className="ant-upload-text">
+        Click or drag file to this area to upload
+      </p>
+      <p className="ant-upload-hint">
+        Support for a single or bulk upload. Strictly prohibited from uploading
+        company data or other banned files.
+      </p>
+    </Dragger>
   );
 };
