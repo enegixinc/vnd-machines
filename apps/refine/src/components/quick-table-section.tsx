@@ -137,17 +137,20 @@ export const QuickTableSection = <
                   <Space>
                     {showEdit && (
                       <EditButton
+                        resource={resource}
                         hideText
                         size="small"
                         recordItemId={record._id}
                       />
                     )}
                     <ShowButton
+                      resource={resource}
                       hideText
                       size="small"
                       recordItemId={record._id}
                     />
                     <DeleteButton
+                      resource={resource}
                       hideText
                       size="small"
                       recordItemId={record._id}
