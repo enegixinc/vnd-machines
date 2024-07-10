@@ -8,6 +8,7 @@ import { SerializedCategoryDto } from '@frontend/api-sdk';
 import { ShowFinance } from '@components/sections/finance';
 import { JoinedProductsTable } from '@components/joined-products.table';
 import { JoinedOrdersTable } from '@components/joined-orders.table';
+import { handleMagextImage } from '@app/products/utils/handleMagextImage';
 
 const { Title } = Typography;
 
@@ -60,13 +61,9 @@ export default function CategoryShow() {
           <TextField value={record._id} />
         </Descriptions.Item>
 
-        {/*<Descriptions.Item label="Category Picture">*/}
-        {/*  <ImageField*/}
-        {/*    src={record?.}*/}
-        {/*    title={record?.name?.en ?? 'logo'}*/}
-        {/*    value={defaultSrc}*/}
-        {/*  />*/}
-        {/*</Descriptions.Item>*/}
+        <Descriptions.Item label="Category Picture">
+          {handleMagextImage(record.categoryPicture)}
+        </Descriptions.Item>
 
         <Descriptions.Item label="Name (English)">
           {/* @ts-ignore */}

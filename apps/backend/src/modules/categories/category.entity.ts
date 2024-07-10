@@ -140,8 +140,7 @@ export class CategoryEntity
         referTo: 'tryvnd@point24h.com',
         auto: this.auto,
         sortIndex: this.sortIndex,
-        // @ts-expect-error - to be fixed
-        categoryPicture: this.categoryPicture,
+        categoryPicture: this.base64ToBlob(this.categoryPicture),
       },
     });
     Object.assign(this, newCategory);
@@ -155,16 +154,24 @@ export class CategoryEntity
   }
 
   async updateMagexRecord(magexService: MagexService) {
-    const { newCategory } =
-      (await magexService.categories.putCategoriesEditById({
-        id: this._id,
-        formData: {
-          name: JSON.stringify(this.name),
-          referTo: 'tryvnd@point24h.com',
-          auto: this.auto ? 'true' : 'false',
-          sortIndex: this.sortIndex,
-        },
-      })) as { newCategory: ICategoryEntity };
+    await magexService.categories.putCategoriesEditById({
+      id: this._id,
+      formData: {
+        name: JSON.stringify(this.name),
+        referTo: 'tryvnd@point24h.com',
+        auto: this.auto ? 'true' : 'false',
+        sortIndex: this.sortIndex,
+        // @ts-expect-error - to be fixed
+        categoryPicture: this.base64ToBlob(this.categoryPicture),
+      },
+    });
+
+    const categories = await this.fetchMagexRecords(magexService);
+
+    const newCategory = categories.find(
+      (category) => category._id === this._id
+    );
+
     Object.assign(this, newCategory);
     Object.assign(this, { lastSyncAt: newCategory.updatedAt });
   }

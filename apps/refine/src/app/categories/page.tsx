@@ -1,9 +1,9 @@
 'use client';
 
 import React from 'react';
-import { defaultSrc } from '@app/config';
-import { handleEmptyString } from '@helpers';
+import { formatPrice, handleEmptyString } from '@helpers';
 import { QuickTableSection } from '@components/quick-table-section';
+import { handleMagextImage } from '@app/products/utils/handleMagextImage';
 
 export default function CategoriesList() {
   return (
@@ -12,9 +12,9 @@ export default function CategoriesList() {
       resource="categories"
       columns={[
         {
-          dataIndex: 'logo',
-          title: 'Logo',
-          render: (logo) => <img src={defaultSrc} alt="logo" width={34} />,
+          dataIndex: 'categoryPicture',
+          title: 'Picture',
+          render: handleMagextImage,
         },
         {
           dataIndex: ['name', 'en'],
@@ -28,18 +28,19 @@ export default function CategoriesList() {
         },
         {
           dataIndex: 'totalSoldProducts',
-          title: 'Total Sold Products',
+          title: 'Sold Products',
           sorter: true,
         },
         {
           dataIndex: 'totalOrders',
-          title: 'Total Orders',
+          title: 'Orders',
           sorter: true,
         },
         {
           dataIndex: 'totalRevenue',
-          title: 'Total Revenue',
+          title: 'Revenue',
           sorter: true,
+          render: formatPrice,
         },
       ]}
     />
