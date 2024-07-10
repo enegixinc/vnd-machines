@@ -35,6 +35,7 @@ export class AuthController {
   })
   @UseGuards(AuthGuard('local'))
   async login(@User() user: UserEntity) {
+    if (!user.active) throw new UnauthorizedException('User is not active');
     return this.authService.login(user);
   }
 

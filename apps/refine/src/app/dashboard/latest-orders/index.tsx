@@ -7,7 +7,7 @@ import { IoIosCash } from 'react-icons/io';
 import { RiVisaFill } from 'react-icons/ri';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { useRouter } from 'next/navigation';
-import { formatTime } from '@helpers';
+import { formatPrice, formatTime } from '@helpers';
 
 dayjs.extend(relativeTime);
 
@@ -52,13 +52,21 @@ export const DashboardLatestOrders: React.FC<{ limit?: number }> = ({
             limit,
           },
         }}
+        onRow={(record) => ({
+          onClick: () => router.push(`/orders/show/${record._id}`),
+          style: {
+            cursor: 'pointer',
+          },
+        })}
         columns={[
           {
             title: 'Machine',
             dataIndex: ['machine', 'description'],
             onCell: (record) => ({
-              onClick: () =>
-                router.push(`/machines/show/${record.machine._id}`),
+              onClick: (e) => {
+                e.stopPropagation();
+                router.push(`/machines/show/${record.machine._id}`);
+              },
               style: {
                 cursor: 'pointer',
                 color: '#1890ff',
@@ -79,7 +87,7 @@ export const DashboardLatestOrders: React.FC<{ limit?: number }> = ({
           {
             title: 'Total',
             dataIndex: ['total'],
-            render: (total, record) => `${total} ${record.currency}`,
+            render: formatPrice,
           },
           {
             title: 'Quantity',

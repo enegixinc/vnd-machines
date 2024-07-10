@@ -27,6 +27,8 @@ export const accessControlProvider: AccessControlProvider = {
         'categories',
         'admins',
         'dashboard',
+        'suppliers',
+        'orders',
       ];
 
       const disabledActions: Record<string, string[]> = {
@@ -34,7 +36,6 @@ export const accessControlProvider: AccessControlProvider = {
         products: ['edit', 'delete'],
         contracts: ['edit', 'delete', 'create'],
         dashboard: ['list'],
-        suppliers: ['edit', 'delete', 'create'],
       };
 
       if (hiddenResources.includes(resource)) {
