@@ -375,6 +375,8 @@ export class ProductEntity
   @Column({ type: 'integer', default: 0 })
   stock: number;
 
+  imagesBase64: string[];
+
   private base64ToBlob(base64: string, mimeType: string): Blob {
     const byteString = atob(base64.split(',')[1]);
     const ab = new ArrayBuffer(byteString.length);
@@ -386,20 +388,21 @@ export class ProductEntity
   }
 
   get images() {
-    return {
-      image1: this.productPictures[0]
-        ? this.base64ToBlob(this.productPictures[0], 'image/jpeg')
-        : null,
-      image2: this.productPictures[1]
-        ? this.base64ToBlob(this.productPictures[1], 'image/jpeg')
-        : null,
-      image3: this.productPictures[2]
-        ? this.base64ToBlob(this.productPictures[2], 'image/jpeg')
-        : null,
-      image4: this.productPictures[3]
-        ? this.base64ToBlob(this.productPictures[3], 'image/jpeg')
-        : null,
-    };
+    const imagesObject = {};
+
+    if (this.imagesBase64) {
+      this.imagesBase64.map((image, index) => {
+        if (!image) return;
+
+        imagesObject[`image${index + 1}`] = this.base64ToBlob(
+          image,
+          'image/jpeg'
+        );
+      });
+    }
+
+    console.log(imagesObject);
+    return imagesObject;
   }
 
   async createMagexRecord(magexService: MagexService) {
@@ -416,6 +419,7 @@ export class ProductEntity
         ...this.images,
       },
     });
+    console.log('newProduct', newProduct);
 
     Object.assign(this, newProduct);
     // @ts-expect-error - to be fixed
@@ -426,7 +430,7 @@ export class ProductEntity
       this.removeExtraProps(this, ['supplier', 'fullName', 'productPictures'])
     );
 
-    await magexService.products.putProductsEditById({
+    const data = await magexService.products.putProductsEditById({
       id: formData._id,
       formData: {
         ...formData,
@@ -436,6 +440,8 @@ export class ProductEntity
         ...this.images,
       },
     });
+
+    Object.assign(this, data);
   }
 
   async deleteMagexRecord(magexService: MagexService) {

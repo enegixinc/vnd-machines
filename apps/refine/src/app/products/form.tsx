@@ -1,4 +1,3 @@
-import type { GetProp, UploadProps } from 'antd';
 import {
   Card,
   Flex,
@@ -8,17 +7,13 @@ import {
   InputNumber,
   Select,
   Switch,
-  Upload,
-  UploadFile,
 } from 'antd';
 import { useSelect } from '@refinedev/antd';
 import { MultiLangInput } from '@theme-helpers';
 import React, { useEffect, useState } from 'react';
 import { handleMagexImageRaw } from '@app/products/utils/handleMagextImage';
-import ImgCrop from 'antd-img-crop';
-import Dragger from 'antd/es/upload/Dragger';
-import { InboxOutlined } from '@ant-design/icons';
 import { RcFile } from 'antd/es/upload';
+import { ImageUpload } from '@components/upload-images';
 
 type FormData = { [key: string]: any };
 
@@ -62,89 +57,37 @@ const getBase64 = (file: RcFile): Promise<string> => {
   });
 };
 
-// Function to take UploadFile and convert it to base64
-const convertUploadFileToBase64 = async (
-  uploadFile: UploadFile
-): Promise<string | null> => {
-  if (uploadFile.originFileObj) {
-    try {
-      console.log(
-        'uploadFile.originFileObj:',
-        await getBase64(uploadFile.originFileObj)
-      );
-      return await getBase64(uploadFile.originFileObj);
-    } catch (error) {
-      console.error('Error converting file to base64:', error);
-      return null;
-    }
-  }
-  return null;
-};
-
-type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
-
-const ImageUpload = ({
-  fileList,
-  setFileList,
-}: {
-  fileList: UploadFile[];
-  setFileList: React.Dispatch<React.SetStateAction<UploadFile[]>>;
-}) => {
-  const onChange: UploadProps['onChange'] = ({ fileList: newFileList }) => {
-    setFileList(newFileList);
-  };
-
-  const onPreview = async (file: UploadFile) => {
-    let src = file.url as string;
-    if (!src) {
-      src = await new Promise((resolve) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file.originFileObj as FileType);
-        reader.onload = () => resolve(reader.result as string);
-      });
-    }
-    const image = new Image();
-    image.src = src;
-    const imgWindow = window.open(src);
-    imgWindow?.document.write(image.outerHTML);
-  };
-
-  return (
-    <ImgCrop rotationSlider>
-      <Dragger
-        listType="picture-card"
-        maxCount={4}
-        fileList={fileList}
-        onChange={onChange}
-        onPreview={onPreview}
-      >
-        <p className="ant-upload-drag-icon">
-          <InboxOutlined />
-        </p>
-        <p className="ant-upload-text">
-          Click or drag file to this area to upload
-        </p>
-        <p className="ant-upload-hint">
-          Support for a single or bulk upload. Strictly prohibited from
-          uploading company data or other banned files.
-        </p>
-      </Dragger>
-    </ImgCrop>
-  );
-};
-
-// const toUploadFile = (file: string, index: number):UploadFile => ({
-//   uid: index.toString(),
-//   name: file,
-//   status: 'done',
-//   url: handleMagexImageRaw(file),
-//   type: 'image/jpeg',
-//   preview: convertUploadFileToBase64(file),
-// });
+// // Function to take UploadFile and convert it to base64
+// const convertUploadFileToBase64 = async (
+//   uploadFile: UploadFile
+// ): Promise<string | null> => {
+//   if (uploadFile.originFileObj) {
+//     try {
+//       return await getBase64(uploadFile.originFileObj);
+//     } catch (error) {
+//       console.error('Error converting file to base64:', error);
+//       return null;
+//     }
+//   }
+//   return null;
+// };
+//
+// const magexImageUrlToBase64 = async (url: string) => {
+//   const response = await fetch(url);
+//   const blob = await response.blob();
+//   return await new Promise((resolve, reject) => {
+//     const reader = new FileReader();
+//     reader.readAsDataURL(blob);
+//     reader.onloadend = () => {
+//       resolve(reader.result as string);
+//     };
+//     reader.onerror = (error) => reject(error);
+//   });
+// };
 
 const transformPictureData = (pictures: string[]) => {
   return pictures.map((pic, index) => ({
-    uid: index,
+    uid: index.toString(),
     name: pic,
     status: 'done',
     url: handleMagexImageRaw(pic),
@@ -159,7 +102,7 @@ export const ProductForm = ({
   formProps: FormProps;
   isSupplier: boolean;
 }) => {
-  const [fileList, setFileList] = useState<UploadFile[]>([]);
+  const [imagesBase64, setBase64FileList] = useState<string[]>([]);
 
   const { selectProps: brandSelectProps } = useSelect({
     resource: 'brands',
@@ -180,38 +123,45 @@ export const ProductForm = ({
 
   useEffect(() => {
     if (formProps.initialValues?.productPictures) {
-      setFileList(
-        transformPictureData(formProps.initialValues.productPictures)
-      );
+      const convertPicturesToBase64 = async () => {
+        const base64Pictures = await Promise.all(
+          formProps.initialValues.productPictures.map((picture: string) =>
+            fetch(handleMagexImageRaw(picture))
+              .then((res) => res.blob())
+              .then((blob) => getBase64(blob as RcFile))
+          )
+        );
+        setBase64FileList(base64Pictures);
+      };
+
+      convertPicturesToBase64();
     }
-  }, []);
+  }, [formProps?.initialValues]);
 
   useEffect(() => {
-    console.log('fileList:', fileList);
-    const getImagesBase64 = async () => {
-      return await Promise.all(
-        fileList.map(async (file) => {
-          return await convertUploadFileToBase64(file);
-        })
-      );
-    };
-    getImagesBase64().then((images) => {
-      formProps?.form?.setFieldsValue({ productPictures: images });
-      console.log('images:', images);
-    });
-  }, [fileList]);
+    formProps?.form?.setFieldsValue({ imagesBase64 });
+    console.log('imagesBase64', imagesBase64);
+  }, [imagesBase64]);
 
   return (
     <Form
       {...formProps}
       layout="vertical"
       onFinish={async (data) => {
+        console.log('data', data);
         formProps.onFinish(cleanFormData(data));
       }}
     >
       <Card title="Basic Information">
-        <Form.Item name="productPictures" label="Product Pictures">
-          <ImageUpload fileList={fileList} setFileList={setFileList} />
+        <Form.Item
+          name="imagesBase64"
+          label="Product Pictures"
+          initialValue={imagesBase64}
+        >
+          <ImageUpload
+            base64FileList={imagesBase64}
+            setBase64FileList={setBase64FileList}
+          />
         </Form.Item>
 
         <MultiLangInput />
@@ -276,124 +226,45 @@ export const ProductForm = ({
               rules={[{ required: true }]}
               initialValue={0}
             >
-              <InputNumber
-                style={{
-                  width: '100%',
-                }}
-              />
+              <InputNumber style={{ width: '100%' }} />
             </Form.Item>
             <Form.Item
-              label="Cost Price"
-              name="costPrice"
-              initialValue={0}
+              label="Tax"
+              name="tax"
               rules={[{ required: true }]}
+              initialValue={0}
             >
-              <InputNumber
-                style={{
-                  width: '100%',
-                }}
-              />
+              <InputNumber style={{ width: '100%' }} />
             </Form.Item>
             <Form.Item
-              label="Additional Price"
-              name="additionPrice"
-              initialValue={0}
+              label="Stock"
+              name="stock"
               rules={[{ required: true }]}
+              initialValue={0}
             >
-              <InputNumber
-                style={{
-                  width: '100%',
-                }}
-              />
+              <InputNumber style={{ width: '100%' }} />
             </Form.Item>
           </Flex>
+        </Card>
+        <Card title="Status" style={{ flex: 1 }}>
           <Form.Item
-            label="Price Per Kilo"
-            name="pricePerKilo"
-            initialValue={true}
+            valuePropName="checked"
+            label="Active"
+            name="isActive"
+            initialValue={false}
+          >
+            <Switch />
+          </Form.Item>
+          <Form.Item
+            valuePropName="checked"
+            label="Featured"
+            name="isFeatured"
+            initialValue={false}
           >
             <Switch />
           </Form.Item>
         </Card>
-        <Card title="Dimensions" style={{ flex: 1 }}>
-          <Flex gap={20} wrap="wrap">
-            <Form.Item label="Height" name={['dimension', 'height']}>
-              <InputNumber
-                style={{
-                  width: '100%',
-                }}
-              />
-            </Form.Item>
-            <Form.Item label="Length" name={['dimension', 'length']}>
-              <InputNumber
-                style={{
-                  width: '100%',
-                }}
-              />
-            </Form.Item>
-            <Form.Item label="Width" name={['dimension', 'width']}>
-              <InputNumber
-                style={{
-                  width: '100%',
-                }}
-              />
-            </Form.Item>
-          </Flex>
-        </Card>
-        <Card
-          title="Additional Information"
-          style={{ flexBasis: 'calc(50% - 10px)' }}
-        >
-          <Form.Item label="Product Video" name="productVideo">
-            <Upload.Dragger
-              listType="picture"
-              multiple
-              beforeUpload={() => false}
-            >
-              <p className="ant-upload-text">
-                Drag & drop files here or click to upload
-              </p>
-            </Upload.Dragger>
-          </Form.Item>
-
-          <Form.Item label="Product Type" name="prodType">
-            <Input />
-          </Form.Item>
-          <Form.Item
-            label="Age Control"
-            name="ageControl"
-            rules={[{ required: true }]}
-            initialValue={0}
-          >
-            <InputNumber />
-          </Form.Item>
-
-          <Flex gap={20} wrap="wrap">
-            <Form.Item label="Sort Index" name="sortIndex" initialValue={1}>
-              <Switch />
-            </Form.Item>
-            <Form.Item label="VAT Index" name="vatIndex" initialValue={1}>
-              <Switch />
-            </Form.Item>
-
-            <Form.Item
-              label="Virtual Product"
-              name="virtualProduct"
-              initialValue={0}
-            >
-              <Switch />
-            </Form.Item>
-          </Flex>
-        </Card>
       </Flex>
-
-      <Card title="Extra Information" style={{ marginTop: 16 }}>
-        <MultiLangInput optional textArea name="detail" />
-        <MultiLangInput optional textArea name="include" />
-        <MultiLangInput optional textArea name="ingredients" />
-        <MultiLangInput optional textArea name="keyFeatures" />
-        <MultiLangInput optional textArea name="specification" />
-      </Card>
     </Form>
   );
 };

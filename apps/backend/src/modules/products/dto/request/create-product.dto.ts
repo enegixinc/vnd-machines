@@ -60,4 +60,16 @@ export class CreateProductDto
     })
   )
   productVideo: File | Blob;
+
+  @decorate(IsOptional({ groups: [UPDATE, CREATE] }))
+  @decorate(
+    ApiProperty({
+      type: 'array',
+      items: {
+        type: 'string',
+      },
+      required: false,
+    })
+  )
+  imagesBase64: string[];
 }

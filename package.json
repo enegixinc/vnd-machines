@@ -203,6 +203,7 @@
     "react-icons": "^5.2.1",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.0",
+    "short-unique-id": "^5.2.0",
     "sweetalert2": "^11.5.1",
     "tippy.js": "6",
     "ts-jest": "^29.1.2",
