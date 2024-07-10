@@ -31,7 +31,7 @@ export const accessControlProvider: AccessControlProvider = {
       ];
 
       const disabledActions: Record<string, string[]> = {
-        requests: ['edit', 'delete'],
+        requests: ['edit', 'delete', 'create'],
         products: ['edit', 'delete'],
         contracts: ['edit', 'delete', 'create'],
         dashboard: ['list'],

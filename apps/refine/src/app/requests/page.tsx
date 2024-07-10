@@ -4,8 +4,13 @@ import React from 'react';
 import { QuickTableSection } from '@components/quick-table-section';
 import { handleNullableText } from '@app/products/utils/handleNullableText';
 import { formatTime } from '@helpers';
+import { useGetIdentity } from '@refinedev/core';
+import { IUserEntity } from '@core';
 
 export default function FillRequestsList() {
+  const userRole = useGetIdentity<IUserEntity>()?.data?.role;
+  const supplierId = useGetIdentity<IUserEntity>()?.data?._id;
+
   return (
     <>
       <QuickTableSection

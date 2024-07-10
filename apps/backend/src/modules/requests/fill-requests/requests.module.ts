@@ -2,7 +2,10 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { RequestsController } from './requests.controller';
 import { RequestsService } from './requests.service';
-import { RequestsSubscriber } from './requests.subscriber';
+import {
+  FillRequestProductsSubscriber,
+  RequestsSubscriber,
+} from './requests.subscriber';
 import { FillRequestEntity, FillRequestProducts } from './fill-request.entity';
 import { BullModule } from '@nestjs/bullmq';
 import { RequestsProcessor } from './requests.processor';
@@ -22,6 +25,7 @@ import { MailerModule } from '../../../services/mailer/mailer.module';
   providers: [
     RequestsService,
     RequestsSubscriber,
+    FillRequestProductsSubscriber,
     RequestsProcessor,
     MailerService,
   ],

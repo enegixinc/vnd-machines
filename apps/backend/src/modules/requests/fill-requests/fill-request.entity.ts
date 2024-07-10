@@ -35,4 +35,10 @@ export class FillRequestProducts extends DatabaseEntity {
 
   @Column()
   quantity: number;
+
+  @Column({
+    type: 'varchar',
+    nullable: true,
+  })
+  supplier_id: string;
 }
