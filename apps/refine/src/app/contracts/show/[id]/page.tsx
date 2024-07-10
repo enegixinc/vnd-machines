@@ -87,7 +87,7 @@ export default function ContractShow() {
         </Descriptions.Item>
         <Descriptions.Item label="Fee Per Sale">
           <TextField
-            value={`${Number(contract.feePerSale).toFixed(2)} ${
+            value={`${Number(contract.feePerSale).toFixed(3)} ${
               contract.feeType === FeeType.PERCENTAGE ? ' %' : ' KD'
             }`}
           />

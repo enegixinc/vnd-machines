@@ -34,7 +34,7 @@ export default function ProductShow() {
           field: 'orders',
         },
         {
-          field: 'orders.machine',
+          field: 'machines',
         },
       ],
     },

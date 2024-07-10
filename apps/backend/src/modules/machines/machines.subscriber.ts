@@ -27,7 +27,7 @@ export class MachinesSubscriber extends EntitySyncer<MachineEntity> {
         const resolvedProduct = await this.dataSource.manager.findOneBy(
           ProductEntity,
           {
-            _id: product.id,
+            upc: product.upc,
           }
         );
         return this.dataSource.manager.create(MachineProduct, {

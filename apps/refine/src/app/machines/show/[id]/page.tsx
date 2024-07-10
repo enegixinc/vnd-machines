@@ -125,6 +125,8 @@ export default function MachineShow() {
         onRow={(record) => {
           return {
             onClick: () => {
+              console.log('record', record);
+
               router.push(`/products/show/${record._id}`);
             },
             style: { cursor: 'pointer' },
@@ -138,12 +140,12 @@ export default function MachineShow() {
                 dataIndex: ['product', 'productPictures'],
                 title: 'Image',
                 render: (productPictures) =>
-                  handleMagextImage(productPictures[0]),
+                  handleMagextImage(productPictures ? productPictures[0] : ''),
               },
               {
                 dataIndex: ['product', 'upc'],
                 title: 'UPC',
-                sorter: true,
+                sorter: (a, b) => a.upc.localeCompare(b.upc),
                 render: handleNullableText,
               },
               {
@@ -155,30 +157,28 @@ export default function MachineShow() {
               {
                 dataIndex: ['product', 'price'],
                 title: 'Price',
-                sorter: true,
-                render: (price) => `${Number(price).toFixed(2)} USD`,
+                sorter: (a, b) => a.price - b.price,
+                render: formatPrice,
               },
             ],
           },
           {
             title: 'Stock',
-            render: (_, __, index) =>
-              index === 0 && <Divider>Position</Divider>,
             children: [
               {
                 title: 'Current Stock',
                 dataIndex: 'current_stock',
-                sorter: true,
+                sorter: (a, b) => a.current_stock - b.current_stock,
               },
               {
                 dataIndex: 'lane',
                 title: 'Lane',
-                sorter: true,
+                sorter: (a, b) => a.lane - b.lane,
               },
               {
                 dataIndex: 'floor',
                 title: 'Floor',
-                sorter: true,
+                sorter: (a, b) => a.floor - b.floor,
               },
             ],
           },

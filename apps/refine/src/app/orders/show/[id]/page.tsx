@@ -4,7 +4,7 @@ import { Show, TextField } from '@refinedev/antd';
 import { Descriptions, Divider, Spin, Table, Typography } from 'antd';
 import React from 'react';
 import { CanAccess, useShow } from '@refinedev/core';
-import { handleEmptyString } from '@helpers';
+import { formatPrice, handleEmptyString } from '@helpers';
 
 import { handleMagextImage } from '@app/products/utils/handleMagextImage';
 import { handleNullableText } from '@app/products/utils/handleNullableText';
@@ -79,9 +79,7 @@ export default function OrderShow() {
             <TextField value={handleEmptyString(record.payment_type)} />
           </Descriptions.Item>
           <Descriptions.Item label="Total">
-            <TextField
-              value={`${Number(record.total).toFixed(2)} ${record.currency}`}
-            />
+            <TextField value={formatPrice(record.total)} />
           </Descriptions.Item>
           <Descriptions.Item label="Cart Number">
             <TextField value={handleEmptyString(record.cart_number)} />
@@ -133,14 +131,14 @@ export default function OrderShow() {
                 {
                   dataIndex: ['product', 'upc'],
                   title: 'UPC',
-                  sorter: true,
+                  sorter: (a, b) => a.upc.localeCompare(b.upc),
                   render: handleNullableText,
                 },
                 {
                   dataIndex: ['product', 'price'],
                   title: 'Price',
-                  sorter: true,
-                  render: (price) => `${Number(price).toFixed(2)} KD`,
+                  sorter: (a, b) => a.price - b.price,
+                  render: formatPrice,
                 },
               ],
             },
