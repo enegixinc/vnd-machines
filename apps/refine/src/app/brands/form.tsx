@@ -8,6 +8,7 @@ export const BrandForm: React.FC<{ formProps: FormProps }> = ({
   formProps,
 }) => {
   const [base64File, setBase64File] = React.useState<string>('');
+  const [preview, setPreview] = React.useState<string>('');
 
   useEffect(() => {
     async function getBase64() {
@@ -15,7 +16,7 @@ export const BrandForm: React.FC<{ formProps: FormProps }> = ({
         const base64 = await magexImageToBase64(
           formProps?.initialValues?.picture
         );
-        setBase64File(base64);
+        setPreview(base64);
       }
     }
 
@@ -31,7 +32,7 @@ export const BrandForm: React.FC<{ formProps: FormProps }> = ({
   return (
     <Form {...formProps} layout="vertical">
       <Form.Item label="Brand Logo" name="picture">
-        <UploadPicture base64File={base64File} setBase64File={setBase64File} />
+        <UploadPicture preview={preview} setBase64File={setBase64File} />
       </Form.Item>
 
       <Flex gap={20} wrap="wrap">

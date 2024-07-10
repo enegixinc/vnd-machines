@@ -1,10 +1,4 @@
-import {
-  type GetProp,
-  message,
-  Upload,
-  UploadFile,
-  type UploadProps,
-} from 'antd';
+import { type GetProp, Upload, UploadFile, type UploadProps } from 'antd';
 import React, { useEffect } from 'react';
 import ImgCrop from 'antd-img-crop';
 import { PlusOutlined } from '@ant-design/icons';
@@ -30,6 +24,7 @@ async function uploadFileToBase64(uploadFile: UploadFile): Promise<string> {
 }
 
 function base64ToUploadFile(base64: string, filename: string): UploadFile {
+  // Function to convert base64 to Blob
   const base64ToBlob = (
     base64String: string,
     contentType: string = '',
@@ -53,10 +48,12 @@ function base64ToUploadFile(base64: string, filename: string): UploadFile {
     return new Blob(byteArrays, { type: contentType });
   };
 
+  // Split the base64 string to get content type and data
   const [header, data] = base64.split(',');
   const contentType = header.split(':')[1].split(';')[0];
   const blob = base64ToBlob(data, contentType);
 
+  // Convert Blob to File
   const file = new File([blob], filename, { type: contentType });
 
   return {
@@ -71,28 +68,26 @@ function base64ToUploadFile(base64: string, filename: string): UploadFile {
 type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
 
 export const UploadPicture = ({
-  base64File,
+  preview,
   setBase64File,
 }: {
-  base64File: string;
+  preview: string;
   setBase64File: React.Dispatch<React.SetStateAction<string>>;
 }) => {
   const [fileList, setFileList] = React.useState<UploadFile[]>([]);
+  console.log('preview', preview);
 
   useEffect(() => {
-    if (base64File) {
-      const newFile = base64ToUploadFile(base64File, 'uploaded-picture');
+    if (preview) {
+      console.log('preview', preview);
+      const newFile = base64ToUploadFile(preview, 'uploaded-picture');
       setFileList([newFile]);
     } else {
       setFileList([]);
     }
-  }, [base64File]);
+  }, [preview]);
 
   const onChange: UploadProps['onChange'] = async ({ fileList }) => {
-    if (fileList.length > 1) {
-      message.error('You can only upload one picture.');
-      fileList = [fileList[fileList.length - 1]];
-    }
     setFileList(fileList);
 
     if (fileList.length === 0) {
