@@ -83,7 +83,7 @@ export default function MachinesList() {
               sorter: true,
             },
             {
-              dataIndex: 'totalRevenue',
+              dataIndex: 'totalSales',
               title: 'Revenue',
               sorter: true,
               render: formatPrice,
