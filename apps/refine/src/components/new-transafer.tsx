@@ -12,6 +12,8 @@ type TableRowSelection<T extends object> = TableProps<T>['rowSelection'];
 
 interface DataType {
   _id: string;
+  totalRevenue: number;
+  totalOrders: number;
 }
 
 interface TableTransferProps extends TransferProps<TransferItem> {
@@ -20,7 +22,7 @@ interface TableTransferProps extends TransferProps<TransferItem> {
   rightColumns: TableColumnsType<DataType>;
 }
 
-export const TableTransfer = ({
+export const NewTableTransfer = ({
   leftColumns,
   rightColumns,
   ...restProps

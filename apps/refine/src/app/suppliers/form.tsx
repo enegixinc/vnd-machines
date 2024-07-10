@@ -5,6 +5,8 @@ import { Card, Divider, Form, FormProps, Input, Select, Switch } from 'antd';
 import { UserRole } from '@core';
 import { SerializedProductDto } from '@frontend/api-sdk';
 import { TableTransfer } from '@components/transafer';
+import { handleNullableFullName } from '@app/products/utils/handleNullableText';
+import { TransferProducts } from '@components/transfer-products';
 
 const SupplierForm = ({
   formProps,
@@ -57,6 +59,7 @@ const SupplierForm = ({
         <Form.Item initialValue={UserRole.SUPPLIER} label="Role" name="role">
           <Select
             placeholder="Select a role"
+            disabled
             options={[
               { label: 'Admin', value: UserRole.ADMIN },
               { label: 'Supplier', value: UserRole.SUPPLIER },
@@ -67,7 +70,9 @@ const SupplierForm = ({
         <Form.Item
           label="Password"
           name="password"
-          rules={[{ message: 'Please enter password' }]}
+          rules={[
+            { message: 'Please enter password', required: action === 'create' },
+          ]}
         >
           <Input.Password />
         </Form.Item>
@@ -83,8 +88,10 @@ const SupplierForm = ({
       <Divider />
       <Card title={'Associations'}>
         <Form.Item label="Products" name="products">
-          <ProductsTransfer
-            supplierProducts={formProps.initialValues?.products}
+          <TransferProducts
+            initTargetKeys={formProps.initialValues?.products.map(
+              (product) => product._id
+            )}
             onChange={(keys) => {
               formProps?.form?.setFieldsValue({
                 products: keys.map((key) => ({ _id: key })),
@@ -111,8 +118,9 @@ const ProductsTransfer = ({
   );
 
   useEffect(() => {
-    onChange(targetKeys);
-  }, [targetKeys, onChange]);
+    setTargetKeys(supplierProducts?.map((product) => product._id) || []);
+    console.log({ supplierProducts });
+  }, []);
 
   return (
     <TableTransfer
@@ -123,6 +131,13 @@ const ProductsTransfer = ({
       targetKeys={targetKeys}
       rowKey={(record) => record._id}
       showSelectAll={false}
+      meta={{
+        join: [
+          {
+            field: 'supplier',
+          },
+        ],
+      }}
       leftColumns={[
         {
           dataIndex: 'fullName',
@@ -139,6 +154,11 @@ const ProductsTransfer = ({
           title: 'Total Orders',
           sorter: true,
         },
+        {
+          dataIndex: 'supplier',
+          title: 'Supplier',
+          render: handleNullableFullName,
+        },
       ]}
       rightColumns={[
         {
@@ -154,10 +174,9 @@ const ProductsTransfer = ({
           title: 'Total Orders',
         },
       ]}
-      onChange={(keys) => {
-        setTargetKeys(keys);
-        onChange(keys);
-      }}
+      // onChange={(keys) => {
+      //   onChange(keys);
+      // }}
     />
   );
 };

@@ -1,6 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { GetProp, Table, TableColumnsType, TransferProps } from 'antd';
-import { Transfer } from 'antd';
+import React, { useState } from 'react';
+import {
+  GetProp,
+  Table,
+  TableColumnsType,
+  Transfer,
+  TransferProps,
+} from 'antd';
 import { QuickTableSection } from '@components/quick-table-section';
 import Search from 'antd/es/input/Search';
 import { CrudFilter } from '@refinedev/core';
@@ -44,40 +49,40 @@ export const TableTransfer = ({
         selectedKeys: listSelectedKeys,
         disabled: listDisabled,
       }) => {
-        const rowSelection = {
-          getCheckboxProps: () => ({ disabled: listDisabled }),
-          onChange(selectedRowKeys) {
-            onItemSelectAll(selectedRowKeys, 'replace');
-          },
-          selectedRowKeys: listSelectedKeys,
-          selections: [
-            {
-              key: 'all',
-              text: 'Select All',
-              onSelect: () =>
-                onItemSelectAll(
-                  filteredItems.map((item) => item._id),
-                  'replace'
-                ),
-            },
-            {
-              key: 'invert',
-              text: 'Invert Selection',
-              onSelect: () =>
-                onItemSelectAll(
-                  filteredItems
-                    .filter((item) => !listSelectedKeys.includes(item._id))
-                    .map((item) => item._id),
-                  'replace'
-                ),
-            },
-            {
-              key: 'none',
-              text: 'Select None',
-              onSelect: () => onItemSelectAll([], 'replace'),
-            },
-          ],
-        };
+        // const rowSelection = {
+        //   getCheckboxProps: () => ({ disabled: listDisabled }),
+        //   onChange(selectedRowKeys) {
+        //     onItemSelectAll(selectedRowKeys, 'replace');
+        //   },
+        //   selectedRowKeys: listSelectedKeys,
+        //   selections: [
+        //     {
+        //       key: 'all',
+        //       text: 'Select All',
+        //       onSelect: () =>
+        //         onItemSelectAll(
+        //           filteredItems.map((item) => item._id),
+        //           'replace'
+        //         ),
+        //     },
+        //     {
+        //       key: 'invert',
+        //       text: 'Invert Selection',
+        //       onSelect: () =>
+        //         onItemSelectAll(
+        //           filteredItems
+        //             .filter((item) => !listSelectedKeys.includes(item._id))
+        //             .map((item) => item._id),
+        //           'replace'
+        //         ),
+        //     },
+        //     {
+        //       key: 'none',
+        //       text: 'Select None',
+        //       onSelect: () => onItemSelectAll([], 'replace'),
+        //     },
+        //   ],
+        // };
 
         return direction === 'left' ? (
           <QuickTableSection
@@ -88,7 +93,7 @@ export const TableTransfer = ({
             setDataReference={setDataReference}
             resource={resource}
             columns={leftColumns}
-            rowSelection={rowSelection}
+            // rowSelection={rowSelection}
             onRow={({ _id }) => ({
               onClick: () => {
                 if (listDisabled) return;
@@ -111,7 +116,7 @@ export const TableTransfer = ({
               />
             </div>
             <Table
-              rowSelection={rowSelection}
+              // rowSelection={rowSelection}
               columns={rightColumns}
               dataSource={filteredItems}
               size="small"
