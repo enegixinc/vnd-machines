@@ -1,7 +1,7 @@
 'use client';
 
 import { Show, TextField } from '@refinedev/antd';
-import { Descriptions, Divider, Switch, Typography } from 'antd';
+import { Descriptions, Divider, Spin, Switch, Typography } from 'antd';
 import React from 'react';
 import { SerializedProductDto } from '@frontend/api-sdk';
 import { useShow } from '@refinedev/core';
@@ -41,7 +41,18 @@ export default function ProductShow() {
     },
   });
   const { data, isLoading } = queryResult;
-
+  if (isLoading) {
+    return (
+      <Spin
+        style={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+        }}
+      />
+    );
+  }
   const record = data?.data;
   if (!record) {
     return null;

@@ -20,13 +20,6 @@ export default function MachinesList() {
         },
         style: { cursor: 'pointer' },
       })}
-      meta={{
-        join: [
-          {
-            field: 'product',
-          },
-        ],
-      }}
       columns={[
         {
           title: 'Machine Info',

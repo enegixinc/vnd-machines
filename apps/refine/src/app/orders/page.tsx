@@ -44,8 +44,10 @@ export default function OrdersList() {
             title: 'Machine',
             dataIndex: ['machine', 'description'],
             onCell: (record) => ({
-              onClick: () =>
-                router.push(`/machines/show/${record.machine._id}`),
+              onClick: (e) => {
+                e.stopPropagation();
+                router.push(`/machines/show/${record.machine._id}`);
+              },
               style: {
                 cursor: 'pointer',
                 color: '#1890ff',
@@ -53,8 +55,27 @@ export default function OrdersList() {
             }),
           },
           {
-            title: 'Cart Number',
+            title: 'Order',
             dataIndex: 'cart_number',
+            onCell: (record) => ({
+              onClick: () => router.push(`/orders/show/${record._id}`),
+              style: {
+                cursor: 'pointer',
+                color: '#1890ff',
+              },
+            }),
+            sorter: true,
+          },
+          {
+            title: 'Total',
+            dataIndex: ['total'],
+            render: formatPrice,
+            sorter: true,
+          },
+          {
+            title: 'Quantity',
+            dataIndex: 'totalQuantity',
+            sorter: true,
           },
           {
             title: 'Payment Method',
@@ -81,20 +102,12 @@ export default function OrdersList() {
                 color={paymentType === 'CASH' ? 'green' : 'blue'}
               />
             ),
-          },
-          {
-            title: 'Products',
-            dataIndex: 'totalQuantity',
-          },
-          {
-            title: 'Total',
-            dataIndex: ['total'],
             sorter: true,
-            render: formatPrice,
           },
           {
             title: 'Date',
             dataIndex: 'createdAt',
+            // render: (date) => dayjs(date).fromNow(),
             render: formatTime,
             sorter: true,
           },
