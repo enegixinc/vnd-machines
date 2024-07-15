@@ -24,9 +24,6 @@ export default function BrandShow() {
         {
           field: 'supplier',
         },
-        {
-          field: 'orders',
-        },
       ],
     },
   });
@@ -90,7 +87,32 @@ export default function BrandShow() {
       <JoinedProductsTable record={record} />
 
       <Divider />
-      <JoinedOrdersTable record={record} />
+      <JoinedOrdersTable
+        useTableProps={{
+          meta: {
+            join: [
+              {
+                field: 'machine',
+              },
+              {
+                field: 'products',
+              },
+              {
+                field: 'products.product',
+              },
+            ],
+          },
+          filters: {
+            permanent: [
+              {
+                field: `products.product.brand_id`,
+                operator: 'eq',
+                value: record._id,
+              },
+            ],
+          },
+        }}
+      />
     </Show>
   );
 }

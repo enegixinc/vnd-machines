@@ -25,9 +25,6 @@ export default function SupplierShow() {
           field: 'products',
         },
         {
-          field: 'orders',
-        },
-        {
           field: 'categories',
         },
         {
@@ -101,7 +98,32 @@ export default function SupplierShow() {
         <Divider />
         <JoinedProductsTable record={record} />
         <Divider />
-        <JoinedOrdersTable record={record} />
+        <JoinedOrdersTable
+          useTableProps={{
+            meta: {
+              join: [
+                {
+                  field: 'machine',
+                },
+                {
+                  field: 'products',
+                },
+                {
+                  field: 'products.product',
+                },
+              ],
+            },
+            filters: {
+              permanent: [
+                {
+                  field: 'products.product.supplier_id',
+                  operator: 'eq',
+                  value: record._id,
+                },
+              ],
+            },
+          }}
+        />
         {/*<Divider />*/}
         {/*<JoinedBrandsTable record={record} />*/}
         {/*<Divider />*/}

@@ -102,9 +102,7 @@ export default function ContractShow() {
           <TextField value={formatPrice(contract.totalRevenue)} />
         </Descriptions.Item>
       </Descriptions>
-
       <Divider />
-
       <Title level={3}>{'Files'}</Title>
       <Space wrap direction="horizontal" style={{ width: '100%' }}>
         {contract.files.map((file, index) => (
@@ -163,7 +161,6 @@ export default function ContractShow() {
         ))}
       </Space>
       <Divider />
-
       <CanAccess action="show" resource="suppliers">
         <Divider />
         <Title level={3}>{'Supplier Details'}</Title>
@@ -196,7 +193,42 @@ export default function ContractShow() {
         </Descriptions>
       </CanAccess>
       <Divider />
-      <JoinedOrdersTable record={contract} />
+      <JoinedOrdersTable
+        useTableProps={{
+          meta: {
+            join: [
+              {
+                field: 'machine',
+              },
+              {
+                field: 'products',
+              },
+              {
+                field: 'products.product',
+              },
+            ],
+          },
+          filters: {
+            permanent: [
+              {
+                field: 'createdAt',
+                operator: 'gte',
+                value: contract.startDate,
+              },
+              {
+                field: 'createdAt',
+                operator: 'lte',
+                value: contract.endDate,
+              },
+              {
+                field: 'products.product.supplier_id',
+                operator: 'eq',
+                value: contract.supplier._id,
+              },
+            ],
+          },
+        }}
+      />
     </Show>
   );
 }

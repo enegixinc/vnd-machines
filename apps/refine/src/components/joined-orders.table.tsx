@@ -1,19 +1,15 @@
-﻿import { Table, Tag, Typography } from 'antd';
+﻿import { Tag, Typography } from 'antd';
 import React from 'react';
-import { SerializedProductDto } from '@frontend/api-sdk';
 import { IoIosCash } from 'react-icons/io';
 import { RiVisaFill } from 'react-icons/ri';
 import { useRouter } from 'next/navigation';
 import { formatPrice, formatTime } from '@helpers';
+import { QuickTableSection } from '@components/quick-table-section';
 
 export const JoinedOrdersTable = ({
-  record,
-  columns,
+  useTableProps,
 }: {
-  record: {
-    orders: SerializedProductDto[];
-  };
-  columns: any[];
+  useTableProps: Parameters<typeof QuickTableSection>[0]['useTableProps'];
 }) => {
   const router = useRouter();
   return (
@@ -21,9 +17,14 @@ export const JoinedOrdersTable = ({
       <Typography.Title level={3} style={{ marginTop: 16 }}>
         {'Orders'}
       </Typography.Title>
-      <Table
-        pagination={{ pageSize: 5 }}
-        dataSource={record.orders}
+      <QuickTableSection
+        minimal
+        syncWithLocation={false}
+        showActions={false}
+        showSearch={false}
+        pagination={{
+          pageSize: 5,
+        }}
         onRow={(record) => {
           return {
             onClick: () => {
@@ -32,10 +33,45 @@ export const JoinedOrdersTable = ({
             style: { cursor: 'pointer' },
           };
         }}
+        useTableProps={useTableProps}
+        resource={'orders'}
         columns={[
           {
-            title: 'Cart Number',
+            title: 'Machine',
+            dataIndex: ['machine', 'description'],
+            onCell: (record) => ({
+              onClick: (e) => {
+                e.stopPropagation();
+                router.push(`/machines/show/${record.machine._id}`);
+              },
+              style: {
+                cursor: 'pointer',
+                color: '#1890ff',
+              },
+            }),
+          },
+          {
+            title: 'Order',
             dataIndex: 'cart_number',
+            onCell: (record) => ({
+              onClick: () => router.push(`/orders/show/${record._id}`),
+              style: {
+                cursor: 'pointer',
+                color: '#1890ff',
+              },
+            }),
+            sorter: true,
+          },
+          {
+            title: 'Total',
+            dataIndex: ['total'],
+            render: formatPrice,
+            sorter: true,
+          },
+          {
+            title: 'Quantity',
+            dataIndex: 'totalQuantity',
+            sorter: true,
           },
           {
             title: 'Payment Method',
@@ -62,18 +98,14 @@ export const JoinedOrdersTable = ({
                 color={paymentType === 'CASH' ? 'green' : 'blue'}
               />
             ),
-          },
-          {
-            title: 'Total',
-            dataIndex: 'total',
-            sorter: (a, b) => a.total - b.total,
-            render: formatPrice,
+            sorter: true,
           },
           {
             title: 'Date',
             dataIndex: 'createdAt',
+            // render: (date) => dayjs(date).fromNow(),
             render: formatTime,
-            sorter: (a, b) => a.createdAt.localeCompare(b.createdAt),
+            sorter: true,
           },
         ]}
       />

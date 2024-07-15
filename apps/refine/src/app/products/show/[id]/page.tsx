@@ -1,15 +1,16 @@
 'use client';
 
 import { Show, TextField } from '@refinedev/antd';
-import { Descriptions, Divider, Switch, Table, Typography } from 'antd';
+import { Descriptions, Divider, Switch, Typography } from 'antd';
 import React from 'react';
 import { SerializedProductDto } from '@frontend/api-sdk';
 import { useShow } from '@refinedev/core';
-import { formatPrice, formatTime, handleEmptyString } from '@helpers';
+import { formatPrice, handleEmptyString } from '@helpers';
 import { handleMagextImage } from '@app/products/utils/handleMagextImage';
 import { ShowFinance } from '@components/sections/finance';
 import { useRouter } from 'next/navigation';
 import { formatDate } from '@components/description-dates';
+import { JoinedOrdersTable } from '@components/joined-orders.table';
 
 const { Title } = Typography;
 
@@ -30,12 +31,12 @@ export default function ProductShow() {
           field: 'supplier',
           select: ['_id', 'fullName'],
         },
-        {
-          field: 'orders',
-        },
-        {
-          field: 'machines',
-        },
+        // {
+        //   field: 'orders',
+        // },
+        // {
+        //   field: 'machines',
+        // },
       ],
     },
   });
@@ -157,52 +158,32 @@ export default function ProductShow() {
       <Divider />
       <ShowFinance record={record} />
       <Divider />
-      <Title level={3} style={{ marginTop: 16 }}>
-        {'Orders'}
-      </Title>
-      <Table
-        dataSource={record.orders}
-        onRow={(record) => {
-          return {
-            onClick: () => {
-              console.log('record', record);
-              router.push(`/orders/show/${record.order_id}`);
-            },
-            style: { cursor: 'pointer' },
-          };
+      <JoinedOrdersTable
+        useTableProps={{
+          meta: {
+            join: [
+              {
+                field: 'machine',
+              },
+              {
+                field: 'products',
+              },
+              {
+                field: 'products.product',
+              },
+            ],
+          },
+          filters: {
+            permanent: [
+              {
+                field: `products.product._id`,
+                operator: 'eq',
+                value: record._id,
+              },
+            ],
+          },
         }}
-        columns={[
-          {
-            title: 'Discount',
-            dataIndex: 'discount',
-            sorter: true,
-          },
-          {
-            title: 'Quantity',
-            dataIndex: 'quantity',
-            sorter: true,
-          },
-          {
-            dataIndex: 'lane',
-            title: 'Lane',
-            sorter: true,
-          },
-          {
-            dataIndex: 'row_number',
-            title: 'Row',
-            sorter: true,
-          },
-          {
-            title: 'Date',
-            dataIndex: 'createdAt',
-            render: formatTime,
-          },
-        ]}
-        loading={isLoading}
-        showSorterTooltip
-        rowKey="_id"
       />
-
       <Divider />
 
       <Title level={3} style={{ marginTop: 16 }}>

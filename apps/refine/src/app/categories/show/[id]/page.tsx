@@ -22,9 +22,6 @@ export default function CategoryShow() {
         {
           field: 'products',
         },
-        {
-          field: 'orders',
-        },
       ],
     },
   });
@@ -81,58 +78,37 @@ export default function CategoryShow() {
           <TextField value={record.createdAt} />
         </Descriptions.Item>
       </Descriptions>
-
       <Divider />
       <ShowFinance record={record} />
-
       <Divider />
       <JoinedProductsTable record={record} />
-
-      {/*<Divider />*/}
-      {/*<Title level={3} style={{ marginTop: 16 }}>*/}
-      {/*  {'Suppliers'}*/}
-      {/*</Title>*/}
-
-      {/*<Card>*/}
-      {/*  <Table*/}
-      {/*    dataSource={record.suppliers}*/}
-      {/*    columns={[*/}
-      {/*      {*/}
-      {/*        dataIndex: 'fullName',*/}
-      {/*        title: 'Full Name',*/}
-      {/*        sorter: true,*/}
-      {/*      },*/}
-      {/*      {*/}
-      {/*        dataIndex: 'email',*/}
-      {/*        title: 'Email',*/}
-      {/*        sorter: true,*/}
-      {/*      },*/}
-      {/*      {*/}
-      {/*        dataIndex: 'phoneNumber',*/}
-      {/*        title: 'Phone Number',*/}
-      {/*        sorter: true,*/}
-      {/*      },*/}
-      {/*      {*/}
-      {/*        dataIndex: 'totalOrders',*/}
-      {/*        title: 'Total Orders',*/}
-      {/*        sorter: true,*/}
-      {/*      },*/}
-      {/*      {*/}
-      {/*        dataIndex: 'totalSoldProducts',*/}
-      {/*        title: 'Total Sold Products',*/}
-      {/*        sorter: true,*/}
-      {/*      },*/}
-      {/*      {*/}
-      {/*        dataIndex: 'totalRevenue',*/}
-      {/*        title: 'Total Revenue',*/}
-      {/*        sorter: true,*/}
-      {/*      },*/}
-      {/*    ]}*/}
-      {/*  />*/}
-      {/*</Card>*/}
-
       <Divider />
-      <JoinedOrdersTable record={record} />
+      <JoinedOrdersTable
+        useTableProps={{
+          meta: {
+            join: [
+              {
+                field: 'machine',
+              },
+              {
+                field: 'products',
+              },
+              {
+                field: 'products.product',
+              },
+            ],
+          },
+          filters: {
+            permanent: [
+              {
+                field: `products.product.category_id`,
+                operator: 'eq',
+                value: record._id,
+              },
+            ],
+          },
+        }}
+      />
     </Show>
   );
 }

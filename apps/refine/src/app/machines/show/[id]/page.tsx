@@ -8,8 +8,8 @@ import { useRouter } from 'next/navigation';
 
 import { handleMagextImage } from '@app/products/utils/handleMagextImage';
 import { handleNullableText } from '@app/products/utils/handleNullableText';
-import { JoinedOrdersTable } from '@components/joined-orders.table';
 import { formatPrice } from '@helpers';
+import { JoinedOrdersTable } from '@components/joined-orders.table';
 
 const { Title } = Typography;
 
@@ -19,12 +19,11 @@ export default function MachineShow() {
       join: [
         {
           field: 'product',
+          select: ['lane', 'floor', 'current_stock'],
         },
         {
           field: 'product.product',
-        },
-        {
-          field: 'orders',
+          select: ['_id', 'fullName', 'price', 'productPictures', 'upc'],
         },
       ],
     },
@@ -127,7 +126,7 @@ export default function MachineShow() {
             onClick: () => {
               console.log('record', record);
 
-              router.push(`/products/show/${record._id}`);
+              router.push(`/products/show/${record.product._id}`);
             },
             style: { cursor: 'pointer' },
           };
@@ -189,42 +188,26 @@ export default function MachineShow() {
       />
 
       <Divider />
-      <JoinedOrdersTable record={record} />
-      {/*<Divider />*/}
-
-      {/*<Title level={3} style={{ marginTop: 16 }}>*/}
-      {/*  {'Extra Details'}*/}
-      {/*</Title>*/}
-      {/*<Descriptions*/}
-      {/*  bordered*/}
-      {/*  column={2}*/}
-      {/*  labelStyle={{*/}
-      {/*    fontWeight: 'bold',*/}
-      {/*    width: '20%',*/}
-      {/*  }}*/}
-      {/*>*/}
-      {/*  <Descriptions.Item label="Enable Price Change">*/}
-      {/*    <TextField value={handleEmptyString(record.enablePriceChange)} />*/}
-      {/*  </Descriptions.Item>*/}
-      {/*  <Descriptions.Item label="GUI Version">*/}
-      {/*    <TextField value={handleEmptyString(record.gui_version)} />*/}
-      {/*  </Descriptions.Item>*/}
-      {/*  <Descriptions.Item label="Master Version">*/}
-      {/*    <TextField value={handleEmptyString(record.master_version)} />*/}
-      {/*  </Descriptions.Item>*/}
-      {/*  <Descriptions.Item label="Screen Saver">*/}
-      {/*    <TextField value={handleEmptyString(record.screenSaver)} />*/}
-      {/*  </Descriptions.Item>*/}
-      {/*  <Descriptions.Item label="Model">*/}
-      {/*    <TextField value={handleEmptyString(record.model)} />*/}
-      {/*  </Descriptions.Item>*/}
-      {/*  <Descriptions.Item label="Stocking">*/}
-      {/*    <TextField value={handleEmptyString(record.stocking)} />*/}
-      {/*  </Descriptions.Item>*/}
-      {/*  <Descriptions.Item label="Time to Idle">*/}
-      {/*    <TextField value={handleEmptyString(record.time_to_idle)} />*/}
-      {/*  </Descriptions.Item>*/}
-      {/*</Descriptions>*/}
+      <JoinedOrdersTable
+        useTableProps={{
+          meta: {
+            join: [
+              {
+                field: 'machine',
+              },
+            ],
+          },
+          filters: {
+            permanent: [
+              {
+                field: `machine._id`,
+                operator: 'eq',
+                value: record._id,
+              },
+            ],
+          },
+        }}
+      />
     </Show>
   );
 }

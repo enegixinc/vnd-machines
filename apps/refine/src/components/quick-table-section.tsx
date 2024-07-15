@@ -39,6 +39,7 @@ export interface QuickTableProps extends TableProps<BaseRecord> {
   showEdit?: boolean;
   showSearch?: boolean;
   canCreate?: boolean;
+  syncWithLocation?: boolean;
 }
 
 export const QuickTableSection = <
@@ -55,10 +56,11 @@ export const QuickTableSection = <
   showSearch = true,
   showEdit = true,
   canCreate = true,
+  syncWithLocation = true,
   ...props
 }: QuickTableProps) => {
   const { tableProps, setFilters } = useTable({
-    syncWithLocation: true,
+    syncWithLocation,
     resource,
     sorters: {
       mode: 'server',
