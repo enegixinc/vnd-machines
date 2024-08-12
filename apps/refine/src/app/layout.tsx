@@ -16,11 +16,11 @@ import { BiCategoryAlt } from 'react-icons/bi';
 import { MdOutlineCategory } from 'react-icons/md';
 import { TbBrandShopee } from 'react-icons/tb';
 import { IoGitPullRequestSharp, IoPricetagsOutline } from 'react-icons/io5';
-import { HiOutlineUsers } from 'react-icons/hi';
 import { PiUsersThree } from 'react-icons/pi';
 import { AiOutlineDashboard } from 'react-icons/ai';
 import { accessControlProvider } from '@app/access-control';
 import { RiTimerFlashLine } from 'react-icons/ri';
+import { GiVendingMachine } from 'react-icons/gi';
 
 export const metadata: Metadata = {
   title: 'VND Machines',
@@ -156,7 +156,7 @@ export default function RootLayout({
                         show: '/machines/show/:id',
                         meta: {
                           canDelete: false,
-                          icon: <HiOutlineUsers />,
+                          icon: <GiVendingMachine />,
                         },
                       },
                     ]}

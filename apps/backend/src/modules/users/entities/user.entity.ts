@@ -31,9 +31,8 @@ export class UserEntity extends SearchableEntity implements IUserEntity {
   @BeforeUpdate()
   @BeforeInsert()
   handleProducts() {
-    console.log(this);
     if (!this.products) return;
-    // @ts-ignore
+    // @ts-expect-error - to be fixed
     this.products = this.products.map((product) => product._id);
   }
 

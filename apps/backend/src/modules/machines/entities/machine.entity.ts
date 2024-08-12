@@ -67,63 +67,63 @@ export class MachineEntity extends SearchableMagexEntity {
   })
   totalSales: number;
 
-  // @VirtualColumn({
-  //   type: 'numeric',
-  //   query: (entity) => `
-  //     SELECT
-  //       COALESCE(SUM(
-  //                  CASE
-  //                    WHEN C."feeType" = 'fixed' THEN COALESCE(C."feePerSale", 0)
-  //                    WHEN C."feeType" = 'percentage' THEN COALESCE(OD."soldPrice" * (C."feePerSale" / 100), 0)
-  //                    ELSE 0
-  //                    END
-  //                ), 0)
-  //     FROM
-  //       orders AS O
-  //         JOIN order_details AS OD ON OD.order_id = O._id
-  //         JOIN products AS P ON P._id = OD.product_id
-  //         JOIN contracts AS C ON C.supplier_id = P.supplier_id
-  //         JOIN machines AS M ON M._id = O.machine_id
-  //     WHERE
-  //       M._id = ${entity}._id
-  //       AND C.status != 'terminated'
-  //   `,
-  //   transformer: {
-  //     from: (value) => Number(value),
-  //     to: (value) => value,
-  //   },
-  // })
-  // totalRevenue: number;
-  //
-  // @ApiProperty()
-  // @VirtualColumn({
-  //   query: (entity) => `
-  //     SELECT
-  //       COALESCE(SUM(
-  //                  CASE
-  //                    WHEN C."feeType" = 'fixed' THEN COALESCE(C."feePerSale", 0)
-  //                    WHEN C."feeType" = 'percentage' THEN COALESCE(OD."soldPrice" * (C."feePerSale" / 100), 0)
-  //                    ELSE 0
-  //                    END
-  //                ), 0)
-  //     FROM
-  //       orders AS O
-  //         JOIN order_details AS OD ON OD.order_id = O._id
-  //         JOIN products AS P ON P._id = OD.product_id
-  //         JOIN contracts AS C ON C.supplier_id = P.supplier_id
-  //       JOIN machines AS M ON M._id = O.machine_id
-  //     WHERE
-  //       C.status = 'active'
-  //       AND C."startDate" <= O."createdAt"
-  //       AND O."createdAt" <= C."endDate"
-  //       AND M._id = ${entity}._id
-  //   `,
-  //   transformer: {
-  //     from: (value) => Number(value),
-  //     to: (value) => value,
-  //   },
-  // })
-  // totalActiveRevenue: number;
+  @VirtualColumn({
+    type: 'numeric',
+    query: (entity) => `
+      SELECT
+        COALESCE(SUM(
+                   CASE
+                     WHEN C."feeType" = 'fixed' THEN COALESCE(C."feePerSale", 0)
+                     WHEN C."feeType" = 'percentage' THEN COALESCE(OD."soldPrice" * (C."feePerSale" / 100), 0)
+                     ELSE 0
+                     END
+                 ), 0)
+      FROM
+        orders AS O
+          JOIN order_details AS OD ON OD.order_id = O._id
+          JOIN products AS P ON P._id = OD.product_id
+          JOIN contracts AS C ON C.supplier_id = P.supplier_id
+          JOIN machines AS M ON M._id = O.machine_id
+      WHERE
+        M._id = ${entity}._id
+        AND C.status != 'terminated'
+    `,
+    transformer: {
+      from: (value) => Number(value),
+      to: (value) => value,
+    },
+  })
+  totalRevenue: number;
+
+  @ApiProperty()
+  @VirtualColumn({
+    query: (entity) => `
+      SELECT
+        COALESCE(SUM(
+                   CASE
+                     WHEN C."feeType" = 'fixed' THEN COALESCE(C."feePerSale", 0)
+                     WHEN C."feeType" = 'percentage' THEN COALESCE(OD."soldPrice" * (C."feePerSale" / 100), 0)
+                     ELSE 0
+                     END
+                 ), 0)
+      FROM
+        orders AS O
+          JOIN order_details AS OD ON OD.order_id = O._id
+          JOIN products AS P ON P._id = OD.product_id
+          JOIN contracts AS C ON C.supplier_id = P.supplier_id
+        JOIN machines AS M ON M._id = O.machine_id
+      WHERE
+        C.status = 'active'
+        AND C."startDate" <= O."createdAt"
+        AND O."createdAt" <= C."endDate"
+        AND M._id = ${entity}._id
+    `,
+    transformer: {
+      from: (value) => Number(value),
+      to: (value) => value,
+    },
+  })
+  totalActiveRevenue: number;
 
   @ApiProperty()
   @VirtualColumn({

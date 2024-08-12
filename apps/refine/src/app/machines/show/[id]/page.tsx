@@ -10,6 +10,7 @@ import { handleMagextImage } from '@app/products/utils/handleMagextImage';
 import { handleNullableText } from '@app/products/utils/handleNullableText';
 import { formatPrice } from '@helpers';
 import { JoinedOrdersTable } from '@components/joined-orders.table';
+import { ShowFinance } from '@components/sections/finance';
 
 const { Title } = Typography;
 
@@ -91,27 +92,7 @@ export default function MachineShow() {
       </Descriptions>
 
       <Divider />
-      <Title level={3} style={{ marginTop: 16 }}>
-        {'Finance'}
-      </Title>
-      <Descriptions
-        bordered
-        labelStyle={{
-          fontWeight: 'bold',
-          width: '20%',
-        }}
-      >
-        <Descriptions.Item label="Total Orders">
-          <TextField value={record.totalOrders} />
-        </Descriptions.Item>
-        <Descriptions.Item label="Products Sold">
-          <TextField value={record.totalSoldProducts} />
-        </Descriptions.Item>
-        <Descriptions.Item label="Total Sales">
-          <TextField value={formatPrice(record.totalSales)} />
-        </Descriptions.Item>
-      </Descriptions>
-      <Divider />
+      <ShowFinance record={record} />
 
       <Divider />
       <Title level={3} style={{ marginTop: 16 }}>
