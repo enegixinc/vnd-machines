@@ -81,6 +81,12 @@ export default function MachinesList() {
               sorter: true,
               render: formatPrice,
             },
+            {
+              dataIndex: 'totalActiveRevenue',
+              title: 'Active Revenue',
+              sorter: true,
+              render: formatPrice,
+            },
           ],
         },
       ]}
