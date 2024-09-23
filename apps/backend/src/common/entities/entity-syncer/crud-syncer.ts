@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 import { Inject } from '@nestjs/common';
 import { MagexService } from '../../../services/magex/magex.service';
+import { ProductStatus } from 'apps/backend/src/modules/products/entities/product.entity';
 
 export class CRUDSyncer<Entity extends MagexDatabaseEntity>
   implements EntitySubscriberInterface<Entity>
@@ -22,7 +23,17 @@ export class CRUDSyncer<Entity extends MagexDatabaseEntity>
 
   async beforeInsert(event: InsertEvent<Entity>) {
     if (!this.CRUDConfig.beforeInsert) return;
-    if (event.entity.lastSyncAt) return;
+    if (
+      event.entity.lastSyncAt ||
+      (event.entity['status'] &&
+        event.entity['status'] == ProductStatus.PENDING)
+    ) {
+      console.log('crud syncer in condition ');
+
+      return;
+    }
+    console.log('crud syncer worked outside condition');
+
     await event.entity.createMagexRecord(this.magexService);
   }
 
