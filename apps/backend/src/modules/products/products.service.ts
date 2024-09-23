@@ -17,10 +17,7 @@ export class ProductsService extends TypeOrmCrudService<ProductEntity> {
     return this.repository
       .createQueryBuilder('entity')
       .where(
-        `jsonb_path_exists(entity.name, '$.** ? (@.type() == "string" && @ like_regex "${query}" flag "i")')`
-      )
-      .orWhere(
-        `jsonb_path_exists(entity.description, '$.** ? (@.type() == "string" && @ like_regex "${query}" flag "i")')`
+        `jsonb_path_exists(entity.searchableText, '$.** ? (@.type() == "string" && @ like_regex "${query}" flag "i")')`
       )
       .getMany();
   }

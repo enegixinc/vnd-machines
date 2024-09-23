@@ -184,6 +184,31 @@ export class ProductEntity
   })
   machines: MachineProduct[];
 
+  @VirtualColumn({
+    query: (entity) => `
+    SELECT COALESCE(jsonb_agg(machine_product_data), '[]'::jsonb)
+FROM (
+SELECT
+    machine_id AS machine_id,
+    m."fullName" AS machine_name,
+    m.description AS machine_description,
+    COALESCE(SUM(mp.max_stock), 0) AS max_stock,
+    COALESCE(SUM(mp.current_stock), 0) AS current_stock
+FROM machine_product mp
+join machines m on mp.machine_id = m._id
+where product_id = ${entity}._id and machine_id is not null
+group by machine_id, m."fullName", m.description
+) machine_product_data
+    `,
+  })
+  inventory: {
+    machine_id: string;
+    machine_name: string;
+    machine_description: string;
+    max_stock: number;
+    current_stock: number;
+  }[];
+
   @ManyToOne(() => UserEntity, (user) => user.products, {
     cascade: true,
   })

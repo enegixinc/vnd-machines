@@ -11,6 +11,7 @@ import { handleNullableText } from '@app/products/utils/handleNullableText';
 import { formatPrice } from '@helpers';
 import { JoinedOrdersTable } from '@components/joined-orders.table';
 import { ShowFinance } from '@components/sections/finance';
+import { JoinedSuppliersTable } from '@app/suppliers/joined-suppliers.table';
 
 const { Title } = Typography;
 
@@ -175,6 +176,29 @@ export default function MachineShow() {
             join: [
               {
                 field: 'machine',
+              },
+            ],
+          },
+          filters: {
+            permanent: [
+              {
+                field: `machine._id`,
+                operator: 'eq',
+                value: record._id,
+              },
+            ],
+          },
+        }}
+      />
+
+      <Divider />
+
+      <JoinedSuppliersTable
+        useTableProps={{
+          meta: {
+            join: [
+              {
+                field: 'machines',
               },
             ],
           },

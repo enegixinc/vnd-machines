@@ -1,16 +1,29 @@
 import { SearchableMagexEntity } from '../../../common/database.entity';
 import { MagexService } from '../../../services/magex/magex.service';
 import { MachinesEndpointResponse } from '../../../../../../libs/core/src/interfaces/machine';
-import { Column, Entity, OneToMany, VirtualColumn } from 'typeorm';
+import { Column, Entity, JoinTable, OneToMany, VirtualColumn } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { MachineProduct } from './machine-product.entity';
 import { OrderEntity } from '../../orders/order.entity';
 import { FillRequestEntity } from '../../requests/fill-requests/fill-request.entity';
+import { ProductsMin } from './products_min.entity';
 
 @Entity('machines')
 export class MachineEntity extends SearchableMagexEntity {
   @OneToMany(() => FillRequestEntity, (fillRequest) => fillRequest.machine)
   fillRequests: FillRequestEntity[];
+
+  // @VirtualColumn({
+  //   type: 'array',
+  //   query: (entity) => `
+  //     select coalesce(jsonb_agg(users), '[]'::jsonb)
+  //     from machine_product as mp
+  //     join products as p on p._id = mp.product_id
+  //     join users on users._id = p.supplier_id
+  //     where mp.machine_id = ${entity}._id
+  //   `,
+  // })
+  // suppliers: UserEntity[];
 
   @ApiProperty()
   @VirtualColumn({
@@ -346,13 +359,12 @@ export class MachineEntity extends SearchableMagexEntity {
   // @JoinTable()
   // languages: Language[];
   //
-  // @ApiProperty({ type: () => [ProductsMin] })
-  // @OneToMany(() => ProductsMin, (productsMin) => productsMin.id, {
-  //   cascade: true,
-  //   eager: true,
-  // })
-  // @JoinTable()
-  // products_min: ProductsMin[];
+  @ApiProperty({ type: () => [ProductsMin] })
+  @OneToMany(() => ProductsMin, (productsMin) => productsMin.machine, {
+    cascade: true,
+  })
+  @JoinTable({})
+  products_min: ProductsMin[];
 
   @ApiProperty()
   @Column('simple-array')

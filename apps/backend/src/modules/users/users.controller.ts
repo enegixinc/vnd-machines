@@ -42,6 +42,7 @@ import { saneOperationsId } from '../../common/swagger.config';
       brands: {},
       contracts: {},
       orders: {},
+      machines: {},
     },
   },
   routes: {
