@@ -209,6 +209,33 @@ group by machine_id, m."fullName", m.description
     current_stock: number;
   }[];
 
+  //   @VirtualColumn({
+  //     query: (entity) => `
+  //       select json_build_object(
+  //                --                'current_stock', sum(machine_product.current_stock),
+  // --                'max_stock', sum(machine_product.max_stock),
+  // --                'refill', sum(machine_product.max_stock) - sum(machine_product.current_stock),
+  //                'min_stock', pm.min,
+  //                'notify', pm.sent,
+  //                'first_expiration', min(machine_product.expiration_date),
+  //                'last_expiration', max(machine_product.expiration_date)
+  //              )
+  //       from machine_product
+  //              join products_min pm on machine_product.product_id = pm.id
+  //       where machine_product.machine_id notnull
+  //         and product_id = ${entity}._id
+  //       group by pm.sent, pm.min
+  //     `,
+  //   })
+  //   stocking: {
+  //     current_stock: number;
+  //     max_stock: number;
+  //     refill: number;
+  //     min_stock: number;
+  //     first_expiration: Date;
+  //     last_expiration: Date;
+  //   };
+
   @ManyToOne(() => UserEntity, (user) => user.products, {
     cascade: true,
   })
