@@ -28,11 +28,23 @@ import { MagexService } from '../../../services/magex/magex.service';
 import { DimensionEntity } from './dimension.entity';
 import { MultiLangEntity } from './multiLang.entity';
 
+export enum ProductStatus {
+  PENDING = 'pending',
+  ACTIVE = 'active',
+}
+
 @Entity('products')
 export class ProductEntity
   extends SearchableMagexEntity
   implements IProductEntity
 {
+  @Column({
+    type: 'enum',
+    enum: ProductStatus,
+    default: ProductStatus.ACTIVE, // Default to 'active'
+  })
+  status: ProductStatus;
+
   @BeforeInsert()
   @BeforeUpdate()
   handleSearchableFields() {
@@ -47,7 +59,6 @@ export class ProductEntity
       this.barcode,
       this.upc,
     ]);
-
     this.fullName = MultiLangEntity.handleMultiLang(this.name);
   }
 
@@ -391,6 +402,12 @@ export class ProductEntity
   }
 
   async createMagexRecord(magexService: MagexService) {
+    if (this.status == ProductStatus.PENDING) {
+      console.log('product entity magex record in condition');
+      return;
+    }
+    console.log('product entity worked condition false ');
+
     const formData = this.handleMultiLangProps(
       this.removeExtraProps(this, ['supplier', 'fullName'])
     );
