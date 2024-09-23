@@ -56,6 +56,16 @@ export default function ProductsList() {
               sorter: true,
               render: formatPrice,
             },
+            {
+              dataIndex: 'status',
+              title: 'status',
+              sorter: true,
+              onCell: (record) => ({
+                style: {
+                  color: record.status == 'active' ? '#00FF00' : '#FFC107',
+                },
+              }),
+            },
           ],
         },
         {
