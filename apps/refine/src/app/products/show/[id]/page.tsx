@@ -11,6 +11,7 @@ import { ShowFinance } from '@components/sections/finance';
 import { useRouter } from 'next/navigation';
 import { formatDate } from '@components/description-dates';
 import { JoinedOrdersTable } from '@components/joined-orders.table';
+import { InventoryTable } from '@components/inventory.table';
 
 const { Title } = Typography;
 
@@ -168,6 +169,8 @@ export default function ProductShow() {
 
       <Divider />
       <ShowFinance record={record} />
+      <Divider />
+      <InventoryTable dataSource={record.inventory} />
       <Divider />
       <JoinedOrdersTable
         useTableProps={{
