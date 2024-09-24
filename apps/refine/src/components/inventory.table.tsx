@@ -85,7 +85,7 @@ export const InventoryTable = ({
   return (
     <>
       <Typography.Title level={3} style={{ marginTop: 16 }}>
-        Inventory Overview
+        Inventory
       </Typography.Title>
       <Table
         dataSource={dataSource}
