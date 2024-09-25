@@ -3,6 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import * as hbs from 'handlebars';
 import { ProductEntity } from '../../modules/products/entities/product.entity';
+import { MachineProduct } from '../../modules/machines/entities/machine-product.entity';
 
 type FillRequestTemplateData = {
   supplierName: string;
@@ -14,6 +15,11 @@ type FillRequestTemplateData = {
   }[];
   notes: string;
   requestId: string;
+};
+
+type NearExpirationTemplateData = {
+  supplierName: string;
+  products: MachineProduct[];
 };
 
 @Injectable()
@@ -28,6 +34,19 @@ export class TemplatesService implements OnModuleInit {
       'assets',
       'templates',
       'fill-request.hbs'
+    );
+    const template = fs.readFileSync(templatePath, 'utf8');
+    const compiledTemplate = hbs.compile(template);
+
+    return compiledTemplate(props);
+  }
+
+  async nearExpirationTemplate(props: NearExpirationTemplateData) {
+    const templatePath = path.join(
+      __dirname,
+      'assets',
+      'templates',
+      'near-expiration.hbs'
     );
     const template = fs.readFileSync(templatePath, 'utf8');
     const compiledTemplate = hbs.compile(template);

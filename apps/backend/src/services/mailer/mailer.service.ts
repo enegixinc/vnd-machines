@@ -5,6 +5,7 @@ import { MailerService as BaseMailerService } from '@nestjs-modules/mailer';
 import { ConfigService } from '@backend/config';
 import { TemplatesService } from './templates.service';
 import { ProductEntity } from '../../modules/products/entities/product.entity';
+import { MachineProduct } from '../../modules/machines/entities/machine-product.entity';
 
 @Injectable()
 export class MailerService {
@@ -13,6 +14,26 @@ export class MailerService {
     private readonly configService: ConfigService,
     private readonly templatesService: TemplatesService
   ) {}
+
+  async sendNearExpirationMail(
+    supplier: UserEntity,
+    products: MachineProduct[]
+  ) {
+    const nearExpirationTemplate =
+      await this.templatesService.nearExpirationTemplate({
+        supplierName: supplier.firstName,
+        products,
+      });
+
+    const mailOptions = {
+      from: `"VND Machines" <${this.configService.get('MAIL_USER')}>`,
+      to: supplier.email,
+      subject: 'Products Near Expiration!',
+      html: nearExpirationTemplate,
+    };
+
+    return await this.mailService.sendMail(mailOptions);
+  }
 
   async sendFillRequestMail(
     machine: MachineEntity,
