@@ -15,6 +15,28 @@ export class MailerService {
     private readonly templatesService: TemplatesService
   ) {}
 
+  async sendExpiredProductsMail(
+    supplier: UserEntity,
+    products: MachineProduct[]
+  ) {
+    const expiredProductsTemplate = await this.templatesService.getTemplate(
+      'expired-products',
+      {
+        supplierName: supplier.firstName,
+        products,
+      }
+    );
+
+    const mailOptions = {
+      from: `"VND Machines" <${this.configService.get('MAIL_USER')}>`,
+      to: supplier.email,
+      subject: 'Expired Products!',
+      html: expiredProductsTemplate,
+    };
+
+    return await this.mailService.sendMail(mailOptions);
+  }
+
   async sendNearExpirationMail(
     supplier: UserEntity,
     products: MachineProduct[]

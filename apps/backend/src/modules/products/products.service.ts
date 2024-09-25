@@ -1,6 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Between, Repository } from 'typeorm';
+import {
+  Between,
+  FindOperator,
+  IsNull,
+  LessThan,
+  Not,
+  Repository,
+} from 'typeorm';
 import { ProductEntity } from './entities/product.entity';
 import { TypeOrmCrudService } from '@dataui/crud-typeorm';
 import { ProductsMin } from '../machines/entities/products_min.entity';
@@ -27,14 +34,25 @@ export class ProductsService extends TypeOrmCrudService<ProductEntity> {
       )
       .getMany();
   }
-
-  async findProductsWillExpireBetween(from: Date, to: Date) {
+  async findProductsByExpirationDate(
+    expirationDateCondition: FindOperator<Date>
+  ) {
     return await this.machineProductRepository.find({
       where: {
-        expiration_date: Between(from, to),
+        expiration_date: expirationDateCondition,
+        machine: Not(IsNull()),
       },
       relations: ['product', 'machine', 'product.supplier'],
     });
+  }
+
+  async findProductsWillExpireBetween(from: Date, to: Date) {
+    return this.findProductsByExpirationDate(Between(from, to));
+  }
+
+  async findExpiredProducts() {
+    const today = new Date();
+    return this.findProductsByExpirationDate(LessThan(today));
   }
 
   async findLowStockProductsForSupplier(supplierId: string) {

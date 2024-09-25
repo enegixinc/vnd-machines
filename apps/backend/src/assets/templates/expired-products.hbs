@@ -27,7 +27,7 @@
       margin-bottom: 20px;
     }
     .header h1 {
-      color: #d9534f;
+      color: #ff0000;
     }
     .content {
       line-height: 1.6;
@@ -43,7 +43,7 @@
       text-align: left;
     }
     .product-table th {
-      background-color: #d9534f;
+      background-color: #ff0000;
       color: white;
     }
     .product-table td img {
@@ -64,7 +64,7 @@
       display: block;
       width: 100%;
       padding: 10px;
-      background-color: #d9534f;
+      background-color: #ff0000;
       color: white !important;
       text-align: center;
       text-decoration: none;
@@ -81,13 +81,14 @@
   </div>
   <div class="content">
     <p>Dear {{supplierName}},</p>
-    <p>The following products have expired and need to be removed from the inventory:</p>
+    <p>The following products have expired. Please take necessary action:</p>
 
     <table class="product-table">
       <thead>
       <tr>
         <th>Product Image</th>
         <th>Product Name</th>
+        <th>Machine Name</th>
         <th>Expiry Date</th>
       </tr>
       </thead>
@@ -103,13 +104,14 @@
                  alt="{{this.product.fullName}}">
           </td>
           <td>{{this.product.fullName}}</td>
-          <td>{{this.expiryDate}}</td>
+          <td>{{this.machine.description}}</td>
+          <td>{{this.expiration_date}}</td>
         </tr>
       {{/each}}
       </tbody>
     </table>
 
-    <p>Thank you for addressing this promptly.</p>
+    <p>Thank you for your prompt attention to this matter.</p>
     <p>Best regards,</p>
     <p><strong>VND Machines Team</strong></p>
   </div>

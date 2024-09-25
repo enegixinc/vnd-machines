@@ -15,10 +15,21 @@ export class ProductsCronjob {
     private readonly configService: ConfigService
   ) {}
 
-  @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)
-  // @Cron(CronExpression.EVERY_5_SECONDS)
+  // @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)
+  @Cron(CronExpression.EVERY_5_SECONDS)
   async handleCron() {
+    await this.notifyExpiredProducts();
     await this.notifyProductsWillExpireIn();
+  }
+
+  private async notifyExpiredProducts(): Promise<void> {
+    const expiredProducts = await this.productService.findExpiredProducts();
+
+    const supplierProductsMap = this.groupProductsBySupplier(expiredProducts);
+
+    for (const [_, { supplier, products }] of supplierProductsMap) {
+      await this.mailerService.sendExpiredProductsMail(supplier, products);
+    }
   }
 
   private async notifyProductsWillExpireIn(): Promise<void> {
@@ -34,7 +45,9 @@ export class ProductsCronjob {
 
     const supplierProductsMap = this.groupProductsBySupplier(expiringProducts);
 
-    await this.sendExpirationNotifications(supplierProductsMap);
+    for (const [_, { supplier, products }] of supplierProductsMap) {
+      await this.mailerService.sendNearExpirationMail(supplier, products);
+    }
   }
 
   private groupProductsBySupplier(
@@ -75,16 +88,5 @@ export class ProductsCronjob {
     });
 
     return Object.assign(machineProduct, { expiration_date: expirationDate });
-  }
-
-  private async sendExpirationNotifications(
-    supplierProductsMap: Map<
-      string,
-      { supplier: UserEntity; products: MachineProduct[] }
-    >
-  ): Promise<void> {
-    for (const [_, { supplier, products }] of supplierProductsMap) {
-      await this.mailerService.sendNearExpirationMail(supplier, products);
-    }
   }
 }

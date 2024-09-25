@@ -28,6 +28,19 @@ export class TemplatesService implements OnModuleInit {
     console.log('TemplatesService has been initialized.');
   }
 
+  async getTemplate(templateName: string, props: Record<string, any>) {
+    const templatePath = path.join(
+      __dirname,
+      'assets',
+      'templates',
+      `${templateName}.hbs`
+    );
+    const template = fs.readFileSync(templatePath, 'utf8');
+    const compiledTemplate = hbs.compile(template);
+
+    return compiledTemplate(props);
+  }
+
   async fillRequestTemplate(props: FillRequestTemplateData) {
     const templatePath = path.join(
       __dirname,
