@@ -23,7 +23,7 @@ export class ProductsMin {
   sent: boolean;
 
   @ApiProperty()
-  @Column()
+  @Column({ nullable: true })
   sentzero: boolean;
 
   @ManyToOne(() => MachineEntity, (machine) => machine.products_min)

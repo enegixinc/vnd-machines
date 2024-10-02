@@ -22,7 +22,7 @@ export class MachinesSubscriber extends EntitySyncer<MachineEntity> {
   }
 
   async handleRelationships(record: MachineEntity) {
-    const products = await Promise.all(
+    const machineProducts = await Promise.all(
       record.product.map(async (product) => {
         const resolvedProduct = await this.dataSource.manager.findOneBy(
           ProductEntity,
@@ -30,17 +30,20 @@ export class MachinesSubscriber extends EntitySyncer<MachineEntity> {
             upc: product.upc,
           }
         );
+
+        if (product.machine) return;
+
         return this.dataSource.manager.create(MachineProduct, {
+          product: resolvedProduct,
           machine: record,
           ...product,
-          product: resolvedProduct,
         });
       })
     );
 
     return this.dataSource.manager.create(MachineEntity, {
       ...record,
-      product: products,
+      product: machineProducts,
     });
   }
 

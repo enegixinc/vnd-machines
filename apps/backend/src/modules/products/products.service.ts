@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Between, FindOperator, LessThan, Repository } from 'typeorm';
+import { Between, FindOperator, In, LessThan, Repository } from 'typeorm';
 import { ProductEntity } from './entities/product.entity';
 import { TypeOrmCrudService } from '@dataui/crud-typeorm';
 import { ProductsMin } from '../machines/entities/products_min.entity';
@@ -45,9 +45,23 @@ export class ProductsService extends TypeOrmCrudService<ProductEntity> {
     return this.findProductsByExpirationDate(LessThan(today));
   }
 
-  async findLowStockProductsForSupplier(supplierId: string) {
-    return this.productsMinRepository.find({
-      where: {},
+  async findLowStockProducts() {
+    const productIds = await this.machineProductRepository.query(`
+      SELECT
+        product_id
+      FROM
+        machine_product
+          join products_min on machine_product.product_id = products_min.id
+
+      WHERE
+        machine_product.current_stock <= products_min.min
+    `);
+
+    return this.machineProductRepository.find({
+      where: {
+        _id: In(productIds.map((product) => product.product_id)),
+      },
+      relations: ['product', 'machine', 'product.supplier'],
     });
   }
 }
