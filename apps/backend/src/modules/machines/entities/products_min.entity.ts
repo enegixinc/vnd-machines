@@ -1,14 +1,18 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, PrimaryColumn } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
+import { MachineEntity } from './machine.entity';
 
 @Entity()
 export class ProductsMin {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryColumn()
+  @ApiProperty()
+  _id: string;
 
   @ApiProperty()
-  @Column()
-  _id: string;
+  @Column({
+    type: 'text',
+  })
+  id: number;
 
   @ApiProperty()
   @Column()
@@ -19,6 +23,9 @@ export class ProductsMin {
   sent: boolean;
 
   @ApiProperty()
-  @Column()
+  @Column({ nullable: true })
   sentzero: boolean;
+
+  @ManyToOne(() => MachineEntity, (machine) => machine.products_min)
+  machine: MachineEntity;
 }

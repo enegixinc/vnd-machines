@@ -3,6 +3,8 @@ import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import { RcFile } from 'antd/es/upload';
 import { handleMagexImageRaw } from '@app/products/utils/handleMagextImage';
+import { BaseRecord } from '@refinedev/core';
+import { ColumnType } from 'antd/es/table';
 
 dayjs.extend(utc);
 
@@ -103,4 +105,20 @@ export const formatFileSize = (size: number) => {
   }
 
   return `${size.toFixed(2)} ${units[unitIndex]}`;
+};
+
+// type BaseColumnsType = {
+//   dataIndex: string;
+// };
+//
+
+export const ignoreColumns = <T extends ColumnType<BaseRecord>>(
+  columns: T[],
+  arrDataIndex: (string | number | symbol)[]
+) => {
+  return columns.filter(
+    (column) =>
+      column.dataIndex &&
+      !arrDataIndex.includes(column.dataIndex as string | number | symbol)
+  );
 };

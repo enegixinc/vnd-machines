@@ -62,12 +62,9 @@ export class ProductSubscriber extends EntitySyncer<ProductEntity> {
     }
   }
 
-  async beforeRemove(event: RemoveEvent<ProductEntity>) {
+  async beforeSoftRemove(event: RemoveEvent<ProductEntity>): Promise<void> {
     await this.handleBeforeDelete(event);
-  }
-
-  async beforeSoftRemove(event: RemoveEvent<ProductEntity>) {
-    await this.handleBeforeDelete(event);
+    await super.beforeSoftRemove(event);
   }
 
   handleRelationships(record: ISerializedMagexProduct) {

@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { BrandsModule } from './brands/brands.module';
-import { FileDto } from './files/file.dto';
 import { HashingModule } from '../common/hashing/hashing.module';
 import { HashingService } from '../common/hashing/hashing.service';
 import { MachinesModule } from './machines/machines.module';

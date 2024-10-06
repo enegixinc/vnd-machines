@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Near Expiry Products Notification</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 600px;
+      margin: 20px auto;
+      background-color: #ffffff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .header {
+      text-align: center;
+      border-bottom: 1px solid #e4e4e4;
+      padding-bottom: 20px;
+      margin-bottom: 20px;
+    }
+    .header h1 {
+      color: #f5a623;
+    }
+    .content {
+      line-height: 1.6;
+    }
+    .product-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+    .product-table th, .product-table td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+    .product-table th {
+      background-color: #f5a623;
+      color: white;
+    }
+    .product-table td img {
+      max-width: 100px;
+      display: block;
+      margin: auto;
+    }
+    .footer {
+      text-align: center;
+      border-top: 1px solid #e4f4f4;
+      padding-top: 20px;
+      margin-top: 20px;
+    }
+    .footer p {
+      color: #777;
+    }
+    .notes {
+      background-color: #f9f9f9;
+      padding: 10px;
+      border-left: 4px solid #f5a623;
+      margin-top: 20px;
+    }
+    .view-button {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      background-color: #f5a623;
+      color: white !important;
+      text-align: center;
+      text-decoration: none;
+      border-radius: 5px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>Near Expiry Products Notification</h1>
+    <p><strong>VND Machines</strong></p>
+  </div>
+  <div class="content">
+    <p>Dear {{supplierName}},</p>
+    <p>The following products are approaching their expiry date. Please take action accordingly:</p>
+
+    <table class="product-table">
+      <thead>
+      <tr>
+        <th>Product Image</th>
+        <th>Product Name</th>
+        <th>Machine Name</th>
+        <th>Expiry Date</th>
+      </tr>
+      </thead>
+      <tbody>
+      {{#each products}}
+        <tr>
+          <td>
+            <img src="{{#if this.product.productPictures.[0]}}
+            https://devapi.point24h.com/api/thumbs/{{this.product.productPictures.[0]}}/tryvnd@point24h.com
+          {{else}}
+            https://www.brandi.com.ar/wp-content/uploads/2020/08/a-no-foto.png
+          {{/if}}"
+                 alt="{{this.product.fullName}}">
+          </td>
+          <td>{{this.product.fullName}}</td>
+          <td>{{this.machine.description}}</td>
+          <td>{{this.expiration_date}}</td>
+        </tr>
+      {{/each}}
+      </tbody>
+    </table>
+
+    <p>Thank you for your prompt attention to this matter.</p>
+    <p>Best regards,</p>
+    <p><strong>VND Machines Team</strong></p>
+  </div>
+  <div class="footer">
+    <p>&copy; 2024 VND Machines. All rights reserved.</p>
+  </div>
+</div>
+</body>
+</html>

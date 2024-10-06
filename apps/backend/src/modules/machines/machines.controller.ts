@@ -43,6 +43,9 @@ import { Repository } from 'typeorm';
       orders: {
         alias: 'orders',
       },
+      suppliers: {
+        alias: 'suppliers',
+      },
     },
   },
   routes: {

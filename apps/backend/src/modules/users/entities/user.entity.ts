@@ -127,6 +127,72 @@ export class UserEntity extends SearchableEntity implements IUserEntity {
   @Column({ type: 'boolean', default: true })
   active: boolean;
 
+  // @VirtualColumn({
+  //   type: 'array',
+  //   query: (entity) => `
+  //     select coalesce(jsonb_agg(machines), '[]'::jsonb)
+  //     from users
+  //            join products on users._id = products.supplier_id
+  //            join machine_product as mp on mp.product_id = products._id
+  //           join machines on mp.machine_id = machines._id
+  //     where users._id = ${entity}._id
+  //   `,
+  // })
+  // machines: MachineEntity[];
+
+  // @VirtualColumn({
+  //   type: 'jsonb',
+  //   query: (entity) => `
+  //     SELECT COALESCE(jsonb_agg(machine_data), '[]'::jsonb)
+  //     FROM (
+  //            SELECT
+  //              m._id AS machine_id,
+  //              m.name AS machine_name,
+  //              COUNT(mp._id) AS amount,
+  //              (
+  //                SELECT COALESCE(jsonb_agg(product_data), '[]'::jsonb)
+  //                FROM (
+  //                       SELECT
+  //                         p._id AS product_id,
+  //                         p.name AS product_name,
+  //                         p.st,
+  //                         COALESCE(
+  //                             jsonb_agg(
+  //                             jsonb_build_object(
+  //                               'machine_product_id', mp_sub._id,
+  //                               'current_stock', mp_sub.current_stock
+  //                             )
+  //                                      ) FILTER (WHERE mp_sub._id IS NOT NULL), '[]'::jsonb
+  //                         ) AS stocks
+  //                       FROM products p
+  //                              JOIN machine_product mp_sub ON p._id = mp_sub.product_id
+  //                       WHERE p.supplier_id = '${entity._id}' AND mp_sub.machine_id = m._id
+  //                       GROUP BY p._id, p.name, p.max_stock
+  //                     ) AS product_data
+  //              ) AS products
+  //            FROM machines m
+  //                   JOIN machine_product mp ON m._id = mp.machine_id
+  //                   JOIN products p ON mp.product_id = p._id
+  //            WHERE p.supplier_id = '${entity._id}'
+  //            GROUP BY m._id, m.name
+  //          ) AS machine_data
+  //   `,
+  // })
+  // machines: {
+  //   machine_id: string;
+  //   machine_name: string;
+  //   amount: number;
+  //   products: {
+  //     product_id: string;
+  //     product_name: string;
+  //     max_stock: number;
+  //     stocks: {
+  //       machine_product_id: string;
+  //       current_stock: number;
+  //     }[];
+  //   }[];
+  // }[];
+
   @OneToMany(() => ProductEntity, (product) => product.supplier, {
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE',

@@ -180,6 +180,56 @@ export class ProductEntity
   })
   machines: MachineProduct[];
 
+  @VirtualColumn({
+    query: (entity) => `
+      SELECT COALESCE(jsonb_agg(machine_product_data), '[]'::jsonb)
+      FROM (SELECT machine_id                         AS machine_id,
+                   m."fullName"                       AS machine_name,
+                   m.description                      AS machine_description,
+                   COALESCE(SUM(mp.max_stock), 0)     AS max_stock,
+                   COALESCE(SUM(mp.current_stock), 0) AS current_stock
+            FROM machine_product mp
+                   join machines m on mp.machine_id = m._id
+            where product_id = ${entity}._id
+              and machine_id is not null
+            group by machine_id, m."fullName", m.description) machine_product_data
+    `,
+  })
+  inventory: {
+    machine_id: string;
+    machine_name: string;
+    machine_description: string;
+    max_stock: number;
+    current_stock: number;
+  }[];
+
+  //   @VirtualColumn({
+  //     query: (entity) => `
+  //       select json_build_object(
+  //                --                'current_stock', sum(machine_product.current_stock),
+  // --                'max_stock', sum(machine_product.max_stock),
+  // --                'refill', sum(machine_product.max_stock) - sum(machine_product.current_stock),
+  //                'min_stock', pm.min,
+  //                'notify', pm.sent,
+  //                'first_expiration', min(machine_product.expiration_date),
+  //                'last_expiration', max(machine_product.expiration_date)
+  //              )
+  //       from machine_product
+  //              join products_min pm on machine_product.product_id = pm.id
+  //       where machine_product.machine_id notnull
+  //         and product_id = ${entity}._id
+  //       group by pm.sent, pm.min
+  //     `,
+  //   })
+  //   stocking: {
+  //     current_stock: number;
+  //     max_stock: number;
+  //     refill: number;
+  //     min_stock: number;
+  //     first_expiration: Date;
+  //     last_expiration: Date;
+  //   };
+
   @ManyToOne(() => UserEntity, (user) => user.products, {
     cascade: true,
   })
@@ -440,9 +490,6 @@ export class ProductEntity
   }
 
   async deleteMagexRecord(magexService: MagexService) {
-    console.log('deleteMagexRecord', this.status);
-    // if (this.status == ProductStatus.PENDING) return;
-
     await magexService.products.deleteProductsDeleteById({
       id: this._id,
     });
