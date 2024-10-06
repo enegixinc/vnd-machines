@@ -1,6 +1,6 @@
 import { Controller, Get, Query } from '@nestjs/common';
 import { Crud, CrudAuth, CrudController } from '@dataui/crud';
-import { ProductEntity } from './entities/product.entity';
+import { ProductEntity, ProductStatus } from './entities/product.entity';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/request/create-product.dto';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
@@ -79,6 +79,10 @@ import { UserRole } from '@core';
   },
   persist: (user: UserEntity) => ({
     createdBy: user._id,
+    status:
+      user.role === UserRole.ADMIN
+        ? ProductStatus.ACTIVE
+        : ProductStatus.PENDING,
   }),
 })
 @Controller('products')
@@ -91,6 +95,7 @@ export class ProductsController implements CrudController<ProductEntity> {
     @InjectRepository(ProductEntity)
     private readonly productRepository: Repository<ProductEntity>
   ) {}
+
   service = this.productsService;
 
   @Get('/search')
@@ -114,23 +119,20 @@ export class ProductsController implements CrudController<ProductEntity> {
   })
   async stats() {
     const totalActiveRevenue = await this.productRepository.query(`
-    SELECT
-    COALESCE(SUM(
-                     CASE
-                         WHEN C."feeType" = 'fixed' THEN COALESCE(C."feePerSale", 0)
-                         WHEN C."feeType" = 'percentage' THEN COALESCE(OD."soldPrice" * (C."feePerSale" / 100), 0)
-                         ELSE 0
-                         END
-             ), 0)
-FROM
-    orders AS O
-        JOIN order_details AS OD ON OD.order_id = O._id
-        JOIN products AS P ON P._id = OD.product_id
-        JOIN contracts AS C ON C.supplier_id = P.supplier_id
-WHERE
-    C.status = 'active'
-  AND C."startDate" <= O."createdAt"
-  AND O."createdAt" <= C."endDate"
+      SELECT COALESCE(SUM(
+                        CASE
+                          WHEN C."feeType" = 'fixed' THEN COALESCE(C."feePerSale", 0)
+                          WHEN C."feeType" = 'percentage' THEN COALESCE(OD."soldPrice" * (C."feePerSale" / 100), 0)
+                          ELSE 0
+                          END
+                      ), 0)
+      FROM orders AS O
+             JOIN order_details AS OD ON OD.order_id = O._id
+             JOIN products AS P ON P._id = OD.product_id
+             JOIN contracts AS C ON C.supplier_id = P.supplier_id
+      WHERE C.status = 'active'
+        AND C."startDate" <= O."createdAt"
+        AND O."createdAt" <= C."endDate"
     `);
 
     return {

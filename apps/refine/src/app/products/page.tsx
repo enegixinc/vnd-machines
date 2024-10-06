@@ -2,11 +2,12 @@
 
 import React from 'react';
 import { QuickTableSection } from '@components/quick-table-section';
-import { Divider } from 'antd';
+import { Divider, Tag } from 'antd';
 import { handleMagextImage } from '@app/products/utils/handleMagextImage';
 import { useRouter } from 'next/navigation';
-import { handleNullableFullName } from '@app/products/utils/handleNullableText';
 import { formatPrice } from '@helpers';
+import { ProductStatus } from '@frontend/api-sdk';
+import { handleNullableFullName } from '@app/products/utils/handleNullableText';
 
 export default function ProductsList() {
   const router = useRouter();
@@ -58,13 +59,15 @@ export default function ProductsList() {
             },
             {
               dataIndex: 'status',
-              title: 'status',
+              title: 'Status',
               sorter: true,
-              onCell: (record) => ({
-                style: {
-                  color: record.status == 'active' ? '#00FF00' : '#FFC107',
-                },
-              }),
+              render: (status) => (
+                <Tag
+                  color={status === ProductStatus.ACTIVE ? 'green' : 'warning'}
+                >
+                  {status}
+                </Tag>
+              ),
             },
           ],
         },

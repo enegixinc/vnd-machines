@@ -8,6 +8,7 @@ import { _IMagex_DatabaseEntity } from '@core';
 
 export interface EntitySyncer<Entity> {
   handleRelationships(record: _IMagex_DatabaseEntity): Entity | Promise<Entity>;
+
   handleSearchableFields(record: _IMagex_DatabaseEntity): {
     fullName: string;
     searchableText: string;
@@ -174,6 +175,7 @@ export abstract class EntitySyncer<Entity extends MagexDatabaseEntity>
         ourRecords,
         magexRecords
       );
+
       await this.softDeleteRecords(deletedRecords);
       // @ts-expect-error - it has name
       console.log(`Done syncing ${this.entity.name} with Magex`);

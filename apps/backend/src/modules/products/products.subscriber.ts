@@ -1,20 +1,13 @@
-import {
-  DataSource,
-  EventSubscriber,
-  RemoveEvent,
-  InsertEvent,
-  UpdateEvent,
-} from 'typeorm';
+import { DataSource, EventSubscriber, RemoveEvent } from 'typeorm';
 import { Inject } from '@nestjs/common';
 import { EntitySyncer } from '../../common/entities/entity-syncer/entity-syncer';
-import { ISerializedMagexProduct, UserRole } from '@core';
+import { ISerializedMagexProduct } from '@core';
 import { CategoryEntity } from '../categories/category.entity';
 import { BrandEntity } from '../brands/brand.entity';
 import { MagexService } from '../../services/magex/magex.service';
 import { ProductEntity, ProductStatus } from './entities/product.entity';
 import { MultiLangEntity } from './entities/multiLang.entity';
 import { FillRequestProducts } from '../requests/fill-requests/fill-request.entity';
-import { UserEntity } from '../users/entities/user.entity';
 
 @EventSubscriber()
 export class ProductSubscriber extends EntitySyncer<ProductEntity> {
@@ -28,34 +21,12 @@ export class ProductSubscriber extends EntitySyncer<ProductEntity> {
   listenTo() {
     return ProductEntity;
   }
-  async beforeInsert(event: InsertEvent<ProductEntity>): Promise<void> {
-    console.log('product subscriber');
 
-    const userId = event.entity.createdBy;
-    const userRepo = this.dataSource.manager.getRepository(UserEntity);
-    const user = await userRepo.findOne({
-      where: { _id: userId },
-    });
-    if (user.role == UserRole.SUPPLIER) {
-      event.entity.status = ProductStatus.PENDING;
-    }
-  }
-
-  async beforeUpdate(event: UpdateEvent<ProductEntity>): Promise<void> {
-    const updatedColumns = event.updatedColumns;
-
-    // Check if only one column is updated and if it's the 'status' column
-    if (
-      updatedColumns.length === 1 &&
-      updatedColumns[0].propertyName === 'status'
-    ) {
-      // Perform your action here
-      const productId = event.entity._id;
-      const productRepo = this.dataSource.manager.getRepository(ProductEntity);
-      const product = await productRepo.findOne({ where: { _id: productId } });
-      //create data with magex
-    }
-    return;
+  override async fetchOurRecords() {
+    const products = await super.fetchOurRecords();
+    return products.filter(
+      (product) => product.status === ProductStatus.ACTIVE
+    );
   }
 
   handleSearchableFields(record: ISerializedMagexProduct) {
@@ -91,17 +62,16 @@ export class ProductSubscriber extends EntitySyncer<ProductEntity> {
     }
   }
 
-  private async handleBeforeInsert(event: InsertEvent<ProductEntity>) {}
-
-  async beforeRemove(event: RemoveEvent<ProductEntity>): Promise<void> {
+  async beforeRemove(event: RemoveEvent<ProductEntity>) {
     await this.handleBeforeDelete(event);
   }
 
-  async beforeSoftRemove(event: RemoveEvent<ProductEntity>): Promise<void> {
+  async beforeSoftRemove(event: RemoveEvent<ProductEntity>) {
     await this.handleBeforeDelete(event);
   }
 
   handleRelationships(record: ISerializedMagexProduct) {
+    console.log('record', record);
     let category: CategoryEntity | undefined;
     let brand: BrandEntity | undefined;
 
@@ -114,9 +84,6 @@ export class ProductSubscriber extends EntitySyncer<ProductEntity> {
       brand = this.dataSource.manager.create(BrandEntity);
       Object.assign(brand, record.brand);
     }
-
-    console.log('category', category);
-    console.log('brand', brand);
 
     return this.dataSource.manager.create(ProductEntity, {
       ...record,
