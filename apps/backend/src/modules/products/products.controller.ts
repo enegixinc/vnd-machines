@@ -1,6 +1,6 @@
 import { Controller, Get, Query } from '@nestjs/common';
 import { Crud, CrudAuth, CrudController } from '@dataui/crud';
-import { ProductEntity, ProductStatus } from './entities/product.entity';
+import { ProductEntity } from './entities/product.entity';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/request/create-product.dto';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
@@ -79,10 +79,10 @@ import { UserRole } from '@core';
   },
   persist: (user: UserEntity) => ({
     createdBy: user._id,
-    status:
-      user.role === UserRole.ADMIN
-        ? ProductStatus.ACTIVE
-        : ProductStatus.PENDING,
+    // status:
+    //   user.role === UserRole.ADMIN
+    //     ? ProductStatus.ACTIVE
+    //     : ProductStatus.PENDING,
   }),
 })
 @Controller('products')

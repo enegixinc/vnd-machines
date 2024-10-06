@@ -15,6 +15,7 @@ import { handleMagexImageRaw } from '@app/products/utils/handleMagextImage';
 import { RcFile } from 'antd/es/upload';
 import { ImageUpload } from '@components/upload-images';
 import { getBase64 } from '@helpers';
+import { ProductStatus } from '@frontend/api-sdk';
 
 type FormData = { [key: string]: any };
 
@@ -77,7 +78,7 @@ export const ProductForm = ({
     if (formProps.initialValues?.productPictures) {
       const convertPicturesToBase64 = async () => {
         const base64Pictures = await Promise.all(
-          formProps.initialValues.productPictures.map((picture: string) =>
+          formProps?.initialValues?.productPictures.map((picture: string) =>
             fetch(handleMagexImageRaw(picture))
               .then((res) => res.blob())
               .then((blob) => getBase64(blob as RcFile))
@@ -92,7 +93,6 @@ export const ProductForm = ({
 
   useEffect(() => {
     formProps?.form?.setFieldsValue({ imagesBase64 });
-    console.log('imagesBase64', imagesBase64);
   }, [imagesBase64]);
 
   return (
@@ -100,8 +100,7 @@ export const ProductForm = ({
       {...formProps}
       layout="vertical"
       onFinish={async (data) => {
-        console.log('data', data);
-        formProps.onFinish(cleanFormData(data));
+        formProps?.onFinish(cleanFormData(data));
       }}
     >
       <Card title="Basic Information">
@@ -142,6 +141,23 @@ export const ProductForm = ({
         </Flex>
 
         <MultiLangInput textArea name="description" />
+
+        <Form.Item
+          label="Status"
+          name="status"
+          initialValue={ProductStatus.ACTIVE}
+          rules={[{ required: true }]}
+        >
+          <Select
+          // disabled={
+          //   ProductStatus.ACTIVE ===
+          //     formProps?.form?.getFieldValue('status')
+          // }
+          >
+            <Select.Option value={ProductStatus.ACTIVE}>Active</Select.Option>
+            <Select.Option value={ProductStatus.PENDING}>Pending</Select.Option>
+          </Select>
+        </Form.Item>
       </Card>
 
       <Card title="Associations" style={{ marginTop: 16 }}>

@@ -382,7 +382,6 @@ export class ProductEntity
       });
     }
 
-    console.log(imagesObject);
     return imagesObject;
   }
 
@@ -416,6 +415,8 @@ export class ProductEntity
   }
 
   async updateMagexRecord(magexService: MagexService) {
+    if (this.status == ProductStatus.PENDING) return;
+
     const formData = this.handleMultiLangProps(
       this.removeExtraProps(this, ['supplier', 'fullName'])
     );
@@ -439,6 +440,9 @@ export class ProductEntity
   }
 
   async deleteMagexRecord(magexService: MagexService) {
+    console.log('deleteMagexRecord', this.status);
+    // if (this.status == ProductStatus.PENDING) return;
+
     await magexService.products.deleteProductsDeleteById({
       id: this._id,
     });

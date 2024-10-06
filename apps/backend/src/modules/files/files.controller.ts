@@ -45,7 +45,6 @@ export class FilesController {
     },
   })
   async uploadFiles(@UploadedFiles() files: Express.Multer.File[]) {
-    console.log(files);
     return await this.filesService.uploadFiles(files);
   }
 

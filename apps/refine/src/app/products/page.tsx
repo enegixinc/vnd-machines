@@ -64,6 +64,7 @@ export default function ProductsList() {
               render: (status) => (
                 <Tag
                   color={status === ProductStatus.ACTIVE ? 'green' : 'warning'}
+                  style={{ textTransform: 'capitalize' }}
                 >
                   {status}
                 </Tag>

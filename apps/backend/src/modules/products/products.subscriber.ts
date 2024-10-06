@@ -71,7 +71,6 @@ export class ProductSubscriber extends EntitySyncer<ProductEntity> {
   }
 
   handleRelationships(record: ISerializedMagexProduct) {
-    console.log('record', record);
     let category: CategoryEntity | undefined;
     let brand: BrandEntity | undefined;
 
