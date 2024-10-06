@@ -60,14 +60,11 @@ export class ProductEntity
   @VirtualColumn({
     type: 'numeric',
     query: (entity) => `
-        SELECT
-            COALESCE(SUM(OD.quantity), 0)
-        FROM
-            ORDERS O
-            JOIN ORDER_DETAILS OD ON OD.ORDER_ID = O._ID
-            JOIN PRODUCTS P ON P._ID = OD.PRODUCT_ID
-        WHERE
-            P._id = ${entity}._id
+      SELECT COALESCE(SUM(OD.quantity), 0)
+      FROM ORDERS O
+             JOIN ORDER_DETAILS OD ON OD.ORDER_ID = O._ID
+             JOIN PRODUCTS P ON P._ID = OD.PRODUCT_ID
+      WHERE P._id = ${entity}._id
     `,
     transformer: {
       from: (value) => Number(value),
@@ -79,21 +76,18 @@ export class ProductEntity
   @VirtualColumn({
     type: 'numeric',
     query: (entity) => `
-      SELECT
-        COALESCE(SUM(
-                   CASE
-                     WHEN C."feeType" = 'fixed' THEN COALESCE(C."feePerSale", 0)
-                     WHEN C."feeType" = 'percentage' THEN COALESCE(OD."soldPrice" * (C."feePerSale" / 100), 0)
-                     ELSE 0
-                     END
-                 ), 0)
-      FROM
-        orders AS O
-          JOIN order_details AS OD ON OD.order_id = O._id
-          JOIN products AS P ON P._id = OD.product_id
-          JOIN contracts AS C ON C.supplier_id = P.supplier_id
-      WHERE
-        P._id = ${entity}._id
+      SELECT COALESCE(SUM(
+                        CASE
+                          WHEN C."feeType" = 'fixed' THEN COALESCE(C."feePerSale", 0)
+                          WHEN C."feeType" = 'percentage' THEN COALESCE(OD."soldPrice" * (C."feePerSale" / 100), 0)
+                          ELSE 0
+                          END
+                      ), 0)
+      FROM orders AS O
+             JOIN order_details AS OD ON OD.order_id = O._id
+             JOIN products AS P ON P._id = OD.product_id
+             JOIN contracts AS C ON C.supplier_id = P.supplier_id
+      WHERE P._id = ${entity}._id
         AND C.status != 'terminated'
     `,
     transformer: {
@@ -106,21 +100,18 @@ export class ProductEntity
   @VirtualColumn({
     type: 'numeric',
     query: (entity) => `
-      SELECT
-        COALESCE(SUM(
-                   CASE
-                     WHEN C."feeType" = 'fixed' THEN COALESCE(C."feePerSale", 0)
-                     WHEN C."feeType" = 'percentage' THEN COALESCE(OD."soldPrice" * (C."feePerSale" / 100), 0)
-                     ELSE 0
-                     END
-                 ), 0)
-      FROM
-        orders AS O
-          JOIN order_details AS OD ON OD.order_id = O._id
-          JOIN products AS P ON P._id = OD.product_id
-          JOIN contracts AS C ON C.supplier_id = P.supplier_id
-      WHERE
-        C.status = 'active'
+      SELECT COALESCE(SUM(
+                        CASE
+                          WHEN C."feeType" = 'fixed' THEN COALESCE(C."feePerSale", 0)
+                          WHEN C."feeType" = 'percentage' THEN COALESCE(OD."soldPrice" * (C."feePerSale" / 100), 0)
+                          ELSE 0
+                          END
+                      ), 0)
+      FROM orders AS O
+             JOIN order_details AS OD ON OD.order_id = O._id
+             JOIN products AS P ON P._id = OD.product_id
+             JOIN contracts AS C ON C.supplier_id = P.supplier_id
+      WHERE C.status = 'active'
         AND C."startDate" <= O."createdAt"
         AND O."createdAt" <= C."endDate"
         AND P._id = ${entity}._id
@@ -135,14 +126,11 @@ export class ProductEntity
   @VirtualColumn({
     type: 'numeric',
     query: (entity) => `
-        SELECT
-            COALESCE(SUM(OD."soldPrice"), 0)
-        FROM
-            orders AS O
-                JOIN order_details AS OD ON OD.order_id = O._id
-                JOIN products AS P ON P._id = OD.product_id
-        WHERE
-            P._id = ${entity}._id
+      SELECT COALESCE(SUM(OD."soldPrice"), 0)
+      FROM orders AS O
+             JOIN order_details AS OD ON OD.order_id = O._id
+             JOIN products AS P ON P._id = OD.product_id
+      WHERE P._id = ${entity}._id
     `,
     transformer: {
       from: (value) => Number(value),
@@ -154,14 +142,11 @@ export class ProductEntity
   @VirtualColumn({
     type: 'int',
     query: (entity) => `
-        SELECT
-            COALESCE(COUNT(*), 0)
-        FROM
-            ORDERS O
-            JOIN ORDER_DETAILS OD ON OD.ORDER_ID = O._ID
-            JOIN PRODUCTS P ON P._ID = OD.PRODUCT_ID
-        WHERE
-            P._id = ${entity}._id
+      SELECT COALESCE(COUNT(*), 0)
+      FROM ORDERS O
+             JOIN ORDER_DETAILS OD ON OD.ORDER_ID = O._ID
+             JOIN PRODUCTS P ON P._ID = OD.PRODUCT_ID
+      WHERE P._id = ${entity}._id
     `,
     transformer: {
       from: (value) => Number(value),
@@ -186,19 +171,17 @@ export class ProductEntity
 
   @VirtualColumn({
     query: (entity) => `
-    SELECT COALESCE(jsonb_agg(machine_product_data), '[]'::jsonb)
-FROM (
-SELECT
-    machine_id AS machine_id,
-    m."fullName" AS machine_name,
-    m.description AS machine_description,
-    COALESCE(SUM(mp.max_stock), 0) AS max_stock,
-    COALESCE(SUM(mp.current_stock), 0) AS current_stock
-FROM machine_product mp
-join machines m on mp.machine_id = m._id
-where product_id = ${entity}._id and machine_id is not null
-group by machine_id, m."fullName", m.description
-) machine_product_data
+      SELECT COALESCE(jsonb_agg(machine_product_data), '[]'::jsonb)
+      FROM (SELECT machine_id                         AS machine_id,
+                   m."fullName"                       AS machine_name,
+                   m.description                      AS machine_description,
+                   COALESCE(SUM(mp.max_stock), 0)     AS max_stock,
+                   COALESCE(SUM(mp.current_stock), 0) AS current_stock
+            FROM machine_product mp
+                   join machines m on mp.machine_id = m._id
+            where product_id = ${entity}._id
+              and machine_id is not null
+            group by machine_id, m."fullName", m.description) machine_product_data
     `,
   })
   inventory: {
@@ -467,6 +450,7 @@ group by machine_id, m."fullName", m.description
     // @ts-expect-error - to be fixed
     Object.assign(this, { lastSyncAt: newProduct.updatedAt });
   }
+
   async updateMagexRecord(magexService: MagexService) {
     const formData = this.handleMultiLangProps(
       this.removeExtraProps(this, ['supplier', 'fullName'])
@@ -491,6 +475,7 @@ group by machine_id, m."fullName", m.description
   }
 
   async deleteMagexRecord(magexService: MagexService) {
+    console.log('deleting product', this._id);
     await magexService.products.deleteProductsDeleteById({
       id: this._id,
     });
