@@ -11,7 +11,7 @@ import { handleNullableText } from '@app/products/utils/handleNullableText';
 import { formatPrice } from '@helpers';
 import { JoinedOrdersTable } from '@components/joined-orders.table';
 import { ShowFinance } from '@components/sections/finance';
-import { JoinedSuppliersTable } from '@app/suppliers/joined-suppliers.table';
+// import { JoinedSuppliersTable } from '@app/suppliers/joined-suppliers.table';
 
 const { Title } = Typography;
 
@@ -192,26 +192,59 @@ export default function MachineShow() {
       />
 
       <Divider />
-
-      <JoinedSuppliersTable
-        useTableProps={{
-          meta: {
-            join: [
-              {
-                field: 'machines',
-              },
-            ],
-          },
-          filters: {
-            permanent: [
-              {
-                field: `machine._id`,
-                operator: 'eq',
-                value: record._id,
-              },
-            ],
-          },
+      <Title level={3} style={{ marginTop: 16 }}>
+        {'Suppliers'}
+      </Title>
+      <Table
+        dataSource={record.suppliers}
+        pagination={{ pageSize: 5 }}
+        onRow={(record) => {
+          return {
+            onClick: () => {
+              router.push(`/users/show/${record.product._id}`);
+            },
+            style: { cursor: 'pointer' },
+          };
         }}
+        columns={[
+          {
+            dataIndex: 'firstName',
+            title: 'first name',
+            render: handleNullableText,
+          },
+          {
+            dataIndex: 'lastName',
+            title: 'last name',
+            render: handleNullableText,
+          },
+          {
+            dataIndex: 'email',
+            title: 'email',
+            render: handleNullableText,
+          },
+          {
+            dataIndex: 'phoneNumber',
+            title: 'phone',
+            render: handleNullableText,
+          },
+          {
+            dataIndex: 'businessName',
+            title: 'business name',
+            render: handleNullableText,
+          },
+          {
+            dataIndex: 'active',
+            title: 'Active',
+            render: (value) => (
+              <span style={{ color: value ? 'green' : 'red' }}>
+                {value ? 'Active' : 'Inactive'}
+              </span>
+            ),
+          },
+        ]}
+        loading={isLoading}
+        showSorterTooltip
+        rowKey="_id"
       />
     </Show>
   );
