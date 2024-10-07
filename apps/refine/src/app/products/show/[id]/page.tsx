@@ -117,28 +117,6 @@ export default function ProductShow() {
         </Descriptions.Item>
       </Descriptions>
 
-      {record.status == ProductStatus.PENDING && (
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            marginTop: '10px',
-          }}
-        >
-          <Button
-            type="primary"
-            style={{
-              backgroundColor: '#28a745', // Green color
-              borderColor: '#28a745', // Set border to the same color
-            }}
-            size="large"
-            onClick={() => alert('Button clicked!')}
-          >
-            Activate Product
-          </Button>
-        </div>
-      )}
       <Divider />
 
       <Title level={3} style={{ marginTop: 16 }}>
