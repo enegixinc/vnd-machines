@@ -14,6 +14,7 @@ import {
 } from '@core';
 import { SerializedBrandDto } from '../../../brands/dto/response/serialized-brand.dto';
 import { SerializedCategoryDto } from '../../../categories/dto/response/serialized-category.dto';
+import { ProductStatus } from '../../entities/product.entity';
 
 const { CREATE, UPDATE } = CrudValidationGroups;
 
@@ -72,4 +73,13 @@ export class CreateProductDto
     })
   )
   imagesBase64: string[];
+
+  @decorate(
+    ApiProperty({
+      type: 'boolean',
+      required: true,
+    })
+  )
+  @decorate(IsOptional({ groups: [UPDATE, CREATE] }))
+  status: ProductStatus;
 }

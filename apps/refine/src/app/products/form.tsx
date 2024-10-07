@@ -145,15 +145,12 @@ export const ProductForm = ({
         <Form.Item
           label="Status"
           name="status"
-          initialValue={ProductStatus.ACTIVE}
+          initialValue={
+            isSupplier ? ProductStatus.PENDING : ProductStatus.ACTIVE
+          }
           rules={[{ required: true }]}
         >
-          <Select
-          // disabled={
-          //   ProductStatus.ACTIVE ===
-          //     formProps?.form?.getFieldValue('status')
-          // }
-          >
+          <Select disabled={isSupplier}>
             <Select.Option value={ProductStatus.ACTIVE}>Active</Select.Option>
             <Select.Option value={ProductStatus.PENDING}>Pending</Select.Option>
           </Select>

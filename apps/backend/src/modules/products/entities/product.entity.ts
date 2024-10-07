@@ -27,6 +27,7 @@ import { CategoryEntity } from '../../categories/category.entity';
 import { MagexService } from '../../../services/magex/magex.service';
 import { DimensionEntity } from './dimension.entity';
 import { MultiLangEntity } from './multiLang.entity';
+import { isUUID } from 'class-validator';
 
 export enum ProductStatus {
   PENDING = 'pending',
@@ -41,7 +42,7 @@ export class ProductEntity
   @Column({
     type: 'enum',
     enum: ProductStatus,
-    default: ProductStatus.ACTIVE, // Default to 'active'
+    default: ProductStatus.ACTIVE,
   })
   status: ProductStatus;
 
@@ -363,7 +364,9 @@ export class ProductEntity
   prodType: string;
 
   @Factory((faker) => faker.image.url())
-  @Column('simple-array', { nullable: true })
+  @Column('simple-array', {
+    default: '',
+  })
   productPictures: string[];
 
   @Factory((faker) => faker.image.url())
@@ -466,30 +469,45 @@ export class ProductEntity
 
   async updateMagexRecord(magexService: MagexService) {
     if (this.status == ProductStatus.PENDING) return;
+    const isRegisteredInMagex = !isUUID(this._id);
 
-    const formData = this.handleMultiLangProps(
-      this.removeExtraProps(this, ['supplier', 'fullName'])
-    );
+    if (isRegisteredInMagex) {
+      if (this.status == ProductStatus.ACTIVE) {
+        const formData = this.handleMultiLangProps(
+          this.removeExtraProps(this, ['supplier', 'fullName'])
+        );
 
-    const data = await magexService.products.putProductsEditById({
-      id: formData._id,
-      formData: {
-        ...formData,
-        category: this.category?._id || null,
-        brand: this.brand?._id || null,
-        referTo: 'tryvnd@point24h.com',
-        ...this.images,
-      },
-    });
+        const data = await magexService.products.putProductsEditById({
+          id: formData._id,
+          formData: {
+            ...formData,
+            category: this.category?._id || null,
+            brand: this.brand?._id || null,
+            referTo: 'tryvnd@point24h.com',
+            ...this.images,
+          },
+        });
+        Object.assign(this, data);
+        // @ts-expect-error - to be fixed
+        Object.assign(this, { category_id: data.category });
+        Object.assign(this, { status: ProductStatus.ACTIVE });
+        return;
+      }
 
-    console.log('updatedProduct', data);
-
-    Object.assign(this, data);
-    // @ts-expect-error - to be fixed
-    Object.assign(this, { category_id: data.category });
+      if (this.status == ProductStatus.PENDING) {
+        await magexService.products.deleteProductsDeleteById({
+          id: this._id,
+        });
+        return;
+      }
+    } else {
+      await this.createMagexRecord(magexService);
+    }
   }
 
   async deleteMagexRecord(magexService: MagexService) {
+    if (this.status == ProductStatus.PENDING) return;
+
     await magexService.products.deleteProductsDeleteById({
       id: this._id,
     });
