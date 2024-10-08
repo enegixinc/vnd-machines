@@ -6,7 +6,7 @@ import { IsDate, Validate } from 'class-validator';
 import { IsStartDateValidConstraint } from '../validators/start-date';
 import { OrderEntity } from '../../orders/order.entity';
 import { FileEntity } from '../../files/file.entity';
-
+import { PaymentsEntity } from '../../payments/payments.entity';
 @Entity('contracts')
 export class ContractEntity extends DatabaseEntity implements IContractEntity {
   @Column({ type: 'date', nullable: false })
@@ -36,6 +36,10 @@ export class ContractEntity extends DatabaseEntity implements IContractEntity {
 
   @ManyToOne(() => UserEntity, (user) => user.contracts, {})
   supplier: UserEntity;
+
+  @OneToMany(() => PaymentsEntity, (payment) => payment.contract, {})
+  payments: PaymentsEntity;
+
   @Column({ nullable: true })
   supplier_id: string;
 

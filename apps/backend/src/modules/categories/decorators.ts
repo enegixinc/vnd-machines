@@ -48,18 +48,19 @@ export function TotalRevenue(relation: string, f_key: string) {
     query: (entity) => `
         SELECT
           COALESCE(SUM(
-                     CASE
-                       WHEN C."feeType" = 'fixed' THEN COALESCE(C."feePerSale", 0)
-                       WHEN C."feeType" = 'percentage' THEN COALESCE(OD."soldPrice" * (C."feePerSale" / 100), 0)
-                       ELSE 0
-                       END
-                   ), 0)
+            CASE
+              WHEN C."feeType" = 'fixed' THEN COALESCE(C."feePerSale", 0)
+              WHEN C."feeType" = 'percentage' THEN COALESCE(OD."soldPrice" * (C."feePerSale" / 100), 0)
+              ELSE 0
+            END
+          ), 0) - COALESCE(SUM(PY.amount_paid), 0)
         FROM
             ORDERS O
             JOIN ORDER_DETAILS OD ON OD.ORDER_ID = O._ID
             JOIN PRODUCTS P ON P._ID = OD.PRODUCT_ID
             JOIN contracts AS C ON C.supplier_id = P.supplier_id
             JOIN ${relation} ENTITY ON ENTITY._ID = P.${f_key}
+            LEFT JOIN Payments PY ON PY.contract_id = C.contract_id
         WHERE
           C."startDate" <= O."createdAt"
           AND O."createdAt" <= C."endDate"
@@ -78,18 +79,19 @@ export function ActiveRevenue(relation: string, f_key: string) {
     query: (entity) => `
         SELECT
           COALESCE(SUM(
-                     CASE
-                       WHEN C."feeType" = 'fixed' THEN COALESCE(C."feePerSale", 0)
-                       WHEN C."feeType" = 'percentage' THEN COALESCE(OD."soldPrice" * (C."feePerSale" / 100), 0)
-                       ELSE 0
-                       END
-                   ), 0)
+            CASE
+              WHEN C."feeType" = 'fixed' THEN COALESCE(C."feePerSale", 0)
+              WHEN C."feeType" = 'percentage' THEN COALESCE(OD."soldPrice" * (C."feePerSale" / 100), 0)
+              ELSE 0
+            END
+          ), 0) - COALESCE(SUM(PY.amount_paid), 0)
         FROM
             ORDERS O
             JOIN ORDER_DETAILS OD ON OD.ORDER_ID = O._ID
             JOIN PRODUCTS P ON P._ID = OD.PRODUCT_ID
             JOIN contracts AS C ON C.supplier_id = P.supplier_id
             JOIN ${relation} ENTITY ON ENTITY._ID = P.${f_key}
+            LEFT JOIN Payments PY ON PY.contract_id = C.contract_id
         WHERE
           C."status" = 'active'
           AND C."startDate" <= O."createdAt"

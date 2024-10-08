@@ -25,6 +25,7 @@ import {
 } from '../../categories/decorators';
 import { MultiLangEntity } from '../../products/entities/multiLang.entity';
 import { OrderEntity } from '../../orders/order.entity';
+import { PaymentsEntity } from '../../payments/payments.entity';
 
 @Entity('users')
 export class UserEntity extends SearchableEntity implements IUserEntity {
@@ -199,6 +200,9 @@ export class UserEntity extends SearchableEntity implements IUserEntity {
     cascade: ['update'],
   })
   products: ProductEntity[];
+
+  @OneToMany(() => PaymentsEntity, (payment) => payment.supplier_id, {})
+  payments: PaymentsEntity[];
 
   // @ManyToMany(() => BrandEntity, (brand) => brand.suppliers)
   @VirtualColumn({
