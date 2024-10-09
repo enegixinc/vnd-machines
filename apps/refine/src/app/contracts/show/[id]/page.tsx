@@ -20,13 +20,20 @@ import {
 import { Show, TextField } from '@refinedev/antd';
 import { FeeType } from '@core';
 import { JoinedOrdersTable } from '@components/joined-orders.table';
+import { JoinedPaymentsTable } from '@components/joined-payments.table';
 import { useRouter } from 'next/navigation';
 import { DownloadOutlined } from '@ant-design/icons';
 import PDFSVGComponent from '@app/contracts/pdf-svg';
+import { type } from 'os';
+import style from 'styled-jsx/style';
+import { vndClient } from '@providers/api';
 
 const { Title } = Typography;
 
 export default function ContractShow() {
+  const payRevenue = () => {
+    vndClient.pay;
+  };
   const { queryResult } = useShow({
     meta: {
       join: [
@@ -35,6 +42,9 @@ export default function ContractShow() {
         },
         {
           field: 'files',
+        },
+        {
+          field: 'payments',
         },
       ],
     },
@@ -98,10 +108,29 @@ export default function ContractShow() {
         <Descriptions.Item label="Sales">
           <TextField value={formatPrice(contract.totalSales)} />
         </Descriptions.Item>
-        <Descriptions.Item label="Revenue">
+        <Descriptions.Item label="Total Revenue">
           <TextField value={formatPrice(contract.totalRevenue)} />
         </Descriptions.Item>
+        <Descriptions.Item label="Active Revenue">
+          <TextField value={formatPrice(contract.activeRevenue)} />
+        </Descriptions.Item>
       </Descriptions>
+      <CanAccess action="show" resource="suppliers">
+        <>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginTop: '24px',
+            }}
+          >
+            <Button type="primary" onClick={() => payRevenue()}>
+              Pay Revenue
+            </Button>
+          </div>
+        </>
+      </CanAccess>
       <Divider />
       <Title level={3}>{'Files'}</Title>
       <Space wrap direction="horizontal" style={{ width: '100%' }}>
@@ -229,6 +258,7 @@ export default function ContractShow() {
           },
         }}
       />
+      <JoinedPaymentsTable data={contract.payments}></JoinedPaymentsTable>
     </Show>
   );
 }

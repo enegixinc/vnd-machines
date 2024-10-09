@@ -37,8 +37,10 @@ export class ContractEntity extends DatabaseEntity implements IContractEntity {
   @ManyToOne(() => UserEntity, (user) => user.contracts, {})
   supplier: UserEntity;
 
-  @OneToMany(() => PaymentsEntity, (payment) => payment.contract, {})
-  payments: PaymentsEntity;
+  @OneToMany(() => PaymentsEntity, (payment) => payment.contract, {
+    eager: true,
+  })
+  payments: PaymentsEntity[];
 
   @Column({ nullable: true })
   supplier_id: string;
@@ -121,6 +123,36 @@ export class ContractEntity extends DatabaseEntity implements IContractEntity {
     },
   })
   totalRevenue: number;
+
+  @VirtualColumn({
+    type: 'numeric',
+    query: (entity) => `
+        SELECT
+          COALESCE(SUM(
+            CASE
+              WHEN C."feeType" = 'fixed' THEN COALESCE(C."feePerSale", 0)
+              WHEN C."feeType" = 'percentage' THEN COALESCE(OD."soldPrice" * (C."feePerSale" / 100), 0)
+              ELSE 0
+            END
+          ), 0) - COALESCE(SUM(PY.amount_paid), 0)
+        FROM
+            ORDERS O
+            JOIN ORDER_DETAILS OD ON OD.ORDER_ID = O._ID
+            JOIN PRODUCTS P ON P._ID = OD.PRODUCT_ID
+            JOIN contracts AS C ON C.supplier_id = P.supplier_id
+            LEFT JOIN Payments PY ON PY.contract_id = C._id
+        WHERE
+          C."status" = 'active'
+          AND C."startDate" <= O."createdAt"
+          AND O."createdAt" <= C."endDate"
+          AND C._id = ${entity}._id
+    `,
+    transformer: {
+      from: (value) => Number(value),
+      to: (value) => value,
+    },
+  })
+  activeRevenue: number;
 
   @VirtualColumn({
     type: 'numeric',

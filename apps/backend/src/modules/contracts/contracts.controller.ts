@@ -36,6 +36,9 @@ import { UserRole } from '@core';
       supplier: {
         exclude: ['password'],
       },
+      payments: {
+        eager: true,
+      },
       files: {},
     },
   },

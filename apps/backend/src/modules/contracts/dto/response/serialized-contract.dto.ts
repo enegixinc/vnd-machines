@@ -31,6 +31,8 @@ export class SerializedContractDto
 
   totalSales: number;
 
+  payments: [];
+
   @decorate(
     ApiProperty({
       type: 'number',
