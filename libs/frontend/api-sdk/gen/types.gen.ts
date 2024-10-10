@@ -1047,6 +1047,14 @@ export type CreateOneData = {
   requestBody: CreateProductDto;
 };
 
+export type CreatePaymentData = {
+  requestBody: {
+    amount_paid: number;
+    contract: any;
+    supplier: any;
+  };
+};
+
 export type CreateOneResponse = SerializedProductDto;
 
 export type CreateManyData = {

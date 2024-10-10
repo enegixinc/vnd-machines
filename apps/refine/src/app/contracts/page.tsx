@@ -79,7 +79,13 @@ export default function ContractsList() {
             },
             {
               dataIndex: 'totalRevenue',
-              title: 'Revenue',
+              title: 'Total Revenue',
+              sorter: true,
+              render: formatPrice,
+            },
+            {
+              dataIndex: 'activeRevenue',
+              title: 'Active Revenue',
               sorter: true,
               render: formatPrice,
             },

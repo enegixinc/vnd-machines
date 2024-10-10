@@ -1,11 +1,14 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Button,
   Card,
   Descriptions,
   Divider,
+  message,
+  Popconfirm,
+  PopconfirmProps,
   Space,
   Spin,
   Typography,
@@ -27,13 +30,12 @@ import PDFSVGComponent from '@app/contracts/pdf-svg';
 import { type } from 'os';
 import style from 'styled-jsx/style';
 import { vndClient } from '@providers/api';
+import { title } from 'process';
+import { log } from 'console';
 
 const { Title } = Typography;
 
 export default function ContractShow() {
-  const payRevenue = () => {
-    vndClient.pay;
-  };
   const { queryResult } = useShow({
     meta: {
       join: [
@@ -49,8 +51,9 @@ export default function ContractShow() {
       ],
     },
   });
+  const [refreshPayments, setRefreshPayments] = useState(0); // State to manage re-rendering
 
-  const { data, isLoading } = queryResult;
+  const { data, isLoading, refetch } = queryResult;
   if (isLoading) {
     return (
       <Spin
@@ -73,6 +76,27 @@ export default function ContractShow() {
   const handlePreview = (fileUrl) => {
     // Implement preview logic here
     window.open(fileUrl, '_blank');
+  };
+
+  const payRevenue = () => {
+    vndClient.payments
+      .createOne({
+        requestBody: {
+          amount_paid: contract.activeRevenue,
+          contract: { _id: contract._id },
+          supplier: { _id: contract.supplier_id },
+        },
+      })
+      .then(() => {
+        message.success('Revenue Paid Successfully');
+        refetch(); // Refetch the contract data after payment is created
+        setRefreshPayments((prev) => ++prev); // Toggle the state to trigger a re-render
+      });
+    // console.log('hibye');
+  };
+  const confirm: PopconfirmProps['onConfirm'] = (e) => {
+    payRevenue();
+    // message.success('Click on Yes');
   };
 
   return (
@@ -125,9 +149,17 @@ export default function ContractShow() {
               marginTop: '24px',
             }}
           >
-            <Button type="primary" onClick={() => payRevenue()}>
-              Pay Revenue
-            </Button>
+            <Popconfirm
+              title="Pay Revenue"
+              description="Are you sure to Supplier Active Revenue Now?"
+              onConfirm={confirm}
+              okText="Yes"
+              cancelText="No"
+            >
+              <Button disabled={contract.activeRevenue == 0} type="primary">
+                Pay Revenue
+              </Button>
+            </Popconfirm>
           </div>
         </>
       </CanAccess>
@@ -258,7 +290,20 @@ export default function ContractShow() {
           },
         }}
       />
-      <JoinedPaymentsTable data={contract.payments}></JoinedPaymentsTable>
+      <JoinedPaymentsTable
+        key={refreshPayments}
+        useTableProps={{
+          filters: {
+            permanent: [
+              {
+                field: 'contract_id',
+                operator: 'eq',
+                value: contract._id,
+              },
+            ],
+          },
+        }}
+      ></JoinedPaymentsTable>
     </Show>
   );
 }

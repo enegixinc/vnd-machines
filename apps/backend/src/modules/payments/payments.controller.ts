@@ -7,11 +7,20 @@ import { UserEntity } from '../users/entities/user.entity';
 import { UserRole } from '@core';
 import { CreatePaymentDto } from './payments.dto';
 import { PaymentsEntity } from './payments.entity';
+import { SerializedContractDto } from '../contracts/dto/response/serialized-contract.dto';
+import { SerializedPaymentDto } from './serialized-payment.dto';
+
 @Crud({
   model: {
     type: PaymentsEntity,
   },
-
+  params: {
+    id: {
+      field: '_id',
+      type: 'uuid',
+      primary: true,
+    },
+  },
   query: {
     cache: 2000,
     alwaysPaginate: true,
@@ -23,9 +32,15 @@ import { PaymentsEntity } from './payments.entity';
     ],
     limit: 10,
 
-    join: {
-      contract: {},
-    },
+    // join: {
+    //   contract: {},
+    //   supplier: {
+    //     exclude: ['password'],
+    //   },
+    // },
+  },
+  serialize: {
+    get: SerializedPaymentDto,
   },
   routes: {
     ...saneOperationsId,
@@ -53,7 +68,7 @@ import { PaymentsEntity } from './payments.entity';
     if (user.role === UserRole.ADMIN) return;
 
     return {
-      supplier_id: user._id,
+      supplier: user._id,
     };
   },
   persist: (user: UserEntity) => ({

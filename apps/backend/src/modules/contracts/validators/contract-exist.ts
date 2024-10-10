@@ -12,6 +12,6 @@ export class ContractExistsValidator extends EntityExistsValidator {
   }
 
   protected get EntityName(): string {
-    return 'contract';
+    return 'Contract';
   }
 }

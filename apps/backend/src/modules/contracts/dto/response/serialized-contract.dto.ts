@@ -29,6 +29,17 @@ export class SerializedContractDto
   )
   totalRevenue: number;
 
+  @decorate(
+    ApiProperty({
+      type: 'number',
+      example: new FormatMoney().un(33421.233, {
+        decimals: 2,
+        decimalPoint: '.',
+      }),
+    })
+  )
+  activeRevenue: number;
+
   totalSales: number;
 
   payments: [];

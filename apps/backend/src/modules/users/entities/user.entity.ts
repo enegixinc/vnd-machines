@@ -4,6 +4,7 @@ import {
   Column,
   Entity,
   JoinColumn,
+  ManyToOne,
   OneToMany,
   VirtualColumn,
 } from 'typeorm';
@@ -201,7 +202,7 @@ export class UserEntity extends SearchableEntity implements IUserEntity {
   })
   products: ProductEntity[];
 
-  @OneToMany(() => PaymentsEntity, (payment) => payment.supplier_id, {})
+  @OneToMany(() => PaymentsEntity, (payment) => payment.supplier)
   payments: PaymentsEntity[];
 
   // @ManyToMany(() => BrandEntity, (brand) => brand.suppliers)

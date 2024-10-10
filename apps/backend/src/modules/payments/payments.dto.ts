@@ -1,27 +1,30 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, PickType } from '@nestjs/swagger';
 import { CrudValidationGroups } from '@dataui/crud';
 import { IsNumber, IsNotEmpty, IsDateString, Validate } from 'class-validator';
 import { UserExistsValidator } from '../users/validators/user-exists';
 import { ContractExistsValidator } from '../contracts/validators/contract-exist';
+import { IContractEntity, IUserEntity, ReferenceByID } from '@core';
+import { SerializedUserDto } from '../users/dto/response/serialized-user.dto';
+import { SerializedContractDto } from '../contracts/dto/response/serialized-contract.dto';
 
 const { CREATE } = CrudValidationGroups;
 
 export class CreatePaymentDto {
   @ApiProperty({
     description: 'The ID of the contract for which the payment is made',
+    type: () => PickType(SerializedContractDto, ['_id']),
   })
-  @Validate(ContractExistsValidator)
-  @IsNumber()
+  // @Validate(ContractExistsValidator)
   @IsNotEmpty({ groups: [CREATE] })
-  contract_id: string;
+  contract: ReferenceByID<IContractEntity>;
 
   @ApiProperty({
     description: 'The ID of the supplier for which the payment is made',
+    type: () => PickType(SerializedUserDto, ['_id']),
   })
   @Validate(UserExistsValidator)
-  @IsNumber()
   @IsNotEmpty({ groups: [CREATE] })
-  supplier_id: string;
+  supplier: ReferenceByID<IUserEntity>;
 
   @ApiProperty({
     description: 'The amount of money paid',
@@ -30,11 +33,4 @@ export class CreatePaymentDto {
   @IsNumber()
   @IsNotEmpty({ groups: [CREATE] })
   amount_paid: number;
-  @ApiProperty({
-    description: 'The date of the payment',
-    example: '2024-10-08',
-  })
-  @IsDateString()
-  @IsNotEmpty({ groups: [CREATE] })
-  payment_date: Date;
 }

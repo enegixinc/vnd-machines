@@ -93,9 +93,15 @@ export const JoinedContractsTable = ({
               },
               {
                 dataIndex: 'totalRevenue',
-                title: 'Revenue',
+                title: 'Total Revenue',
                 render: formatPrice,
                 sorter: (a, b) => a.totalRevenue - b.totalRevenue,
+              },
+              {
+                dataIndex: 'activeRevenue',
+                title: 'Active Revenue',
+                render: formatPrice,
+                sorter: (a, b) => a.activeRevenue - b.activeRevenue,
               },
             ],
           },

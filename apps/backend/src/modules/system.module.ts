@@ -11,6 +11,7 @@ import { CategoriesModule } from './categories/categories.module';
 import { OrdersModule } from './orders/orders.module';
 import { RequestsModule } from './requests/fill-requests/requests.module';
 import { FilesModule } from './files/files.module';
+import { PaymentsModule } from './payments/payments.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { FilesModule } from './files/files.module';
     RequestsModule,
     UsersModule,
     ContractsModule,
+    PaymentsModule,
     ProductsModule,
     CategoriesModule,
     BrandsModule,

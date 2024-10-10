@@ -1,4 +1,9 @@
-import { IDataBaseEntity, ISerializedUser, IUserEntity, ReferenceByID } from '@core';
+import {
+  IDataBaseEntity,
+  ISerializedUser,
+  IUserEntity,
+  ReferenceByID,
+} from '@core';
 
 export interface ICreateContract {
   startDate: string;
@@ -10,6 +15,12 @@ export interface ICreateContract {
   status: ContractStatus;
 }
 
+export interface ICreatePayment {
+  amount: number;
+  supplier: ReferenceByID<IUserEntity>;
+  contract: ReferenceByID<IContractEntity>;
+}
+
 export interface IContractComputedFields {
   totalOrders: number;
   totalRevenue: number;
@@ -18,8 +29,11 @@ export interface IContractComputedFields {
 export interface ISerializedContract
   extends IContractEntity,
     IContractComputedFields {
+  activeRevenue: any;
   supplier: ISerializedUser;
 }
+
+export interface ISerializedPayment extends IPaymentEntity {}
 
 export enum ContractStatus {
   ACTIVE = 'active',
@@ -36,3 +50,5 @@ export interface IContractEntity
   extends IDataBaseEntity,
     ICreateContract,
     IContractComputedFields {}
+
+export interface IPaymentEntity extends IDataBaseEntity, ICreatePayment {}
