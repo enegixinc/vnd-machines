@@ -15,13 +15,13 @@ export class ProductsCronjob {
     private readonly configService: ConfigService
   ) {}
 
-  // @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)
-  @Cron(CronExpression.EVERY_5_SECONDS)
+  @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)
+  // @Cron(CronExpression.EVERY_5_SECONDS)
   async handleCron() {
     await Promise.all([
       this.notifyLowStockProducts(),
-      // this.notifyExpiredProducts(),
-      // this.notifyProductsWillExpireIn(),
+      this.notifyExpiredProducts(),
+      this.notifyProductsWillExpireIn(),
     ]);
   }
 
