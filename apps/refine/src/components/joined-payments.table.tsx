@@ -2,15 +2,12 @@
 import React from 'react';
 import { formatPrice, formatTime } from '@helpers';
 import { QuickTableSection } from '@components/quick-table-section';
-import { useRouter } from 'next/navigation';
 
 export const JoinedPaymentsTable = ({
   useTableProps,
 }: {
   useTableProps: Parameters<typeof QuickTableSection>[0]['useTableProps'];
 }) => {
-  const router = useRouter();
-
   return (
     <>
       <Typography.Title level={3} style={{ marginTop: 16 }}>
@@ -29,13 +26,13 @@ export const JoinedPaymentsTable = ({
         resource={'payments'}
         columns={[
           {
-            title: 'amount',
+            title: 'Amount',
             dataIndex: 'amount_paid',
             sorter: true,
             render: formatPrice,
           },
           {
-            title: 'Datess',
+            title: 'Dates',
             dataIndex: 'createdAt',
             sorter: true,
             render: formatTime,
