@@ -53,11 +53,7 @@ export default function ProductCreate() {
 
   return (
     <Create saveButtonProps={saveButtonProps}>
-      <ProductForm
-        action="create"
-        isSupplier={isSupplier}
-        formProps={formProps}
-      />
+      <ProductForm isSupplier={isSupplier} formProps={formProps} />
     </Create>
   );
 }

@@ -124,9 +124,9 @@ export const ProductForm = ({
             }}
             label="UPC"
             name="upc"
-            rules={[{ required: true }]}
+            rules={[{ required: !isSupplier }]}
           >
-            <Input />
+            <Input disabled={isSupplier} />
           </Form.Item>
           <Form.Item
             style={{

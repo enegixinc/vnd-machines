@@ -502,6 +502,7 @@ export class ProductEntity
       }
     } else {
       await this.createMagexRecord(magexService);
+      await this.updateMagexRecord(magexService);
     }
   }
 
