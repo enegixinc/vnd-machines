@@ -112,7 +112,7 @@ export class DatabaseEntity extends BaseEntity implements IDataBaseEntity {
 }
 
 export abstract class MagexDatabaseEntity extends DatabaseEntity {
-  abstract createMagexRecord(magexService: MagexService): Promise<void>;
+  abstract createMagexRecord(magexService: MagexService): Promise<unknown>;
   abstract updateMagexRecord(magexService: MagexService): Promise<void>;
   abstract deleteMagexRecord(magexService: MagexService): Promise<void>;
   abstract fetchMagexRecords(

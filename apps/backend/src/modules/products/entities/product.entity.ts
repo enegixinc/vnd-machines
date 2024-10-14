@@ -27,7 +27,6 @@ import { CategoryEntity } from '../../categories/category.entity';
 import { MagexService } from '../../../services/magex/magex.service';
 import { DimensionEntity } from './dimension.entity';
 import { MultiLangEntity } from './multiLang.entity';
-import { isUUID } from 'class-validator';
 
 export enum ProductStatus {
   PENDING = 'pending',
@@ -395,6 +394,9 @@ export class ProductEntity
   @Column({ type: 'integer', default: 0 })
   vatIndex: number;
 
+  @Column({ nullable: true })
+  magex_id: string;
+
   @Factory((faker) =>
     faker.number.int({
       min: 0,
@@ -439,8 +441,8 @@ export class ProductEntity
   }
 
   async createMagexRecord(magexService: MagexService) {
-    console.log('createMagexRecord', this);
-    if (this.status == ProductStatus.PENDING) return;
+    // console.log('createMagexRecord', this);
+    // if (this.status == ProductStatus.PENDING) return;
 
     const formData = this.handleMultiLangProps(
       this.removeExtraProps(this, ['supplier', 'fullName'])
@@ -465,49 +467,61 @@ export class ProductEntity
 
     // @ts-expect-error - to be fixed
     Object.assign(this, { lastSyncAt: newProduct.updatedAt });
+
+    // return newProduct;
   }
 
-  async updateMagexRecord(magexService: MagexService) {
-    if (this.status == ProductStatus.PENDING) return;
-    const isRegisteredInMagex = !isUUID(this._id);
+  async updateMagexRecord(
+    magexService: MagexService
+    // newProduct?: IProductEntity
+  ) {
+    // if (newProduct) {
+    //   Object.assign(this, newProduct);
+    //   console.log('customUpdateMagexRecord', this);
+    // }
 
-    if (isRegisteredInMagex) {
-      if (this.status == ProductStatus.ACTIVE) {
-        const formData = this.handleMultiLangProps(
-          this.removeExtraProps(this, ['supplier', 'fullName'])
-        );
+    // if (this.status == ProductStatus.PENDING) return;
+    // const isRegisteredInMagex = !isUUID(this._id);
+    //
+    // if (isRegisteredInMagex) {
+    //   if (this.status == ProductStatus.ACTIVE) {
+    const formData = this.handleMultiLangProps(
+      this.removeExtraProps(this, ['supplier', 'fullName'])
+    );
 
-        const data = await magexService.products.putProductsEditById({
-          id: formData._id,
-          formData: {
-            ...formData,
-            category: this.category?._id || null,
-            brand: this.brand?._id || null,
-            referTo: 'tryvnd@point24h.com',
-            ...this.images,
-          },
-        });
-        Object.assign(this, data);
-        // @ts-expect-error - to be fixed
-        Object.assign(this, { category_id: data.category });
-        Object.assign(this, { status: ProductStatus.ACTIVE });
-        return;
-      }
-
-      if (this.status == ProductStatus.PENDING) {
-        await magexService.products.deleteProductsDeleteById({
-          id: this._id,
-        });
-        return;
-      }
-    } else {
-      await this.createMagexRecord(magexService);
-      await this.updateMagexRecord(magexService);
-    }
+    const data = await magexService.products.putProductsEditById({
+      id: formData._id,
+      formData: {
+        ...formData,
+        category: this.category?._id || null,
+        brand: this.brand?._id || null,
+        referTo: 'tryvnd@point24h.com',
+        ...this.images,
+      },
+    });
+    Object.assign(this, data);
+    // @ts-expect-error - to be fixed
+    Object.assign(this, { category_id: data.category });
+    Object.assign(this, { status: ProductStatus.ACTIVE });
+    return;
   }
+
+  // if (this.status == ProductStatus.PENDING) {
+  //   await magexService.products.deleteProductsDeleteById({
+  //     id: this._id,
+  //   });
+  //   return;
+  // }
+  // } else {
+  //   const oldProductRef = Object.assign({}, this);
+  //   const newProduct = await this.createMagexRecord(magexService);
+  //   const data = Object.assign({}, oldProductRef, newProduct);
+  //   await this.updateMagexRecord(magexService, data);
+  // }
+  // }
 
   async deleteMagexRecord(magexService: MagexService) {
-    if (this.status == ProductStatus.PENDING) return;
+    // if (this.status == ProductStatus.PENDING) return;
 
     await magexService.products.deleteProductsDeleteById({
       id: this._id,
