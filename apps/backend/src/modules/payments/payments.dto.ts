@@ -1,8 +1,7 @@
 import { ApiProperty, PickType } from '@nestjs/swagger';
 import { CrudValidationGroups } from '@dataui/crud';
-import { IsNumber, IsNotEmpty, IsDateString, Validate } from 'class-validator';
+import { IsNotEmpty, IsNumber, Validate } from 'class-validator';
 import { UserExistsValidator } from '../users/validators/user-exists';
-import { ContractExistsValidator } from '../contracts/validators/contract-exist';
 import { IContractEntity, IUserEntity, ReferenceByID } from '@core';
 import { SerializedUserDto } from '../users/dto/response/serialized-user.dto';
 import { SerializedContractDto } from '../contracts/dto/response/serialized-contract.dto';
@@ -14,7 +13,6 @@ export class CreatePaymentDto {
     description: 'The ID of the contract for which the payment is made',
     type: () => PickType(SerializedContractDto, ['_id']),
   })
-  // @Validate(ContractExistsValidator)
   @IsNotEmpty({ groups: [CREATE] })
   contract: ReferenceByID<IContractEntity>;
 
@@ -33,4 +31,12 @@ export class CreatePaymentDto {
   @IsNumber()
   @IsNotEmpty({ groups: [CREATE] })
   amount_paid: number;
+
+  @ApiProperty({
+    description: 'The amount of money gained',
+    example: 500,
+  })
+  @IsNumber()
+  @IsNotEmpty({ groups: [CREATE] })
+  amount_gained: number;
 }

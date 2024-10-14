@@ -27,11 +27,7 @@ import { JoinedPaymentsTable } from '@components/joined-payments.table';
 import { useRouter } from 'next/navigation';
 import { DownloadOutlined } from '@ant-design/icons';
 import PDFSVGComponent from '@app/contracts/pdf-svg';
-import { type } from 'os';
-import style from 'styled-jsx/style';
 import { vndClient } from '@providers/api';
-import { title } from 'process';
-import { log } from 'console';
 
 const { Title } = Typography;
 
@@ -82,7 +78,8 @@ export default function ContractShow() {
     vndClient.payments
       .createOne({
         requestBody: {
-          amount_paid: contract.activeRevenue,
+          amount_paid: contract.totalDue,
+          amount_gained: contract.activeRevenue,
           contract: { _id: contract._id },
           supplier: { _id: contract.supplier_id },
         },
@@ -138,6 +135,15 @@ export default function ContractShow() {
         <Descriptions.Item label="Active Revenue">
           <TextField value={formatPrice(contract.activeRevenue)} />
         </Descriptions.Item>
+        <Descriptions.Item label="Total Due">
+          <TextField value={formatPrice(contract.totalDue)} />
+        </Descriptions.Item>
+        <Descriptions.Item label="Total Paid in Contract">
+          <TextField value={formatPrice(contract.totalPaidInContract)} />
+        </Descriptions.Item>
+        <Descriptions.Item label="Total Gain in Contract">
+          <TextField value={formatPrice(contract.totalGainInContract)} />
+        </Descriptions.Item>
       </Descriptions>
       <CanAccess action="show" resource="suppliers">
         <>
@@ -156,7 +162,7 @@ export default function ContractShow() {
               okText="Yes"
               cancelText="No"
             >
-              <Button disabled={contract.activeRevenue == 0} type="primary">
+              <Button disabled={contract.totalDue == 0} type="primary">
                 Pay Revenue
               </Button>
             </Popconfirm>

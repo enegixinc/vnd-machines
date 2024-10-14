@@ -16,7 +16,8 @@ export interface ICreateContract {
 }
 
 export interface ICreatePayment {
-  amount: number;
+  amount_paid: number;
+  amount_gained: number;
   supplier: ReferenceByID<IUserEntity>;
   contract: ReferenceByID<IContractEntity>;
 }
@@ -33,7 +34,7 @@ export interface ISerializedContract
   supplier: ISerializedUser;
 }
 
-export interface ISerializedPayment extends IPaymentEntity {}
+export type ISerializedPayment = IPaymentEntity;
 
 export enum ContractStatus {
   ACTIVE = 'active',

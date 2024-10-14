@@ -1,0 +1,12 @@
+oken "" does not exist.
+JSONParserError: Token "" does not exist.
+    at Pointer.resolve (D:\vnd-machines\node_modules\.pnpm\@apidevtools+json-schema-ref-parser@11.6.1\node_modules\@apidevtools\json-schema-ref-parser\dist\lib\pointer.js:103:23)
+    at $Ref.resolve (D:\vnd-machines\node_modules\.pnpm\@apidevtools+json-schema-ref-parser@11.6.1\node_modules\@apidevtools\json-schema-ref-parser\dist\lib\ref.js:81:28)
+    at $Refs._resolve (D:\vnd-machines\node_modules\.pnpm\@apidevtools+json-schema-ref-parser@11.6.1\node_modules\@apidevtools\json-schema-ref-parser\dist\lib\refs.js:158:21)
+    at inventory$Ref (D:\vnd-machines\node_modules\.pnpm\@apidevtools+json-schema-ref-parser@11.6.1\node_modules\@apidevtools\json-schema-ref-parser\dist\lib\bundle.js:116:27)
+    at crawl (D:\vnd-machines\node_modules\.pnpm\@apidevtools+json-schema-ref-parser@11.6.1\node_modules\@apidevtools\json-schema-ref-parser\dist\lib\bundle.js:91:21)
+    at crawl (D:\vnd-machines\node_modules\.pnpm\@apidevtools+json-schema-ref-parser@11.6.1\node_modules\@apidevtools\json-schema-ref-parser\dist\lib\bundle.js:94:21)
+    at crawl (D:\vnd-machines\node_modules\.pnpm\@apidevtools+json-schema-ref-parser@11.6.1\node_modules\@apidevtools\json-schema-ref-parser\dist\lib\bundle.js:94:21)
+    at crawl (D:\vnd-machines\node_modules\.pnpm\@apidevtools+json-schema-ref-parser@11.6.1\node_modules\@apidevtools\json-schema-ref-parser\dist\lib\bundle.js:94:21)
+    at crawl (D:\vnd-machines\node_modules\.pnpm\@apidevtools+json-schema-ref-parser@11.6.1\node_modules\@apidevtools\json-schema-ref-parser\dist\lib\bundle.js:94:21)
+    at crawl (D:\vnd-machines\node_modules\.pnpm\@apidevtools+json-schema-ref-parser@11.6.1\node_modules\@apidevtools\json-schema-ref-parser\dist\lib\bundle.js:94:21)

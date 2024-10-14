@@ -3,9 +3,8 @@ import {
   ISerializedPayment,
   ISerializedUser,
 } from '@core';
-import { decorate, Mixin } from 'ts-mixer';
+import { decorate } from 'ts-mixer';
 import { ApiProperty } from '@nestjs/swagger';
-import { FormatMoney } from 'format-money-js';
 import { SerializedContractDto } from '../contracts/dto/response/serialized-contract.dto';
 import { DatabaseEntity } from '../../common/database.entity';
 import { SerializedUserDto } from '../users/dto/response/serialized-user.dto';
@@ -14,16 +13,17 @@ export class SerializedPaymentDto
   extends DatabaseEntity
   implements ISerializedPayment
 {
-  @decorate(
-    ApiProperty({
-      type: 'number',
-      example: new FormatMoney().un(33421.233, {
-        decimals: 2,
-        decimalPoint: '.',
-      }),
-    })
-  )
-  amount: number;
+  @ApiProperty({
+    description: 'The amount of money paid',
+    example: 500.0,
+  })
+  amount_paid: number;
+
+  @ApiProperty({
+    description: 'The amount of money gained',
+    example: 500.0,
+  })
+  amount_gained: number;
 
   @decorate(
     ApiProperty({
