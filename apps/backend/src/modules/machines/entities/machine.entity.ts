@@ -8,6 +8,8 @@ import { OrderEntity } from '../../orders/order.entity';
 import { FillRequestEntity } from '../../requests/fill-requests/fill-request.entity';
 import { ProductsMin } from './products_min.entity';
 import { UserEntity } from '../../users/entities/user.entity';
+import { query } from 'express';
+import { type } from 'os';
 
 @Entity('machines')
 export class MachineEntity extends SearchableMagexEntity {
@@ -17,7 +19,7 @@ export class MachineEntity extends SearchableMagexEntity {
   @VirtualColumn({
     type: 'array',
     query: (entity) => `
-      select coalesce(jsonb_agg(users), '[]'::jsonb)
+      select coalesce(jsonb_agg(distinct users), '[]'::jsonb)
       from machine_product as mp
       join products as p on p._id = mp.product_id
       join users on users._id = p.supplier_id
