@@ -100,23 +100,16 @@ export class ContractEntity extends DatabaseEntity implements IContractEntity {
   @VirtualColumn({
     type: 'numeric',
     query: (entity) => `
-      WITH TotalRevenue AS (
+      WITH TotalSales AS (
         SELECT
-          COALESCE(SUM(
-                     CASE
-                       WHEN C."feeType" = 'fixed' THEN C."feePerSale"
-                       WHEN C."feeType" = 'percentage' THEN OD."soldPrice" * (C."feePerSale" / 100)
-                       ELSE 0
-                       END
-                   ), 0) AS total_revenue
+          COALESCE(SUM(OD."soldPrice"), 0) AS total_sales
         FROM
           orders AS O
             JOIN order_details AS OD ON OD.order_id = O._id
             JOIN products AS P ON P._id = OD.product_id
-            JOIN contracts AS C ON C.supplier_id = P.supplier_id
         WHERE
           O."createdAt" BETWEEN ${entity}."startDate" AND ${entity}."endDate"
-          AND C._id = ${entity}._id
+          AND P."supplier_id" = ${entity}."supplier_id"
       ),
            TotalPayments AS (
              SELECT
@@ -128,7 +121,7 @@ export class ContractEntity extends DatabaseEntity implements IContractEntity {
                AND P."createdAt" BETWEEN ${entity}."startDate" AND ${entity}."endDate"
            )
       SELECT
-        (SELECT total_revenue FROM TotalRevenue) - (SELECT total_paid FROM TotalPayments) AS total_due
+        (SELECT total_sales FROM TotalSales) - (SELECT total_paid FROM TotalPayments) AS total_due
     `,
     transformer: {
       from: (value) => Number(value),
@@ -151,18 +144,21 @@ export class ContractEntity extends DatabaseEntity implements IContractEntity {
           AND P."createdAt" BETWEEN ${entity}."startDate" AND ${entity}."endDate"
       )
       SELECT
-        COALESCE(SUM(
-          CASE
-            WHEN C."feeType" = 'fixed' THEN C."feePerSale"
-            WHEN C."feeType" = 'percentage' THEN OD."soldPrice" * (C."feePerSale" / 100)
-            ELSE 0
-          END
-        ), 0) - (SELECT last_payment FROM LastPayment) AS active_revenue
+        GREATEST(
+          COALESCE(SUM(
+                     CASE
+                       WHEN C."feeType" = 'fixed' THEN C."feePerSale"
+                       WHEN C."feeType" = 'percentage' THEN OD."soldPrice" * (C."feePerSale" / 100)
+                       ELSE 0
+                       END
+                   ), 0) - (SELECT last_payment FROM LastPayment),
+          0
+        ) AS active_revenue
       FROM
         orders AS O
-        JOIN order_details AS OD ON OD.order_id = O._id
-        JOIN products AS P ON P._id = OD.product_id
-        JOIN contracts AS C ON C.supplier_id = P.supplier_id
+          JOIN order_details AS OD ON OD.order_id = O._id
+          JOIN products AS P ON P._id = OD.product_id
+          JOIN contracts AS C ON C.supplier_id = P.supplier_id
       WHERE
         O."createdAt" BETWEEN ${entity}."startDate" AND ${entity}."endDate"
         AND C._id = ${entity}._id
