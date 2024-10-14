@@ -45,6 +45,7 @@ import { Repository } from 'typeorm';
       },
       suppliers: {
         alias: 'suppliers',
+        exclude: ['password'],
       },
     },
   },

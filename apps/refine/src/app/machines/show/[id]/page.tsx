@@ -201,7 +201,7 @@ export default function MachineShow() {
         onRow={(record) => {
           return {
             onClick: () => {
-              router.push(`/users/show/${record.product._id}`);
+              router.push(`/suppliers/show/${record._id}`);
             },
             style: { cursor: 'pointer' },
           };
