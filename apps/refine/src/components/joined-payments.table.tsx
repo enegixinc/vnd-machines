@@ -26,14 +26,14 @@ export const JoinedPaymentsTable = ({
         resource={'payments'}
         columns={[
           {
-            title: 'Paid Amount',
-            dataIndex: 'amount_gained',
+            title: 'Paid',
+            dataIndex: 'amount_paid',
             sorter: true,
             render: formatPrice,
           },
           {
-            title: 'Gained Amount',
-            dataIndex: 'amount_paid',
+            title: 'Gained',
+            dataIndex: 'amount_gained',
             sorter: true,
             render: formatPrice,
           },
