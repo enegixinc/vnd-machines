@@ -2,12 +2,17 @@
 import React from 'react';
 import { formatPrice, formatTime } from '@helpers';
 import { QuickTableSection } from '@components/quick-table-section';
+import { useGetIdentity } from '@refinedev/core';
+import { IUserEntity, UserRole } from '@core';
 
 export const JoinedPaymentsTable = ({
   useTableProps,
 }: {
   useTableProps: Parameters<typeof QuickTableSection>[0]['useTableProps'];
 }) => {
+  const { data: currentUser, isLoading } = useGetIdentity<IUserEntity>();
+  const isSupplier = currentUser?.role === UserRole.SUPPLIER;
+
   return (
     <>
       <Typography.Title level={3} style={{ marginTop: 16 }}>
@@ -26,7 +31,7 @@ export const JoinedPaymentsTable = ({
         resource={'payments'}
         columns={[
           {
-            title: 'Paid',
+            title: isSupplier ? 'Received' : 'Paid',
             dataIndex: 'amount_paid',
             sorter: true,
             render: formatPrice,
@@ -35,6 +40,7 @@ export const JoinedPaymentsTable = ({
             title: 'Gained',
             dataIndex: 'amount_gained',
             sorter: true,
+            hidden: isSupplier,
             render: formatPrice,
           },
           {

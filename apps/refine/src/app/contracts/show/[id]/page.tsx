@@ -13,7 +13,7 @@ import {
   Spin,
   Typography,
 } from 'antd';
-import { CanAccess, useShow } from '@refinedev/core';
+import { CanAccess, useGetIdentity, useShow } from '@refinedev/core';
 import {
   formatFileSize,
   formatPrice,
@@ -21,7 +21,7 @@ import {
   handleEmptyString,
 } from '@helpers';
 import { Show, TextField } from '@refinedev/antd';
-import { FeeType } from '@core';
+import { FeeType, IUserEntity, UserRole } from '@core';
 import { JoinedOrdersTable } from '@components/joined-orders.table';
 import { JoinedPaymentsTable } from '@components/joined-payments.table';
 import { useRouter } from 'next/navigation';
@@ -48,6 +48,8 @@ export default function ContractShow() {
     },
   });
   const [refreshPayments, setRefreshPayments] = useState(0); // State to manage re-rendering
+  const { data: currentUser } = useGetIdentity<IUserEntity>();
+  const isSupplier = currentUser?.role === UserRole.SUPPLIER;
 
   const { data, isLoading, refetch } = queryResult;
   if (isLoading) {
@@ -129,21 +131,30 @@ export default function ContractShow() {
         <Descriptions.Item label="Total Sales">
           <TextField value={formatPrice(contract.totalSales)} />
         </Descriptions.Item>
-        <Descriptions.Item label="Total Revenue">
-          <TextField value={formatPrice(contract.totalRevenue)} />
-        </Descriptions.Item>
+        {!isSupplier && (
+          <Descriptions.Item label="Total Revenue">
+            <TextField value={formatPrice(contract.totalRevenue)} />
+          </Descriptions.Item>
+        )}
         <Descriptions.Item label="Due">
           <TextField value={formatPrice(contract.totalDue)} />
         </Descriptions.Item>
-        <Descriptions.Item label="Profit">
-          <TextField value={formatPrice(contract.activeRevenue)} />
-        </Descriptions.Item>
-        <Descriptions.Item label="Total Paid in Contract">
+        {!isSupplier && (
+          <Descriptions.Item label="Profit">
+            <TextField value={formatPrice(contract.activeRevenue)} />
+          </Descriptions.Item>
+        )}
+
+        <Descriptions.Item
+          label={isSupplier ? 'Total Gain' : 'Total Paid in Contract'}
+        >
           <TextField value={formatPrice(contract.totalPaidInContract)} />
         </Descriptions.Item>
-        <Descriptions.Item label="Total Profit in Contract">
-          <TextField value={formatPrice(contract.totalGainInContract)} />
-        </Descriptions.Item>
+        {!isSupplier && (
+          <Descriptions.Item label="Total Profit in Contract">
+            <TextField value={formatPrice(contract.totalGainInContract)} />
+          </Descriptions.Item>
+        )}
       </Descriptions>
       <CanAccess action="show" resource="suppliers">
         <>

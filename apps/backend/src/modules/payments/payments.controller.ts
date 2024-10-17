@@ -7,7 +7,6 @@ import { UserEntity } from '../users/entities/user.entity';
 import { UserRole } from '@core';
 import { CreatePaymentDto } from './payments.dto';
 import { PaymentsEntity } from './payments.entity';
-import { SerializedContractDto } from '../contracts/dto/response/serialized-contract.dto';
 import { SerializedPaymentDto } from './serialized-payment.dto';
 
 @Crud({
@@ -68,7 +67,14 @@ import { SerializedPaymentDto } from './serialized-payment.dto';
     if (user.role === UserRole.ADMIN) return;
 
     return {
-      supplier: user._id,
+      $or: [
+        {
+          createdBy: user._id,
+        },
+        {
+          supplier_id: user._id,
+        },
+      ],
     };
   },
   persist: (user: UserEntity) => ({
