@@ -16,6 +16,8 @@ export class FileEntity extends DatabaseEntity {
   @Column({ nullable: false })
   url: string;
 
-  @ManyToOne(() => ContractEntity, (contract) => contract.files)
+  @ManyToOne(() => ContractEntity, (contract) => contract.files, {
+    onDelete: 'CASCADE',
+  })
   contract: ContractEntity;
 }
