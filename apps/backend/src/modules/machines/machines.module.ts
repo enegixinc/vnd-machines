@@ -16,6 +16,7 @@ import { ProductsMin } from './entities/products_min.entity';
 import { Language } from './entities/language.entity';
 import { Currency } from './entities/currency.entity';
 import { MachineExistsValidator } from './validators/product-exists';
+import { PromotionEntity } from '../promotions/promotion.entity';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { MachineExistsValidator } from './validators/product-exists';
       ProductsMin,
       Language,
       Currency,
+      PromotionEntity,
     ]),
   ],
   controllers: [MachinesController],

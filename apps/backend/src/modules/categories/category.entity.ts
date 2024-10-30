@@ -30,12 +30,18 @@ import {
 } from './decorators';
 import { MultiLangEntity } from '../products/entities/multiLang.entity';
 import { OrderEntity } from '../orders/order.entity';
+import { PromotionEntity } from '../promotions/promotion.entity';
 
 @Entity('categories')
 export class CategoryEntity
   extends SearchableMagexEntity
   implements ICategoryEntity
 {
+  @OneToMany(() => PromotionEntity, (promotion) => promotion.category, {
+    nullable: true,
+  })
+  promotions: PromotionEntity[];
+
   @BeforeInsert()
   @BeforeUpdate()
   handleSearchableFields() {

@@ -27,6 +27,7 @@ import { CategoryEntity } from '../../categories/category.entity';
 import { MagexService } from '../../../services/magex/magex.service';
 import { DimensionEntity } from './dimension.entity';
 import { MultiLangEntity } from './multiLang.entity';
+import { PromotionEntity } from '../../promotions/promotion.entity';
 
 export enum ProductStatus {
   PENDING = 'pending',
@@ -38,6 +39,11 @@ export class ProductEntity
   extends SearchableMagexEntity
   implements IProductEntity
 {
+  @ManyToOne(() => PromotionEntity, (promotion) => promotion.products, {
+    nullable: true,
+  })
+  promotions: PromotionEntity[];
+
   @Column({
     type: 'enum',
     enum: ProductStatus,

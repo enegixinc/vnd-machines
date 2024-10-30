@@ -9,6 +9,7 @@ import { CategoriesService } from './services.gen';
 import { MachinesService } from './services.gen';
 import { OrdersService } from './services.gen';
 import { ProductsService } from './services.gen';
+import { PromotionsService } from './services.gen';
 import { ReportsService } from './services.gen';
 import { StockingService } from './services.gen';
 import { UsersService } from './services.gen';
@@ -23,6 +24,7 @@ export class MagexConnector {
 	public readonly machines: MachinesService;
 	public readonly orders: OrdersService;
 	public readonly products: ProductsService;
+	public readonly promotions: PromotionsService;
 	public readonly reports: ReportsService;
 	public readonly stocking: StockingService;
 	public readonly users: UsersService;
@@ -52,6 +54,7 @@ export class MagexConnector {
 		this.machines = new MachinesService(this.request);
 		this.orders = new OrdersService(this.request);
 		this.products = new ProductsService(this.request);
+		this.promotions = new PromotionsService(this.request);
 		this.reports = new ReportsService(this.request);
 		this.stocking = new StockingService(this.request);
 		this.users = new UsersService(this.request);

@@ -12,9 +12,11 @@ import { OrdersModule } from './orders/orders.module';
 import { RequestsModule } from './requests/fill-requests/requests.module';
 import { FilesModule } from './files/files.module';
 import { PaymentsModule } from './payments/payments.module';
+import { PromotionsModule } from './promotions/promotions.module';
 
 @Module({
   imports: [
+    PromotionsModule,
     AuthModule,
     MachinesModule,
     RequestsModule,

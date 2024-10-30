@@ -8,11 +8,15 @@ import { OrderEntity } from '../../orders/order.entity';
 import { FillRequestEntity } from '../../requests/fill-requests/fill-request.entity';
 import { ProductsMin } from './products_min.entity';
 import { UserEntity } from '../../users/entities/user.entity';
-import { query } from 'express';
-import { type } from 'os';
+import { PromotionEntity } from '../../promotions/promotion.entity';
 
 @Entity('machines')
 export class MachineEntity extends SearchableMagexEntity {
+  @OneToMany(() => PromotionEntity, (promotion) => promotion.machine, {
+    nullable: true,
+  })
+  promotions: PromotionEntity[];
+
   @OneToMany(() => FillRequestEntity, (fillRequest) => fillRequest.machine)
   fillRequests: FillRequestEntity[];
 
