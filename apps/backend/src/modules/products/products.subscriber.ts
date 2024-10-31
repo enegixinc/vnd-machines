@@ -10,6 +10,10 @@ import { ProductEntity, ProductStatus } from './entities/product.entity';
 import { MagexService } from '../../services/magex/magex.service';
 import { FillRequestProducts } from '../requests/fill-requests/fill-request.entity';
 import { EntitySyncer } from '../../common/entities/entity-syncer/entity-syncer';
+import { ISerializedMagexProduct } from '@core';
+import { MultiLangEntity } from './entities/multiLang.entity';
+import { BrandEntity } from '../brands/brand.entity';
+import { CategoryEntity } from '../categories/category.entity';
 
 @EventSubscriber()
 export class ProductSubscriber extends EntitySyncer<ProductEntity> {
@@ -18,6 +22,36 @@ export class ProductSubscriber extends EntitySyncer<ProductEntity> {
     @Inject(MagexService) protected readonly magexService: MagexService
   ) {
     super(dataSource, magexService);
+  }
+
+  handleSearchableFields(record: ISerializedMagexProduct) {
+    return {
+      fullName: MultiLangEntity.handleMultiLang(record.name),
+      searchableText: MultiLangEntity.handleSearchableText(
+        Object.values(record)
+      ),
+    };
+  }
+
+  handleRelationships(record: ISerializedMagexProduct) {
+    let category: CategoryEntity | undefined;
+    let brand: BrandEntity | undefined;
+
+    if (record.category.length) {
+      category = this.dataSource.manager.create(CategoryEntity);
+      Object.assign(category, record.category[0]);
+    }
+
+    if (record.brand) {
+      brand = this.dataSource.manager.create(BrandEntity);
+      Object.assign(brand, record.brand);
+    }
+
+    return this.dataSource.manager.create(ProductEntity, {
+      ...record,
+      category,
+      brand,
+    });
   }
 
   /**

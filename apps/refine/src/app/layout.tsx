@@ -159,6 +159,16 @@ export default function RootLayout({
                           icon: <GiVendingMachine />,
                         },
                       },
+                      {
+                        name: 'promotions',
+                        list: '/promotions',
+                        show: '/promotions/show/:id',
+                        create: '/promotions/create',
+                        meta: {
+                          canDelete: true,
+                          icon: <IoPricetagsOutline />,
+                        },
+                      },
                     ]}
                     options={{
                       syncWithLocation: true,
