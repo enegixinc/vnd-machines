@@ -1,4 +1,4 @@
-import { DataSource, EventSubscriber } from 'typeorm';
+import { DataSource, EventSubscriber, In } from 'typeorm';
 import { MagexService } from '../../services/magex/magex.service';
 import { Inject } from '@nestjs/common';
 import { EntitySyncer } from '../../common/entities/entity-syncer/entity-syncer';
@@ -48,14 +48,12 @@ export class OrdersSubscriber extends EntitySyncer<OrderEntity> {
     };
   }
 
-  async preloadProducts(productIds: string[]) {
-    const promises = productIds.map(async (_id) => {
-      return await this.dataSource.manager.findOne(ProductEntity, {
-        withDeleted: true,
-        where: { _id },
-      });
-    });
-    return Promise.all(promises);
+  preloadProducts(productIds?: string[]) {
+    return productIds
+      ? this.dataSource.manager.find(ProductEntity, {
+          where: { _id: In(productIds) },
+        })
+      : this.dataSource.manager.find(ProductEntity);
   }
 
   async preloadMachine(machineId: string) {
