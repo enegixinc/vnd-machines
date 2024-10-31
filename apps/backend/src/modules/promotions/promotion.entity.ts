@@ -3,8 +3,9 @@ import {
   BeforeUpdate,
   Column,
   Entity,
+  JoinTable,
+  ManyToMany,
   ManyToOne,
-  OneToMany,
 } from 'typeorm';
 import { SearchableMagexEntity } from '../../common/database.entity';
 import { MagexService } from '../../services/magex/magex.service';
@@ -24,14 +25,15 @@ export class PromotionEntity extends SearchableMagexEntity {
     );
   }
 
-  @ManyToOne(() => MachineEntity, (machine) => machine.promotions, {
+  @ManyToMany(() => MachineEntity, (machine) => machine.promotions, {
     nullable: true,
   })
-  machine: MachineEntity;
+  machines: MachineEntity[] | { _id: string };
 
-  @OneToMany(() => ProductEntity, (product) => product.promotions, {
+  @ManyToMany(() => ProductEntity, (product) => product.promotions, {
     nullable: true,
   })
+  @JoinTable()
   products: ProductEntity[];
 
   @ManyToOne(() => CategoryEntity, (category) => category.promotions, {
@@ -133,6 +135,7 @@ export class PromotionEntity extends SearchableMagexEntity {
       return promotions as PromotionEntity[];
     } catch (error) {
       console.error('Error fetching Magex records:', error);
+      return [];
     }
   }
 

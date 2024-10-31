@@ -62,7 +62,7 @@ export class ProductsService extends TypeOrmCrudService<ProductEntity> {
     //   where: {
     //     _id: In(productIds.map((product) => product.product_id)),
     //   },
-    //   relations: ['product', 'machine', 'product.supplier'],
+    //   relations: ['product', 'machines', 'product.supplier'],
     // });
 
     const products = productIds.map(async (productId) => {

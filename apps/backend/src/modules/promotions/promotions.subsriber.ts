@@ -1,4 +1,4 @@
-import { DataSource, EventSubscriber } from 'typeorm';
+import { DataSource, EventSubscriber, In } from 'typeorm';
 import { Inject } from '@nestjs/common';
 import { PromotionEntity } from './promotion.entity';
 import { EntitySyncer } from '../../common/entities/entity-syncer/entity-syncer';
@@ -10,15 +10,11 @@ import { MachineEntity } from '../machines/entities/machine.entity';
 @EventSubscriber()
 export class PromotionSubscriber extends EntitySyncer<PromotionEntity> {
   constructor(
-    @Inject(DataSource) protected dataSource: DataSource,
-    @Inject(MagexService) protected magexService: MagexService
+    @Inject(DataSource) protected readonly dataSource: DataSource,
+    @Inject(MagexService) protected readonly magexService: MagexService
   ) {
     super(dataSource, magexService);
-    this.syncConfig = {
-      added: true,
-      updated: true,
-      deleted: true,
-    };
+    this.dependsOn = [ProductEntity, MachineEntity];
   }
 
   listenTo() {
@@ -42,34 +38,45 @@ export class PromotionSubscriber extends EntitySyncer<PromotionEntity> {
     };
   }
 
-  async preloadProducts(productIds: string[]) {
-    const promises = productIds.map(async (_id) => {
-      return await this.dataSource.manager.findOne(ProductEntity, {
-        withDeleted: true,
-        where: { _id },
-      });
-    });
-    return Promise.all(promises);
+  preloadProducts(productIds?: string[]) {
+    return productIds
+      ? this.dataSource.manager.find(ProductEntity, {
+          where: { _id: In(productIds) },
+        })
+      : this.dataSource.manager.find(ProductEntity);
   }
 
-  async preloadMachine(machineId: string) {
-    return await this.dataSource.manager.findOne(MachineEntity, {
-      withDeleted: true,
-      where: { _id: machineId },
-    });
+  preloadMachine(machineId?: string) {
+    return machineId
+      ? this.dataSource.manager.findOne(MachineEntity, {
+          where: { _id: machineId },
+        })
+      : this.dataSource.manager.find(MachineEntity);
   }
 
   async handleRelationships(record: any): Promise<PromotionEntity> {
-    const productIds = record.product?.map((p) => p._id) ?? [];
-    const loadedProducts = await this.preloadProducts(productIds);
-
     const promotion = this.dataSource.manager.create(PromotionEntity, record);
 
-    promotion.products = loadedProducts;
+    // Handle associated products
+    if (record.product) {
+      const productIds = record.product.map((p) => p._id);
+      console.log('productIds', productIds);
+      // promotion.products = await this.preloadProducts(productIds);
+      const products = await this.preloadProducts(productIds);
+      console.log('products', products);
+      promotion.products = products;
+    } else if (record.cateOrProd === 'All Products') {
+      // promotion.products = await this.preloadProducts();
+      const products = await this.preloadProducts();
+      console.log('products', products);
+      promotion.products = products;
+    }
 
-    // Preload related machine if specified
-    if (record.machine && !record.machine.all) {
-      promotion.machine = await this.preloadMachine(record.machine.id._id);
+    // Handle associated machines
+    if (record.machine) {
+      promotion.machines = record.machine.all
+        ? await this.preloadMachine()
+        : await this.preloadMachine(record.machine.id._id);
     }
 
     return promotion;

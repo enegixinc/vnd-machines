@@ -8,9 +8,8 @@ import { ConfigService } from '@backend/config';
 import { MagexConnector } from '@backend/magex-connector';
 import { GlobalResponseError } from '../../common/responses/GlobalResponseError.dto';
 import { Cron, CronExpression } from '@nestjs/schedule';
-import axios, { AxiosError, AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
 import { timer } from 'execution-time-decorators';
-import { axiosInstance } from '@refinedev/nestjsx-crud';
 
 @Global()
 @Injectable()

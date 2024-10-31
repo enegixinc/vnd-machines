@@ -971,7 +971,7 @@ export class PromotionsService {
   ): CancelablePromise<GetApiPromosByAccountNameResponse> {
     return this.httpRequest.request({
       method: 'GET',
-      url: '/api/promos/{accountName}',
+      url: '/promos/{accountName}',
       path: {
         accountName: data.accountName,
       },
@@ -990,7 +990,7 @@ export class PromotionsService {
   ): CancelablePromise<PostApiPromosCreateResponse> {
     return this.httpRequest.request({
       method: 'POST',
-      url: '/api/promos/create',
+      url: '/promos/create',
       body: data.requestBody,
       mediaType: 'application/json',
     });
@@ -1008,7 +1008,7 @@ export class PromotionsService {
   ): CancelablePromise<DeleteApiPromosByIdResponse> {
     return this.httpRequest.request({
       method: 'DELETE',
-      url: '/api/promos/{_id}',
+      url: '/promos/{_id}',
       path: {
         _id: data.id,
       },
@@ -1028,7 +1028,7 @@ export class PromotionsService {
   ): CancelablePromise<PatchApiPromosUpdateByIdResponse> {
     return this.httpRequest.request({
       method: 'PATCH',
-      url: '/api/promos/update/{_id}',
+      url: '/promos/update/{_id}',
       path: {
         _id: data.id,
       },

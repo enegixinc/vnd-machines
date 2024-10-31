@@ -6,6 +6,7 @@ import { PromotionEntity } from './promotion.entity';
 import { PromotionsService } from './promotions.service';
 import { CreatePromotionDto } from './dto/create-promotion.dto';
 import { UpdatePromotionDto } from './dto/update-promotions.dto';
+import { Public } from '../auth/decorators/public.decorator';
 
 @Crud({
   model: {
@@ -45,6 +46,7 @@ import { UpdatePromotionDto } from './dto/update-promotions.dto';
     exclude: ['replaceOneBase'],
   },
 })
+@Public()
 @Controller('promotions')
 @ApiBearerAuth('access-token')
 @ApiResponse({ status: 403, description: 'Forbidden.' })

@@ -1,7 +1,14 @@
 import { SearchableMagexEntity } from '../../../common/database.entity';
 import { MagexService } from '../../../services/magex/magex.service';
 import { MachinesEndpointResponse } from '../../../../../../libs/core/src/interfaces/machine';
-import { Column, Entity, JoinTable, OneToMany, VirtualColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  OneToMany,
+  VirtualColumn,
+} from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { MachineProduct } from './machine-product.entity';
 import { OrderEntity } from '../../orders/order.entity';
@@ -12,9 +19,10 @@ import { PromotionEntity } from '../../promotions/promotion.entity';
 
 @Entity('machines')
 export class MachineEntity extends SearchableMagexEntity {
-  @OneToMany(() => PromotionEntity, (promotion) => promotion.machine, {
+  @ManyToMany(() => PromotionEntity, (promotion) => promotion.machines, {
     nullable: true,
   })
+  @JoinTable()
   promotions: PromotionEntity[];
 
   @OneToMany(() => FillRequestEntity, (fillRequest) => fillRequest.machine)

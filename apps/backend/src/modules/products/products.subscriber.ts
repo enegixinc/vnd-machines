@@ -1,8 +1,5 @@
-// product.subscriber.ts
-
 import {
   DataSource,
-  EntitySubscriberInterface,
   EventSubscriber,
   InsertEvent,
   RemoveEvent,
@@ -12,16 +9,15 @@ import { Inject } from '@nestjs/common';
 import { ProductEntity, ProductStatus } from './entities/product.entity';
 import { MagexService } from '../../services/magex/magex.service';
 import { FillRequestProducts } from '../requests/fill-requests/fill-request.entity';
+import { EntitySyncer } from '../../common/entities/entity-syncer/entity-syncer';
 
 @EventSubscriber()
-export class ProductSubscriber
-  implements EntitySubscriberInterface<ProductEntity>
-{
+export class ProductSubscriber extends EntitySyncer<ProductEntity> {
   constructor(
-    @Inject(DataSource) private readonly dataSource: DataSource,
-    @Inject(MagexService) private readonly magexService: MagexService
+    @Inject(DataSource) protected readonly dataSource: DataSource,
+    @Inject(MagexService) protected readonly magexService: MagexService
   ) {
-    this.dataSource.subscribers.push(this);
+    super(dataSource, magexService);
   }
 
   /**

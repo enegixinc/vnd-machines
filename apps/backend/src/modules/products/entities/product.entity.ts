@@ -4,6 +4,7 @@ import {
   Column,
   Entity,
   Index,
+  ManyToMany,
   ManyToOne,
   ObjectLiteral,
   OneToMany,
@@ -39,7 +40,7 @@ export class ProductEntity
   extends SearchableMagexEntity
   implements IProductEntity
 {
-  @ManyToOne(() => PromotionEntity, (promotion) => promotion.products, {
+  @ManyToMany(() => PromotionEntity, (promotion) => promotion.products, {
     nullable: true,
   })
   promotions: PromotionEntity[];
