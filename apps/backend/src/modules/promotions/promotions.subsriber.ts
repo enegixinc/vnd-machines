@@ -60,16 +60,9 @@ export class PromotionSubscriber extends EntitySyncer<PromotionEntity> {
     // Handle associated products
     if (record.product) {
       const productIds = record.product.map((p) => p._id);
-      console.log('productIds', productIds);
-      // promotion.products = await this.preloadProducts(productIds);
-      const products = await this.preloadProducts(productIds);
-      console.log('products', products);
-      promotion.products = products;
+      promotion.products = await this.preloadProducts(productIds);
     } else if (record.cateOrProd === 'All Products') {
-      // promotion.products = await this.preloadProducts();
-      const products = await this.preloadProducts();
-      console.log('products', products);
-      promotion.products = products;
+      promotion.products = await this.preloadProducts();
     }
 
     // Handle associated machines
