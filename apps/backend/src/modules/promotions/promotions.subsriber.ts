@@ -6,6 +6,7 @@ import { MagexService } from '../../services/magex/magex.service';
 import { MultiLangEntity } from '../products/entities/multiLang.entity';
 import { ProductEntity } from '../products/entities/product.entity';
 import { MachineEntity } from '../machines/entities/machine.entity';
+import { CategoryEntity } from '../categories/category.entity';
 
 @EventSubscriber()
 export class PromotionSubscriber extends EntitySyncer<PromotionEntity> {
@@ -46,6 +47,14 @@ export class PromotionSubscriber extends EntitySyncer<PromotionEntity> {
       : this.dataSource.manager.find(ProductEntity);
   }
 
+  preloadCategories(categoryIds?: string[]) {
+    return categoryIds
+      ? this.dataSource.manager.find(CategoryEntity, {
+          where: { _id: In(categoryIds) },
+        })
+      : this.dataSource.manager.find(CategoryEntity);
+  }
+
   preloadMachine(machineId?: string) {
     return machineId
       ? this.dataSource.manager.findOne(MachineEntity, {
@@ -57,12 +66,20 @@ export class PromotionSubscriber extends EntitySyncer<PromotionEntity> {
   async handleRelationships(record: any): Promise<PromotionEntity> {
     const promotion = this.dataSource.manager.create(PromotionEntity, record);
 
-    // Handle associated products
-    if (record.product) {
-      const productIds = record.product.map((p) => p._id);
-      promotion.products = await this.preloadProducts(productIds);
-    } else if (record.cateOrProd === 'All Products') {
-      promotion.products = await this.preloadProducts();
+    switch (record.cateOrProd) {
+      case 'All Products':
+        promotion.products = await this.preloadProducts();
+        break;
+      case 'prod':
+        promotion.products = await this.preloadProducts(
+          record.product.map((p) => p._id)
+        );
+        break;
+      case 'cate':
+        promotion.categories = await this.preloadCategories(
+          record.product.map((p) => p._id)
+        );
+        break;
     }
 
     // Handle associated machines

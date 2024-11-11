@@ -78,6 +78,20 @@ export const formatPrice = (price: number | string) => {
   return price.toFixed(3) + ' KD';
 };
 
+export const formatPercentage = (percentage: number | string) => {
+  if (!percentage) {
+    return '0%';
+  }
+
+  const percentageValue = parseFloat(percentage as string);
+
+  if (isNaN(percentageValue)) {
+    return 'N/A';
+  }
+
+  return percentageValue * 100 + '%';
+};
+
 export const formatTime = (time: string) =>
   dayjs(time).utcOffset(0).format('MM/DD/YYYY HH:mm:ss');
 

@@ -19,7 +19,9 @@ export abstract class EntitySyncer<Entity extends MagexDatabaseEntity>
   extends CRUDSyncer<Entity>
   implements EntitySubscriberInterface<Entity>, OnModuleInit
 {
+  // eslint-disable-next-line @typescript-eslint/ban-types
   protected dependsOn: (string | Function)[] = [];
+  // eslint-disable-next-line @typescript-eslint/ban-types
   private static syncStatusMap: Map<string | Function, Promise<void>> =
     new Map();
 
@@ -37,8 +39,10 @@ export abstract class EntitySyncer<Entity extends MagexDatabaseEntity>
     deleted: true,
   };
 
+  // eslint-disable-next-line @typescript-eslint/ban-types
   abstract listenTo(): string | Function;
 
+  // eslint-disable-next-line @typescript-eslint/ban-types
   private get entity(): string | Function {
     return this.listenTo();
   }

@@ -217,7 +217,7 @@ export class ProductsService {
    * - `upc` (text, optional): The UPC (Universal Product Code) of the product.
    * - `price` (text, optional): The price of the product.
    * - `barcode` (text, optional): The barcode of the product.
-   * - `category` (text, optional): The category of the product.
+   * - `categories` (text, optional): The categories of the product.
    * - `referTo` (text, optional): Reference information for the product.
    * - `dimension` (text, optional): The dimensions of the product (length, height, width).
    * - `prodType` (text, optional): The type of the product.
@@ -270,7 +270,7 @@ export class ProductsService {
    *
    * #### Request Body
    * - The request should be sent as a form-data with the following parameters:
-   * - `category` (text)
+   * - `categories` (text)
    * - `productPictures` (file)
    * - `pricePerKilo` (text)
    * - `name` (text)
@@ -299,7 +299,7 @@ export class ProductsService {
    * - `__v` (text)
    *
    * #### Response
-   * Upon successful creation, the endpoint returns a status code of 201 and a JSON object with the details of the newly created product, including its ID, name, category, price, and other attributes.
+   * Upon successful creation, the endpoint returns a status code of 201 and a JSON object with the details of the newly created product, including its ID, name, categories, price, and other attributes.
    *
    *
    * @param data The data for the request.
@@ -368,17 +368,17 @@ export class CategoriesService {
    * Edit
    * ### Update Category
    *
-   * This endpoint allows the user to update a specific category by providing the category ID and the updated information.
+   * This endpoint allows the user to update a specific categories by providing the categories ID and the updated information.
    *
    * #### Request
    *
    * - Method: PUT
    * - URL: {{baseUrl}}/categories/edit/:_id
    * - Body (form-data):
-   * - `name` (text): The updated name of the category.
-   * - `referTo` (text): The reference information for the category.
-   * - `auto` (text): Indicates if the category is set to auto.
-   * - `sortIndex` (text): The updated sort index of the category.
+   * - `name` (text): The updated name of the categories.
+   * - `referTo` (text): The reference information for the categories.
+   * - `auto` (text): Indicates if the categories is set to auto.
+   * - `sortIndex` (text): The updated sort index of the categories.
    *
    * #### Response
    *
@@ -423,17 +423,17 @@ export class CategoriesService {
    * Delete
    * ### Update Category
    *
-   * This endpoint allows the user to update a specific category by providing the category ID and the updated information.
+   * This endpoint allows the user to update a specific categories by providing the categories ID and the updated information.
    *
    * #### Request
    *
    * - Method: PUT
    * - URL: {{baseUrl}}/categories/edit/:_id
    * - Body (form-data):
-   * - `name` (text): The updated name of the category.
-   * - `referTo` (text): The reference information for the category.
-   * - `auto` (text): Indicates if the category is set to auto.
-   * - `sortIndex` (text): The updated sort index of the category.
+   * - `name` (text): The updated name of the categories.
+   * - `referTo` (text): The reference information for the categories.
+   * - `auto` (text): Indicates if the categories is set to auto.
+   * - `sortIndex` (text): The updated sort index of the categories.
    *
    * #### Response
    *
@@ -473,7 +473,7 @@ export class CategoriesService {
 
   /**
    * Create
-   * This endpoint makes an HTTP POST request to create a new category. The request should be sent to {{baseUrl}}/categories/create with a form-data request body type.
+   * This endpoint makes an HTTP POST request to create a new categories. The request should be sent to {{baseUrl}}/categories/create with a form-data request body type.
    *
    * ### Request Body
    *
@@ -484,8 +484,8 @@ export class CategoriesService {
    *
    * - **Status**: 201
    * - **Content-Type**: application/json
-   * - The response will contain the newly created category object with the following properties:
-   * - `newCategory`: An object representing the new category with properties such as `machines`, `_id`, `name`, `referTo`, `categoryPicture`, `sortIndex`, `createdAt`, `updatedAt`, and `__v`.
+   * - The response will contain the newly created categories object with the following properties:
+   * - `newCategory`: An object representing the new categories with properties such as `machines`, `_id`, `name`, `referTo`, `categoryPicture`, `sortIndex`, `createdAt`, `updatedAt`, and `__v`.
    * @param data The data for the request.
    * @param data.authToken
    * @param data.formData
@@ -552,7 +552,7 @@ export class ReportsService {
    * "name": {
    * "ar": ""
    * },
-   * "category": [""],
+   * "categories": [""],
    * "productPictures": [""],
    * "_id": "",
    * "upc": "",
@@ -642,7 +642,7 @@ export class OrdersService {
    * "name": {
    * "ar": ""
    * },
-   * "category": [""],
+   * "categories": [""],
    * "_id": "",
    * "upc": "",
    * "price": 0

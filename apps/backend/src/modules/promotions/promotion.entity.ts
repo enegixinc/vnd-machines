@@ -5,7 +5,7 @@ import {
   Entity,
   JoinTable,
   ManyToMany,
-  ManyToOne,
+  OneToMany,
 } from 'typeorm';
 import { SearchableMagexEntity } from '../../common/database.entity';
 import { MagexService } from '../../services/magex/magex.service';
@@ -36,10 +36,10 @@ export class PromotionEntity extends SearchableMagexEntity {
   @JoinTable()
   products: ProductEntity[];
 
-  @ManyToOne(() => CategoryEntity, (category) => category.promotions, {
+  @OneToMany(() => CategoryEntity, (category) => category.promotion, {
     nullable: true,
   })
-  category: CategoryEntity;
+  categories: CategoryEntity[];
 
   @ApiProperty({ type: String })
   @Column({ default: '' })
@@ -114,9 +114,15 @@ export class PromotionEntity extends SearchableMagexEntity {
   isOne: boolean;
 
   async createMagexRecord(magexService: MagexService): Promise<void> {
-    await magexService.promotions.postApiPromosCreate({
-      requestBody: Object.assign(this),
-    });
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    //@ts-ignore - to be fixed
+    const { order: newPromotion } =
+      await magexService.promotions.postApiPromosCreate({
+        requestBody: Object.assign(this),
+      });
+
+    Object.assign(this, newPromotion);
+    Object.assign(this, { lastSyncAt: newPromotion.updatedAt });
   }
 
   async deleteMagexRecord(magexService: MagexService): Promise<void> {
@@ -140,9 +146,19 @@ export class PromotionEntity extends SearchableMagexEntity {
   }
 
   async updateMagexRecord(magexService: MagexService): Promise<void> {
+    console.log('Updating promotion:', this._id);
     await magexService.promotions.patchApiPromosUpdateById({
       id: this._id,
       requestBody: Object.assign(this),
     });
+
+    const promotions = await this.fetchMagexRecords(magexService);
+
+    const newPromotion = promotions.find(
+      (promotion) => promotion._id === this._id
+    );
+
+    Object.assign(this, newPromotion);
+    Object.assign(this, { lastSyncAt: new Date() });
   }
 }

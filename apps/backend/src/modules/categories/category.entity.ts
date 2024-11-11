@@ -5,6 +5,7 @@ import {
   Entity,
   JoinTable,
   ManyToMany,
+  ManyToOne,
   OneToMany,
   VirtualColumn,
 } from 'typeorm';
@@ -37,10 +38,10 @@ export class CategoryEntity
   extends SearchableMagexEntity
   implements ICategoryEntity
 {
-  @OneToMany(() => PromotionEntity, (promotion) => promotion.category, {
+  @ManyToOne(() => PromotionEntity, (promotion) => promotion.categories, {
     nullable: true,
   })
-  promotions: PromotionEntity[];
+  promotion: PromotionEntity[];
 
   @BeforeInsert()
   @BeforeUpdate()

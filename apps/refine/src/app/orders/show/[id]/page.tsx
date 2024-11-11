@@ -27,7 +27,7 @@ export default function OrderShow() {
           field: 'products.product.supplier',
         },
         {
-          field: 'products.product.category',
+          field: 'products.product.categories',
         },
         {
           field: 'products.product.brand',
