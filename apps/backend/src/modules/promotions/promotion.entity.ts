@@ -23,12 +23,52 @@ export class PromotionEntity extends SearchableMagexEntity {
     this.searchableText = MultiLangEntity.handleSearchableText(
       Object.values(this)
     );
+
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    this.machines = [
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        _id: this.machine,
+      },
+    ];
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    const adaptedProducts = this.product.map((value) => ({
+      _id: value,
+    }));
+
+    switch (this.cateOrProd) {
+      case 'prod':
+        this.products = adaptedProducts;
+        break;
+      case 'cate':
+        this.categories = adaptedProducts;
+        break;
+    }
+
+    console.dir(this, {
+      depth: 5,
+      colors: true,
+    });
   }
 
   @ManyToMany(() => MachineEntity, (machine) => machine.promotions, {
     nullable: true,
   })
+  @JoinTable()
   machines: MachineEntity[] | { _id: string };
+
+  @ApiProperty({ default: false })
+  @Column({ default: false })
+  isAllProducts: boolean;
+
+  @ApiProperty({ default: false })
+  @Column({ default: false })
+  isAllMachines: boolean;
 
   @ManyToMany(() => ProductEntity, (product) => product.promotions, {
     nullable: true,

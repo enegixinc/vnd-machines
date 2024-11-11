@@ -47,9 +47,18 @@ export default function PromotionsList() {
           sorter: true,
         },
         {
-          dataIndex: 'cateOrProd',
           title: 'Category/Products',
-          render: handleEmptyString,
+          render: ({ cateOrProd, isAllProducts }) => (
+            <Text>
+              {isAllProducts ? (
+                <Tag color="green">All Products</Tag>
+              ) : (
+                handleEmptyString(
+                  cateOrProd === 'prod' ? 'Products' : 'Categories'
+                )
+              )}
+            </Text>
+          ),
         },
         {
           title: 'Code/Department',
@@ -58,16 +67,20 @@ export default function PromotionsList() {
           ),
         },
         {
-          dataIndex: 'machines',
           title: 'Machines',
-          render: (machines) =>
-            machines.map((machine) => (
-              <div key={machine._id}>
-                <Link href={`/machines/show/${machine._id}`}>
-                  {machine.description}
-                </Link>
-              </div>
-            )),
+          render: ({ machines, isAllMachines }) => {
+            if (isAllMachines) {
+              return <Tag color="green">All Machines</Tag>;
+            } else {
+              return machines.map((machine) => (
+                <div key={machine._id}>
+                  <Link href={`/machines/show/${machine._id}`}>
+                    {machine.description}
+                  </Link>
+                </div>
+              ));
+            }
+          },
         },
         {
           dataIndex: 'productsToBuy',

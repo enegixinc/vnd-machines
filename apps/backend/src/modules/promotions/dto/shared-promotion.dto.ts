@@ -5,13 +5,42 @@ import {
   IsNotEmpty,
   IsNumber,
   IsOptional,
+  IsString,
+  ValidateNested,
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { CrudValidationGroups } from '@dataui/crud';
+import { ProductEntity } from '../../products/entities/product.entity';
+import { Type } from 'class-transformer';
+import { MachineEntity } from '../../machines/entities/machine.entity';
+import { CategoryEntity } from '../../categories/category.entity';
 
 const { CREATE, UPDATE } = CrudValidationGroups;
 
+class ReferenceByID {
+  @IsString()
+  _id: string;
+}
+
 export class SharedPromotionDto {
+  @IsOptional({ groups: [UPDATE, CREATE] })
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => ReferenceByID)
+  products: ProductEntity[];
+
+  @IsOptional({ groups: [UPDATE, CREATE] })
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => ReferenceByID)
+  machines: MachineEntity[];
+
+  @IsOptional({ groups: [UPDATE, CREATE] })
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => ReferenceByID)
+  categories: CategoryEntity[];
+
   @decorate(IsNotEmpty({ groups: [CREATE] }))
   @decorate(IsOptional({ groups: [UPDATE] }))
   @decorate(
@@ -84,7 +113,7 @@ export class SharedPromotionDto {
     ApiProperty({
       description: 'Products associated with the promotion',
       type: [String],
-      example: [],
+      example: ['asd'],
     })
   )
   product: string[];

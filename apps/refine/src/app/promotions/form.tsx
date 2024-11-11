@@ -65,6 +65,8 @@ export const PromotionForm: React.FC<{ formProps: FormProps }> = ({
         const isAllProducts = values.product.some(
           (product: { value: string }) => product.value === 'All Products'
         );
+        const isPercentage = values.percentage;
+        const amount = isPercentage ? values.amount / 100 : values.amount;
 
         const payload = Object.assign({}, values, {
           startDate: values.startDate.toISOString(),
@@ -75,6 +77,7 @@ export const PromotionForm: React.FC<{ formProps: FormProps }> = ({
           product: isAllProducts ? 'All Products' : values.product,
           referTo: 'tryvnd@point24h.com',
           productsToBuy: 0,
+          amount,
           cateOrProd,
         });
         formProps?.onFinish(payload);

@@ -55,20 +55,22 @@ export class PromotionSubscriber extends EntitySyncer<PromotionEntity> {
       : this.dataSource.manager.find(CategoryEntity);
   }
 
-  preloadMachine(machineId?: string) {
+  preloadMachine(machineId?: string): Promise<MachineEntity[]> {
     return machineId
-      ? this.dataSource.manager.findOne(MachineEntity, {
+      ? this.dataSource.manager.find(MachineEntity, {
           where: { _id: machineId },
         })
       : this.dataSource.manager.find(MachineEntity);
   }
 
   async handleRelationships(record: any): Promise<PromotionEntity> {
+    console.log('handleRelationships record', record);
     const promotion = this.dataSource.manager.create(PromotionEntity, record);
 
     switch (record.cateOrProd) {
       case 'All Products':
         promotion.products = await this.preloadProducts();
+        promotion.isAllProducts = true;
         break;
       case 'prod':
         promotion.products = await this.preloadProducts(
@@ -77,16 +79,21 @@ export class PromotionSubscriber extends EntitySyncer<PromotionEntity> {
         break;
       case 'cate':
         promotion.categories = await this.preloadCategories(
-          record.product.map((p) => p._id)
+          record.category.map((p) => p._id)
         );
         break;
     }
 
-    // Handle associated machines
-    if (record.machine) {
-      promotion.machines = record.machine.all
-        ? await this.preloadMachine()
-        : await this.preloadMachine(record.machine.id._id);
+    switch (record.machine.all) {
+      case true:
+        console.log('record.machine.all', record.machine.all);
+        promotion.machines = await this.preloadMachine();
+        promotion.isAllMachines = true;
+        break;
+      case false:
+        console.log('record.machine.id._id', record.machine.id._id);
+        promotion.machines = await this.preloadMachine(record.machine.id._id);
+        break;
     }
 
     return promotion;

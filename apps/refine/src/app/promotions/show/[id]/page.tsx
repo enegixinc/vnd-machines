@@ -2,11 +2,12 @@
 
 import { Show, TextField } from '@refinedev/antd';
 import { useShow } from '@refinedev/core';
-import { Descriptions, Divider, Spin, Typography } from 'antd';
+import { Descriptions, Divider, Spin, Tag, Typography } from 'antd';
 import React from 'react';
 import { formatPrice, handleEmptyString } from '@helpers';
 import { formatDate } from '@components/description-dates';
 import { SerializedPromotionDto } from '../../../../../../backend/src/modules/promotions/dto/serialize-promotion';
+import Link from 'next/link';
 
 const { Title } = Typography;
 
@@ -16,12 +17,15 @@ export default function PromotionShow() {
       join: [
         {
           field: 'products',
+          select: ['_id', 'fullName'],
         },
         {
           field: 'machines',
+          select: ['_id', 'description'],
         },
         {
-          field: 'category',
+          field: 'categories',
+          select: ['_id', 'fullName'],
         },
       ],
     },
@@ -40,6 +44,7 @@ export default function PromotionShow() {
       />
     );
   }
+
   const record = data?.data;
   if (!record) {
     return null;
@@ -56,16 +61,12 @@ export default function PromotionShow() {
           width: '20%',
         }}
       >
-        <Descriptions.Item label="ID">
-          <TextField value={record._id} />
-        </Descriptions.Item>
-
         <Descriptions.Item label="Title">
           <TextField value={handleEmptyString(record.title)} />
         </Descriptions.Item>
 
-        <Descriptions.Item label="Promotion Code">
-          <TextField value={handleEmptyString(record.code)} />
+        <Descriptions.Item label="Promotion Type">
+          <Tag color="blue">{handleEmptyString(record.promoType)}</Tag>
         </Descriptions.Item>
 
         <Descriptions.Item label="Start Date">
@@ -77,11 +78,11 @@ export default function PromotionShow() {
         </Descriptions.Item>
 
         <Descriptions.Item label="Start Time">
-          <TextField value={handleEmptyString(record.startTime)} />
+          <TextField value={formatDate(record.startTime)} />
         </Descriptions.Item>
 
         <Descriptions.Item label="End Time">
-          <TextField value={handleEmptyString(record.endTime)} />
+          <TextField value={formatDate(record.endTime)} />
         </Descriptions.Item>
 
         <Descriptions.Item label="Amount">
@@ -89,34 +90,106 @@ export default function PromotionShow() {
         </Descriptions.Item>
 
         <Descriptions.Item label="Active">
-          <TextField value={record.active ? 'Yes' : 'No'} />
-        </Descriptions.Item>
-
-        <Descriptions.Item label="Category">
-          <TextField value={handleEmptyString(record.category?.name)} />
-        </Descriptions.Item>
-
-        <Descriptions.Item label="Machines">
-          {record.machines?.map((machine) => (
-            <TextField
-              key={machine._id}
-              value={handleEmptyString(machine.name)}
-            />
-          ))}
-        </Descriptions.Item>
-
-        <Descriptions.Item label="Products">
-          {record.products?.map((product) => (
-            <TextField
-              key={product._id}
-              value={handleEmptyString(product.name)}
-            />
-          ))}
+          <Tag color={record.active ? 'green' : 'red'}>
+            {record.active ? 'Yes' : 'No'}
+          </Tag>
         </Descriptions.Item>
       </Descriptions>
 
       <Divider />
-      {/* Add more sections like financials or orders if relevant */}
+
+      <Title level={3}>{'Associations'}</Title>
+      <Descriptions
+        bordered
+        column={1}
+        labelStyle={{
+          fontWeight: 'bold',
+          width: '20%',
+        }}
+      >
+        <Descriptions.Item label="Products">
+          {record.isAllProducts ? (
+            <Tag color="green">All Products</Tag>
+          ) : record.products.length > 0 ? (
+            record.products.map((product) => (
+              <Link href={`/products/show/${product._id}`} key={product._id}>
+                {product.fullName}
+              </Link>
+            ))
+          ) : (
+            <Tag color="warning">No Products</Tag>
+          )}
+        </Descriptions.Item>
+
+        <Descriptions.Item label="Categories">
+          {record.categories.length > 0 ? (
+            record.categories.map((category) => (
+              <Link
+                href={`/categories/show/${category._id}`}
+                key={category._id}
+              >
+                {category.fullName}
+              </Link>
+            ))
+          ) : (
+            <Tag color="warning">No Categories</Tag>
+          )}
+        </Descriptions.Item>
+
+        <Descriptions.Item label="Machines">
+          {record.isAllMachines ? (
+            <Tag color="green">All Machines</Tag>
+          ) : (
+            record.machines.map((machine) => (
+              <div key={machine._id}>
+                <Link href={`/machines/show/${machine._id}`}>
+                  {machine.description}
+                </Link>
+              </div>
+            ))
+          )}
+        </Descriptions.Item>
+      </Descriptions>
+
+      <Divider />
+
+      <Title level={3}>{'Extra Details'}</Title>
+      <Descriptions
+        bordered
+        column={2}
+        labelStyle={{
+          fontWeight: 'bold',
+          width: '20%',
+        }}
+      >
+        <Descriptions.Item label="Code">
+          <TextField value={handleEmptyString(record.code)} />
+        </Descriptions.Item>
+
+        <Descriptions.Item label="Department">
+          <TextField value={handleEmptyString(record.department)} />
+        </Descriptions.Item>
+
+        <Descriptions.Item label="Products to Buy">
+          <TextField value={record.productsToBuy.toString()} />
+        </Descriptions.Item>
+
+        <Descriptions.Item label="Percentage">
+          <Tag color={record.percentage ? 'green' : 'red'}>
+            {record.percentage ? 'Yes' : 'No'}
+          </Tag>
+        </Descriptions.Item>
+
+        <Descriptions.Item label="Refer To">
+          <TextField value={handleEmptyString(record.referTo)} />
+        </Descriptions.Item>
+
+        <Descriptions.Item label="Is One-Time">
+          <Tag color={record.isOne ? 'green' : 'red'}>
+            {record.isOne ? 'Yes' : 'No'}
+          </Tag>
+        </Descriptions.Item>
+      </Descriptions>
     </Show>
   );
 }
