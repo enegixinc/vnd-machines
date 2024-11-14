@@ -36,9 +36,9 @@ import { Public } from '../auth/decorators/public.decorator';
     limit: 10,
 
     join: {
-      products: {},
-      categories: {},
-      machines: {},
+      product: {},
+      category: {},
+      machine: {},
     },
   },
   routes: {

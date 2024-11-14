@@ -40,7 +40,7 @@ export class ProductEntity
   extends SearchableMagexEntity
   implements IProductEntity
 {
-  @ManyToMany(() => PromotionEntity, (promotion) => promotion.products, {
+  @ManyToMany(() => PromotionEntity, (promotion) => promotion.product, {
     nullable: true,
   })
   promotions: PromotionEntity[];

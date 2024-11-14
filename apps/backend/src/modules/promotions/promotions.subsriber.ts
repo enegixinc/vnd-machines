@@ -69,16 +69,16 @@ export class PromotionSubscriber extends EntitySyncer<PromotionEntity> {
 
     switch (record.cateOrProd) {
       case 'All Products':
-        promotion.products = await this.preloadProducts();
+        promotion.product = await this.preloadProducts();
         promotion.isAllProducts = true;
         break;
       case 'prod':
-        promotion.products = await this.preloadProducts(
+        promotion.product = await this.preloadProducts(
           record.product.map((p) => p._id)
         );
         break;
       case 'cate':
-        promotion.categories = await this.preloadCategories(
+        promotion.category = await this.preloadCategories(
           record.category.map((p) => p._id)
         );
         break;
@@ -87,12 +87,12 @@ export class PromotionSubscriber extends EntitySyncer<PromotionEntity> {
     switch (record.machine.all) {
       case true:
         console.log('record.machine.all', record.machine.all);
-        promotion.machines = await this.preloadMachine();
+        promotion.machine = await this.preloadMachine();
         promotion.isAllMachines = true;
         break;
       case false:
         console.log('record.machine.id._id', record.machine.id._id);
-        promotion.machines = await this.preloadMachine(record.machine.id._id);
+        promotion.machine = await this.preloadMachine(record.machine.id._id);
         break;
     }
 

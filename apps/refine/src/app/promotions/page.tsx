@@ -16,7 +16,7 @@ export default function PromotionsList() {
       meta={{
         join: [
           {
-            field: 'machines',
+            field: 'machine',
             select: ['description'],
           },
         ],
@@ -68,11 +68,11 @@ export default function PromotionsList() {
         },
         {
           title: 'Machines',
-          render: ({ machines, isAllMachines }) => {
+          render: ({ machine, isAllMachines }) => {
             if (isAllMachines) {
               return <Tag color="green">All Machines</Tag>;
             } else {
-              return machines.map((machine) => (
+              return machine.map((machine) => (
                 <div key={machine._id}>
                   <Link href={`/machines/show/${machine._id}`}>
                     {machine.description}

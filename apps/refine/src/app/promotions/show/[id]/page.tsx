@@ -6,25 +6,24 @@ import { Descriptions, Divider, Spin, Tag, Typography } from 'antd';
 import React from 'react';
 import { formatPrice, handleEmptyString } from '@helpers';
 import { formatDate } from '@components/description-dates';
-import { SerializedPromotionDto } from '../../../../../../backend/src/modules/promotions/dto/serialize-promotion';
 import Link from 'next/link';
 
 const { Title } = Typography;
 
 export default function PromotionShow() {
-  const { queryResult } = useShow<SerializedPromotionDto>({
+  const { queryResult } = useShow({
     meta: {
       join: [
         {
-          field: 'products',
+          field: 'product',
           select: ['_id', 'fullName'],
         },
         {
-          field: 'machines',
+          field: 'machine',
           select: ['_id', 'description'],
         },
         {
-          field: 'categories',
+          field: 'category',
           select: ['_id', 'fullName'],
         },
       ],
@@ -110,8 +109,8 @@ export default function PromotionShow() {
         <Descriptions.Item label="Products">
           {record.isAllProducts ? (
             <Tag color="green">All Products</Tag>
-          ) : record.products.length > 0 ? (
-            record.products.map((product) => (
+          ) : record.product.length > 0 ? (
+            record.product.map((product) => (
               <Link href={`/products/show/${product._id}`} key={product._id}>
                 {product.fullName}
               </Link>
@@ -122,8 +121,8 @@ export default function PromotionShow() {
         </Descriptions.Item>
 
         <Descriptions.Item label="Categories">
-          {record.categories.length > 0 ? (
-            record.categories.map((category) => (
+          {record.category.length > 0 ? (
+            record.category.map((category) => (
               <Link
                 href={`/categories/show/${category._id}`}
                 key={category._id}
@@ -140,7 +139,7 @@ export default function PromotionShow() {
           {record.isAllMachines ? (
             <Tag color="green">All Machines</Tag>
           ) : (
-            record.machines.map((machine) => (
+            record.machine.map((machine) => (
               <div key={machine._id}>
                 <Link href={`/machines/show/${machine._id}`}>
                   {machine.description}

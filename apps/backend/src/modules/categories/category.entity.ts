@@ -38,7 +38,7 @@ export class CategoryEntity
   extends SearchableMagexEntity
   implements ICategoryEntity
 {
-  @ManyToOne(() => PromotionEntity, (promotion) => promotion.categories, {
+  @ManyToOne(() => PromotionEntity, (promotion) => promotion.category, {
     nullable: true,
   })
   promotion: PromotionEntity[];

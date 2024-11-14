@@ -19,10 +19,9 @@ import { PromotionEntity } from '../../promotions/promotion.entity';
 
 @Entity('machines')
 export class MachineEntity extends SearchableMagexEntity {
-  @ManyToMany(() => PromotionEntity, (promotion) => promotion.machines, {
+  @ManyToMany(() => PromotionEntity, (promotion) => promotion.machine, {
     nullable: true,
   })
-  @JoinTable()
   promotions: PromotionEntity[];
 
   @OneToMany(() => FillRequestEntity, (fillRequest) => fillRequest.machine)
