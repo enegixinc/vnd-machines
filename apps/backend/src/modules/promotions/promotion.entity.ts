@@ -129,13 +129,14 @@ export class PromotionEntity extends SearchableMagexEntity {
       await magexService.promotions.postApiPromosCreate({
         // @ts-expect-error - asjkdbh
         requestBody: Object.assign(this, {
-          machine: this.machine[0]._id,
-          product: this.product.map((product) => product._id),
+          // machine: this.machine[0]._id,
+          // product: this.product.map((product) => product._id),
         }),
       });
 
     Object.assign(this, newPromotion);
     Object.assign(this, { lastSyncAt: newPromotion.updatedAt });
+    Object.assign(this, { isOurRecord: true });
   }
 
   async deleteMagexRecord(magexService: MagexService): Promise<void> {

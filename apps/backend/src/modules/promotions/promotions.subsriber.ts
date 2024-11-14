@@ -99,24 +99,53 @@ export class PromotionSubscriber extends EntitySyncer<PromotionEntity> {
     return promotion;
   }
 
-  async beforeInsert(event: InsertEvent<PromotionEntity>) {
-    console.log('beforeInsert', event.entity);
-    const product = await this.preloadProducts(
-      event.entity.product as unknown as string[]
-    );
-    const machine = await this.preloadMachine(
-      event.entity.machine as unknown as string
-    );
-    // Object.assign(event.entity, { product, machine });
+  // async beforeInsert(event: InsertEvent<PromotionEntity>) {
+  //   console.log('beforeInsert', event.entity);
+  //   // Object.assign(event.entity, { product, machine });
+  //
+  //   event.entity = this.dataSource.manager.create(PromotionEntity, {
+  //     ...event.entity,
+  //     product,
+  //     machine,
+  //   });
+  //
+  //   console.log('handleRelationships', event.entity);
+  //
+  //   await super.beforeInsert(event);
+  // }
 
-    event.entity = this.dataSource.manager.create(PromotionEntity, {
-      ...event.entity,
-      product,
-      machine,
-    });
+  async afterInsert(event: InsertEvent<PromotionEntity>) {
+    console.log('afterInsert', event.entity);
+    // @ts-expect-error - sa
+    if (event.entity.isOurRecord) {
+      const product = await this.preloadProducts(
+        event.entity.product as unknown as string[]
+      );
 
-    console.log('handleRelationships', event.entity);
+      // @ts-expect-error - sa
+      const isAllMachines = event.entity.machine.all;
+      const machine = isAllMachines
+        ? await this.preloadMachine()
+        : await this.preloadMachine(
+            // @ts-expect-error - sa
+            event.entity.machine.id as unknown as string
+          );
 
-    await super.beforeInsert(event);
+      console.log('updating isOurRecord');
+
+      const record = this.dataSource.manager.create(PromotionEntity, {
+        ...event.entity,
+        product,
+        machine,
+        isAllMachines,
+      });
+
+      const saved = await event.manager.save(record, {
+        listeners: false,
+      });
+      console.log('done updating isOurRecord', record);
+
+      console.log('saved', saved);
+    }
   }
 }
