@@ -110,11 +110,20 @@ export default function PromotionShow() {
           {record.isAllProducts ? (
             <Tag color="green">All Products</Tag>
           ) : record.product.length > 0 ? (
-            record.product.map((product) => (
-              <Link href={`/products/show/${product._id}`} key={product._id}>
-                {product.fullName}
-              </Link>
-            ))
+            record.product.map((product, index) => {
+              const isLast = index === record.product.length - 1;
+              return (
+                <>
+                  <Link
+                    href={`/products/show/${product._id}`}
+                    key={product._id}
+                  >
+                    {product.fullName}
+                  </Link>
+                  {!isLast && <br />}
+                </>
+              );
+            })
           ) : (
             <Tag color="warning">No Products</Tag>
           )}
@@ -122,14 +131,21 @@ export default function PromotionShow() {
 
         <Descriptions.Item label="Categories">
           {record.category.length > 0 ? (
-            record.category.map((category) => (
-              <Link
-                href={`/categories/show/${category._id}`}
-                key={category._id}
-              >
-                {category.fullName}
-              </Link>
-            ))
+            record.category.map((category, index) => {
+              const isLast = index === record.category.length - 1;
+
+              return (
+                <>
+                  <Link
+                    href={`/categories/show/${category._id}`}
+                    key={category._id}
+                  >
+                    {category.fullName}
+                  </Link>
+                  {!isLast && <br />}
+                </>
+              );
+            })
           ) : (
             <Tag color="warning">No Categories</Tag>
           )}
@@ -139,13 +155,19 @@ export default function PromotionShow() {
           {record.isAllMachines ? (
             <Tag color="green">All Machines</Tag>
           ) : (
-            record.machine.map((machine) => (
-              <div key={machine._id}>
-                <Link href={`/machines/show/${machine._id}`}>
-                  {machine.description}
-                </Link>
-              </div>
-            ))
+            record.machine.map((machine, index) => {
+              const isLast = index === record.machine.length - 1;
+              return (
+                <>
+                  <div key={machine._id}>
+                    <Link href={`/machines/show/${machine._id}`}>
+                      {machine.description}
+                    </Link>
+                  </div>
+                  {!isLast && <br />}
+                </>
+              );
+            })
           )}
         </Descriptions.Item>
       </Descriptions>
