@@ -1,4 +1,4 @@
-import { DataSource, EventSubscriber, In } from 'typeorm';
+import { DataSource, EventSubscriber, In, InsertEvent } from 'typeorm';
 import { Inject } from '@nestjs/common';
 import { PromotionEntity } from './promotion.entity';
 import { EntitySyncer } from '../../common/entities/entity-syncer/entity-syncer';
@@ -55,7 +55,7 @@ export class PromotionSubscriber extends EntitySyncer<PromotionEntity> {
       : this.dataSource.manager.find(CategoryEntity);
   }
 
-  preloadMachine(machineId?: string): Promise<MachineEntity[]> {
+  preloadMachine(machineId?: string) {
     return machineId
       ? this.dataSource.manager.find(MachineEntity, {
           where: { _id: machineId },
@@ -63,7 +63,7 @@ export class PromotionSubscriber extends EntitySyncer<PromotionEntity> {
       : this.dataSource.manager.find(MachineEntity);
   }
 
-  async handleRelationships(record: any): Promise<PromotionEntity> {
+  async handleRelationships(record: any) {
     console.log('handleRelationships record', record);
     const promotion = this.dataSource.manager.create(PromotionEntity, record);
 
@@ -97,5 +97,26 @@ export class PromotionSubscriber extends EntitySyncer<PromotionEntity> {
     }
 
     return promotion;
+  }
+
+  async beforeInsert(event: InsertEvent<PromotionEntity>) {
+    console.log('beforeInsert', event.entity);
+    const product = await this.preloadProducts(
+      event.entity.product as unknown as string[]
+    );
+    const machine = await this.preloadMachine(
+      event.entity.machine as unknown as string
+    );
+    // Object.assign(event.entity, { product, machine });
+
+    event.entity = this.dataSource.manager.create(PromotionEntity, {
+      ...event.entity,
+      product,
+      machine,
+    });
+
+    console.log('handleRelationships', event.entity);
+
+    await super.beforeInsert(event);
   }
 }

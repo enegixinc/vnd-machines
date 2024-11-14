@@ -127,7 +127,11 @@ export class PromotionEntity extends SearchableMagexEntity {
     //@ts-ignore - to be fixed
     const { order: newPromotion } =
       await magexService.promotions.postApiPromosCreate({
-        requestBody: Object.assign(this),
+        // @ts-expect-error - asjkdbh
+        requestBody: Object.assign(this, {
+          machine: this.machine[0]._id,
+          product: this.product.map((product) => product._id),
+        }),
       });
 
     Object.assign(this, newPromotion);

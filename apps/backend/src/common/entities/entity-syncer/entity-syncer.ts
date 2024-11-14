@@ -149,7 +149,7 @@ export abstract class EntitySyncer<Entity extends MagexDatabaseEntity>
     }
   }
 
-  @Cron(CronExpression.EVERY_30_SECONDS)
+  @Cron(CronExpression.EVERY_5_SECONDS)
   async syncWithMagex() {
     // @ts-expect-error - it has name
     console.log(`Syncing ${this.entity.name} with Magex`);
