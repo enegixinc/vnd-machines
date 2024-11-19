@@ -1,33 +1,46 @@
 'use client';
 
-import React from 'react';
-import { useShow } from '@refinedev/core';
 import { Show, TextField } from '@refinedev/antd';
-import { Descriptions, Divider, Spin, Tag, Typography } from 'antd';
-import { formatPercentage, formatPrice, handleEmptyString } from '@helpers';
+import { Descriptions, Divider, Spin, Switch, Typography } from 'antd';
+import React from 'react';
+import { SerializedProductDto } from '@frontend/api-sdk';
+import { useShow } from '@refinedev/core';
+import { formatPrice, handleEmptyString } from '@helpers';
+import { handleMagextImage } from '@app/products/utils/handleMagextImage';
+import { ShowFinance } from '@components/sections/finance';
+import { useRouter } from 'next/navigation';
+import { formatDate } from '@components/description-dates';
+import { JoinedOrdersTable } from '@components/joined-orders.table';
+import { InventoryTable } from '@components/inventory.table';
 
 const { Title } = Typography;
 
-export default function PromotionShow() {
-  const { queryResult } = useShow({
+export default function ProductShow() {
+  const router = useRouter();
+  const { queryResult } = useShow<SerializedProductDto>({
     meta: {
       join: [
         {
-          field: 'machines',
-          select: ['_id', 'description'],
-        },
-        {
-          field: 'products',
+          field: 'category',
           select: ['_id', 'fullName'],
         },
         {
-          field: 'categories',
+          field: 'brand',
           select: ['_id', 'fullName'],
         },
+        {
+          field: 'supplier',
+          select: ['_id', 'fullName'],
+        },
+        // {
+        //   field: 'orders',
+        // },
+        // {
+        //   field: 'machines',
+        // },
       ],
     },
   });
-
   const { data, isLoading } = queryResult;
   if (isLoading) {
     return (
@@ -41,7 +54,6 @@ export default function PromotionShow() {
       />
     );
   }
-
   const record = data?.data;
   if (!record) {
     return null;
@@ -49,75 +61,194 @@ export default function PromotionShow() {
 
   return (
     <Show isLoading={isLoading}>
-      <Title level={3}>{record.title}</Title>
-      <Descriptions bordered column={1} labelStyle={{ fontWeight: 'bold' }}>
-        <Descriptions.Item label="Promotion Type">
-          <TextField value={handleEmptyString(record.promoType)} />
+      <Title level={3}>{'Product Details'}</Title>
+      <Descriptions
+        bordered
+        column={2}
+        labelStyle={{
+          fontWeight: 'bold',
+          width: '20%',
+        }}
+      >
+        <Descriptions.Item label="Image">
+          {handleMagextImage(record.productPictures[0])}
         </Descriptions.Item>
 
-        <Descriptions.Item label="Category or Product">
-          <TextField value={handleEmptyString(record.cateOrProd)} />
+        <Descriptions.Item label="Name (English)">
+          <TextField value={handleEmptyString(record.name.en)} />
+        </Descriptions.Item>
+        <Descriptions.Item label="Name (Arabic)">
+          <TextField value={handleEmptyString(record.name.ar)} />
         </Descriptions.Item>
 
-        <Descriptions.Item label="Code">
-          <TextField value={handleEmptyString(record.code)} />
+        <Descriptions.Item label="UPC">
+          <TextField value={record.upc} />
+        </Descriptions.Item>
+        <Descriptions.Item label="Barcode">
+          <TextField value={record.barcode} />
         </Descriptions.Item>
 
-        <Descriptions.Item label="Department">
-          <TextField value={handleEmptyString(record.department)} />
+        <Descriptions.Item label="Price">
+          <TextField value={formatPrice(record.price)} />
+        </Descriptions.Item>
+        <Descriptions.Item label="Cost Price">
+          <TextField value={formatPrice(record.costPrice)} />
+        </Descriptions.Item>
+        <Descriptions.Item label="Additional Price">
+          <TextField value={formatPrice(record.additionPrice)} />
         </Descriptions.Item>
 
-        <Descriptions.Item label="Discount Amount">
-          {record.percentage
-            ? formatPercentage(record.amount)
-            : formatPrice(record.amount)}
+        <Descriptions.Item label="Price Per Kilo">
+          <Switch disabled checked={record.pricePerKilo} />
         </Descriptions.Item>
 
-        <Descriptions.Item label="Start Date">
-          <TextField value={new Date(record.startDate).toLocaleDateString()} />
+        <Descriptions.Item label="Age Control">
+          <TextField value={record.ageControl} />
         </Descriptions.Item>
 
-        <Descriptions.Item label="End Date">
-          <TextField value={new Date(record.endDate).toLocaleDateString()} />
+        <Descriptions.Item label="Updated At">
+          <TextField value={formatDate(record.updatedAt)} />
         </Descriptions.Item>
-
-        <Descriptions.Item label="Start Time">
-          <TextField value={record.startTime} />
+        <Descriptions.Item label="Created At">
+          <TextField value={formatDate(record.createdAt)} />
         </Descriptions.Item>
-
-        <Descriptions.Item label="End Time">
-          <TextField value={record.endTime} />
-        </Descriptions.Item>
-
-        <Descriptions.Item label="Active">
-          <Tag color={record.active ? 'green' : 'red'}>
-            {record.active ? 'Yes' : 'No'}
-          </Tag>
+        <Descriptions.Item label="status">
+          <TextField value={record.status} />
         </Descriptions.Item>
       </Descriptions>
 
       <Divider />
 
       <Title level={3} style={{ marginTop: 16 }}>
-        {'Associated Entities'}
+        {'Associations'}
       </Title>
-      <Descriptions bordered column={1} labelStyle={{ fontWeight: 'bold' }}>
-        <Descriptions.Item label="Machines">
-          {record.machines?.map((machine) => (
-            <div key={machine._id}>{machine.description}</div>
-          ))}
+      <Descriptions
+        bordered
+        labelStyle={{
+          fontWeight: 'bold',
+          width: '20%',
+        }}
+      >
+        <Descriptions.Item label="Supplier">
+          <TextField
+            onClick={() =>
+              record.supplier?._id &&
+              router.push(`/suppliers/show/${record.supplier?._id}`)
+            }
+            style={{
+              cursor: record.supplier?._id && 'pointer',
+              color: record.supplier?._id && '#1890ff',
+            }}
+            value={handleEmptyString(record.supplier?.fullName)}
+          />
         </Descriptions.Item>
-
-        <Descriptions.Item label="Products">
-          {record.products?.map((product) => (
-            <div key={product._id}>{product.fullName}</div>
-          ))}
+        <Descriptions.Item label="Category">
+          <TextField
+            onClick={() =>
+              record.category?._id &&
+              router.push(`/categories/show/${record.category?._id}`)
+            }
+            style={{
+              cursor: record.category?._id && 'pointer',
+              color: record.category?._id && '#1890ff',
+            }}
+            value={handleEmptyString(record.category?.fullName)}
+          />
         </Descriptions.Item>
+        <Descriptions.Item label="Brand">
+          <TextField
+            onClick={() =>
+              record.brand?._id &&
+              router.push(`/brands/show/${record.brand?._id}`)
+            }
+            style={{
+              cursor: record.brand?._id && 'pointer',
+              color: record.brand?._id && '#1890ff',
+            }}
+            value={handleEmptyString(record.brand?.fullName)}
+          />
+        </Descriptions.Item>
+      </Descriptions>
 
-        <Descriptions.Item label="Categories">
-          {record.categories?.map((category) => (
-            <div key={category._id}>{category.fullName}</div>
-          ))}
+      <Divider />
+      <ShowFinance record={record} />
+      <Divider />
+      <InventoryTable dataSource={record.inventory} />
+      <Divider />
+      <JoinedOrdersTable
+        useTableProps={{
+          meta: {
+            join: [
+              {
+                field: 'machine',
+              },
+              {
+                field: 'products',
+              },
+              {
+                field: 'products.product',
+              },
+            ],
+          },
+          filters: {
+            permanent: [
+              {
+                field: `products.product._id`,
+                operator: 'eq',
+                value: record._id,
+              },
+            ],
+          },
+        }}
+      />
+      <Divider />
+
+      <Title level={3} style={{ marginTop: 16 }}>
+        {'Extra Details'}
+      </Title>
+      <Descriptions
+        bordered
+        column={2}
+        labelStyle={{
+          fontWeight: 'bold',
+          width: '20%',
+        }}
+      >
+        <Descriptions.Item label="Description (English)">
+          <TextField value={handleEmptyString(record.description?.en)} />
+        </Descriptions.Item>
+        <Descriptions.Item label="Description (Arabic)">
+          <TextField value={handleEmptyString(record.description?.ar)} />
+        </Descriptions.Item>
+        <Descriptions.Item label="Detail (English)">
+          <TextField value={handleEmptyString(record.detail?.en)} />
+        </Descriptions.Item>
+        <Descriptions.Item label="Detail (Arabic)">
+          <TextField value={handleEmptyString(record.detail?.ar)} />
+        </Descriptions.Item>
+        <Descriptions.Item label="Include (English)">
+          <TextField value={handleEmptyString(record.include?.en)} />
+        </Descriptions.Item>
+        <Descriptions.Item label="Include (Arabic)">
+          <TextField value={handleEmptyString(record.include?.ar)} />
+        </Descriptions.Item>
+        <Descriptions.Item label="Ingredients (English)">
+          <TextField value={handleEmptyString(record.ingredients?.en)} />
+        </Descriptions.Item>
+        <Descriptions.Item label="Ingredients (Arabic)">
+          <TextField value={handleEmptyString(record.ingredients?.ar)} />
+        </Descriptions.Item>
+        <Descriptions.Item label="Key Features (English)">
+          <TextField value={handleEmptyString(record.keyFeatures?.en)} />
+        </Descriptions.Item>
+        <Descriptions.Item label="Key Features (Arabic)">
+          <TextField value={handleEmptyString(record.keyFeatures?.ar)} />
+        </Descriptions.Item>
+        <Descriptions.Item label="Specification (English)">
+          <TextField value={handleEmptyString(record.specification?.en)} />
+        </Descriptions.Item>
+        <Descriptions.Item label="Specification (Arabic)">
+          <TextField value={handleEmptyString(record.specification?.ar)} />
         </Descriptions.Item>
       </Descriptions>
     </Show>
