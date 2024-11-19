@@ -97,6 +97,17 @@ export default function RootLayout({
                         },
                       },
                       {
+                        name: 'inventory',
+                        list: '/inventory',
+                        meta: {
+                          label: 'Inventory',
+                          canDelete: false,
+                          canCreate: false,
+                          canUpdate: false,
+                          icon: <BiCategoryAlt />,
+                        },
+                      },
+                      {
                         name: 'brands',
                         list: '/brands',
                         create: '/brands/create',
