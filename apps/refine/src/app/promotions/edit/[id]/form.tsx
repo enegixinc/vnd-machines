@@ -17,6 +17,9 @@ export const EditPromotionForm: React.FC<{
 
       if (percentage) {
         setPercentage('percentage');
+        formProps.form.setFieldsValue({
+          amount: formProps.form.getFieldValue('amount') * 100,
+        });
       } else {
         setPercentage('fixed');
       }
@@ -82,13 +85,13 @@ export const EditPromotionForm: React.FC<{
           </Form.Item>
           <Form.Item
             label="Value Type"
-            name="percentage"
             rules={[
               { required: true, message: 'Please select a promotion type' },
             ]}
             style={{ flex: 1 }}
           >
             <Select
+              value={percentage}
               onChange={(value) => setPercentage(value)}
               placeholder="Select promotion type"
             >
