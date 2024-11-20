@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, Flex, Form, FormProps, Input, InputNumber, Select } from 'antd';
 
 export const EditPromotionForm: React.FC<{
@@ -6,29 +6,30 @@ export const EditPromotionForm: React.FC<{
   action: 'create' | 'edit';
 }> = ({ formProps, action }) => {
   const [promotionType, setPromotionType] = useState<string>('general');
+  const [percentage, setPercentage] = useState<'percentage' | 'fixed'>(
+    'percentage'
+  );
   const isHappyHour = promotionType === 'happyHour';
 
-  // useEffect(() => {
-  //   if (action === 'edit' && formProps?.form) {
-  //     const percentage = formProps.form.getFieldValue('percentage');
-  //     const amount = formProps.form.getFieldValue('amount');
-  //
-  //     console.log('percentage', percentage);
-  //
-  //     if (percentage) {
-  //       formProps.form.setFieldsValue({
-  //         amount: amount * 100,
-  //         percentage: 'percentage',
-  //       });
-  //     }
-  //   }
-  // }, [action, formProps]);
+  useEffect(() => {
+    if (action === 'edit' && formProps?.form) {
+      const percentage = formProps.form.getFieldValue('percentage');
+
+      if (percentage) {
+        setPercentage('percentage');
+      } else {
+        setPercentage('fixed');
+      }
+    }
+  }, [action, formProps]);
 
   return (
     <Form
       {...formProps}
       onFinish={(values) => {
-        values.amount = values.amount / (values.percentage ? 100 : 1);
+        const isPercentage = percentage === 'percentage';
+        values.amount = isPercentage ? values.amount / 100 : values.amount;
+        values.percentage = isPercentage;
         formProps.onFinish?.(values);
       }}
       layout="vertical"
@@ -82,28 +83,14 @@ export const EditPromotionForm: React.FC<{
           <Form.Item
             label="Value Type"
             name="percentage"
-            initialValue={
-              formProps?.form?.getFieldValue('percentage')
-                ? 'percentage'
-                : 'fixed' ?? 'percentage'
-            }
             rules={[
               { required: true, message: 'Please select a promotion type' },
             ]}
             style={{ flex: 1 }}
           >
             <Select
+              onChange={(value) => setPercentage(value)}
               placeholder="Select promotion type"
-              onChange={(value) => {
-                formProps?.form?.setFieldsValue({
-                  percentage: value === 'percentage',
-                });
-                formProps?.form?.setFieldsValue({
-                  amount:
-                    formProps?.form?.getFieldValue('amount') *
-                    (value === 'percentage' ? 100 : 0.01),
-                });
-              }}
             >
               <Select.Option value="percentage">Percentage</Select.Option>
               <Select.Option value="fixed">Fixed</Select.Option>
