@@ -76,7 +76,6 @@ export const PromotionForm: React.FC<{ formProps: FormProps }> = ({
           machine: values.machine.value,
           product: isAllProducts ? 'All Products' : values.product,
           referTo: 'tryvnd@point24h.com',
-          productsToBuy: 0,
           amount,
           cateOrProd,
         });
@@ -163,7 +162,7 @@ export const PromotionForm: React.FC<{ formProps: FormProps }> = ({
           </Form.Item>
           <Form.Item
             label="Number of Products"
-            name="numberOfProducts"
+            name="productsToBuy"
             style={{ flex: 1 }}
           >
             <InputNumber
