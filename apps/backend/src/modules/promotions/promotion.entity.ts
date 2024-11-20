@@ -51,8 +51,6 @@ export class PromotionEntity extends SearchableMagexEntity {
 
   @OneToMany(() => CategoryEntity, (category) => category.promotion, {
     nullable: true,
-    cascade: true,
-    onDelete: 'SET NULL',
   })
   category: CategoryEntity[];
 
@@ -133,24 +131,33 @@ export class PromotionEntity extends SearchableMagexEntity {
   isLocal: boolean;
 
   async createMagexRecord(magexService: MagexService): Promise<void> {
-    console.log('Creating promotion:', this);
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    //@ts-ignore - to be fixed
-    const { order: newPromotion } =
-      await magexService.promotions.postApiPromosCreate({
-        // @ts-expect-error - asjkdbh
-        requestBody: Object.assign(this, {
-          // machine: this.machine[0]._id,
-          // product: this.product.map((product) => product._id),
-        }),
-      });
+    try {
+      console.log('Creating promotion:', this);
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      //@ts-ignore - to be fixed
+      const { order: newPromotion } =
+        await magexService.promotions.postApiPromosCreate({
+          // @ts-expect-error - asjkdbh
+          requestBody: Object.assign(this, {
+            // machine: this.machine[0]._id,
+            // product: this.product.map((product) => product._id),
+          }),
+        });
 
-    Object.assign(this, newPromotion);
-    Object.assign(this, { lastSyncAt: newPromotion.updatedAt });
+      Object.assign(this, newPromotion);
+      Object.assign(this, { lastSyncAt: newPromotion.updatedAt });
+    } catch (error) {
+      console.error('Error creating Magex record:', error);
+    }
   }
 
   async deleteMagexRecord(magexService: MagexService): Promise<void> {
-    await magexService.promotions.deleteApiPromosById({ id: this._id });
+    try {
+      console.log('Deleting promotion:', this._id);
+      await magexService.promotions.deleteApiPromosById({ id: this._id });
+    } catch (error) {
+      console.error('Error deleting Magex record', error);
+    }
   }
 
   async fetchMagexRecords(
@@ -169,19 +176,23 @@ export class PromotionEntity extends SearchableMagexEntity {
   }
 
   async updateMagexRecord(magexService: MagexService): Promise<void> {
-    console.log('Updating promotion:', this._id);
-    await magexService.promotions.patchApiPromosUpdateById({
-      id: this._id,
-      requestBody: Object.assign(this),
-    });
+    try {
+      console.log('Updating promotion:', this._id);
+      await magexService.promotions.patchApiPromosUpdateById({
+        id: this._id,
+        requestBody: Object.assign(this),
+      });
 
-    const promotions = await this.fetchMagexRecords(magexService);
+      const promotions = await this.fetchMagexRecords(magexService);
 
-    const newPromotion = promotions.find(
-      (promotion) => promotion._id === this._id
-    );
+      const newPromotion = promotions.find(
+        (promotion) => promotion._id === this._id
+      );
 
-    Object.assign(this, newPromotion);
-    Object.assign(this, { lastSyncAt: new Date() });
+      Object.assign(this, newPromotion);
+      Object.assign(this, { lastSyncAt: new Date() });
+    } catch (error) {
+      console.error('Error updating Magex record:', error);
+    }
   }
 }

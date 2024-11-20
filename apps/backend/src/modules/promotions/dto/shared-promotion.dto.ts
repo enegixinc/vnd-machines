@@ -13,7 +13,6 @@ import { CrudValidationGroups } from '@dataui/crud';
 import { ProductEntity } from '../../products/entities/product.entity';
 import { Type } from 'class-transformer';
 import { MachineEntity } from '../../machines/entities/machine.entity';
-import { CategoryEntity } from '../../categories/category.entity';
 
 const { CREATE, UPDATE } = CrudValidationGroups;
 
@@ -35,11 +34,11 @@ export class SharedPromotionDto {
   @Type(() => ReferenceByID)
   machines: MachineEntity[];
 
-  @IsOptional({ groups: [UPDATE, CREATE] })
-  @IsArray()
-  @ValidateNested({ each: true })
-  @Type(() => ReferenceByID)
-  categories: CategoryEntity[];
+  // @IsOptional({ groups: [UPDATE, CREATE] })
+  // @IsArray()
+  // @ValidateNested({ each: true })
+  // @Type(() => ReferenceByID)
+  // categories: CategoryEntity[];
 
   @decorate(IsNotEmpty({ groups: [CREATE] }))
   @decorate(IsOptional({ groups: [UPDATE] }))

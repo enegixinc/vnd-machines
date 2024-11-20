@@ -40,6 +40,8 @@ export class CategoryEntity
 {
   @ManyToOne(() => PromotionEntity, (promotion) => promotion.category, {
     nullable: true,
+    cascade: true,
+    onDelete: 'SET NULL',
   })
   promotion: PromotionEntity[];
 

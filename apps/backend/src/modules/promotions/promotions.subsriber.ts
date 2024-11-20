@@ -64,7 +64,7 @@ export class PromotionSubscriber extends EntitySyncer<PromotionEntity> {
   }
 
   async handleRelationships(record: any) {
-    console.log('handleRelationships record', record);
+    console.log('handleRelationships record');
     // const promotion = this.dataSource.manager.create(PromotionEntity, record);
 
     const promotion = {
@@ -121,12 +121,26 @@ export class PromotionSubscriber extends EntitySyncer<PromotionEntity> {
   // }
 
   async afterInsert(event: InsertEvent<PromotionEntity>) {
-    console.log('afterInsert', event.entity);
     if (event.entity.isLocal) {
       console.log('isLocal', event.entity.isLocal);
-      const product = await this.preloadProducts(
-        event.entity.product as unknown as string[]
-      );
+
+      let product;
+      let category;
+
+      if (event.entity.cateOrProd === 'prod') {
+        console.log('loading products');
+        product = await this.preloadProducts(
+          event.entity.product as unknown as string[]
+        );
+      } else if (event.entity.cateOrProd === 'cate') {
+        console.log('loading categories');
+        category = await this.preloadCategories(
+          event.entity.category as unknown as string[]
+        );
+      } else {
+        console.log('loading all products');
+        product = await this.preloadProducts();
+      }
 
       // @ts-expect-error - sa
       const isAllMachines = event.entity.machine.all;
@@ -142,6 +156,7 @@ export class PromotionSubscriber extends EntitySyncer<PromotionEntity> {
       const record = this.dataSource.manager.create(PromotionEntity, {
         ...event.entity,
         product,
+        category,
         machine,
         isAllMachines,
       });
