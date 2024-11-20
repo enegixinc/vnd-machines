@@ -5,8 +5,11 @@ import { useShow } from '@refinedev/core';
 import { Descriptions, Divider, Spin, Tag, Typography } from 'antd';
 import React from 'react';
 import { formatPrice, handleEmptyString } from '@helpers';
-import { formatDate } from '@components/description-dates';
 import Link from 'next/link';
+import {
+  timezoneDateFormatter,
+  timezoneTimeFormatter,
+} from '@app/promotions/helpers';
 
 const { Title } = Typography;
 
@@ -69,19 +72,20 @@ export default function PromotionShow() {
         </Descriptions.Item>
 
         <Descriptions.Item label="Start Date">
-          <TextField value={formatDate(record.startDate)} />
+          <TextField value={timezoneDateFormatter(record.startDate)} />
         </Descriptions.Item>
 
         <Descriptions.Item label="End Date">
-          <TextField value={formatDate(record.endDate)} />
+          <TextField value={timezoneDateFormatter(record.endDate)} />
         </Descriptions.Item>
 
         <Descriptions.Item label="Start Time">
-          <TextField value={formatDate(record.startTime)} />
+          {/* only show time and decrease 2 hours */}
+          <TextField value={timezoneTimeFormatter(record.startTime)} />
         </Descriptions.Item>
 
         <Descriptions.Item label="End Time">
-          <TextField value={formatDate(record.endTime)} />
+          <TextField value={timezoneTimeFormatter(record.endTime)} />
         </Descriptions.Item>
 
         <Descriptions.Item label="Amount">

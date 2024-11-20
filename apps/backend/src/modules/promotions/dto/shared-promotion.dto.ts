@@ -118,6 +118,17 @@ export class SharedPromotionDto {
   promoType: string;
 
   @decorate(IsOptional({ groups: [UPDATE, CREATE] }))
+  @decorate(IsBoolean())
+  @decorate(
+    ApiProperty({
+      description: 'Is the promotion local?',
+      type: Boolean,
+      example: true,
+    })
+  )
+  isLocal: boolean;
+
+  @decorate(IsOptional({ groups: [UPDATE, CREATE] }))
   @decorate(IsArray())
   @decorate(
     ApiProperty({

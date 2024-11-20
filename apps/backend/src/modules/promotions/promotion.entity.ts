@@ -35,18 +35,25 @@ export class PromotionEntity extends SearchableMagexEntity {
 
   @ManyToMany(() => MachineEntity, (machine) => machine.promotions, {
     nullable: true,
+    cascade: true,
+    onDelete: 'CASCADE',
   })
   @JoinTable()
   machine: MachineEntity[] | { _id: string };
 
   @ManyToMany(() => ProductEntity, (product) => product.promotions, {
     nullable: true,
+    cascade: true,
+    onDelete: 'CASCADE',
   })
   @JoinTable()
   product: ProductEntity[];
 
   @OneToMany(() => CategoryEntity, (category) => category.promotion, {
     nullable: true,
+    cascade: true,
+    onDelete: 'SET NULL',
+    orphanedRowAction: 'delete',
   })
   category: CategoryEntity[];
 
@@ -122,6 +129,10 @@ export class PromotionEntity extends SearchableMagexEntity {
   @Column({ default: false })
   isOne: boolean;
 
+  @ApiProperty({ type: Boolean })
+  @Column({ default: false })
+  isLocal: boolean;
+
   async createMagexRecord(magexService: MagexService): Promise<void> {
     console.log('Creating promotion:', this);
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -137,7 +148,6 @@ export class PromotionEntity extends SearchableMagexEntity {
 
     Object.assign(this, newPromotion);
     Object.assign(this, { lastSyncAt: newPromotion.updatedAt });
-    Object.assign(this, { isOurRecord: true });
   }
 
   async deleteMagexRecord(magexService: MagexService): Promise<void> {
@@ -152,7 +162,6 @@ export class PromotionEntity extends SearchableMagexEntity {
         await magexService.promotions.getApiPromosByAccountName({
           accountName: 'tryvnd@point24h.com',
         });
-      console.log('Promotions fetched:', promotions);
       return promotions as PromotionEntity[];
     } catch (error) {
       console.error('Error fetching Magex records:', error);

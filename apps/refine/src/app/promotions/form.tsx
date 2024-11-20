@@ -76,6 +76,7 @@ export const PromotionForm: React.FC<{ formProps: FormProps }> = ({
           machine: values.machine.value,
           product: isAllProducts ? 'All Products' : values.product,
           referTo: 'tryvnd@point24h.com',
+          isLocal: true,
           amount,
           cateOrProd,
         });
