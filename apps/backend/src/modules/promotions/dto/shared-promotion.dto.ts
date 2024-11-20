@@ -52,6 +52,16 @@ export class SharedPromotionDto {
   )
   title: string;
 
+  @decorate(IsOptional({ groups: [CREATE, UPDATE] }))
+  @decorate(
+    ApiProperty({
+      description: 'Code of the promotion',
+      example: '123123',
+      type: String,
+    })
+  )
+  code: string;
+
   @decorate(IsOptional({ groups: [UPDATE, CREATE] }))
   @decorate(
     ApiProperty({ description: 'Start date of the promotion', type: Date })

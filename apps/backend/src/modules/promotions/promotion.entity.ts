@@ -123,6 +123,7 @@ export class PromotionEntity extends SearchableMagexEntity {
   isOne: boolean;
 
   async createMagexRecord(magexService: MagexService): Promise<void> {
+    console.log('Creating promotion:', this);
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     //@ts-ignore - to be fixed
     const { order: newPromotion } =
