@@ -32,7 +32,7 @@ import { Public } from '../auth/decorators/public.decorator';
         order: 'DESC',
       },
     ],
-    softDelete: false,
+    softDelete: true,
     limit: 10,
 
     join: {

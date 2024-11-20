@@ -123,6 +123,7 @@ export class PromotionSubscriber extends EntitySyncer<PromotionEntity> {
   async afterInsert(event: InsertEvent<PromotionEntity>) {
     console.log('afterInsert', event.entity);
     if (event.entity.isLocal) {
+      console.log('isLocal', event.entity.isLocal);
       const product = await this.preloadProducts(
         event.entity.product as unknown as string[]
       );
@@ -152,5 +153,25 @@ export class PromotionSubscriber extends EntitySyncer<PromotionEntity> {
 
       console.log('saved', saved);
     }
+    console.log('not isLocal', event.entity.isLocal);
+
+    console.log('done afterInsert');
   }
+
+  // async afterSoftRemove(event: SoftRemoveEvent<PromotionEntity>) {
+  //   console.log('afterSoftRemove', event.entity);
+  //
+  //   if (!event.entity) return;
+  //
+  //   const res = await this.dataSource.manager.remove(
+  //     PromotionEntity,
+  //     event.entity,
+  //     {
+  //       listeners: false,
+  //     }
+  //   );
+  //   console.log('done afterSoftRemove');
+  //
+  //   return res;
+  // }
 }

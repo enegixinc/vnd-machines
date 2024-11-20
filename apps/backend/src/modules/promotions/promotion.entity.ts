@@ -53,7 +53,6 @@ export class PromotionEntity extends SearchableMagexEntity {
     nullable: true,
     cascade: true,
     onDelete: 'SET NULL',
-    orphanedRowAction: 'delete',
   })
   category: CategoryEntity[];
 
