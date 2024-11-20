@@ -175,19 +175,59 @@ export class PromotionEntity extends SearchableMagexEntity {
     }
   }
 
-  async updateMagexRecord(magexService: MagexService): Promise<void> {
+  async getPromotionById(
+    magexService: MagexService,
+    id: string
+  ): Promise<PromotionEntity> {
     try {
-      console.log('Updating promotion:', this._id);
-      await magexService.promotions.patchApiPromosUpdateById({
-        id: this._id,
-        requestBody: Object.assign(this),
-      });
-
       const promotions = await this.fetchMagexRecords(magexService);
 
-      const newPromotion = promotions.find(
-        (promotion) => promotion._id === this._id
-      );
+      return promotions.find((promotion) => promotion._id === id);
+    } catch (error) {
+      console.error('Error fetching Magex record:', error);
+      return null;
+    }
+  }
+
+  async updateMagexRecord(magexService: MagexService): Promise<void> {
+    try {
+      const id = this._id;
+      console.log('Updating promotion:', id);
+
+      const oldPromotion = await this.getPromotionById(magexService, id);
+
+      // @ts-expect-error - to be fixed
+      oldPromotion.machine = oldPromotion.machine?.all
+        ? 'All Machines'
+        : oldPromotion.machine;
+
+      switch (oldPromotion.cateOrProd) {
+        case 'prod':
+          // @ts-expect-error - to be fixed
+          oldPromotion.product = oldPromotion.product.map(
+            (product) => product._id
+          );
+          break;
+        case 'cate':
+          // @ts-expect-error - to be fixed
+          oldPromotion.product = oldPromotion.category.map(
+            (category) => category._id
+          );
+          break;
+        case 'All Products':
+          // @ts-expect-error - to be fixed
+          oldPromotion.product = 'All Products';
+      }
+
+      console.log('new promotion:', Object.assign({}, oldPromotion, this));
+
+      await magexService.promotions.patchApiPromosUpdateById({
+        id: this._id,
+        // @ts-expect-error - to be fixed
+        requestBody: Object.assign({}, oldPromotion, this),
+      });
+
+      const newPromotion = await this.getPromotionById(magexService, id);
 
       Object.assign(this, newPromotion);
       Object.assign(this, { lastSyncAt: new Date() });

@@ -175,6 +175,7 @@ export default function RootLayout({
                         list: '/promotions',
                         show: '/promotions/show/:id',
                         create: '/promotions/create',
+                        edit: '/promotions/edit/:id',
                         meta: {
                           canDelete: true,
                           icon: <IoPricetagsOutline />,

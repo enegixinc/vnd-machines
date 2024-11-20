@@ -2,8 +2,8 @@
 
 import { Edit, useForm } from '@refinedev/antd';
 import React from 'react';
-import { PromotionForm } from '@app/promotions/form';
 import { Spin } from 'antd';
+import { EditPromotionForm } from '@app/promotions/edit/[id]/form';
 
 export default function PromotionEdit() {
   const { formProps, saveButtonProps, formLoading } = useForm({});
@@ -23,7 +23,7 @@ export default function PromotionEdit() {
 
   return (
     <Edit saveButtonProps={saveButtonProps}>
-      <PromotionForm formProps={formProps} />
+      <EditPromotionForm action={'edit'} formProps={formProps} />
     </Edit>
   );
 }

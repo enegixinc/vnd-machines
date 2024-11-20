@@ -9,7 +9,7 @@ export default function BrandCreate() {
 
   return (
     <Create saveButtonProps={saveButtonProps}>
-      <PromotionForm formProps={formProps} />
+      <PromotionForm action={'create'} formProps={formProps} />
     </Create>
   );
 }
