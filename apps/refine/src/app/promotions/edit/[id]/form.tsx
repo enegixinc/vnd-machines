@@ -1,5 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Flex, Form, FormProps, Input, InputNumber, Select } from 'antd';
+import {
+  Card,
+  DatePicker,
+  Flex,
+  Form,
+  FormProps,
+  Input,
+  InputNumber,
+  Select,
+} from 'antd';
+import moment from 'moment';
 
 export const EditPromotionForm: React.FC<{
   formProps: FormProps;
@@ -10,6 +20,13 @@ export const EditPromotionForm: React.FC<{
     'percentage'
   );
   const isHappyHour = promotionType === 'happyHour';
+
+  const [dates, setDates] = useState({
+    startDate: moment(),
+    endDate: moment(),
+    startTime: moment(),
+    endTime: moment(),
+  });
 
   useEffect(() => {
     if (action === 'edit' && formProps?.form) {
@@ -23,6 +40,19 @@ export const EditPromotionForm: React.FC<{
       } else {
         setPercentage('fixed');
       }
+
+      // Ensure date values are compatible
+      const startDate = formProps.form.getFieldValue('startDate');
+      const endDate = formProps.form.getFieldValue('endDate');
+      const startTime = formProps.form.getFieldValue('startTime');
+      const endTime = formProps.form.getFieldValue('endTime');
+
+      setDates({
+        startDate: moment(startDate).subtract(2, 'hours'),
+        endDate: moment(endDate).subtract(2, 'hours'),
+        startTime: moment(startTime).subtract(2, 'hours'),
+        endTime: moment(endTime).subtract(2, 'hours'),
+      });
     }
   }, [action, formProps]);
 
@@ -33,6 +63,13 @@ export const EditPromotionForm: React.FC<{
         const isPercentage = percentage === 'percentage';
         values.amount = isPercentage ? values.amount / 100 : values.amount;
         values.percentage = isPercentage;
+
+        // Convert date values back to ISO string for submission
+        // decrement 2 hours to account for timezone offset
+        values.startDate = dates.startDate.subtract(-2, 'hours').toISOString();
+        values.endDate = dates.endDate.subtract(-2, 'hours').toISOString();
+        values.startTime = dates.startTime.subtract(-2, 'hours').toISOString();
+        values.endTime = dates.endTime.subtract(-2, 'hours').toISOString();
         formProps.onFinish?.(values);
       }}
       layout="vertical"
@@ -123,67 +160,55 @@ export const EditPromotionForm: React.FC<{
         </Flex>
       </Card>
 
-      {/*<Card title="Promotion Timing" style={{ marginBottom: 16 }}>*/}
-      {/*  <Flex gap={20} wrap="wrap">*/}
-      {/*    <Form.Item*/}
-      {/*      label="Start Date"*/}
-      {/*      name="startDate"*/}
-      {/*      rules={[{ required: true, message: 'Please select a start date' }]}*/}
-      {/*      style={{ flex: 1 }}*/}
-      {/*      initialValue={moment()}*/}
-      {/*    >*/}
-      {/*      <DatePicker*/}
-      {/*        style={{ width: '100%' }}*/}
-      {/*        showTime*/}
-      {/*        format="YYYY-MM-DD HH:mm a"*/}
-      {/*      />*/}
-      {/*    </Form.Item>*/}
+      <Card title="Promotion Timing" style={{ marginBottom: 16 }}>
+        <Flex gap={20} wrap="wrap">
+          <Form.Item
+            label="Start Date"
+            rules={[{ required: true, message: 'Please select a start date' }]}
+            style={{ flex: 1 }}
+          >
+            <DatePicker
+              onChange={(date) => setDates({ ...dates, startDate: date })}
+              style={{ width: '100%' }}
+              showTime
+              format="YYYY-MM-DD HH:mm a"
+            />
+          </Form.Item>
 
-      {/*    <Form.Item*/}
-      {/*      label="End Date"*/}
-      {/*      name="endDate"*/}
-      {/*      rules={[{ required: true, message: 'Please select an end date' }]}*/}
-      {/*      style={{ flex: 1 }}*/}
-      {/*      // initialValue={moment(*/}
-      {/*      //   new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)*/}
-      {/*      // )} // one week from now*/}
-      {/*    >*/}
-      {/*      <DatePicker*/}
-      {/*        style={{ width: '100%' }}*/}
-      {/*        showTime*/}
-      {/*        format="YYYY-MM-DD HH:mm a"*/}
-      {/*      />*/}
-      {/*    </Form.Item>*/}
-      {/*  </Flex>*/}
+          <Form.Item
+            label="End Date"
+            rules={[{ required: true, message: 'Please select an end date' }]}
+            style={{ flex: 1 }}
+          >
+            <DatePicker
+              onChange={(date) => setDates({ ...dates, endDate: date })}
+              style={{ width: '100%' }}
+              showTime
+              format="YYYY-MM-DD HH:mm a"
+            />
+          </Form.Item>
+        </Flex>
 
-      {/*  <Flex gap={20} wrap="wrap">*/}
-      {/*    <Form.Item*/}
-      {/*      initialValue={moment('00:00 am', 'HH:mm a')}*/}
-      {/*      label="Start Time"*/}
-      {/*      name="startTime"*/}
-      {/*      style={{ flex: 1 }}*/}
-      {/*    >*/}
-      {/*      <DatePicker.TimePicker*/}
-      {/*        disabled={!isHappyHour}*/}
-      {/*        style={{ width: '100%' }}*/}
-      {/*        format="HH:mm a"*/}
-      {/*      />*/}
-      {/*    </Form.Item>*/}
+        <Flex gap={20} wrap="wrap">
+          <Form.Item label="Start Time" style={{ flex: 1 }}>
+            <DatePicker.TimePicker
+              value={dates.startTime}
+              disabled={!isHappyHour}
+              style={{ width: '100%' }}
+              format="HH:mm a"
+            />
+          </Form.Item>
 
-      {/*    <Form.Item*/}
-      {/*      initialValue={moment('00:00 am', 'HH:mm a')}*/}
-      {/*      label="End Time"*/}
-      {/*      name="endTime"*/}
-      {/*      style={{ flex: 1 }}*/}
-      {/*    >*/}
-      {/*      <DatePicker.TimePicker*/}
-      {/*        disabled={!isHappyHour}*/}
-      {/*        style={{ width: '100%' }}*/}
-      {/*        format="HH:mm a"*/}
-      {/*      />*/}
-      {/*    </Form.Item>*/}
-      {/*  </Flex>*/}
-      {/*</Card>*/}
+          <Form.Item label="End Time" style={{ flex: 1 }}>
+            <DatePicker.TimePicker
+              value={dates.endTime}
+              disabled={!isHappyHour}
+              style={{ width: '100%' }}
+              format="HH:mm a"
+            />
+          </Form.Item>
+        </Flex>
+      </Card>
     </Form>
   );
 };
