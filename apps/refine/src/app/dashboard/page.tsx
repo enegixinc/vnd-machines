@@ -7,23 +7,21 @@ import { SalesPie } from '@app/dashboard/sales-pie';
 import { TopProductsTable } from '@app/dashboard/top-products/top-products';
 import { ContractsCard } from '@app/dashboard/cards/contracts';
 import { RevenueCard } from '@app/dashboard/cards/revenue';
-import { CanAccess, useGetIdentity, useGo } from '@refinedev/core';
+import { CanAccess, useGetIdentity } from '@refinedev/core';
 import { IUserEntity, UserRole } from '@core';
 
 const Dashboard = () => {
-  const go = useGo();
   const userRole = useGetIdentity<IUserEntity>()?.data?.role;
-  console.log('userRole', userRole);
-  if (userRole === UserRole.SUPPLIER) go({ to: '/products' });
 
+  const isAdmin = userRole === UserRole.ADMIN;
   return (
     <CanAccess action="list" resource="dashboard">
       <Space direction="vertical" size="large" style={{ width: '100%' }}>
         <Row gutter={16}>
-          <Col span={8}>
+          <Col span={isAdmin ? 8 : 16}>
             <SalesCard />
           </Col>
-          <Col span={8}>
+          <Col hidden={userRole !== UserRole.ADMIN} span={8}>
             <ContractsCard />
           </Col>
           <Col span={8}>

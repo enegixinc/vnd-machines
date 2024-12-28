@@ -1,9 +1,8 @@
 ﻿'use client';
-import { Card, Col, Row, Select, Typography } from 'antd';
+import { Card, Select } from 'antd';
 import { useEffect, useState } from 'react';
-import { DashboardOutlined, ShoppingCartOutlined } from '@ant-design/icons';
+import { DashboardOutlined } from '@ant-design/icons';
 import { vndClient } from '@providers/api';
-import { Space } from 'antd';
 import { formatPrice } from '@helpers';
 
 export const RevenueCard = () => {

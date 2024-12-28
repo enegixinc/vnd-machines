@@ -11,6 +11,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UserEntity } from '../users/entities/user.entity';
 import { UserRole } from '@core';
+import { User } from '../auth/decorators/user.decorator';
 
 @Crud({
   model: {
@@ -117,26 +118,50 @@ export class ProductsController implements CrudController<ProductEntity> {
       totalActiveRevenue: Number,
     }),
   })
-  async stats() {
-    const totalActiveRevenue = await this.productRepository.query(`
+  async stats(@User() user: UserEntity) {
+    const adminRevenue = await this.productRepository.query(`
       SELECT COALESCE(SUM(
                         CASE
                           WHEN C."feeType" = 'fixed' THEN COALESCE(C."feePerSale", 0)
                           WHEN C."feeType" = 'percentage' THEN COALESCE(OD."soldPrice" * (C."feePerSale" / 100), 0)
                           ELSE 0
                           END
-                      ), 0)
-      FROM orders AS O
-             JOIN order_details AS OD ON OD.order_id = O._id
+                      ), 0) AS admin_revenue
+      FROM order_details AS OD
              JOIN products AS P ON P._id = OD.product_id
              JOIN contracts AS C ON C.supplier_id = P.supplier_id
       WHERE C.status = 'active'
-        AND C."startDate" <= O."createdAt"
-        AND O."createdAt" <= C."endDate"
-    `);
+        AND "c"."startDate" <= OD."createdAt"
+        AND OD."createdAt" <= C."endDate"
+  `);
+
+    const totalAdminActiveRevenue =
+      parseFloat(adminRevenue[0].admin_revenue) || 0;
+    if (user.role === UserRole.ADMIN) {
+      return {
+        totalActiveRevenue: totalAdminActiveRevenue,
+      };
+    }
+
+    // For suppliers, subtract the admin revenue from the contract revenue
+    const supplierRevenue = await this.productRepository.query(`
+      SELECT COALESCE(SUM(
+                        "soldPrice"
+                      ), 0) as supplier_revenue
+      FROM order_details AS OD
+             JOIN products AS P ON P._id = OD.product_id
+             JOIN contracts AS C ON C.supplier_id = P.supplier_id
+      WHERE C.status = 'active'
+        AND "c"."startDate" <= OD."createdAt"
+        AND OD."createdAt" <= C."endDate"
+      AND P.supplier_id = '${user._id}'
+  `);
+
+    const totalSupplierActiveRevenue =
+      parseFloat(supplierRevenue[0].supplier_revenue) || 0;
 
     return {
-      totalActiveRevenue: parseFloat(totalActiveRevenue[0].coalesce),
+      totalActiveRevenue: totalSupplierActiveRevenue - totalAdminActiveRevenue,
     };
   }
 }
