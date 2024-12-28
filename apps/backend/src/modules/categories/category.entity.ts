@@ -30,8 +30,8 @@ import {
   TotalSoldProducts,
 } from './decorators';
 import { MultiLangEntity } from '../products/entities/multiLang.entity';
-import { OrderEntity } from '../orders/order.entity';
 import { PromotionEntity } from '../promotions/promotion.entity';
+import { OrderProductsDetails } from '../orders/order-details.entity';
 
 @Entity('categories')
 export class CategoryEntity
@@ -55,18 +55,15 @@ export class CategoryEntity
 
     this.fullName = MultiLangEntity.handleMultiLang(this.name);
   }
-  @VirtualColumn({
-    type: 'array',
-    query: (entity) => `
-      select coalesce(jsonb_agg(orders), '[]'::jsonb)
-      from categories
-             join products on categories._id = products.category_id
-             join order_details on products._id = order_details.product_id
-             join orders on order_details.order_id = orders._id
-      where categories._id = ${entity}._id
-    `,
-  })
-  orders: OrderEntity[];
+
+  @OneToMany(
+    () => OrderProductsDetails,
+    (orderProduct) => orderProduct.category,
+    {
+      onDelete: 'NO ACTION',
+    }
+  )
+  orders: OrderProductsDetails[];
 
   @TotalSoldProducts('categories', 'category_id')
   totalSoldProducts: number;

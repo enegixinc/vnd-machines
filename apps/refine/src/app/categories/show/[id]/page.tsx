@@ -1,7 +1,7 @@
 'use client';
 
 import { Show, TextField } from '@refinedev/antd';
-import { useShow } from '@refinedev/core';
+import { useGetIdentity, useShow } from '@refinedev/core';
 import { Descriptions, Divider, Spin, Typography } from 'antd';
 import React from 'react';
 import { SerializedCategoryDto } from '@frontend/api-sdk';
@@ -9,10 +9,14 @@ import { ShowFinance } from '@components/sections/finance';
 import { JoinedProductsTable } from '@components/joined-products.table';
 import { JoinedOrdersTable } from '@components/joined-orders.table';
 import { handleMagextImage } from '@app/products/utils/handleMagextImage';
+import { IUserEntity, UserRole } from '@core';
 
 const { Title } = Typography;
 
 export default function CategoryShow() {
+  const userRole = useGetIdentity<IUserEntity>()?.data?.role;
+  const isAdmin = userRole === UserRole.ADMIN;
+
   const { queryResult } = useShow<SerializedCategoryDto>({
     meta: {
       join: [
@@ -41,6 +45,36 @@ export default function CategoryShow() {
   const record = data?.data;
   if (!record) {
     return null;
+  }
+
+  if (!isAdmin) {
+    const totalOrders = record.products.reduce(
+      (acc, product) => acc + product.totalOrders,
+      0
+    );
+
+    const totalSoldProducts = record.products.reduce(
+      (acc, product) => acc + product.totalSoldProducts,
+      0
+    );
+
+    const totalRevenue = record.products.reduce(
+      (acc, product) => acc + product.totalRevenue,
+      0
+    );
+
+    const totalSales = record.products.reduce(
+      (acc, product) => acc + product.totalSales,
+      0
+    );
+
+    Object.assign(record, {
+      totalOrders,
+      totalSoldProducts,
+      totalRevenue: totalSales - totalRevenue,
+      totalSales,
+      // totalActiveRevenue: totalSales - record.totalActiveRevenue,
+    });
   }
 
   return (

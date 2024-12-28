@@ -52,6 +52,7 @@ export class OrdersSubscriber extends EntitySyncer<OrderEntity> {
     return productIds
       ? this.dataSource.manager.find(ProductEntity, {
           where: { _id: In(productIds) },
+          relations: ['category', 'brand'],
         })
       : this.dataSource.manager.find(ProductEntity);
   }
@@ -83,6 +84,9 @@ export class OrdersSubscriber extends EntitySyncer<OrderEntity> {
         soldProductData
       );
       orderProduct.product = product;
+      orderProduct.category = product?.category as any;
+      orderProduct.brand = product?.brand as any;
+      orderProduct.supplier_id = product?.supplier_id;
 
       return orderProduct;
     });

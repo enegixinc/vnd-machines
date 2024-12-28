@@ -2,6 +2,8 @@ import { Column, Entity, ManyToOne } from 'typeorm';
 import { DatabaseEntity } from '../../common/database.entity';
 import { OrderEntity } from './order.entity';
 import { ProductEntity } from '../products/entities/product.entity';
+import { CategoryEntity } from '../categories/category.entity';
+import { BrandEntity } from '../brands/brand.entity';
 
 @Entity('order_details')
 export class OrderProductsDetails extends DatabaseEntity {
@@ -67,4 +69,21 @@ export class OrderProductsDetails extends DatabaseEntity {
     nullable: true,
   })
   product: ProductEntity;
+
+  @ManyToOne(() => CategoryEntity, (category) => category.orders, {
+    eager: true,
+    cascade: false,
+    nullable: true,
+  })
+  category: CategoryEntity;
+
+  @ManyToOne(() => BrandEntity, (brand) => brand.orders, {
+    eager: true,
+    cascade: false,
+    nullable: true,
+  })
+  brand: BrandEntity;
+
+  @Column({ nullable: true })
+  supplier_id: string;
 }

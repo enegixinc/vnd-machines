@@ -1,5 +1,5 @@
 import { Controller } from '@nestjs/common';
-import { Crud, CrudController } from '@dataui/crud';
+import { Crud, CrudAuth, CrudController } from '@dataui/crud';
 import { CategoryEntity } from './category.entity';
 import { CategoriesService } from './categories.service';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
@@ -7,6 +7,8 @@ import { SerializedCategoryDto } from './dto/response/serialized-category.dto';
 import { saneOperationsId } from '../../common/swagger.config';
 import { UpdateCategoryDto } from './dto/response/update-category.dto';
 import { CreateCategoryDto } from './dto/request/create-category.dto';
+import { UserRole } from '@core';
+import { UserEntity } from '../users/entities/user.entity';
 
 @Crud({
   model: {
@@ -42,18 +44,14 @@ import { CreateCategoryDto } from './dto/request/create-category.dto';
       },
       products: {
         alias: 'products',
+        eager: true,
       },
       'products.product': {
         alias: 'product',
       },
       orders: {
         alias: 'orders',
-      },
-      'orders.order_details': {
-        alias: 'order_details',
-      },
-      'orders.order_details.product': {
-        alias: 'order_product',
+        // allow: ['_id', 'supplier_id', 'product_id', 'category_id'],
       },
     },
   },
@@ -67,16 +65,23 @@ import { CreateCategoryDto } from './dto/request/create-category.dto';
     update: SerializedCategoryDto,
   },
 })
-// @CrudAuth({
-//   property: 'user',
-//   filter: (user: UserEntity) => {
-//     if (user.role === UserRole.SUPPLIER) {
-//       return {
-//         'products.product.supplier_id': user._id,
-//       };
-//     }
-//   },
-// })
+@CrudAuth({
+  property: 'user',
+  filter: (user: UserEntity) => {
+    if (user.role === UserRole.SUPPLIER) {
+      return {
+        $and: [
+          {
+            'products.supplier_id': user._id,
+          },
+          // {
+          //   'orders.supplier_id': user._id,
+          // },
+        ],
+      };
+    }
+  },
+})
 @Controller('categories')
 @ApiBearerAuth('access-token')
 @ApiResponse({ status: 403, description: 'Forbidden.' })

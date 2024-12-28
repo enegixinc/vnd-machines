@@ -6,7 +6,6 @@ import {
   JoinTable,
   ManyToMany,
   OneToMany,
-  VirtualColumn,
 } from 'typeorm';
 import { SearchableMagexEntity } from '../../common/database.entity';
 import {
@@ -29,6 +28,7 @@ import {
   TotalSoldProducts,
 } from '../categories/decorators';
 import { MultiLangEntity } from '../products/entities/multiLang.entity';
+import { OrderProductsDetails } from '../orders/order-details.entity';
 
 @Entity('brands')
 export class BrandEntity extends SearchableMagexEntity implements IBrandEntity {
@@ -43,16 +43,19 @@ export class BrandEntity extends SearchableMagexEntity implements IBrandEntity {
     this.fullName = MultiLangEntity.handleMultiLang(this.name);
   }
 
-  @VirtualColumn({
-    type: 'array',
-    query: (entity) => `
-      select coalesce(jsonb_agg(orders), '[]'::jsonb)
-      from brands
-             join products on brands._id = products.brand_id
-             join order_details on products._id = order_details.product_id
-             join orders on order_details.order_id = orders._id
-      where brands._id = ${entity}._id
-    `,
+  // @VirtualColumn({
+  //   type: 'array',
+  //   query: (entity) => `
+  //     select coalesce(jsonb_agg(orders), '[]'::jsonb)
+  //     from brands
+  //            join products on brands._id = products.brand_id
+  //            join order_details on products._id = order_details.product_id
+  //            join orders on order_details.order_id = orders._id
+  //     where brands._id = ${entity}._id
+  //   `,
+  // })
+  @OneToMany(() => OrderProductsDetails, (orderProduct) => orderProduct.brand, {
+    onDelete: 'NO ACTION',
   })
   orders: OrderEntity[];
 
