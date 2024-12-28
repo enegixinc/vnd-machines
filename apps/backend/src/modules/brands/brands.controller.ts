@@ -1,5 +1,5 @@
 import { Controller } from '@nestjs/common';
-import { Crud, CrudController } from '@dataui/crud';
+import { Crud, CrudAuth, CrudController } from '@dataui/crud';
 import { BrandEntity } from './brand.entity';
 import { BrandsService } from './brands.service';
 import { CreateBrandDto } from './dto/request/create-brand.dto';
@@ -7,6 +7,8 @@ import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { SerializedBrandDto } from './dto/response/serialized-brand.dto';
 import { saneOperationsId } from '../../common/swagger.config';
 import { UpdateBrandDto } from './dto/response/update-brand.dto';
+import { UserEntity } from '../users/entities/user.entity';
+import { UserRole } from '@core';
 
 @Crud({
   model: {
@@ -40,9 +42,17 @@ import { UpdateBrandDto } from './dto/response/update-brand.dto';
         alias: 'users',
         exclude: ['password'],
       },
-      products: {},
-      categories: {},
-      orders: {},
+      products: {
+        alias: 'products',
+        eager: true,
+      },
+      'products.product': {
+        alias: 'product',
+      },
+      orders: {
+        alias: 'orders',
+        // allow: ['_id', 'supplier_id', 'product_id', 'category_id'],
+      },
     },
   },
   routes: {
@@ -53,6 +63,23 @@ import { UpdateBrandDto } from './dto/response/update-brand.dto';
     get: SerializedBrandDto,
     create: SerializedBrandDto,
     update: SerializedBrandDto,
+  },
+})
+@CrudAuth({
+  property: 'user',
+  filter: (user: UserEntity) => {
+    if (user.role === UserRole.SUPPLIER) {
+      return {
+        $and: [
+          {
+            'products.supplier_id': user._id,
+          },
+          // {
+          //   'orders.supplier_id': user._id,
+          // },
+        ],
+      };
+    }
   },
 })
 @Controller('brands')

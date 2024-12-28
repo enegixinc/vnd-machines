@@ -22,8 +22,8 @@ export const accessControlProvider: AccessControlProvider = {
 
     if (userRole === UserRole.SUPPLIER) {
       const hiddenResources = [
-        'machines',
-        'brands',
+        // 'machines',
+        // 'brands',
         // 'categories',
         'admins',
         // 'dashboard',
@@ -35,6 +35,10 @@ export const accessControlProvider: AccessControlProvider = {
         requests: ['edit', 'delete', 'create'],
         products: ['edit', 'delete'],
         contracts: ['edit', 'delete', 'create'],
+        categories: ['edit', 'delete', 'create'],
+        brands: ['edit', 'delete', 'create'],
+        orders: ['edit', 'delete', 'create'],
+
         // dashboard: ['list'],
       };
 

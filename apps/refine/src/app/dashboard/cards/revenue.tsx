@@ -4,11 +4,15 @@ import { useEffect, useState } from 'react';
 import { DashboardOutlined } from '@ant-design/icons';
 import { vndClient } from '@providers/api';
 import { formatPrice } from '@helpers';
+import { useGetIdentity } from '@refinedev/core';
+import { IUserEntity, UserRole } from '@core';
 
 export const RevenueCard = () => {
   const { Option } = Select;
   const [statsData, setStatsData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const userRole = useGetIdentity<IUserEntity>()?.data?.role;
+  const isAdmin = userRole === UserRole.ADMIN;
 
   useEffect(() => {
     const fetchStats = async () => {
@@ -46,7 +50,7 @@ export const RevenueCard = () => {
       }}
     >
       <Card.Meta
-        title={'Active Revenue'}
+        title={isAdmin ? 'Active Revenue' : 'Revenue'}
         avatar={<DashboardOutlined />}
         description={formatPrice(statsData ?? 0)}
       />

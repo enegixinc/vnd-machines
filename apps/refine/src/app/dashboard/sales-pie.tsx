@@ -22,14 +22,16 @@ export const SalesPie = () => {
       const endpoint =
         categoryOrBrand === 'categories' ? 'categories' : 'brands';
       const dataResponse = await vndClient[endpoint].getMany({
-        join: ['orders'],
         limit: 4,
         sort: ['totalOrders,DESC'],
       });
       setData(
         dataResponse.data.map((item: any) => ({
           name: item.fullName,
-          value: item.orders.length,
+          value: item.products.reduce(
+            (acc: number, product: any) => acc + product.totalOrders,
+            0
+          ),
         }))
       );
     };

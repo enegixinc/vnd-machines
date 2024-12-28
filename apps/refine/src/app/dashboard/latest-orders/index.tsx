@@ -48,7 +48,11 @@ export const DashboardLatestOrders: React.FC<{ limit?: number }> = ({
             mode: 'off',
           },
           meta: {
-            join: [{ field: 'machine' }],
+            join: [
+              { field: 'products' },
+              { field: 'products.product' },
+              { field: 'machine' },
+            ],
             limit,
           },
         }}
