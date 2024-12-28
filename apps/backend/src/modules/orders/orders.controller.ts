@@ -8,6 +8,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { OrderProductsDetails } from './order-details.entity';
 import { getPeriods } from '../../common/periods';
+import { UserEntity } from '../users/entities/user.entity';
+import { User } from '../auth/decorators/user.decorator';
+import { UserRole } from '@core';
 
 @Crud({
   model: {
@@ -84,35 +87,73 @@ export class OrdersController implements CrudController<OrderEntity> {
     return this;
   }
 
+  private async getAdminStats(period?: { start: Date; end: Date }) {
+    let query = `
+    SELECT COALESCE(SUM(o."total"), 0) AS total_sales
+    FROM orders o
+  `;
+
+    if (period) {
+      query += `
+      WHERE o."createdAt" >= '${period.start.toISOString()}'
+        AND o."createdAt" <= '${period.end.toISOString()}'
+    `;
+    }
+
+    const result = await this.orderRepository.query(query);
+    return parseFloat(result[0].total_sales) || 0;
+  }
+
+  private async getSupplierStats(
+    user: UserEntity,
+    period?: { start: Date; end: Date }
+  ) {
+    let query = `
+    SELECT COALESCE(SUM(od."soldPrice"), 0) AS total_sales
+    FROM users u
+    LEFT JOIN products p ON p.supplier_id = u._id
+    JOIN order_details od ON od.product_id = p._id
+    WHERE u._id = '${user._id}'
+  `;
+
+    if (period) {
+      query += `
+      AND od."createdAt" >= '${period.start.toISOString()}'
+      AND od."createdAt" <= '${period.end.toISOString()}'
+    `;
+    }
+
+    const result = await this.orderRepository.query(query);
+    return parseFloat(result[0].total_sales) || 0;
+  }
+
   @Get('/stats')
   @ApiResponse({
     status: 200,
     description: 'Get product statistics',
   })
-  async stats() {
+  async stats(@User() user: UserEntity) {
     const periods = getPeriods();
 
-    const sum = await this.orderRepository.query(`
-      SELECT COALESCE(SUM(od."soldPrice"), 0) AS total
-      FROM order_details od
-    `);
+    const all =
+      user.role === UserRole.ADMIN
+        ? await this.getAdminStats()
+        : await this.getSupplierStats(user);
 
     const periodsStats = {};
-    for (const period of periods) {
-      const totalRevenue = await this.orderRepository.query(`
-        SELECT COALESCE(SUM(od."soldPrice"), 0) AS total_sales
-        FROM orders o
-               JOIN order_details od ON o._id = od.order_id
-        WHERE o."createdAt" >= '${period.start.toISOString()}'
-          AND o."createdAt" <= '${period.end.toISOString()}'
-      `);
 
-      periodsStats[period.key] = parseFloat(totalRevenue[0].total_sales) || 0;
-    }
+    await Promise.all(
+      periods.map(async (period) => {
+        periodsStats[period.key] =
+          user.role === UserRole.ADMIN
+            ? await this.getAdminStats(period)
+            : await this.getSupplierStats(user, period);
+      })
+    );
 
     return {
       totalSales: {
-        all: parseFloat(sum[0].total) || 0,
+        all,
         ...periodsStats,
       },
     };
