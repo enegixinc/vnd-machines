@@ -4,6 +4,8 @@ import React from 'react';
 import { SerializedProductDto } from '@frontend/api-sdk';
 import { useRouter } from 'next/navigation';
 import { formatPrice } from '@helpers';
+import { useGetIdentity } from '@refinedev/core';
+import { IUserEntity, UserRole } from '@core';
 
 export const JoinedProductsTable = ({
   record,
@@ -13,6 +15,8 @@ export const JoinedProductsTable = ({
   };
 }) => {
   const router = useRouter();
+  const userRole = useGetIdentity<IUserEntity>()?.data?.role;
+  const isAdmin = userRole === UserRole.ADMIN;
 
   // If the record has products but the first product does not have an _id,
   // set the products to an empty array because it's false data
@@ -66,10 +70,14 @@ export const JoinedProductsTable = ({
             sorter: (a, b) => a.totalOrders - b.totalOrders,
           },
           {
-            dataIndex: 'totalRevenue',
             title: 'Total Revenue',
             sorter: (a, b) => a.totalRevenue - b.totalRevenue,
-            render: formatPrice,
+            render: (record) =>
+              formatPrice(
+                isAdmin
+                  ? record.totalRevenue
+                  : record.totalSales - record.totalRevenue
+              ),
           },
         ]}
       />

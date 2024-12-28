@@ -1,7 +1,8 @@
-import { Descriptions, Typography } from 'antd';
+import { Descriptions, Divider, Typography } from 'antd';
 import { TextField } from '@refinedev/antd';
-import { Divider } from 'antd';
 import { formatPrice } from '@helpers';
+import { useGetIdentity } from '@refinedev/core';
+import { IUserEntity, UserRole } from '@core';
 
 export const ShowFinance = ({
   record,
@@ -13,6 +14,9 @@ export const ShowFinance = ({
     totalActiveRevenue: number;
   };
 }) => {
+  const userRole = useGetIdentity<IUserEntity>()?.data?.role;
+  const isAdmin = userRole === UserRole.ADMIN;
+
   const { Title } = Typography;
 
   return (
@@ -51,11 +55,19 @@ export const ShowFinance = ({
           <TextField value={formatPrice(record.totalSales)} />
         </Descriptions.Item>
         <Descriptions.Item label="Revenue">
-          <TextField value={formatPrice(record.totalRevenue)} />
+          <TextField
+            value={
+              isAdmin
+                ? formatPrice(record.totalRevenue)
+                : formatPrice(record.totalSales - record.totalRevenue)
+            }
+          />
         </Descriptions.Item>
-        <Descriptions.Item label="Active Revenue">
-          <TextField value={formatPrice(record.totalActiveRevenue)} />
-        </Descriptions.Item>
+        {isAdmin && (
+          <Descriptions.Item label="Active Revenue">
+            <TextField value={formatPrice(record.totalActiveRevenue)} />
+          </Descriptions.Item>
+        )}
       </Descriptions>
     </>
   );

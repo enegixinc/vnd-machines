@@ -8,8 +8,13 @@ import { useRouter } from 'next/navigation';
 import { formatPrice } from '@helpers';
 import { ProductStatus } from '@frontend/api-sdk';
 import { handleNullableFullName } from '@app/products/utils/handleNullableText';
+import { useGetIdentity } from '@refinedev/core';
+import { IUserEntity, UserRole } from '@core';
 
 export default function ProductsList() {
+  const userRole = useGetIdentity<IUserEntity>()?.data?.role;
+  const isAdmin = userRole === UserRole.ADMIN;
+
   const router = useRouter();
   return (
     <QuickTableSection
@@ -133,10 +138,12 @@ export default function ProductsList() {
               render: formatPrice,
             },
             {
-              dataIndex: 'totalRevenue',
               title: 'Revenue',
               sorter: true,
-              render: formatPrice,
+              render: (record) =>
+                isAdmin
+                  ? formatPrice(record.totalRevenue)
+                  : formatPrice(record.totalSales - record.totalRevenue),
             },
           ],
         },
