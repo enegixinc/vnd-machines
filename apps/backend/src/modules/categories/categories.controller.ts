@@ -40,8 +40,21 @@ import { CreateCategoryDto } from './dto/request/create-category.dto';
         alias: 'users',
         exclude: ['password'],
       },
-      products: {},
-      orders: {},
+      products: {
+        alias: 'products',
+      },
+      'products.product': {
+        alias: 'product',
+      },
+      orders: {
+        alias: 'orders',
+      },
+      'orders.order_details': {
+        alias: 'order_details',
+      },
+      'orders.order_details.product': {
+        alias: 'order_product',
+      },
     },
   },
   routes: {
@@ -54,6 +67,16 @@ import { CreateCategoryDto } from './dto/request/create-category.dto';
     update: SerializedCategoryDto,
   },
 })
+// @CrudAuth({
+//   property: 'user',
+//   filter: (user: UserEntity) => {
+//     if (user.role === UserRole.SUPPLIER) {
+//       return {
+//         'products.product.supplier_id': user._id,
+//       };
+//     }
+//   },
+// })
 @Controller('categories')
 @ApiBearerAuth('access-token')
 @ApiResponse({ status: 403, description: 'Forbidden.' })

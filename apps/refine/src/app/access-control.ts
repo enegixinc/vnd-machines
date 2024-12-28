@@ -24,11 +24,11 @@ export const accessControlProvider: AccessControlProvider = {
       const hiddenResources = [
         'machines',
         'brands',
-        'categories',
+        // 'categories',
         'admins',
         // 'dashboard',
         'suppliers',
-        'orders',
+        // 'orders',
       ];
 
       const disabledActions: Record<string, string[]> = {

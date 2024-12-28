@@ -1,5 +1,5 @@
-﻿import React, { useState, useEffect } from 'react';
-import { Card, Typography, Select } from 'antd';
+﻿import React, { useEffect, useState } from 'react';
+import { Card, Select } from 'antd';
 import { Pie } from '@ant-design/plots';
 import { vndClient } from '@providers/api';
 import { UnorderedListOutlined } from '@ant-design/icons';

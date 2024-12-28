@@ -1,5 +1,5 @@
 import { Controller, Get } from '@nestjs/common';
-import { Crud, CrudController } from '@dataui/crud';
+import { Crud, CrudAuth, CrudController } from '@dataui/crud';
 import { OrdersService } from './orders.service';
 import { OrderEntity } from './order.entity';
 import { saneOperationsId } from '../../common/swagger.config';
@@ -69,6 +69,16 @@ import { UserRole } from '@core';
       'recoverOneBase',
       'createOneBase',
     ],
+  },
+})
+@CrudAuth({
+  property: 'user',
+  filter: (user: UserEntity) => {
+    if (user.role === UserRole.SUPPLIER) {
+      return {
+        'products.product.supplier_id': user._id,
+      };
+    }
   },
 })
 @Controller('orders')
