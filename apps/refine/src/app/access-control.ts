@@ -26,7 +26,7 @@ export const accessControlProvider: AccessControlProvider = {
         'brands',
         'categories',
         'admins',
-        'dashboard',
+        // 'dashboard',
         'suppliers',
         'orders',
       ];
@@ -35,7 +35,7 @@ export const accessControlProvider: AccessControlProvider = {
         requests: ['edit', 'delete', 'create'],
         products: ['edit', 'delete'],
         contracts: ['edit', 'delete', 'create'],
-        dashboard: ['list'],
+        // dashboard: ['list'],
       };
 
       if (hiddenResources.includes(resource)) {
