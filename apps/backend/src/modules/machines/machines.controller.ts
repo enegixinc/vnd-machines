@@ -50,13 +50,16 @@ const months = [
     join: {
       product: {
         alias: 'product',
+        eager: true,
       },
       'product.product': {
         alias: 'singleProduct',
+        eager: true,
       },
       'singleProduct.supplier': {
         exclude: ['password'],
         alias: 'product.product.supplier',
+        eager: true,
       },
       orders: {
         alias: 'orders',
@@ -64,6 +67,7 @@ const months = [
       suppliers: {
         alias: 'suppliers',
         exclude: ['password'],
+        eager: true,
       },
     },
   },
@@ -86,15 +90,9 @@ const months = [
   filter: (user: UserEntity) => {
     if (user.role === UserRole.ADMIN) return;
 
+    // filter in array of suppliers id
     return {
-      $or: [
-        {
-          'product.product.supplier._id': user._id,
-        },
-        {
-          createdBy: user._id,
-        },
-      ],
+      'singleProduct.supplier': user._id,
     };
   },
   persist: (user: UserEntity) => ({

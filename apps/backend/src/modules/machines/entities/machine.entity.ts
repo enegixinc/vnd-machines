@@ -27,16 +27,10 @@ export class MachineEntity extends SearchableMagexEntity {
   @OneToMany(() => FillRequestEntity, (fillRequest) => fillRequest.machine)
   fillRequests: FillRequestEntity[];
 
-  @VirtualColumn({
-    type: 'array',
-    query: (entity) => `
-      select coalesce(jsonb_agg(distinct users), '[]'::jsonb)
-      from machine_product as mp
-      join products as p on p._id = mp.product_id
-      join users on users._id = p.supplier_id
-      where mp.machine_id = ${entity}._id
-    `,
+  @ManyToMany(() => UserEntity, (user) => user.machines, {
+    cascade: true,
   })
+  @JoinTable()
   suppliers: UserEntity[];
 
   @ApiProperty()

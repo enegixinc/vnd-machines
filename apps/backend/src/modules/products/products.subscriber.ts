@@ -110,6 +110,45 @@ export class ProductSubscriber extends EntitySyncer<ProductEntity> {
     }
   }
 
+  // async afterUpdate(event: UpdateEvent<ProductEntity>) {
+  //   // if supplier changed, change the suppliers array of the machine that uses this product
+  //   const entity = event.entity;
+  //   const databaseEntity = event.databaseEntity;
+  //   if (!entity || !databaseEntity) return;
+  //
+  //   if (entity.supplier !== databaseEntity.supplier) {
+  //     const machineProducts = await this.dataSource.manager.find(
+  //       MachineProduct,
+  //       {
+  //         where: {
+  //           product: databaseEntity,
+  //         },
+  //         relations: ['machine', 'product.supplier'],
+  //       }
+  //     );
+  //     for (const machineProduct of machineProducts) {
+  //       const machine = machineProduct.machine;
+  //       if (!machine) continue;
+  //
+  //       // is supplier removed, remove it from the machine
+  //       if (!entity.supplier) {
+  //         machine.suppliers = machine.suppliers.filter(
+  //           (supplier) => supplier._id !== databaseEntity.supplier?._id
+  //         );
+  //       }
+  //       // is supllier updated, update it in the machine
+  //       else if (entity.supplier) {
+  //         machine.suppliers = machine.suppliers.map((supplier) =>
+  //           supplier._id === databaseEntity.supplier?._id
+  //             ? entity.supplier
+  //             : supplier
+  //         );
+  //       }
+  //
+  //     }
+  //   }
+  // }
+
   /**
    * Handles product deletion.
    * If the product was ACTIVE, delete it from Magex as well.

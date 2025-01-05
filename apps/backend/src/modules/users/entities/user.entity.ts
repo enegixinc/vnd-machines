@@ -4,6 +4,7 @@ import {
   Column,
   Entity,
   JoinColumn,
+  ManyToMany,
   OneToMany,
   VirtualColumn,
 } from 'typeorm';
@@ -26,6 +27,7 @@ import {
 import { MultiLangEntity } from '../../products/entities/multiLang.entity';
 import { OrderEntity } from '../../orders/order.entity';
 import { PaymentsEntity } from '../../payments/payments.entity';
+import { MachineEntity } from '../../machines/entities/machine.entity';
 
 @Entity('users')
 export class UserEntity extends SearchableEntity implements IUserEntity {
@@ -127,6 +129,9 @@ export class UserEntity extends SearchableEntity implements IUserEntity {
   @Factory((faker) => faker.datatype.boolean())
   @Column({ type: 'boolean', default: true })
   active: boolean;
+
+  @ManyToMany(() => MachineEntity, (machine) => machine.suppliers)
+  machines: MachineEntity[];
 
   // @VirtualColumn({
   //   type: 'array',
