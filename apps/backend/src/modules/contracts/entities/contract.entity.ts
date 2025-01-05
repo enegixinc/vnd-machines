@@ -96,6 +96,45 @@ export class ContractEntity extends DatabaseEntity implements IContractEntity {
   })
   totalRevenue: number;
 
+  @VirtualColumn({
+    type: 'numeric',
+    query: (entity) => `
+      SELECT (
+               (SELECT
+                        COALESCE(SUM(OD."soldPrice"), 0)
+                      FROM
+                        orders AS O
+                          JOIN order_details AS OD ON OD.order_id = O._id
+                          JOIN products AS P ON P._id = OD.product_id
+                      WHERE
+                        O."createdAt" BETWEEN ${entity}."startDate" AND ${entity}."endDate"
+                        AND P."supplier_id" = ${entity}."supplier_id")
+                 -
+               (SELECT
+                        COALESCE(SUM(
+                                   CASE
+                                     WHEN C."feeType" = 'fixed' THEN C."feePerSale"
+                                     WHEN C."feeType" = 'percentage' THEN OD."soldPrice" * (C."feePerSale" / 100)
+                                     ELSE 0
+                                     END
+                                 ), 0)
+                      FROM
+                        orders AS O
+                          JOIN order_details AS OD ON OD.order_id = O._id
+                          JOIN products AS P ON P._id = OD.product_id
+                          JOIN contracts AS C ON C.supplier_id = P.supplier_id
+                      WHERE
+                        O."createdAt" BETWEEN ${entity}."startDate" AND ${entity}."endDate"
+                        AND C._id = ${entity}._id)
+               )
+    `,
+    transformer: {
+      from: (value) => Number(value),
+      to: (value) => value,
+    },
+  })
+  totalSupplierRevenue: number;
+
   // 3. Total Due
   @VirtualColumn({
     type: 'numeric',
@@ -119,9 +158,27 @@ export class ContractEntity extends DatabaseEntity implements IContractEntity {
              WHERE
                P.contract_id = ${entity}._id
                AND P."createdAt" BETWEEN ${entity}."startDate" AND ${entity}."endDate"
-           )
+           ),
+            TotalRevenue AS (
+              SELECT
+                COALESCE(SUM(
+                            CASE
+                              WHEN C."feeType" = 'fixed' THEN C."feePerSale"
+                              WHEN C."feeType" = 'percentage' THEN OD."soldPrice" * (C."feePerSale" / 100)
+                              ELSE 0
+                              END
+                          ), 0) AS total_revenue
+              FROM
+                orders AS O
+                  JOIN order_details AS OD ON OD.order_id = O._id
+                  JOIN products AS P ON P._id = OD.product_id
+                  JOIN contracts AS C ON C.supplier_id = P.supplier_id
+              WHERE
+                O."createdAt" BETWEEN ${entity}."startDate" AND ${entity}."endDate"
+                AND C._id = ${entity}._id
+            )
       SELECT
-        (SELECT total_sales FROM TotalSales) - (SELECT total_paid FROM TotalPayments) AS total_due
+        (SELECT total_sales FROM TotalSales) - (SELECT total_paid FROM TotalPayments) - (SELECT total_revenue FROM TotalRevenue) AS total_due
     `,
     transformer: {
       from: (value) => Number(value),

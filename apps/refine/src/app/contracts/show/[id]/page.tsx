@@ -131,25 +131,33 @@ export default function ContractShow() {
         <Descriptions.Item label="Total Sales">
           <TextField value={formatPrice(contract.totalSales)} />
         </Descriptions.Item>
-        {!isSupplier && (
+        {isSupplier ? (
+          <Descriptions.Item label="Total Revenue">
+            <TextField value={formatPrice(contract.totalSupplierRevenue)} />
+          </Descriptions.Item>
+        ) : (
           <Descriptions.Item label="Total Revenue">
             <TextField value={formatPrice(contract.totalRevenue)} />
           </Descriptions.Item>
         )}
-        <Descriptions.Item label="Due">
-          <TextField value={formatPrice(contract.totalDue)} />
-        </Descriptions.Item>
+        {!isSupplier && (
+          <Descriptions.Item label="Due">
+            <TextField value={formatPrice(contract.totalDue)} />
+          </Descriptions.Item>
+        )}
         {!isSupplier && (
           <Descriptions.Item label="Profit">
             <TextField value={formatPrice(contract.activeRevenue)} />
           </Descriptions.Item>
         )}
 
-        <Descriptions.Item
-          label={isSupplier ? 'Total Gain' : 'Total Paid in Contract'}
-        >
-          <TextField value={formatPrice(contract.totalPaidInContract)} />
-        </Descriptions.Item>
+        {!isSupplier && (
+          <Descriptions.Item
+            label={isSupplier ? 'Total Gain' : 'Total Paid in Contract'}
+          >
+            <TextField value={formatPrice(contract.totalPaidInContract)} />
+          </Descriptions.Item>
+        )}
         {!isSupplier && (
           <Descriptions.Item label="Total Profit in Contract">
             <TextField value={formatPrice(contract.totalGainInContract)} />
