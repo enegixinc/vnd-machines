@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Query } from '@nestjs/common';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Crud, CrudAuth, CrudController, CrudRequest } from '@dataui/crud';
 import { saneOperationsId } from '../../common/swagger.config';
@@ -237,6 +237,81 @@ export class MachinesController implements CrudController<MachineEntity> {
 
     return {
       machines: Object.values(machines),
+    };
+  }
+
+  @Get('/machine-summary')
+  @ApiResponse({
+    status: 200,
+    description: 'Get machine summary',
+  })
+  async machineSummary(
+    @User() user: UserEntity,
+    @Query('id') id: string,
+    @Query('startDate') startDate?: string,
+    @Query('endDate') endDate?: string
+  ) {
+    const startDateCondition = startDate
+      ? `AND o."createdAt" >= '${startDate}'`
+      : '';
+    const endDateCondition = endDate ? `AND o."createdAt" <= '${endDate}'` : '';
+
+    const rawData = await this.machinesRepository.query(`
+      SELECT
+        COUNT(od) AS totalOrders,
+        (
+          SELECT
+            COALESCE(SUM(od."soldPrice"), 0)
+          FROM
+            ORDERS O
+              JOIN MACHINES M ON M._ID = O.MACHINE_ID
+              JOIN order_details od ON od.order_id = o._id
+              join products p on p._id = od.product_id
+              join users u on u._id = p.supplier_id
+          WHERE
+            u._id = '${user._id}'
+          ${startDateCondition}
+        ${endDateCondition}
+        ) AS totalSales,
+
+
+        (SELECT
+           COALESCE(SUM(
+                      CASE
+                        WHEN C."feeType" = 'fixed' THEN COALESCE(C."feePerSale", 0)
+                        WHEN C."feeType" = 'percentage' THEN COALESCE(OD."soldPrice" * (C."feePerSale" / 100), 0)
+                        ELSE 0
+                        END
+                    ), 0)
+         FROM
+           orders AS O
+             JOIN order_details AS OD ON OD.order_id = O._id
+             JOIN products AS P ON P._id = OD.product_id
+             JOIN users u on u._id = P.supplier_id
+             JOIN contracts AS C ON C.supplier_id = P.supplier_id
+             JOIN machines AS M ON M._id = O.machine_id
+             AND C.status != 'terminated'
+          ${startDateCondition}
+          ${endDateCondition}
+        ) AS totalRevenue
+
+
+      FROM
+        orders o
+        JOIN order_details od ON od.order_id = o._id
+        JOIN products p ON p._id = od.product_id
+        JOIN users u ON u._id = p.supplier_id
+    WHERE
+      o.machine_id = '${id}'
+      AND u._id = '${user._id}'
+      ${startDateCondition}
+      ${endDateCondition}
+  `);
+
+    return {
+      totalOrders: parseInt(rawData[0].totalorders),
+      totalSales: parseFloat(rawData[0].totalsales),
+      totalRevenue: parseFloat(rawData[0].totalrevenue),
     };
   }
 }

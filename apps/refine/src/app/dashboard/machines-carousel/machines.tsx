@@ -37,7 +37,12 @@ export const MachinesCarousel = () => {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const data = await vndClient.machines.getMany({});
+        const data = await vndClient.machines.getMany({
+          filter: [
+            `orderCreatedAt||$gte||${dateRange?.[0].toISOString()}`,
+            `orderCreatedAt||$lte||${dateRange?.[1].toISOString()}`,
+          ],
+        });
         setMachines(data.data);
       } catch (error) {
         console.error('Failed to fetch machine stats:', error);
@@ -45,11 +50,6 @@ export const MachinesCarousel = () => {
         setIsLoading(false);
       }
     };
-
-    console.log(
-      'dateRange',
-      dateRange?.map((date) => date.toISOString())
-    );
 
     const fetchOrders = async () => {
       if (!dateRange?.length) {
