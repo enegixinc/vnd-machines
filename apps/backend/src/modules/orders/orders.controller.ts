@@ -126,13 +126,14 @@ export class OrdersController implements CrudController<OrderEntity> {
     FROM users u
     LEFT JOIN products p ON p.supplier_id = u._id
     JOIN order_details od ON od.product_id = p._id
+    JOIN orders o ON o._id = od.order_id
     WHERE u._id = '${user._id}'
   `;
 
     if (period) {
       query += `
-      AND od."createdAt" >= '${period.start.toISOString()}'
-      AND od."createdAt" <= '${period.end.toISOString()}'
+      AND o."createdAt" >= '${period.start.toISOString()}'
+      AND o."createdAt" <= '${period.end.toISOString()}'
     `;
     }
 

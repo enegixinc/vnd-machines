@@ -1,9 +1,8 @@
 ﻿'use client';
-import { Card, Col, Row, Select, Typography } from 'antd';
+import { Card, Select, Space, Typography } from 'antd';
 import { useEffect, useState } from 'react';
-import { DashboardOutlined, ShoppingCartOutlined } from '@ant-design/icons';
+import { DashboardOutlined } from '@ant-design/icons';
 import { vndClient } from '@providers/api';
-import { Space } from 'antd';
 
 export const SalesCard = () => {
   const { Option } = Select;
@@ -24,7 +23,7 @@ export const SalesCard = () => {
     },
     {
       value: 'lastMonth',
-      label: 'Last Month',
+      label: 'Last 30 days',
     },
     {
       value: 'lastYear',
