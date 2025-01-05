@@ -134,6 +134,8 @@ export class MachinesController implements CrudController<MachineEntity> {
   private getUserStats(user: UserEntity) {
     console.log('MachinesController3');
 
+    const currentYear = new Date().getFullYear(); // Get the current year
+
     return this.machinesRepository.query(`
       WITH months AS (
         SELECT
@@ -148,16 +150,16 @@ export class MachinesController implements CrudController<MachineEntity> {
         machine._id,
         machine.description,
         COALESCE(SUM(od."soldPrice"), 0) AS value,
-        COUNT(o._id) AS totalOrders
+      COUNT(o._id) AS totalOrders
       FROM
         months m
-          LEFT JOIN orders o ON m.month = EXTRACT(MONTH FROM o."createdAt")
-          LEFT JOIN order_details od ON od.order_id = o._id
-          LEFT JOIN products p ON p._id = od.product_id
-          LEFT JOIN users u ON u._id = p.supplier_id
-          LEFT JOIN machines machine ON machine._id = o.machine_id
+        LEFT JOIN orders o ON m.month = EXTRACT(MONTH FROM o."createdAt")
+        LEFT JOIN order_details od ON od.order_id = o._id
+        LEFT JOIN products p ON p._id = od.product_id
+        LEFT JOIN users u ON u._id = p.supplier_id
+        LEFT JOIN machines machine ON machine._id = o.machine_id
       WHERE
-        u._id = '${user._id}'
+        u._id = '${user._id}' AND EXTRACT(YEAR FROM o."createdAt") = ${currentYear}  -- Filter by current year
       GROUP BY
         m.month, m.abbreviation, m.label, machine._id, machine.description
       ORDER BY
@@ -166,30 +168,35 @@ export class MachinesController implements CrudController<MachineEntity> {
   }
 
   private getAdminStats() {
+    const currentYear = new Date().getFullYear(); // Get the current year
+
     return this.machinesRepository.query(`
-      WITH months AS (
-        SELECT
-          generate_series(1, 12) AS month,
+    WITH months AS (
+      SELECT
+        generate_series(1, 12) AS month,
         to_char(to_date(generate_series(1, 12)::text, 'MM'), 'Mon') AS abbreviation,
         to_char(to_date(generate_series(1, 12)::text, 'MM'), 'Month') AS label
-        )
-      SELECT
-        m.month,
-        m.abbreviation,
-        m.label,
-        machine._id,
-        machine.description,
-        COALESCE(SUM(o."total"), 0) AS value
-      FROM
-        months m
-        LEFT JOIN orders o ON m.month = EXTRACT(MONTH FROM o."createdAt")
-        LEFT JOIN machines machine ON machine._id = o."machine_id"
-      GROUP BY
-        m.month, m.abbreviation, m.label, machine._id, machine.description
-      ORDER BY
-        m.month;
-    `);
+    )
+    SELECT
+      m.month,
+      m.abbreviation,
+      m.label,
+      machine._id,
+      machine.description,
+      COALESCE(SUM(o."total"), 0) AS value
+    FROM
+      months m
+      LEFT JOIN orders o ON m.month = EXTRACT(MONTH FROM o."createdAt")
+      LEFT JOIN machines machine ON machine._id = o."machine_id"
+    WHERE
+      EXTRACT(YEAR FROM o."createdAt") = ${currentYear}  -- Filter by current year
+    GROUP BY
+      m.month, m.abbreviation, m.label, machine._id, machine.description
+    ORDER BY
+      m.month;
+  `);
   }
+
   @Get('/stats')
   @ApiResponse({
     status: 200,
