@@ -25,6 +25,9 @@ export default function MachineShow() {
         {
           field: 'product.product',
         },
+        {
+          field: 'suppliers',
+        },
       ],
     },
   });
@@ -189,61 +192,61 @@ export default function MachineShow() {
         }}
       />
 
-      <Divider />
-      <Title level={3} style={{ marginTop: 16 }}>
-        {'Suppliers'}
-      </Title>
-      <Table
-        dataSource={record.suppliers}
-        pagination={{ pageSize: 5 }}
-        onRow={(record) => {
-          return {
-            onClick: () => {
-              router.push(`/suppliers/show/${record._id}`);
-            },
-            style: { cursor: 'pointer' },
-          };
-        }}
-        columns={[
-          {
-            dataIndex: 'firstName',
-            title: 'first name',
-            render: handleNullableText,
-          },
-          {
-            dataIndex: 'lastName',
-            title: 'last name',
-            render: handleNullableText,
-          },
-          {
-            dataIndex: 'email',
-            title: 'email',
-            render: handleNullableText,
-          },
-          {
-            dataIndex: 'phoneNumber',
-            title: 'phone',
-            render: handleNullableText,
-          },
-          {
-            dataIndex: 'businessName',
-            title: 'business name',
-            render: handleNullableText,
-          },
-          {
-            dataIndex: 'active',
-            title: 'Active',
-            render: (value) => (
-              <span style={{ color: value ? 'green' : 'red' }}>
-                {value ? 'Active' : 'Inactive'}
-              </span>
-            ),
-          },
-        ]}
-        loading={isLoading}
-        showSorterTooltip
-        rowKey="_id"
-      />
+      {/*<Divider />*/}
+      {/*<Title level={3} style={{ marginTop: 16 }}>*/}
+      {/*  {'Suppliers'}*/}
+      {/*</Title>*/}
+      {/*<Table*/}
+      {/*  dataSource={record.suppliers}*/}
+      {/*  pagination={{ pageSize: 5 }}*/}
+      {/*  onRow={(record) => {*/}
+      {/*    return {*/}
+      {/*      onClick: () => {*/}
+      {/*        router.push(`/suppliers/show/${record._id}`);*/}
+      {/*      },*/}
+      {/*      style: { cursor: 'pointer' },*/}
+      {/*    };*/}
+      {/*  }}*/}
+      {/*  columns={[*/}
+      {/*    {*/}
+      {/*      dataIndex: 'firstName',*/}
+      {/*      title: 'first name',*/}
+      {/*      render: handleNullableText,*/}
+      {/*    },*/}
+      {/*    {*/}
+      {/*      dataIndex: 'lastName',*/}
+      {/*      title: 'last name',*/}
+      {/*      render: handleNullableText,*/}
+      {/*    },*/}
+      {/*    {*/}
+      {/*      dataIndex: 'email',*/}
+      {/*      title: 'email',*/}
+      {/*      render: handleNullableText,*/}
+      {/*    },*/}
+      {/*    {*/}
+      {/*      dataIndex: 'phoneNumber',*/}
+      {/*      title: 'phone',*/}
+      {/*      render: handleNullableText,*/}
+      {/*    },*/}
+      {/*    {*/}
+      {/*      dataIndex: 'businessName',*/}
+      {/*      title: 'business name',*/}
+      {/*      render: handleNullableText,*/}
+      {/*    },*/}
+      {/*    {*/}
+      {/*      dataIndex: 'active',*/}
+      {/*      title: 'Active',*/}
+      {/*      render: (value) => (*/}
+      {/*        <span style={{ color: value ? 'green' : 'red' }}>*/}
+      {/*          {value ? 'Active' : 'Inactive'}*/}
+      {/*        </span>*/}
+      {/*      ),*/}
+      {/*    },*/}
+      {/*  ]}*/}
+      {/*  loading={isLoading}*/}
+      {/*  showSorterTooltip*/}
+      {/*  rowKey="_id"*/}
+      {/*/>*/}
     </Show>
   );
 }
