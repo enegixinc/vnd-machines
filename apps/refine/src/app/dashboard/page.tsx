@@ -9,6 +9,7 @@ import { ContractsCard } from '@app/dashboard/cards/contracts';
 import { RevenueCard } from '@app/dashboard/cards/revenue';
 import { CanAccess, useGetIdentity } from '@refinedev/core';
 import { IUserEntity, UserRole } from '@core';
+import { MachinesCarousel } from '@app/dashboard/machines-carousel/machines';
 
 const Dashboard = () => {
   const userRole = useGetIdentity<IUserEntity>()?.data?.role;
@@ -17,6 +18,19 @@ const Dashboard = () => {
   return (
     <CanAccess action="list" resource="dashboard">
       <Space direction="vertical" size="large" style={{ width: '100%' }}>
+        <MachinesCarousel />
+        {/*<Row*/}
+        {/*  style={{*/}
+        {/*    width: '100%',*/}
+        {/*    backgroundColor: 'white',*/}
+        {/*  }}*/}
+        {/*>*/}
+        {/*  <Carousel autoplay>*/}
+        {/*    <Card>sakdnhsajkldnsajkldsnabjkl asdjsabdiksjabd</Card>*/}
+        {/*    <Card>sakdnhsajkldnsajkldsnabjkl asdjsabdiksjabd</Card>*/}
+        {/*    <Card>sakdnhsajkldnsajkldsnabjkl asdjsabdiksjabd</Card>*/}
+        {/*  </Carousel>*/}
+        {/*</Row>*/}
         <Row gutter={16}>
           <Col span={isAdmin ? 8 : 16}>
             <SalesCard />

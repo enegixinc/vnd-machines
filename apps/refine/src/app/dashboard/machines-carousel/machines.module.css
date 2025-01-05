@@ -1,0 +1,7 @@
+/* carousel.css */
+.ant-carousel .slick-slide {
+  padding: 0 10px; /* Adjust the padding value to add gap */
+}
+.ant-carousel .slick-list {
+  margin: 0 -10px; /* Adjust the negative margin to match the padding */
+}
