@@ -21,11 +21,9 @@ export default function MachineShow() {
       join: [
         {
           field: 'product',
-          select: ['lane', 'floor', 'current_stock'],
         },
         {
           field: 'product.product',
-          select: ['_id', 'fullName', 'price', 'productPictures', 'upc'],
         },
       ],
     },

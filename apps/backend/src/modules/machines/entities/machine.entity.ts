@@ -42,50 +42,40 @@ export class MachineEntity extends SearchableMagexEntity {
   productsCount: number;
 
   @ApiProperty()
-  // @VirtualColumn({
-  //   query: (entity) => `
-  //       SELECT
-  //           COALESCE(SUM(mp.stock), 0)
-  //       FROM
-  //         machines
-  //           JOIN machine_product mp on machines._id = mp.machine_id
-  //       WHERE
-  //           machines._id = ${entity}._id
-  //   `,
-  //   transformer: {
-  //     from: (value) => Number(value),
-  //     to: (value) => value,
-  //   },
-  // })
-  @AfterLoad()
-  getTotalStock() {
-    this.totalMaxStock =
-      this.product?.reduce((acc, product) => acc + product.stock, 0) || 0;
-  }
+  @VirtualColumn({
+    query: (entity) => `
+        SELECT
+            COALESCE(SUM(mp.stock), 0)
+        FROM
+          machines
+            JOIN machine_product mp on machines._id = mp.machine_id
+        WHERE
+            machines._id = ${entity}._id
+    `,
+    transformer: {
+      from: (value) => Number(value),
+      to: (value) => value,
+    },
+  })
   totalMaxStock: number;
 
   @ApiProperty()
-  // @VirtualColumn({
-  //   type: 'int',
-  //   query: (entity) => `
-  //       SELECT
-  //           COALESCE(SUM(O.total), 0)
-  //       FROM
-  //           ORDERS O
-  //           JOIN MACHINES M ON M._ID = O.MACHINE_ID
-  //       WHERE
-  //           M._id = ${entity}._id
-  //   `,
-  //   transformer: {
-  //     from: (value) => Number(value),
-  //     to: (value) => value,
-  //   },
-  // })
-  @AfterLoad()
-  getTotalSales() {
-    this.totalSales =
-      this.orders?.reduce((acc, order) => acc + order.total, 0) || 0;
-  }
+  @VirtualColumn({
+    type: 'int',
+    query: (entity) => `
+        SELECT
+            COALESCE(SUM(O.total), 0)
+        FROM
+            ORDERS O
+            JOIN MACHINES M ON M._ID = O.MACHINE_ID
+        WHERE
+            M._id = ${entity}._id
+    `,
+    transformer: {
+      from: (value) => Number(value),
+      to: (value) => value,
+    },
+  })
   totalSales: number;
 
   @VirtualColumn({

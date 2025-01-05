@@ -1,6 +1,6 @@
 import { Controller, Get } from '@nestjs/common';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { Crud, CrudAuth, CrudController } from '@dataui/crud';
+import { Crud, CrudAuth, CrudController, CrudRequest } from '@dataui/crud';
 import { saneOperationsId } from '../../common/swagger.config';
 import { MachineEntity } from './entities/machine.entity';
 import { MachinesService } from './machines.service';
@@ -112,13 +112,28 @@ export class MachinesController implements CrudController<MachineEntity> {
     public service: MachinesService,
     @InjectRepository(MachineEntity)
     private readonly machinesRepository: Repository<MachineEntity>
-  ) {}
+  ) {
+    console.log('MachinesController');
+  }
 
   get base(): CrudController<MachineEntity> {
+    console.log('MachinesController2');
+    // @ts-expect-error - sad
     return this;
   }
 
+  // @ts-expect-error - sad
+
+  override async getManyBase(req: CrudRequest, @User() user: UserEntity) {
+    console.log({ req, user });
+    const response = await this.base.getManyBase(req);
+    console.log({ response });
+    return response;
+  }
+
   private getUserStats(user: UserEntity) {
+    console.log('MachinesController3');
+
     return this.machinesRepository.query(`
       WITH months AS (
         SELECT
