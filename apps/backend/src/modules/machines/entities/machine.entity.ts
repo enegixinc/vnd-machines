@@ -2,6 +2,7 @@ import { SearchableMagexEntity } from '../../../common/database.entity';
 import { MagexService } from '../../../services/magex/magex.service';
 import { MachinesEndpointResponse } from '../../../../../../libs/core/src/interfaces/machine';
 import {
+  AfterLoad,
   Column,
   Entity,
   JoinTable,
@@ -33,59 +34,58 @@ export class MachineEntity extends SearchableMagexEntity {
   @JoinTable()
   suppliers: UserEntity[];
 
+  @AfterLoad()
+  getProductsCount() {
+    this.productsCount = this.product?.length || 0;
+  }
   @ApiProperty()
-  @VirtualColumn({
-    query: (entity) => `
-        SELECT
-            COUNT(*)
-        FROM
-          machines
-            JOIN machine_product mp on machines._id = mp.machine_id
-        WHERE
-            machines._id = ${entity}._id
-    `,
-    transformer: {
-      from: (value) => Number(value),
-      to: (value) => value,
-    },
-  })
   productsCount: number;
 
   @ApiProperty()
-  @VirtualColumn({
-    query: (entity) => `
-        SELECT
-            COALESCE(SUM(mp.stock), 0)
-        FROM
-          machines
-            JOIN machine_product mp on machines._id = mp.machine_id
-        WHERE
-            machines._id = ${entity}._id
-    `,
-    transformer: {
-      from: (value) => Number(value),
-      to: (value) => value,
-    },
-  })
+  // @VirtualColumn({
+  //   query: (entity) => `
+  //       SELECT
+  //           COALESCE(SUM(mp.stock), 0)
+  //       FROM
+  //         machines
+  //           JOIN machine_product mp on machines._id = mp.machine_id
+  //       WHERE
+  //           machines._id = ${entity}._id
+  //   `,
+  //   transformer: {
+  //     from: (value) => Number(value),
+  //     to: (value) => value,
+  //   },
+  // })
+  @AfterLoad()
+  getTotalStock() {
+    this.totalMaxStock =
+      this.product?.reduce((acc, product) => acc + product.stock, 0) || 0;
+  }
   totalMaxStock: number;
 
   @ApiProperty()
-  @VirtualColumn({
-    type: 'int',
-    query: (entity) => `
-        SELECT
-            COALESCE(SUM(O.total), 0)
-        FROM
-            ORDERS O
-            JOIN MACHINES M ON M._ID = O.MACHINE_ID
-        WHERE
-            M._id = ${entity}._id
-    `,
-    transformer: {
-      from: (value) => Number(value),
-      to: (value) => value,
-    },
-  })
+  // @VirtualColumn({
+  //   type: 'int',
+  //   query: (entity) => `
+  //       SELECT
+  //           COALESCE(SUM(O.total), 0)
+  //       FROM
+  //           ORDERS O
+  //           JOIN MACHINES M ON M._ID = O.MACHINE_ID
+  //       WHERE
+  //           M._id = ${entity}._id
+  //   `,
+  //   transformer: {
+  //     from: (value) => Number(value),
+  //     to: (value) => value,
+  //   },
+  // })
+  @AfterLoad()
+  getTotalSales() {
+    this.totalSales =
+      this.orders?.reduce((acc, order) => acc + order.total, 0) || 0;
+  }
   totalSales: number;
 
   @VirtualColumn({

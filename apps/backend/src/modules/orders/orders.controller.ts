@@ -38,13 +38,16 @@ import { UserRole } from '@core';
     join: {
       products: {
         alias: 'products',
+        eager: true,
       },
       'products.product': {
         alias: 'product',
+        eager: true,
       },
       'products.product.supplier': {
         alias: 'supplier',
         allow: ['_id', 'fullName'],
+        eager: true,
       },
       'products.product.category': {
         alias: 'category',
@@ -76,7 +79,7 @@ import { UserRole } from '@core';
   filter: (user: UserEntity) => {
     if (user.role === UserRole.SUPPLIER) {
       return {
-        'products.product.supplier_id': user._id,
+        'products.product.supplier._id': user._id,
       };
     }
   },
