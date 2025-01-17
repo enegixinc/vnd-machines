@@ -100,10 +100,16 @@ export const MachinesCarousel = () => {
 
     console.log('stats', stats);
   }, [dateRange]);
-  // if (isLoading) {
-  //   return <Spin size="large" />;
-  // }
-  //
+  if (isLoading) {
+    return (
+      <Carousel draggable slidesToShow={4} infinite={false}>
+        {Array.from({ length: 4 }).map((_, index) => (
+          <MachineCardSkeleton key={index} />
+        ))}
+      </Carousel>
+    );
+  }
+
   return (
     <>
       <Modal
@@ -140,62 +146,60 @@ export const MachinesCarousel = () => {
           onChange={(dates) => setDateRange(dates)}
         />
       </Modal>
-      <Carousel draggable slidesToShow={4} infinite={false}>
-        {machines.length === 0
-          ? Array.from({ length: 4 }).map((_, index) => (
-              <MachineCardSkeleton key={index} />
-            ))
-          : machines.map((machine) => (
-              <div key={machine.id}>
-                <Card
-                  key={machine.id}
-                  title={machine.description}
-                  styles={{
-                    body: {},
-                  }}
-                  bordered={false}
-                  // widht should be each card dyunamiclyy 1/5 of screen width
-                  style={{
-                    marginRight: '16px',
-                    userSelect: 'none',
-                  }}
-                >
-                  <div
-                    style={{ display: 'flex', justifyContent: 'space-between' }}
-                  >
-                    <Card.Meta
-                      title={'Orders'}
-                      description={machine.totalOrders}
-                    />
-                    <Card.Meta
-                      title={'Sales'}
-                      description={formatPrice(machine.totalSales)}
-                    />
-                    <Card.Meta
-                      title={'Revenue'}
-                      description={formatPrice(machine.totalRevenue)}
-                    />
-                  </div>
-                  <Divider />
-                  <div
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      gap: '16px',
-                    }}
-                  >
-                    {/*<RangePicker onChange={(dates) => setDateRange(dates)} />*/}
-                    <Button
-                      type="primary"
-                      block
-                      onClick={() => setIsModalOpen(true)}
-                    >
-                      View Details
-                    </Button>
-                  </div>
-                </Card>
+      <Carousel
+        style={{
+          direction: 'ltr',
+        }}
+        draggable
+        slidesToShow={4}
+        infinite={false}
+      >
+        {machines.map((machine) => (
+          <div key={machine.id}>
+            <Card
+              key={machine.id}
+              title={machine.description}
+              styles={{
+                body: {},
+              }}
+              bordered={false}
+              // widht should be each card dyunamiclyy 1/5 of screen width
+              style={{
+                marginRight: '16px',
+                userSelect: 'none',
+              }}
+            >
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <Card.Meta title={'Orders'} description={machine.totalOrders} />
+                <Card.Meta
+                  title={'Sales'}
+                  description={formatPrice(machine.totalSales)}
+                />
+                <Card.Meta
+                  title={'Revenue'}
+                  description={formatPrice(machine.totalRevenue)}
+                />
               </div>
-            ))}
+              <Divider />
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '16px',
+                }}
+              >
+                {/*<RangePicker onChange={(dates) => setDateRange(dates)} />*/}
+                <Button
+                  type="primary"
+                  block
+                  onClick={() => setIsModalOpen(true)}
+                >
+                  View Details
+                </Button>
+              </div>
+            </Card>
+          </div>
+        ))}
       </Carousel>
     </>
   );
