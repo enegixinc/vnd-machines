@@ -51,14 +51,17 @@ const months = [
       product: {
         alias: 'product',
         eager: true,
+        allow: ['_id'],
       },
       'product.product': {
         alias: 'singleProduct',
         eager: true,
+        exclude: ['orders'],
       },
       'singleProduct.supplier': {
         exclude: ['password'],
         alias: 'product.product.supplier',
+        allow: ['_id'],
         eager: true,
       },
       orders: {
@@ -66,7 +69,7 @@ const months = [
       },
       suppliers: {
         alias: 'suppliers',
-        exclude: ['password'],
+        allow: ['_id'],
         eager: true,
       },
     },

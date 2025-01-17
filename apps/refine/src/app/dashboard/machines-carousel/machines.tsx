@@ -37,7 +37,22 @@ export const MachinesCarousel = () => {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const data = await vndClient.machines.getMany({});
+        const data = await vndClient.machines.getMany({
+          // fields: ['createdAt', 'searchableText'],
+        });
+        // const injectDescription = (machine: { searchableText: string }) => {
+        //   // "searchableText": "657ab86ec7201f469894300f | 5687 | ZAIN",
+        //   Object.assign(machine, {
+        //     description: machine.searchableText.split('|')[2].trim(),
+        //   });
+        //   return machine;
+        // };
+        data.data = data.data.map((machine) => {
+          Object.assign(machine, {
+            description: machine.searchableText.split('|')[2].trim(),
+          });
+          return machine;
+        });
         setMachines(data.data);
       } catch (error) {
         console.error('Failed to fetch machine stats:', error);
@@ -45,6 +60,11 @@ export const MachinesCarousel = () => {
         setIsLoading(false);
       }
     };
+
+    console.log(
+      'dateRange',
+      dateRange?.map((date) => date.toISOString())
+    );
 
     const fetchOrders = async () => {
       if (!dateRange?.length) {
@@ -80,11 +100,10 @@ export const MachinesCarousel = () => {
 
     console.log('stats', stats);
   }, [dateRange]);
-
-  if (isLoading) {
-    return <Spin size="large" />;
-  }
-
+  // if (isLoading) {
+  //   return <Spin size="large" />;
+  // }
+  //
   return (
     <>
       <Modal
@@ -121,54 +140,94 @@ export const MachinesCarousel = () => {
           onChange={(dates) => setDateRange(dates)}
         />
       </Modal>
-      <Carousel dots arrows draggable slidesToShow={4} infinite={false}>
-        {[...machines, ...machines].map((machine) => (
-          <MachineCard machine={machine} />
-        ))}
+      <Carousel draggable slidesToShow={4} infinite={false}>
+        {machines.length === 0
+          ? Array.from({ length: 4 }).map((_, index) => (
+              <MachineCardSkeleton key={index} />
+            ))
+          : machines.map((machine) => (
+              <div key={machine.id}>
+                <Card
+                  key={machine.id}
+                  title={machine.description}
+                  styles={{
+                    body: {},
+                  }}
+                  bordered={false}
+                  // widht should be each card dyunamiclyy 1/5 of screen width
+                  style={{
+                    marginRight: '16px',
+                    userSelect: 'none',
+                  }}
+                >
+                  <div
+                    style={{ display: 'flex', justifyContent: 'space-between' }}
+                  >
+                    <Card.Meta
+                      title={'Orders'}
+                      description={machine.totalOrders}
+                    />
+                    <Card.Meta
+                      title={'Sales'}
+                      description={formatPrice(machine.totalSales)}
+                    />
+                    <Card.Meta
+                      title={'Revenue'}
+                      description={formatPrice(machine.totalRevenue)}
+                    />
+                  </div>
+                  <Divider />
+                  <div
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: '16px',
+                    }}
+                  >
+                    {/*<RangePicker onChange={(dates) => setDateRange(dates)} />*/}
+                    <Button
+                      type="primary"
+                      block
+                      onClick={() => setIsModalOpen(true)}
+                    >
+                      View Details
+                    </Button>
+                  </div>
+                </Card>
+              </div>
+            ))}
       </Carousel>
     </>
   );
 };
 
-const MachineCard = ({ _id }: { _id: string }) => {
-  // const [dateRange, setDateRange] = useState<[Date, Date] | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
+const MachineCardSkeleton = () => {
   return (
-    <div style={{ margin: '' }} key={machine.id}>
-      <Card
-        key={machine.id}
-        styles={{
-          body: {},
+    <Card
+      title="Loading"
+      bordered={false}
+      style={{
+        marginRight: '16px',
+        userSelect: 'none',
+      }}
+    >
+      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Card.Meta title={'Orders'} description={<Spin />} />
+        <Card.Meta title={'Sales'} description={<Spin />} />
+        <Card.Meta title={'Revenue'} description={<Spin />} />
+      </div>
+      <Divider />
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '16px',
         }}
-        title={machine.description}
-        bordered={false}
       >
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <Card.Meta title={'Orders'} description={machine.totalOrders} />
-          <Card.Meta
-            title={'Sales'}
-            description={formatPrice(machine.totalSales)}
-          />
-          <Card.Meta
-            title={'Revenue'}
-            description={formatPrice(machine.totalRevenue)}
-          />
-        </div>
-        <Divider />
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '16px',
-          }}
-        >
-          {/*<RangePicker onChange={(dates) => setDateRange(dates)} />*/}
-          <Button type="primary" block onClick={() => setIsModalOpen(true)}>
-            View Details
-          </Button>
-        </div>
-      </Card>
-    </div>
+        <Button type="primary" block>
+          View Details
+        </Button>
+      </div>
+    </Card>
   );
 };
