@@ -120,6 +120,13 @@ export const MachinesCarousel = () => {
         okButtonProps={{ hidden: true }}
         cancelButtonProps={{ hidden: true }}
       >
+        <RangePicker
+          style={{
+            width: '100%',
+            marginTop: '32px',
+          }}
+          onChange={(dates) => setDateRange(dates)}
+        />
         <JoinedOrdersTableNoMachine
           useTableProps={{
             filters: {
@@ -137,13 +144,6 @@ export const MachinesCarousel = () => {
               ],
             },
           }}
-        />
-        <RangePicker
-          style={{
-            width: '100%',
-            marginTop: '16px',
-          }}
-          onChange={(dates) => setDateRange(dates)}
         />
       </Modal>
       <Carousel

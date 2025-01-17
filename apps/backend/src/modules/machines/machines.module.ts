@@ -17,6 +17,7 @@ import { Language } from './entities/language.entity';
 import { Currency } from './entities/currency.entity';
 import { MachineExistsValidator } from './validators/product-exists';
 import { PromotionEntity } from '../promotions/promotion.entity';
+import { OrderProductsDetails } from '../orders/order-details.entity';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { PromotionEntity } from '../promotions/promotion.entity';
       Language,
       Currency,
       PromotionEntity,
+      OrderProductsDetails,
     ]),
   ],
   controllers: [MachinesController],

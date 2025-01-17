@@ -10,6 +10,7 @@ import { handleMagextImage } from '@app/products/utils/handleMagextImage';
 import { handleNullableText } from '@app/products/utils/handleNullableText';
 import { formatDate } from '@components/description-dates';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 const { Title } = Typography;
 
@@ -31,6 +32,9 @@ export default function OrderShow() {
         },
         {
           field: 'products.product.brand',
+        },
+        {
+          field: 'machine',
         },
       ],
     },
@@ -87,11 +91,16 @@ export default function OrderShow() {
           <Descriptions.Item label="Total Quantity">
             <TextField value={record.totalQuantity} />
           </Descriptions.Item>
+          <Descriptions.Item label="Machine">
+            <Link href={`/machines/show/${record.machine?._id}`}>
+              <TextField
+                color={'#1890ff'}
+                value={handleEmptyString(record.machine?.description)}
+              />
+            </Link>
+          </Descriptions.Item>
           <Descriptions.Item label="Created At">
             <TextField value={formatDate(record.createdAt)} />
-          </Descriptions.Item>
-          <Descriptions.Item label="Updated At">
-            <TextField value={formatDate(record.updatedAt)} />
           </Descriptions.Item>
         </Descriptions>
 
