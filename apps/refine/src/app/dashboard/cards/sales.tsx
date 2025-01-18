@@ -31,7 +31,7 @@ export const SalesCard = () => {
     },
   ];
 
-  const [selectedPeriod, setSelectedPeriod] = useState(periods[0].value);
+  const [selectedPeriod, setSelectedPeriod] = useState(periods[1].value);
 
   useEffect(() => {
     const fetchStats = async () => {
@@ -107,7 +107,7 @@ export const CardTitleWithPeriods = ({
         {title}
       </Typography.Title>
       <Select
-        defaultValue="all"
+        defaultValue="today"
         style={{ width: 120 }}
         onChange={handlePeriodChange}
       >

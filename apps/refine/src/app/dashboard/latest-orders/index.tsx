@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { UnorderedListOutlined } from '@ant-design/icons';
 import { Card, Tag } from 'antd';
 import dayjs from 'dayjs';
@@ -8,13 +8,29 @@ import { RiVisaFill } from 'react-icons/ri';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { useRouter } from 'next/navigation';
 import { formatPrice, formatTime } from '@helpers';
+import { vndClient } from '@providers/api';
 
 dayjs.extend(relativeTime);
 
 export const DashboardLatestOrders: React.FC<{ limit?: number }> = ({
-  limit = 5,
+  limit = 10,
 }) => {
   const router = useRouter();
+
+  const [transactionsCount, setTransactionsCount] = useState(0);
+  useEffect(() => {
+    const fetchTransactionsCount = async () => {
+      try {
+        const { total } = await vndClient.orders.getMany({
+          limit: 1,
+        });
+        setTransactionsCount(total);
+      } catch (error) {
+        console.error('Failed to fetch transactions count:', error);
+      }
+    };
+    fetchTransactionsCount();
+  }, []);
 
   return (
     <Card
@@ -33,7 +49,8 @@ export const DashboardLatestOrders: React.FC<{ limit?: number }> = ({
           }}
         >
           <UnorderedListOutlined />
-          <span>Latest Orders</span>
+          <span>Last Transactions</span>
+          <Tag color="blue">{transactionsCount}</Tag>
         </div>
       }
     >

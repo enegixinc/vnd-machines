@@ -15,10 +15,11 @@ const Dashboard = () => {
   const userRole = useGetIdentity<IUserEntity>()?.data?.role;
 
   const isAdmin = userRole === UserRole.ADMIN;
+  const isSupplier = userRole === UserRole.SUPPLIER;
   return (
     <CanAccess action="list" resource="dashboard">
       <Space direction="vertical" size="large" style={{ width: '100%' }}>
-        {!isAdmin && <MachinesCarousel />}
+        {isSupplier && <MachinesCarousel />}
         <Row gutter={16}>
           <Col span={isAdmin ? 8 : 16}>
             <SalesCard />

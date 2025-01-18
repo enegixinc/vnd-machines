@@ -1,5 +1,5 @@
-﻿import React from 'react';
-import { Card } from 'antd';
+﻿import React, { useEffect, useState } from 'react';
+import { Card, Tag } from 'antd';
 import { QuickTableSection } from '@components/quick-table-section';
 import { useRouter } from 'next/navigation';
 import { BiCategoryAlt } from 'react-icons/bi';
@@ -7,11 +7,26 @@ import { handleMagextImage } from '@app/products/utils/handleMagextImage';
 import './top-products.module.css';
 import { handleNullableFullName } from '@app/products/utils/handleNullableText';
 import { formatPrice } from '@helpers';
+import { vndClient } from '@providers/api';
 
 export const TopProductsTable: React.FC<{ limit?: number }> = ({
-  limit = 5,
+  limit = 10,
 }) => {
   const router = useRouter();
+  const [productsCount, setProductsCount] = useState(0);
+  useEffect(() => {
+    const fetchProductsCount = async () => {
+      try {
+        const { total } = await vndClient.products.getMany({
+          limit: 1,
+        });
+        setProductsCount(total);
+      } catch (error) {
+        console.error('Failed to fetch products count:', error);
+      }
+    };
+    fetchProductsCount();
+  }, []);
 
   return (
     <Card
@@ -31,6 +46,7 @@ export const TopProductsTable: React.FC<{ limit?: number }> = ({
         >
           <BiCategoryAlt />
           <span>Top Products</span>
+          <Tag color="blue">{productsCount}</Tag>
         </div>
       }
     >

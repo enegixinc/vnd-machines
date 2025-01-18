@@ -33,7 +33,7 @@ import { Public } from '../auth/decorators/public.decorator';
         order: 'DESC',
       },
     ],
-    softDelete: true,
+    softDelete: false,
     exclude: ['password'],
     limit: 10,
 
