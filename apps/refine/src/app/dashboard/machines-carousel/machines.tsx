@@ -14,6 +14,7 @@ import { MachineEntity, OrderEntity } from '@frontend/api-sdk';
 import { formatPrice } from '@helpers';
 import './machines.module.css';
 import { JoinedOrdersTableNoMachine } from '@components/joined-orders.table';
+import { GiVendingMachine } from 'react-icons/gi';
 
 const { RangePicker } = DatePicker;
 
@@ -130,15 +131,25 @@ export const MachinesCarousel = () => {
           <div key={machine._id}>
             <Card
               key={machine._id}
-              title={machine.description}
-              styles={{
-                body: {},
-              }}
+              title={
+                <div
+                  style={{
+                    display: 'flex',
+                    gap: '8px',
+                  }}
+                >
+                  <GiVendingMachine size={22} />
+                  <Typography.Title level={5} style={{ margin: 0 }}>
+                    {machine.description}
+                  </Typography.Title>
+                </div>
+              }
               bordered={false}
               // widht should be each card dyunamiclyy 1/5 of screen width
               style={{
                 marginRight: '16px',
                 userSelect: 'none',
+                // gradient blue
               }}
             >
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -180,7 +191,19 @@ export const MachinesCarousel = () => {
 const MachineCardSkeleton = () => {
   return (
     <Card
-      title="Loading"
+      title={
+        <div
+          style={{
+            display: 'flex',
+            gap: '16px',
+          }}
+        >
+          <GiVendingMachine />
+          <Typography.Title level={5} style={{ margin: 0 }}>
+            Loading...
+          </Typography.Title>
+        </div>
+      }
       bordered={false}
       style={{
         marginRight: '16px',
