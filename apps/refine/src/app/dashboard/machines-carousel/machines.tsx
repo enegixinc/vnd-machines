@@ -37,34 +37,17 @@ export const MachinesCarousel = () => {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const data = await vndClient.machines.getMany({
-          // fields: ['createdAt', 'searchableText'],
+        const data = await vndClient.request.request({
+          method: 'GET',
+          url: '/machines/machines-stats',
         });
-        // const injectDescription = (machine: { searchableText: string }) => {
-        //   // "searchableText": "657ab86ec7201f469894300f | 5687 | ZAIN",
-        //   Object.assign(machine, {
-        //     description: machine.searchableText.split('|')[2].trim(),
-        //   });
-        //   return machine;
-        // };
-        data.data = data.data.map((machine) => {
-          Object.assign(machine, {
-            description: machine.searchableText.split('|')[2].trim(),
-          });
-          return machine;
-        });
-        setMachines(data.data);
+        setMachines(data);
       } catch (error) {
         console.error('Failed to fetch machine stats:', error);
       } finally {
         setIsLoading(false);
       }
     };
-
-    console.log(
-      'dateRange',
-      dateRange?.map((date) => date.toISOString())
-    );
 
     const fetchOrders = async () => {
       if (!dateRange?.length) {
@@ -89,17 +72,6 @@ export const MachinesCarousel = () => {
     fetchOrders();
   }, [dateRange]);
 
-  useEffect(() => {
-    orders.forEach((order) => {
-      setStats((prev) => ({
-        totalSales: prev.totalSales + order.totalSales,
-        totalOrders: prev.totalOrders + 1,
-        totalRevenue: prev.totalRevenue + order.totalRevenue,
-      }));
-    });
-
-    console.log('stats', stats);
-  }, [dateRange]);
   if (isLoading) {
     return (
       <Carousel draggable slidesToShow={4} infinite={false}>
@@ -155,9 +127,9 @@ export const MachinesCarousel = () => {
         infinite={false}
       >
         {machines.map((machine) => (
-          <div key={machine.id}>
+          <div key={machine._id}>
             <Card
-              key={machine.id}
+              key={machine._id}
               title={machine.description}
               styles={{
                 body: {},
@@ -170,14 +142,14 @@ export const MachinesCarousel = () => {
               }}
             >
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <Card.Meta title={'Orders'} description={machine.totalOrders} />
+                <Card.Meta title={'Orders'} description={machine.totalorders} />
                 <Card.Meta
                   title={'Sales'}
-                  description={formatPrice(machine.totalSales)}
+                  description={formatPrice(machine.totalsales)}
                 />
                 <Card.Meta
                   title={'Revenue'}
-                  description={formatPrice(machine.totalRevenue)}
+                  description={formatPrice(machine.totalrevenue)}
                 />
               </div>
               <Divider />

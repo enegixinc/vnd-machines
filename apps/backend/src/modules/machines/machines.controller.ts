@@ -317,4 +317,41 @@ export class MachinesController implements CrudController<MachineEntity> {
       totalRevenue: parseFloat(rawData[0].totalrevenue),
     };
   }
+
+  @Get('/machines-stats')
+  @ApiResponse({
+    status: 200,
+    description: 'Get machines statistics',
+  })
+  async machinesStats(@User() user: UserEntity) {
+    return await this.machinesRepository.query(`
+      SELECT
+        machine._id,
+        machine.description,
+        COALESCE(SUM(od."soldPrice"), 0) AS totalSales,
+        COUNT(o._id) AS totalOrders,
+        (
+          COALESCE(SUM(od."soldPrice"), 0) -     COALESCE(SUM(
+                                                            CASE
+                                                              WHEN c."feeType" = 'fixed' THEN COALESCE(c."feePerSale", 0)
+                                                              WHEN c."feeType" = 'percentage' THEN COALESCE(od."soldPrice" * (c."feePerSale" / 100), 0)
+                                                              ELSE 0
+                                                              END
+                                                          ), 0)
+          ) AS totalRevenue
+
+      FROM machines machine
+             LEFT JOIN orders o ON machine._id = o.machine_id
+             LEFT JOIN order_details od ON od.order_id = o._id
+             LEFT JOIN products p ON p._id = od.product_id
+             LEFT JOIN users u ON u._id = p.supplier_id
+             LEFT JOIN contracts c ON c.supplier_id = p.supplier_id
+        AND c.status != 'terminated' AND o."createdAt" BETWEEN c."startDate" AND c."endDate"
+
+      WHERE
+        u._id = '${user._id}'
+      GROUP BY
+        machine._id, machine.description
+    `);
+  }
 }

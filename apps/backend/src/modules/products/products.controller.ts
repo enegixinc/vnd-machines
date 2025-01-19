@@ -119,7 +119,7 @@ export class ProductsController implements CrudController<ProductEntity> {
     }),
   })
   async stats(@User() user: UserEntity) {
-    const adminRevenue = await this.productRepository.query(`
+    const adminRevenueQuery = `
       SELECT COALESCE(SUM(
                         CASE
                           WHEN C."feeType" = 'fixed' THEN COALESCE(C."feePerSale", 0)
@@ -130,35 +130,40 @@ export class ProductsController implements CrudController<ProductEntity> {
       FROM order_details AS OD
              JOIN products AS P ON P._id = OD.product_id
              JOIN contracts AS C ON C.supplier_id = P.supplier_id
+        JOIN postgres.public.orders AS O ON O._id = OD.order_id
       WHERE C.status = 'active'
-        AND "c"."startDate" <= OD."createdAt"
-        AND OD."createdAt" <= C."endDate"
-  `);
+        AND O."createdAt" BETWEEN C."startDate" AND C."endDate"
+    `;
 
+    const adminRevenueResult = await this.productRepository.query(
+      adminRevenueQuery
+    );
     const totalAdminActiveRevenue =
-      parseFloat(adminRevenue[0].admin_revenue) || 0;
+      parseFloat(adminRevenueResult[0].admin_revenue) || 0;
+
     if (user.role === UserRole.ADMIN) {
       return {
         totalActiveRevenue: totalAdminActiveRevenue,
       };
     }
 
-    // For suppliers, subtract the admin revenue from the contract revenue
-    const supplierRevenue = await this.productRepository.query(`
-      SELECT COALESCE(SUM(
-                        "soldPrice"
-                      ), 0) as supplier_revenue
+    const supplierRevenueQuery = `
+      SELECT COALESCE(SUM("soldPrice"), 0) AS supplier_revenue
       FROM order_details AS OD
              JOIN products AS P ON P._id = OD.product_id
              JOIN contracts AS C ON C.supplier_id = P.supplier_id
+        JOIN postgres.public.orders AS O ON O._id = OD.order_id
       WHERE C.status = 'active'
-        AND "c"."startDate" <= OD."createdAt"
-        AND OD."createdAt" <= C."endDate"
-      AND P.supplier_id = '${user._id}'
-  `);
+        AND O."createdAt" BETWEEN C."startDate" AND C."endDate"
+        AND P.supplier_id = $1
+    `;
 
+    const supplierRevenueResult = await this.productRepository.query(
+      supplierRevenueQuery,
+      [user._id]
+    );
     const totalSupplierActiveRevenue =
-      parseFloat(supplierRevenue[0].supplier_revenue) || 0;
+      parseFloat(supplierRevenueResult[0].supplier_revenue) || 0;
 
     return {
       totalActiveRevenue: totalSupplierActiveRevenue - totalAdminActiveRevenue,
