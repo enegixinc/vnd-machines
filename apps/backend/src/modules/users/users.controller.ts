@@ -1,4 +1,4 @@
-import { Controller } from '@nestjs/common';
+import { Controller, Inject } from '@nestjs/common';
 import { Crud, CrudController } from '@dataui/crud';
 import { UserEntity } from './entities/user.entity';
 import { UsersService } from './users.service';
@@ -8,6 +8,15 @@ import { SerializedUserDto } from './dto/response/serialized-user.dto';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { saneOperationsId } from '../../common/swagger.config';
 import { Public } from '../auth/decorators/public.decorator';
+import {
+  DataSource,
+  EntitySubscriberInterface,
+  EventSubscriber,
+  RemoveEvent,
+  Repository,
+} from 'typeorm';
+import { ProductEntity } from '../products/entities/product.entity';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Crud({
   model: {
@@ -69,5 +78,29 @@ export class UsersController implements CrudController<UserEntity> {
 
   get base(): CrudController<UserEntity> {
     return this;
+  }
+}
+
+@EventSubscriber()
+export class UserEntitySubscriber
+  implements EntitySubscriberInterface<UserEntity>
+{
+  constructor(
+    @Inject(DataSource) protected readonly dataSource: DataSource,
+    @InjectRepository(ProductEntity)
+    private readonly productRepository: Repository<ProductEntity>
+  ) {
+    this.dataSource.subscribers.push(this);
+  }
+  listenTo() {
+    return UserEntity;
+  }
+
+  async beforeRemove(event: RemoveEvent<UserEntity>) {
+    console.log('beforeRemove', event.entity);
+    await this.productRepository.update(
+      { supplier_id: event.entity._id },
+      { supplier_id: null }
+    );
   }
 }
