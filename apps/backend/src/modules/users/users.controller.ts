@@ -17,6 +17,7 @@ import {
 } from 'typeorm';
 import { ProductEntity } from '../products/entities/product.entity';
 import { InjectRepository } from '@nestjs/typeorm';
+import { ContractEntity } from '../contracts/entities/contract.entity';
 
 @Crud({
   model: {
@@ -88,7 +89,9 @@ export class UserEntitySubscriber
   constructor(
     @Inject(DataSource) protected readonly dataSource: DataSource,
     @InjectRepository(ProductEntity)
-    private readonly productRepository: Repository<ProductEntity>
+    private readonly productRepository: Repository<ProductEntity>,
+    @InjectRepository(ContractEntity)
+    private readonly contractRepository: Repository<ContractEntity>
   ) {
     this.dataSource.subscribers.push(this);
   }
@@ -97,8 +100,11 @@ export class UserEntitySubscriber
   }
 
   async beforeRemove(event: RemoveEvent<UserEntity>) {
-    console.log('beforeRemove', event.entity);
     await this.productRepository.update(
+      { supplier_id: event.entity._id },
+      { supplier_id: null }
+    );
+    await this.contractRepository.update(
       { supplier_id: event.entity._id },
       { supplier_id: null }
     );

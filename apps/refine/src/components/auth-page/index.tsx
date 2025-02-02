@@ -20,6 +20,9 @@ export const AuthPage = (props: AuthPageProps) => {
       formProps={{
         initialValues: { email: 'admin@example.com', password: 'Password@123' },
       }}
+      // @ts-ignore
+      forgotPasswordLink={<></>}
+      registerLink={<></>}
     />
   );
 };

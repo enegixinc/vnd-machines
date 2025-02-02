@@ -28,12 +28,12 @@ export const accessControlProvider: AccessControlProvider = {
         'admins',
         // 'dashboard',
         'suppliers',
-        // 'orders',
+        'promotions',
       ];
 
       const disabledActions: Record<string, string[]> = {
         requests: ['edit', 'delete', 'create'],
-        products: ['edit', 'delete'],
+        products: ['edit', 'delete', 'create'],
         contracts: ['edit', 'delete', 'create'],
         categories: ['edit', 'delete', 'create'],
         brands: ['edit', 'delete', 'create'],
