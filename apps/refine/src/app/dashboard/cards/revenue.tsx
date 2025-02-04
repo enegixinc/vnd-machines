@@ -52,7 +52,7 @@ export const RevenueCard = () => {
       <Card.Meta
         title={isAdmin ? 'Active Revenue' : 'Revenue'}
         avatar={<DashboardOutlined />}
-        description={formatPrice(statsData ?? 0)}
+        description={formatPrice(Math.max(statsData ?? 0, 0))}
       />
     </Card>
   );
