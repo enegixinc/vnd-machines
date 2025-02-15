@@ -1,7 +1,8 @@
 'use client';
 
 import React from 'react';
-import { Card, Form, FormProps, Input, Switch } from 'antd';
+import { Card, Form, FormProps, Input, Select, Switch } from 'antd';
+import { UserRole } from '@core';
 
 const AdminForm = ({
   formProps,
@@ -45,6 +46,16 @@ const AdminForm = ({
               rules={[{ message: 'Please enter phone number' }]}
             >
               <Input />
+            </Form.Item>
+            <Form.Item initialValue={UserRole.ADMIN} label="Role" name="role">
+              <Select
+                placeholder="Select a role"
+                disabled
+                options={[
+                  { label: 'Admin', value: UserRole.ADMIN },
+                  { label: 'Supplier', value: UserRole.SUPPLIER },
+                ]}
+              />
             </Form.Item>
           </>
         )}
